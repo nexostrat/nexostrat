@@ -1,0 +1,2923 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema operativo M.I.A — Propuesta v3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300..800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:        #0a1f33;
+    --navy-2:      #1c3d5e;
+    --navy-3:      #2e5a85;
+    --navy-4:      #4a7ab0;
+    --navy-5:      #6b95c4;
+    --navy-6:      #8eb1d6;
+    --gold:        #d4b16a;
+    --gold-2:      #e8c989;
+    --gold-3:      #f5ead0;
+    --gold-glow:   rgba(212, 177, 106, 0.18);
+    --paper:       #faf9f5;
+    --paper-2:     #f2efe6;
+    --white:       #fdfcf9;
+    --ink:         #0a1726;
+    --muted:       #6b7588;
+    --rule:        #d5d2c7;
+    --rule-2:      #e8e4d9;
+    --critical:    #b03a2e;
+    --critical-bg: #fbe8e5;
+    --view:        #2c6e3f;
+    --view-bg:     #e0ebe3;
+    --info-bg:     #e7eef5;
+
+    --sans:        'Manrope', system-ui, -apple-system, sans-serif;
+    --mono:        'JetBrains Mono', 'Menlo', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  a { text-decoration: none; color: inherit; }
+
+  html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+  body {
+    font-family: var(--sans);
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--ink);
+    background: var(--paper);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+    font-feature-settings: "ss01", "ss02";
+  }
+
+  /* ─────────── Topbar nav ─────────── */
+  .topbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 18px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    background: rgba(250, 249, 245, 0.78);
+    border-bottom: 0.5px solid var(--rule-2);
+  }
+  .topbar .brand {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--navy);
+    letter-spacing: -0.01em;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .topbar .brand .glyph {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: var(--gold-2);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: -0.04em;
+  }
+  .topbar nav {
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+  }
+  .topbar nav a {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    padding: 6px 0;
+    border-bottom: 1.5px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .topbar nav a:hover, .topbar nav a.active {
+    color: var(--navy);
+    border-bottom-color: var(--gold);
+  }
+  @media (max-width: 1100px) {
+    .topbar { padding: 14px 20px; }
+    .topbar nav { display: none; }
+  }
+
+  .progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-2));
+    z-index: 101;
+    transform-origin: left;
+    transition: transform 0.05s linear;
+  }
+
+  /* ─────────── Sections base ─────────── */
+  section {
+    padding: 140px 40px;
+    position: relative;
+  }
+  section .container {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  section.dark { background: var(--navy); color: var(--paper); }
+  section.dark h1, section.dark h2, section.dark h3 { color: var(--gold-2); }
+  section.dark .muted-text { color: rgba(250, 249, 245, 0.6); }
+  section.cream { background: var(--paper-2); }
+
+  /* ─────────── Typography ─────────── */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 32px;
+  }
+  .eyebrow .line { width: 40px; height: 1px; background: var(--gold); }
+  section.dark .eyebrow { color: var(--gold-2); }
+  section.dark .eyebrow .line { background: var(--gold-2); }
+
+  h1.hero-title {
+    font-family: var(--sans);
+    font-weight: 800;
+    font-size: clamp(56px, 8.5vw, 130px);
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    color: var(--navy);
+  }
+  h1.hero-title .light {
+    display: block;
+    font-weight: 300;
+    color: var(--navy-3);
+    font-size: 0.42em;
+    letter-spacing: -0.02em;
+    margin-top: 14px;
+  }
+
+  h1.section-title, h2.section-title {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: clamp(38px, 5vw, 72px);
+    line-height: 1.04;
+    letter-spacing: -0.03em;
+    color: var(--navy);
+    margin-bottom: 28px;
+  }
+  h3 {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    color: var(--navy);
+    margin-bottom: 12px;
+  }
+  h4 {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  section.dark h4 { color: var(--gold-2); }
+
+  p { font-size: 18px; line-height: 1.6; color: var(--ink); }
+  section.dark p { color: rgba(250, 249, 245, 0.85); }
+  p.lede {
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: 23px;
+    line-height: 1.45;
+    color: var(--navy);
+    max-width: 54ch;
+    letter-spacing: -0.01em;
+  }
+  section.dark p.lede { color: var(--gold-2); }
+
+  code, .mono {
+    font-family: var(--mono);
+    font-size: 0.92em;
+    color: var(--navy-2);
+    background: var(--gold-3);
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+  section.dark code { background: rgba(232, 201, 137, 0.18); color: var(--gold-2); }
+
+  strong { font-weight: 700; color: var(--navy); }
+  section.dark strong { color: var(--paper); }
+
+  .small { font-size: 15px; line-height: 1.5; color: var(--muted); }
+
+  /* ─────────── Pills ─────────── */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .pill-critical { background: var(--critical); color: white; }
+  .pill-view     { background: var(--view); color: white; }
+  .pill-info     { background: var(--navy); color: var(--gold-2); }
+  .pill-priority { background: var(--critical); color: white; }
+  .pill-stage1   { background: var(--gold); color: var(--navy); }
+  .pill-stage2   { background: var(--paper-2); color: var(--navy-2); border: 1px solid var(--rule); }
+  .pill-free     { background: var(--view-bg); color: var(--view); }
+  .pill-paid     { background: var(--gold-3); color: var(--navy-2); }
+
+  /* ─────────── Hero ─────────── */
+  #hero {
+    min-height: 100vh;
+    padding: 140px 40px 80px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  #hero::before {
+    content: "";
+    position: absolute;
+    right: -200px; top: -200px;
+    width: 720px; height: 720px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--gold-glow) 0%, transparent 60%);
+    z-index: 0;
+  }
+  #hero .container { position: relative; z-index: 1; }
+  .hero-greeting {
+    font-family: var(--mono);
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+    margin-bottom: 40px;
+  }
+  .hero-meta {
+    margin-top: 60px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 32px;
+    max-width: 600px;
+  }
+  .hero-meta .row .k {
+    display: block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .hero-meta .row .v {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--navy);
+  }
+  .scroll-cue {
+    margin-top: 70px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--navy);
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: gap 0.2s ease;
+  }
+  .scroll-cue:hover { gap: 16px; }
+  .scroll-cue .icon {
+    width: 22px; height: 22px;
+    border: 1.2px solid var(--navy);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    animation: bob 2s ease-in-out infinite;
+  }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(4px); }
+  }
+
+  /* ─────────── "Qué estás viendo" ─────────── */
+  .intro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .intro-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+  .intro-card {
+    padding: 32px;
+    background: var(--white);
+    border: 1px solid var(--rule-2);
+    border-radius: 6px;
+  }
+  .intro-card .icon-circle {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--gold-3);
+    color: var(--navy);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  /* ─────────── System map (4 pieces) ─────────── */
+  #sistema { background: var(--white); }
+  .system-map {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-top: 60px;
+  }
+  .system-piece {
+    background: var(--paper);
+    border: 1.2px solid var(--rule);
+    border-radius: 6px;
+    padding: 36px 40px;
+    display: grid;
+    grid-template-columns: 100px 1fr 200px;
+    gap: 28px;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .system-piece:hover {
+    transform: translateX(8px);
+    border-color: var(--gold);
+    box-shadow: 0 8px 24px rgba(10, 31, 51, 0.08);
+  }
+  .system-piece .num {
+    font-family: var(--sans);
+    font-weight: 800;
+    font-size: 64px;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+  /* Gradient numerals: dark → light blue */
+  .system-piece[data-step="1"] .num { color: var(--navy); }
+  .system-piece[data-step="2"] .num { color: var(--navy-2); }
+  .system-piece[data-step="3"] .num { color: var(--navy-3); }
+  .system-piece[data-step="4"] .num { color: var(--navy-4); }
+
+  .system-piece .name {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 32px;
+    color: var(--navy);
+    line-height: 1.05;
+    margin-bottom: 6px;
+    letter-spacing: -0.02em;
+  }
+  .system-piece .desc {
+    font-size: 16px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .system-piece .arrow {
+    text-align: right;
+    color: var(--gold);
+    font-family: var(--mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.10em;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+  @media (max-width: 900px) {
+    .system-piece {
+      grid-template-columns: 64px 1fr;
+      gap: 20px;
+      padding: 24px;
+    }
+    .system-piece .arrow { display: none; }
+    .system-piece .num { font-size: 50px; }
+    .system-piece .name { font-size: 24px; }
+  }
+
+  /* ─────────── Cimientos cards ─────────── */
+  #cimientos { background: var(--white); }
+  .found-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 60px;
+  }
+  @media (max-width: 1100px) { .found-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px)  { .found-grid { grid-template-columns: 1fr; } }
+  .found-card {
+    background: var(--paper);
+    border: 1px solid var(--rule-2);
+    border-radius: 6px;
+    padding: 28px 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .found-card::before {
+    content: "";
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+  .found-card:hover { background: var(--white); box-shadow: 0 8px 24px rgba(10, 31, 51, 0.06); }
+  .found-card:hover::before, .found-card.expanded::before { transform: scaleX(1); }
+  .found-card .ic {
+    width: 44px; height: 44px;
+    border-radius: 8px;
+    background: var(--gold-3);
+    color: var(--navy);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 16px;
+  }
+  .found-card h3 { font-size: 20px; margin-bottom: 8px; }
+  .found-card .summary { font-size: 14.5px; line-height: 1.5; color: var(--muted); }
+  .found-card .details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, opacity 0.25s ease, margin 0.3s ease;
+    opacity: 0;
+  }
+  .found-card.expanded .details {
+    max-height: 600px;
+    opacity: 1;
+    margin-top: 16px;
+  }
+  .found-card .details p { font-size: 14px; line-height: 1.55; color: var(--ink); }
+  .found-card .expand-hint {
+    margin-top: 14px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .found-card.expanded .expand-hint .arrow { transform: rotate(180deg); }
+  .found-card .expand-hint .arrow { transition: transform 0.3s ease; }
+
+  /* ─────────── Arquitectura ─────────── */
+  #arquitectura { background: var(--paper); }
+  .arch-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 60px;
+    margin-top: 50px;
+    align-items: start;
+  }
+  @media (max-width: 900px) { .arch-grid { grid-template-columns: 1fr; gap: 40px; } }
+  .tree {
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.85;
+    background: var(--navy);
+    color: var(--gold-2);
+    padding: 32px 36px;
+    border-radius: 8px;
+    overflow-x: auto;
+  }
+  .tree .root { color: var(--gold); font-weight: 600; }
+  .tree .folder { color: var(--gold-2); }
+  .tree .comment { color: rgba(232, 201, 137, 0.45); font-style: italic; }
+  .arch-callout {
+    margin-top: 24px;
+    padding: 20px 24px;
+    background: var(--gold-3);
+    border-left: 3px solid var(--gold);
+    border-radius: 4px;
+  }
+  .arch-callout p { font-size: 16px; color: var(--navy); }
+
+  /* ─────────── Cadena ─────────── */
+  #flujo { background: var(--white); }
+  .chain-wrap { margin-top: 60px; overflow-x: auto; padding-bottom: 16px; }
+  .chain {
+    display: grid;
+    grid-template-columns: repeat(13, minmax(105px, 1fr));
+    gap: 6px;
+    min-width: 1200px;
+  }
+  .station {
+    background: var(--paper);
+    border: 1px solid var(--rule-2);
+    border-radius: 6px;
+    padding: 16px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-height: 158px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .station:hover {
+    background: var(--white);
+    border-color: var(--gold);
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(10, 31, 51, 0.08);
+  }
+  .station.diag { border-top: 3px solid var(--navy-3); }
+  .station.prop { border-top: 3px solid var(--gold); }
+  .station.exec { border-top: 3px solid var(--view); }
+  .station .stnum {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--gold);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+  .station .stname {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--navy);
+    line-height: 1.2;
+    margin-top: 4px;
+    letter-spacing: -0.005em;
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+  }
+  .station .stphase {
+    margin-top: auto;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding-top: 6px;
+    border-top: 0.5px solid var(--rule-2);
+  }
+  .chain-legend {
+    display: flex;
+    gap: 32px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+  .chain-legend .lg {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+  .chain-legend .lg .sw { width: 28px; height: 4px; border-radius: 2px; }
+  .chain-lanes {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 700px) { .chain-lanes { grid-template-columns: 1fr; } }
+  .chain-lane {
+    padding: 20px 24px;
+    background: var(--paper);
+    border-left: 3px solid var(--navy-3);
+    border-radius: 4px;
+  }
+  .chain-lane h4 { font-size: 14px; color: var(--navy-3); margin-bottom: 6px; }
+
+  /* ─────────── Personas ─────────── */
+  #personas { background: var(--paper); }
+  .personas-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-top: 60px;
+  }
+  @media (max-width: 900px) { .personas-row { grid-template-columns: 1fr; } }
+  .persona {
+    background: var(--white);
+    border: 1px solid var(--rule-2);
+    border-radius: 8px;
+    padding: 32px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .persona::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--gold);
+  }
+  .persona .pname {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 1;
+    color: var(--navy);
+    margin-top: 14px;
+    margin-bottom: 14px;
+    letter-spacing: -0.02em;
+  }
+  .persona .pscope {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .persona .ppath {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--navy-2);
+    margin-bottom: 16px;
+    background: var(--gold-3);
+    padding: 4px 10px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+  .persona p { font-size: 15px; line-height: 1.55; }
+
+  .events-block {
+    margin-top: 80px;
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  @media (max-width: 900px) { .events-block { grid-template-columns: 1fr; } }
+  .events-json {
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.7;
+    background: var(--navy);
+    color: var(--gold-2);
+    padding: 28px 32px;
+    border-radius: 8px;
+    overflow-x: auto;
+  }
+  .events-json .k-name { color: var(--gold); }
+  .events-json .k-str  { color: #b8d4f0; }
+
+  .surfaces {
+    margin-top: 60px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 900px) { .surfaces { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .surfaces { grid-template-columns: 1fr; } }
+  .surface {
+    background: var(--white);
+    border: 1px solid var(--rule-2);
+    border-radius: 6px;
+    padding: 22px 20px;
+  }
+  .surface .surface-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 0.10em;
+    margin-bottom: 8px;
+  }
+  .surface h4 { color: var(--navy); margin-bottom: 8px; font-size: 14px; }
+  .surface p { font-size: 13.5px; line-height: 1.5; color: var(--muted); }
+
+  /* ─────────── Agentes hub ─────────── */
+  #agentes { background: var(--white); }
+  .agents-hub {
+    margin-top: 60px;
+    background: var(--paper);
+    border-radius: 12px;
+    padding: 60px;
+    position: relative;
+  }
+  @media (max-width: 700px) { .agents-hub { padding: 40px 20px; } }
+  .agents-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 22px;
+    align-items: center;
+  }
+  @media (max-width: 900px) {
+    .agents-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+  }
+  .agents-grid .center {
+    grid-row: span 2;
+    background: var(--navy);
+    color: var(--paper);
+    border-radius: 12px;
+    padding: 36px 24px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    min-height: 200px;
+  }
+  @media (max-width: 900px) { .agents-grid .center { grid-row: auto; } }
+  .agents-grid .center .ctitle {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 1.05;
+    color: var(--gold-2);
+    letter-spacing: -0.02em;
+  }
+  .agents-grid .center .cdesc {
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: rgba(250, 249, 245, 0.75);
+  }
+  .agents-grid .inv {
+    background: var(--white);
+    border: 1px solid var(--rule-2);
+    border-radius: 8px;
+    padding: 20px 22px;
+  }
+  .agents-grid .inv .ititle {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.10em;
+    color: var(--gold);
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  .agents-grid .inv .iname {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--navy);
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+  .agents-grid .inv p { font-size: 14px; color: var(--muted); line-height: 1.5; }
+
+  /* ─────────── Bot — phone ─────────── */
+  #bot { background: var(--paper); }
+  .bot-layout {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 60px;
+    margin-top: 60px;
+    align-items: start;
+  }
+  @media (max-width: 900px) { .bot-layout { grid-template-columns: 1fr; gap: 40px; } }
+  .phone {
+    background: var(--navy);
+    border-radius: 32px;
+    padding: 12px;
+    border: 3px solid var(--navy-2);
+    box-shadow: 0 20px 60px rgba(10, 31, 51, 0.25);
+    position: sticky;
+    top: 100px;
+  }
+  .phone .screen {
+    background: #f0eee5;
+    border-radius: 22px;
+    padding: 14px 12px;
+    min-height: 580px;
+    font-family: var(--sans);
+    font-size: 12.5px;
+    overflow: hidden;
+  }
+  .phone .chat-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 6px 4px 12px 4px;
+    border-bottom: 0.5px solid #d3cfc1;
+    margin-bottom: 12px;
+  }
+  .phone .chat-header .avatar {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: var(--gold-2);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .phone .chat-header .iname-bot {
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--navy);
+    line-height: 1.2;
+  }
+  .phone .chat-header .iname-bot small {
+    font-weight: 400;
+    color: var(--muted);
+    font-size: 10.5px;
+    display: block;
+    margin-top: 2px;
+  }
+  .phone .msg {
+    background: white;
+    padding: 8px 11px;
+    border-radius: 10px 10px 10px 2px;
+    margin-bottom: 7px;
+    max-width: 90%;
+    font-size: 11.5px;
+    line-height: 1.4;
+    color: var(--ink);
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+  }
+  .phone .msg.user {
+    background: var(--gold-3);
+    border-radius: 10px 10px 2px 10px;
+    margin-left: auto;
+    color: var(--navy);
+  }
+  .phone .msg code {
+    background: transparent;
+    color: var(--navy);
+    font-weight: 600;
+    padding: 0;
+    word-break: break-all;
+    font-size: 11px;
+  }
+  .phone .msg .typing {
+    display: inline-block;
+    width: 5px; height: 5px;
+    background: var(--muted);
+    border-radius: 50%;
+    margin: 0 1px;
+    animation: blink 1.4s ease-in-out infinite;
+  }
+  @keyframes blink {
+    0%, 60%, 100% { opacity: 0.3; }
+    30% { opacity: 1; }
+  }
+
+  .bot-commands {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 32px;
+  }
+  @media (max-width: 700px) { .bot-commands { grid-template-columns: 1fr; } }
+  .cmd-group {
+    background: var(--white);
+    border: 1px solid var(--rule-2);
+    border-radius: 6px;
+    padding: 20px 22px;
+  }
+  .cmd-group h4 { color: var(--gold); margin-bottom: 14px; font-size: 12px; }
+  .cmd-group .cmd-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    font-size: 13.5px;
+    color: var(--ink);
+  }
+  .cmd-group .cmd-row code { color: var(--navy); font-weight: 600; }
+  .cmd-group .cmd-row .what { color: var(--muted); text-align: right; font-size: 12.5px; }
+
+  /* ─────────── Company tree (org chart) ─────────── */
+  #arbol { background: var(--white); }
+  .org-tree {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .org-node {
+    background: var(--white);
+    border: 1.5px solid var(--rule);
+    border-radius: 8px;
+    padding: 18px 28px;
+    text-align: center;
+    min-width: 180px;
+    position: relative;
+    transition: all 0.25s ease;
+  }
+  .org-node:hover {
+    border-color: var(--gold);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(10, 31, 51, 0.08);
+  }
+  .org-node.root {
+    background: var(--navy);
+    color: var(--paper);
+    border-color: var(--navy);
+    padding: 22px 40px;
+  }
+  .org-node.root .org-name { color: var(--gold-2); font-size: 24px; }
+  .org-node.root .org-tag  { color: rgba(250, 249, 245, 0.6); }
+  .org-node .org-tag {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.10em;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .org-node .org-name {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--navy);
+    letter-spacing: -0.01em;
+  }
+  .org-node .org-desc {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+  .org-trunk {
+    width: 2px;
+    height: 32px;
+    background: var(--gold);
+  }
+  .org-branches {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    width: 100%;
+    max-width: 1100px;
+    position: relative;
+    padding-top: 32px;
+  }
+  .org-branches::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 16.66%;
+    right: 16.66%;
+    height: 2px;
+    background: var(--gold);
+  }
+  .org-branches .branch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+  .org-branches .branch::before {
+    content: "";
+    position: absolute;
+    top: -32px;
+    width: 2px;
+    height: 32px;
+    background: var(--gold);
+  }
+  .org-leaves {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+  .org-leaf {
+    background: var(--paper);
+    border: 1px solid var(--rule-2);
+    border-radius: 5px;
+    padding: 10px 14px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s ease;
+  }
+  .org-leaf:hover { border-color: var(--gold); background: var(--white); }
+  .org-leaf .leaf-icon {
+    width: 24px; height: 24px;
+    border-radius: 4px;
+    background: var(--gold-3);
+    color: var(--navy);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .org-leaf .leaf-name { font-weight: 600; color: var(--navy); }
+  .org-leaf .leaf-desc { color: var(--muted); font-size: 12px; margin-left: auto; }
+  @media (max-width: 800px) {
+    .org-branches { grid-template-columns: 1fr; gap: 32px; }
+    .org-branches::before { display: none; }
+    .org-branches .branch::before { display: none; }
+  }
+
+  /* ─────────── Stack ─────────── */
+  #stack { background: var(--navy); color: var(--paper); }
+  #stack h2.section-title { color: var(--gold-2); }
+  .stack-section { margin-top: 60px; }
+  .stack-section h3 {
+    color: var(--gold-2);
+    font-size: 26px;
+    margin-bottom: 24px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .stack-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 1100px) { .stack-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px)  { .stack-grid { grid-template-columns: 1fr; } }
+  .tool {
+    background: var(--navy-2);
+    border: 1px solid rgba(212, 177, 106, 0.18);
+    border-radius: 6px;
+    padding: 18px 18px;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+  .tool:hover {
+    background: var(--navy-3);
+    border-color: var(--gold);
+    transform: translateY(-3px);
+  }
+  .tool .tname {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--gold-2);
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+  .tool .trole {
+    font-size: 12.5px;
+    color: rgba(250, 249, 245, 0.65);
+    line-height: 1.4;
+    margin-bottom: 8px;
+  }
+  .tool .tprice {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .tool .tprice.free  { background: rgba(76, 175, 80, 0.18); color: #8bc99e; }
+  .tool .tprice.paid  { background: rgba(212, 177, 106, 0.22); color: var(--gold-2); }
+  .tool .tprice.freem { background: rgba(110, 180, 255, 0.18); color: #9ec5e7; }
+
+  /* ─────────── Odoo ─────────── */
+  #odoo { background: var(--paper); padding: 180px 40px; }
+  .odoo-hero { text-align: center; margin-bottom: 60px; }
+  .odoo-hero h2 {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: clamp(40px, 5.5vw, 80px);
+    line-height: 1.04;
+    letter-spacing: -0.03em;
+    color: var(--navy);
+    max-width: 22ch;
+    margin: 0 auto 24px;
+  }
+  .odoo-hero .marker {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--mono);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--critical);
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+  .odoo-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  @media (max-width: 900px) { .odoo-cards { grid-template-columns: 1fr; } }
+  .odoo-card {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 32px;
+  }
+  .odoo-card h3 { font-size: 24px; margin-bottom: 14px; }
+  .odoo-card .badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.10em;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .odoo-quote {
+    margin-top: 60px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 32px;
+    text-align: center;
+    border-top: 1px solid var(--gold);
+    border-bottom: 1px solid var(--gold);
+  }
+  .odoo-quote p {
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--navy);
+    letter-spacing: -0.005em;
+  }
+
+  /* ─────────── Cómo se conecta cada usuario (install options) ─────────── */
+  #install { background: linear-gradient(180deg, var(--paper) 0%, var(--paper-2) 100%); }
+  .interface-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-top: 60px;
+  }
+  @media (max-width: 900px) { .interface-grid { grid-template-columns: 1fr; } }
+  .interface-card {
+    background: var(--white);
+    border: 1.5px solid var(--rule);
+    border-radius: 8px;
+    padding: 32px 28px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+  }
+  .interface-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(10, 31, 51, 0.10);
+  }
+  .interface-card.recommended { border-color: var(--gold); border-width: 2px; }
+  .interface-card .rec-tag {
+    position: absolute;
+    top: -12px; left: 24px;
+    background: var(--gold);
+    color: var(--navy);
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .interface-card .letter {
+    font-family: var(--sans);
+    font-weight: 800;
+    font-size: 76px;
+    line-height: 0.85;
+    color: var(--gold);
+    margin-bottom: 16px;
+    letter-spacing: -0.05em;
+  }
+  .interface-card .label-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .interface-card .iname {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 1;
+    color: var(--navy);
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+  }
+  .interface-card ul.attrs {
+    list-style: none;
+    padding: 0; margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-grow: 1;
+  }
+  .interface-card ul.attrs li {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 10px;
+    align-items: baseline;
+    font-size: 14px;
+    line-height: 1.45;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--rule-2);
+  }
+  .interface-card ul.attrs li:last-child { border-bottom: none; padding-bottom: 0; }
+  .interface-card ul.attrs li .k {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ─────────── Otras decisiones ─────────── */
+  #otras { background: var(--white); }
+  .opinas-list {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .opinion {
+    background: var(--paper);
+    border-left: 3px solid transparent;
+    padding: 22px 32px;
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    gap: 20px;
+    align-items: center;
+    transition: all 0.25s ease;
+    cursor: pointer;
+  }
+  .opinion:hover {
+    background: var(--white);
+    border-left-color: var(--gold);
+    transform: translateX(8px);
+  }
+  .opinion .onum {
+    font-family: var(--sans);
+    font-weight: 800;
+    font-size: 44px;
+    color: var(--gold);
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+  .opinion .obody h3 { font-size: 21px; margin-bottom: 6px; }
+  .opinion .obody p { font-size: 15px; color: var(--muted); }
+
+  /* ─────────── Roadmap ─────────── */
+  #camino { background: var(--paper); }
+  .roadmap {
+    margin-top: 60px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+  }
+  .roadmap::before {
+    content: "";
+    position: absolute;
+    top: 28px;
+    left: 8%; right: 8%;
+    height: 2px;
+    background: var(--gold);
+  }
+  @media (max-width: 900px) {
+    .roadmap { grid-template-columns: 1fr; gap: 32px; }
+    .roadmap::before { display: none; }
+  }
+  .road-step { text-align: center; padding: 0 12px; position: relative; }
+  .road-step .dot {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--white);
+    border: 3px solid var(--gold);
+    color: var(--navy);
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 18px;
+    position: relative;
+    z-index: 2;
+    letter-spacing: -0.02em;
+  }
+  .road-step h3 { font-size: 19px; margin-bottom: 8px; }
+  .road-step p { font-size: 14.5px; color: var(--muted); line-height: 1.5; }
+
+  /* ─────────── Sign-off ─────────── */
+  #firma { background: var(--navy); color: var(--paper); padding-bottom: 80px; }
+  #firma h2.section-title { color: var(--gold-2); }
+  #firma p { color: rgba(250, 249, 245, 0.85); }
+  .approval-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin-top: 60px;
+  }
+  @media (max-width: 900px) { .approval-grid { grid-template-columns: 1fr; gap: 40px; } }
+  .approval-grid h3 { color: var(--gold-2); font-size: 20px; margin-bottom: 22px; }
+  .choice-list { display: flex; flex-direction: column; gap: 10px; }
+  .choice {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    background: var(--navy-2);
+    border: 1.5px solid rgba(212, 177, 106, 0.22);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 15px;
+  }
+  .choice:hover { background: var(--navy-3); border-color: var(--gold); }
+  .choice.selected { border-color: var(--gold); background: rgba(212, 177, 106, 0.12); }
+  .choice .radio {
+    width: 18px; height: 18px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .choice.selected .radio::after {
+    content: "";
+    position: absolute;
+    inset: 3px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+  .choice strong { color: var(--gold-2); }
+  .choice .body { color: rgba(250, 249, 245, 0.85); flex: 1; }
+  .notes-area {
+    width: 100%;
+    background: var(--navy-2);
+    border: 1.5px solid rgba(212, 177, 106, 0.22);
+    border-radius: 8px;
+    color: var(--paper);
+    font-family: var(--mono);
+    font-size: 13px;
+    padding: 16px 18px;
+    line-height: 1.6;
+    resize: vertical;
+    min-height: 200px;
+  }
+  .notes-area:focus { outline: none; border-color: var(--gold); }
+  .sign-row {
+    margin-top: 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+  }
+  @media (max-width: 700px) { .sign-row { grid-template-columns: 1fr; gap: 40px; } }
+  .signer { display: flex; flex-direction: column; }
+  .signer .line {
+    border-bottom: 1.5px solid var(--gold);
+    height: 60px;
+    margin-bottom: 12px;
+  }
+  .signer .name {
+    font-family: var(--mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(250, 249, 245, 0.65);
+  }
+
+  footer {
+    background: var(--navy);
+    color: rgba(250, 249, 245, 0.5);
+    padding: 40px;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-top: 1px solid rgba(212, 177, 106, 0.15);
+  }
+
+  /* ─────────── Reveal on scroll ─────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  .reveal.delay-1 { transition-delay: 0.1s; }
+  .reveal.delay-2 { transition-delay: 0.2s; }
+  .reveal.delay-3 { transition-delay: 0.3s; }
+  .reveal.delay-4 { transition-delay: 0.4s; }
+
+  svg.icon { width: 24px; height: 24px; stroke-width: 1.6; }
+  svg.icon-sm { width: 18px; height: 18px; stroke-width: 1.6; }
+  svg.icon-lg { width: 28px; height: 28px; stroke-width: 1.4; }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="glyph">M</div>
+    <span>Mejía, IA &amp; CIA</span>
+  </div>
+  <nav>
+    <a href="#sistema">Sistema</a>
+    <a href="#cimientos">Cimientos</a>
+    <a href="#arquitectura">Arquitectura</a>
+    <a href="#flujo">Cadena</a>
+    <a href="#bot">Bot</a>
+    <a href="#stack">Stack</a>
+    <a href="#dual">Plan dual</a>
+    <a href="#odoo">Odoo</a>
+    <a href="#servicios">Servicios</a>
+    <a href="#install">Acceso</a>
+    <a href="#otras">Otras decisiones</a>
+    <a href="#camino">Camino</a>
+    <a href="#firma">Firma</a>
+  </nav>
+</header>
+
+<main>
+
+<!-- ─────────── HERO ─────────── -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-greeting">Para Juan Pablo · Versión 3 · Mayo 2026</div>
+    <h1 class="hero-title">
+      Sistema operativo M.I.A
+      <span class="light">Mejía, IA &amp; CIA</span>
+    </h1>
+    <p class="lede" style="margin-top: 44px; max-width: 60ch;">
+      Versión 3 — incorpora tus comentarios y agrega el <strong>plan dual de herramientas</strong>:
+      usamos lo pagado para trabajar bien hoy, e instalamos en paralelo versiones libres en nuestro
+      servidor para aprender a operarlas y ofrecerlas a clientes mañana.
+    </p>
+    <div class="hero-meta">
+      <div class="row">
+        <span class="k">Preparado por</span>
+        <span class="v">Ricardo Mejía</span>
+      </div>
+      <div class="row">
+        <span class="k">Fecha</span>
+        <span class="v">12 de Mayo, 2026</span>
+      </div>
+      <div class="row">
+        <span class="k">Versión</span>
+        <span class="v">v3 · Propuesto</span>
+      </div>
+    </div>
+    <a href="#que-es" class="scroll-cue">
+      Empezar
+      <span class="icon">
+        <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </span>
+    </a>
+  </div>
+</section>
+
+
+<!-- ─────────── ¿QUÉ ESTÁS VIENDO? ─────────── -->
+<section id="que-es">
+  <div class="container">
+    <div class="eyebrow"><span class="line"></span>El contexto</div>
+    <h2 class="section-title reveal">¿Qué estás viendo?</h2>
+    <p class="lede reveal delay-1" style="max-width: 60ch; margin-bottom: 32px;">
+      Esto es la propuesta de la base operativa de la compañía — versión 3.
+    </p>
+    <div class="arch-callout reveal delay-1" style="max-width: 60ch; margin-bottom: 60px; background: var(--info-bg); border-color: var(--navy-3);">
+      <p style="font-size: 16px;">
+        <strong>Nuevo en v3:</strong> respuestas a tus comentarios sobre la v2
+        (revocación de llaves, secretos vs Claude, Notion compartido, transcripts vía Notion AI con
+        revisión inmediata), más una propuesta nueva — el <strong>plan dual de herramientas</strong> —
+        que convierte cada categoría de SaaS gringo en una posible línea de servicio nuestra.
+        <strong>Lenguaje más amigable</strong>, con analogías cuando ayuda (caja fuerte, cuaderno de
+        bitácora, guardia en la puerta).
+      </p>
+    </div>
+
+    <div class="intro-grid">
+      <div class="intro-card reveal delay-2">
+        <div class="icon-circle">
+          <svg class="icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+        </div>
+        <h3>Qué decide este documento</h3>
+        <p>
+          Dónde vive todo lo que la compañía produce, cómo se respalda, cómo nos comunicamos con
+          el sistema, y cómo los agentes de IA trabajan dentro de él. La base sobre la que todo lo
+          demás se construye.
+        </p>
+      </div>
+      <div class="intro-card reveal delay-3">
+        <div class="icon-circle">
+          <svg class="icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h3>Propósito general</h3>
+        <p>
+          Revisar, comentar o vetar. Hacer un análisis general del sistema para proceder a su
+          ejecución, edición o reconstrucción. Entre las decisiones más importantes:
+          <strong>¿cómo nos comunicamos con el sistema?</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────── EL SISTEMA EN CUATRO PIEZAS ─────────── -->
+<section id="sistema">
+  <div class="container">
+    <div class="eyebrow"><span class="line"></span>Una imagen del todo</div>
+    <h2 class="section-title reveal">El sistema en 4 piezas.</h2>
+    <p class="lede reveal delay-1" style="max-width: 56ch;">
+      Cada capa habilita a la siguiente. Todo empieza por los Cimientos — el resto depende de ahí.
+    </p>
+
+    <div class="system-map">
+      <a href="#cimientos" class="system-piece reveal delay-2" data-step="1">
+        <span class="num">01</span>
+        <div>
+          <div class="name">Cimientos</div>
+          <div class="desc">Dónde vive el sistema. Seguridad. Vault encriptado. Respaldos múltiples. Permisos.</div>
+        </div>
+        <div class="arrow">Explorar →</div>
+      </a>
+      <a href="#arquitectura" class="system-piece reveal delay-2" data-step="2">
+        <span class="num">02</span>
+        <div>
+          <div class="name">Arquitectura</div>
+          <div class="desc">Estructura de carpetas. Cadena de producción por cliente. Personas que operan el sistema. Comunicación entre piezas.</div>
+        </div>
+        <div class="arrow">Explorar →</div>
+      </a>
+      <a href="#agentes" class="system-piece reveal delay-3" data-step="3">
+        <span class="num">03</span>
+        <div>
+          <div class="name">Agentes</div>
+          <div class="desc">Trabajo automatizado. Un agente por skill. Cuatro caminos de invocación.</div>
+        </div>
+        <div class="arrow">Explorar →</div>
+      </a>
+      <a href="#bot" class="system-piece reveal delay-3" data-step="4">
+        <span class="num">04</span>
+        <div>
+          <div class="name">Bot de Telegram</div>
+          <div class="desc">La ventana al sistema. Tres canales: grupo y dos DMs. Capturas, operaciones, IA cuando se justifica.</div>
+        </div>
+        <div class="arrow">Explorar →</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────── CIMIENTOS ─────────── -->
+<section id="cimientos">
+  <div class="container">
+    <div class="eyebrow"><span class="line"></span>Capa 01 · Cimientos</div>
+    <h2 class="section-title reveal">Lo que está debajo de todo.</h2>
+    <p class="lede reveal delay-1" style="max-width: 56ch;">
+      Ocho decisiones que condicionan el resto del sistema. Click en cualquiera para ver el detalle.
+    </p>
+
+    <div class="found-grid">
+
+      <div class="found-card reveal" data-expand="f1">
+        <div class="ic"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/></svg></div>
+        <h3>Casa del repositorio</h3>
+        <p class="summary">Servidor de Ricardo. Repo independiente. Gitea como origen.</p>
+        <div class="details">
+          <p>El cerebro de la compañía vive en <code>/srv/mejia-ia-cia/</code> del servidor de Ricardo. Repositorio Git independiente — no compartido con nada más. Gitea es la interfaz web del repo (como GitHub pero selfhosted). Ricardo y JP son dueños de la organización.</p>
+        </div>
+        <div class="expand-hint"><span>Ver detalle</span><span class="arrow"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></div>
+      </div>
+
+      <div class="found-card reveal delay-1" data-expand="f2">
+        <div class="ic"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+        <h3>Vault de documentos</h3>
+        <p class="summary">Una caja fuerte digital. Tú tienes una llave, yo tengo otra.</p>
+        <div class="details">
+          <p><strong>Analogía:</strong> piensa en una caja fuerte digital. Documentos sensibles (contratos firmados, IDs, NDAs) viven cifrados dentro. Tú tienes una llave, yo tengo otra. Cualquiera de los dos puede abrirla.</p>
+          <p><strong>Cómo funciona:</strong> usamos la herramienta <code>age</code> para cifrar. Cada uno genera su propia llave privada en su laptop (nunca sale de ahí). Los archivos se cifran a las dos llaves al mismo tiempo.</p>
+          <p><strong>Revocación de llaves — dos modos:</strong></p>
+          <ul>
+            <li><strong>Emergencia</strong> (laptop robada): el dueño de la llave la revoca de forma unilateral, re-encripta todo hacia adelante, avisa al otro inmediatamente.</li>
+            <li><strong>Rotación normal</strong> (refresh anual o cambio de equipo): los dos lo aprobamos vía PR.</li>
+          </ul>
+          <p><strong>Punto importante:</strong> los commits viejos del repo siguen siendo desencriptables con la llave revocada. Por eso, en emergencia, también rotamos secretos críticos (API keys) — no basta con re-encriptar.</p>
+        </div>
+        <div class="expand-hint"><span>Ver detalle</span><span class="arrow"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></div>
+      </div>
+
+      <div class="found-card reveal delay-2" data-expand="f3">
+        <div class="ic"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg></div>
+        <h3>Secretos del sistema</h3>
+        <p class="summary">API keys en un archivo cifrado. Se descifra el segundo que se usa.</p>
+        <div class="details">
+          <p>Las contraseñas que el sistema necesita para hablar con servicios externos (Anthropic, bot de Telegram, etc.) viven en <code>secrets.env.age</code> dentro del repo, cifrado con las mismas llaves del vault.</p>
+          <p>Cuando un programa necesita una clave, un script:</p>
+          <ol>
+            <li>Descifra el archivo a una "pizarra de memoria" (RAM, no disco).</li>
+            <li>El programa la usa por 1-2 segundos.</li>
+            <li>La pizarra se borra automáticamente.</li>
+          </ol>
+          <p>El detalle completo de cómo se protegen los secretos contra Claude está en la sección <strong>"Los 6 candados"</strong> debajo.</p>
+        </div>
+        <div class="expand-hint"><span>Ver detalle</span><span class="arrow"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></div>
+      </div>
+
+      <div class="found-card reveal delay-3" data-expand="f4">
+        <div class="ic"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg></div>
+        <h3>Disciplina de git</h3>
+        <p class="summary">PR obligatorio para archivos que tocan al cliente.</p>
+        <div class="details">
+          <p>Cambios rutinarios (notas, scripts) se commitean directo. Cualquier archivo que vaya al cliente — prompts de skills, entregables, propuestas, contratos — requiere un <strong>Pull Request</strong> con aprobación. La regla "revisión antes del cliente" se vuelve estructural.</p>
+        </div>
+        <div class="expand-hint"><span>Ver detalle</span><span class="arrow"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></div>
+      </div>
+
+      <div class="found-card reveal" data-expand="f5">
+        <div class="ic"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        <h3>Respaldos múltiples</h3>
+        <p class="summary">Servidor + GitHub + Codeberg + NAS local + Drive.</p>
+        <div class="details">
+          <p><strong>Fase A (ya):</strong> Gitea + mirror automático a GitHub. <strong>Fase B (pronto):</strong> agregar Codeberg como tercer mirror. <strong>Fase C (después):</strong> snapshot semanal del árbol. Activos pesados (audios, PDFs) van a Google Drive 2TB + mirror al NAS local. Resistente a pérdida del servidor + un proveedor.</p>
+        </div>
+        <div class="expand-hint"><span>Ver detalle</span><span class="arrow"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></div>
+      </div>
+
+      <div class="found-card reveal delay-1" data-expand="f6">
+        <div class="ic"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="21.17" y1="8" x2="12" y2="8"/><line x1="3.95" y1="6.06" x2="8.54" y2="14"/><line x1="10.88" y1="21.94" x2="15.46" y2="14"/></svg></div>
+        <h3>Permisos: humano vs IA</h3>
+        <p class="summary">Agentes libres en lo rutinario, firma humana en lo crítico.</p>
+        <div class="details">
+          <p>Los agentes de IA escriben libremente en rutas no-protegidas (notas, status, journals). Pero <strong>operaciones destructivas</strong> (borrar, mover, editar config, tocar archivos protegidos) requieren firma humana. Aplica tanto a agentes como a humanos.</p>
+        </div>
+        <div class="expand-hint"><span>Ver detalle</span><span class="arrow"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></div>
+      </div>
+
+      <div class="found-card reveal delay-2" data-expand="f7">
+        <div class="ic"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+        <h3>Activos pesados</h3>
+        <p class="summary">Audios + PDFs grandes en Drive 2TB. Local mirror al NAS.</p>
+        <div class="details">
+          <p>Grabaciones de reuniones, PDFs grandes, imágenes — todo lo que no quepa cómodo en git va a Google Drive vía credenciales dedicadas. Carpeta aislada <code>/Mejia-IACia/</code>. <strong>Audio-only para grabaciones</strong> — factor 20× más eficiente que video. Lo sensible se cifra antes de subir.</p>
+        </div>
+        <div class="expand-hint"><span>Ver detalle</span><span class="arrow"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></div>
+      </div>
+
+      <div class="found-card reveal delay-3" data-expand="f8">
+        <div class="ic"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h0a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h0a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+        <h3>Niveles de acceso</h3>
+        <p class="summary">Los usuarios pueden tener diferentes niveles de involucramiento con el sistema.</p>
+        <div class="details">
+          <p>Cada usuario puede tener un nivel diferente de involucramiento. Tres maneras de conectarse al sistema, desde "operador par" hasta "todo vía Telegram". Las opciones se presentan en detalle más adelante.</p>
+        </div>
+        <div class="expand-hint"><span>Ver detalle</span><span class="arrow"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></div>
+      </div>
+
+    </div>
+
+    <!-- ─── Los 6 candados — Modelo de amenazas (nuevo en v3) ─── -->
+    <div style="margin-top: 100px;" class="reveal">
+      <div class="eyebrow"><span class="line"></span>Nuevo en v3 · Modelo de amenazas</div>
+      <h3 style="font-size: 36px; margin-bottom: 24px;">¿Claude puede ver el <code>.env</code>? Los 6 candados.</h3>
+      <p class="lede reveal delay-1" style="max-width: 60ch; margin-bottom: 32px;">
+        Respuesta corta: <strong>no</strong>. Lo que sigue es la respuesta larga, sin marketing y con analogía.
+      </p>
+
+      <div class="arch-callout reveal delay-2" style="background: var(--info-bg); border-color: var(--navy-3); margin-bottom: 32px;">
+        <p>
+          <strong>Analogía.</strong> Claude es como un asistente humano que trabaja en mi oficina.
+          Puede ver lo que tengo encima del escritorio. Los documentos sensibles viven en una caja fuerte
+          que solo se abre con una llave que tengo yo, no Claude. Cuando saco algo para usarlo, queda
+          10 segundos encima del escritorio y se guarda. Si Claude mira en ese momento, podría verlo —
+          por eso hay reglas, y un guardia en la puerta lo revisa cada vez que intenta entrar a la caja.
+        </p>
+      </div>
+
+      <div class="found-grid">
+
+        <div class="found-card reveal">
+          <div class="ic"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+          <h3>1 · La caja fuerte</h3>
+          <p class="summary">Encriptación en reposo.</p>
+          <div class="details" style="max-height: none; opacity: 1; padding-top: 16px;">
+            <p>El archivo de secretos vive cifrado en el disco. Claude ve solo bytes incomprensibles. Para descifrar necesita una llave privada que vive solo en mi laptop, NO en el repo.</p>
+          </div>
+        </div>
+
+        <div class="found-card reveal delay-1">
+          <div class="ic"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <h3>2 · Pizarra de memoria</h3>
+          <p class="summary">Uso temporal en RAM.</p>
+          <div class="details" style="max-height: none; opacity: 1; padding-top: 16px;">
+            <p>Cuando un secreto se necesita, se descifra a una "pizarra" de RAM que se borra al apagar el computador. Nunca toca el disco duro. Vive ahí 1-2 segundos, se usa, se borra.</p>
+          </div>
+        </div>
+
+        <div class="found-card reveal delay-2">
+          <div class="ic"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 10v6"/></svg></div>
+          <h3>3 · Guardia en la puerta</h3>
+          <p class="summary">Hooks que bloquean accesos prohibidos.</p>
+          <div class="details" style="max-height: none; opacity: 1; padding-top: 16px;">
+            <p>Claude Code permite configurar: "si Claude intenta abrir un archivo que contenga <code>secrets</code> o termine en <code>.age</code>, abortar y avisarme." Esto <strong>no depende</strong> de la voluntad de Claude — es un muro a nivel del programa.</p>
+          </div>
+        </div>
+
+        <div class="found-card reveal delay-3">
+          <div class="ic"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <h3>4 · Reglas escritas</h3>
+          <p class="summary">CLAUDE.md le dice qué no leer.</p>
+          <div class="details" style="max-height: none; opacity: 1; padding-top: 16px;">
+            <p>Cada sesión Claude lee instrucciones que dicen: "nunca leas archivos de secretos, nunca pegues API keys en respuestas." Es honor system — pero combinado con el candado 3 es robusto.</p>
+          </div>
+        </div>
+
+        <div class="found-card reveal">
+          <div class="ic"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg></div>
+          <h3>5 · Permisos del sistema</h3>
+          <p class="summary">Empleado sin pase a piso restringido.</p>
+          <div class="details" style="max-height: none; opacity: 1; padding-top: 16px;">
+            <p>El archivo de secretos pertenece a un usuario aparte del que usa Claude. A nivel de Linux, Claude literalmente no tiene permiso de leerlo. La puerta no abre, no importa si quiere entrar.</p>
+          </div>
+        </div>
+
+        <div class="found-card reveal delay-1">
+          <div class="ic"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><polyline points="21 3 21 8 16 8"/></svg></div>
+          <h3>6 · Rotación trivial</h3>
+          <p class="summary">Cambiar la llave toma 30 segundos.</p>
+          <div class="details" style="max-height: none; opacity: 1; padding-top: 16px;">
+            <p>Si sospechamos filtración, rotar la API key de Anthropic toma 30 segundos en su dashboard. Las llaves no son secretos eternos — son revocables. El daño máximo se limita a "lo que se gastó entre filtración y rotación."</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="arch-callout reveal delay-3" style="margin-top: 32px;">
+        <p>
+          <strong>¿Y los prompts que sí van a Anthropic?</strong> Cada cosa que escribimos y cada archivo que
+          Claude lee viaja cifrado (HTTPS) a Anthropic. Términos comerciales: <strong>no entrenan modelos
+          con tu tráfico</strong>, retención ~30 días para fines operacionales, opción de "Zero Data Retention"
+          para clientes enterprise — la pedimos cuando llegue el primero con compliance estricto.
+          Los secretos en sí nunca se mandan en un prompt: solo el código que los usa, no los valores.
+        </p>
+      </div>
+
+      <div class="arch-callout reveal delay-3" style="background: var(--info-bg); border-color: var(--navy-3); margin-top: 16px;">
+        <p>
+          <strong>Resumen.</strong> ¿Puede Claude "ver" el <code>.env</code>? No — está cifrado, el guardia
+          lo bloquea, los permisos del sistema lo impiden. ¿Podría verlo si rompiera todos los candados al
+          mismo tiempo? Habría que romper 4 de los 6 en simultáneo, y el intento queda registrado en el
+          billing de Anthropic. <strong>No es seguridad hermética, pero sí seriamente defendida.</strong>
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ─────────── ARQUITECTURA ─────────── -->
+<section id="arquitectura" class="cream">
+  <div class="container">
+    <div class="eyebrow"><span class="line"></span>Capa 02 · Arquitectura</div>
+    <h2 class="section-title reveal">La forma del sistema.</h2>
+    <p class="lede reveal delay-1" style="max-width: 56ch;">
+      Carpetas planas, organizadas por función. Discoverable por nombre — sin necesidad de
+      memorizar un sistema numérico.
+    </p>
+
+    <div class="arch-grid">
+      <div class="tree reveal delay-2"><span class="root">/srv/mejia-ia-cia/</span>
+├── <span class="folder">00_META/</span>           <span class="comment"># meta del sistema, propuestas</span>
+├── <span class="folder">00_GOVERNANCE/</span>     <span class="comment"># decisiones, ADRs, mapas</span>
+├── <span class="folder">00_PARTNERSHIP/</span>    <span class="comment"># co-propiedad: agreement,</span>
+│                            <span class="comment">  conflict protocol, KPIs</span>
+├── <span class="folder">skills/</span>            <span class="comment"># los 5 skills de diagnóstico</span>
+├── <span class="folder">clients/</span>           <span class="comment"># una carpeta por cliente</span>
+├── <span class="folder">prospects/</span>         <span class="comment"># pre-cliente, leads</span>
+├── <span class="folder">operations/</span>        <span class="comment"># marketing, sales, accounting,</span>
+│                            <span class="comment">  legal, it</span>
+├── <span class="folder">templates/</span>         <span class="comment"># DOCX con marca, plantillas</span>
+├── <span class="folder">assets/</span>            <span class="comment"># logo, deck, material público</span>
+├── <span class="folder">infra/</span>             <span class="comment"># código del bot, agentes</span>
+├── <span class="folder">knowledge/</span>         <span class="comment"># referencia, Quick Wins library</span>
+└── <span class="folder">vault/</span>             <span class="comment"># encriptado, alto valor</span></div>
+
+      <div>
+        <h3 class="reveal delay-2" style="font-size: 28px; margin-bottom: 16px;">Organizado por función.</h3>
+        <p class="reveal delay-2">
+          Las carpetas con prefijo <code>00_</code> son gobernanza. Las demás son funciones del
+          negocio. Cada una contiene exactamente lo que su nombre sugiere.
+        </p>
+
+        <div class="arch-callout reveal delay-3">
+          <p>
+            <strong>operations/</strong> es donde viven las funciones internas:
+            <code>marketing/</code>, <code>sales/</code>, <code>accounting/</code>,
+            <code>legal/</code>, <code>it/</code>.
+          </p>
+        </div>
+
+        <div class="arch-callout reveal delay-3" style="background: var(--info-bg); border-color: var(--navy-3);">
+          <p>
+            <strong>infra/</strong> es <em>código que se construye</em> (bot, scripts, agentes).
+            <strong>operations/it/</strong> es <em>servicios a los que se suscribe</em> (Notion,
+            Drive, Cal.com). Split intencional.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────── CADENA DE PRODUCCIÓN ─────────── -->
+<section id="flujo">
+  <div class="container">
+    <div class="eyebrow"><span class="line"></span>Capa 02 · cadena de producción</div>
+    <h2 class="section-title reveal">Cada cliente, una línea de ensamblaje.</h2>
+    <p class="lede reveal delay-1" style="max-width: 58ch;">
+      Trece estaciones — una por cada paso del flujo del deck. Cuando una estación termina,
+      el output se queda en su carpeta y dispara la siguiente. Las carpetas no se mueven jamás.
+    </p>
+
+    <div class="chain-wrap reveal delay-2">
+      <div class="chain">
+        <div class="station diag"><span class="stnum">00</span><span class="stname">Intake</span><span class="stphase">Prospección</span></div>
+        <div class="station diag"><span class="stnum">01</span><span class="stname">Análisis Compañía</span><span class="stphase">Skill 1</span></div>
+        <div class="station diag"><span class="stnum">02</span><span class="stname">Análisis Industria</span><span class="stphase">Skill 2</span></div>
+        <div class="station diag"><span class="stnum">03</span><span class="stname">Análisis Competencia</span><span class="stphase">Skill 3</span></div>
+        <div class="station diag"><span class="stnum">04</span><span class="stname">Guión Reunión</span><span class="stphase">Skill 4 · privado</span></div>
+        <div class="station diag"><span class="stnum">05</span><span class="stname">Reporte Oportunidades</span><span class="stphase">Skill 5 · entregable</span></div>
+        <div class="station prop"><span class="stnum">06</span><span class="stname">Propuesta</span><span class="stphase">Fase D</span></div>
+        <div class="station prop"><span class="stnum">07</span><span class="stname">Contrato · Onboarding</span><span class="stphase">Fase E</span></div>
+        <div class="station exec"><span class="stnum">08</span><span class="stname">Diseño Solución</span><span class="stphase">Paso 10</span></div>
+        <div class="station exec"><span class="stnum">09</span><span class="stname">Implemen­tación</span><span class="stphase">Paso 11</span></div>
+        <div class="station exec"><span class="stnum">10</span><span class="stname">Seguimiento</span><span class="stphase">30/60/90</span></div>
+        <div class="station exec"><span class="stnum">11</span><span class="stname">Retainer</span><span class="stphase">Mes a mes</span></div>
+        <div class="station" style="background: var(--paper-2);"><span class="stnum">arch</span><span class="stname">Archive</span><span class="stphase">Cierre</span></div>
+      </div>
+    </div>
+
+    <div class="chain-legend reveal delay-2">
+      <span class="lg"><span class="sw" style="background: var(--navy-3);"></span>Diagnóstico</span>
+      <span class="lg"><span class="sw" style="background: var(--gold);"></span>Propuesta · Cierre</span>
+      <span class="lg"><span class="sw" style="background: var(--view);"></span>Ejecución · Retainer</span>
+    </div>
+
+    <div class="chain-lanes reveal delay-3">
+      <div class="chain-lane">
+        <h4>transcripts/</h4>
+        <p style="font-size: 15px;">Cruza todas las fases. Whisper procesa cada grabación y deja el transcript ligado a la estación correspondiente.</p>
+      </div>
+      <div class="chain-lane">
+        <h4>communications/</h4>
+        <p style="font-size: 15px;">Cruza todas las fases. Email, WhatsApp, Telegram con el cliente — capturado por el bot, archivado con timestamp.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────── PERSONAS + COMUNICACIÓN ─────────── -->
+<section id="personas">
+  <div class="container">
+    <div class="eyebrow"><span class="line"></span>Capa 02 · personas + comunicación</div>
+    <h2 class="section-title reveal">Tres personas. Una conversación continua.</h2>
+    <p class="lede reveal delay-1" style="max-width: 58ch;">
+      "Personas" son los modos en que Claude opera cuando entra a una carpeta. Tres son suficientes —
+      atadas a función, no a ubicación.
+    </p>
+
+    <div class="personas-row">
+      <div class="persona reveal delay-2">
+        <span class="pscope">Operating Scope</span>
+        <div class="pname">Founder</div>
+        <span class="ppath">/</span>
+        <p>
+          Estrategia, gobernanza, operaciones internas (marketing, ventas, contabilidad, legal, IT),
+          prospectos. La persona por defecto cuando ninguna otra aplica.
+        </p>
+      </div>
+      <div class="persona reveal delay-3">
+        <span class="pscope">Operating Scope</span>
+        <div class="pname">Skills-Master</div>
+        <span class="ppath">skills/</span>
+        <p>
+          Diseña, versiona, prueba, mantiene los 5 skills de diagnóstico. Dueña de los casos de
+          benchmark — la prueba que se corre cada vez que cambia un prompt.
+        </p>
+      </div>
+      <div class="persona reveal delay-4">
+        <span class="pscope">Operating Scope</span>
+        <div class="pname">Client-Owner</div>
+        <span class="ppath">clients/</span>
+        <p>
+          Operadora de la cadena de producción para clientes. El cliente activo es un parámetro,
+          no una persona separada — la misma operadora atiende a Ascenso hoy y a Bodai mañana.
+        </p>
+      </div>
+    </div>
+
+    <div class="events-block">
+      <div class="events-json reveal delay-2">{
+  <span class="k-name">"ts"</span>:    <span class="k-str">"2026-05-15T14:23:00"</span>,
+  <span class="k-name">"id"</span>:    <span class="k-str">"evt-001"</span>,
+  <span class="k-name">"actor"</span>: <span class="k-str">"skill-1-agent"</span>,
+  <span class="k-name">"type"</span>:  <span class="k-str">"skill.completed"</span>,
+  <span class="k-name">"scope"</span>: <span class="k-str">"clients/ascenso"</span>,
+  <span class="k-name">"data"</span>: {
+    <span class="k-name">"skill"</span>:  <span class="k-str">"01_company_analysis"</span>,
+    <span class="k-name">"output"</span>: <span class="k-str">"01_company_analysis/report.md"</span>,
+    <span class="k-name">"next"</span>:   <span class="k-str">"skill_2"</span>
+  }
+}</div>
+      <div class="reveal delay-3">
+        <h3 style="font-size: 28px; margin-bottom: 14px;">Cómo se comunican las piezas.</h3>
+        <p style="font-size: 16px; margin-bottom: 12px;">
+          <strong>Analogía:</strong> piensa en el cuaderno de bitácora de un barco. Una sola libreta donde
+          se anota cada cosa importante que pasa, una línea por evento. Solo se agrega abajo — nunca se borra
+          ni se reescribe. Ese cuaderno es <code>events.jsonl</code>.
+        </p>
+        <p style="font-size: 16px; margin-bottom: 12px;">
+          <strong>Los agentes lo "leen" con filtros</strong> — "cuando aparezca una línea que diga
+          <em>Skill 1 terminó</em>, corre Skill 2 automáticamente". Es como un sistema nervioso —
+          un nervio dispara, otro reacciona.
+        </p>
+        <p style="font-size: 16px;">
+          <strong>El bot también escucha:</strong> ciertos eventos se empujan automáticamente al chat
+          correcto. No tienes que preguntar "¿qué pasó hoy?" — el sistema te avisa.
+        </p>
+      </div>
+    </div>
+
+    <h3 style="margin-top: 80px; font-size: 26px;" class="reveal">¿Cómo se ve el flujo de trabajo?</h3>
+    <p class="reveal delay-1" style="font-size: 16px; margin-top: 8px; max-width: 70ch;">
+      Cuatro superficies para observar lo que pasa en el sistema. Cada usuario elige la que prefiera —
+      todas leen los mismos datos.
+    </p>
+
+    <div class="surfaces">
+      <div class="surface reveal delay-2">
+        <div class="surface-num">01</div>
+        <h4>events.jsonl</h4>
+        <p>Stream crudo, append-only. <code>tail -f</code> muestra actividad en vivo. Helper script filtra por scope y tiempo.</p>
+      </div>
+      <div class="surface reveal delay-2">
+        <div class="surface-num">02</div>
+        <h4>STATUS.md por proyecto</h4>
+        <p>Agregado humano-legible, regenerado en cada commit. Ideal para revisar al abrir una carpeta.</p>
+      </div>
+      <div class="surface reveal delay-3">
+        <div class="surface-num">03</div>
+        <h4>Bot de Telegram</h4>
+        <p><code>/status</code>, <code>/digest</code>, brief matinal programado. Empujan los mismos datos al teléfono.</p>
+      </div>
+      <div class="surface reveal delay-3">
+        <div class="surface-num">04</div>
+        <h4>Notion CRM</h4>
+        <p>Vista kanban del pipeline. Estado de cada cliente en una sola pantalla, ideal para la operación comercial.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────── AGENTES ─────────── -->
+<section id="agentes" class="cream">
+  <div class="container">
+    <div class="eyebrow"><span class="line"></span>Capa 03 · agentes</div>
+    <h2 class="section-title reveal">El trabajo automatizado.</h2>
+    <p class="lede reveal delay-1" style="max-width: 58ch;">
+      Un agente toma inputs, ejecuta un skill, produce outputs en una ruta definida, y emite un
+      evento. Cuatro caminos para invocarlo. Una sola lógica de runtime.
+    </p>
+
+    <div class="agents-hub reveal delay-2">
+      <div class="agents-grid">
+        <div class="inv">
+          <div class="ititle">01 · Comando bot</div>
+          <div class="iname">/skill1 ascenso</div>
+          <p>El usuario escribe en Telegram, el bot dispara el agente.</p>
+        </div>
+        <div class="center">
+          <div class="ctitle">dispatch.py</div>
+          <div class="cdesc">Un solo punto de entrada. Carga el skill, valida inputs, ejecuta, escribe outputs, emite eventos.</div>
+        </div>
+        <div class="inv">
+          <div class="ititle">02 · Eventos</div>
+          <div class="iname">events.jsonl trigger</div>
+          <p>Una línea de evento dispara el agente automáticamente.</p>
+        </div>
+        <div class="inv">
+          <div class="ititle">03 · Cron programado</div>
+          <div class="iname">Daily 8am digest</div>
+          <p>Systemd timer ejecuta a horarios fijos.</p>
+        </div>
+        <div class="inv">
+          <div class="ititle">04 · CLI directo</div>
+          <div class="iname">mejia agent run</div>
+          <p>Se ejecuta desde la terminal cuando hace falta.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────── BOT ─────────── -->
+<section id="bot">
+  <div class="container">
+    <div class="eyebrow"><span class="line"></span>Capa 04 · bot</div>
+    <h2 class="section-title reveal">El bot es la ventana.</h2>
+    <p class="lede reveal delay-1" style="max-width: 60ch;">
+      Tres canales: grupo (Ricardo + JP), DM Ricardo, DM JP. Allowlist estricto — solo dos personas
+      pueden hablarle al bot. Para el usuario en modo Light, el bot es la interfaz principal.
+    </p>
+
+    <div class="bot-layout">
+
+      <div class="phone reveal delay-2">
+        <div class="screen">
+          <div class="chat-header">
+            <div class="avatar">M</div>
+            <div>
+              <div class="iname-bot">@MejiaIACia_bot<small>en línea · solo allowlist</small></div>
+            </div>
+          </div>
+          <div class="msg user"><code>/prospect Juan Esteban — Ascenso CO</code></div>
+          <div class="msg">✓ Prospecto capturado en <code>prospects/villegas/</code><br><small>Disparando prospect_classifier…</small></div>
+          <div class="msg user"><code>/skill1 ascenso</code></div>
+          <div class="msg">Iniciando análisis de compañía<br><span class="typing"></span><span class="typing"></span><span class="typing"></span></div>
+          <div class="msg">✓ Skill 1 terminado<br>Reporte listo en la carpeta del cliente.<br>Disparé skill_2 automáticamente.</div>
+          <div class="msg user"><code>/status ascenso</code></div>
+          <div class="msg">📊 Ascenso · Fase: Análisis<br>1·2·3 completos · 4 en cola<br>Última actividad: hace 4 min</div>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="reveal delay-2" style="font-size: 28px;">Lo que se puede hacer desde el bot.</h3>
+        <p class="reveal delay-2" style="font-size: 16px;">
+          Dos categorías: <strong>capturas</strong> (información que entra al sistema) y
+          <strong>operaciones</strong> (cosas que el sistema ejecuta).
+        </p>
+
+        <div class="bot-commands">
+          <div class="cmd-group reveal delay-3">
+            <h4>Capturas</h4>
+            <div class="cmd-row"><code>/note</code><span class="what">nota general</span></div>
+            <div class="cmd-row"><code>/idea</code><span class="what">idea de negocio</span></div>
+            <div class="cmd-row"><code>/decision</code><span class="what">borrador de decisión</span></div>
+            <div class="cmd-row"><code>/expense</code><span class="what">gasto a contabilidad</span></div>
+            <div class="cmd-row"><code>/client</code><span class="what">nota ligada a cliente</span></div>
+            <div class="cmd-row"><code>/meeting</code><span class="what">inicia captura de reunión</span></div>
+            <div class="cmd-row"><code>/marketing</code><span class="what">idea de contenido</span></div>
+            <div class="cmd-row"><code>/prospect</code><span class="what">nuevo prospecto</span></div>
+          </div>
+          <div class="cmd-group reveal delay-4">
+            <h4>Operaciones</h4>
+            <div class="cmd-row"><code>/status</code><span class="what">pipeline completo</span></div>
+            <div class="cmd-row"><code>/skill1..5</code><span class="what">dispara skill</span></div>
+            <div class="cmd-row"><code>/pipeline run</code><span class="what">5 skills en cadena</span></div>
+            <div class="cmd-row"><code>/digest</code><span class="what">resumen ahora</span></div>
+            <div class="cmd-row"><code>/ask</code><span class="what">escala a IA</span></div>
+            <div class="cmd-row"><code>/help</code><span class="what">menú en español</span></div>
+          </div>
+        </div>
+
+        <p class="reveal delay-4" style="font-size: 14.5px; margin-top: 28px; color: var(--muted);">
+          <strong>Escalamiento a IA: solo cuando se justifica.</strong>
+          Por default el bot responde con plantillas. Escala a Claude solo en <code>/ask</code> explícito,
+          mensajes largos sin comando, o eventos críticos. Rate-limit: 20 escalamientos por hora por usuario.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────── ÁRBOL DE LA COMPAÑÍA ─────────── -->
+<section id="arbol">
+  <div class="container">
+    <div class="eyebrow"><span class="line"></span>Organización</div>
+    <h2 class="section-title reveal">El árbol de la compañía.</h2>
+    <p class="lede reveal delay-1" style="max-width: 58ch;">
+      Cómo se ve la estructura a nivel organizacional. Tres ramas, ramas con hojas, cada hoja con
+      su propósito claro.
+    </p>
+
+    <div class="org-tree reveal delay-2">
+      <div class="org-node root">
+        <div class="org-tag">Compañía</div>
+        <div class="org-name">Mejía, IA &amp; CIA</div>
+      </div>
+      <div class="org-trunk"></div>
+
+      <div class="org-branches">
+
+        <div class="branch">
+          <div class="org-node">
+            <div class="org-tag">Capa metodológica</div>
+            <div class="org-name">Skills</div>
+            <div class="org-desc">Lo que la compañía sabe hacer</div>
+          </div>
+          <div class="org-leaves">
+            <div class="org-leaf">
+              <span class="leaf-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+              <span class="leaf-name">01 · Análisis Compañía</span>
+              <span class="leaf-desc">Skill 1</span>
+            </div>
+            <div class="org-leaf">
+              <span class="leaf-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="3" x2="3" y2="21"/><line x1="3" y1="21" x2="21" y2="21"/><polyline points="7 14 11 10 15 12 21 6"/></svg></span>
+              <span class="leaf-name">02 · Análisis Industria</span>
+              <span class="leaf-desc">Skill 2</span>
+            </div>
+            <div class="org-leaf">
+              <span class="leaf-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg></span>
+              <span class="leaf-name">03 · Análisis Competencia</span>
+              <span class="leaf-desc">Skill 3</span>
+            </div>
+            <div class="org-leaf">
+              <span class="leaf-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="14" x2="15" y2="14"/></svg></span>
+              <span class="leaf-name">04 · Guión Reunión</span>
+              <span class="leaf-desc">Skill 4 · privado</span>
+            </div>
+            <div class="org-leaf">
+              <span class="leaf-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg></span>
+              <span class="leaf-name">05 · Reporte Oportunidades</span>
+              <span class="leaf-desc">Skill 5 · entregable</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="branch">
+          <div class="org-node">
+            <div class="org-tag">Capa comercial</div>
+            <div class="org-name">Pipeline</div>
+            <div class="org-desc">El flujo de clientes</div>
+          </div>
+          <div class="org-leaves">
+            <div class="org-leaf">
+              <span class="leaf-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg></span>
+              <span class="leaf-name">Prospects</span>
+              <span class="leaf-desc">leads calificados</span>
+            </div>
+            <div class="org-leaf">
+              <span class="leaf-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/></svg></span>
+              <span class="leaf-name">Clients</span>
+              <span class="leaf-desc">cadena de 13 estaciones</span>
+            </div>
+            <div class="org-leaf">
+              <span class="leaf-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M3 9h18"/></svg></span>
+              <span class="leaf-name">Templates</span>
+              <span class="leaf-desc">DOCX con marca</span>
+            </div>
+            <div class="org-leaf">
+              <span class="leaf-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+              <span class="leaf-name">Knowledge</span>
+              <span class="leaf-desc">Quick Wins library, sectores</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="branch">
+          <div class="org-node">
+            <div class="org-tag">Capa operativa</div>
+            <div class="org-name">Operations</div>
+            <div class="org-desc">Las funciones internas</div>
+          </div>
+          <div class="org-leaves">
+            <div class="org-leaf">
+              <span class="leaf-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg></span>
+              <span class="leaf-name">Marketing</span>
+              <span class="leaf-desc">brand, linkedin, content</span>
+            </div>
+            <div class="org-leaf">
+              <span class="leaf-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
+              <span class="leaf-name">Sales</span>
+              <span class="leaf-desc">outreach, playbooks</span>
+            </div>
+            <div class="org-leaf">
+              <span class="leaf-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+              <span class="leaf-name">Accounting</span>
+              <span class="leaf-desc">invoices, expenses, tax</span>
+            </div>
+            <div class="org-leaf">
+              <span class="leaf-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>
+              <span class="leaf-name">Legal</span>
+              <span class="leaf-desc">entity, NDAs, compliance</span>
+            </div>
+            <div class="org-leaf">
+              <span class="leaf-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg></span>
+              <span class="leaf-name">IT</span>
+              <span class="leaf-desc">stack inventory, accounts</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────── STACK INVENTORY ─────────── -->
+<section id="stack" class="dark">
+  <div class="container">
+    <div class="eyebrow"><span class="line"></span>Stack tecnológico</div>
+    <h2 class="section-title reveal">Lo que vamos a usar.</h2>
+    <p class="lede reveal delay-1 muted-text" style="max-width: 58ch;">
+      Lo que se despliega desde día uno. Lo que espera un gatillo para desplegar. Lo que está
+      en investigación.
+    </p>
+
+    <div class="stack-section reveal delay-2">
+      <h3><span class="pill pill-stage1">Stage 1 · ahora</span></h3>
+      <div class="stack-grid">
+        <div class="tool"><div class="tname">Gitea</div><div class="trole">Origen git, selfhosted</div><span class="tprice free">Free</span></div>
+        <div class="tool"><div class="tname">GitHub mirror</div><div class="trole">Backup off-site automático</div><span class="tprice free">Free</span></div>
+        <div class="tool"><div class="tname">age</div><div class="trole">Encriptación vault + secretos</div><span class="tprice free">Free</span></div>
+        <div class="tool"><div class="tname">Google Drive 2TB</div><div class="trole">Activos pesados</div><span class="tprice paid">Paid · personal</span></div>
+        <div class="tool"><div class="tname">NAS local</div><div class="trole">Mirror de activos pesados</div><span class="tprice free">Hardware propio</span></div>
+        <div class="tool"><div class="tname">Obsidian</div><div class="trole">Markdown UX, móvil, grafo</div><span class="tprice free">Free</span></div>
+        <div class="tool"><div class="tname">Pandoc</div><div class="trole">Markdown → DOCX con marca</div><span class="tprice free">Free</span></div>
+        <div class="tool"><div class="tname">Cal.com</div><div class="trole">Scheduling, selfhosted</div><span class="tprice free">Free · selfhosted</span></div>
+        <div class="tool"><div class="tname">Bot Telegram</div><div class="trole">Interfaz humana principal</div><span class="tprice free">Free (API Telegram)</span></div>
+        <div class="tool"><div class="tname">Claude Code</div><div class="trole">Agente primario</div><span class="tprice paid">Paid · Anthropic</span></div>
+        <div class="tool"><div class="tname">Gemini CLI</div><div class="trole">Segunda opinión / revisión</div><span class="tprice freem">Freemium</span></div>
+        <div class="tool"><div class="tname">Notion</div><div class="trole">CRM + docs + meeting notes/transcripción</div><span class="tprice free">$0 · cuenta de JP</span></div>
+        <div class="tool"><div class="tname">Google Meet</div><div class="trole">Reuniones con clientes</div><span class="tprice freem">Freemium</span></div>
+        <div class="tool"><div class="tname">OBS Studio</div><div class="trole">Grabación local audio/video (backup)</div><span class="tprice free">Free · open source</span></div>
+      </div>
+    </div>
+
+    <div class="stack-section reveal delay-3">
+      <h3><span class="pill pill-stage2">Stage 2 · cuando se justifique</span></h3>
+      <div class="stack-grid">
+        <div class="tool"><div class="tname">Codeberg</div><div class="trole">Mirror off-site adicional</div><span class="tprice free">Free</span></div>
+        <div class="tool"><div class="tname">Backblaze B2 / R2</div><div class="trole">Cuando Drive 2TB se llene</div><span class="tprice paid">Paid · ~$6/TB</span></div>
+        <div class="tool"><div class="tname">Bitwarden</div><div class="trole">Cuando logins compartidos sean rutina</div><span class="tprice freem">Freemium</span></div>
+        <div class="tool"><div class="tname">code-server</div><div class="trole">Si algún usuario elige modo Hosted</div><span class="tprice free">Free · selfhosted</span></div>
+        <div class="tool"><div class="tname">DocuSign</div><div class="trole">Primer contrato firmado</div><span class="tprice paid">Paid</span></div>
+        <div class="tool"><div class="tname">Stripe</div><div class="trole">Primera factura emitida</div><span class="tprice freem">% transacción</span></div>
+        <div class="tool"><div class="tname">CRM upgrade</div><div class="trole">Pipeline &gt; 15 clientes activos</div><span class="tprice paid">TBD</span></div>
+        <div class="tool"><div class="tname">Sitio público</div><div class="trole">Cuando la web sea prioridad</div><span class="tprice free">Free · selfhosted</span></div>
+      </div>
+    </div>
+
+    <div class="arch-callout reveal delay-3" style="margin-top: 60px; background: rgba(212, 177, 106, 0.12); border-color: var(--gold-2);">
+      <p style="color: var(--paper);">
+        <strong style="color: var(--gold-2);">Nuevo en v3.</strong> Además de este stack, proponemos un
+        <strong style="color: var(--gold-2);">plan dual de herramientas</strong>: instalar en paralelo las versiones libres
+        de las pagadas (Notion ↔ Anytype, Drive ↔ Nextcloud, Meet ↔ Jitsi, Claude ↔ Ollama, Notion AI ↔ Whisper,
+        DocuSign ↔ Documenso) para aprenderlas, usarlas internamente, y eventualmente ofrecerlas a clientes.
+        Detalle en la siguiente sección.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────── PLAN DUAL (NUEVO EN V3) ─────────── -->
+<section id="dual">
+  <div class="container">
+    <div class="eyebrow"><span class="line"></span>Nuevo en v3 · Filosofía de herramientas</div>
+    <h2 class="section-title reveal">Plan dual: pagadas hoy, libres en paralelo.</h2>
+    <p class="lede reveal delay-1" style="max-width: 62ch;">
+      Usamos las herramientas pagadas que ya conocemos para trabajar bien hoy.
+      <strong>En paralelo</strong>, instalamos las versiones libres en nuestro servidor — sin riesgo,
+      sin tráfico crítico — para aprender a operarlas. Cuando maduren, las ofrecemos a clientes
+      como alternativa más barata y soberana.
+    </p>
+
+    <div class="intro-grid reveal delay-2" style="margin-top: 60px;">
+      <div class="intro-card">
+        <div class="icon-circle">
+          <svg class="icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <h3>¿Por qué hacerlo así?</h3>
+        <p>
+          <strong>1.</strong> Vendemos lo que sabemos operar — eat your own dogfood real.<br>
+          <strong>2.</strong> Probamos antes de prometer — sin uso interno suena a venta.<br>
+          <strong>3.</strong> Reducimos vendor lock-in — si Notion sube 5×, migramos en una semana.<br>
+          <strong>4.</strong> Credibilidad: cuando el cliente pregunta "¿tú lo usas?", la respuesta es "sí, hace meses".
+        </p>
+      </div>
+      <div class="intro-card">
+        <div class="icon-circle">
+          <svg class="icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h0a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h0a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </div>
+        <h3>¿Cómo se opera?</h3>
+        <p>
+          <strong>Producción</strong> (primary) = la pagada o conocida. Trabajo real, sin riesgo.<br>
+          <strong>Shadow</strong> (secondary) = la libre en paralelo. Notas no críticas, experimentos.<br>
+          <strong>Migración</strong> = solo si la libre llega a ≥80% de paridad en flujos críticos.<br>
+          <strong>Oferta al cliente</strong> = software libre gratis + nuestro servicio billable.
+        </p>
+      </div>
+    </div>
+
+    <h3 style="margin-top: 90px; font-size: 28px;" class="reveal">Pares de herramientas — qué entra a shadow.</h3>
+    <p class="reveal delay-1" style="font-size: 16px; margin-top: 8px; max-width: 70ch;">
+      Costo del shadow: <strong>USD 0</strong>. Todo es free + corre en nuestro servidor y NAS existentes.
+    </p>
+
+    <div class="stack-section reveal delay-2" style="margin-top: 40px;">
+      <div class="stack-grid">
+        <div class="tool">
+          <div class="tname">CRM + docs</div>
+          <div class="trole">Hoy: Notion · Shadow: Anytype o AppFlowy</div>
+          <span class="tprice free">$0 shadow</span>
+        </div>
+        <div class="tool">
+          <div class="tname">Transcripción + resúmenes</div>
+          <div class="trole">Hoy: Notion AI · Shadow: Whisper.cpp + Ollama</div>
+          <span class="tprice free">$0 shadow</span>
+        </div>
+        <div class="tool">
+          <div class="tname">Activos pesados</div>
+          <div class="trole">Hoy: Google Drive 2TB · Shadow: Nextcloud en NAS</div>
+          <span class="tprice free">$0 shadow</span>
+        </div>
+        <div class="tool">
+          <div class="tname">Reuniones video</div>
+          <div class="trole">Hoy: Google Meet · Shadow: Jitsi Meet</div>
+          <span class="tprice free">$0 shadow</span>
+        </div>
+        <div class="tool">
+          <div class="tname">Agente IA</div>
+          <div class="trole">Hoy: Claude Code · Shadow: Ollama (Llama 3, Qwen 2.5)</div>
+          <span class="tprice free">$0 shadow</span>
+        </div>
+        <div class="tool">
+          <div class="tname">Firmas electrónicas</div>
+          <div class="trole">Hoy: DocuSign (Stage 2) · Shadow: Documenso</div>
+          <span class="tprice free">$0 shadow</span>
+        </div>
+        <div class="tool">
+          <div class="tname">Calendario</div>
+          <div class="trole">Cal.com — ya self-hosted, no necesita shadow</div>
+          <span class="tprice free">Ya cubierto</span>
+        </div>
+        <div class="tool">
+          <div class="tname">Git origin</div>
+          <div class="trole">Gitea — ya self-hosted, no necesita shadow</div>
+          <span class="tprice free">Ya cubierto</span>
+        </div>
+        <div class="tool">
+          <div class="tname">Pagos</div>
+          <div class="trole">Stripe / Mercado Pago · No hay alternativa self-hosted real</div>
+          <span class="tprice paid">N/A</span>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin-top: 90px; font-size: 28px;" class="reveal">Cronograma — 4 semanas para deploys.</h3>
+    <p class="reveal delay-1" style="font-size: 16px; margin-top: 8px; max-width: 70ch;">
+      Esfuerzo total: ~5-7 días repartidos. Todo en nuestro servidor existente. Después, uso shadow ~2-4 h/sem.
+    </p>
+
+    <div class="roadmap reveal delay-2" style="margin-top: 40px;">
+      <div class="road-step">
+        <div class="dot">S1</div>
+        <h3>Nextcloud + Jitsi Meet</h3>
+        <p>Ambos vienen como docker compose. ~1 día total.</p>
+      </div>
+      <div class="road-step">
+        <div class="dot">S2</div>
+        <h3>Ollama + modelos locales</h3>
+        <p>Llama 3, Qwen 2.5, Mistral. ~1 día.</p>
+      </div>
+      <div class="road-step">
+        <div class="dot">S3</div>
+        <h3>Whisper.cpp + pipeline</h3>
+        <p>Reunión → transcript → resumen local. ~1-2 días.</p>
+      </div>
+      <div class="road-step">
+        <div class="dot">S4</div>
+        <h3>Anytype o AppFlowy</h3>
+        <p>Elegimos uno después de probar ambos. ~1 día.</p>
+      </div>
+    </div>
+
+    <div class="arch-callout reveal delay-3" style="margin-top: 60px; background: var(--info-bg); border-color: var(--navy-3);">
+      <p>
+        <strong>Lo que este plan NO promete (por honestidad).</strong>
+        No todas las herramientas libres alcanzan paridad — Notion AI Meeting Notes es pulido,
+        Whisper + Ollama no va a estar igual desde día uno. Aceptamos el gap y lo documentamos.
+        El tiempo de shadow compite con tiempo de cliente cuando aparezcan — mantenemos cadencia
+        mínima ~2 h/sem para no perder músculo. Si Ollama exige GPU que no tenemos, ese item queda
+        como "experimento" hasta que el ROI justifique comprarla. Pagos electrónicos no tienen
+        alternativa self-hosted real — siempre habrá un Stripe o Mercado Pago detrás.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────── ODOO ─────────── -->
+<section id="odoo">
+  <div class="container">
+    <div class="odoo-hero">
+      <div class="marker">
+        <span class="pill pill-priority">Prioridad alta</span>
+        <span class="pill" style="background: var(--view); color: white;">Decisión pendiente</span>
+      </div>
+      <h2 class="reveal">Odoo podría volverse nuestra columna vertebral.</h2>
+      <p class="lede reveal delay-1" style="margin: 0 auto; max-width: 58ch; text-align: left;">
+        Muchos prospectos PyME en LatAm usan Odoo — el ERP open-source. La edición Community es
+        <strong>gratis y selfhosted</strong>. Se puede desplegar para uso interno y para clientes.
+        Vender lo que se usa. Aprender mientras se ejecuta.
+      </p>
+    </div>
+
+    <div class="odoo-cards">
+      <div class="odoo-card reveal delay-2">
+        <div class="badge">Ángulo 01</div>
+        <h3>Uso interno</h3>
+        <p>
+          Odoo Community para contabilidad, facturación y CRM internos. Gratis. Selfhosted en el
+          servidor. Credibilidad de "<em>eat your own dogfood</em>": cuando se le vende a un
+          cliente, ya se opera así internamente.
+        </p>
+      </div>
+      <div class="odoo-card reveal delay-3">
+        <div class="badge">Ángulo 02</div>
+        <h3>Línea de servicio</h3>
+        <p>
+          Customización + integración con IA. Mercado real y amplio en LatAm. Tickets típicos:
+          configuración inicial, módulos custom, integraciones, capacitación, automatización de
+          procesos vía IA dentro de Odoo. <strong>Categoría billable real.</strong>
+        </p>
+      </div>
+    </div>
+
+    <div class="odoo-quote reveal delay-4">
+      <p>
+        Sobre el posicionamiento — ¿abrazarlo como apuesta de línea de servicio?
+        ¿O mantenerse enfocados en el sistema de 5 skills primero?
+        <br><br>
+        <strong>Nuevo en v3:</strong> Odoo deja de ser un caso aislado. Es el primer ejemplo de una
+        familia completa de servicios — la siguiente sección lista las 5 categorías que el plan dual
+        habilita.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────── LÍNEA DE SERVICIO (NUEVO EN V3) ─────────── -->
+<section id="servicios" class="cream">
+  <div class="container">
+    <div class="eyebrow"><span class="line"></span>Nuevo en v3 · Línea de servicio</div>
+    <h2 class="section-title reveal">Cada categoría de SaaS gringo es una posible línea de servicio.</h2>
+    <p class="lede reveal delay-1" style="max-width: 62ch;">
+      Cuando las herramientas del plan dual maduren internamente (~6 meses de uso shadow),
+      cada una se convierte en una oferta cobrable para clientes. Lo que pagamos como suscripciones
+      se transforma en lo que cobramos como servicios.
+    </p>
+
+    <div class="opinas-list reveal delay-2" style="margin-top: 60px;">
+
+      <div class="opinion">
+        <div class="onum">01</div>
+        <div class="obody">
+          <h3>Migración Notion → Anytype / AppFlowy</h3>
+          <p style="font-size: 16px;">
+            Migración de workspaces del cliente, capacitación del equipo, soporte 30 días.
+            Para PyMEs que quieren reducir gasto recurrente en SaaS.
+          </p>
+          <p style="font-size: 14px; color: var(--muted); margin-top: 8px;">
+            <strong>Ticket aproximado:</strong> USD 800 - 1500.
+          </p>
+        </div>
+      </div>
+
+      <div class="opinion">
+        <div class="onum">02</div>
+        <div class="obody">
+          <h3>Migración Google Drive → Nextcloud</h3>
+          <p style="font-size: 16px;">
+            Deploy en su servidor o cloud, migración de archivos, capacitación, soporte 30 días.
+            Soberanía de datos + control de costos a escala de TB.
+          </p>
+          <p style="font-size: 14px; color: var(--muted); margin-top: 8px;">
+            <strong>Ticket aproximado:</strong> USD 1200 - 2500.
+          </p>
+        </div>
+      </div>
+
+      <div class="opinion">
+        <div class="onum">03</div>
+        <div class="obody">
+          <h3>Reuniones internas: Meet → Jitsi self-hosted</h3>
+          <p style="font-size: 16px;">
+            Deploy de Jitsi en su infraestructura, capacitación del equipo, integración con su
+            calendario. Para empresas con sensibilidad de privacidad o gasto de Meet/Zoom corporativo alto.
+          </p>
+          <p style="font-size: 14px; color: var(--muted); margin-top: 8px;">
+            <strong>Ticket aproximado:</strong> USD 600 - 1200.
+          </p>
+        </div>
+      </div>
+
+      <div class="opinion">
+        <div class="onum">04</div>
+        <div class="obody">
+          <h3>Transcripción local — Whisper + Ollama</h3>
+          <p style="font-size: 16px;">
+            Pipeline self-hosted: reunión → transcript → resumen, todo en el servidor del cliente.
+            Sin enviar audio a terceros. Ideal para sectores regulados o sensibles a privacidad.
+          </p>
+          <p style="font-size: 14px; color: var(--muted); margin-top: 8px;">
+            <strong>Ticket aproximado:</strong> USD 800 - 1500.
+          </p>
+        </div>
+      </div>
+
+      <div class="opinion">
+        <div class="onum">05</div>
+        <div class="obody">
+          <h3>ERP Odoo Community</h3>
+          <p style="font-size: 16px;">
+            Configuración inicial, módulos custom, integraciones, capacitación,
+            <strong>automatización de procesos vía IA dentro de Odoo</strong>.
+            Tickets más grandes que los de software libre simple — Odoo es categoría aparte.
+          </p>
+          <p style="font-size: 14px; color: var(--muted); margin-top: 8px;">
+            <strong>Ticket aproximado:</strong> USD 5K - 25K.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="arch-callout reveal delay-3" style="margin-top: 60px;">
+      <p>
+        <strong>Pregunta esperada del cliente:</strong> "¿Por qué tú usas Notion entonces?"
+        <br><br>
+        <strong>Respuesta honesta:</strong> porque ya teníamos el workflow montado y migrar tiene costo.
+        Pero <strong>sabemos cómo hacer la migración tuya</strong> — conocemos los puntos de dolor
+        porque los estamos enfrentando en paralelo en nuestro propio servidor.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────── CÓMO SE CONECTA CADA USUARIO ─────────── -->
+<section id="install">
+  <div class="container">
+    <div class="eyebrow"><span class="line"></span>Acceso al sistema</div>
+    <h2 class="section-title reveal">¿Cómo se conecta cada usuario?</h2>
+    <p class="lede reveal delay-1" style="max-width: 60ch;">
+      Tres maneras de trabajar — desde "operador par" hasta "todo vía Telegram desde el celular".
+      Cada usuario elige según su tiempo y su apetito de tooling. La decisión es independiente
+      por persona.
+    </p>
+
+    <div class="interface-grid">
+
+      <div class="interface-card reveal delay-2">
+        <div class="letter">A</div>
+        <div class="label-tag">Operador par</div>
+        <div class="iname">Heavy</div>
+        <ul class="attrs">
+          <li><span class="k">En la laptop</span><span>Claude Code · Gemini CLI · clone de git · llave de encriptación</span></li>
+          <li><span class="k">Poder</span><span>Mismo nivel que el operador principal. Trabaja directamente en cualquier carpeta.</span></li>
+          <li><span class="k">Setup</span><span>Unas horas + mantenimiento de tooling</span></li>
+          <li><span class="k">Secretos</span><span>Viven también en la laptop del usuario</span></li>
+        </ul>
+      </div>
+
+      <div class="interface-card reveal delay-3">
+        <div class="letter">B</div>
+        <div class="label-tag">Navegador remoto</div>
+        <div class="iname">Hosted</div>
+        <ul class="attrs">
+          <li><span class="k">En la laptop</span><span>Navegador web + cliente Tailscale</span></li>
+          <li><span class="k">Poder</span><span>Igual que Heavy, pero las herramientas corren remoto en el servidor</span></li>
+          <li><span class="k">Setup</span><span>~15 minutos (login en navegador)</span></li>
+          <li><span class="k">Secretos</span><span>Solo en el servidor</span></li>
+        </ul>
+      </div>
+
+      <div class="interface-card recommended reveal delay-4">
+        <div class="rec-tag">Default sugerido</div>
+        <div class="letter">C</div>
+        <div class="label-tag">Telegram + Gitea web</div>
+        <div class="iname">Light</div>
+        <ul class="attrs">
+          <li><span class="k">En la laptop</span><span>Navegador + app de Telegram. Eso es todo.</span></li>
+          <li><span class="k">Poder</span><span>Bot para operar, Gitea web para leer documentos</span></li>
+          <li><span class="k">Setup</span><span>Cero — ambas apps ya existen</span></li>
+          <li><span class="k">Nota</span><span>Cada usuario decide por separado.</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────── OTRAS DECISIONES POR TOMAR ─────────── -->
+<section id="otras">
+  <div class="container">
+    <div class="eyebrow"><span class="line"></span>Decisiones pendientes</div>
+    <h2 class="section-title reveal">Otras decisiones por tomar.</h2>
+    <p class="lede reveal delay-1" style="max-width: 60ch;">
+      Items que la propuesta deja abiertos para resolución conjunta. Cada uno admite acepto, edito
+      o veto.
+    </p>
+
+    <div class="opinas-list">
+      <div class="opinion reveal delay-2" style="border-left: 4px solid var(--view); padding-left: 20px;">
+        <div class="onum" style="color: var(--view);">✓</div>
+        <div class="obody">
+          <h3>Privacidad de grabaciones <span style="color: var(--view); font-size: 14px; font-weight: 600;">— CERRADA por JP</span></h3>
+          <p>
+            <strong>Decisión:</strong> usar Notion AI Meeting Notes (transcripts + resúmenes) con
+            disciplina de revisión inmediata (≤15 min al colgar). Export del resumen revisado al repo en
+            <code>clients/&lt;cliente&gt;/transcripts/</code>. Audio se elimina del Notion después de revisar
+            (a menos que haya razón explícita para retener). Whisper.cpp baja a shadow del plan dual,
+            no Stage 1.
+          </p>
+        </div>
+      </div>
+
+      <div class="opinion reveal delay-2">
+        <div class="onum">01</div>
+        <div class="obody">
+          <h3>Aprobación del plan dual de herramientas <span style="font-size: 13px; color: var(--gold); font-weight: 600;">NUEVO v3</span></h3>
+          <p>
+            ¿Aprobamos desplegar las herramientas libres en shadow desde Stage 1 (5-7 días de mi tiempo en
+            4 semanas, USD 0 de costo)? Recomendación: <strong>sí</strong>. Upside alto (línea de servicio +
+            credibilidad + reducción de lock-in), costo solo en tiempo.
+          </p>
+        </div>
+      </div>
+
+      <div class="opinion reveal delay-2">
+        <div class="onum">02</div>
+        <div class="obody">
+          <h3>Posicionamiento de Odoo + línea de servicio en software libre</h3>
+          <p>
+            ¿Abrazar la línea de servicio basada en software libre que operamos? Catálogo de 5 servicios
+            en la sección anterior — desde migración Notion→Anytype (USD 800-1500) hasta ERP Odoo
+            (USD 5K-25K). Alternativa: enfocar solo el sistema de 5 skills primero.
+          </p>
+        </div>
+      </div>
+
+      <div class="opinion reveal delay-3">
+        <div class="onum">03</div>
+        <div class="obody">
+          <h3>Formalización del protocolo de sociedad</h3>
+          <p>El mecanismo "15 min mano levantada + respuesta escrita en 12-24h" se codifica en un documento de partnership. ¿Se firma la versión escrita?</p>
+        </div>
+      </div>
+
+      <div class="opinion reveal delay-3">
+        <div class="onum">04</div>
+        <div class="obody">
+          <h3>Primer servicio pagado después del Diagnóstico</h3>
+          <p>Plan Maestro menciona Diseño → Implementación → Seguimiento → Retainer. ¿Cuál es el primer producto pago realista — Diseño, o salto directo a Implementación para pilotos satisfechos?</p>
+        </div>
+      </div>
+
+      <div class="opinion reveal delay-4">
+        <div class="onum">05</div>
+        <div class="obody">
+          <h3>Criterios del clasificador de prospectos</h3>
+          <p>El formulario de pre-calificación de 5 preguntas existe — ¿qué significa "calificado"? Mínimo de facturación, sector, disposición al cambio.</p>
+        </div>
+      </div>
+
+      <div class="opinion reveal delay-4">
+        <div class="onum">06</div>
+        <div class="obody">
+          <h3>Split de costos pre-revenue <span style="font-size: 13px; color: var(--gold); font-weight: 600;">NUEVO v3</span></h3>
+          <p>
+            Mientras no haya ingresos: <strong>Ricardo</strong> paga Claude Code + Drive 2TB +
+            hardware/luz del servidor (preexistente). <strong>JP</strong> aporta Notion (ya lo paga).
+            <strong>Dominio</strong> + contador/legal (cuando se constituya entity) — definir.
+            Quien adelantó se reembolsa con primer ingreso o se incorpora al cálculo de equity.
+            Formalizar en <code>00_PARTNERSHIP/cost-sharing-agreement.md</code>.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────── CAMINO ─────────── -->
+<section id="camino" class="cream">
+  <div class="container">
+    <div class="eyebrow"><span class="line"></span>Roadmap</div>
+    <h2 class="section-title reveal">Del documento al primer piloto.</h2>
+    <p class="lede reveal delay-1" style="max-width: 60ch;">
+      Cuatro hitos. Skills 2-5 pueden ir en paralelo al scaffold para acelerar el camino al primer
+      diagnóstico.
+    </p>
+
+    <div class="roadmap">
+      <div class="road-step reveal delay-2">
+        <div class="dot">01</div>
+        <h3>Aprobación de la propuesta</h3>
+        <p>Revisión de este documento. Acordar términos, ajustar items abiertos, dar luz verde al scaffold.</p>
+      </div>
+      <div class="road-step reveal delay-3">
+        <div class="dot">02</div>
+        <h3>Scaffold + Skills 2-5 + shadows (paralelo)</h3>
+        <p>
+          Crear estructura, vault, secretos, respaldos, bot v0. En paralelo: construir Skills 2-5
+          (Skill 1 ya existe) <strong>y desplegar shadows del plan dual</strong> en 4 semanas
+          (Nextcloud, Jitsi, Ollama, Whisper, Anytype/AppFlowy).
+        </p>
+      </div>
+      <div class="road-step reveal delay-4">
+        <div class="dot">03</div>
+        <h3>Primer diagnóstico piloto</h3>
+        <p>Correr la cadena completa con un cliente piloto. Refinar prompts. Validar entregables. Sin cobro.</p>
+      </div>
+      <div class="road-step reveal delay-4">
+        <div class="dot">04</div>
+        <h3>Primer Diagnóstico pagado</h3>
+        <p>Cuando la calidad sea 8/10 estable y exista al menos un caso de éxito documentado. Activar modelo de cobro.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────── FIRMA ─────────── -->
+<section id="firma" class="dark">
+  <div class="container">
+    <div class="eyebrow"><span class="line"></span>Firma</div>
+    <h2 class="section-title reveal">La firma transforma "propuesto" en "aprobado".</h2>
+    <p class="lede reveal delay-1" style="max-width: 58ch;">
+      Una vez firmado, se puede empezar el scaffold. Items editados se marcan como enmendados.
+      Items vetados se marcan como rechazados con razonamiento.
+    </p>
+
+    <div class="approval-grid">
+
+      <div class="reveal delay-2">
+        <h3>Interfaz elegida</h3>
+        <div class="choice-list" id="interface-choices">
+          <div class="choice" data-choice="A">
+            <span class="radio"></span>
+            <div class="body"><strong>A · Heavy</strong> — operador par</div>
+          </div>
+          <div class="choice" data-choice="B">
+            <span class="radio"></span>
+            <div class="body"><strong>B · Hosted</strong> — navegador remoto</div>
+          </div>
+          <div class="choice" data-choice="C">
+            <span class="radio"></span>
+            <div class="body"><strong>C · Light</strong> — Telegram + Gitea web</div>
+          </div>
+        </div>
+
+        <h3 style="margin-top: 40px;">Plan dual de herramientas <span style="font-size: 13px; color: var(--gold-2); font-weight: 600;">NUEVO v3</span></h3>
+        <div class="choice-list" id="dual-choices">
+          <div class="choice" data-choice="aprobar">
+            <span class="radio"></span>
+            <div class="body"><strong>Aprobar Stage 1</strong> — shadows en las primeras 4 semanas</div>
+          </div>
+          <div class="choice" data-choice="despues">
+            <span class="radio"></span>
+            <div class="body"><strong>Después</strong> — reabrir cuando se justifique</div>
+          </div>
+          <div class="choice" data-choice="solo-odoo">
+            <span class="radio"></span>
+            <div class="body"><strong>Solo Odoo</strong> — mantener solo el angulo Odoo, no el resto</div>
+          </div>
+        </div>
+
+        <h3 style="margin-top: 40px;">Aprobación general</h3>
+        <div class="choice-list" id="approval-choices">
+          <div class="choice" data-choice="accept">
+            <span class="radio"></span>
+            <div class="body"><strong>Acepto</strong> — la propuesta sigue como está</div>
+          </div>
+          <div class="choice" data-choice="amend">
+            <span class="radio"></span>
+            <div class="body"><strong>Acepto con ediciones</strong> — anotadas al lado</div>
+          </div>
+          <div class="choice" data-choice="decline">
+            <span class="radio"></span>
+            <div class="body"><strong>Declino</strong> — volver a conversar las bases</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal delay-3">
+        <h3>Notas, ediciones, vetos</h3>
+        <textarea class="notes-area" placeholder="Item que se quiera editar, vetar, o discutir…&#10;&#10;Ejemplo:&#10;3. CONFLICT_PROTOCOL — agregar X&#10;5. Respaldos — Codeberg desde día 1, no esperar Fase B&#10;Odoo — gusta, pero solo uso interno por ahora"></textarea>
+      </div>
+    </div>
+
+    <div class="sign-row">
+      <div class="signer">
+        <div class="line">&nbsp;</div>
+        <span class="name">Juan Pablo Mejía · Asesor Estratégico · Fecha</span>
+      </div>
+      <div class="signer">
+        <div class="line">&nbsp;</div>
+        <span class="name">Ricardo Mejía · Fundador · Fecha</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  Mejía, IA &amp; CIA · Propuesta de sistema operativo · v3 · 2026-05-12
+</footer>
+
+<script>
+  // Scroll progress bar
+  const progress = document.getElementById('progress');
+  function updateProgress() {
+    const max = document.body.scrollHeight - window.innerHeight;
+    progress.style.transform = `scaleX(${Math.min(window.scrollY / max, 1)})`;
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+
+  // Reveal on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Foundation card expand
+  document.querySelectorAll('.found-card').forEach(card => {
+    card.addEventListener('click', () => card.classList.toggle('expanded'));
+  });
+
+  // Section nav active state
+  const sections = document.querySelectorAll('main > section[id]');
+  const navLinks = document.querySelectorAll('.topbar nav a');
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+        });
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(s => navObserver.observe(s));
+
+  // Radio button groups
+  function setupRadioGroup(groupId) {
+    const group = document.getElementById(groupId);
+    if (!group) return;
+    group.querySelectorAll('.choice').forEach(choice => {
+      choice.addEventListener('click', () => {
+        group.querySelectorAll('.choice').forEach(c => c.classList.remove('selected'));
+        choice.classList.add('selected');
+      });
+    });
+  }
+  setupRadioGroup('interface-choices');
+  setupRadioGroup('dual-choices');
+  setupRadioGroup('approval-choices');
+</script>
+
+</body>
+</html>

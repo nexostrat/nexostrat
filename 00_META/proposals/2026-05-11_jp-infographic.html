@@ -1,0 +1,1849 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mejía, IA & CIA — Propuesta de Arquitectura</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Manrope:wght@200..800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:        #0f2a44;
+    --navy-2:      #1e4670;
+    --navy-3:      #2c5a8a;
+    --gold:        #c8a85a;
+    --gold-2:      #d9bd75;
+    --gold-3:      #f3e6c4;
+    --paper:       #f6f5f1;
+    --paper-2:     #ecebe5;
+    --ink:         #15202b;
+    --muted:       #6b7588;
+    --rule:        #d1d4d8;
+    --rule-strong: #98a0ad;
+    --critical:    #a8392d;
+    --critical-bg: #f7e8e5;
+    --view:        #2c6e3f;
+    --view-bg:     #e6efe8;
+    --info-bg:     #e8eef5;
+
+    --serif:       'Fraunces', 'Times New Roman', serif;
+    --sans:        'Manrope', system-ui, sans-serif;
+    --mono:        'JetBrains Mono', 'Menlo', monospace;
+
+    --page-w:      297mm;
+    --page-h:      210mm;
+    --pad-h:       18mm;
+    --pad-v:       14mm;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: #d8d6cf;
+    color: var(--ink);
+    font-family: var(--sans);
+    font-weight: 400;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    padding: 24px 0;
+  }
+
+  /* ─────────── Page frame ─────────── */
+  .page {
+    width: var(--page-w);
+    height: var(--page-h);
+    margin: 0 auto 18px auto;
+    background: var(--paper);
+    color: var(--ink);
+    padding: var(--pad-v) var(--pad-h);
+    box-shadow: 0 6px 24px rgba(15, 42, 68, 0.08), 0 1px 2px rgba(15, 42, 68, 0.06);
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+    display: flex;
+    flex-direction: column;
+  }
+  .page:last-child { page-break-after: auto; }
+
+  /* Subtle paper texture */
+  .page::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      radial-gradient(circle at 12% 22%, rgba(15, 42, 68, 0.012) 0%, transparent 30%),
+      radial-gradient(circle at 88% 78%, rgba(200, 168, 90, 0.014) 0%, transparent 30%);
+    z-index: 0;
+  }
+  .page > * { position: relative; z-index: 1; }
+
+  /* ─────────── Folio (header / footer) ─────────── */
+  .folio {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 6mm;
+    border-bottom: 0.4px solid var(--rule);
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .folio .brand { color: var(--navy); font-weight: 500; letter-spacing: 0.12em; }
+  .folio .meta  { display: flex; gap: 14px; }
+
+  .footer {
+    margin-top: auto;
+    padding-top: 4mm;
+    border-top: 0.4px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+  }
+  .footer .num {
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--navy);
+    letter-spacing: 0;
+  }
+
+  /* ─────────── Typography ─────────── */
+  h1.cover-title {
+    font-family: var(--serif);
+    font-variation-settings: "opsz" 144, "wght" 320, "SOFT" 50;
+    font-size: 96px;
+    line-height: 0.92;
+    letter-spacing: -0.025em;
+    color: var(--navy);
+    font-style: italic;
+  }
+  h1.page-title {
+    font-family: var(--serif);
+    font-variation-settings: "opsz" 100, "wght" 380;
+    font-size: 44px;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: var(--navy);
+    margin-top: 8mm;
+  }
+  h2 {
+    font-family: var(--serif);
+    font-variation-settings: "opsz" 24, "wght" 450;
+    font-size: 22px;
+    line-height: 1.15;
+    letter-spacing: -0.012em;
+    color: var(--navy);
+    margin: 6mm 0 2mm 0;
+  }
+  h3 {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin: 4mm 0 2mm 0;
+  }
+  p { font-size: 12px; line-height: 1.55; color: var(--ink); }
+  small, .small { font-size: 10.5px; line-height: 1.5; color: var(--muted); }
+  .label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  .display-num {
+    font-family: var(--serif);
+    font-variation-settings: "opsz" 144, "wght" 280;
+    font-size: 64px;
+    line-height: 1;
+    color: var(--gold);
+    font-style: italic;
+  }
+  code, .mono {
+    font-family: var(--mono);
+    font-size: 0.92em;
+    color: var(--navy-2);
+  }
+  em { font-style: italic; }
+  strong { font-weight: 700; color: var(--navy); }
+  ul, ol { padding-left: 16px; }
+  li { font-size: 12px; line-height: 1.55; margin-bottom: 2px; }
+
+  /* ─────────── Reusable building blocks ─────────── */
+  .lede {
+    font-family: var(--serif);
+    font-variation-settings: "opsz" 14, "wght" 380;
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--navy);
+    max-width: 65ch;
+  }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6mm; }
+  .stack { display: flex; flex-direction: column; gap: 3mm; }
+  .row   { display: flex; gap: 6mm; align-items: flex-start; }
+
+  .card {
+    background: var(--paper);
+    border: 0.5px solid var(--rule);
+    padding: 6mm 7mm;
+    border-radius: 1.5px;
+  }
+  .card.dark {
+    background: var(--navy);
+    color: #f3f0e6;
+    border: none;
+  }
+  .card.dark h2, .card.dark h3 { color: var(--gold-2); }
+  .card.dark p, .card.dark li { color: #e2e0d4; }
+  .card.dark code, .card.dark .mono { color: var(--gold-2); }
+  .card.dark .label { color: var(--gold-2); }
+  .card.gold { background: var(--gold-3); border-color: var(--gold); }
+  .card.muted { background: var(--paper-2); }
+
+  .pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-family: var(--mono);
+    font-size: 8.5px;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .pill-critical { background: var(--critical); color: white; }
+  .pill-view     { background: var(--view); color: white; }
+  .pill-info     { background: var(--navy); color: var(--gold-2); }
+  .pill-stage1   { background: var(--gold); color: var(--navy); }
+  .pill-stage2   { background: var(--paper-2); color: var(--navy-2); border: 0.5px solid var(--rule-strong); }
+  .pill-priority { background: var(--critical-bg); color: var(--critical); border: 0.5px solid var(--critical); }
+
+  .legend-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .legend-tag .swatch {
+    width: 12px; height: 12px;
+    display: inline-block;
+    border-radius: 2px;
+  }
+
+  /* ─────────── Tables ─────────── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+  }
+  th, td {
+    text-align: left;
+    padding: 4px 8px 4px 0;
+    border-bottom: 0.4px solid var(--rule);
+    vertical-align: top;
+    line-height: 1.45;
+  }
+  th {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    padding-bottom: 6px;
+    border-bottom: 0.6px solid var(--navy);
+  }
+  table.compact td, table.compact th { font-size: 10.5px; padding: 3px 6px 3px 0; }
+  table.compact th { padding-bottom: 4px; }
+
+  /* ─────────── Page-specific: Cover ─────────── */
+  .cover {
+    justify-content: space-between;
+    background: var(--paper);
+  }
+  .cover::after {
+    content: "";
+    position: absolute;
+    right: -120px; top: -120px;
+    width: 480px; height: 480px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200, 168, 90, 0.10) 0%, transparent 60%);
+  }
+  .cover-mark {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: auto;
+  }
+  .cover-mark .glyph {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: var(--gold-2);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 38px;
+    font-weight: 400;
+  }
+  .cover-mark .wordmark {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--navy);
+  }
+  .cover-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 12mm;
+  }
+  .cover-meta .col {
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .cover-meta .col span:first-child {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .cover-meta .col span:last-child {
+    font-family: var(--serif);
+    font-size: 16px;
+    color: var(--navy);
+    font-style: italic;
+  }
+  .cover-status {
+    display: inline-block;
+    padding: 6px 14px;
+    border: 0.7px solid var(--navy);
+    border-radius: 1px;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--navy);
+  }
+
+  /* ─────────── Decomposition diagram ─────────── */
+  .decomp {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 4mm;
+    margin-top: 6mm;
+  }
+  .decomp .node {
+    background: var(--paper);
+    border: 0.7px solid var(--navy);
+    padding: 5mm;
+    display: flex; flex-direction: column; gap: 2mm;
+    position: relative;
+  }
+  .decomp .node .num {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 28px;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .decomp .node h3 { margin: 0; color: var(--navy); font-size: 11.5px; }
+  .decomp .node p { font-size: 10.5px; color: var(--muted); }
+  .decomp .span-2 { grid-column: span 2; }
+  .decomp .span-4 { grid-column: span 4; }
+  .decomp .top {
+    background: var(--navy);
+    color: var(--paper);
+    border-color: var(--navy);
+  }
+  .decomp .top h3, .decomp .top p { color: #e2e0d4; }
+  .decomp .top .num { color: var(--gold-2); }
+  .decomp .bot { background: var(--gold-3); border-color: var(--gold); }
+
+  /* ─────────── Folder tree ─────────── */
+  .tree {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    line-height: 1.7;
+    color: var(--navy);
+    background: var(--paper-2);
+    padding: 6mm 8mm;
+    border-left: 2px solid var(--gold);
+    white-space: pre;
+  }
+  .tree .comment { color: var(--muted); font-style: italic; }
+
+  /* ─────────── Production chain ─────────── */
+  .chain {
+    display: grid;
+    grid-template-columns: repeat(13, 1fr);
+    gap: 1.5mm;
+    margin-top: 6mm;
+  }
+  .chain .station {
+    background: var(--paper);
+    border: 0.5px solid var(--rule);
+    padding: 4mm 2mm 3mm 2mm;
+    display: flex; flex-direction: column; gap: 1mm;
+    text-align: center;
+    min-height: 36mm;
+  }
+  .chain .station .id {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--gold);
+    letter-spacing: 0.06em;
+    font-weight: 600;
+  }
+  .chain .station .name {
+    font-family: var(--sans);
+    font-size: 8.5px;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1.2;
+    margin-top: 2mm;
+  }
+  .chain .station .phase {
+    font-family: var(--mono);
+    font-size: 7px;
+    color: var(--muted);
+    margin-top: auto;
+    padding-top: 2mm;
+    border-top: 0.3px solid var(--rule);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .chain .station.diagnostic { background: var(--info-bg); }
+  .chain .station.proposal { background: var(--gold-3); }
+  .chain .station.execution { background: var(--view-bg); }
+  .chain-lanes {
+    margin-top: 3mm;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2mm;
+  }
+  .chain-lanes .lane {
+    background: var(--paper);
+    padding: 3mm 5mm;
+    border: 0.5px solid var(--rule);
+    border-left: 2px solid var(--navy-2);
+    font-size: 10px;
+  }
+  .chain-lanes .lane strong { color: var(--navy-2); display: block; font-size: 10px; }
+
+  /* ─────────── Persona cards ─────────── */
+  .persona-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 5mm;
+    margin-top: 4mm;
+  }
+  .persona {
+    background: var(--paper);
+    border: 0.6px solid var(--rule);
+    padding: 6mm;
+    display: flex; flex-direction: column; gap: 3mm;
+    position: relative;
+  }
+  .persona::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--gold);
+  }
+  .persona .scope-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .persona .name {
+    font-family: var(--serif);
+    font-variation-settings: "opsz" 24, "wght" 450;
+    font-size: 26px;
+    color: var(--navy);
+    line-height: 1;
+  }
+  .persona .path {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--navy-2);
+  }
+  .persona .role { font-size: 11px; color: var(--ink); line-height: 1.45; }
+
+  /* ─────────── Communication & agent diagrams ─────────── */
+  .hub-diagram {
+    background: var(--paper);
+    border: 0.6px solid var(--rule);
+    padding: 8mm;
+    margin-top: 4mm;
+    position: relative;
+  }
+  .hub-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6mm;
+    align-items: center;
+    text-align: center;
+  }
+  .hub-grid .invocation {
+    padding: 4mm;
+    background: var(--paper-2);
+    border: 0.5px solid var(--rule);
+    font-size: 10.5px;
+  }
+  .hub-grid .invocation strong {
+    display: block;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2mm;
+  }
+  .hub-grid .center {
+    background: var(--navy);
+    color: var(--paper);
+    padding: 6mm;
+    border-radius: 50%;
+    aspect-ratio: 1;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 18px;
+    line-height: 1.1;
+  }
+
+  /* ─────────── Stack inventory ─────────── */
+  .stack-table th, .stack-table td { padding: 5px 8px 5px 0; }
+  .stack-table td.tool { font-family: var(--sans); font-weight: 600; color: var(--navy); font-size: 11.5px; }
+  .stack-table td.role { color: var(--ink); }
+
+  /* ─────────── Big quote / Odoo callout ─────────── */
+  .priority-banner {
+    background: var(--navy);
+    color: var(--paper);
+    padding: 10mm 12mm;
+    margin: 5mm 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .priority-banner::after {
+    content: "";
+    position: absolute;
+    right: -40px; top: -40px;
+    width: 240px; height: 240px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--gold) 0%, transparent 70%);
+    opacity: 0.16;
+  }
+  .priority-banner .label-row {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 4mm;
+  }
+  .priority-banner h2 {
+    font-family: var(--serif);
+    font-variation-settings: "opsz" 100, "wght" 400;
+    font-style: italic;
+    font-size: 38px;
+    line-height: 1.05;
+    color: var(--gold-2);
+    margin: 0;
+  }
+  .priority-banner p { color: #e2e0d4; font-size: 12px; line-height: 1.55; }
+
+  /* ─────────── Roadmap timeline ─────────── */
+  .timeline {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 0;
+    margin-top: 6mm;
+    border-top: 2px solid var(--gold);
+    padding-top: 2mm;
+    position: relative;
+  }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    left: 0; right: 0;
+    height: 12px;
+    background: transparent;
+  }
+  .timeline .stage {
+    padding: 4mm 5mm 4mm 0;
+    position: relative;
+  }
+  .timeline .stage::before {
+    content: "";
+    position: absolute;
+    top: -8px; left: 0;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid var(--paper);
+    box-shadow: 0 0 0 1.5px var(--gold);
+  }
+  .timeline .stage .num {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 28px;
+    color: var(--navy);
+    line-height: 1;
+  }
+  .timeline .stage h3 { color: var(--navy); margin-top: 2mm; }
+  .timeline .stage p { font-size: 10.5px; }
+
+  /* ─────────── JP-DECIDES interface card ─────────── */
+  .interface-card {
+    display: flex;
+    flex-direction: column;
+    border: 0.7px solid var(--rule);
+    background: var(--paper);
+  }
+  .interface-card .interface-head {
+    padding: 6mm 7mm 4mm 7mm;
+    border-bottom: 0.4px solid var(--rule);
+  }
+  .interface-card .interface-head .letter {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 56px;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .interface-card .interface-head .label {
+    color: var(--navy);
+    margin-top: 2mm;
+  }
+  .interface-card .interface-head h2 {
+    font-size: 24px;
+    margin: 1mm 0 0 0;
+    line-height: 1.1;
+  }
+  .interface-card .interface-body {
+    padding: 4mm 7mm 6mm 7mm;
+    display: flex; flex-direction: column; gap: 2mm;
+    font-size: 10.5px;
+  }
+  .interface-card .interface-body .row {
+    display: flex; gap: 4px;
+  }
+  .interface-card .interface-body .k {
+    font-family: var(--mono);
+    font-size: 8.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    width: 64px;
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+  .interface-card .interface-body .v {
+    font-size: 10.5px;
+    color: var(--ink);
+    line-height: 1.45;
+    flex: 1;
+  }
+  .interface-card.recommended { border: 1.2px solid var(--gold); }
+  .interface-card.recommended .interface-head .letter { color: var(--navy); }
+  .interface-card .rec-banner {
+    background: var(--gold);
+    color: var(--navy);
+    padding: 2mm 5mm;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  /* ─────────── Sign-off page ─────────── */
+  .signoff-block {
+    border-top: 0.7px solid var(--navy);
+    margin-top: 8mm;
+    padding-top: 5mm;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12mm;
+  }
+  .signoff-block .signer {
+    display: flex; flex-direction: column; gap: 2mm;
+  }
+  .signoff-block .signer .line {
+    border-bottom: 0.6px solid var(--navy);
+    height: 16mm;
+    margin-bottom: 1mm;
+  }
+  .signoff-block .signer .name {
+    font-family: var(--serif);
+    font-size: 16px;
+    color: var(--navy);
+    font-style: italic;
+  }
+  .signoff-block .signer .role {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+
+  /* ─────────── Print rules ─────────── */
+  @page {
+    size: A4 landscape;
+    margin: 0;
+  }
+  @media print {
+    html, body { background: white; }
+    body { padding: 0; }
+    .page {
+      width: 297mm;
+      height: 210mm;
+      margin: 0;
+      box-shadow: none;
+      page-break-after: always;
+    }
+    .page:last-child { page-break-after: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─────────────────────────────────────────────────── PAGE 1 — Cover -->
+<section class="page cover">
+  <div class="cover-mark">
+    <div class="glyph">M</div>
+    <div class="wordmark">Mejía, IA &amp; CIA · Confidencial</div>
+  </div>
+
+  <div style="margin-top: -10mm">
+    <p class="label" style="color: var(--gold); margin-bottom: 8mm">Propuesta de Arquitectura — v1</p>
+    <h1 class="cover-title">El sistema<br>operativo<br>de la firma.</h1>
+    <p class="lede" style="margin-top: 14mm; max-width: 70%;">
+      Cómo Mejía, IA &amp; CIA va a operar como sociedad de dos: dónde vive el cerebro de la compañía,
+      cómo se organiza, cómo trabajan los agentes de IA dentro de él, y cómo nos comunicamos con el sistema.
+      Documento para revisión de Juan Pablo antes de construir.
+    </p>
+  </div>
+
+  <div class="cover-meta">
+    <div class="col">
+      <span>Preparado por</span>
+      <span>Ricardo Mejía + Claude</span>
+    </div>
+    <div class="col">
+      <span>Fecha</span>
+      <span>11 de Mayo, 2026</span>
+    </div>
+    <div class="col">
+      <span>Estado</span>
+      <span class="cover-status">Propuesto</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────── PAGE 2 — Overview / Legend -->
+<section class="page">
+  <div class="folio">
+    <span class="brand">Mejía, IA &amp; CIA</span>
+    <span class="meta"><span>Propuesta de Arquitectura</span><span>02 / 14</span></span>
+  </div>
+
+  <h1 class="page-title">Cómo leer este documento.</h1>
+  <p class="lede" style="margin-top: 6mm">
+    Este documento describe la arquitectura propuesta del cerebro de la compañía: la base técnica
+    donde van a vivir todos los procesos, decisiones y entregables de Mejía, IA &amp; CIA. No es una
+    implementación todavía — es una propuesta para que JP la acepte, edite, o decline antes de
+    construir nada.
+  </p>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; margin-top: 10mm;">
+
+    <div>
+      <h3>El cerebro como sistema</h3>
+      <p>
+        El "cerebro" es un repositorio de archivos (carpetas, markdown, scripts, datos) que vive en el
+        servidor de Ricardo, con copias de respaldo automáticas, encriptación selectiva para documentos
+        sensibles, y un bot de Telegram como interfaz humana. Es una versión liviana del patrón de
+        AI Brain personal que ya usa Ricardo — adaptado para que JP y Ricardo lo operen juntos.
+      </p>
+      <h3 style="margin-top: 6mm">Cinco sub-sistemas</h3>
+      <p>
+        El cerebro se compone de cinco capas que se construyen en orden. La revisión de JP cubre las
+        cinco: <em>Fundamentos</em> (dónde vive, seguridad, respaldos), <em>Arquitectura</em>
+        (estructura de carpetas y comunicación), <em>Agentes</em> (trabajo automatizado),
+        <em>Bot de Telegram</em> (interfaz humana), y la <em>Presentación a JP</em> — este mismo documento.
+      </p>
+    </div>
+
+    <div>
+      <h3>Convenciones de color a lo largo del documento</h3>
+      <div style="display: flex; flex-direction: column; gap: 3mm; margin-top: 3mm;">
+        <div class="legend-tag">
+          <span class="pill pill-critical">JP decide</span>
+          <span>— una decisión que sólo a ti te corresponde (toca tu setup personal)</span>
+        </div>
+        <div class="legend-tag">
+          <span class="pill pill-view">JP opina</span>
+          <span>— una decisión donde tu input pesa, vale la pena escuchar</span>
+        </div>
+        <div class="legend-tag">
+          <span class="pill pill-info">Decidido</span>
+          <span>— una decisión que Ricardo + Claude ya cerraron; tú puedes vetar o ajustar</span>
+        </div>
+        <div class="legend-tag">
+          <span class="pill pill-priority">Prioridad alta</span>
+          <span>— item que merece tu atención especial al revisar</span>
+        </div>
+      </div>
+
+      <h3 style="margin-top: 8mm">Qué hacer al terminar de leer</h3>
+      <p>
+        Para cada sección: <strong>acepta</strong>, <strong>edita</strong>, o
+        <strong>declina</strong>. Donde aparezca <span class="pill pill-critical">JP decide</span> —
+        ahí elige una opción. Donde aparezca <span class="pill pill-view">JP opina</span> — déjanos
+        saber qué piensas. La última página tiene un espacio para firmar tu aprobación general.
+      </p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>v1.0 — 2026-05-11</span>
+    <span class="num">02</span>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────── PAGE 3 — System decomposition -->
+<section class="page">
+  <div class="folio">
+    <span class="brand">Mejía, IA &amp; CIA</span>
+    <span class="meta"><span>Descomposición del Sistema</span><span>03 / 14</span></span>
+  </div>
+
+  <h1 class="page-title">El sistema en cinco partes.</h1>
+  <p class="lede" style="margin-top: 4mm">
+    Cada capa habilita a la siguiente. Empezamos por los Fundamentos porque todo lo demás depende de
+    decisiones de seguridad, respaldo, y acceso. La Arquitectura define la forma; los Agentes son el
+    trabajo automático; el Bot es nuestra ventana al sistema. Esta presentación es la quinta capa: lo
+    que estás leyendo.
+  </p>
+
+  <div class="decomp">
+    <div class="node top span-4">
+      <div style="display: flex; justify-content: space-between; align-items: baseline">
+        <div>
+          <span class="num">01</span>
+          <h3 style="margin-top: 2mm">Fundamentos</h3>
+        </div>
+        <span class="pill pill-info">condiciona todo lo demás</span>
+      </div>
+      <p>Dónde vive el cerebro · seguridad · vault encriptado · gestión de credenciales · respaldos múltiples · permisos.</p>
+    </div>
+
+    <div class="node span-2">
+      <span class="num">02</span>
+      <h3>Arquitectura</h3>
+      <p>Estructura de carpetas · cadena de producción por cliente · personas/CLAUDE.md · comunicación entre carpetas (eventos en lugar de memos).</p>
+    </div>
+
+    <div class="node span-2">
+      <span class="num">03</span>
+      <h3>Agentes</h3>
+      <p>Marco liviano para trabajo automatizado · un agente por skill, por orquestación · cuatro caminos de invocación (bot, eventos, cron, CLI).</p>
+    </div>
+
+    <div class="node span-2">
+      <span class="num">04</span>
+      <h3>Bot de Telegram</h3>
+      <p>Interfaz humana principal · 3 canales (grupo + DMs) · capturas, operaciones, escalamiento a IA, notificaciones.</p>
+    </div>
+
+    <div class="node bot span-2">
+      <span class="num">05</span>
+      <h3>Esta presentación</h3>
+      <p>El entregable de la sesión de planeación. Lo que estás leyendo. La firma de JP transforma "propuesto" en "aprobado".</p>
+    </div>
+  </div>
+
+  <div style="margin-top: 8mm; display: grid; grid-template-columns: 1fr 1fr; gap: 6mm;">
+    <div class="card muted">
+      <h3 style="margin-top: 0">Lo que mantenemos del Brain personal</h3>
+      <p>Sistema de archivos como base · Markdown + JSON · Git como historial auditable · Personas por scope · Skills versionados · Hooks de sesión · Open formats, open tools.</p>
+    </div>
+    <div class="card muted">
+      <h3 style="margin-top: 0">Lo que simplificamos o reemplazamos</h3>
+      <p>Sistema de memos pesado → log de eventos liviano (<code>events.jsonl</code>) · 21 personas → 3 personas · Una persona por carpeta → una por función · Estado operacional del cliente se delega a Notion.</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>v1.0 — 2026-05-11</span>
+    <span class="num">03</span>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────── PAGE 4 — JP DECIDES: Interface -->
+<section class="page">
+  <div class="folio">
+    <span class="brand">Mejía, IA &amp; CIA</span>
+    <span class="meta"><span>Tu Decisión: Interfaz</span><span>04 / 14</span></span>
+  </div>
+
+  <div style="display: flex; align-items: baseline; gap: 14px; margin-top: 4mm;">
+    <span class="pill pill-critical">JP decide</span>
+    <span class="label" style="color: var(--muted)">Única decisión exclusivamente tuya</span>
+  </div>
+
+  <h1 class="page-title" style="margin-top: 4mm">¿Cómo trabajas con el sistema?</h1>
+  <p class="lede" style="margin-top: 4mm">
+    Esta es la única decisión que sólo tú puedes tomar — porque define qué software corre en tu
+    laptop y qué credenciales tienes. Tú tienes 10 h/semana (luego 5), AI-fluente pero sin formación
+    técnica formal, vives en otra zona horaria. Las tres opciones reflejan diferentes niveles de
+    inversión en tooling vs. autonomía.
+  </p>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5mm; margin-top: 7mm;">
+
+    <div class="interface-card">
+      <div class="interface-head">
+        <div class="letter">A</div>
+        <p class="label">Operador par</p>
+        <h2>Heavy</h2>
+      </div>
+      <div class="interface-body">
+        <div class="row">
+          <span class="k">Laptop</span>
+          <span class="v">Claude Code · Gemini CLI · clone de git · tu propio .env · tu llave age</span>
+        </div>
+        <div class="row">
+          <span class="k">Poder</span>
+          <span class="v">Mismo nivel que Ricardo. Abres Claude Code en cualquier carpeta y operas directamente.</span>
+        </div>
+        <div class="row">
+          <span class="k">Onboarding</span>
+          <span class="v">Horas (una vez) + mantenimiento contínuo</span>
+        </div>
+        <div class="row">
+          <span class="k">Secretos</span>
+          <span class="v">Viven también en tu laptop</span>
+        </div>
+        <div class="row">
+          <span class="k">Bus factor</span>
+          <span class="v">Cero — independiente del servidor de Ricardo</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="interface-card">
+      <div class="interface-head">
+        <div class="letter">B</div>
+        <p class="label">Navegador remoto</p>
+        <h2>Hosted</h2>
+      </div>
+      <div class="interface-body">
+        <div class="row">
+          <span class="k">Laptop</span>
+          <span class="v">Navegador web + cliente Tailscale</span>
+        </div>
+        <div class="row">
+          <span class="k">Servidor</span>
+          <span class="v">Code-server por usuario, Claude Code corriendo en hardware de Ricardo</span>
+        </div>
+        <div class="row">
+          <span class="k">Poder</span>
+          <span class="v">Igual que Heavy, pero las herramientas corren remoto</span>
+        </div>
+        <div class="row">
+          <span class="k">Onboarding</span>
+          <span class="v">~15 min (login en navegador)</span>
+        </div>
+        <div class="row">
+          <span class="k">Secretos</span>
+          <span class="v">Sólo en el servidor de Ricardo</span>
+        </div>
+        <div class="row">
+          <span class="k">Bus factor</span>
+          <span class="v">1 — depende del uptime del servidor</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="interface-card recommended">
+      <div class="interface-head">
+        <div class="letter">C</div>
+        <p class="label">Telegram + Gitea web</p>
+        <h2>Light</h2>
+      </div>
+      <div class="rec-banner">Default sugerido por Ricardo</div>
+      <div class="interface-body">
+        <div class="row">
+          <span class="k">Laptop</span>
+          <span class="v">Navegador web + app de Telegram</span>
+        </div>
+        <div class="row">
+          <span class="k">Poder</span>
+          <span class="v">Usas el bot para interactuar con el sistema; Gitea web para leer markdown/PDFs</span>
+        </div>
+        <div class="row">
+          <span class="k">Onboarding</span>
+          <span class="v">Cero — ya tienes ambas apps</span>
+        </div>
+        <div class="row">
+          <span class="k">Secretos</span>
+          <span class="v">Sólo en el servidor de Ricardo</span>
+        </div>
+        <div class="row">
+          <span class="k">Bus factor</span>
+          <span class="v">1 — dependes de Ricardo como operador</span>
+        </div>
+        <div class="row">
+          <span class="k">Nota</span>
+          <span class="v">Ricardo prefiere Heavy para ti (su recomendación). Pero la decisión es tuya.</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="small" style="margin-top: 8mm; text-align: center; color: var(--muted)">
+    Marca tu elección en el espacio de aprobación al final del documento (página 14).
+  </p>
+
+  <div class="footer">
+    <span>v1.0 — 2026-05-11</span>
+    <span class="num">04</span>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────── PAGE 5 — Foundation -->
+<section class="page">
+  <div class="folio">
+    <span class="brand">Mejía, IA &amp; CIA</span>
+    <span class="meta"><span>Capa 1 — Fundamentos</span><span>05 / 14</span></span>
+  </div>
+
+  <p class="label" style="color: var(--gold)">Capa 01</p>
+  <h1 class="page-title">Fundamentos.</h1>
+  <p class="lede" style="margin-top: 3mm">
+    Dónde vive el cerebro, cómo se respalda, cómo se protege la información sensible, y quién puede
+    hacer qué. Ocho decisiones que condicionan todo lo demás. Todas etiquetadas como
+    <span class="pill pill-info" style="vertical-align: middle">Decidido</span> — puedes vetar o
+    ajustar cualquiera.
+  </p>
+
+  <table class="compact" style="margin-top: 5mm">
+    <thead>
+      <tr>
+        <th style="width: 20%">Decisión</th>
+        <th style="width: 50%">Qué proponemos</th>
+        <th>Por qué</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Casa del repositorio</strong> <span class="small">ADR-002</span></td>
+        <td>Repo independiente en <code>/srv/mejia-ia-cia/</code> del servidor de Ricardo. Nueva organización Gitea <code>Mejia-IACia</code> con Ricardo + JP como dueños.</td>
+        <td>Separación limpia del Brain personal de Ricardo — tú nunca ves su info personal (médica, finanzas, familia).</td>
+      </tr>
+      <tr>
+        <td><strong>Vault de documentos</strong> <span class="small">ADR-003</span></td>
+        <td>Encriptación <code>age</code> con llaves por usuario. Cada uno tiene su llave privada; los archivos se cifran a ambas. Cualquiera de los dos puede leer.</td>
+        <td>Revocación limpia si alguna laptop se compromete. Tu llave nunca toca la máquina del otro. Estándar de industria.</td>
+      </tr>
+      <tr>
+        <td><strong>Secretos (API keys, tokens)</strong> <span class="small">ADR-004</span></td>
+        <td>Un sólo archivo <code>secrets.env.age</code> en git, encriptado con las mismas llaves del vault. Script wrapper desencripta al correr scripts.</td>
+        <td>Un modelo mental para todo lo sensible. Sin dependencia de proveedores externos (Bitwarden, 1Password) en v0.</td>
+      </tr>
+      <tr>
+        <td><strong>Disciplina de git</strong> <span class="small">ADR-005</span></td>
+        <td>Commits directos a <code>main</code> para trabajo rutinario. <strong>PR obligatorio</strong> para rutas protegidas: prompts de skills, entregables de cliente, propuestas, contratos. Tu aprobación o la mía cuenta como sign-off.</td>
+        <td>La regla "JP revisa todo antes del cliente" se vuelve estructural, no sólo conductual. Trabajo rutinario no se tasa con revisión.</td>
+      </tr>
+      <tr>
+        <td><strong>Respaldos</strong> <span class="small">ADR-006</span></td>
+        <td>Fase A (ya): Gitea + mirror a GitHub. Fase B (pronto): + Codeberg. Fase C (después): snapshot rclone. Activos pesados (audio, PDFs grandes): Google Drive 2TB de Ricardo (cuenta personal, vía credenciales OAuth dedicadas) + mirror al NAS de su casa.</td>
+        <td>Costo cero, durabilidad alta. Vault va encriptado en todos los mirrors. Resiste pérdida del servidor + un proveedor de cloud.</td>
+      </tr>
+      <tr>
+        <td><strong>Permisos IA vs humano</strong> <span class="small">ADR-007</span></td>
+        <td>Agentes pueden escribir libremente en rutas no-protegidas. Operaciones destructivas (borrar, renombrar, mover entre carpetas, editar config) requieren firma humana. Rutas protegidas también requieren firma.</td>
+        <td>Estándar de Ricardo en su Brain personal — "ninguna acción destructiva sin aprobación explícita". Replicamos.</td>
+      </tr>
+      <tr>
+        <td><strong>Activos pesados</strong> <span class="small">ADR-008</span></td>
+        <td>Google Drive 2TB de Ricardo, vía credenciales OAuth dedicadas (manejadas por rclone), no su sesión personal. Carpeta <code>/Mejia-IACia/</code> aislada. Lo sensible se cifra con age antes de subir. Audio-only para grabaciones de reuniones.</td>
+        <td>Audio (~30 MB/h) vs. video (~500 MB/h) — factor 20x. Sin necesidad de Workspace pago.</td>
+      </tr>
+      <tr>
+        <td><strong>Interfaz de JP</strong> <span class="small">ADR-002</span></td>
+        <td><span class="pill pill-critical">JP decide</span> ver página 4.</td>
+        <td>Toca tu laptop personal — sólo tú puedes elegir.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="footer">
+    <span>v1.0 — 2026-05-11</span>
+    <span class="num">05</span>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────── PAGE 6 — Architecture top-level -->
+<section class="page">
+  <div class="folio">
+    <span class="brand">Mejía, IA &amp; CIA</span>
+    <span class="meta"><span>Capa 2 — Arquitectura</span><span>06 / 14</span></span>
+  </div>
+
+  <p class="label" style="color: var(--gold)">Capa 02</p>
+  <h1 class="page-title">Estructura de carpetas.</h1>
+  <p class="lede" style="margin-top: 3mm">
+    Carpetas planas con prefijo <code>00_</code> para gobernanza. Discoverable por nombre — no
+    necesitas memorizar un sistema numérico. El cerebro entero cabe en una pantalla de árbol.
+  </p>
+
+  <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 8mm; margin-top: 4mm;">
+
+    <div class="tree">/srv/mejia-ia-cia/
+├── <span style="color: var(--gold)">00_META/</span>           <span class="comment"># changelog, BRAIN_STATUS, propuestas</span>
+├── <span style="color: var(--gold)">00_GOVERNANCE/</span>     <span class="comment"># ADRs — ledger de decisiones</span>
+├── <span style="color: var(--gold)">00_PARTNERSHIP/</span>    <span class="comment"># co-propiedad JP: agreement, conflict</span>
+│                            <span class="comment">  protocol, KPIs, cuestionarios</span>
+├── skills/                <span class="comment"># los 5 skills de diagnóstico</span>
+├── clients/               <span class="comment"># una carpeta por cliente</span>
+├── prospects/             <span class="comment"># pre-cliente, leads calificados</span>
+├── operations/            <span class="comment"># marketing · sales · accounting</span>
+│                            <span class="comment">  legal · it</span>
+├── templates/             <span class="comment"># DOCX con marca, plantillas</span>
+├── assets/                <span class="comment"># logo, deck, material público</span>
+├── infra/                 <span class="comment"># bot, MCP servers, scripts</span>
+├── knowledge/             <span class="comment"># referencia (sector files,</span>
+│                            <span class="comment">  Quick Win library, caches)</span>
+└── vault/                 <span class="comment"># encriptado, catástrofe-loss only</span></div>
+
+    <div>
+      <h3>Carpetas con persona vs. sin persona</h3>
+      <p style="font-size: 11px">
+        Sólo 3 carpetas tienen CLAUDE.md/GEMINI.md: la raíz, <code>skills/</code>, y
+        <code>clients/</code>. Todas las demás son depósitos de datos operadas por la persona Fundador
+        (la raíz). <strong>Personas se atan a función, no a ubicación.</strong>
+      </p>
+
+      <h3 style="margin-top: 5mm">Sub-árbol de operations</h3>
+      <p style="font-size: 11px; margin-bottom: 2mm">
+        Funciones internas del negocio. Marketing, ventas, contabilidad, legal, IT. Cada uno con sus
+        propios archivos.
+      </p>
+      <div class="tree" style="font-size: 9.5px; padding: 4mm 6mm">operations/
+├── marketing/        <span class="comment"># brand · linkedin · content</span>
+├── sales/            <span class="comment"># pipeline · outreach · playbooks</span>
+├── accounting/       <span class="comment"># invoices · expenses · tax</span>
+├── legal/            <span class="comment"># entity · templates · compliance</span>
+└── it/               <span class="comment"># STACK.md · accounts</span></div>
+
+      <p class="small" style="margin-top: 4mm">
+        <code>infra/</code> es código que construimos. <code>operations/it/</code> es servicios a los
+        que nos suscribimos. Split intencional.
+      </p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>v1.0 — 2026-05-11</span>
+    <span class="num">06</span>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────── PAGE 7 — Per-client chain -->
+<section class="page">
+  <div class="folio">
+    <span class="brand">Mejía, IA &amp; CIA</span>
+    <span class="meta"><span>Cadena de Producción por Cliente</span><span>07 / 14</span></span>
+  </div>
+
+  <p class="label" style="color: var(--gold)">Capa 02 · cont.</p>
+  <h1 class="page-title">Cadena de producción por cliente.</h1>
+  <p class="lede" style="margin-top: 3mm">
+    Cada cliente vive en su propia carpeta con 13 estaciones — una por cada paso del flujo del deck.
+    Cuando una estación termina, el output se queda en su carpeta y un evento dispara la siguiente.
+    Los archivos no se mueven jamás — la carpeta es la línea de ensamblaje.
+  </p>
+
+  <div class="chain">
+    <div class="station diagnostic">
+      <div class="id">00</div>
+      <div class="name">Intake</div>
+      <div class="phase">Prospección</div>
+    </div>
+    <div class="station diagnostic">
+      <div class="id">01</div>
+      <div class="name">Análisis Compañía</div>
+      <div class="phase">Skill 1</div>
+    </div>
+    <div class="station diagnostic">
+      <div class="id">02</div>
+      <div class="name">Análisis Industria</div>
+      <div class="phase">Skill 2</div>
+    </div>
+    <div class="station diagnostic">
+      <div class="id">03</div>
+      <div class="name">Análisis Competencia</div>
+      <div class="phase">Skill 3</div>
+    </div>
+    <div class="station diagnostic">
+      <div class="id">04</div>
+      <div class="name">Guión Reunión</div>
+      <div class="phase">Skill 4 · privado</div>
+    </div>
+    <div class="station diagnostic">
+      <div class="id">05</div>
+      <div class="name">Reporte Oportunidades</div>
+      <div class="phase">Skill 5 · entregable</div>
+    </div>
+    <div class="station proposal">
+      <div class="id">06</div>
+      <div class="name">Propuesta</div>
+      <div class="phase">Fase D</div>
+    </div>
+    <div class="station proposal">
+      <div class="id">07</div>
+      <div class="name">Contrato + Onboarding</div>
+      <div class="phase">Fase E</div>
+    </div>
+    <div class="station execution">
+      <div class="id">08</div>
+      <div class="name">Diseño Solución</div>
+      <div class="phase">Paso 10</div>
+    </div>
+    <div class="station execution">
+      <div class="id">09</div>
+      <div class="name">Implementación</div>
+      <div class="phase">Paso 11</div>
+    </div>
+    <div class="station execution">
+      <div class="id">10</div>
+      <div class="name">Seguimiento</div>
+      <div class="phase">30/60/90</div>
+    </div>
+    <div class="station execution">
+      <div class="id">11</div>
+      <div class="name">Retainer</div>
+      <div class="phase">Mes a mes</div>
+    </div>
+    <div class="station" style="background: var(--paper-2)">
+      <div class="id">arch</div>
+      <div class="name">Archive</div>
+      <div class="phase">Cierre</div>
+    </div>
+  </div>
+
+  <div class="chain-lanes">
+    <div class="lane">
+      <strong>transcripts/ — cruza todas las fases</strong>
+      Whisper procesa cada grabación de reunión y deposita el transcript aquí, ligado a la estación correspondiente.
+    </div>
+    <div class="lane">
+      <strong>communications/ — cruza todas las fases</strong>
+      Email, WhatsApp, Telegram con el cliente. Capturado por el bot, archivado con timestamp.
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; margin-top: 5mm;">
+    <div class="card">
+      <h3 style="margin-top: 0">Contenido por estación</h3>
+      <ul style="margin: 0; padding-left: 14px">
+        <li><code>report.md</code> — canónico en markdown</li>
+        <li><code>report.docx</code> — branded vía Pandoc</li>
+        <li><code>report.pdf</code> — entregable final cliente</li>
+        <li><code>manifest.json</code> — provenance (quién, cuándo, versión de skill, sources citadas)</li>
+        <li><code>inputs/</code> — snapshot de datos upstream para reproducibilidad</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="margin-top: 0">Reglas estructurales</h3>
+      <ul style="margin: 0; padding-left: 14px">
+        <li><strong>Las carpetas no se mueven.</strong> Estado vive en <code>state.json</code>, no en la ubicación.</li>
+        <li>Fases que no aplican quedan vacías — sin costo.</li>
+        <li>Numeración refleja exactamente los 13 pasos del deck.</li>
+        <li>Múltiples engagements futuros: <code>engagements/</code> sub-carpeta, sólo cuando ocurra.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>v1.0 — 2026-05-11</span>
+    <span class="num">07</span>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────── PAGE 8 — Personas + Communication -->
+<section class="page">
+  <div class="folio">
+    <span class="brand">Mejía, IA &amp; CIA</span>
+    <span class="meta"><span>Personas + Comunicación</span><span>08 / 14</span></span>
+  </div>
+
+  <p class="label" style="color: var(--gold)">Capa 02 · cont.</p>
+  <h1 class="page-title">Tres personas, no veintiuna.</h1>
+  <p class="lede" style="margin-top: 3mm">
+    El Brain personal de Ricardo tiene 21+ archivos CLAUDE.md (uno por dominio de vida). Para una
+    sociedad enfocada en un solo negocio, eso es exceso. Aquí hay tres — y sólo tres.
+  </p>
+
+  <div class="persona-row">
+    <div class="persona">
+      <p class="scope-label">Scope</p>
+      <p class="path">/CLAUDE.md (raíz)</p>
+      <p class="name">Founder</p>
+      <p class="role">Estrategia, partnership, gobernanza, funciones operativas (marketing, ventas, contabilidad, legal, IT), prospectos, conocimiento. Default cuando ninguna otra persona aplica.</p>
+    </div>
+    <div class="persona">
+      <p class="scope-label">Scope</p>
+      <p class="path">skills/CLAUDE.md</p>
+      <p class="name">Skills-Master</p>
+      <p class="role">Diseña, versiona, prueba, mantiene los 5 skills de diagnóstico. Dueño de los casos de benchmark.</p>
+    </div>
+    <div class="persona">
+      <p class="scope-label">Scope</p>
+      <p class="path">clients/CLAUDE.md</p>
+      <p class="name">Client-Owner</p>
+      <p class="role">Operador de la cadena de producción. El cliente activo es un parámetro, no una persona separada.</p>
+    </div>
+  </div>
+
+  <h2 style="margin-top: 8mm">Comunicación entre carpetas: eventos, no memos.</h2>
+  <p style="margin-top: 2mm">
+    El Brain personal usa "memos" — archivos con ciclo de vida (OPEN → ACK → DONE → archivar) que
+    crece pesado. Para la compañía, el canal por defecto es un <strong>log append-only de eventos</strong>:
+  </p>
+
+  <div class="hub-diagram" style="margin-top: 4mm">
+    <div style="display: grid; grid-template-columns: 1fr 1.3fr; gap: 6mm; align-items: center;">
+      <div class="tree" style="margin: 0; padding: 4mm 6mm; font-size: 9.5px; line-height: 1.4">{
+  "ts": "2026-05-15T14:23:00",
+  "id": "evt-001",
+  "actor": "skill-1-agent",
+  "type": "skill.completed",
+  "scope": "clients/ascenso",
+  "data": {
+    "skill": "01_company_analysis",
+    "output": "clients/ascenso/01_company_analysis/report.md",
+    "next": "skill_2"
+  }
+}</div>
+      <div>
+        <p style="font-size: 11px; line-height: 1.55">
+          Un único archivo: <code>00_META/events.jsonl</code>. Cada acción cruzada entre carpetas escribe
+          una línea. <strong>Agentes se suscriben con filtros</strong> ("cuando type=skill.completed y
+          skill=01_company_analysis, corre Skill 2"). Humanos hacen <code>tail -f</code> o usan un
+          script auxiliar para ver el flujo entero.
+        </p>
+        <p style="font-size: 11px; line-height: 1.55; margin-top: 3mm">
+          <strong>El bot de Telegram</strong> también es un suscriptor: ve eventos del tipo
+          <code>client.advanced</code> o <code>meeting.recorded</code> y los empuja al canal correcto.
+        </p>
+        <p style="font-size: 11px; line-height: 1.55; margin-top: 3mm">
+          Memos siguen existiendo — pero <strong>raros</strong>, sólo para decisiones humano-a-humano
+          ("¿aceptamos a Bodai como piloto a pesar de la industria regulada?"). Frecuencia esperada:
+          1-5/mes vs 1-5/semana en el Brain personal.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>v1.0 — 2026-05-11</span>
+    <span class="num">08</span>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────── PAGE 9 — Agents -->
+<section class="page">
+  <div class="folio">
+    <span class="brand">Mejía, IA &amp; CIA</span>
+    <span class="meta"><span>Capa 3 — Agentes</span><span>09 / 14</span></span>
+  </div>
+
+  <p class="label" style="color: var(--gold)">Capa 03</p>
+  <h1 class="page-title">El trabajo automatizado.</h1>
+  <p class="lede" style="margin-top: 3mm">
+    Un agente es un envoltorio Python liviano que toma inputs, ejecuta un skill (o una composición de
+    scripts), produce outputs en una ruta definida, y emite eventos. Cuatro caminos para invocarlo —
+    una sola lógica de runtime.
+  </p>
+
+  <div class="hub-diagram">
+    <div class="hub-grid" style="grid-template-columns: 1fr 1fr 1fr; gap: 8mm">
+      <div class="invocation">
+        <strong>1 · Comando bot</strong>
+        Humano escribe <code>/skill1 ascenso</code> en Telegram
+      </div>
+      <div></div>
+      <div class="invocation">
+        <strong>2 · Suscripción a eventos</strong>
+        Una línea de <code>events.jsonl</code> dispara el agente
+      </div>
+
+      <div></div>
+      <div class="center">dispatch.py</div>
+      <div></div>
+
+      <div class="invocation">
+        <strong>3 · Cron / programado</strong>
+        Systemd timer (8am diario = digest)
+      </div>
+      <div></div>
+      <div class="invocation">
+        <strong>4 · CLI directo</strong>
+        <code>mejia agent run skill1 --client ascenso</code>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; margin-top: 6mm;">
+    <div>
+      <h3>Distinción que importa</h3>
+      <ul style="margin: 0; padding-left: 14px; font-size: 11px">
+        <li><strong>Skill</strong> = metodología + prompts. Vive en <code>skills/</code>. El "qué" del trabajo analítico.</li>
+        <li><strong>Agente</strong> = wrapper de runtime. Vive en <code>infra/agents/</code>. El "cómo correr el skill".</li>
+        <li><strong>Sesión de Claude Code</strong> = humano-en-el-loop. NO está en el framework de agentes.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Inventario propuesto</h3>
+      <p class="small" style="margin-bottom: 2mm">Día 1 al hacer scaffold:</p>
+      <ul style="margin: 0 0 3mm 0; padding-left: 14px; font-size: 11px">
+        <li><code>skill_1_company_analyst</code> — envuelve el skill ya construido</li>
+        <li><code>event_notifier</code> — pushea eventos al bot</li>
+      </ul>
+      <p class="small" style="margin-bottom: 2mm">A medida que Plan Maestro Paso 2 avanza:</p>
+      <ul style="margin: 0 0 3mm 0; padding-left: 14px; font-size: 11px">
+        <li><code>skill_2</code> ... <code>skill_5</code> (industria, competencia, guión, oportunidades)</li>
+      </ul>
+      <p class="small" style="margin-bottom: 2mm">Cuando se necesiten:</p>
+      <ul style="margin: 0; padding-left: 14px; font-size: 11px">
+        <li><code>transcript_processor</code> (primera reunión grabada)</li>
+        <li><code>pipeline_orchestrator</code> (correr los 5 skills en cadena)</li>
+        <li><code>pipeline_daily_digest</code> (3+ clientes activos)</li>
+        <li><code>weekly_review</code>, <code>memo_triager</code>, <code>client_state_reporter</code>, <code>prospect_classifier</code></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>v1.0 — 2026-05-11</span>
+    <span class="num">09</span>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────── PAGE 10 — Bot -->
+<section class="page">
+  <div class="folio">
+    <span class="brand">Mejía, IA &amp; CIA</span>
+    <span class="meta"><span>Capa 4 — Bot de Telegram</span><span>10 / 14</span></span>
+  </div>
+
+  <p class="label" style="color: var(--gold)">Capa 04</p>
+  <h1 class="page-title">El bot es la interfaz.</h1>
+  <p class="lede" style="margin-top: 3mm">
+    Si eliges <strong>Light</strong>, el bot es tu superficie principal del sistema — 6 a 8 comandos
+    que dominas y eso basta. Para Ricardo es complementario al Claude Code. Tres canales, allowlist
+    estricto, escalamiento a IA sólo cuando se justifica.
+  </p>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; margin-top: 5mm;">
+
+    <div>
+      <h3>Canales y autenticación</h3>
+      <ul style="font-size: 11px; padding-left: 14px">
+        <li><strong>Grupo</strong> (Ricardo + JP) — capturas compartidas, notificaciones del sistema</li>
+        <li><strong>DM Ricardo</strong> — capturas personales, alertas de operador</li>
+        <li><strong>DM JP</strong> — capturas personales, notificaciones críticas</li>
+      </ul>
+      <p class="small" style="margin-top: 2mm">Allowlist: exactamente 2 IDs de Telegram. Cualquier otro → drop silencioso.</p>
+
+      <h3 style="margin-top: 6mm">Capturas (slash commands)</h3>
+      <table class="compact" style="font-size: 10px">
+        <tr><td><code>/note</code></td><td>nota general</td></tr>
+        <tr><td><code>/idea</code></td><td>idea de negocio</td></tr>
+        <tr><td><code>/decision</code></td><td>borrador de ADR — dispara revisión</td></tr>
+        <tr><td><code>/expense</code></td><td>gasto a accounting</td></tr>
+        <tr><td><code>/photo</code></td><td>foto a Drive, manifest en captures</td></tr>
+        <tr><td><code>/client</code></td><td>nota ligada a un cliente</td></tr>
+        <tr><td><code>/meeting</code></td><td>arranca captura de reunión + transcript</td></tr>
+        <tr><td><code>/marketing</code></td><td>idea de contenido</td></tr>
+        <tr><td><code>/prospect</code></td><td>nuevo prospecto</td></tr>
+        <tr><td><code>/legal</code></td><td>nota legal</td></tr>
+      </table>
+    </div>
+
+    <div>
+      <h3>Operaciones (comandos que hacen cosas)</h3>
+      <table class="compact" style="font-size: 10px">
+        <tr><td><code>/status</code></td><td>pipeline completo o cliente específico</td></tr>
+        <tr><td><code>/skill1</code> .. <code>/skill5</code></td><td>dispara agente de skill</td></tr>
+        <tr><td><code>/pipeline run</code></td><td>orquestador (5 skills en secuencia)</td></tr>
+        <tr><td><code>/digest</code></td><td>resumen del pipeline ahora</td></tr>
+        <tr><td><code>/ask</code></td><td>fuerza escalamiento a Claude</td></tr>
+        <tr><td><code>/help</code></td><td>menú en español</td></tr>
+      </table>
+
+      <h3 style="margin-top: 5mm">Escalamiento a IA — sólo cuando se justifica</h3>
+      <p style="font-size: 11px">
+        Por default el bot responde con plantillas (acknowledged, queued, here's status). Escala a
+        Claude sólo cuando: <code>/ask</code> explícito, mensaje natural largo (&gt;200 caracteres) sin
+        comando, signo de interrogación, o evento crítico (deal-breaker del partnership protocol).
+        Rate limit: 20 escalamientos/hora por usuario.
+      </p>
+
+      <h3 style="margin-top: 5mm">Decisión: código independiente</h3>
+      <p style="font-size: 11px">
+        El bot personal de Ricardo existe y funciona — pero será <strong>referencia de sólo-lectura</strong>,
+        no código compartido. Construir desde cero asegura aislamiento limpio, sin acoplamiento oculto,
+        y JP puede auditar el código sin pasar por el Brain personal. Costo extra: ~1 semana de dev.
+      </p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>v1.0 — 2026-05-11</span>
+    <span class="num">10</span>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────── PAGE 11 — Stack inventory -->
+<section class="page">
+  <div class="folio">
+    <span class="brand">Mejía, IA &amp; CIA</span>
+    <span class="meta"><span>Inventario del Stack</span><span>11 / 14</span></span>
+  </div>
+
+  <h1 class="page-title">Stack tecnológico.</h1>
+  <p class="lede" style="margin-top: 3mm">
+    Lo que desplegamos ahora, lo que esperamos a que un gatillo lo justifique, y lo que estamos
+    investigando.
+  </p>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 7mm; margin-top: 5mm;">
+
+    <div>
+      <h3><span class="pill pill-stage1" style="vertical-align: middle">Stage 1 · ahora</span></h3>
+      <table class="compact stack-table" style="margin-top: 3mm">
+        <tr><td class="tool">Gitea</td><td class="role">Origen git (servidor casa)</td></tr>
+        <tr><td class="tool">GitHub mirror</td><td class="role">Backup off-site fase A</td></tr>
+        <tr><td class="tool">age</td><td class="role">Encriptación vault + secretos</td></tr>
+        <tr><td class="tool">rclone + Drive 2TB</td><td class="role">Activos pesados</td></tr>
+        <tr><td class="tool">NAS local</td><td class="role">Mirror de activos pesados</td></tr>
+        <tr><td class="tool">Obsidian</td><td class="role">Markdown UX + móvil + grafo</td></tr>
+        <tr><td class="tool">Whisper.cpp</td><td class="role">Transcripción de audio (local, español)</td></tr>
+        <tr><td class="tool">Pandoc</td><td class="role">Markdown → DOCX con marca</td></tr>
+        <tr><td class="tool">MCP servers</td><td class="role">Acceso a herramientas para agentes</td></tr>
+        <tr><td class="tool">Cal.com</td><td class="role">Scheduling (self-hosted)</td></tr>
+        <tr><td class="tool">Bot Telegram</td><td class="role">Interfaz humana principal</td></tr>
+        <tr><td class="tool">Claude Code + Gemini CLI</td><td class="role">Agentes primario + segundo</td></tr>
+        <tr><td class="tool">Notion</td><td class="role">CRM + grabación de llamadas</td></tr>
+        <tr><td class="tool">Zoom Free</td><td class="role">Grabación de reuniones (40min)</td></tr>
+      </table>
+    </div>
+
+    <div>
+      <h3><span class="pill pill-stage2" style="vertical-align: middle">Stage 2 · cuando se justifique</span></h3>
+      <table class="compact stack-table" style="margin-top: 3mm">
+        <tr><td class="tool">Codeberg</td><td class="role">Backup off-site fase B</td></tr>
+        <tr><td class="tool">rclone snapshot</td><td class="role">Backup git fase C-prep</td></tr>
+        <tr><td class="tool">Backblaze B2 / R2</td><td class="role">Cuando 2TB se llene</td></tr>
+        <tr><td class="tool">Bitwarden / 1Password</td><td class="role">Cuando logins compartidos sean rutina</td></tr>
+        <tr><td class="tool">code-server</td><td class="role">Si JP elige Hosted</td></tr>
+        <tr><td class="tool">Notion AI</td><td class="role">Transcripts nativos de Notion</td></tr>
+        <tr><td class="tool">DocuSign / HelloSign</td><td class="role">Primer contrato firmado</td></tr>
+        <tr><td class="tool">Stripe</td><td class="role">Primera factura emitida</td></tr>
+        <tr><td class="tool">CRM upgrade</td><td class="role">Pipeline &gt; 15 clientes activos</td></tr>
+        <tr><td class="tool">Static-site gen</td><td class="role">Cuando web pública sea prioridad</td></tr>
+      </table>
+
+      <h3 style="margin-top: 6mm"><span class="pill pill-priority" style="vertical-align: middle">Investigación · prioridad alta</span></h3>
+      <table class="compact stack-table" style="margin-top: 3mm">
+        <tr><td class="tool">Odoo</td><td class="role">Investigación profunda — ver página 12</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>v1.0 — 2026-05-11</span>
+    <span class="num">11</span>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────── PAGE 12 — Odoo callout -->
+<section class="page">
+  <div class="folio">
+    <span class="brand">Mejía, IA &amp; CIA</span>
+    <span class="meta"><span>Investigación Prioritaria</span><span>12 / 14</span></span>
+  </div>
+
+  <div style="display: flex; gap: 14px; margin-top: 4mm; align-items: center">
+    <span class="pill pill-priority">Prioridad alta</span>
+    <span class="pill pill-view">JP opina</span>
+    <span class="label" style="color: var(--muted)">Pre-construcción, antes de scaffold</span>
+  </div>
+
+  <div class="priority-banner">
+    <div class="label-row">
+      <span class="label" style="color: var(--gold-2)">Oportunidad</span>
+    </div>
+    <h2>Odoo podría volverse una línea de servicio principal.</h2>
+    <p style="margin-top: 4mm; max-width: 80%;">
+      Muchos prospectos PyME en Latinoamérica (CO, MX, ES) usan Odoo. La edición Community es gratis y
+      auto-hospedable — podemos desplegarla para nosotros mismos y para clientes. "Odoo + IA" es una
+      categoría billable real en consultoría LatAm. Vender lo que usamos. Aprender mientras se ejecuta.
+    </p>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 7mm; margin-top: 4mm">
+    <div class="card">
+      <h3 style="margin-top: 0">Dos ángulos</h3>
+      <p style="font-size: 11px">
+        <strong>1 · Uso interno.</strong> Odoo Community para contabilidad / facturación / CRM internos.
+        Gratis. Auto-hospedable en el servidor de Ricardo. Credibilidad de "eat your own dogfood":
+        cuando le vendemos a un cliente, ya operamos así nosotros mismos.
+      </p>
+      <p style="font-size: 11px; margin-top: 3mm">
+        <strong>2 · Línea de servicio.</strong> Customización + integración con IA. Mercado real y
+        amplio en LatAm. Tickets típicos: configuración inicial, módulos custom, integraciones,
+        capacitación, automatización de procesos vía IA dentro de Odoo.
+      </p>
+    </div>
+    <div class="card">
+      <h3 style="margin-top: 0">Trade-off</h3>
+      <p style="font-size: 11px">
+        <strong>Pro:</strong> revenue potencial significativo + diferenciación + credibilidad sectorial
+        + open source = sin lock-in.
+      </p>
+      <p style="font-size: 11px; margin-top: 3mm">
+        <strong>Contra:</strong> Odoo es una bestia. Python + XML views + ORM. Curva de aprendizaje
+        seria. Tiempo de aprendizaje compite con tiempo de buscar pilotos.
+      </p>
+      <h3 style="margin-top: 5mm">Acción propuesta</h3>
+      <p style="font-size: 11px">
+        Sesión de Claude+Gemini para evaluar: alcance real, esfuerzo de install, curva de aprendizaje,
+        patrones de integración Brain↔Odoo, viabilidad de línea de servicio.
+        <strong>Decisión final esperando los resultados — y tu opinión.</strong>
+      </p>
+    </div>
+  </div>
+
+  <p class="lede" style="margin-top: 6mm; font-style: italic; text-align: center; color: var(--navy)">
+    Sobre el posicionamiento — ¿abrazarlo como apuesta de línea de servicio, o mantenerse enfocado en el
+    sistema de 5 skills primero? Tu opinión es clave.
+  </p>
+
+  <div class="footer">
+    <span>v1.0 — 2026-05-11</span>
+    <span class="num">12</span>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────── PAGE 13 — JP VIEW items + Roadmap -->
+<section class="page">
+  <div class="folio">
+    <span class="brand">Mejía, IA &amp; CIA</span>
+    <span class="meta"><span>Items donde tu opinión pesa + Roadmap</span><span>13 / 14</span></span>
+  </div>
+
+  <p class="label" style="color: var(--gold)">JP · revisión activa</p>
+  <h1 class="page-title">Donde tu opinión pesa.</h1>
+  <p class="lede" style="margin-top: 3mm">
+    No son "JP decide" — Ricardo + Claude ya tomamos posición. Son items donde puedes empujar con
+    fuerza y queremos escucharlo antes del scaffold.
+  </p>
+
+  <ol style="margin-top: 4mm; counter-reset: jpview; padding-left: 0; list-style: none">
+    <li style="display: grid; grid-template-columns: 36px 1fr; gap: 4mm; padding: 3mm 0; border-bottom: 0.4px solid var(--rule)">
+      <span class="display-num" style="font-size: 32px">01</span>
+      <div>
+        <h3 style="margin-top: 1mm">Posicionamiento de Odoo</h3>
+        <p style="font-size: 11px">Abrazar como apuesta de línea de servicio (Ricardo lo lee así) — o quedarse enfocado en el sistema de 5 skills como oferta principal sin distracciones.</p>
+      </div>
+    </li>
+    <li style="display: grid; grid-template-columns: 36px 1fr; gap: 4mm; padding: 3mm 0; border-bottom: 0.4px solid var(--rule)">
+      <span class="display-num" style="font-size: 32px">02</span>
+      <div>
+        <h3 style="margin-top: 1mm">Privacidad de grabaciones / transcripciones</h3>
+        <p style="font-size: 11px">Planeamos grabar todas las reuniones (audio-only) y correr Whisper local para transcripts. Los clientes lo sabrán vía el scope document. ¿Te sientes cómodo con esta postura, o NDA-por-default primero?</p>
+      </div>
+    </li>
+    <li style="display: grid; grid-template-columns: 36px 1fr; gap: 4mm; padding: 3mm 0; border-bottom: 0.4px solid var(--rule)">
+      <span class="display-num" style="font-size: 32px">03</span>
+      <div>
+        <h3 style="margin-top: 1mm">Formalización del protocolo de sociedad</h3>
+        <p style="font-size: 11px">Tu mecanismo de "15-min mano levantada + respuesta escrita en 12-24h" se codifica en <code>00_PARTNERSHIP/CONFLICT_PROTOCOL.md</code>. Firmas la versión escrita?</p>
+      </div>
+    </li>
+    <li style="display: grid; grid-template-columns: 36px 1fr; gap: 4mm; padding: 3mm 0; border-bottom: 0.4px solid var(--rule)">
+      <span class="display-num" style="font-size: 32px">04</span>
+      <div>
+        <h3 style="margin-top: 1mm">Primer servicio pagado después del Diagnóstico</h3>
+        <p style="font-size: 11px">Plan Maestro menciona Diseño → Implementación → Seguimiento → Retainer. ¿Cuál es el primer producto pago realista — Diseño, o salto directo a Implementación para pilotos satisfechos?</p>
+      </div>
+    </li>
+    <li style="display: grid; grid-template-columns: 36px 1fr; gap: 4mm; padding: 3mm 0;">
+      <span class="display-num" style="font-size: 32px">05</span>
+      <div>
+        <h3 style="margin-top: 1mm">Criterios del clasificador de prospectos</h3>
+        <p style="font-size: 11px">Propusiste el formulario de pre-calificación de 5 preguntas. Cuando construyamos el agente <code>prospect_classifier</code>, ¿qué significa "calificado"? (Mínimo de facturación? Sector? Disposición al cambio?)</p>
+      </div>
+    </li>
+  </ol>
+
+  <h2 style="margin-top: 8mm">Roadmap de aquí al primer cliente pago.</h2>
+  <div class="timeline">
+    <div class="stage">
+      <span class="num">01</span>
+      <h3>Tu revisión + Reunión Fundacional</h3>
+      <p>Esta presentación + Plan Maestro Paso 1. Acordamos los términos antes de construir nada.</p>
+    </div>
+    <div class="stage">
+      <span class="num">02</span>
+      <h3>Scaffold + bot v0</h3>
+      <p>Crear estructura de carpetas, vault, secretos, respaldos. Migrar docs existentes. Bot v0.</p>
+    </div>
+    <div class="stage">
+      <span class="num">03</span>
+      <h3>Skills 2-5 + 3 pilotos</h3>
+      <p>Plan Maestro Paso 2 días 2-7. Ejecutar 3-5 diagnósticos completos, refinar hasta calidad 8/10.</p>
+    </div>
+    <div class="stage">
+      <span class="num">04</span>
+      <h3>Primer Diagnóstico pagado</h3>
+      <p>Cuando la calidad sea consistente y un caso de éxito esté documentado. Trigger del modelo de cobro.</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>v1.0 — 2026-05-11</span>
+    <span class="num">13</span>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────── PAGE 14 — Sign-off -->
+<section class="page">
+  <div class="folio">
+    <span class="brand">Mejía, IA &amp; CIA</span>
+    <span class="meta"><span>Aprobación</span><span>14 / 14</span></span>
+  </div>
+
+  <h1 class="page-title">Tu firma transforma "propuesto" en "aprobado".</h1>
+  <p class="lede" style="margin-top: 3mm">
+    Una vez firmes este documento, los 20 ADRs pasan de estado <em>Propuesto</em> a <em>Aceptado</em>.
+    Items que edites se marcan como ADRs enmendados. Items que veteas se marcan como
+    <em>Rechazado</em> con tu razonamiento. Ricardo puede empezar a construir.
+  </p>
+
+  <div style="margin-top: 8mm; display: grid; grid-template-columns: 1fr 1fr; gap: 12mm">
+
+    <div>
+      <h3>Tu decisión de interfaz</h3>
+      <p style="font-size: 11px; margin-bottom: 4mm">Marca la opción elegida:</p>
+      <div style="display: flex; flex-direction: column; gap: 3mm">
+        <div style="display: flex; align-items: center; gap: 4mm; padding: 3mm 5mm; border: 0.6px solid var(--rule)">
+          <div style="width: 14px; height: 14px; border: 1.2px solid var(--navy); border-radius: 2px"></div>
+          <span style="font-size: 12px"><strong>A · Heavy</strong> — operador par</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 4mm; padding: 3mm 5mm; border: 0.6px solid var(--rule)">
+          <div style="width: 14px; height: 14px; border: 1.2px solid var(--navy); border-radius: 2px"></div>
+          <span style="font-size: 12px"><strong>B · Hosted</strong> — navegador remoto</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 4mm; padding: 3mm 5mm; border: 0.6px solid var(--rule)">
+          <div style="width: 14px; height: 14px; border: 1.2px solid var(--navy); border-radius: 2px"></div>
+          <span style="font-size: 12px"><strong>C · Light</strong> — Telegram + Gitea web</span>
+        </div>
+      </div>
+
+      <h3 style="margin-top: 7mm">Aprobación general</h3>
+      <p style="font-size: 11px; margin-bottom: 3mm">Marca el estado de tu revisión:</p>
+      <div style="display: flex; flex-direction: column; gap: 3mm">
+        <div style="display: flex; align-items: center; gap: 4mm; padding: 3mm 5mm; border: 0.6px solid var(--rule); background: var(--view-bg)">
+          <div style="width: 14px; height: 14px; border: 1.2px solid var(--view); border-radius: 2px"></div>
+          <span style="font-size: 12px"><strong>Acepto</strong> — la propuesta sigue como está; Ricardo puede empezar el scaffold.</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 4mm; padding: 3mm 5mm; border: 0.6px solid var(--rule); background: var(--gold-3)">
+          <div style="width: 14px; height: 14px; border: 1.2px solid var(--gold); border-radius: 2px"></div>
+          <span style="font-size: 12px"><strong>Acepto con ediciones</strong> — anoto cambios abajo o en un documento aparte.</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 4mm; padding: 3mm 5mm; border: 0.6px solid var(--rule); background: var(--critical-bg)">
+          <div style="width: 14px; height: 14px; border: 1.2px solid var(--critical); border-radius: 2px"></div>
+          <span style="font-size: 12px"><strong>Declino</strong> — necesitamos volver a conversar las bases.</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h3>Notas y ediciones</h3>
+      <p class="small" style="margin-bottom: 4mm">Lista cualquier item que quieras editar, vetar, o discutir:</p>
+      <div style="height: 60mm; border: 0.6px solid var(--rule); background: var(--paper-2); padding: 5mm; font-family: var(--mono); font-size: 9.5px; color: var(--muted)">
+        <p>1. ________________________________________________</p>
+        <p>2. ________________________________________________</p>
+        <p>3. ________________________________________________</p>
+        <p>4. ________________________________________________</p>
+        <p>5. ________________________________________________</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="signoff-block">
+    <div class="signer">
+      <p class="role">Juan Pablo Mejía · Asesor Estratégico</p>
+      <div class="line"></div>
+      <p class="name">Firma + Fecha</p>
+    </div>
+    <div class="signer">
+      <p class="role">Ricardo Mejía · Fundador</p>
+      <div class="line"></div>
+      <p class="name">Firma + Fecha</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>v1.0 — 2026-05-11 · Mejía, IA &amp; CIA</span>
+    <span class="num">14</span>
+  </div>
+</section>
+
+</body>
+</html>

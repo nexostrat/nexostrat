@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StratiaLabs — Propuestas de Paleta de Colores</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #F4F6F9;
+    color: #1A1A2E;
+    padding: 48px 24px;
+  }
+
+  .page-header {
+    max-width: 960px;
+    margin: 0 auto 56px;
+    text-align: center;
+  }
+  .page-header .brand {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #7A8599;
+    margin-bottom: 12px;
+  }
+  .page-header h1 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #0D1117;
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+  }
+  .page-header p {
+    font-size: 16px;
+    color: #5A6478;
+    line-height: 1.6;
+  }
+
+  /* PALETTE CARD */
+  .palette-card {
+    max-width: 960px;
+    margin: 0 auto 48px;
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+  }
+
+  /* HERO BAND */
+  .hero-band {
+    height: 200px;
+    display: flex;
+    align-items: stretch;
+  }
+  .hero-band .swatch {
+    flex: 1;
+    transition: flex 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 12px;
+  }
+  .hero-band .swatch:hover { flex: 1.6; }
+  .swatch-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+  .swatch-hex {
+    font-size: 12px;
+    font-weight: 500;
+    opacity: 0.9;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+  }
+
+  /* CARD BODY */
+  .card-body {
+    padding: 36px 40px;
+  }
+
+  .palette-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 28px;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .palette-meta-left { flex: 1; min-width: 200px; }
+  .palette-number {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #A0ABBF;
+    margin-bottom: 6px;
+  }
+  .palette-name {
+    font-size: 26px;
+    font-weight: 700;
+    color: #0D1117;
+    letter-spacing: -0.3px;
+    margin-bottom: 4px;
+  }
+  .palette-tagline {
+    font-size: 14px;
+    color: #7A8599;
+    font-style: italic;
+  }
+  .palette-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding-top: 4px;
+  }
+  .tag {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  /* COLOR GRID */
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .color-chip {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .chip-swatch {
+    height: 72px;
+  }
+  .chip-info {
+    background: #fff;
+    padding: 8px 10px;
+    border-top: 1px solid #F0F2F5;
+  }
+  .chip-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: #3D4A5C;
+    margin-bottom: 2px;
+  }
+  .chip-hex {
+    font-size: 11px;
+    color: #8A95A8;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+  }
+
+  /* JUSTIFICATION */
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #A0ABBF;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #F0F2F5;
+  }
+  .justification {
+    font-size: 14px;
+    color: #4A5568;
+    line-height: 1.75;
+    margin-bottom: 32px;
+  }
+  .justification strong {
+    color: #1A1A2E;
+    font-weight: 600;
+  }
+
+  /* PREVIEW */
+  .preview-section { margin-bottom: 8px; }
+  .preview-ui {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid #E8ECF2;
+  }
+  .preview-topbar {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    gap: 8px;
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-r { background: #FF5F57; }
+  .dot-y { background: #FEBC2E; }
+  .dot-g { background: #28C840; }
+  .preview-inner {
+    padding: 24px 28px;
+    min-height: 180px;
+  }
+  .preview-logo {
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    margin-bottom: 20px;
+    display: inline-block;
+  }
+  .preview-headline {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+  .preview-sub {
+    font-size: 12px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    max-width: 340px;
+    opacity: 0.75;
+  }
+  .preview-btns {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .btn-primary {
+    padding: 9px 20px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-secondary {
+    padding: 9px 20px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    background: transparent;
+    cursor: pointer;
+    border: 1.5px solid;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+  .badge::before { content: '●'; font-size: 7px; }
+
+  /* DIVIDER */
+  hr.divider {
+    border: none;
+    border-top: 1px solid #E8ECF2;
+    margin: 32px 0;
+  }
+
+  /* ──────────────────────────────────────────────
+     PALETTE 1 — COSMOS: Deep Navy + Electric Blue
+  ────────────────────────────────────────────── */
+  .p1-bg1 { background: #050D1A; }
+  .p1-bg2 { background: #0B2140; }
+  .p1-accent1 { background: #0070F3; }
+  .p1-accent2 { background: #00C4FF; }
+  .p1-neutral { background: #8BA3C0; }
+  .p1-light { background: #EEF4FF; }
+
+  .p1-tag1 { background: #E8F0FF; color: #0047B3; }
+  .p1-tag2 { background: #E0F8FF; color: #006B8F; }
+  .p1-tag3 { background: #F0F2F5; color: #4A5568; }
+
+  /* ──────────────────────────────────────────────
+     PALETTE 2 — NEBULA: Deep Space + AI Purple
+  ────────────────────────────────────────────── */
+  .p2-bg1 { background: #080818; }
+  .p2-bg2 { background: #13103A; }
+  .p2-accent1 { background: #6C3CF7; }
+  .p2-accent2 { background: #A78BFA; }
+  .p2-highlight { background: #00E0D0; }
+  .p2-light { background: #F5F0FF; }
+
+  .p2-tag1 { background: #EDE9FF; color: #4C1D95; }
+  .p2-tag2 { background: #E0FDF8; color: #065F56; }
+  .p2-tag3 { background: #F0F2F5; color: #4A5568; }
+
+  /* ──────────────────────────────────────────────
+     PALETTE 3 — AURORA: Teal + Indigo + Warmth
+  ────────────────────────────────────────────── */
+  .p3-bg1 { background: #0C1A2E; }
+  .p3-bg2 { background: #0D4A6B; }
+  .p3-accent1 { background: #0EA5E9; }
+  .p3-accent2 { background: #10B981; }
+  .p3-warm { background: #F59E0B; }
+  .p3-light { background: #F0FBFF; }
+
+  .p3-tag1 { background: #E0F5FF; color: #075985; }
+  .p3-tag2 { background: #D1FAE5; color: #065F46; }
+  .p3-tag3 { background: #FEF3C7; color: #92400E; }
+
+  /* FOOTER */
+  .page-footer {
+    max-width: 960px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 16px 0 8px;
+    font-size: 12px;
+    color: #A0ABBF;
+  }
+</style>
+</head>
+<body>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="brand">StratiaLabs · Brand Identity</div>
+  <h1>Propuestas de Paleta de Colores</h1>
+  <p>Tres direcciones de identidad visual para evaluar. Cada paleta transmite<br>tecnología, innovación e inteligencia artificial con un énfasis distinto.</p>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     PALETA 1 — COSMOS
+══════════════════════════════════════════════════════════ -->
+<div class="palette-card">
+
+  <div class="hero-band">
+    <div class="swatch p1-bg1">
+      <span class="swatch-label" style="color:#fff">Cosmos</span>
+      <span class="swatch-hex" style="color:#fff">#050D1A</span>
+    </div>
+    <div class="swatch p1-bg2">
+      <span class="swatch-label" style="color:#aac4e0">Deep Navy</span>
+      <span class="swatch-hex" style="color:#aac4e0">#0B2140</span>
+    </div>
+    <div class="swatch p1-accent1">
+      <span class="swatch-label" style="color:#fff">Electric</span>
+      <span class="swatch-hex" style="color:#fff">#0070F3</span>
+    </div>
+    <div class="swatch p1-accent2">
+      <span class="swatch-label" style="color:#003344">Cyan Ice</span>
+      <span class="swatch-hex" style="color:#003344">#00C4FF</span>
+    </div>
+    <div class="swatch p1-neutral">
+      <span class="swatch-label" style="color:#fff">Steel</span>
+      <span class="swatch-hex" style="color:#fff">#8BA3C0</span>
+    </div>
+    <div class="swatch p1-light">
+      <span class="swatch-label" style="color:#4A5568">Ice White</span>
+      <span class="swatch-hex" style="color:#4A5568">#EEF4FF</span>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <div class="palette-meta">
+      <div class="palette-meta-left">
+        <div class="palette-number">Paleta 01</div>
+        <div class="palette-name">Cosmos</div>
+        <div class="palette-tagline">Autoridad digital · Precisión · Confianza premium</div>
+      </div>
+      <div class="palette-tags">
+        <span class="tag p1-tag1">IBM · Stripe · Vercel</span>
+        <span class="tag p1-tag2">Tech Enterprise</span>
+        <span class="tag p1-tag3">Dark-first</span>
+      </div>
+    </div>
+
+    <div class="color-grid">
+      <div class="color-chip">
+        <div class="chip-swatch p1-bg1"></div>
+        <div class="chip-info"><div class="chip-name">Cosmos Night</div><div class="chip-hex">#050D1A</div></div>
+      </div>
+      <div class="color-chip">
+        <div class="chip-swatch p1-bg2"></div>
+        <div class="chip-info"><div class="chip-name">Deep Navy</div><div class="chip-hex">#0B2140</div></div>
+      </div>
+      <div class="color-chip">
+        <div class="chip-swatch p1-accent1"></div>
+        <div class="chip-info"><div class="chip-name">Electric Blue</div><div class="chip-hex">#0070F3</div></div>
+      </div>
+      <div class="color-chip">
+        <div class="chip-swatch p1-accent2"></div>
+        <div class="chip-info"><div class="chip-name">Cyan Ice</div><div class="chip-hex">#00C4FF</div></div>
+      </div>
+      <div class="color-chip">
+        <div class="chip-swatch p1-neutral"></div>
+        <div class="chip-info"><div class="chip-name">Steel Blue</div><div class="chip-hex">#8BA3C0</div></div>
+      </div>
+      <div class="color-chip">
+        <div class="chip-swatch p1-light"></div>
+        <div class="chip-info"><div class="chip-name">Ice White</div><div class="chip-hex">#EEF4FF</div></div>
+      </div>
+    </div>
+
+    <div class="section-title">Justificación estratégica</div>
+    <div class="justification">
+      <strong>Navy profundo + azul eléctrico</strong> es el lenguaje visual de las empresas tecnológicas más confiables del mundo: IBM, Vercel, Stripe. Para el dueño de PYME que va a confiar datos sensibles de su negocio a StratiaLabs, esta paleta comunica <strong>seriedad y solidez antes de decir una sola palabra.</strong><br><br>
+      El azul eléctrico (#0070F3) y el cyan (#00C4FF) inyectan modernidad y tecnología sin perder el peso institucional del navy. El contraste es alto, los reportes se leen con claridad, y la paleta escala perfectamente a presentaciones, documentos Word y pantallas.<br><br>
+      <strong>Ideal si</strong> el posicionamiento central es confianza y autoridad técnica. El cliente ideal la percibe como: <em>"Esta empresa sabe lo que hace."</em>
+    </div>
+
+    <div class="preview-section">
+      <div class="section-title">Vista previa — Fragmento de UI</div>
+      <div class="preview-ui">
+        <div class="preview-topbar" style="background:#050D1A;">
+          <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+        </div>
+        <div class="preview-inner" style="background:#0B2140;">
+          <span class="preview-logo" style="color:#fff;">Stratia<span style="color:#00C4FF;">Labs</span></span>
+          <div class="preview-headline" style="color:#fff;">Inteligencia artificial<br>para tu empresa</div>
+          <div class="preview-sub" style="color:#8BA3C0;">Diagnóstico completo de oportunidades de IA para PYMEs en Colombia y México.</div>
+          <div class="preview-btns">
+            <button class="btn-primary" style="background:#0070F3; color:#fff;">Solicitar diagnóstico</button>
+            <button class="btn-secondary" style="color:#00C4FF; border-color:#00C4FF;">Ver cómo funciona</button>
+            <span class="badge" style="background:rgba(0,196,255,0.12); color:#00C4FF;">Diagnóstico gratuito</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     PALETA 2 — NEBULA
+══════════════════════════════════════════════════════════ -->
+<div class="palette-card">
+
+  <div class="hero-band">
+    <div class="swatch p2-bg1">
+      <span class="swatch-label" style="color:#fff">Deep Space</span>
+      <span class="swatch-hex" style="color:#fff">#080818</span>
+    </div>
+    <div class="swatch p2-bg2">
+      <span class="swatch-label" style="color:#a99ee0">Indigo Dark</span>
+      <span class="swatch-hex" style="color:#a99ee0">#13103A</span>
+    </div>
+    <div class="swatch p2-accent1">
+      <span class="swatch-label" style="color:#fff">AI Violet</span>
+      <span class="swatch-hex" style="color:#fff">#6C3CF7</span>
+    </div>
+    <div class="swatch p2-accent2">
+      <span class="swatch-label" style="color:#3D1A7A">Soft Violet</span>
+      <span class="swatch-hex" style="color:#3D1A7A">#A78BFA</span>
+    </div>
+    <div class="swatch p2-highlight">
+      <span class="swatch-label" style="color:#003D38">Mint Spark</span>
+      <span class="swatch-hex" style="color:#003D38">#00E0D0</span>
+    </div>
+    <div class="swatch p2-light">
+      <span class="swatch-label" style="color:#4A5568">Lavender Ice</span>
+      <span class="swatch-hex" style="color:#4A5568">#F5F0FF</span>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <div class="palette-meta">
+      <div class="palette-meta-left">
+        <div class="palette-number">Paleta 02</div>
+        <div class="palette-name">Nebula</div>
+        <div class="palette-tagline">Inteligencia profunda · IA nativa · Vanguardia</div>
+      </div>
+      <div class="palette-tags">
+        <span class="tag p2-tag1">Anthropic · Midjourney · Linear</span>
+        <span class="tag p2-tag2">AI-Native</span>
+        <span class="tag p2-tag3">Premium Dark</span>
+      </div>
+    </div>
+
+    <div class="color-grid">
+      <div class="color-chip">
+        <div class="chip-swatch p2-bg1"></div>
+        <div class="chip-info"><div class="chip-name">Deep Space</div><div class="chip-hex">#080818</div></div>
+      </div>
+      <div class="color-chip">
+        <div class="chip-swatch p2-bg2"></div>
+        <div class="chip-info"><div class="chip-name">Indigo Dark</div><div class="chip-hex">#13103A</div></div>
+      </div>
+      <div class="color-chip">
+        <div class="chip-swatch p2-accent1"></div>
+        <div class="chip-info"><div class="chip-name">AI Violet</div><div class="chip-hex">#6C3CF7</div></div>
+      </div>
+      <div class="color-chip">
+        <div class="chip-swatch p2-accent2"></div>
+        <div class="chip-info"><div class="chip-name">Soft Violet</div><div class="chip-hex">#A78BFA</div></div>
+      </div>
+      <div class="color-chip">
+        <div class="chip-swatch p2-highlight"></div>
+        <div class="chip-info"><div class="chip-name">Mint Spark</div><div class="chip-hex">#00E0D0</div></div>
+      </div>
+      <div class="color-chip">
+        <div class="chip-swatch p2-light"></div>
+        <div class="chip-info"><div class="chip-name">Lavender Ice</div><div class="chip-hex">#F5F0FF</div></div>
+      </div>
+    </div>
+
+    <div class="section-title">Justificación estratégica</div>
+    <div class="justification">
+      El <strong>púrpura y el violeta eléctrico</strong> se han convertido en el color de la inteligencia artificial — Anthropic, Midjourney, y las mejores startups de IA del mundo lo usan. No es casualidad: el púrpura históricamente evoca <strong>inteligencia superior, pensamiento abstracto y lo extraordinario.</strong><br><br>
+      El contraste con el deep space (#080818) crea una estética premium que dice "estamos a la vanguardia de algo nuevo." El mint spark (#00E0D0) actúa como acento de energía — aparece en CTAs, highlights, y datos clave de los reportes — rompiendo la densidad del oscuro con frescura tecnológica.<br><br>
+      <strong>Ideal si</strong> el posicionamiento central es ser la firma de IA más avanzada del mercado. El cliente ideal la percibe como: <em>"Esto no lo ofrece ninguna otra consultora en Colombia."</em>
+    </div>
+
+    <div class="preview-section">
+      <div class="section-title">Vista previa — Fragmento de UI</div>
+      <div class="preview-ui">
+        <div class="preview-topbar" style="background:#080818;">
+          <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+        </div>
+        <div class="preview-inner" style="background: linear-gradient(135deg, #080818 0%, #13103A 100%);">
+          <span class="preview-logo" style="color:#fff;">Stratia<span style="color:#A78BFA;">Labs</span></span>
+          <div class="preview-headline" style="color:#fff;">El diagnóstico de IA<br>que tu empresa necesita</div>
+          <div class="preview-sub" style="color:#A78BFA;">Análisis profundo de oportunidades reales de automatización para PYMEs.</div>
+          <div class="preview-btns">
+            <button class="btn-primary" style="background:#6C3CF7; color:#fff;">Solicitar diagnóstico</button>
+            <button class="btn-secondary" style="color:#00E0D0; border-color:#00E0D0;">Ver cómo funciona</button>
+            <span class="badge" style="background:rgba(0,224,208,0.12); color:#00E0D0;">Diagnóstico gratuito</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     PALETA 3 — AURORA
+══════════════════════════════════════════════════════════ -->
+<div class="palette-card">
+
+  <div class="hero-band">
+    <div class="swatch p3-bg1">
+      <span class="swatch-label" style="color:#fff">Midnight</span>
+      <span class="swatch-hex" style="color:#fff">#0C1A2E</span>
+    </div>
+    <div class="swatch p3-bg2">
+      <span class="swatch-label" style="color:#b3e0f5">Ocean Deep</span>
+      <span class="swatch-hex" style="color:#b3e0f5">#0D4A6B</span>
+    </div>
+    <div class="swatch p3-accent1">
+      <span class="swatch-label" style="color:#fff">Sky Blue</span>
+      <span class="swatch-hex" style="color:#fff">#0EA5E9</span>
+    </div>
+    <div class="swatch p3-accent2">
+      <span class="swatch-label" style="color:#fff">Emerald</span>
+      <span class="swatch-hex" style="color:#fff">#10B981</span>
+    </div>
+    <div class="swatch p3-warm">
+      <span class="swatch-label" style="color:#78350F">Amber</span>
+      <span class="swatch-hex" style="color:#78350F">#F59E0B</span>
+    </div>
+    <div class="swatch p3-light">
+      <span class="swatch-label" style="color:#4A5568">Arctic White</span>
+      <span class="swatch-hex" style="color:#4A5568">#F0FBFF</span>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <div class="palette-meta">
+      <div class="palette-meta-left">
+        <div class="palette-number">Paleta 03</div>
+        <div class="palette-name">Aurora</div>
+        <div class="palette-tagline">Resultados concretos · Accesible · Crecimiento visible</div>
+      </div>
+      <div class="palette-tags">
+        <span class="tag p3-tag1">Salesforce · HubSpot</span>
+        <span class="tag p3-tag2">Business Growth</span>
+        <span class="tag p3-tag3">Light + Dark</span>
+      </div>
+    </div>
+
+    <div class="color-grid">
+      <div class="color-chip">
+        <div class="chip-swatch p3-bg1"></div>
+        <div class="chip-info"><div class="chip-name">Midnight</div><div class="chip-hex">#0C1A2E</div></div>
+      </div>
+      <div class="color-chip">
+        <div class="chip-swatch p3-bg2"></div>
+        <div class="chip-info"><div class="chip-name">Ocean Deep</div><div class="chip-hex">#0D4A6B</div></div>
+      </div>
+      <div class="color-chip">
+        <div class="chip-swatch p3-accent1"></div>
+        <div class="chip-info"><div class="chip-name">Sky Blue</div><div class="chip-hex">#0EA5E9</div></div>
+      </div>
+      <div class="color-chip">
+        <div class="chip-swatch p3-accent2"></div>
+        <div class="chip-info"><div class="chip-name">Emerald</div><div class="chip-hex">#10B981</div></div>
+      </div>
+      <div class="color-chip">
+        <div class="chip-swatch p3-warm"></div>
+        <div class="chip-info"><div class="chip-name">Amber Gold</div><div class="chip-hex">#F59E0B</div></div>
+      </div>
+      <div class="color-chip">
+        <div class="chip-swatch p3-light"></div>
+        <div class="chip-info"><div class="chip-name">Arctic White</div><div class="chip-hex">#F0FBFF</div></div>
+      </div>
+    </div>
+
+    <div class="section-title">Justificación estratégica</div>
+    <div class="justification">
+      Esta paleta resuelve una tensión real: el cliente PYME quiere una empresa tecnológica, pero también <strong>cercana, que hable su idioma y prometa resultados medibles.</strong> El azul cielo (#0EA5E9) transmite tecnología sin intimidar. El esmeralda (#10B981) evoca crecimiento, resultados positivos, dinero — exactamente lo que busca un empresario.<br><br>
+      El ámbar dorado (#F59E0B) es el diferenciador: aparece en métricas, Quick Wins y momentos de éxito en los reportes. Psicológicamente, el dorado asocia el trabajo de StratiaLabs con <strong>valor económico directo para la empresa cliente.</strong><br><br>
+      Es la paleta más versátil: funciona igual de bien en modo oscuro (sitio web) que en modo claro (reportes Word, presentaciones). Salesforce y HubSpot — las herramientas que más usan los empresarios B2B — tienen ADN visual similar.<br><br>
+      <strong>Ideal si</strong> el posicionamiento central son los resultados concretos y la accesibilidad. El cliente ideal la percibe como: <em>"Estos sí me van a mostrar cuánto dinero gané con la IA."</em>
+    </div>
+
+    <div class="preview-section">
+      <div class="section-title">Vista previa — Fragmento de UI</div>
+      <div class="preview-ui">
+        <div class="preview-topbar" style="background:#0C1A2E;">
+          <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+        </div>
+        <div class="preview-inner" style="background:#F0FBFF;">
+          <span class="preview-logo" style="color:#0C1A2E;">Stratia<span style="color:#0EA5E9;">Labs</span></span>
+          <div class="preview-headline" style="color:#0C1A2E;">IA que se convierte<br>en resultados reales</div>
+          <div class="preview-sub" style="color:#4A6378;">Identificamos las 3 oportunidades de automatización con mayor impacto para tu PYME — gratis.</div>
+          <div class="preview-btns">
+            <button class="btn-primary" style="background:#0EA5E9; color:#fff;">Solicitar diagnóstico</button>
+            <button class="btn-secondary" style="color:#0D4A6B; border-color:#0D4A6B;">Ver cómo funciona</button>
+            <span class="badge" style="background:#D1FAE5; color:#065F46;">Diagnóstico gratuito</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="page-footer">
+  StratiaLabs · Brand Identity Exploration · 2026
+</div>
+
+</body>
+</html>

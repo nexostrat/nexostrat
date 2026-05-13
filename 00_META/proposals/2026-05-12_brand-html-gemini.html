@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propuesta de Identidad de Marca — Consultora de IA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Paleta: The Architect */
+            --slate-ink: #0F172A;
+            --deep-emerald: #064E3B;
+            --ghost-white: #F8FAFC;
+            --muted-zinc: #D4D4D8;
+            --amber-gold: #D97706;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: var(--slate-ink);
+            color: var(--ghost-white);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+            margin-bottom: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .id-badge {
+            background-color: var(--deep-emerald);
+            color: white;
+            padding: 4px 12px;
+            font-weight: 800;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-radius: 4px;
+        }
+
+        h1 { font-size: 2.5rem; font-weight: 800; margin: 0; letter-spacing: -0.02em; }
+        h2 { font-size: 1.8rem; color: var(--amber-gold); margin-top: 60px; border-left: 4px solid var(--amber-gold); padding-left: 15px; }
+        h3 { font-size: 1.2rem; text-transform: uppercase; letter-spacing: 2px; color: var(--muted-zinc); margin-top: 40px; }
+
+        .intro-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+        }
+
+        /* Sección Naming */
+        .name-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .name-card {
+            background: white;
+            color: var(--slate-ink);
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s;
+        }
+
+        .name-card:hover { transform: translateY(-5px); }
+        .name-card h4 { font-size: 1.5rem; margin: 0 0 10px 0; color: var(--deep-emerald); }
+        .name-meta { font-size: 0.85rem; color: #64748b; margin-bottom: 15px; }
+        .name-vs { font-style: italic; border-top: 1px solid #e2e8f0; padding-top: 10px; margin-top: auto; font-size: 0.9rem; }
+        
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .badge-free { background: #dcfce7; color: #166534; }
+        .badge-taken { background: #fee2e2; color: #991b1b; }
+        .badge-check { background: #fef9c3; color: #854d0e; }
+
+        /* Sección Paletas */
+        .palette-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .palette-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .swatch-container {
+            display: flex;
+            margin: 15px 0;
+            border-radius: 6px;
+            overflow: hidden;
+            height: 60px;
+        }
+        .swatch { flex: 1; position: relative; }
+        .swatch:hover::after {
+            content: attr(data-hex);
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            color: var(--muted-zinc);
+        }
+
+        /* Sección Logo */
+        .logo-viz {
+            background: var(--ghost-white);
+            color: var(--slate-ink);
+            padding: 60px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .wordmark {
+            font-size: 3.5rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            letter-spacing: -0.03em;
+        }
+
+        .symbol-svg {
+            width: 50px;
+            height: 50px;
+        }
+
+        .footer-note {
+            font-size: 0.8rem;
+            color: var(--muted-zinc);
+            margin-top: 80px;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .palette-section { grid-template-columns: 1fr; }
+            .wordmark { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div>
+            <div class="id-badge">Gemini</div>
+            <h1>Brand Identity Memo</h1>
+        </div>
+        <div style="text-align: right">
+            <span style="color: var(--amber-gold)">2026.05.12</span><br>
+            <small>Pre-launch Phase</small>
+        </div>
+    </header>
+
+    <div class="intro-box">
+        <strong>Nota Estratégica:</strong> StratiaLabs ha sido descartado por colisión crítica con <em>stratialab.com</em> y saturación del prefijo "Strat-" en IA. Las siguientes propuestas buscan resolver el doble vector: <strong>Respeto institucional</strong> para el dueño de PyME (50-70 años) y <strong>vanguardia técnica</strong> para el CTO (28-40 años).
+    </div>
+
+    <h2>Sección 1 — Propuesta de Naming (Modo A)</h2>
+
+    <h3>I. English (Technical Authority)</h3>
+    <div class="name-grid">
+        <div class="name-card">
+            <span class="badge badge-taken">Prob. Tomado</span>
+            <h4>Vantage</h4>
+            <div class="name-meta">VĂN-tij · 7 chars · Estrategia / Ventaja</div>
+            <p>Comunica una posición de superioridad estratégica. Ideal para el CTO que busca resultados de alto nivel.</p>
+            <div class="name-vs">Supera a StratiaLabs en brevedad y peso corporativo.</div>
+        </div>
+        <div class="name-card">
+            <span class="badge badge-taken">Prob. Tomado</span>
+            <h4>Foundry</h4>
+            <div class="name-meta">FOUN-dree · 7 chars · Taller / Forja</div>
+            <p>Sugiere que la IA no es humo, sino una herramienta sólida que se "forja" a medida para la empresa.</p>
+            <div class="name-vs">Gana en pragmatismo; suena a construcción de valor real.</div>
+        </div>
+        <div class="name-card">
+            <span class="badge badge-check">Verificar</span>
+            <h4>Metric</h4>
+            <div class="name-meta">MĔ-trik · 6 chars · Medición / Datos</div>
+            <p>Directo al grano. El dueño de PyME entiende que lo que no se mide, no crece. IA basada en resultados.</p>
+            <div class="name-vs">Mucho más orientado a ROI que el nombre original.</div>
+        </div>
+        <div class="name-card">
+            <span class="badge badge-free">Prob. Libre</span>
+            <h4>Traction</h4>
+            <div class="name-meta">TRĂK-shun · 8 chars · Impulso / Agarre</div>
+            <p>Evoca el movimiento de una empresa que deja de estar estancada gracias a la modernización.</p>
+            <div class="name-vs">Elimina la sensación de "laboratorio" y la cambia por "acción".</div>
+        </div>
+    </div>
+
+    <h3>II. Español (Solidez y Confianza)</h3>
+    <div class="name-grid">
+        <div class="name-card">
+            <span class="badge badge-taken">Prob. Tomado</span>
+            <h4>Criterio</h4>
+            <div class="name-meta">cri-TÉ-rio · 8 chars · Juicio / Sabiduría</div>
+            <p>La palabra favorita del dueño de PyME. Transmite que la IA tiene sentido común y ética aplicada.</p>
+            <div class="name-vs">Gana por goleada en confianza institucional para el mercado LATAM.</div>
+        </div>
+        <div class="name-card">
+            <span class="badge badge-taken">Prob. Tomado</span>
+            <h4>Vértice</h4>
+            <div class="name-meta">VÉR-ti-se · 7 chars · Unión / Cumbre</div>
+            <p>El punto donde la tradición de la empresa familiar se une con la tecnología del futuro.</p>
+            <div class="name-vs">Suena a firma de consultoría de élite, no a startup de garaje.</div>
+        </div>
+        <div class="name-card">
+            <span class="badge badge-check">Verificar</span>
+            <h4>Sentido</h4>
+            <div class="name-meta">sen-TÍ-do · 7 chars · Propósito / Lógica</div>
+            <p>IA con sentido. Un nombre humano que baja la guardia de quienes temen a la tecnología.</p>
+            <div class="name-vs">Humaniza la oferta, algo que "StratiaLabs" no lograba hacer.</div>
+        </div>
+        <div class="name-card">
+            <span class="badge badge-free">Prob. Libre</span>
+            <h4>Auge</h4>
+            <div class="name-meta">ÁU-je · 4 chars · Crecimiento / Clímax</div>
+            <p>Corto, potente, optimista. Una marca que promete el mejor momento de la historia del cliente.</p>
+            <div class="name-vs">Mucho más memorable y fácil de usar en handles y dominios.</div>
+        </div>
+    </div>
+
+    <h3>III. Acuñados / Neutros (Escalabilidad)</h3>
+    <div class="name-grid">
+        <div class="name-card">
+            <span class="badge badge-taken">Prob. Tomado</span>
+            <h4>Altia</h4>
+            <div class="name-meta">ĂL-tee-uh · 5 chars · Altura / Elevación</div>
+            <p>Derivado de Altus. Una marca "paraguas" que permite diversificar servicios sin fricción.</p>
+            <div class="name-vs">Neutralidad perfecta. No se siente regional ni limitada a IA.</div>
+        </div>
+        <div class="name-card">
+            <span class="badge badge-taken">Prob. Tomado</span>
+            <h4>Kora</h4>
+            <div class="name-meta">KORE-uh · 4 chars · Núcleo / Core</div>
+            <p>Minimalismo puro. Suena a tecnología de infraestructura. Atractivo visual inmediato para el CTO.</p>
+            <div class="name-vs">Alineado con el estilo visual de Linear, Vercel o Anthropic.</div>
+        </div>
+        <div class="name-card">
+            <span class="badge badge-free">Prob. Libre</span>
+            <h4>Novis</h4>
+            <div class="name-meta">NOH-vis · 5 chars · Nuevo / Innovación</div>
+            <p>Raíz latina clara. Comunica la llegada de algo nuevo pero con el peso de la historia.</p>
+            <div class="name-vs">Más elegante que "New" o "Modern", manteniendo la simplicidad.</div>
+        </div>
+        <div class="name-card">
+            <span class="badge badge-free">Prob. Libre</span>
+            <h4>Axon</h4>
+            <div class="name-meta">ĂK-son · 4 chars · Conexión / Eje</div>
+            <p>Referencia biológica a la conexión neuronal. Ciencia aplicada a la arquitectura de procesos.</p>
+            <div class="name-vs">Sustituye a "Labs" con un concepto técnico más inteligente.</div>
+        </div>
+    </div>
+
+    <h2>Sección 2 — Análisis de Color</h2>
+    <div class="palette-section">
+        <div class="palette-card">
+            <strong>01. Cosmos (JP)</strong>
+            <div class="swatch-container">
+                <div class="swatch" style="background:#050D1A" data-hex="#050D1A"></div>
+                <div class="swatch" style="background:#0B2140" data-hex="#0B2140"></div>
+                <div class="swatch" style="background:#0070F3" data-hex="#0070F3"></div>
+                <div class="swatch" style="background:#00C4FF" data-hex="#00C4FF"></div>
+            </div>
+            <p><small>Crítica: Zona segura. Muy "bancaria". Respetable pero poco innovadora para una firma de IA.</small></p>
+            <span class="badge badge-check">Refinar</span>
+        </div>
+        <div class="palette-card">
+            <strong>02. Nebula (JP)</strong>
+            <div class="swatch-container">
+                <div class="swatch" style="background:#080818" data-hex="#080818"></div>
+                <div class="swatch" style="background:#13103A" data-hex="#13103A"></div>
+                <div class="swatch" style="background:#6C3CF7" data-hex="#6C3CF7"></div>
+                <div class="swatch" style="background:#00E0D0" data-hex="#00E0D0"></div>
+            </div>
+            <p><small>Crítica: Demasiado startup/gaming. El dueño de PyME podría sentirla poco seria.</small></p>
+            <span class="badge badge-taken">Desechar</span>
+        </div>
+    </div>
+
+    <div class="intro-box" style="margin-top: 30px; border: 2px solid var(--amber-gold);">
+        <h3>Propuesta Ganadora: "The Architect"</h3>
+        <p>Inspirada en firmas de arquitectura de alto nivel. Combina la profundidad del conocimiento con el brillo de los resultados.</p>
+        <div class="swatch-container" style="height: 100px;">
+            <div class="swatch" style="background:#0F172A" data-hex="#0F172A"></div>
+            <div class="swatch" style="background:#064E3B" data-hex="#064E3B"></div>
+            <div class="swatch" style="background:#F8FAFC" data-hex="#F8FAFC"></div>
+            <div class="swatch" style="background:#D4D4D8" data-hex="#D4D4D8"></div>
+            <div class="swatch" style="background:#D97706" data-hex="#D97706"></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: bold;">
+            <span>SLATE INK</span>
+            <span>DEEP EMERALD</span>
+            <span>GHOST WHITE</span>
+            <span>ZINC</span>
+            <span>AMBER GOLD</span>
+        </div>
+    </div>
+
+    <h2>Sección 3 — Dirección de Logotipo</h2>
+    <p>Dirección recomendada: <strong>Symbol + Wordmark</strong>. El símbolo actúa como sello de autoridad en reportes PDF, mientras que la tipografía geométrica asegura la modernidad en la web.</p>
+    
+    <div class="logo-viz">
+        <div class="wordmark">
+            <svg class="symbol-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="15" width="8" height="25" fill="#0F172A"/>
+                <rect x="16" y="5" width="8" height="35" fill="#D97706"/>
+                <rect x="27" y="10" width="8" height="30" fill="#0F172A"/>
+            </svg>
+            CRITERIO
+        </div>
+        <p style="margin-top: 20px; color: #64748b; font-weight: 500;">
+            Tipografía: <strong>Manrope ExtraBold</strong> (Espaciado +5%)<br>
+            Concepto: "El Alineamiento" (Datos que cobran estructura y altura).
+        </p>
+    </div>
+
+    <div class="footer-note">
+        <p>Nota: Las disponibilidades de handles son inferencias de búsqueda web. Antes de proceder, realizar verificación legal en IMPI (México) y SIC (Colombia). <br> <strong>Gemini — 2026</strong></p>
+        <div class="id-badge">Gemini</div>
+    </div>
+</div>
+
+</body>
+</html>

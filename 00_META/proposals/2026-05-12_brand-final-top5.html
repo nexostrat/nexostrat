@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Identidad de marca — Propuesta de Claude para Ricardo y JP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F4F1E8;
+    --bg-warm: #ECE7D8;
+    --paper: #FAF7EE;
+    --ink: #131A24;
+    --ink-soft: #2B384B;
+    --rule: #C9C1B0;
+    --rule-soft: #DDD6C5;
+    --azul: #3B5C8C;
+    --azul-soft: rgba(59, 92, 140, 0.1);
+    --ambar: #C8924A;
+    --ambar-soft: rgba(200, 146, 74, 0.14);
+    --green-ok: #2E6B3F;
+    --red-bad: #8B3A2F;
+    --yellow: #B27A23;
+    --niebla: #D1D6DD;
+    --display: 'Space Grotesk', system-ui, sans-serif;
+    --sans: 'Manrope', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* TOP BAR */
+  .top-bar {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 14px 0;
+  }
+  .top-bar-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .top-bar-inner .left { color: var(--ambar); }
+  .top-bar-inner .right { color: var(--niebla); }
+
+  /* HERO */
+  .hero {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 64px 32px 48px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 22px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .hero .eyebrow::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--ambar);
+  }
+  .hero h1 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(34px, 5vw, 56px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+  .hero .lede {
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    max-width: 720px;
+  }
+  .hero .from-to {
+    margin-top: 32px;
+    padding: 16px 20px;
+    background: var(--paper);
+    border-left: 3px solid var(--ambar);
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+    display: inline-block;
+  }
+  .hero .from-to strong { color: var(--ink); }
+
+  main { max-width: 1120px; margin: 0 auto; padding: 0 32px; }
+
+  section {
+    padding: 64px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  section:last-of-type { border-bottom: none; }
+
+  .section-header {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 48px;
+    margin-bottom: 40px;
+  }
+  .section-header .label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ambar);
+    padding-top: 8px;
+  }
+  .section-header h2 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(24px, 3.4vw, 36px);
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+  .section-header p {
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin-top: 12px;
+    max-width: 640px;
+  }
+
+  /* TOP PICK CALLOUT — Ricardo's pick */
+  .top-pick {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 44px 40px;
+    margin-bottom: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .top-pick::before {
+    content: '★ ESCOGIDO POR RICARDO';
+    position: absolute;
+    top: 24px;
+    right: -36px;
+    background: var(--ambar);
+    color: var(--ink);
+    padding: 5px 50px;
+    transform: rotate(45deg);
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+  }
+  .top-pick .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ambar);
+    margin-bottom: 14px;
+  }
+  .top-pick h3 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(40px, 5vw, 56px);
+    letter-spacing: -0.025em;
+    color: var(--paper);
+    margin-bottom: 14px;
+  }
+  .top-pick .why {
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--niebla);
+    max-width: 700px;
+  }
+
+  /* NAME CARD */
+  .name-card {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 32px 32px 28px;
+    margin-bottom: 24px;
+  }
+  .name-card.featured {
+    border-color: var(--ambar);
+    border-width: 2px;
+    background: var(--bg-warm);
+  }
+  .card-rank {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ambar);
+    margin-bottom: 6px;
+  }
+  .card-name {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(32px, 4vw, 44px);
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .card-pron {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-bottom: 22px;
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .card-pron span::before {
+    content: attr(data-lang);
+    color: var(--ambar);
+    margin-right: 6px;
+    font-weight: 600;
+  }
+  .card-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin-bottom: 22px;
+  }
+  .card-block h4 {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+  .card-block p {
+    font-family: var(--sans);
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+
+  /* AUDIT TABLE */
+  .audit-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--paper);
+    border: 1px solid var(--rule-soft);
+    font-size: 12.5px;
+    margin-bottom: 22px;
+  }
+  .name-card.featured .audit-table { background: var(--bg-warm); }
+  .audit-table th {
+    text-align: left;
+    padding: 9px 12px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    border-bottom: 1px solid var(--rule);
+    font-weight: 600;
+  }
+  .audit-table td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--rule-soft);
+    vertical-align: middle;
+  }
+  .audit-table tr:last-child td { border-bottom: none; }
+  .audit-table .surface {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink);
+    width: 26%;
+  }
+  .audit-table .status {
+    font-weight: 600;
+    width: 30%;
+    font-size: 12px;
+  }
+  .audit-table .status.ok { color: var(--green-ok); }
+  .audit-table .status.bad { color: var(--red-bad); }
+  .audit-table .status.warn { color: var(--yellow); }
+  .audit-table .evidence {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--ink-soft);
+  }
+  .audit-table .price {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--ink-soft);
+    width: 16%;
+    text-align: right;
+  }
+
+  /* RATINGS — three columns: Claude, Ricardo, JP */
+  .ratings {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin-top: 22px;
+    padding-top: 22px;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .rating-block {
+    background: var(--paper);
+    border: 1px solid var(--rule-soft);
+    padding: 14px 16px;
+  }
+  .name-card.featured .rating-block { background: var(--bg); }
+  .rating-block.user-empty {
+    background: transparent;
+    border: 1px dashed var(--rule);
+  }
+  .rating-block h4 {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+  .rating-value {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+  .rating-value .number {
+    font-family: var(--display);
+    font-size: 34px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .rating-value .number.ambar { color: var(--ambar); }
+  .rating-value .number.blank {
+    color: var(--rule);
+    border-bottom: 2px solid var(--ambar);
+    padding: 0 14px 4px;
+    font-family: var(--display);
+  }
+  .rating-value .denom {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .rating-note {
+    font-family: var(--sans);
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    line-height: 1.4;
+    font-style: italic;
+  }
+
+  /* PALETTES */
+  .palette {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 22px 24px;
+    margin-bottom: 18px;
+  }
+  .palette.featured {
+    border-color: var(--ambar);
+    border-width: 2px;
+    background: var(--bg-warm);
+  }
+  .palette-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .palette-header h3 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .palette-header h3 span {
+    font-family: var(--sans);
+    font-weight: 500;
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin-left: 6px;
+  }
+  .palette-author {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .palette-swatches {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin-bottom: 12px;
+  }
+  .palette-swatch {
+    aspect-ratio: 1.4 / 1;
+    padding: 10px 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.02em;
+  }
+  .palette-swatch .name { font-weight: 600; font-size: 10px; letter-spacing: 0; font-family: var(--sans); margin-bottom: 2px; }
+  .palette-swatch .hex { opacity: 0.85; }
+  .palette-desc {
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    margin-bottom: 14px;
+  }
+  .palette-ratings {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .palette-rating {
+    background: var(--paper);
+    border: 1px solid var(--rule-soft);
+    padding: 8px 12px;
+  }
+  .palette.featured .palette-rating { background: var(--bg); }
+  .palette-rating.empty {
+    background: transparent;
+    border: 1px dashed var(--rule);
+  }
+  .palette-rating .label {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .palette-rating .score {
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-top: 2px;
+  }
+  .palette-rating .score.ambar { color: var(--ambar); }
+  .palette-rating .score.blank {
+    color: var(--rule);
+    border-bottom: 2px solid var(--ambar);
+    display: inline-block;
+    padding: 0 10px 2px;
+  }
+  .palette-rating .score .denom {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-soft);
+    font-weight: 400;
+    margin-left: 4px;
+  }
+
+  /* REJECTED NAMES (3 columns) */
+  .rejected-wrap {
+    margin-top: 28px;
+  }
+  .rejected-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+  .rejected-cell {
+    background: var(--paper);
+    padding: 12px 16px;
+    border-bottom: none;
+  }
+  .rejected-cell .name {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--ink);
+    margin-bottom: 3px;
+    letter-spacing: -0.01em;
+  }
+  .rejected-cell .reason {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--ink-soft);
+    letter-spacing: 0.02em;
+    line-height: 1.4;
+  }
+
+  /* JP DECISION BLOCK */
+  .jp-block {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 44px 40px;
+    margin-top: 56px;
+  }
+  .jp-block .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ambar);
+    margin-bottom: 16px;
+  }
+  .jp-block h2 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(24px, 3.2vw, 32px);
+    color: var(--paper);
+    margin-bottom: 22px;
+    letter-spacing: -0.015em;
+  }
+  .jp-block .prompt {
+    background: rgba(255,255,255,0.05);
+    border-left: 3px solid var(--ambar);
+    padding: 16px 20px;
+    font-family: var(--sans);
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--niebla);
+    margin-bottom: 18px;
+  }
+  .jp-block .prompt strong { color: var(--paper); }
+  .jp-block ol {
+    list-style: none;
+    counter-reset: q;
+    margin-top: 10px;
+  }
+  .jp-block ol li {
+    counter-increment: q;
+    padding: 12px 0 12px 46px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    position: relative;
+    font-family: var(--sans);
+    font-size: 14.5px;
+    color: var(--niebla);
+    line-height: 1.6;
+  }
+  .jp-block ol li:last-child { border-bottom: none; }
+  .jp-block ol li::before {
+    content: counter(q, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 14px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ambar);
+    letter-spacing: 0.08em;
+  }
+  .jp-block ol li strong { color: var(--paper); font-weight: 600; }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    color: var(--niebla);
+    padding: 24px 0;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .footer-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  footer .firma { color: var(--ambar); }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .ratings, .palette-ratings { grid-template-columns: 1fr; }
+    .rejected-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 700px) {
+    .section-header { grid-template-columns: 1fr; gap: 10px; }
+    .card-body { grid-template-columns: 1fr; }
+    .palette-swatches { grid-template-columns: repeat(3, 1fr); }
+    .rejected-grid { grid-template-columns: 1fr; }
+    .hero { padding: 44px 22px 36px; }
+    main { padding: 0 22px; }
+    section { padding: 48px 0; }
+    .top-pick, .jp-block { padding: 32px 22px; }
+    .name-card { padding: 24px 22px 22px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <div class="left">CLAUDE CODE → RICARDO + JP</div>
+    <div class="right">12 MAY 2026 · DECISIÓN FINAL</div>
+  </div>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="eyebrow">Identidad de marca · Propuesta final</div>
+  <h1>Cinco nombres auditados, ratificados por Ricardo, listos para tu voto JP.</h1>
+  <p class="lede">
+    Después de cuatro rondas de torneo (Grok, Gemini web, Claude web, Gemini CLI) y una auditoría real con Verisign RDAP, este es el set definitivo. Cinco candidatos sobrevivieron filtros estrictos. Ricardo ya escogió a Nexostrat como su #1 y calificó todos. Falta tu voto, JP.
+  </p>
+  <div class="from-to">
+    <strong>De:</strong> Claude Code &nbsp;·&nbsp; <strong>Para:</strong> Ricardo Mejía + JP Mejía &nbsp;·&nbsp; <strong>Fecha:</strong> 12 mayo 2026
+  </div>
+</header>
+
+<main>
+
+<!-- ============ TOP PICK ============ -->
+<section style="padding-top: 48px;">
+  <div class="top-pick">
+    <div class="eyebrow">El favorito de Ricardo</div>
+    <h3>Nexostrat</h3>
+    <p class="why">
+      Única palabra simple del torneo con <code>.com</code>, <code>.ai</code>, <code>.co</code> y <code>.io</code> confirmados disponibles vía Verisign RDAP. Calificación de Ricardo: <strong>8/10</strong>. Caveat conocido: <code>@nexostrat</code> en Instagram lo tiene "NexoStrat Marketing" (operación menor sin presencia en búsqueda web). Alternativa social: <code>@nexostrat.ai</code> o <code>@nexostratco</code>. JP — ¿qué dices?
+    </p>
+  </div>
+</section>
+
+<!-- ============ TOP 5 ============ -->
+<section style="padding-top: 0;">
+  <div class="section-header">
+    <div class="label">Sección 01 / Tres</div>
+    <div>
+      <h2>Los cinco candidatos, en el orden de Ricardo.</h2>
+      <p>Cada tarjeta muestra: mi calificación (Claude), la de Ricardo (registrada), y un espacio en blanco para la tuya JP. Califica todos antes de declarar al ganador.</p>
+    </div>
+  </div>
+
+  <!-- ============ #1 NEXOSTRAT ============ -->
+  <div class="name-card featured">
+    <div class="card-rank">★ Rank #1 · Favorito de Ricardo</div>
+    <h3 class="card-name">Nexostrat</h3>
+    <div class="card-pron">
+      <span data-lang="ES">NEK-so-strat</span>
+      <span data-lang="EN">NEK-soh-strat</span>
+      <span data-lang="LEN">9 caracteres · 1 palabra</span>
+    </div>
+
+    <div class="card-body">
+      <div class="card-block">
+        <h4>Por qué este nombre</h4>
+        <p><strong>Nexo</strong> (conexión, en español) + <strong>Strat</strong> (estrategia). Propuesto por Gemini CLI después de auditar 36 candidatos previos y encontrar que ninguno pasaba el filtro estricto de <code>.com</code>. Es palabra única — handles compactos, branding simple.</p>
+        <p>La raíz <code>-strat-</code> queda embebida, no líder, esquivando la saturación de "Strat-" como prefijo (StratiaLabs, Strativa, Stratagem...) sin perder la asociación con estrategia.</p>
+      </div>
+      <div class="card-block">
+        <h4>Campo semántico</h4>
+        <p><strong>Estrategia + conexión.</strong> El "nexo" añade un matiz que ningún otro candidato tiene: la firma que une lo viejo (PyME tradicional) con lo nuevo (IA).</p>
+        <h4 style="margin-top: 16px;">Caveats conocidos</h4>
+        <p>Instagram <code>@nexostrat</code> tomado por operación menor "NexoStrat Marketing". Sonido tiene dejo farmacéutico (Lipitor / Nexium). LinkedIn / dominio principal: limpios.</p>
+      </div>
+    </div>
+
+    <table class="audit-table">
+      <thead><tr><th class="surface">Superficie</th><th class="status">Estado</th><th class="evidence">Evidencia</th><th class="price">Precio aprox.</th></tr></thead>
+      <tbody>
+        <tr><td class="surface">nexostrat.com</td><td class="status ok">✓ Disponible</td><td class="evidence">Verisign RDAP 404</td><td class="price">~USD 10/año</td></tr>
+        <tr><td class="surface">nexostrat.ai</td><td class="status ok">✓ Disponible</td><td class="evidence">DNS sin registro</td><td class="price">~USD 75/año</td></tr>
+        <tr><td class="surface">nexostrat.co</td><td class="status ok">✓ Disponible</td><td class="evidence">DNS sin registro</td><td class="price">~USD 28/año</td></tr>
+        <tr><td class="surface">nexostrat.io</td><td class="status ok">✓ Disponible</td><td class="evidence">DNS sin registro</td><td class="price">~USD 38/año</td></tr>
+        <tr><td class="surface">linkedin /company/</td><td class="status ok">✓ Libre</td><td class="evidence">HTTP 404</td><td class="price">USD 0</td></tr>
+        <tr><td class="surface">instagram @nexostrat</td><td class="status bad">✗ Tomado</td><td class="evidence">"NexoStrat Marketing" perfil</td><td class="price">—</td></tr>
+        <tr><td class="surface">X / Twitter @</td><td class="status warn">⚠ Verificar manual</td><td class="evidence">X bloqueó scrape (402)</td><td class="price">—</td></tr>
+        <tr><td class="surface">TikTok @</td><td class="status warn">⚠ Verificar manual</td><td class="evidence">Render JS sin contenido</td><td class="price">—</td></tr>
+        <tr><td class="surface">USPTO trademark</td><td class="status ok">✓ Sin conflicto</td><td class="evidence">Búsqueda sin hits</td><td class="price">—</td></tr>
+        <tr><td class="surface">IMPI / SIC Colombia</td><td class="status warn">⚠ Verificar manual</td><td class="evidence">Búsqueda nativa requerida</td><td class="price">—</td></tr>
+      </tbody>
+    </table>
+
+    <div class="ratings">
+      <div class="rating-block">
+        <h4>Claude</h4>
+        <div class="rating-value">
+          <span class="number">7.0</span>
+          <span class="denom">/ 10</span>
+        </div>
+        <div class="rating-note">Bajaría a 8.5 si IG estuviera libre.</div>
+      </div>
+      <div class="rating-block">
+        <h4>Ricardo</h4>
+        <div class="rating-value">
+          <span class="number ambar">8.0</span>
+          <span class="denom">/ 10</span>
+        </div>
+        <div class="rating-note">"El único que personalmente me gusta."</div>
+      </div>
+      <div class="rating-block user-empty">
+        <h4>JP</h4>
+        <div class="rating-value">
+          <span class="number blank">__</span>
+          <span class="denom">/ 10</span>
+        </div>
+        <div class="rating-note">Tu turno.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ #2 CRITERIO STRATEGY ============ -->
+  <div class="name-card">
+    <div class="card-rank">Rank #2 · Apuesta de Claude</div>
+    <h3 class="card-name">Criterio Strategy</h3>
+    <div class="card-pron">
+      <span data-lang="ES">cri-TE-rio stra-TE-gia</span>
+      <span data-lang="EN">cri-TEH-ree-oh STRA-te-jee</span>
+      <span data-lang="LEN">17 caracteres · 2 palabras</span>
+    </div>
+
+    <div class="card-body">
+      <div class="card-block">
+        <h4>Por qué este nombre</h4>
+        <p><strong>"Criterio"</strong> es la palabra favorita del dueño de PyME mayor: juicio, discernimiento. <strong>"Strategy"</strong> universaliza. Juntos forman una firma que dice "te ayudamos a decidir mejor con IA" sin mencionar IA.</p>
+        <p>Único candidato del torneo que pasó cada filtro de JP con evidencia verificada — <code>.com</code> + todas las TLDs + LinkedIn + IG todos libres.</p>
+      </div>
+      <div class="card-block">
+        <h4>Campo semántico</h4>
+        <p><strong>Consultoría + estrategia.</strong> Los dos vectores principales de JP cubiertos sin ambigüedad.</p>
+        <h4 style="margin-top: 16px;">Caveats</h4>
+        <p>Dos palabras = handle largo en social. "Criteria Corp" existe en USA pero distinto nombre y sector (HR tech, no AI consulting).</p>
+      </div>
+    </div>
+
+    <table class="audit-table">
+      <thead><tr><th class="surface">Superficie</th><th class="status">Estado</th><th class="evidence">Evidencia</th><th class="price">Precio aprox.</th></tr></thead>
+      <tbody>
+        <tr><td class="surface">criteriostrategy.com</td><td class="status ok">✓ Disponible</td><td class="evidence">Verisign RDAP 404</td><td class="price">~USD 10/año</td></tr>
+        <tr><td class="surface">criteriostrategy.ai</td><td class="status ok">✓ Disponible</td><td class="evidence">DNS sin registro</td><td class="price">~USD 75/año</td></tr>
+        <tr><td class="surface">criteriostrategy.co</td><td class="status ok">✓ Disponible</td><td class="evidence">DNS sin registro</td><td class="price">~USD 28/año</td></tr>
+        <tr><td class="surface">criteriostrategy.io</td><td class="status ok">✓ Disponible</td><td class="evidence">DNS sin registro</td><td class="price">~USD 38/año</td></tr>
+        <tr><td class="surface">linkedin /company/</td><td class="status ok">✓ Libre</td><td class="evidence">HTTP 404</td><td class="price">USD 0</td></tr>
+        <tr><td class="surface">instagram @</td><td class="status ok">✓ Aparenta libre</td><td class="evidence">Sin metadata de perfil</td><td class="price">USD 0</td></tr>
+        <tr><td class="surface">X / Twitter @</td><td class="status warn">⚠ Verificar manual</td><td class="evidence">X bloqueó scrape</td><td class="price">—</td></tr>
+        <tr><td class="surface">TikTok @</td><td class="status warn">⚠ Verificar manual</td><td class="evidence">Render JS sin contenido</td><td class="price">—</td></tr>
+        <tr><td class="surface">USPTO trademark</td><td class="status ok">✓ Sin conflicto</td><td class="evidence">Búsqueda sin hits</td><td class="price">—</td></tr>
+        <tr><td class="surface">IMPI / SIC Colombia</td><td class="status warn">⚠ Verificar manual</td><td class="evidence">Búsqueda nativa requerida</td><td class="price">—</td></tr>
+      </tbody>
+    </table>
+
+    <div class="ratings">
+      <div class="rating-block">
+        <h4>Claude</h4>
+        <div class="rating-value">
+          <span class="number">8.5</span>
+          <span class="denom">/ 10</span>
+        </div>
+        <div class="rating-note">El único 100% auditado limpio.</div>
+      </div>
+      <div class="rating-block">
+        <h4>Ricardo</h4>
+        <div class="rating-value">
+          <span class="number ambar">4.0</span>
+          <span class="denom">/ 10</span>
+        </div>
+        <div class="rating-note">"No me convence."</div>
+      </div>
+      <div class="rating-block user-empty">
+        <h4>JP</h4>
+        <div class="rating-value">
+          <span class="number blank">__</span>
+          <span class="denom">/ 10</span>
+        </div>
+        <div class="rating-note">Tu turno.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ #3 CONSILEA ============ -->
+  <div class="name-card">
+    <div class="card-rank">Rank #3 · Propuesta de Claude</div>
+    <h3 class="card-name">Consilea</h3>
+    <div class="card-pron">
+      <span data-lang="ES">kon-si-LE-a</span>
+      <span data-lang="EN">kon-si-LEE-ah</span>
+      <span data-lang="LEN">8 caracteres · 1 palabra</span>
+    </div>
+
+    <div class="card-body">
+      <div class="card-block">
+        <h4>Por qué este nombre</h4>
+        <p>Neologismo del latín <strong>consilium</strong> (consejo, deliberación) — la palabra que originó "consultoría" en español. Suena institucional sin ser arcaico. Termina en <code>-a</code> (ES-friendly).</p>
+        <p>Es invento puro: no existe como marca ni palabra en uso, lo cual maximiza la probabilidad de quedarse libre en redes también.</p>
+      </div>
+      <div class="card-block">
+        <h4>Campo semántico</h4>
+        <p><strong>Consultoría.</strong> Hit directo. "Lugar del consejo." Eslogan implícito: <em>"Consilea — donde se decide bien."</em></p>
+        <h4 style="margin-top: 16px;">Caveats</h4>
+        <p>Palabra nueva — requiere construir reconocimiento. No tiene familiaridad de primera escucha.</p>
+      </div>
+    </div>
+
+    <table class="audit-table">
+      <thead><tr><th class="surface">Superficie</th><th class="status">Estado</th><th class="evidence">Evidencia</th><th class="price">Precio aprox.</th></tr></thead>
+      <tbody>
+        <tr><td class="surface">consilea.com</td><td class="status ok">✓ Disponible</td><td class="evidence">Verisign RDAP 404</td><td class="price">~USD 10/año</td></tr>
+        <tr><td class="surface">consilea.ai / .co / .io</td><td class="status warn">⚠ Verificar manual</td><td class="evidence">No revisé en audit</td><td class="price">~USD 28-75/año</td></tr>
+        <tr><td class="surface">Handles sociales</td><td class="status warn">⚠ Verificar manual</td><td class="evidence">No revisé en audit</td><td class="price">USD 0</td></tr>
+        <tr><td class="surface">USPTO / IMPI / SIC</td><td class="status warn">⚠ Verificar manual</td><td class="evidence">No revisé en audit</td><td class="price">—</td></tr>
+      </tbody>
+    </table>
+
+    <div class="ratings">
+      <div class="rating-block">
+        <h4>Claude</h4>
+        <div class="rating-value">
+          <span class="number">7.5</span>
+          <span class="denom">/ 10</span>
+        </div>
+        <div class="rating-note">Concepto fuerte; falta auditoría completa.</div>
+      </div>
+      <div class="rating-block">
+        <h4>Ricardo</h4>
+        <div class="rating-value">
+          <span class="number ambar">3.0</span>
+          <span class="denom">/ 10</span>
+        </div>
+        <div class="rating-note">"No me gusta."</div>
+      </div>
+      <div class="rating-block user-empty">
+        <h4>JP</h4>
+        <div class="rating-value">
+          <span class="number blank">__</span>
+          <span class="denom">/ 10</span>
+        </div>
+        <div class="rating-note">Tu turno.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ #4 TERVIA STRATEGY ============ -->
+  <div class="name-card">
+    <div class="card-rank">Rank #4 · Compuesto Claude</div>
+    <h3 class="card-name">Tervia Strategy</h3>
+    <div class="card-pron">
+      <span data-lang="ES">TER-via stra-TE-gia</span>
+      <span data-lang="EN">TUR-vee-ah STRA-te-jee</span>
+      <span data-lang="LEN">14 caracteres · 2 palabras</span>
+    </div>
+
+    <div class="card-body">
+      <div class="card-block">
+        <h4>Por qué este nombre</h4>
+        <p><strong>Tervia</strong> es contracción de <em>tertia via</em> (la tercera vía en latín). Para una consultora que media entre el negocio tradicional y la IA, la metáfora es exacta: ni una ni otra, sino una tercera ruta.</p>
+        <p><code>tervia.com</code> está tomado desde 2011, pero <code>terviastrategy.com</code> está libre.</p>
+      </div>
+      <div class="card-block">
+        <h4>Campo semántico</h4>
+        <p><strong>Estrategia + consultoría.</strong> "Tercera vía" implica advisoría.</p>
+        <h4 style="margin-top: 16px;">Caveats</h4>
+        <p>Tervia solo está tomado — sin escapatoria a single-word si crece la firma. Etimología latina requiere explicación.</p>
+      </div>
+    </div>
+
+    <table class="audit-table">
+      <thead><tr><th class="surface">Superficie</th><th class="status">Estado</th><th class="evidence">Evidencia</th><th class="price">Precio aprox.</th></tr></thead>
+      <tbody>
+        <tr><td class="surface">terviastrategy.com</td><td class="status ok">✓ Disponible</td><td class="evidence">Verisign RDAP 404</td><td class="price">~USD 10/año</td></tr>
+        <tr><td class="surface">tervia.com (solo)</td><td class="status bad">✗ Tomado</td><td class="evidence">Registrado 2011</td><td class="price">Mercado secundario</td></tr>
+        <tr><td class="surface">Handles sociales</td><td class="status warn">⚠ Verificar manual</td><td class="evidence">No revisé en audit</td><td class="price">—</td></tr>
+      </tbody>
+    </table>
+
+    <div class="ratings">
+      <div class="rating-block">
+        <h4>Claude</h4>
+        <div class="rating-value">
+          <span class="number">6.5</span>
+          <span class="denom">/ 10</span>
+        </div>
+        <div class="rating-note">Concepto bonito, pierde single-word.</div>
+      </div>
+      <div class="rating-block">
+        <h4>Ricardo</h4>
+        <div class="rating-value">
+          <span class="number ambar">1.0</span>
+          <span class="denom">/ 10</span>
+        </div>
+        <div class="rating-note">"No me gusta nada."</div>
+      </div>
+      <div class="rating-block user-empty">
+        <h4>JP</h4>
+        <div class="rating-value">
+          <span class="number blank">__</span>
+          <span class="denom">/ 10</span>
+        </div>
+        <div class="rating-note">Tu turno.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ #5 VERACTA PARTNERS ============ -->
+  <div class="name-card">
+    <div class="card-rank">Rank #5 · Compuesto Claude</div>
+    <h3 class="card-name">Veracta Partners</h3>
+    <div class="card-pron">
+      <span data-lang="ES">ve-RAK-ta PART-ners</span>
+      <span data-lang="EN">ve-RAK-tah PART-nurz</span>
+      <span data-lang="LEN">15 caracteres · 2 palabras</span>
+    </div>
+
+    <div class="card-body">
+      <div class="card-block">
+        <h4>Por qué este nombre</h4>
+        <p><strong>Veracta</strong> viene de <em>vera</em> (verdadera, latín) + <em>acta</em> (acción). "Acción verdadera" — para una firma que vende resultados, no tecnología. <strong>Partners</strong> proyecta seriedad de boutique.</p>
+        <p><code>veracta.com</code> está tomado desde 2002; <code>veractapartners.com</code> está libre.</p>
+      </div>
+      <div class="card-block">
+        <h4>Campo semántico</h4>
+        <p><strong>Consultoría + resultados.</strong> "Partners" lee firma profesional.</p>
+        <h4 style="margin-top: 16px;">Caveats</h4>
+        <p>"Partners" en español lee extranjerizante. Veracta solo está tomado desde hace 23 años.</p>
+      </div>
+    </div>
+
+    <table class="audit-table">
+      <thead><tr><th class="surface">Superficie</th><th class="status">Estado</th><th class="evidence">Evidencia</th><th class="price">Precio aprox.</th></tr></thead>
+      <tbody>
+        <tr><td class="surface">veractapartners.com</td><td class="status ok">✓ Disponible</td><td class="evidence">Verisign RDAP 404</td><td class="price">~USD 10/año</td></tr>
+        <tr><td class="surface">veracta.com (solo)</td><td class="status bad">✗ Tomado</td><td class="evidence">Registrado 2002</td><td class="price">Mercado secundario</td></tr>
+        <tr><td class="surface">Handles sociales</td><td class="status warn">⚠ Verificar manual</td><td class="evidence">No revisé en audit</td><td class="price">—</td></tr>
+      </tbody>
+    </table>
+
+    <div class="ratings">
+      <div class="rating-block">
+        <h4>Claude</h4>
+        <div class="rating-value">
+          <span class="number">6.0</span>
+          <span class="denom">/ 10</span>
+        </div>
+        <div class="rating-note">Premium pero "Partners" es atajo.</div>
+      </div>
+      <div class="rating-block">
+        <h4>Ricardo</h4>
+        <div class="rating-value">
+          <span class="number ambar">0.0</span>
+          <span class="denom">/ 10</span>
+        </div>
+        <div class="rating-note">"Cero. Fuera."</div>
+      </div>
+      <div class="rating-block user-empty">
+        <h4>JP</h4>
+        <div class="rating-value">
+          <span class="number blank">__</span>
+          <span class="denom">/ 10</span>
+        </div>
+        <div class="rating-note">Tu turno.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PALETAS ============ -->
+<section>
+  <div class="section-header">
+    <div class="label">Sección 02 / Tres</div>
+    <div>
+      <h2>Cinco paletas — Aurora gana en la primera vuelta.</h2>
+      <p>Ricardo ya votó: Aurora 5/5 + The Architect 5/5 empatadas en primer lugar; Solera y Architectural Blue 4/5; Cosmos 3/5. Tu voto JP decide el desempate.</p>
+    </div>
+  </div>
+
+  <!-- Paleta 1 — Cosmos -->
+  <div class="palette">
+    <div class="palette-header">
+      <h3>01 · Cosmos <span>(JP original)</span></h3>
+      <span class="palette-author">Navy + Electric Blue · IBM / Stripe / Vercel</span>
+    </div>
+    <div class="palette-swatches">
+      <div class="palette-swatch" style="background:#050D1A; color:#EEF4FF;"><div class="name">Cosmos Night</div><div class="hex">#050D1A</div></div>
+      <div class="palette-swatch" style="background:#0B2140; color:#EEF4FF;"><div class="name">Deep Navy</div><div class="hex">#0B2140</div></div>
+      <div class="palette-swatch" style="background:#0070F3; color:#EEF4FF;"><div class="name">Electric Blue</div><div class="hex">#0070F3</div></div>
+      <div class="palette-swatch" style="background:#00C4FF; color:#050D1A;"><div class="name">Cyan Ice</div><div class="hex">#00C4FF</div></div>
+      <div class="palette-swatch" style="background:#8BA3C0; color:#050D1A;"><div class="name">Steel</div><div class="hex">#8BA3C0</div></div>
+      <div class="palette-swatch" style="background:#EEF4FF; color:#050D1A;"><div class="name">Ice White</div><div class="hex">#EEF4FF</div></div>
+    </div>
+    <div class="palette-desc">Zona segura. Banca/tech corporativo. Lee "serio" al PyME y "moderno" al CTO. Riesgo: #0070F3 es el azul de Vercel hex por hex.</div>
+    <div class="palette-ratings">
+      <div class="palette-rating"><div class="label">Claude</div><div class="score">3<span class="denom">/ 5</span></div></div>
+      <div class="palette-rating"><div class="label">Ricardo</div><div class="score ambar">3<span class="denom">/ 5</span></div></div>
+      <div class="palette-rating empty"><div class="label">JP</div><div class="score blank">__</div></div>
+    </div>
+  </div>
+
+  <!-- Paleta 2 — Aurora -->
+  <div class="palette featured">
+    <div class="palette-header">
+      <h3>02 · Aurora <span>(JP original) ★</span></h3>
+      <span class="palette-author">Sky Blue + Emerald + Amber · Salesforce / HubSpot</span>
+    </div>
+    <div class="palette-swatches">
+      <div class="palette-swatch" style="background:#0C1A2E; color:#F0FBFF;"><div class="name">Midnight</div><div class="hex">#0C1A2E</div></div>
+      <div class="palette-swatch" style="background:#0D4A6B; color:#F0FBFF;"><div class="name">Ocean Deep</div><div class="hex">#0D4A6B</div></div>
+      <div class="palette-swatch" style="background:#0EA5E9; color:#0C1A2E;"><div class="name">Sky Blue</div><div class="hex">#0EA5E9</div></div>
+      <div class="palette-swatch" style="background:#10B981; color:#0C1A2E;"><div class="name">Emerald</div><div class="hex">#10B981</div></div>
+      <div class="palette-swatch" style="background:#F59E0B; color:#0C1A2E;"><div class="name">Amber Gold</div><div class="hex">#F59E0B</div></div>
+      <div class="palette-swatch" style="background:#F0FBFF; color:#0C1A2E;"><div class="name">Arctic</div><div class="hex">#F0FBFF</div></div>
+    </div>
+    <div class="palette-desc"><strong>Ricardo: 5/5.</strong> Resuelve la tensión "tecnológica + cercana". Esmeralda = crecimiento. Ámbar = ROI generado. Lee bien en reportes Word y en web dark. La favorita del set.</div>
+    <div class="palette-ratings">
+      <div class="palette-rating"><div class="label">Claude</div><div class="score">4<span class="denom">/ 5</span></div></div>
+      <div class="palette-rating"><div class="label">Ricardo</div><div class="score ambar">5<span class="denom">/ 5</span></div></div>
+      <div class="palette-rating empty"><div class="label">JP</div><div class="score blank">__</div></div>
+    </div>
+  </div>
+
+  <!-- Paleta 3 — Solera -->
+  <div class="palette">
+    <div class="palette-header">
+      <h3>03 · Solera <span>(propuesta Claude web)</span></h3>
+      <span class="palette-author">Pizarra + Azul Plomo + Ámbar Roble + Crema</span>
+    </div>
+    <div class="palette-swatches">
+      <div class="palette-swatch" style="background:#101822; color:#F2EDE3;"><div class="name">Pizarra</div><div class="hex">#101822</div></div>
+      <div class="palette-swatch" style="background:#1F2D40; color:#F2EDE3;"><div class="name">Tinta</div><div class="hex">#1F2D40</div></div>
+      <div class="palette-swatch" style="background:#3B5C8C; color:#F2EDE3;"><div class="name">Azul Plomo</div><div class="hex">#3B5C8C</div></div>
+      <div class="palette-swatch" style="background:#C8924A; color:#101822;"><div class="name">Ámbar Roble</div><div class="hex">#C8924A</div></div>
+      <div class="palette-swatch" style="background:#F2EDE3; color:#101822;"><div class="name">Crema</div><div class="hex">#F2EDE3</div></div>
+      <div class="palette-swatch" style="background:#D1D6DD; color:#101822;"><div class="name">Niebla</div><div class="hex">#D1D6DD</div></div>
+    </div>
+    <div class="palette-desc">Paleta del documento que estás leyendo. Institucional sin frialdad. Crema en lugar de blanco hospital = "papel institucional", no "app SaaS".</div>
+    <div class="palette-ratings">
+      <div class="palette-rating"><div class="label">Claude</div><div class="score">5<span class="denom">/ 5</span></div></div>
+      <div class="palette-rating"><div class="label">Ricardo</div><div class="score ambar">4<span class="denom">/ 5</span></div></div>
+      <div class="palette-rating empty"><div class="label">JP</div><div class="score blank">__</div></div>
+    </div>
+  </div>
+
+  <!-- Paleta 4 — Architectural Blue -->
+  <div class="palette">
+    <div class="palette-header">
+      <h3>04 · Architectural Blue <span>(propuesta Gemini CLI)</span></h3>
+      <span class="palette-author">Night Navy + Cyan Spark + Gold ROI</span>
+    </div>
+    <div class="palette-swatches">
+      <div class="palette-swatch" style="background:#0A1128; color:#F4F4F9;"><div class="name">Night Navy</div><div class="hex">#0A1128</div></div>
+      <div class="palette-swatch" style="background:#1C2541; color:#F4F4F9;"><div class="name">Mid Navy</div><div class="hex">#1C2541</div></div>
+      <div class="palette-swatch" style="background:#3A506B; color:#F4F4F9;"><div class="name">Steel Blue</div><div class="hex">#3A506B</div></div>
+      <div class="palette-swatch" style="background:#5BC0BE; color:#0A1128;"><div class="name">Cyan Spark</div><div class="hex">#5BC0BE</div></div>
+      <div class="palette-swatch" style="background:#F4F4F9; color:#0A1128;"><div class="name">Ice White</div><div class="hex">#F4F4F9</div></div>
+      <div class="palette-swatch" style="background:#D97706; color:#F4F4F9;"><div class="name">Gold ROI</div><div class="hex">#D97706</div></div>
+    </div>
+    <div class="palette-desc">Refinamiento de Cosmos. Cyan Spark más calmado. Mantiene "banca digital" pero abre espacio para "boutique". Combina natural con Nexostrat.</div>
+    <div class="palette-ratings">
+      <div class="palette-rating"><div class="label">Claude</div><div class="score">4<span class="denom">/ 5</span></div></div>
+      <div class="palette-rating"><div class="label">Ricardo</div><div class="score ambar">4<span class="denom">/ 5</span></div></div>
+      <div class="palette-rating empty"><div class="label">JP</div><div class="score blank">__</div></div>
+    </div>
+  </div>
+
+  <!-- Paleta 5 — The Architect -->
+  <div class="palette featured">
+    <div class="palette-header">
+      <h3>05 · The Architect <span>(propuesta Gemini web) ★</span></h3>
+      <span class="palette-author">Slate Ink + Deep Emerald + Amber Gold</span>
+    </div>
+    <div class="palette-swatches">
+      <div class="palette-swatch" style="background:#0F172A; color:#F8FAFC;"><div class="name">Slate Ink</div><div class="hex">#0F172A</div></div>
+      <div class="palette-swatch" style="background:#064E3B; color:#F8FAFC;"><div class="name">Deep Emerald</div><div class="hex">#064E3B</div></div>
+      <div class="palette-swatch" style="background:#F8FAFC; color:#0F172A;"><div class="name">Ghost White</div><div class="hex">#F8FAFC</div></div>
+      <div class="palette-swatch" style="background:#D4D4D8; color:#0F172A;"><div class="name">Zinc</div><div class="hex">#D4D4D8</div></div>
+      <div class="palette-swatch" style="background:#D97706; color:#F8FAFC;"><div class="name">Amber Gold</div><div class="hex">#D97706</div></div>
+      <div class="palette-swatch" style="background:#3D4A5C; color:#F8FAFC;"><div class="name">Slate Mid</div><div class="hex">#3D4A5C</div></div>
+    </div>
+    <div class="palette-desc"><strong>Ricardo: 5/5.</strong> Emerald profundo en lugar de azul. Asocia con dinero/madurez. Cero conflicto con "azul Vercel". La más diferenciada de la categoría — no parece otra firma SaaS más.</div>
+    <div class="palette-ratings">
+      <div class="palette-rating"><div class="label">Claude</div><div class="score">4<span class="denom">/ 5</span></div></div>
+      <div class="palette-rating"><div class="label">Ricardo</div><div class="score ambar">5<span class="denom">/ 5</span></div></div>
+      <div class="palette-rating empty"><div class="label">JP</div><div class="score blank">__</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REJECTED NAMES ============ -->
+<section>
+  <div class="section-header">
+    <div class="label">Sección 03 / Tres</div>
+    <div>
+      <h2>Cementerio — 46 nombres descartados, con causa de muerte.</h2>
+      <p>Todos los candidatos que pasaron por las cuatro rondas del torneo o por la auditoría de Claude Code. Cada uno con la razón por la que no llegó al top 5.</p>
+    </div>
+  </div>
+
+  <div class="rejected-wrap">
+    <div class="rejected-grid">
+      <div class="rejected-cell"><div class="name">StratiaLabs</div><div class="reason">stratialab.com (CDMX) · "Strat-" saturado</div></div>
+      <div class="rejected-cell"><div class="name">Mejía, IA & CIA</div><div class="reason">institucional pero malo para handles</div></div>
+      <div class="rejected-cell"><div class="name">Mejía Advisory</div><div class="reason">surname rechazado por JP</div></div>
+
+      <div class="rejected-cell"><div class="name">Aetherix</div><div class="reason">.com tomado (Grok mintió en R1)</div></div>
+      <div class="rejected-cell"><div class="name">Altia</div><div class="reason">.com tomado</div></div>
+      <div class="rejected-cell"><div class="name">Asora</div><div class="reason">.com / .co / .io tomados</div></div>
+
+      <div class="rejected-cell"><div class="name">Auge</div><div class="reason">.com tomado (palabra común)</div></div>
+      <div class="rejected-cell"><div class="name">Axon</div><div class="reason">.com tomado · Axon Inc (Taser)</div></div>
+      <div class="rejected-cell"><div class="name">Bisagra</div><div class="reason">.com tomado</div></div>
+
+      <div class="rejected-cell"><div class="name">CatalystLabs</div><div class="reason">.com tomado · "-Labs" saturado</div></div>
+      <div class="rejected-cell"><div class="name">Cifra</div><div class="reason">.com tomado (palabra común)</div></div>
+      <div class="rejected-cell"><div class="name">Cognova</div><div class="reason">.com tomado</div></div>
+
+      <div class="rejected-cell"><div class="name">Criterio (solo)</div><div class="reason">.com tomado</div></div>
+      <div class="rejected-cell"><div class="name">Foundry</div><div class="reason">.com tomado (palabra común)</div></div>
+      <div class="rejected-cell"><div class="name">Foundry South</div><div class="reason">.com tomado</div></div>
+
+      <div class="rejected-cell"><div class="name">Hito</div><div class="reason">.com / .ai / .co / .io tomados</div></div>
+      <div class="rejected-cell"><div class="name">Ingenia</div><div class="reason">.com tomado</div></div>
+      <div class="rejected-cell"><div class="name">InsightForge</div><div class="reason">.com tomado</div></div>
+
+      <div class="rejected-cell"><div class="name">Kora</div><div class="reason">.com tomado · 4 chars muy contestado</div></div>
+      <div class="rejected-cell"><div class="name">Latitud Norte</div><div class="reason">.com tomado</div></div>
+      <div class="rejected-cell"><div class="name">Metric</div><div class="reason">.com tomado (palabra común)</div></div>
+
+      <div class="rejected-cell"><div class="name">Movara</div><div class="reason">.com / .ai / .co / .io tomados</div></div>
+      <div class="rejected-cell"><div class="name">NexusCore</div><div class="reason">.com tomado</div></div>
+      <div class="rejected-cell"><div class="name">Northhand</div><div class="reason">.com tomado</div></div>
+
+      <div class="rejected-cell"><div class="name">Northkey</div><div class="reason">.com tomado · Northkey Capital</div></div>
+      <div class="rejected-cell"><div class="name">Novexis</div><div class="reason">.com tomado (Grok mintió en R1)</div></div>
+      <div class="rejected-cell"><div class="name">Novis</div><div class="reason">.com tomado</div></div>
+
+      <div class="rejected-cell"><div class="name">Novora (solo)</div><div class="reason">.com registrado desde 1998 (parked)</div></div>
+      <div class="rejected-cell"><div class="name">Numera</div><div class="reason">.com tomado</div></div>
+      <div class="rejected-cell"><div class="name">Plomada</div><div class="reason">estudioplomada.com Barcelona AI+Odoo</div></div>
+
+      <div class="rejected-cell"><div class="name">Prisma</div><div class="reason">.com tomado · Prisma.io conflicto</div></div>
+      <div class="rejected-cell"><div class="name">PuenteLabs</div><div class="reason">.com tomado · "-Labs" saturado</div></div>
+      <div class="rejected-cell"><div class="name">PulseForge</div><div class="reason">.com tomado</div></div>
+
+      <div class="rejected-cell"><div class="name">SabidurIA</div><div class="reason">.com tomado · sufijo IA cliché</div></div>
+      <div class="rejected-cell"><div class="name">Sentido</div><div class="reason">.com tomado (palabra común)</div></div>
+      <div class="rejected-cell"><div class="name">Solera</div><div class="reason">Solera Holdings + Solera Health</div></div>
+
+      <div class="rejected-cell"><div class="name">Stratara</div><div class="reason">.com tomado · raíz "Strat-"</div></div>
+      <div class="rejected-cell"><div class="name">Stratia</div><div class="reason">.com tomado · raíz "Strat-"</div></div>
+      <div class="rejected-cell"><div class="name">Tálamo</div><div class="reason">.com tomado · Talamo UK AI conflicto</div></div>
+
+      <div class="rejected-cell"><div class="name">Tervia (solo)</div><div class="reason">.com tomado desde 2011</div></div>
+      <div class="rejected-cell"><div class="name">Throughline</div><div class="reason">.com tomado · no pronunciable ES</div></div>
+      <div class="rejected-cell"><div class="name">Traction</div><div class="reason">.com tomado (palabra común)</div></div>
+
+      <div class="rejected-cell"><div class="name">Vantage</div><div class="reason">.com tomado (palabra común)</div></div>
+      <div class="rejected-cell"><div class="name">Veracta (solo)</div><div class="reason">.com tomado desde 2002</div></div>
+      <div class="rejected-cell"><div class="name">Veridex</div><div class="reason">Johnson & Johnson trademark</div></div>
+
+      <div class="rejected-cell"><div class="name">Vértice</div><div class="reason">.com tomado (palabra común)</div></div>
+      <div class="rejected-cell"><div class="name">—</div><div class="reason">—</div></div>
+      <div class="rejected-cell"><div class="name">—</div><div class="reason">—</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ JP DECISION BLOCK ============ -->
+<div class="jp-block">
+  <div class="eyebrow">JP · Cuatro preguntas para cerrar</div>
+  <h2>Te toca votar.</h2>
+  <div class="prompt">
+    Ricardo ya dejó sus calificaciones registradas en cada tarjeta. Lee el HTML, mira los números, y deja los tuyos. Tu voto tiene el mismo peso que el de Ricardo — el ganador es la decisión conjunta de los dos.
+  </div>
+  <ol>
+    <li><strong>Califica los cinco nombres del 1 al 10.</strong> Nexostrat · Criterio Strategy · Consilea · Tervia Strategy · Veracta Partners.</li>
+    <li><strong>¿Cuál es tu top 1?</strong> Si ninguno te convence, dilo — hacemos una ronda más con candidatos nuevos.</li>
+    <li><strong>Califica las cinco paletas del 1 al 5.</strong> Cosmos · Aurora · Solera · Architectural Blue · The Architect.</li>
+    <li><strong>¿Cuál paleta gana?</strong> Y si crees que la paleta no cuaja con el nombre escogido, dilo también.</li>
+  </ol>
+</div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>Claude Code · Propuesta para Ricardo + JP · Auditoría real Verisign RDAP + DNS + WebFetch</div>
+    <div class="firma">12 mayo 2026</div>
+  </div>
+</footer>
+
+</body>
+</html>

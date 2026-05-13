@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propuesta de Identidad de Marca • Grok</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=Space+Grotesk:wght@500&amp;display=swap');
+        
+        :root {
+            --deep-teal: #0A3C3A;
+            --navy-anchor: #0F1F3D;
+            --sage-accent: #8AB8A7;
+            --warm-sand: #EDE4D9;
+            --coral-pulse: #FF7A5C;
+            --pure-white: #FAF9F6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--pure-white);
+            color: var(--navy-anchor);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(90deg, var(--deep-teal), var(--navy-anchor));
+            color: white;
+            padding: 2rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(10, 60, 58, 0.15);
+        }
+        
+        .header-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 500;
+            letter-spacing: -1px;
+        }
+        
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 500;
+            letter-spacing: -1.5px;
+            margin-bottom: 0.5rem;
+        }
+        
+        main {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 3rem 5%;
+        }
+        
+        section {
+            margin-bottom: 4.5rem;
+        }
+        
+        h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--deep-teal);
+            position: relative;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 64px;
+            height: 3px;
+            background: var(--coral-pulse);
+        }
+        
+        .names-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .name-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.75rem;
+            box-shadow: 0 8px 24px rgba(15, 31, 61, 0.08);
+            border: 1px solid #e5e5e5;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .name-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 32px rgba(15, 31, 61, 0.12);
+        }
+        
+        .name-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 1rem;
+        }
+        
+        .name-header h3 {
+            font-size: 1.65rem;
+            font-weight: 600;
+            color: var(--deep-teal);
+        }
+        
+        .category-badge {
+            background: var(--sage-accent);
+            color: var(--navy-anchor);
+            font-size: 0.75rem;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-weight: 500;
+        }
+        
+        .name-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+            font-size: 0.95rem;
+        }
+        
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .meta-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #666;
+            margin-bottom: 2px;
+        }
+        
+        .meta-value {
+            font-weight: 500;
+            color: var(--navy-anchor);
+        }
+        
+        .versus {
+            background: #f8f4ef;
+            border-left: 4px solid var(--coral-pulse);
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            margin-top: 1rem;
+        }
+        
+        .palettes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .palette-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(15, 31, 61, 0.08);
+        }
+        
+        .palette-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .swatches {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 1.5rem;
+        }
+        
+        .swatch {
+            width: 68px;
+            height: 68px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.75rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            position: relative;
+        }
+        
+        .swatch-label {
+            font-size: 0.65rem;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+        
+        .swatch::after {
+            content: attr(data-hex);
+            font-size: 0.7rem;
+            font-family: monospace;
+            opacity: 0.85;
+            margin-top: 2px;
+        }
+        
+        .logo-preview {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 24px rgba(15, 31, 61, 0.08);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .wordmark {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.2rem;
+            font-weight: 500;
+            letter-spacing: -2px;
+            color: var(--deep-teal);
+            display: inline-block;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            background: linear-gradient(90deg, #f8f4ef, white);
+            box-shadow: 0 10px 30px rgba(138, 184, 167, 0.2);
+        }
+        
+        .svg-symbol {
+            margin: 2rem auto;
+            display: block;
+        }
+        
+        footer {
+            background: var(--navy-anchor);
+            color: white;
+            padding: 2rem 5%;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+        
+        .note {
+            font-size: 0.8rem;
+            background: #f8f4ef;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border-left: 4px solid var(--sage-accent);
+        }
+        
+        @media (max-width: 768px) {
+            .names-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">GROK</div>
+            <div style="text-align: right;">
+                <h1 style="margin: 0; font-size: 1.75rem;">Propuesta de Identidad de Marca</h1>
+                <p style="opacity: 0.85; margin-top: 4px;">Consultora de IA para PyMEs en LATAM • Mayo 2026</p>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Sección 1: Nombres -->
+        <section>
+            <h2>1. Candidatos de Nombre (12 opciones)</h2>
+            <p style="max-width: 760px; margin-bottom: 2rem; color: #555;">Doce nombres distribuidos en tres bloques obligatorios. Todos cumplen criterios de pronunciabilidad, memorabilidad y escalabilidad global. Disponibilidad basada en búsquedas web (inferencia, no verificación oficial).</p>
+            
+            <h3 style="margin: 2rem 0 1rem; font-size: 1.35rem; color: #333;">4 en inglés</h3>
+            <div class="names-grid">
+                <!-- InsightForge -->
+                <div class="name-card">
+                    <div class="name-header">
+                        <h3>InsightForge</h3>
+                        <span class="category-badge">Inglés</span>
+                    </div>
+                    <div class="name-meta">
+                        <div class="meta-item"><span class="meta-label">Significado</span><span class="meta-value">Forja de insights profundos con IA</span></div>
+                        <div class="meta-item"><span class="meta-label">Longitud</span><span class="meta-value">12</span></div>
+                        <div class="meta-item"><span class="meta-label">Pron. ES</span><span class="meta-value">in-SAIT-forch</span></div>
+                        <div class="meta-item"><span class="meta-label">Pron. EN</span><span class="meta-value">IN-site-forg</span></div>
+                        <div class="meta-item"><span class="meta-label">Disponibilidad</span><span class="meta-value" style="color:#d97706;">Probablemente tomado</span></div>
+                    </div>
+                    <div class="versus">Supera en memorabilidad y claridad directa (“insights” = resultados). Pierde el gancho “Start AI”.</div>
+                </div>
+
+                <!-- NexusCore -->
+                <div class="name-card">
+                    <div class="name-header">
+                        <h3>NexusCore</h3>
+                        <span class="category-badge">Inglés</span>
+                    </div>
+                    <div class="name-meta">
+                        <div class="meta-item"><span class="meta-label">Significado</span><span class="meta-value">Núcleo de nexos entre tradicional e IA</span></div>
+                        <div class="meta-item"><span class="meta-label">Longitud</span><span class="meta-value">9</span></div>
+                        <div class="meta-item"><span class="meta-label">Pron. ES</span><span class="meta-value">NEX-us-cor</span></div>
+                        <div class="meta-item"><span class="meta-label">Pron. EN</span><span class="meta-value">NEX-uhs-core</span></div>
+                        <div class="meta-item"><span class="meta-label">Disponibilidad</span><span class="meta-value" style="color:#d97706;">Probablemente tomado</span></div>
+                    </div>
+                    <div class="versus">Supera en brevedad y pronunciación natural. Gana escalabilidad global.</div>
+                </div>
+
+                <!-- CatalystLabs -->
+                <div class="name-card">
+                    <div class="name-header">
+                        <h3>CatalystLabs</h3>
+                        <span class="category-badge">Inglés</span>
+                    </div>
+                    <div class="name-meta">
+                        <div class="meta-item"><span class="meta-label">Significado</span><span class="meta-value">Laboratorios de catalizadores de cambio</span></div>
+                        <div class="meta-item"><span class="meta-label">Longitud</span><span class="meta-value">13</span></div>
+                        <div class="meta-item"><span class="meta-label">Pron. ES</span><span class="meta-value">CA-ta-list-labs</span></div>
+                        <div class="meta-item"><span class="meta-label">Pron. EN</span><span class="meta-value">CAT-uh-list-labs</span></div>
+                        <div class="meta-item"><span class="meta-label">Disponibilidad</span><span class="meta-value" style="color:#d97706;">Probablemente tomado</span></div>
+                    </div>
+                    <div class="versus">Iguala estructura “Labs”. Supera en dinamismo de transformación.</div>
+                </div>
+
+                <!-- PulseForge -->
+                <div class="name-card">
+                    <div class="name-header">
+                        <h3>PulseForge</h3>
+                        <span class="category-badge">Inglés</span>
+                    </div>
+                    <div class="name-meta">
+                        <div class="meta-item"><span class="meta-label">Significado</span><span class="meta-value">Forja del pulso moderno del negocio</span></div>
+                        <div class="meta-item"><span class="meta-label">Longitud</span><span class="meta-value">10</span></div>
+                        <div class="meta-item"><span class="meta-label">Pron. ES</span><span class="meta-value">PULS-forch</span></div>
+                        <div class="meta-item"><span class="meta-label">Pron. EN</span><span class="meta-value">PULS-forg</span></div>
+                        <div class="meta-item"><span class="meta-label">Disponibilidad</span><span class="meta-value" style="color:#d97706;">Probablemente tomado</span></div>
+                    </div>
+                    <div class="versus">Supera en energía y retención auditiva.</div>
+                </div>
+            </div>
+
+            <h3 style="margin: 2.5rem 0 1rem; font-size: 1.35rem; color: #333;">4 en español</h3>
+            <div class="names-grid">
+                <!-- Ingenia -->
+                <div class="name-card">
+                    <div class="name-header">
+                        <h3>Ingenia</h3>
+                        <span class="category-badge">Español</span>
+                    </div>
+                    <div class="name-meta">
+                        <div class="meta-item"><span class="meta-label">Significado</span><span class="meta-value">Neologismo de “ingenio” + IA</span></div>
+                        <div class="meta-item"><span class="meta-label">Longitud</span><span class="meta-value">7</span></div>
+                        <div class="meta-item"><span class="meta-label">Pron. ES</span><span class="meta-value">in-HE-nia</span></div>
+                        <div class="meta-item"><span class="meta-label">Pron. EN</span><span class="meta-value">in-JEN-ee-uh</span></div>
+                        <div class="meta-item"><span class="meta-label">Disponibilidad</span><span class="meta-value" style="color:#d97706;">Probablemente tomado</span></div>
+                    </div>
+                    <div class="versus">Supera en brevedad y calidez latina sin folclore.</div>
+                </div>
+
+                <!-- PuenteLabs -->
+                <div class="name-card">
+                    <div class="name-header">
+                        <h3>PuenteLabs</h3>
+                        <span class="category-badge">Español</span>
+                    </div>
+                    <div class="name-meta">
+                        <div class="meta-item"><span class="meta-label">Significado</span><span class="meta-value">Puente entre empresa tradicional e IA</span></div>
+                        <div class="meta-item"><span class="meta-label">Longitud</span><span class="meta-value">11</span></div>
+                        <div class="meta-item"><span class="meta-label">Pron. ES</span><span class="meta-value">Pwen-te-labs</span></div>
+                        <div class="meta-item"><span class="meta-label">Pron. EN</span><span class="meta-value">PWEN-tay-labs</span></div>
+                        <div class="meta-item"><span class="meta-label">Disponibilidad</span><span class="meta-value" style="color:#d97706;">Probablemente tomado</span></div>
+                    </div>
+                    <div class="versus">Supera en narrativa clara y empatía con PyMEs familiares.</div>
+                </div>
+
+                <!-- Prisma -->
+                <div class="name-card">
+                    <div class="name-header">
+                        <h3>Prisma</h3>
+                        <span class="category-badge">Español</span>
+                    </div>
+                    <div class="name-meta">
+                        <div class="meta-item"><span class="meta-label">Significado</span><span class="meta-value">Prisma que transforma complejidad en claridad</span></div>
+                        <div class="meta-item"><span class="meta-label">Longitud</span><span class="meta-value">6</span></div>
+                        <div class="meta-item"><span class="meta-label">Pron. ES</span><span class="meta-value">PRIS-ma</span></div>
+                        <div class="meta-item"><span class="meta-label">Pron. EN</span><span class="meta-value">PRIZ-muh</span></div>
+                        <div class="meta-item"><span class="meta-label">Disponibilidad</span><span class="meta-value" style="color:#d97706;">Probablemente tomado</span></div>
+                    </div>
+                    <div class="versus">Supera en elegancia y brevedad extrema.</div>
+                </div>
+
+                <!-- SabidurIA -->
+                <div class="name-card">
+                    <div class="name-header">
+                        <h3>SabidurIA</h3>
+                        <span class="category-badge">Español</span>
+                    </div>
+                    <div class="name-meta">
+                        <div class="meta-item"><span class="meta-label">Significado</span><span class="meta-value">Neologismo de “sabiduría” + IA</span></div>
+                        <div class="meta-item"><span class="meta-label">Longitud</span><span class="meta-value">9</span></div>
+                        <div class="meta-item"><span class="meta-label">Pron. ES</span><span class="meta-value">sa-bi-du-REE-a</span></div>
+                        <div class="meta-item"><span class="meta-label">Pron. EN</span><span class="meta-value">sah-bee-doo-REE-uh</span></div>
+                        <div class="meta-item"><span class="meta-label">Disponibilidad</span><span class="meta-value" style="color:#10b981;">Verificar manualmente</span></div>
+                    </div>
+                    <div class="versus">Supera en calidez y resonancia cultural latina.</div>
+                </div>
+            </div>
+
+            <h3 style="margin: 2.5rem 0 1rem; font-size: 1.35rem; color: #333;">4 acuñados / pseudo-latinos / neutros</h3>
+            <div class="names-grid">
+                <!-- Stratara -->
+                <div class="name-card">
+                    <div class="name-header">
+                        <h3>Stratara</h3>
+                        <span class="category-badge">Acuñado</span>
+                    </div>
+                    <div class="name-meta">
+                        <div class="meta-item"><span class="meta-label">Significado</span><span class="meta-value">Capas de transformación estratégica</span></div>
+                        <div class="meta-item"><span class="meta-label">Longitud</span><span class="meta-value">8</span></div>
+                        <div class="meta-item"><span class="meta-label">Pron. ES</span><span class="meta-value">stra-TA-ra</span></div>
+                        <div class="meta-item"><span class="meta-label">Pron. EN</span><span class="meta-value">stra-TAH-rah</span></div>
+                        <div class="meta-item"><span class="meta-label">Disponibilidad</span><span class="meta-value" style="color:#d97706;">Probablemente tomado</span></div>
+                    </div>
+                    <div class="versus">Iguala raíz “strat”. Supera en fluidez y elegancia.</div>
+                </div>
+
+                <!-- Cognova -->
+                <div class="name-card">
+                    <div class="name-header">
+                        <h3>Cognova</h3>
+                        <span class="category-badge">Acuñado</span>
+                    </div>
+                    <div class="name-meta">
+                        <div class="meta-item"><span class="meta-label">Significado</span><span class="meta-value">Nueva explosión de cognición con IA</span></div>
+                        <div class="meta-item"><span class="meta-label">Longitud</span><span class="meta-value">8</span></div>
+                        <div class="meta-item"><span class="meta-label">Pron. ES</span><span class="meta-value">cog-NO-va</span></div>
+                        <div class="meta-item"><span class="meta-label">Pron. EN</span><span class="meta-value">kog-NOH-vuh</span></div>
+                        <div class="meta-item"><span class="meta-label">Disponibilidad</span><span class="meta-value" style="color:#10b981;">Verificar manualmente</span></div>
+                    </div>
+                    <div class="versus">Supera en dinamismo y memorabilidad.</div>
+                </div>
+
+                <!-- Aetherix -->
+                <div class="name-card">
+                    <div class="name-header">
+                        <h3>Aetherix</h3>
+                        <span class="category-badge">Acuñado</span>
+                    </div>
+                    <div class="name-meta">
+                        <div class="meta-item"><span class="meta-label">Significado</span><span class="meta-value">Esencia superior de IA (aether + ix)</span></div>
+                        <div class="meta-item"><span class="meta-label">Longitud</span><span class="meta-value">9</span></div>
+                        <div class="meta-item"><span class="meta-label">Pron. ES</span><span class="meta-value">e-TE-rix</span></div>
+                        <div class="meta-item"><span class="meta-label">Pron. EN</span><span class="meta-value">EE-ther-iks</span></div>
+                        <div class="meta-item"><span class="meta-label">Disponibilidad</span><span class="meta-value" style="color:#10b981;">Verificar manualmente</span></div>
+                    </div>
+                    <div class="versus">Supera en sofisticación y neutralidad idiomática.</div>
+                </div>
+
+                <!-- Novexis -->
+                <div class="name-card">
+                    <div class="name-header">
+                        <h3>Novexis</h3>
+                        <span class="category-badge">Acuñado</span>
+                    </div>
+                    <div class="name-meta">
+                        <div class="meta-item"><span class="meta-label">Significado</span><span class="meta-value">Nueva existencia empresarial con IA</span></div>
+                        <div class="meta-item"><span class="meta-label">Longitud</span><span class="meta-value">8</span></div>
+                        <div class="meta-item"><span class="meta-label">Pron. ES</span><span class="meta-value">no-VEK-sis</span></div>
+                        <div class="meta-item"><span class="meta-label">Pron. EN</span><span class="meta-value">no-VEK-sis</span></div>
+                        <div class="meta-item"><span class="meta-label">Disponibilidad</span><span class="meta-value" style="color:#10b981;">Verificar manualmente</span></div>
+                    </div>
+                    <div class="versus">Supera en brevedad y pronunciación universal.</div>
+                </div>
+            </div>
+
+            <div class="note">
+                <strong>Nota importante:</strong> Estas marcas son inferencias de búsqueda web, no verificación WHOIS ni de registros de marca. Antes de comprar cualquier dominio o handle, verificar manualmente en Namecheap, Namechk, USPTO, EUIPO e IMPI/SIC Colombia.
+            </div>
+        </section>
+
+        <!-- Sección 2: Paletas -->
+        <section>
+            <h2>2. Crítica y propuesta de paletas</h2>
+            
+            <div class="palettes">
+                <!-- Paleta 01 Cosmos -->
+                <div class="palette-card">
+                    <div class="palette-header">
+                        <h3>Cosmos</h3>
+                        <p><strong>Tagline:</strong> Autoridad digital · Precisión · Confianza premium</p>
+                        <p style="font-size:0.85rem; margin-top:8px; color:#666;">Referencias: IBM, Stripe, Vercel</p>
+                    </div>
+                    <div class="swatches">
+                        <div class="swatch" style="background:#050D1A;" data-hex="#050D1A">Night</div>
+                        <div class="swatch" style="background:#0B2140;" data-hex="#0B2140">Deep Navy</div>
+                        <div class="swatch" style="background:#0070F3;" data-hex="#0070F3">Electric Blue</div>
+                        <div class="swatch" style="background:#00C4FF;" data-hex="#00C4FF">Cyan Ice</div>
+                        <div class="swatch" style="background:#8BA3C0;" data-hex="#8BA3C0">Steel Blue</div>
+                        <div class="swatch" style="background:#EEF4FF; color:#0F1F3D;" data-hex="#EEF4FF">Ice White</div>
+                    </div>
+                    <div style="padding:1rem 1.5rem; font-size:0.9rem;">
+                        <strong>Recomendación:</strong> Conservar tal cual<br>
+                        <strong>Crítica:</strong> Excelente peso institucional. Evita clichés IA. Seguro y atemporal.<br>
+                        <strong>Doble audiencia:</strong> Perfecta para ambos perfiles.
+                    </div>
+                </div>
+
+                <!-- Paleta 02 Nebula -->
+                <div class="palette-card">
+                    <div class="palette-header">
+                        <h3>Nebula</h3>
+                        <p><strong>Tagline:</strong> Inteligencia profunda · IA nativa · Vanguardia</p>
+                        <p style="font-size:0.85rem; margin-top:8px; color:#666;">Referencias: Anthropic, Midjourney, Linear</p>
+                    </div>
+                    <div class="swatches">
+                        <div class="swatch" style="background:#080818;" data-hex="#080818">Deep Space</div>
+                        <div class="swatch" style="background:#13103A;" data-hex="#13103A">Indigo Dark</div>
+                        <div class="swatch" style="background:#6C3CF7;" data-hex="#6C3CF7">AI Violet</div>
+                        <div class="swatch" style="background:#A78BFA;" data-hex="#A78BFA">Soft Violet</div>
+                        <div class="swatch" style="background:#00E0D0;" data-hex="#00E0D0">Mint Spark</div>
+                        <div class="swatch" style="background:#F5F0FF; color:#0F1F3D;" data-hex="#F5F0FF">Lavender Ice</div>
+                    </div>
+                    <div style="padding:1rem 1.5rem; font-size:0.9rem;">
+                        <strong>Recomendación:</strong> Desechar<br>
+                        <strong>Crítica:</strong> Vanguardia IA pero violeta ya es cliché genérico en 2026.<br>
+                        <strong>Doble audiencia:</strong> Riesgoso para dueños PyME (puede parecer hype).
+                    </div>
+                </div>
+
+                <!-- Paleta 03 Aurora -->
+                <div class="palette-card">
+                    <div class="palette-header">
+                        <h3>Aurora</h3>
+                        <p><strong>Tagline:</strong> Resultados concretos · Accesible · Crecimiento visible</p>
+                        <p style="font-size:0.85rem; margin-top:8px; color:#666;">Referencias: Salesforce, HubSpot</p>
+                    </div>
+                    <div class="swatches">
+                        <div class="swatch" style="background:#0C1A2E;" data-hex="#0C1A2E">Midnight</div>
+                        <div class="swatch" style="background:#0D4A6B;" data-hex="#0D4A6B">Ocean Deep</div>
+                        <div class="swatch" style="background:#0EA5E9;" data-hex="#0EA5E9">Sky Blue</div>
+                        <div class="swatch" style="background:#10B981;" data-hex="#10B981">Emerald</div>
+                        <div class="swatch" style="background:#F59E0B;" data-hex="#F59E0B">Amber Gold</div>
+                        <div class="swatch" style="background:#F0FBFF; color:#0F1F3D;" data-hex="#F0FBFF">Arctic White</div>
+                    </div>
+                    <div style="padding:1rem 1.5rem; font-size:0.9rem;">
+                        <strong>Recomendación:</strong> Conservar tal cual (ganadora de las tres de JP)<br>
+                        <strong>Crítica:</strong> La más equilibrada y versátil. Asocia directamente con valor económico.<br>
+                        <strong>Doble audiencia:</strong> Ideal — cercana para PyME y moderna para CTO.
+                    </div>
+                </div>
+
+                <!-- Paleta 04 Horizonte (propuesta Grok) -->
+                <div class="palette-card">
+                    <div class="palette-header">
+                        <h3>Horizonte</h3>
+                        <p><strong>Tagline:</strong> Profundidad institucional con calidez latina</p>
+                        <p style="font-size:0.85rem; margin-top:8px; color:#666;">Propuesta Grok • Supera a las tres anteriores</p>
+                    </div>
+                    <div class="swatches">
+                        <div class="swatch" style="background:#0A3C3A;" data-hex="#0A3C3A">Deep Teal</div>
+                        <div class="swatch" style="background:#0F1F3D;" data-hex="#0F1F3D">Navy Anchor</div>
+                        <div class="swatch" style="background:#8AB8A7;" data-hex="#8AB8A7">Sage Accent</div>
+                        <div class="swatch" style="background:#EDE4D9; color:#0F1F3D;" data-hex="#EDE4D9">Warm Sand</div>
+                        <div class="swatch" style="background:#FF7A5C;" data-hex="#FF7A5C">Coral Pulse</div>
+                        <div class="swatch" style="background:#FAF9F6; color:#0F1F3D;" data-hex="#FAF9F6">Pure White</div>
+                    </div>
+                    <div style="padding:1rem 1.5rem; font-size:0.9rem;">
+                        <strong>Recomendación:</strong> Adoptar como principal<br>
+                        <strong>Justificación:</strong> Combina profundidad técnica (teal/navy) con calidez orgánica sutil que resuena en LATAM sin folclore. Más diferenciadora que azules genéricos o violetas IA. Perfecta para reportes, web y presentaciones.<br>
+                        <strong>Doble audiencia:</strong> Dueño PyME ve solidez y cercanía; CTO ve precisión contemporánea.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 3: Dirección de logotipo -->
+        <section>
+            <h2>3. Dirección de logotipo recomendada</h2>
+            
+            <div style="display: flex; gap: 3rem; flex-wrap: wrap; align-items: flex-start;">
+                <div style="flex: 1; min-width: 320px;">
+                    <h3 style="margin-bottom: 1rem;">Symbol + Wordmark</h3>
+                    <p><strong>Por qué esta dirección:</strong> Equilibra superficie moderna (símbolo contemporáneo) con sustancia institucional (wordmark legible y serio). Evita frialdad pura o ligereza de símbolo aislado.</p>
+                    
+                    <p style="margin-top: 1.25rem;"><strong>Tipografía base:</strong> Sans geométrica moderna tipo <strong>Inter</strong> o <strong>Space Grotesk</strong> (referencia exacta a Linear / Vercel).</p>
+                    
+                    <p style="margin-top: 1.25rem;"><strong>Símbolo (una sola idea):</strong> Tres líneas horizontales elegantes y ligeramente ascendentes que forman una “S” sutil, representando capas de transformación (tradicional → moderno) y profundidad estratégica. Limpio, sin nodos ni circuitos.</p>
+                    
+                    <p style="margin-top: 1.25rem; font-size:0.9rem;"><strong>Comportamiento:</strong> En favicon 32×32 se reduce a la “S” monocromática. En B&amp;N mantiene toda su fuerza y jerarquía.</p>
+                </div>
+                
+                <!-- Visualización en vivo -->
+                <div style="flex: 1; min-width: 320px;">
+                    <div class="logo-preview">
+                        <svg class="svg-symbol" width="180" height="68" viewBox="0 0 180 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Símbolo estratos ascendentes -->
+                            <rect x="12" y="42" width="28" height="4" rx="2" fill="#0A3C3A"/>
+                            <rect x="22" y="32" width="28" height="4" rx="2" fill="#0A3C3A"/>
+                            <rect x="32" y="22" width="28" height="4" rx="2" fill="#0A3C3A"/>
+                            <rect x="42" y="12" width="28" height="4" rx="2" fill="#0A3C3A"/>
+                            <!-- Línea vertical sutil que forma S implícita -->
+                            <path d="M78 8 L78 58" stroke="#0F1F3D" stroke-width="6" stroke-linecap="round"/>
+                            <text x="98" y="52" font-family="Space Grotesk, sans-serif" font-size="42" font-weight="500" fill="#0A3C3A">Horizonte</text>
+                        </svg>
+                        <div class="wordmark" style="margin-top: 1rem; font-size: 2.4rem;">AETHERIX</div>
+                        <p style="margin-top: 1rem; color: #666; font-size: 0.9rem;">Ejemplo de wordmark + símbolo integrado (usando paleta Horizonte)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p><strong>Grok</strong> • Propuesta final de identidad de marca • Mayo 12, 2026</p>
+        <p style="margin-top: 0.5rem; opacity: 0.7;">Superficie moderna. Sustancia institucional. Lista para crecer con ustedes en LATAM y más allá.</p>
+    </footer>
+</body>
+</html>

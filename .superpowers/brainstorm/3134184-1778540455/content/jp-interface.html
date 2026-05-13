@@ -1,0 +1,92 @@
+<h2>What's JP's interface to the company system?</h2>
+<p class="subtitle">JP has 10 h/wk (then 5), Spanish-speaking, uses AI heavily but no formal technical training, lives in another timezone. He needs to read, review, propose prompt changes, and act on notifications — but he is NOT the operator. Three patterns, very different blast radii.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="heavy" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup" style="margin:0">
+        <div class="mockup-header">A — HEAVY</div>
+        <div class="mockup-body" style="font-family:monospace;font-size:11px;line-height:1.55">
+          <strong>JP's laptop:</strong><br>
+          • Claude Code installed<br>
+          • Gemini CLI installed<br>
+          • Full git clone of repo<br>
+          • Own .env (Anthropic + tokens)<br>
+          • SSH key to Gitea<br>
+          • Vault key (gocryptfs)<br><br>
+          <strong>Workflow:</strong><br>
+          Opens Claude Code at any folder. Runs<br>
+          full sessions like Ricardo. Edits any file.<br><br>
+          <strong>Secrets live:</strong> on JP's laptop<br>
+          <strong>Bus factor:</strong> 0 (independent)<br>
+          <strong>Onboarding:</strong> hours, plus ongoing maintenance
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A. Heavy — JP is a peer operator</h3>
+      <p>Same powers as Ricardo. Highest autonomy. Heaviest install + ongoing tooling burden on JP. Doubles the surface where credentials live.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="hosted" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup" style="margin:0">
+        <div class="mockup-header">B — HOSTED (recommended)</div>
+        <div class="mockup-body" style="font-family:monospace;font-size:11px;line-height:1.55">
+          <strong>JP's laptop:</strong><br>
+          • Web browser only<br>
+          • Tailscale client (or public TLS)<br><br>
+          <strong>On Ricardo's server:</strong><br>
+          • Per-user code-server (web IDE)<br>
+          • Per-user Claude Code session<br>
+          • Shared repo, separate workdirs<br>
+          • Secrets sit on the server<br><br>
+          <strong>Workflow:</strong><br>
+          JP logs into code-server in browser.<br>
+          Same Claude Code experience, no install.<br><br>
+          <strong>Secrets live:</strong> on Ricardo's server only<br>
+          <strong>Bus factor:</strong> 1 (depends on server uptime)<br>
+          <strong>Onboarding:</strong> minutes (browser login)
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B. Hosted — JP works through a browser into the server</h3>
+      <p>Same power as A, but the tools run on Ricardo's hardware. No JP install, no JP-side secrets. Requires server uptime + a second Anthropic license (or per-session login). New piece to operate: code-server.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="light" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup" style="margin:0">
+        <div class="mockup-header">C — LIGHT</div>
+        <div class="mockup-body" style="font-family:monospace;font-size:11px;line-height:1.55">
+          <strong>JP's laptop:</strong><br>
+          • Web browser<br>
+          • Telegram app<br>
+          • Vault key only (for sensitive docs)<br><br>
+          <strong>JP's reach:</strong><br>
+          • Gitea web UI (read + edit markdown)<br>
+          • Telegram bot (chat with system)<br>
+          • Download/upload .docx via Gitea<br><br>
+          <strong>Workflow:</strong><br>
+          JP reads in Gitea, comments via bot, edits<br>
+          markdown in browser. Ricardo's sessions<br>
+          integrate JP's notes.<br><br>
+          <strong>Secrets live:</strong> on Ricardo's server only<br>
+          <strong>Bus factor:</strong> 1 (depends on Ricardo)<br>
+          <strong>Onboarding:</strong> zero — JP already has both apps
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C. Light — JP only uses Gitea web + Telegram bot</h3>
+      <p>Lowest friction for JP, highest reliance on Ricardo as operator. JP can't independently run agents. Telegram bot becomes JP's main system surface — fits his actual role (strategy + review) better than A.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:18px"><strong>My recommendation:</strong> start with C, design forward-compatibly so we can layer B on later if JP wants more autonomy. C matches JP's actual contribution (strategy + review + occasional prompt input) without forcing a tooling commitment he hasn't signed up for. If we build C well, JP will likely never need B.</p>

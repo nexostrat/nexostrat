@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memo de marca — Claude (Anthropic) — Ronda 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F2EDE3;
+    --bg-warm: #EDE6D6;
+    --ink: #101822;
+    --ink-soft: #1F2D40;
+    --rule: #C9C1B0;
+    --rule-soft: #DDD6C5;
+    --azul-plomo: #3B5C8C;
+    --azul-plomo-hover: #4A6FA8;
+    --ambar: #C8924A;
+    --ambar-soft: rgba(200, 146, 74, 0.12);
+    --niebla: #D1D6DD;
+    --crema: #F2EDE3;
+    --serif: 'Fraunces', Georgia, serif;
+    --sans: 'Manrope', -apple-system, system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* =========================================================
+     HEADER
+     ========================================================= */
+  .top-bar {
+    background: var(--ink);
+    color: var(--crema);
+    padding: 18px 0;
+    border-bottom: 1px solid var(--ink);
+  }
+  .top-bar-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .top-bar-inner .left { color: var(--ambar); }
+  .top-bar-inner .right { color: var(--niebla); }
+
+  .hero {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 80px 32px 64px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .hero .eyebrow::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--ambar);
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(40px, 6vw, 72px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 32px;
+    font-variation-settings: "opsz" 120;
+  }
+  .hero h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--ink-soft);
+  }
+  .hero .lede {
+    font-family: var(--serif);
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    max-width: 720px;
+    font-variation-settings: "opsz" 24;
+  }
+  .hero-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .hero-meta div {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .hero-meta div span {
+    display: block;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--ink);
+    margin-top: 6px;
+  }
+
+  /* =========================================================
+     CONTENT
+     ========================================================= */
+  main {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  section {
+    padding: 80px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  section:last-of-type { border-bottom: none; }
+
+  .section-header {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 64px;
+    margin-bottom: 56px;
+  }
+  .section-header .label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ambar);
+    padding-top: 12px;
+  }
+  .section-header h2 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(28px, 4vw, 44px);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    font-variation-settings: "opsz" 72;
+  }
+  .section-header h2 + p {
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    margin-top: 16px;
+    max-width: 640px;
+  }
+
+  /* Note / callout */
+  .note {
+    background: var(--bg-warm);
+    border-left: 3px solid var(--ambar);
+    padding: 20px 24px;
+    margin-bottom: 40px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .note strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* =========================================================
+     BLOQUES DE NOMBRES
+     ========================================================= */
+  .bloque-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .bloque-header .roman {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 32px;
+    color: var(--ambar);
+    line-height: 1;
+  }
+  .bloque-header h3 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 24px;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .bloque-header .count {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .name-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin-bottom: 56px;
+  }
+  .name-card {
+    background: var(--bg);
+    padding: 32px 28px;
+    position: relative;
+  }
+  .name-card.featured {
+    background: var(--bg-warm);
+  }
+  .name-card .num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-soft);
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+  }
+  .name-card h4 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 36px;
+    color: var(--ink);
+    letter-spacing: -0.015em;
+    margin-bottom: 6px;
+    font-variation-settings: "opsz" 72;
+  }
+  .name-card h4 .star {
+    color: var(--ambar);
+    font-size: 18px;
+    vertical-align: super;
+    margin-left: 4px;
+  }
+  .name-card .pronunciation {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-bottom: 20px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .name-card .pronunciation span::before {
+    content: attr(data-lang);
+    color: var(--ambar);
+    margin-right: 6px;
+    font-weight: 500;
+  }
+  .name-card .field {
+    padding: 12px 0;
+    border-top: 1px solid var(--rule-soft);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .name-card .field .field-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 4px;
+  }
+  .name-card .field p {
+    color: var(--ink);
+  }
+  .name-card .handles {
+    font-size: 13px;
+  }
+  .name-card .handles .h-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    gap: 12px;
+  }
+  .name-card .handles .h-row span:first-child {
+    font-family: var(--mono);
+    color: var(--ink-soft);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+  }
+  .status-libre { color: #2E6B3F; font-weight: 500; }
+  .status-tomado { color: #8B3A2F; font-weight: 500; }
+  .status-verificar { color: var(--ambar); font-weight: 500; }
+
+  .ranking-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 32px;
+    font-size: 14px;
+    background: var(--bg-warm);
+    border: 1px solid var(--rule);
+  }
+  .ranking-table th {
+    text-align: left;
+    padding: 14px 16px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    border-bottom: 1px solid var(--rule);
+    font-weight: 500;
+  }
+  .ranking-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--rule-soft);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .ranking-table tr:last-child td { border-bottom: none; }
+  .ranking-table .rank {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 500;
+    color: var(--ambar);
+    font-size: 18px;
+    width: 36px;
+  }
+  .ranking-table .name {
+    font-family: var(--serif);
+    font-weight: 500;
+    color: var(--ink);
+    font-size: 16px;
+    width: 140px;
+  }
+
+  /* =========================================================
+     PALETAS
+     ========================================================= */
+  .paleta {
+    margin-bottom: 56px;
+    padding-bottom: 56px;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .paleta:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+  .paleta-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 24px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .paleta-header h3 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 28px;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .paleta-header h3 em {
+    font-style: italic;
+    color: var(--ink-soft);
+    font-weight: 400;
+  }
+  .verdict {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border: 1px solid currentColor;
+  }
+  .verdict-conservar { color: #2E6B3F; }
+  .verdict-refinar { color: var(--ambar); }
+  .verdict-desechar { color: #8B3A2F; }
+  .verdict-propuesta { color: var(--azul-plomo); }
+
+  .swatches {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1px;
+    margin-bottom: 28px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+  .swatch {
+    aspect-ratio: 1 / 1.2;
+    padding: 14px 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 11px;
+    line-height: 1.3;
+  }
+  .swatch .sw-name {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .swatch .sw-hex {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    opacity: 0.85;
+  }
+  .paleta-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .paleta-body h4 {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+  .paleta-body p { color: var(--ink); margin-bottom: 16px; }
+  .paleta-body .recomendacion {
+    grid-column: 1 / -1;
+    background: var(--bg-warm);
+    padding: 18px 22px;
+    border-left: 3px solid var(--azul-plomo);
+    font-size: 14px;
+  }
+
+  /* Vista previa de paleta 04 */
+  .preview-stack {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 32px;
+  }
+  .preview-card {
+    border: 1px solid var(--rule);
+    overflow: hidden;
+  }
+  .preview-card .preview-label {
+    padding: 10px 16px;
+    background: var(--bg-warm);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    border-bottom: 1px solid var(--rule);
+  }
+  .preview-card .preview-body {
+    padding: 32px 28px;
+  }
+  .preview-dark {
+    background: var(--ink);
+    color: var(--crema);
+  }
+  .preview-dark .preview-wordmark {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 32px;
+    letter-spacing: -0.02em;
+    color: #F2EDE3;
+    margin-bottom: 8px;
+  }
+  .preview-dark .preview-sub {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--azul-plomo-hover);
+  }
+  .preview-light {
+    background: var(--crema);
+  }
+  .btn-demo {
+    display: inline-block;
+    background: var(--azul-plomo);
+    color: var(--crema);
+    padding: 12px 24px;
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 16px;
+  }
+  .badge-demo {
+    display: inline-block;
+    background: var(--ambar-soft);
+    color: #8B6428;
+    padding: 6px 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    border: 1px solid rgba(200, 146, 74, 0.4);
+  }
+
+  /* =========================================================
+     LOGO
+     ========================================================= */
+  .logo-stage {
+    background: var(--bg-warm);
+    border: 1px solid var(--rule);
+    padding: 64px 32px;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .logo-wordmark {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(48px, 8vw, 96px);
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    line-height: 1;
+    font-variation-settings: "opsz" 144;
+  }
+  .logo-tagline {
+    margin-top: 20px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--azul-plomo);
+  }
+  .logo-variants {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .logo-variant {
+    border: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    padding: 16px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    gap: 16px;
+  }
+  .logo-variant .demo {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 32px;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+  }
+  .logo-variant.dark {
+    background: var(--ink);
+    color: var(--niebla);
+  }
+  .logo-variant.dark .demo { color: var(--crema); }
+  .logo-variant.favicon .demo { font-size: 48px; }
+
+  .logo-detail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    font-size: 15px;
+    line-height: 1.65;
+  }
+  .logo-detail h4 {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ambar);
+    margin-bottom: 10px;
+  }
+  .logo-detail p { color: var(--ink); margin-bottom: 14px; }
+
+  /* =========================================================
+     POSTURA / CIERRE
+     ========================================================= */
+  .postura {
+    background: var(--ink);
+    color: var(--crema);
+    padding: 64px 48px;
+    margin-top: 80px;
+  }
+  .postura .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ambar);
+    margin-bottom: 24px;
+  }
+  .postura h2 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(28px, 4vw, 40px);
+    color: var(--crema);
+    margin-bottom: 32px;
+    letter-spacing: -0.015em;
+    font-variation-settings: "opsz" 72;
+  }
+  .postura ol {
+    list-style: none;
+    counter-reset: postura;
+  }
+  .postura ol li {
+    counter-increment: postura;
+    padding: 20px 0 20px 56px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    position: relative;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--niebla);
+  }
+  .postura ol li::before {
+    content: counter(postura, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 22px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ambar);
+    letter-spacing: 0.08em;
+  }
+  .postura ol li strong { color: var(--crema); font-weight: 600; }
+  .postura ol li:last-child { border-bottom: none; }
+
+  /* =========================================================
+     FOOTER
+     ========================================================= */
+  footer {
+    background: var(--ink);
+    color: var(--niebla);
+    padding: 40px 0;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .footer-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  footer .firma { color: var(--ambar); }
+
+  /* =========================================================
+     RESPONSIVE
+     ========================================================= */
+  @media (max-width: 800px) {
+    .section-header { grid-template-columns: 1fr; gap: 16px; }
+    .name-grid { grid-template-columns: 1fr; }
+    .swatches { grid-template-columns: repeat(3, 1fr); }
+    .paleta-body, .logo-detail, .preview-stack { grid-template-columns: 1fr; }
+    .logo-variants { grid-template-columns: repeat(2, 1fr); }
+    .hero { padding: 56px 24px 48px; }
+    main { padding: 0 24px; }
+    section { padding: 56px 0; }
+    .postura { padding: 48px 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ TOP BAR ============ -->
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <div class="left">CLAUDE · ANTHROPIC</div>
+    <div class="right">RONDA 03 · MEMO FINAL · 12 MAY 2026</div>
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="eyebrow">Memo de identidad de marca</div>
+  <h1>Consultoría de IA para PyMEs latinoamericanas, <em>nombrada con honestidad operativa.</em></h1>
+  <p class="lede">
+    Después de tres rondas: StratiaLabs queda descartado. Mi apuesta a un solo nombre se desmontó en verificación. Lo que sigue es Modo A — 12 candidatos defendibles, una crítica de las tres paletas de JP más mi propuesta, y una dirección de logotipo única. Sin floritura.
+  </p>
+  <div class="hero-meta">
+    <div>Modelo<span>Claude (Anthropic)</span></div>
+    <div>Cliente<span>Ricardo · JP Mejía</span></div>
+    <div>Mercado<span>México · Colombia</span></div>
+    <div>Audiencia<span>Dueño PyME 50–70 · CTO 28–40</span></div>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ NOTA INICIAL ============ -->
+<section style="padding: 48px 0; border-bottom: 1px solid var(--rule);">
+  <div class="note" style="margin-bottom: 0;">
+    <strong>Sobre por qué este memo es Modo A y no Modo B.</strong> Mi convicción al final de la ronda 2 apuntaba a Solera como apuesta única. Verificación de ronda 3 reveló: (a) solera.com está activo con Solera Holdings, multinacional automotriz B2B que <em>ya usa fuertemente "AI-powered" en su comunicación</em> — erosiona "sector distinto"; (b) Solera Health existe como segundo Solera grande, con AI Governance Framework; (c) solaraai.com (Solara AI) existe con $1.2M pre-seed en AI marketing. Verificación de Tálamo: talamo.co.uk es edtech AI activa (350+ escuelas UK), Talamo en Crunchbase es SaaS financiero AI, Talamoos es predicción AI. <strong>Ningún candidato resiste una apuesta de un solo nombre con la honestidad que el brief exige.</strong> El Modo A no es derrota — es la postura correcta.
+  </div>
+</section>
+
+<!-- ============ SECCIÓN 1 — NOMBRES ============ -->
+<section>
+  <div class="section-header">
+    <div class="label">Sección 01 / Tres</div>
+    <div>
+      <h2>Doce candidatos, en tres bloques.</h2>
+      <p>Cuatro en inglés, cuatro en español, cuatro acuñados o pseudo-latinos. Sin solapes conceptuales. Cada bloque defendible en su propia categoría idiomática.</p>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>Sobre la disponibilidad de handles.</strong> No tengo acceso a APIs de WHOIS, Instagram, X, TikTok ni LinkedIn. Las marcas <span class="status-libre">probablemente libre</span> / <span class="status-tomado">probablemente tomado</span> / <span class="status-verificar">verificar manualmente</span> son inferencias de búsqueda web, no verificación en vivo. <em>Antes de comprar cualquier dominio o handle, verificar manualmente en Namecheap, Namechk, USPTO, EUIPO, IMPI México y SIC Colombia.</em>
+  </div>
+
+  <!-- BLOQUE A — INGLÉS -->
+  <div class="bloque-header">
+    <span class="roman">i.</span>
+    <h3>Bloque A — Inglés</h3>
+    <span class="count">4 candidatos</span>
+  </div>
+
+  <div class="name-grid">
+
+    <div class="name-card">
+      <div class="num">01 / 12</div>
+      <h4>Northkey</h4>
+      <div class="pronunciation">
+        <span data-lang="ES">NORZ-key</span>
+        <span data-lang="EN">NORTH-key</span>
+      </div>
+      <div class="field">
+        <div class="field-label">Significado</div>
+        <p>"La llave del norte." Orientación + acceso. Brújula que abre, no solo señala.</p>
+      </div>
+      <div class="field">
+        <div class="field-label">Longitud · 8 caracteres</div>
+        <p>Compacto, una sola palabra, lectura bilingüe limpia.</p>
+      </div>
+      <div class="field handles">
+        <div class="field-label">Disponibilidad inferida</div>
+        <div class="h-row"><span>.com</span><span class="status-tomado">Probablemente tomado (Northkey Capital)</span></div>
+        <div class="h-row"><span>.ai</span><span class="status-verificar">Verificar manualmente</span></div>
+        <div class="h-row"><span>IG / X / TT / LI</span><span class="status-verificar">Verificar manualmente</span></div>
+      </div>
+      <div class="field">
+        <div class="field-label">Vs. StratiaLabs (descartado)</div>
+        <p>Supera en memorabilidad y evita el sufijo "-Labs". Pierde el .com.</p>
+      </div>
+    </div>
+
+    <div class="name-card">
+      <div class="num">02 / 12</div>
+      <h4>Throughline</h4>
+      <div class="pronunciation">
+        <span data-lang="ES">TRU-lain (difícil)</span>
+        <span data-lang="EN">THROO-line</span>
+      </div>
+      <div class="field">
+        <div class="field-label">Significado</div>
+        <p>Término narrativo: el hilo conductor. Para una consultoría: lo que conecta operación con resultado.</p>
+      </div>
+      <div class="field">
+        <div class="field-label">Longitud · 10 caracteres</div>
+        <p>Una sola palabra, peso conceptual fuerte.</p>
+      </div>
+      <div class="field handles">
+        <div class="field-label">Disponibilidad inferida</div>
+        <div class="h-row"><span>.com</span><span class="status-tomado">Probablemente tomado (palabra común)</span></div>
+        <div class="h-row"><span>.ai</span><span class="status-verificar">Verificar manualmente</span></div>
+        <div class="h-row"><span>IG / X / TT / LI</span><span class="status-verificar">Verificar manualmente</span></div>
+      </div>
+      <div class="field">
+        <div class="field-label">Vs. StratiaLabs</div>
+        <p>Iguala en peso. Deal-breaker: pronunciación en ES — el dueño de 60 no lo retiene.</p>
+      </div>
+    </div>
+
+    <div class="name-card">
+      <div class="num">03 / 12</div>
+      <h4>Northhand</h4>
+      <div class="pronunciation">
+        <span data-lang="ES">NORZ-hand</span>
+        <span data-lang="EN">NORTH-hand</span>
+      </div>
+      <div class="field">
+        <div class="field-label">Significado</div>
+        <p>"Mano del norte." Orientación + ejecución. La firma que no solo asesora — ejecuta.</p>
+      </div>
+      <div class="field">
+        <div class="field-label">Longitud · 9 caracteres</div>
+        <p>Neologismo compacto, sin actor competidor obvio.</p>
+      </div>
+      <div class="field handles">
+        <div class="field-label">Disponibilidad inferida</div>
+        <div class="h-row"><span>.com</span><span class="status-libre">Probablemente libre</span></div>
+        <div class="h-row"><span>.ai</span><span class="status-libre">Probablemente libre</span></div>
+        <div class="h-row"><span>IG / X / TT / LI</span><span class="status-verificar">Verificar manualmente</span></div>
+      </div>
+      <div class="field">
+        <div class="field-label">Vs. StratiaLabs</div>
+        <p>Supera en disponibilidad probable y en concepto (no solo "labs"). Iguala en peso institucional.</p>
+      </div>
+    </div>
+
+    <div class="name-card">
+      <div class="num">04 / 12</div>
+      <h4>Foundry South</h4>
+      <div class="pronunciation">
+        <span data-lang="ES">fáundri saud</span>
+        <span data-lang="EN">FOUN-dree south</span>
+      </div>
+      <div class="field">
+        <div class="field-label">Significado</div>
+        <p>"Fundición del sur." Donde se forja algo. Sur reclama identidad LATAM sin folclor.</p>
+      </div>
+      <div class="field">
+        <div class="field-label">Longitud · 12 caracteres</div>
+        <p>Dos palabras — debilita el handle pero refuerza el posicionamiento.</p>
+      </div>
+      <div class="field handles">
+        <div class="field-label">Disponibilidad inferida</div>
+        <div class="h-row"><span>.com</span><span class="status-verificar">Verificar manualmente</span></div>
+        <div class="h-row"><span>.ai</span><span class="status-libre">Probablemente libre</span></div>
+        <div class="h-row"><span>IG / X / TT / LI</span><span class="status-verificar">Verificar manualmente</span></div>
+      </div>
+      <div class="field">
+        <div class="field-label">Vs. StratiaLabs</div>
+        <p>Supera en evocación (forja > laboratorio). Pierde en longitud y composición.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BLOQUE B — ESPAÑOL -->
+  <div class="bloque-header">
+    <span class="roman">ii.</span>
+    <h3>Bloque B — Español</h3>
+    <span class="count">4 candidatos</span>
+  </div>
+
+  <div class="name-grid">
+
+    <div class="name-card">
+      <div class="num">05 / 12</div>
+      <h4>Cifra</h4>
+      <div class="pronunciation">
+        <span data-lang="ES">SI-fra</span>
+        <span data-lang="EN">SEE-frah</span>
+      </div>
+      <div class="field">
+        <div class="field-label">Significado</div>
+        <p>Número, dato, código y resultado. Doble lectura: "te entregamos cifras" / "ciframos lo que importa".</p>
+      </div>
+      <div class="field">
+        <div class="field-label">Longitud · 5 caracteres</div>
+        <p>Brevedad excepcional. La más corta del set.</p>
+      </div>
+      <div class="field handles">
+        <div class="field-label">Disponibilidad inferida</div>
+        <div class="h-row"><span>.com</span><span class="status-tomado">Probablemente tomado (común)</span></div>
+        <div class="h-row"><span>.ai</span><span class="status-verificar">Verificar manualmente</span></div>
+        <div class="h-row"><span>IG / X / TT / LI</span><span class="status-tomado">Probablemente requiere prefijo</span></div>
+      </div>
+      <div class="field">
+        <div class="field-label">Vs. StratiaLabs</div>
+        <p>Supera en brevedad y raíz española. Pierde si insistes en .com corto.</p>
+      </div>
+    </div>
+
+    <div class="name-card">
+      <div class="num">06 / 12</div>
+      <h4>Bisagra</h4>
+      <div class="pronunciation">
+        <span data-lang="ES">bi-SA-gra</span>
+        <span data-lang="EN">bee-SAH-grah</span>
+      </div>
+      <div class="field">
+        <div class="field-label">Significado</div>
+        <p>El punto donde algo gira. Para una PyME pasando a IA: la firma que articula el cambio sin romperlo.</p>
+      </div>
+      <div class="field">
+        <div class="field-label">Longitud · 7 caracteres</div>
+        <p>Metáfora física, no abstracta — palabra de oficio.</p>
+      </div>
+      <div class="field handles">
+        <div class="field-label">Disponibilidad inferida</div>
+        <div class="h-row"><span>.com</span><span class="status-tomado">Probablemente tomado (común)</span></div>
+        <div class="h-row"><span>.ai</span><span class="status-libre">Probablemente libre</span></div>
+        <div class="h-row"><span>IG / X / TT / LI</span><span class="status-verificar">Verificar manualmente</span></div>
+      </div>
+      <div class="field">
+        <div class="field-label">Vs. StratiaLabs</div>
+        <p>Supera en originalidad y en respeto al cliente PyME. Riesgo: demasiado "concreto" para CTOs.</p>
+      </div>
+    </div>
+
+    <div class="name-card">
+      <div class="num">07 / 12</div>
+      <h4>Tálamo</h4>
+      <div class="pronunciation">
+        <span data-lang="ES">TÁ-la-mo</span>
+        <span data-lang="EN">TAH-lah-moh</span>
+      </div>
+      <div class="field">
+        <div class="field-label">Significado</div>
+        <p>Estructura cerebral que enruta señales sensoriales — la central de distribución del cerebro. "Donde tus datos se enrutan a decisión."</p>
+      </div>
+      <div class="field">
+        <div class="field-label">Longitud · 6 caracteres</div>
+        <p>Profundidad conceptual y unicidad. Ciencia real, no cliché.</p>
+      </div>
+      <div class="field handles">
+        <div class="field-label">Disponibilidad inferida</div>
+        <div class="h-row"><span>.com</span><span class="status-tomado">Probablemente tomado</span></div>
+        <div class="h-row"><span>.ai</span><span class="status-tomado">Talamo UK / Talamoos AI activas</span></div>
+        <div class="h-row"><span>IG / X / TT / LI</span><span class="status-verificar">Verificar manualmente</span></div>
+      </div>
+      <div class="field">
+        <div class="field-label">Vs. StratiaLabs</div>
+        <p>Supera en profundidad. Pierde en disponibilidad: namespace AI ya ocupado.</p>
+      </div>
+    </div>
+
+    <div class="name-card">
+      <div class="num">08 / 12</div>
+      <h4>Plomada</h4>
+      <div class="pronunciation">
+        <span data-lang="ES">plo-MA-da</span>
+        <span data-lang="EN">ploh-MAH-dah</span>
+      </div>
+      <div class="field">
+        <div class="field-label">Significado</div>
+        <p>Herramienta de albañil para verificar verticalidad: simple, exacta, sin teatro. "Te entregamos algo que está a plomo."</p>
+      </div>
+      <div class="field">
+        <div class="field-label">Longitud · 7 caracteres</div>
+        <p>Lenguaje de oficio. Autenticidad LATAM sin folclor.</p>
+      </div>
+      <div class="field handles">
+        <div class="field-label">Disponibilidad inferida</div>
+        <div class="h-row"><span>.com</span><span class="status-verificar">Verificar manualmente</span></div>
+        <div class="h-row"><span>.ai</span><span class="status-libre">Probablemente libre</span></div>
+        <div class="h-row"><span>IG / X / TT / LI</span><span class="status-verificar">Verificar manualmente</span></div>
+      </div>
+      <div class="field">
+        <div class="field-label">Vs. StratiaLabs</div>
+        <p>Supera en autenticidad LATAM. Pierde si la firma quiere escalar fuera de hispanohablantes.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BLOQUE C — ACUÑADOS -->
+  <div class="bloque-header">
+    <span class="roman">iii.</span>
+    <h3>Bloque C — Acuñados / pseudo-latinos / neutros</h3>
+    <span class="count">4 candidatos</span>
+  </div>
+
+  <div class="name-grid">
+
+    <div class="name-card">
+      <div class="num">09 / 12</div>
+      <h4>Veridex</h4>
+      <div class="pronunciation">
+        <span data-lang="ES">ve-ri-DEX</span>
+        <span data-lang="EN">VER-ih-dex</span>
+      </div>
+      <div class="field">
+        <div class="field-label">Etimología</div>
+        <p>Veri- (verdad, latín) + -dex (índice, señalar). "El que señala lo verdadero." Suena a instrumento institucional.</p>
+      </div>
+      <div class="field">
+        <div class="field-label">Longitud · 7 caracteres</div>
+        <p>Cero juvenil. Gravitas, pero conflicto serio.</p>
+      </div>
+      <div class="field handles">
+        <div class="field-label">Disponibilidad inferida</div>
+        <div class="h-row"><span>.com</span><span class="status-tomado">Veridex (subsidiaria histórica J&J)</span></div>
+        <div class="h-row"><span>.ai</span><span class="status-verificar">Verificar manualmente</span></div>
+        <div class="h-row"><span>Trademark</span><span class="status-tomado">Riesgo USPTO clase médica</span></div>
+      </div>
+      <div class="field">
+        <div class="field-label">Vs. StratiaLabs</div>
+        <p>Supera en gravitas. Pierde catastróficamente en disponibilidad. <strong>Recomiendo descartar.</strong></p>
+      </div>
+    </div>
+
+    <div class="name-card">
+      <div class="num">10 / 12</div>
+      <h4>Numera</h4>
+      <div class="pronunciation">
+        <span data-lang="ES">nu-ME-ra</span>
+        <span data-lang="EN">noo-MER-ah</span>
+      </div>
+      <div class="field">
+        <div class="field-label">Etimología</div>
+        <p>Del latín <em>numerare</em> (contar, enumerar). Imperativo en español: "numera". Doble función — sustantivo / orden directa.</p>
+      </div>
+      <div class="field">
+        <div class="field-label">Longitud · 6 caracteres</div>
+        <p>Concisión y doble lectura ES/latín.</p>
+      </div>
+      <div class="field handles">
+        <div class="field-label">Disponibilidad inferida</div>
+        <div class="h-row"><span>.com</span><span class="status-tomado">Probablemente tomado (común)</span></div>
+        <div class="h-row"><span>.ai</span><span class="status-verificar">Verificar manualmente</span></div>
+        <div class="h-row"><span>IG / X / TT / LI</span><span class="status-verificar">Verificar manualmente</span></div>
+      </div>
+      <div class="field">
+        <div class="field-label">Vs. StratiaLabs</div>
+        <p>Supera en concisión y doble lectura. Riesgo de actores fintech adyacentes.</p>
+      </div>
+    </div>
+
+    <div class="name-card featured">
+      <div class="num">11 / 12 · Top-1 ranking final</div>
+      <h4>Solera <span class="star">★</span></h4>
+      <div class="pronunciation">
+        <span data-lang="ES">so-LE-ra</span>
+        <span data-lang="EN">so-LAIR-ah</span>
+      </div>
+      <div class="field">
+        <div class="field-label">Significado · tres lecturas simultáneas</div>
+        <p>(1) Tradición sólida — "empresa con solera"; (2) sistema de envejecimiento del jerez donde barriles viejos enseñan a los nuevos — metáfora exacta de PyME de 2ª generación adoptando IA; (3) en arquitectura, la base que soporta.</p>
+      </div>
+      <div class="field">
+        <div class="field-label">Longitud · 6 caracteres</div>
+        <p>Pronunciación bilingüe limpia. Sobria sin ser fría.</p>
+      </div>
+      <div class="field handles">
+        <div class="field-label">Disponibilidad inferida</div>
+        <div class="h-row"><span>.com</span><span class="status-tomado">Solera Holdings (auto SaaS, AI activo)</span></div>
+        <div class="h-row"><span>.ai</span><span class="status-verificar">Verificar manualmente</span></div>
+        <div class="h-row"><span>Trademark</span><span class="status-tomado">Solera Holdings + Solera Health</span></div>
+      </div>
+      <div class="field">
+        <div class="field-label">Vs. StratiaLabs</div>
+        <p>Sigue ganando conceptualmente. Pero la verificación de ronda 3 mostró que Solera Holdings usa AI fuerte — la separación de sector se erosionó. <strong>No es defendible como apuesta única.</strong></p>
+      </div>
+    </div>
+
+    <div class="name-card">
+      <div class="num">12 / 12</div>
+      <h4>Latitud Norte</h4>
+      <div class="pronunciation">
+        <span data-lang="ES">la-ti-TUD NOR-te</span>
+        <span data-lang="EN">LAT-ih-tood NOR-tay</span>
+      </div>
+      <div class="field">
+        <div class="field-label">Etimología</div>
+        <p>Coordenada geográfica + ambición direccional. "Nuestra latitud (LATAM) apuntando al norte (frontera de IA)."</p>
+      </div>
+      <div class="field">
+        <div class="field-label">Longitud · 13 caracteres</div>
+        <p>Composición de firma — dos palabras coherentes. Sin folclor.</p>
+      </div>
+      <div class="field handles">
+        <div class="field-label">Disponibilidad inferida</div>
+        <div class="h-row"><span>.com</span><span class="status-verificar">Verificar manualmente</span></div>
+        <div class="h-row"><span>.ai</span><span class="status-libre">Probablemente libre</span></div>
+        <div class="h-row"><span>IG / X / TT / LI</span><span class="status-verificar">Verificar manualmente</span></div>
+      </div>
+      <div class="field">
+        <div class="field-label">Vs. StratiaLabs</div>
+        <p>Supera en posicionamiento estratégico. Pierde en handles cortos para social.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RANKING FINAL -->
+  <h3 style="font-family: var(--serif); font-weight: 500; font-size: 22px; margin-top: 56px; margin-bottom: 16px; color: var(--ink);">Ranking final tras la verificación de ronda 3</h3>
+  <p style="font-size: 15px; color: var(--ink-soft); margin-bottom: 0; max-width: 720px;">El ranking cambió respecto a la ronda 1. Solera deja el top por conflictos verificados, y Plomada + Latitud Norte suben por disponibilidad limpia.</p>
+
+  <table class="ranking-table">
+    <thead>
+      <tr><th>#</th><th>Nombre</th><th>Bloque</th><th>Postura</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="rank">i.</td><td class="name">Plomada</td><td>Español</td><td>Ganador revisado. Autenticidad LATAM + disponibilidad probable. Verificar en IMPI / SIC primero.</td></tr>
+      <tr><td class="rank">ii.</td><td class="name">Northhand</td><td>Inglés</td><td>Neologismo limpio. Mayor escalabilidad fuera de LATAM. Disponibilidad probable libre.</td></tr>
+      <tr><td class="rank">iii.</td><td class="name">Latitud Norte</td><td>Acuñado</td><td>Si pesa más la declaración LATAM que la brevedad de handle.</td></tr>
+      <tr><td class="rank">iv.</td><td class="name">Solera</td><td>Acuñado</td><td>Conceptualmente fuerte, pero conflicto con Solera Holdings (auto AI) + Solera Health. Descartar.</td></tr>
+      <tr><td class="rank">v.</td><td class="name">Cifra</td><td>Español</td><td>Plan B si se acepta .ai en lugar de .com.</td></tr>
+      <tr><td class="rank">vi.</td><td class="name">Tálamo</td><td>Español</td><td>Bajada importante: Talamo UK edtech AI + Talamoos AI ya ocupan el namespace.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============ SECCIÓN 2 — PALETAS ============ -->
+<section>
+  <div class="section-header">
+    <div class="label">Sección 02 / Tres</div>
+    <div>
+      <h2>Crítica de las tres paletas de JP, más una cuarta.</h2>
+      <p>Las referencias declaradas son honestas. La ejecución necesita reparaciones quirúrgicas. Una de las tres es cliché de categoría — la desecho.</p>
+    </div>
+  </div>
+
+  <!-- PALETA 01 — COSMOS -->
+  <div class="paleta">
+    <div class="paleta-header">
+      <h3>Paleta 01 · <em>Cosmos</em></h3>
+      <span class="verdict verdict-refinar">Refinar</span>
+    </div>
+    <div class="swatches">
+      <div class="swatch" style="background:#050D1A; color:#EEF4FF;"><div class="sw-name">Cosmos Night</div><div class="sw-hex">#050D1A</div></div>
+      <div class="swatch" style="background:#0B2140; color:#EEF4FF;"><div class="sw-name">Deep Navy</div><div class="sw-hex">#0B2140</div></div>
+      <div class="swatch" style="background:#0070F3; color:#EEF4FF;"><div class="sw-name">Electric Blue</div><div class="sw-hex">#0070F3</div></div>
+      <div class="swatch" style="background:#00C4FF; color:#050D1A;"><div class="sw-name">Cyan Ice</div><div class="sw-hex">#00C4FF</div></div>
+      <div class="swatch" style="background:#8BA3C0; color:#050D1A;"><div class="sw-name">Steel Blue</div><div class="sw-hex">#8BA3C0</div></div>
+      <div class="swatch" style="background:#EEF4FF; color:#050D1A;"><div class="sw-name">Ice White</div><div class="sw-hex">#EEF4FF</div></div>
+    </div>
+    <div class="paleta-body">
+      <div>
+        <h4>Qué funciona</h4>
+        <p>Navy + azul eléctrico es sistema probado — Stripe lo construyó, Vercel lo afinó. Sirve a la audiencia dual: el dueño de 60 ve "banco", el CTO ve "moderno".</p>
+      </div>
+      <div>
+        <h4>Qué no funciona</h4>
+        <p>#0070F3 es literalmente el azul de Vercel. Cualquier persona técnica lo reconoce de inmediato como copia. Cyan Ice acerca aún más a Stripe — el resultado es mosaico de referencias.</p>
+      </div>
+      <div class="recomendacion">
+        <strong>Recomendación:</strong> conservar la estructura, mover #0070F3 fuera del territorio Vercel (probar #1E4FD9 o #2563EB). Sustituir Cyan Ice por un acento más cálido. Aguanta la audiencia dual.
+      </div>
+    </div>
+  </div>
+
+  <!-- PALETA 02 — NEBULA -->
+  <div class="paleta">
+    <div class="paleta-header">
+      <h3>Paleta 02 · <em>Nebula</em></h3>
+      <span class="verdict verdict-desechar">Desechar</span>
+    </div>
+    <div class="swatches">
+      <div class="swatch" style="background:#080818; color:#F5F0FF;"><div class="sw-name">Deep Space</div><div class="sw-hex">#080818</div></div>
+      <div class="swatch" style="background:#13103A; color:#F5F0FF;"><div class="sw-name">Indigo Dark</div><div class="sw-hex">#13103A</div></div>
+      <div class="swatch" style="background:#6C3CF7; color:#F5F0FF;"><div class="sw-name">AI Violet</div><div class="sw-hex">#6C3CF7</div></div>
+      <div class="swatch" style="background:#A78BFA; color:#080818;"><div class="sw-name">Soft Violet</div><div class="sw-hex">#A78BFA</div></div>
+      <div class="swatch" style="background:#00E0D0; color:#080818;"><div class="sw-name">Mint Spark</div><div class="sw-hex">#00E0D0</div></div>
+      <div class="swatch" style="background:#F5F0FF; color:#080818;"><div class="sw-name">Lavender Ice</div><div class="sw-hex">#F5F0FF</div></div>
+    </div>
+    <div class="paleta-body">
+      <div>
+        <h4>Qué funciona</h4>
+        <p>Técnicamente bonita. Los hex están bien escogidos. Mint Spark contra violeta es un movimiento estilizado.</p>
+      </div>
+      <div>
+        <h4>Qué no funciona</h4>
+        <p>En 2026, violeta-eléctrico <em>es</em> el "morado IA" que el brief pidió evitar explícitamente. Cuando todos los actores premium del sector usan el mismo color, deja de comunicar premium y empieza a comunicar "más de lo mismo". El dueño de PyME de 60 años no le confía datos a algo que se ve como app de meditación.</p>
+      </div>
+      <div class="recomendacion">
+        <strong>Recomendación:</strong> desechar como dirección principal. Violeta puede sobrevivir como acento mínimo (5% del uso) para etiquetas tipo "AI-powered", nunca como dominante. <em>Pierde al dueño PyME al primer encuentro.</em>
+      </div>
+    </div>
+  </div>
+
+  <!-- PALETA 03 — AURORA -->
+  <div class="paleta">
+    <div class="paleta-header">
+      <h3>Paleta 03 · <em>Aurora</em></h3>
+      <span class="verdict verdict-refinar">Refinar (cambios fuertes)</span>
+    </div>
+    <div class="swatches">
+      <div class="swatch" style="background:#0C1A2E; color:#F0FBFF;"><div class="sw-name">Midnight</div><div class="sw-hex">#0C1A2E</div></div>
+      <div class="swatch" style="background:#0D4A6B; color:#F0FBFF;"><div class="sw-name">Ocean Deep</div><div class="sw-hex">#0D4A6B</div></div>
+      <div class="swatch" style="background:#0EA5E9; color:#0C1A2E;"><div class="sw-name">Sky Blue</div><div class="sw-hex">#0EA5E9</div></div>
+      <div class="swatch" style="background:#10B981; color:#0C1A2E;"><div class="sw-name">Emerald</div><div class="sw-hex">#10B981</div></div>
+      <div class="swatch" style="background:#F59E0B; color:#0C1A2E;"><div class="sw-name">Amber Gold</div><div class="sw-hex">#F59E0B</div></div>
+      <div class="swatch" style="background:#F0FBFF; color:#0C1A2E;"><div class="sw-name">Arctic White</div><div class="sw-hex">#F0FBFF</div></div>
+    </div>
+    <div class="paleta-body">
+      <div>
+        <h4>Qué funciona</h4>
+        <p>El insight de JP es correcto: el ámbar dorado como acento de "valor económico generado" es genuinamente bueno. Asociar dinero ganado con un color cálido específico diferencia "consultora de resultados" de "consultora de tecnología".</p>
+      </div>
+      <div>
+        <h4>Qué no funciona</h4>
+        <p>Demasiados colores compitiendo. Salesforce y HubSpot sostienen esta familia con 20 años de equity. Una marca nueva con cuatro acentos saturados se ve estridente, no premium. Esmeralda + ámbar es paleta default de fintech consumer (Mint, Acorns).</p>
+      </div>
+      <div class="recomendacion">
+        <strong>Recomendación:</strong> quédate con el insight estratégico — ámbar para Quick Wins. Reduce la paleta a 4 colores totales. Elimina el esmeralda; con verde-éxito + ámbar-dinero hay redundancia. <em>Aguanta a medias la audiencia dual: CTO joven la lee como "demasiado consumer".</em>
+      </div>
+    </div>
+  </div>
+
+  <!-- PALETA 04 — PROPUESTA CLAUDE -->
+  <div class="paleta">
+    <div class="paleta-header">
+      <h3>Paleta 04 · <em>Solera</em> <span style="font-style: normal; color: var(--ink-soft); font-size: 16px;">— propuesta Claude</span></h3>
+      <span class="verdict verdict-propuesta">Propuesta nueva</span>
+    </div>
+    <div class="swatches">
+      <div class="swatch" style="background:#101822; color:#F2EDE3;"><div class="sw-name">Pizarra</div><div class="sw-hex">#101822</div></div>
+      <div class="swatch" style="background:#1F2D40; color:#F2EDE3;"><div class="sw-name">Tinta Solera</div><div class="sw-hex">#1F2D40</div></div>
+      <div class="swatch" style="background:#3B5C8C; color:#F2EDE3;"><div class="sw-name">Azul Plomo</div><div class="sw-hex">#3B5C8C</div></div>
+      <div class="swatch" style="background:#C8924A; color:#101822;"><div class="sw-name">Ámbar Roble</div><div class="sw-hex">#C8924A</div></div>
+      <div class="swatch" style="background:#F2EDE3; color:#101822;"><div class="sw-name">Crema Pergamino</div><div class="sw-hex">#F2EDE3</div></div>
+      <div class="swatch" style="background:#D1D6DD; color:#101822;"><div class="sw-name">Niebla</div><div class="sw-hex">#D1D6DD</div></div>
+    </div>
+    <div class="paleta-body">
+      <div>
+        <h4>Justificación estratégica</h4>
+        <p>La paleta busca lo que las tres anteriores no logran simultáneamente: institucional sin frialdad bancaria, cálido sin informalidad, distinguible del "azul Stripe" y del "morado IA" del sector. Azul Plomo tiene el peso del navy con el matiz humano de un azul de uniforme. Ámbar Roble sustituye el dorado brillante por madera curtida — conecta con la metáfora "solera" sin volverse rústico.</p>
+      </div>
+      <div>
+        <h4>Audiencia dual</h4>
+        <p>El dueño de 60 ve un documento institucional (crema + tinta + azul plomo lee a "papel oficial"). El CTO de 30 ve un sistema bien ejecutado, distinguible, no clónico de la categoría. El nombre de la paleta es un homenaje conceptual al candidato número 11, no a su uso final.</p>
+      </div>
+    </div>
+    <div class="preview-stack">
+      <div class="preview-card">
+        <div class="preview-label">Modo oscuro — Web</div>
+        <div class="preview-body preview-dark">
+          <div class="preview-wordmark">Plomada</div>
+          <div class="preview-sub">Consultoría de IA · MX · CO</div>
+        </div>
+      </div>
+      <div class="preview-card">
+        <div class="preview-label">Modo claro — Reporte / Botón / Badge</div>
+        <div class="preview-body preview-light">
+          <button class="btn-demo">Agendar diagnóstico</button>
+          <div><span class="badge-demo">+34% en cobranza automatizada · 6 semanas</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECCIÓN 3 — LOGOTIPO ============ -->
+<section>
+  <div class="section-header">
+    <div class="label">Sección 03 / Tres</div>
+    <div>
+      <h2>Dirección de logotipo: <em>wordmark puro</em>.</h2>
+      <p>Una sola dirección, no cinco. Sin símbolo. Sin gradiente. Sin red neuronal estilizada. La tipografía hace todo el trabajo.</p>
+    </div>
+  </div>
+
+  <div class="logo-stage">
+    <div class="logo-wordmark">Plomada</div>
+    <div class="logo-tagline">Consultoría de IA · MX · CO</div>
+  </div>
+
+  <div class="logo-variants">
+    <div class="logo-variant">
+      <div class="demo">Plomada</div>
+      <div>Wordmark · Crema</div>
+    </div>
+    <div class="logo-variant dark">
+      <div class="demo">Plomada</div>
+      <div>Wordmark · Pizarra</div>
+    </div>
+    <div class="logo-variant favicon">
+      <div class="demo">P</div>
+      <div>Favicon 32×32</div>
+    </div>
+    <div class="logo-variant favicon dark">
+      <div class="demo">P</div>
+      <div>Favicon dark</div>
+    </div>
+  </div>
+
+  <div class="logo-detail">
+    <div>
+      <h4>Por qué wordmark puro</h4>
+      <p>Las firmas que estructuralmente lograron lo que Ricardo quiere — Stripe, Linear, Anthropic en su evolución reciente — son wordmark-first. Un símbolo es peso agregado que va a caer en cliché vetado (red, circuito, cerebro) o en abstracción geométrica que no significa nada y compite con el wordmark por atención.</p>
+      <p>Una consultora B2B no compite por atención visual en superficies pequeñas. Compite en LinkedIn, PDFs y decks. Ahí el wordmark hace todo.</p>
+    </div>
+    <div>
+      <h4>Tipografía base recomendada</h4>
+      <p>Familia: <strong>serif transicional moderna con variantes ópticas</strong> — tipo Fraunces, GT Sectra, o Domaine Display. La elección serif (en lugar de la sans geométrica de defecto en tech) reclama "firma institucional" antes que "startup".</p>
+      <p>El display tiene contraste alto y un italic editorial. El cuerpo: una sans humanista como Manrope o Untitled Sans. Esta misma página está construida con esa combinación, para que el cliente lo lea sin necesidad de imaginarlo.</p>
+    </div>
+    <div>
+      <h4>Comportamiento en B/N</h4>
+      <p>El wordmark se reduce a la inicial. Una "P" tratada como mark — sin geometría inventada — funciona en favicon 32×32 con lectura inmediata. En blanco y negro absoluto (impresión, fax, contratos) el wordmark completo no pierde nada porque no depende del color para su significado.</p>
+    </div>
+    <div>
+      <h4>Si insisten en símbolo</h4>
+      <p>Una sola idea, no cinco: una línea vertical truncada por un peso geométrico — la representación literal de una plomada de albañil. Lectura inmediata para hispanohablantes, abstracta para no-hispanohablantes. Pero la recomendación principal sigue siendo <strong>sin símbolo</strong>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ POSTURA FINAL ============ -->
+<div class="postura">
+  <div class="eyebrow">Postura final · Claude</div>
+  <h2>Cuatro decisiones, en orden.</h2>
+  <ol>
+    <li><strong>StratiaLabs descartado.</strong> StratiaLAB.com (singular) es competidor activo en MX. "Strat-" + "-Labs" es el sufijo más saturado del sector. Confirmado por los tres modelos en ronda 2.</li>
+    <li><strong>Sigue con Plomada como candidato #1.</strong> Verificar primero en IMPI México, SIC Colombia, USPTO y EUIPO. Si está limpio, comprar plomada.com / plomada.ai juntos.</li>
+    <li><strong>Adopta Paleta 04 (Solera).</strong> Desecha Nebula. Refina Cosmos solo si quieres un sistema más frío para audiencias premium internacionales. No uses Aurora.</li>
+    <li><strong>Wordmark puro, serif transicional moderna.</strong> Fraunces o GT Sectra. Sin símbolo. Sin gradiente. Que el cliente vea un documento, no una app.</li>
+  </ol>
+</div>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="footer-inner">
+    <div>Memo de identidad · Ronda 03 · 12 Mayo 2026</div>
+    <div class="firma">Firmado · Claude (Anthropic)</div>
+  </div>
+</footer>
+
+</body>
+</html>

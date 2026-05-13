@@ -1,0 +1,89 @@
+<h2>Before questions, let's agree on the shape</h2>
+<p class="subtitle">Your brain dump describes ~5 sub-systems plus a session deliverable for JP. Here's how I'd decompose it. Confirm or amend.</p>
+
+<div class="mockup">
+  <div class="mockup-header">System map — Mejía, IA & Cía operating substrate</div>
+  <div class="mockup-body">
+    <pre style="font-family:'Menlo','Monaco',monospace;font-size:13px;line-height:1.55;color:#1a2332;background:#fff;padding:18px;border-radius:6px;margin:0;white-space:pre;overflow-x:auto">
+                    ┌──────────────────────────────────────┐
+                    │  1. FOUNDATION                       │
+                    │  Where the company brain lives.      │
+                    │  • Inside personal Brain?  Outside?  │
+                    │  • Repo + Gitea + access for JP      │
+                    │  • Permissions / secrets model       │
+                    │  • Backup posture                    │
+                    └────────────────┬─────────────────────┘
+                                     │ gates everything
+                                     ▼
+   ┌─────────────────────────────────────────────────────────────────┐
+   │  2. ARCHITECTURE                                                │
+   │  Folder structure  +  inter-folder communication                │
+   │  • Company taxonomy (replace AI Brain's 14-domain model)        │
+   │  • Per-client production-chain pattern                          │
+   │  • Communication: memos vs streams vs events vs queues          │
+   │  • Persona model (Founder / Strategy / Skill operators / JP)    │
+   └────────────────┬────────────────────────┬───────────────────────┘
+                    │                        │
+                    ▼                        ▼
+   ┌────────────────────────────┐  ┌────────────────────────────────┐
+   │  3. AGENTS                 │  │  4. TELEGRAM BOT               │
+   │  Per-folder operators.     │  │  Human interface.              │
+   │  • Skill-1..5 agents       │  │  • Group chat (R + JP)         │
+   │  • Client-folder agent     │  │  • DM Ricardo                  │
+   │  • Cross-folder triage     │  │  • DM JP                       │
+   │  • Invocation model        │  │  • Capture → route → flag      │
+   │  • Boundaries / handoffs   │  │  • AI-brain for critical msgs  │
+   └────────────────────────────┘  └────────────────────────────────┘
+                    │                        │
+                    └────────────┬───────────┘
+                                 ▼
+                ┌────────────────────────────────────┐
+                │  5. JP-APPROVAL VISUAL PACKAGE     │
+                │  Deliverable of THIS session.      │
+                │  • Architecture diagram            │
+                │  • Folder-tree mockup              │
+                │  • Bot interaction flow            │
+                │  • Decisions menu w/ tradeoffs     │
+                │  • For JP to sign off pre-build    │
+                └────────────────────────────────────┘
+
+  Cross-cutting concerns (live inside #1 + #2, not separate boxes):
+   • Two-human collaboration protocol (who edits what, conflict mechanism — JP's 15-min rule lives here)
+   • AI-vs-human protocol (file ownership, what AI may/may not touch, sensitive content)
+   • Audit of what to keep vs. replace from the personal Brain (memo system, hooks, propagators, etc.)
+    </pre>
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top:18px">Pick where you want to start — order matters because earlier choices constrain later ones.</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>This decomposition is right. Start at #1 (Foundation).</h3>
+      <p>Standard top-down — agree where it lives + access model before touching folders. Every later choice depends on it.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Decomposition is right, but start at #2 (Architecture).</h3>
+      <p>Skip foundation for now — assume it stays in personal Brain as v0; design folders + comms first. Revisit "home" only if architecture forces it.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Decomposition wrong. Re-shape.</h3>
+      <p>Tell me what's missing, doubled-up, or in the wrong layer. I'll redraw.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="d" onclick="toggleSelect(this)">
+    <div class="letter">D</div>
+    <div class="content">
+      <h3>Right, but start with #5 (the JP deliverable).</h3>
+      <p>Reverse-engineer: define what JP needs to see, then design backward to produce it.</p>
+    </div>
+  </div>
+</div>

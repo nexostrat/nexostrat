@@ -1,7 +1,7 @@
 {
-  "$schema": "brain-tasks-v1",
+  "$schema": "nexostrat-tasks-v1",
   "project": "nexostrat",
-  "updated": "2026-05-14T00:00:00-07:00",
+  "updated": "2026-05-14T17:00:00-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -11,16 +11,26 @@
       "due": "2026-05-14",
       "created": "2026-05-13",
       "completed": "2026-05-14",
-      "notes": "Audit ran via dispatched general-purpose agent with risk-auditor persona inlined (Path A adapted because risk-auditor isn't loadable from /srv/Nexostrat/). Returned RED with 28 findings + DESIGN-RETHINK FLAG. Report at 00_META/proposals/2026-05-14_audit-report.md. Walkthrough produced amendment plan at 00_META/proposals/2026-05-14_amendments.md. Major outcome: Plan 01 splits into 01a/01b/01c."
+      "notes": "Audit ran via dispatched general-purpose agent with risk-auditor persona inlined (Path A adapted). Returned RED with 28 findings + DESIGN-RETHINK FLAG. Report at 00_META/proposals/2026-05-14_audit-report.md. Walkthrough produced amendment plan at 00_META/proposals/2026-05-14_amendments.md. Major outcome: Plan 01 splits into 01a/01b/01c."
+    },
+    {
+      "id": "t-terrain-prep",
+      "subject": "Terrain prep — git identity, accounts, age key, origin remote, context-file rewrite",
+      "status": "done",
+      "priority": "critical",
+      "due": "2026-05-14",
+      "created": "2026-05-14",
+      "completed": "2026-05-14",
+      "notes": "Pre-Batch-1 readiness session per Ricardo's pivot ('clean the terrain before pouring foundation'). Landed: prior-session audit/walkthrough commits; .gitignore + .gitattributes hygiene; contacto@nexostrat.com mailbox; nexostrat accounts on GitHub/Codeberg/Gitea (Notion via JP's personal subscription); ed25519 SSH keypair + ~/.ssh/config Host aliases for clean git ops; Ricardo's age keypair (passphrase-encrypted, Bitwarden-backed); infra/age-recipients.txt with Ricardo pubkey + JP placeholder; git remote origin -> Gitea pushed (8 commits); JP Spanish coordination Signal message sent; full Nexostrat-native rewrite of CLAUDE.md / GEMINI.md / README.md (no Brain refs); events.json -> calendar.json rename + $schema field updates. Surfaced corrections to fold into Batch 1: Gitea port :3001 not :3000, F14 Notion cost reverts to $0 to firm. Journal at 00_META/journal/2026-05-14_terrain-prep.md."
     },
     {
       "id": "t-amendments-batch-1",
-      "subject": "Batch 1 — Apply spec + ADR + master index amendments",
+      "subject": "Batch 1 — Apply spec + ADR + master index amendments (with terrain-prep corrections folded in)",
       "status": "open",
       "priority": "critical",
       "due": "2026-05-16",
       "created": "2026-05-14",
-      "notes": "Per amendment plan §Batch 1. Single-pass spec edit covering F6/F9/F10/F11/F12/F13/F14/F17/F19/F22/R3/R4/R5/R6 spec changes. Write ADR-021bis (drop Hosted), ADR-036 (Stage 1 surface area v0/v1), ADR-037 (deferred Notion review). Re-status ADRs 001-020. Rename events.json -> calendar.json. Update master plan index with 01a/b/c entries + new due dates. Flip audit-request status to RESOLVED. ~2-3 hours."
+      "notes": "Per amendment plan §Batch 1, with these terrain-prep corrections folded in: (1) F14 reverses to $0 firm Notion cost (JP's personal subscription absorbs); Stage 1 envelope reverts $46-121/mo -> $36-91/mo. (2) F22 resolves by DELETION: drop all n8n references entirely from spec per 'no-n8n' directive. (3) Strip all /srv/brain references from spec (lines 18, 34, 76, 78, 269 + AttenBot mentions in 143, 461, 645, 716) per 'no-Brain-refs' directive. (4) Spec port reference :3000 -> :3001 (verified actual Gitea host port during terrain prep). (5) events.json -> calendar.json rename ALREADY DONE in terrain prep; Batch 1 just updates remaining spec text references. Three commits: spec single-pass edit; (rename already done so this commit collapses); master plan index 01a/b/c entries. ~2-3 hours."
     },
     {
       "id": "t-presentation",
@@ -40,34 +50,43 @@
       "due": "2026-05-20",
       "created": "2026-05-14",
       "blocked_by": "t-amendments-batch-1",
-      "notes": "Per amendment plan §Batch 2. Three sequential superpowers:writing-plans runs. 01a (~15 tasks foundation), 01b (~10 tasks mirrors+standby), 01c (~10 tasks personas+hooks+integration test). Replaces current Plan 01 (archive original). Each plan inherits its share of the 28 finding amendments per the amendment plan. ~3-4 hours total writing time."
+      "notes": "Per amendment plan §Batch 2. Three sequential superpowers:writing-plans runs. 01a (~15 tasks foundation), 01b (~10 tasks mirrors+standby), 01c (~10 tasks personas+hooks+integration test). Replaces current Plan 01 (archive original). Each plan inherits its share of the 28 finding amendments per the amendment plan. Plan 01c scope reduced because terrain-prep already did Nexostrat-native CLAUDE.md/GEMINI.md rewrite — 01c just adds canonical shared-stanza pattern on top, doesn't re-derive from scratch. ~3-4 hours total writing time."
     },
     {
-      "id": "t-jp-age-keypair",
-      "subject": "Coordinate JP age keypair generation (gating prereq for Plan 01a)",
+      "id": "t-jp-coordination-2026-05-14",
+      "subject": "JP coordination items requested 2026-05-14 — awaiting reply",
       "status": "open",
       "priority": "high",
       "due": "2026-05-22",
       "created": "2026-05-14",
-      "notes": "Per CRITICAL 2 fix. JP runs `age-keygen` on his machine; key requires passphrase (symmetric with Ricardo's posture). JP sends pubkey via Signal. Ricardo adds to infra/age-recipients.txt BEFORE any encryption happens in Plan 01a. ~10 min JP time + coordination latency."
+      "notes": "Single Signal message sent to JP 2026-05-14 requesting: (1) age pubkey [t-jp-age-keypair sub-item], (2) OS choice (Linux Mint recommended) [t-jp-os-confirmation sub-item], (3) Telegram chat_id, (4) Gitea username preference, (5) invite Ricardo to JP's existing Notion workspace, (6) GitHub username decision. JP has 10h/wk bandwidth — expect drip-feed replies over next few days. Per-item handling: (1)+(5) gating for Plan 01a encryption + Notion ops; (2) gating for Plan 02 OS bootstrap design; (3)+(4)+(6) gating for Plan 04+ telegram/git work. Update this task as items arrive."
+    },
+    {
+      "id": "t-jp-age-keypair",
+      "subject": "JP age keypair generation — awaiting Signal reply",
+      "status": "open",
+      "priority": "high",
+      "due": "2026-05-22",
+      "created": "2026-05-14",
+      "notes": "Per CRITICAL 2 fix. Subset of t-jp-coordination-2026-05-14. Message sent 2026-05-14 with full age-keygen recipe (install + generate + extract pubkey FIRST + encrypt with passphrase + shred + verify). JP sends pubkey via Signal. Ricardo adds to infra/age-recipients.txt BEFORE any encryption happens in Plan 01a. ~10 min JP time + coordination latency."
     },
     {
       "id": "t-jp-os-confirmation",
-      "subject": "Confirm JP's machine OS (recommend Linux Mint for heavy setup)",
+      "subject": "JP machine OS confirmation — awaiting Signal reply",
       "status": "open",
       "priority": "medium",
       "due": "2026-05-22",
       "created": "2026-05-14",
-      "notes": "Per F13 decision. Ricardo recommending Linux Mint. If JP can/will install Mint, no macOS bootstrap work needed. If not, macOS exception path designed in Plan 02."
+      "notes": "Per F13 decision. Subset of t-jp-coordination-2026-05-14. Ricardo recommending Linux Mint. If JP can/will install Mint, no macOS bootstrap work needed. If not, macOS exception path designed in Plan 02."
     },
     {
-      "id": "t-gitea-n8n-paths",
-      "subject": "Verify Gitea + n8n actual storage paths on HP host",
+      "id": "t-gitea-path-verify",
+      "subject": "Verify Gitea bare-repo on-disk path for systemd path-watcher (Plan 01b)",
       "status": "open",
       "priority": "medium",
       "due": "2026-05-22",
       "created": "2026-05-14",
-      "notes": "Per CRITICAL 4 sub-task + F22. Need: (1) Gitea bare-repo storage path (for systemd path-watcher unit in Plan 01b), (2) n8n compose location (resolve spec/Plan 01 inconsistency between /srv/atten-bot/ and /home/ricardo/n8n/). Result documented in 00_GOVERNANCE/system_map.md (created in Plan 01b)."
+      "notes": "Replaces t-gitea-n8n-paths (n8n verification dropped per 'drop n8n entirely' directive). Gitea container data is bind-mounted at /srv/gitea/data/git/repositories/nexostrat/nexostrat.git per docker inspect (verified during terrain prep). Plan 01b's systemd path-watcher unit (per C4 fix) watches refs/heads/main inside that path. Cross-check this is correct at Plan 01b execution time and document in 00_GOVERNANCE/system_map.md."
     },
     {
       "id": "t-plan-01a-execute",
@@ -77,7 +96,7 @@
       "due": "2026-05-27",
       "created": "2026-05-14",
       "blocked_by": "t-amendments-batch-2",
-      "notes": "Per amendment plan §Batch 3. Re-audit Plan 01a first (independent risk-auditor pass; same dispatch pattern as 2026-05-14 audit). Target: GREEN. If YELLOW with <=3 amendments, apply inline and proceed. Execute via superpowers:subagent-driven-development. Tag v0.1a-foundation on completion. Also gated on t-jp-age-keypair."
+      "notes": "Per amendment plan §Batch 3. Re-audit Plan 01a first (independent risk-auditor pass; same dispatch pattern as 2026-05-14 audit). Target: GREEN. If YELLOW with <=3 amendments, apply inline and proceed. Execute via superpowers:subagent-driven-development. Tag v0.1a-foundation on completion. Also gated on t-jp-age-keypair. Several Plan 01a deliverables already done in terrain prep (.gitignore start, .gitattributes, age key, infra/age-recipients.txt, origin remote) — these become VERIFY tasks instead of CREATE."
     },
     {
       "id": "t-plan-01b-execute",
@@ -87,7 +106,7 @@
       "due": "2026-06-03",
       "created": "2026-05-14",
       "blocked_by": "t-plan-01a-execute",
-      "notes": "Re-audit, then execute via subagent-driven-development. Tag v0.1b-mirrors on completion. Also gated on t-gitea-n8n-paths."
+      "notes": "Re-audit, then execute via subagent-driven-development. Tag v0.1b-mirrors on completion. Also gated on t-gitea-path-verify. Pre-conditions already partly in place from terrain prep: nexostrat GitHub + Codeberg accounts exist and SSH key registered; Gitea origin pushing successfully."
     },
     {
       "id": "t-plan-01c-execute",
@@ -97,7 +116,7 @@
       "due": "2026-06-10",
       "created": "2026-05-14",
       "blocked_by": "t-plan-01b-execute",
-      "notes": "Re-audit, then execute via subagent-driven-development. Tag v0.1-foundation on completion (the original Plan 01 milestone, now reached at end of 01c)."
+      "notes": "Re-audit, then execute via subagent-driven-development. Tag v0.1-foundation on completion (the original Plan 01 milestone, now reached at end of 01c). Scope reduced because terrain prep did the Nexostrat-native CLAUDE.md/GEMINI.md/README.md rewrite — 01c just layers canonical shared-stanza pattern on top + creates Skills-Master + Client-Owner persona files."
     },
     {
       "id": "t-plan-02-write",

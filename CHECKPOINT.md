@@ -1,112 +1,141 @@
 # CHECKPOINT — root (Founder)
 
-**Updated:** 2026-05-14T08:30:00-07:00
+**Updated:** 2026-05-14T17:00:00-07:00
 **By:** ricardo (via Claude Code session at /srv/Nexostrat/)
 **Persona:** Founder
+**Session topic:** Terrain prep before Batch 1
 
 ## What I just did
 
-Audit + joint walkthrough completed. Specifically:
+Pre-Batch-1 readiness pass. Ricardo pivoted from "execute Batch 1 today" to "make sure terrain is clean before pouring foundation," which surfaced multiple prerequisites that would have bitten mid-Batch-1. Concrete deliverables:
 
-- Dispatched adversarial audit per the 2026-05-13 brief. Used adapted Path A (`general-purpose` subagent with risk-auditor persona inlined, since risk-auditor is project-scoped to `/srv/brain/`). Audit returned **RED** with DESIGN-RETHINK FLAG: 4 CRITICAL · 11 HIGH · 9 MEDIUM · 4 LOW = 28 findings. Report at `00_META/proposals/2026-05-14_audit-report.md`.
-- Spot-checked CRITICAL 1 + 3 directly against Plan 01 source. Verified.
-- Walked through every finding + 6 auditor recommendations with Ricardo. Each got a locked decision (accept / auto-amend / defer with rationale). No findings rejected.
-- Wrote `00_META/proposals/2026-05-14_amendments.md` (~480 lines) — full record of 28 finding decisions + 6 recommendation decisions + 3-batch execution sequence.
-- Major structural outcome: **Plan 01 splits into 01a / 01b / 01c.** Each independently re-audited before execution.
-- Updated STATUS.md, tasks.json, and audit-request.md status (OPEN → RESOLVED).
-- Archived previous CHECKPOINT.md (2026-05-13 baton) to `00_META/handoff/checkpoints/2026-05-13_brainstorm-spec-plans.md`. The pattern worked — first successful real-world validation.
+**Working tree cleanup + identity (Phase 0 + 1):**
+- Landed prior session's uncommitted audit + walkthrough artifacts (commit `b7e4752`).
+- Wrote interim protective `.gitignore` + basic `.gitattributes` (commit `4d034f6`).
+- Provisioned `contacto@nexostrat.com` mailbox at Hostinger.
+- Created accounts under `nexostrat` username on GitHub, Codeberg, Gitea (org), and Notion (workspace — but Notion cost absorbed by JP's personal subscription per a side-decision).
+- Generated `~/.ssh/nexostrat_ed25519` keypair, registered on all 3 git platforms, set up `~/.ssh/config` with Host aliases (`github-nexostrat`, `codeberg-nexostrat`, `gitea-nexostrat`).
+- Verified SSH auth on all 3 platforms with friendly greetings.
+
+**Crypto (Phase 2):**
+- Generated Ricardo's age keypair, encrypted with passphrase (interactive `age -p` in real terminal because Claude Code's `!` prefix isn't TTY).
+- Backed up encrypted key to Bitwarden/1Password with passphrase + sha256 stored in same entry (Ricardo verified recovery roundtrip).
+- Created `infra/age-recipients.txt` (commit `ca6e387`) with Ricardo pubkey + JP placeholder + comprehensive instructions for adding recipients.
+
+**JP coordination (Phase 3):**
+- Drafted + sent Spanish Signal message to JP requesting 6 items: age pubkey (with full age-keygen recipe), OS choice (Linux Mint recommended), Telegram chat_id, Gitea username, invite Ricardo to JP's Notion workspace, GitHub username decision.
+
+**Late-session pivot — Nexostrat-native rewrite of context files (Phase 1.8 added):**
+- Ricardo flagged that CLAUDE.md/GEMINI.md were heavily Brain-coupled and would poison every future session. Did substantial rewrites of CLAUDE.md, GEMINI.md, and README.md — stripped all `/srv/brain` references, inlined previously-pointered protocols, updated brand to Nexostrat throughout, reflected Ricardo + JP 50/50 partnership, replaced "Cross-Folder Memo Protocol" with `events.jsonl` pointer, added explicit "no Brain refs" + "no n8n" + bilingual rules. Plan 01c can still do canonical-shared-stanza restructure on top.
+
+**Rename (Phase 1.9 added):**
+- `git mv events.json calendar.json` + updated `$schema` from `brain-events-v1` → `nexostrat-calendar-v1` and `project` from `01_VENTURES/04_MejiaIACia` → `nexostrat`. Also updated `tasks.json` `$schema` to `nexostrat-tasks-v1`. Pre-empts Batch 1's rename commit (which collapses to a no-op now).
+
+**Surface-area discoveries to fold into Batch 1:**
+- Gitea actual port is `:3001` not `:3000` (spec is wrong)
+- F14 Notion cost reverses to $0 to firm (JP's personal sub absorbs); Stage 1 envelope reverts $46-121/mo → $36-91/mo
+- F22 path verification moot — n8n dropped entirely from spec per Ricardo's directive
+
+**Memories saved (durable across sessions):**
+- `feedback_no_brain_references` — never reference `/srv/brain` from inside Nexostrat
+- `feedback_drop_n8n_entirely` — Python + systemd; F22 resolves by deletion
+- `project_notion_via_jp_personal` — Stage 1 firm Notion cost = $0
+- `user_role` — Ricardo profile (architect-operator, direct, 50/50 with JP)
 
 ## In flight — concrete next action
 
-**The amendment-batch sequence is LOCKED. Do not skip to Plan 01a writing — Batch 1 first. Do not start the presentation yet — it's blocked on Batch 1.**
+**Batch 1 amendments are READY to start.** All terrain prerequisites met. No blockers.
 
 ```
 NEXT SESSION (Batch 1 — spec + ADR + master index amendments):
-  1. Open Claude Code AT /srv/Nexostrat/ (not /srv/brain/).
-  2. SessionStart hook reads this CHECKPOINT.md + STATUS.md + tasks.json
-     + the latest journal entry (2026-05-14_audit-and-walkthrough.md).
-  3. Ricardo types "Start Session."
-  4. Claude reads:
-       - This CHECKPOINT.md (already loaded by hook)
-       - 00_META/proposals/2026-05-14_amendments.md (THE BRIEF for Batch 1)
-       - 00_META/proposals/2026-05-13_nexostrat-system-design.md (spec to amend)
-       - 00_META/plans/README.md (master index to amend)
-       - 00_META/plans/2026-05-13_plan-01-repository-foundation.md (will be marked superseded)
-       - 00_META/journal/2026-05-14_audit-and-walkthrough.md (today's narrative)
-  5. Claude proposes Batch 1 execution order:
-       - Single-pass spec edit covering F6/F9/F10/F11/F12/F13/F14/F17/F19/F22/R3/R4/R5/R6
-       - Write ADR-021bis (drop Hosted), ADR-036 (Stage 1 surface area v0/v1),
-         ADR-037 (deferred Notion review)
-       - Re-status ADRs 001-020 with notes (per F11)
-       - git mv events.json calendar.json + reference updates (per F12)
-       - Master plan index update with 01a/b/c entries + new due dates (per R1, R6)
-       - Mark current Plan 01 as SUPERSEDED at top, archive ref to 01a/b/c
-  6. ~2-3 hours focused work. Commits split logically (one per major artifact).
-
-SESSION AFTER (Batch 2 — write Plans 01a / 01b / 01c):
-  Use superpowers:writing-plans skill three times. Each plan inherits its share
-  of the 28 finding amendments per the amendment plan's per-finding "where the
-  fix lands" notes. ~3-4 hours total.
-
-SESSION AFTER (Aurora presentation, can also be parallel):
-  Aurora-styled JP-readable HTML reflecting the AMENDED design. Same
-  pedagogical voice as 2026-05-12 JP v3 cheatsheet. ~2-3 hours.
-
-SESSIONS AFTER (Batch 3 — re-audit + execute 01a → 01b → 01c):
-  Per amendment plan §Batch 3. Re-audit each plan before execution.
-  Strong candidate first use of multi-model audit pattern (spec §6 / ADR-022)
-  for higher-confidence verdicts. Execute via subagent-driven-development.
-  Tags: v0.1a-foundation → v0.1b-mirrors → v0.1-foundation.
-  Stage 1 foundation milestone realistic by 2026-06-03 to 2026-06-10.
+  1. Open Claude Code AT /srv/Nexostrat/ (not /srv/brain/, never).
+  2. Ricardo types "Start Session."
+  3. Claude reads CHECKPOINT.md (this file), STATUS.md, tasks.json,
+     calendar.json, latest journal (2026-05-14_terrain-prep.md).
+  4. Claude proposes Batch 1 commit cadence per the amendment plan
+     PLUS the terrain-prep corrections folded in:
+       a. SPEC EDIT (single pass, ~1.5h):
+          - F6 — §9.4 + ADR-030: per-user systemd timer pattern
+          - F9 — §6: Mode A/B manifest schema with mandatory/mode-specific split
+          - F10 — §4.1: persona table reallocation per amendment plan
+          - F11 — ADR map: re-status ADRs 001-020 with notes
+          - F12 — events.json → calendar.json rename: update remaining
+            spec text references (rename itself ALREADY DONE in terrain prep)
+          - F13 — Linux Mint recommendation explicit; macOS exception note
+          - F14 (REVISED) — Notion cost = $0 to firm (JP's personal sub);
+            Stage 1 envelope $36-91/mo, NOT $46-121/mo
+          - F17 — §8.10: chat capture /dev/shm + daily 23:59 encrypt
+          - F19 — Standardize "12 stations + 3 cross-cutting" everywhere
+          - F22 (REVISED) — DELETE all n8n references entirely
+          - R3 — Add ADR-036 row to ADR map (Stage 1 surface area v0/v1)
+          - R4 — §4.10 CHECKPOINT.md concurrent-session protection note
+          - R5 — Add ADR-037 row to ADR map (deferred Notion review)
+          - ADR-021bis — Add row to ADR map (drop Hosted)
+          - NEW: Strip all /srv/brain references from spec (lines 18, 34,
+            76, 78, 269 + AttenBot mentions in 143, 461, 645, 716)
+          - NEW: Spec port :3000 → :3001 (1 line in §1 Network)
+       b. (RENAME COMMIT — collapsed; already done in terrain prep)
+       c. MASTER PLAN INDEX UPDATE (~30min):
+          - Replace Plan 01 row with 01a/01b/01c rows
+          - Add per-plan headers (Goal, Deliverables, Dependencies,
+            Success criteria, Spec references) for 01a/b/c
+          - Realistic dates per R6: 01a by 2026-05-27, 01b by 2026-06-03,
+            01c by 2026-06-10
+          - Mark 2026-05-13_plan-01-repository-foundation.md SUPERSEDED
+            with banner pointing to 01a/b/c
+  5. Total estimated time: ~2-2.5 hours focused work.
+  6. End-of-Batch-1 state: spec + ADR ledger + master index all coherent
+     with the locked decisions; ready for Batch 2 (writing 01a/b/c).
 ```
 
 ## Blocked on
 
-Nothing for Batch 1 (spec amendments are self-contained — no external coordination needed).
+**For Batch 1 (next session): NOTHING.** Spec amendments are self-contained.
 
-Batch 3 will need:
-- JP age keypair coordination (per CRITICAL 2 fix). Tracked: `t-jp-age-keypair`.
-- JP machine OS confirmation (per F13). Tracked: `t-jp-os-confirmation`.
-- Gitea + n8n path verification (per CRITICAL 4 sub-task + F22). Tracked: `t-gitea-n8n-paths`.
+**For Batch 3 execution (weeks out, not blocking next session):**
+- JP age pubkey reply (in flight via 2026-05-14 Signal message)
+- JP machine OS confirmation (in flight)
+- JP Telegram chat_id, Gitea username, GitHub username, Notion invite — all in flight in same message
 
 ## Open questions
 
-None blocking next session. Decision points are documented in their respective artifacts:
+None blocking next session.
 
+Decision points already documented in their artifacts:
 - Group-brief TZ choice — deferred to Plan 08 design (per F6).
 - macOS support for bootstrap — deferred unless JP can't install Linux Mint (per F13).
 - Stage 2 escrow vault recipient — future ADR (per C2 follow-up).
-- Risk-auditor relocation to `~/.claude/agents/` — informal, Ricardo will handle.
+- Plan 01c shared-stanza pattern — TBD design at Plan 01c writing time (Batch 2).
 
 ## Files modified but not yet committed
 
-This is the session-end commit moment. After the final commit, working tree will be clean. Files staged for the final commit:
+This CHECKPOINT.md is being written as part of the session-end commit batch. After the final commit, working tree will be clean. Files staged for the final commit:
 
-- `00_META/proposals/2026-05-14_audit-report.md` (CREATE — by audit agent)
-- `00_META/proposals/2026-05-14_amendments.md` (CREATE — walkthrough output)
-- `00_META/proposals/2026-05-13_audit-request.md` (MODIFY — status flipped to RESOLVED)
-- `00_META/journal/2026-05-14_audit-and-walkthrough.md` (CREATE — session journal)
-- `00_META/handoff/checkpoints/2026-05-13_brainstorm-spec-plans.md` (CREATE — archive of prev CHECKPOINT)
-- `STATUS.md` (REWRITE — post-audit phase, new sequence)
-- `tasks.json` (REWRITE — closed audit task, opened amendment + 01a/b/c + JP coordination tasks)
+- `CLAUDE.md` (REWRITE — Nexostrat-native, no Brain refs)
+- `GEMINI.md` (REWRITE — Nexostrat-native)
+- `README.md` (REWRITE — current brand + co-founders)
+- `events.json` → `calendar.json` (RENAME + content update — $schema, project fields)
+- `tasks.json` (REWRITE — added t-terrain-prep + t-jp-coordination-2026-05-14, replaced t-gitea-n8n-paths with t-gitea-path-verify, updated t-amendments-batch-1 + t-amendments-batch-2 + t-plan-01c-execute notes; $schema → nexostrat-tasks-v1)
+- `STATUS.md` (REWRITE — terrain-prep complete phase)
 - `CHECKPOINT.md` (REWRITE — this file, baton for next session)
+- `00_META/journal/2026-05-14_terrain-prep.md` (CREATE — session journal)
+- `00_META/CHANGELOG.md` (APPEND — context-file rewrite entry)
 
-## Estimated time to finish
+## Estimated time to finish (roadmap)
 
-- Batch 1: ~2-3 hours (single session).
+- Batch 1: ~2-2.5 hours (single session — next).
 - Batch 2: ~3-4 hours (single session, sequential plan writing).
 - Aurora presentation: ~2-3 hours (single session, after Batch 1).
 - Batch 3: ~3-4 weeks elapsed (multiple sessions; per-plan re-audit + execute cycles).
+- Stage 1 live target: 2026-06-30 to 2026-07-15.
 
 ## After this, what's next
 
-After v0.1-foundation tagged (end of Batch 3):
+After Batch 1 → Batch 2 → Aurora HTML → Batch 3 (with v0.1-foundation tagged at end):
 
-- Plan 02 (Documentation System) — write via `superpowers:writing-plans`, then execute. Drift hook becomes simpler since 01c's inliner script already exists.
-- Plans 03-10 in dependency order per `00_META/plans/README.md` (with the 01a/b/c entries replacing the original Plan 01).
-
-Stage 1 live target: 2026-06-30 to 2026-07-15 (depends on 01a/b/c re-audit findings + execution velocity).
+- Plan 02 (Documentation System) — write via writing-plans, then execute.
+- Plans 03-10 in dependency order per `00_META/plans/README.md`.
 
 ---
 
-*This CHECKPOINT.md is the baton between sessions. The SessionStart hook reads it first; "Start Session" picks up from "In flight — concrete next action" above. When the next session resumes work, it archives this file to `00_META/handoff/checkpoints/2026-05-14_audit-and-walkthrough.md` and writes a fresh CHECKPOINT.md for its own session end.*
+*This CHECKPOINT.md is the baton between sessions. Next session: type "Start Session" → Claude reads this + STATUS + tasks + calendar + latest journal → proposes Batch 1 execution → executes per the amendment plan with terrain-prep corrections folded in.*

@@ -1,5 +1,9 @@
 # Plan 01 — Repository Foundation Implementation Plan
 
+> **⚠️ SUPERSEDED 2026-05-14.** This plan is replaced by Plans **01a / 01b / 01c** per the 2026-05-14 audit amendment plan ([`../proposals/2026-05-14_amendments.md`](../proposals/2026-05-14_amendments.md) §R1). The audit (RED with DESIGN-RETHINK FLAG, 28 findings) showed that a single Plan 01 was the wrong shape — too large to audit reliably and bundled three independently-testable milestones. Plans 01a (scaffold + identity + crypto), 01b (mirrors + warm-standby), and 01c (personas + hooks + integration test) replace it. **Do not execute this plan as written.** Its tasks have been redistributed; read it only for historical context. The header-level replacements live in [`README.md`](README.md) under their respective sections, and the full task detail will be written via `superpowers:writing-plans` in Batch 2 of the amendment-execution sequence.
+>
+> **Replacement milestones:** v0.1a-foundation (end of 01a) · v0.1b-mirrors (end of 01b) · v0.1-foundation (end of 01c — original Plan 01 milestone).
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:subagent-driven-development` (recommended) or `superpowers:executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Scaffold the 3-bucket repository structure for Nexostrat, lock identities (age keypairs), stand up the backup ladder, write the persona files, and ship a working smoke test so all subsequent plans have a stable foundation.

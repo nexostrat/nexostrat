@@ -5,7 +5,7 @@
 > **Source spec:** [`../proposals/2026-05-13_nexostrat-system-design.md`](../proposals/2026-05-13_nexostrat-system-design.md)
 > **Plain partner:** [`README-explicado.md`](README-explicado.md)
 
-This is the implementation roadmap from founding spec to Stage 1 live. **Ten plans in dependency order.** Each plan produces working, testable software on its own. Plans 02-10 are written **just-in-time** using the `superpowers:writing-plans` skill when their turn comes. Plan 01 is fully detailed and ready to execute.
+This is the implementation roadmap from founding spec to Stage 1 live. **Ten numbered plan slots; Plan 01 splits into 01a/01b/01c** per the 2026-05-14 amendment plan (auditor Recommendation 1). Each plan produces working, testable software on its own. Plans 02-10 are written **just-in-time** using the `superpowers:writing-plans` skill when their turn comes. Plans 01a/01b/01c will be written sequentially in Batch 2 of the amendment-execution sequence.
 
 The reason for just-in-time writing: tool versions, learned lessons, and small adjustments after each plan would silently invalidate a fully pre-written plan. The architectural decisions are already locked in the spec; only the execution details vary.
 
@@ -13,9 +13,12 @@ The reason for just-in-time writing: tool versions, learned lessons, and small a
 
 ## Status table
 
-| # | Plan | Status | File | Effort | Started | Done |
+| # | Plan | Status | File | Effort | Due | Done |
 |---|---|---|---|---|---|---|
-| 01 | Repository Foundation | **READY** | [`2026-05-13_plan-01-repository-foundation.md`](2026-05-13_plan-01-repository-foundation.md) | ~1 week | — | — |
+| 01a | Repository Foundation — scaffold + identity + crypto | DRAFT-PENDING | — | ~5 days execute + ~1 day write + ~1 day re-audit | 2026-05-27 | — |
+| 01b | Mirrors + warm-standby | DRAFT-PENDING | — | ~5 days execute + ~1 day write + ~1 day re-audit | 2026-06-03 | — |
+| 01c | Personas + hooks + integration test | DRAFT-PENDING | — | ~5 days execute + ~1 day write + ~1 day re-audit | 2026-06-10 | — |
+| 01 (original) | Repository Foundation (single plan) | **SUPERSEDED** | [`2026-05-13_plan-01-repository-foundation.md`](2026-05-13_plan-01-repository-foundation.md) | — | — | replaced by 01a/01b/01c per [`../proposals/2026-05-14_amendments.md`](../proposals/2026-05-14_amendments.md) §R1 |
 | 02 | Documentation System | DRAFT-PENDING | — | ~3 days | — | — |
 | 03 | events.jsonl + Python Agent Framework | DRAFT-PENDING | — | ~1 week | — | — |
 | 04 | Telegram Bot Core + Unified Inbox | DRAFT-PENDING | — | ~1 week | — | — |
@@ -31,23 +34,28 @@ Status values:
 - `IN PROGRESS` — partially executed; CHECKPOINT.md has next-task pointer
 - `DONE` — all tasks complete; tagged in git
 - `DRAFT-PENDING` — header here, full plan to be written via `writing-plans` skill at execution time
+- `SUPERSEDED` — replaced by a later plan; file retained for historical reference, banner at top points to the replacement
 
 ---
 
 ## Dependency graph
 
 ```
-Plan 01 (Foundation)
+Plan 01a (Foundation: scaffold + identity + crypto)
   │
-  ├──► Plan 02 (Docs)               ─┐
-  │                                   │
-  ├──► Plan 03 (Events + Agents)     ─┤
-  │       │                           │  All four can run partly in parallel
-  │       └──► Plan 04 (Bot + Inbox) ─┤  (Plans 02, 03, 04 only need Plan 01)
-  │                                   │
-  └──► (Plan 02, 03, 04 in some mix) ─┘
-                       │
-                       └──► Plan 05 (Skill 1 e2e)
+  └──► Plan 01b (Mirrors + warm-standby)
+         │
+         └──► Plan 01c (Personas + hooks + integration test)  ─── tags v0.1-foundation
+                │
+                ├──► Plan 02 (Docs)               ─┐
+                │                                   │
+                ├──► Plan 03 (Events + Agents)     ─┤
+                │       │                           │  All three can run partly in parallel
+                │       └──► Plan 04 (Bot + Inbox) ─┤  (Plans 02, 03, 04 only need Plan 01c done)
+                │                                   │
+                └──► (Plan 02, 03, 04 in some mix) ─┘
+                                     │
+                                     └──► Plan 05 (Skill 1 e2e)
                                 │
                                 ├──► Plan 06 (Skills 2-5; can fan out)
                                 │       │
@@ -76,38 +84,98 @@ When it's time to draft Plan N in detail, future Claude reads (a) the spec, (b) 
 
 ---
 
-### Plan 01 — Repository Foundation
+### Plan 01a — Repository Foundation: scaffold + identity + crypto
 
-**Goal:** Scaffold the 3-bucket repository, lock identities (age keys), stand up the backup ladder, and create persona files so all subsequent plans have a stable foundation.
+**Goal:** Land the 3-bucket folder scaffold, lock both founders' age keys into the recipients file, ship the secrets-loading wrapper without plaintext leaks, migrate the questionnaires and partnership artifacts into their canonical locations, and establish the JSON Schema validation surface. After 01a, a fresh clone bootstraps to a working state where either co-founder can decrypt vault content.
 
 **Deliverables:**
-- 3-bucket folder structure at `/srv/Nexostrat/` per spec Section 2
-- age keypair for Ricardo + recipients.txt + vault skeleton
-- `secrets.env.age` (encrypted) + `run-with-secrets.sh` wrapper
-- Gitea origin (already running) + GitHub private mirror via post-receive hook
-- Warm-standby provisioning + nightly rsync script
-- Root `CLAUDE.md` + `GEMINI.md` (Founder)
-- `skills/CLAUDE.md` + `skills/GEMINI.md` (Skills-Master)
-- `pipeline/CLAUDE.md` + `pipeline/GEMINI.md` (Client-Owner)
-- Canonical shared stanzas at `00_META/shared/*.md`
-- Per-machine YAML profiles at `infra/machines/*.yaml`
-- `bootstrap-machine.sh` (working, idempotent)
-- Pre-commit secret-scan + file-pattern-block hooks (basic versions)
-- Smoke test that returns green at end
+- 3-bucket folder scaffold at `/srv/Nexostrat/` per spec §2 (`00_META/`, `00_GOVERNANCE/`, `00_PARTNERSHIP/`, `docs/`, `infra/`, `vault/{partnership,legal,accounting,keys,clients}/`, `knowledge/`, `skills/`, `pipeline/clients/_template/` with all 12 stations + 3 cross-cutting folders per F16, `operations/`)
+- Comprehensive `.gitignore` per F23 (Python, Node, IDE, OS, Docker, age keys, shm dumps, logs) layered on top of the terrain-prep interim version
+- JP age keypair collected via Signal coordination; added to `infra/age-recipients.txt`; recovery roundtrip tested with both Ricardo and JP keys (resolves C2)
+- `secrets.env.age` created (encrypted to both recipients)
+- `infra/scripts/run-with-secrets.sh` implementing the C1 fix: explicit cleanup via trap, no `exec` leak, plaintext lives only in `/dev/shm/nexostrat-secrets-<pid>` and is shredded on every exit path
+- Questionnaires migration per F15: `pandoc Plan_Maestro_*.docx → 00_PARTNERSHIP/questionnaires/{2026-05-07_ricardo.md, 2026-05-07_jp.md}`; originals + `.backup-2026-05-07.docx` to `00_PARTNERSHIP/questionnaires/archive/`; `Consultoria_IA_PYMEs_v1.pdf` to `operations/assets/`
+- Signed partnership PDF committed to `vault/partnership/PARTNERSHIP_AGREEMENT_2026-05-12.pdf.age`; markdown summary at `00_PARTNERSHIP/PARTNERSHIP_AGREEMENT.md` (F5)
+- `infra/schemas/{tasks.schema.json, calendar.schema.json}` (JSON Schema v1) per F21; `tasks.json` and `calendar.json` validated cleanly against them
+- `infra/machines/*.yaml` profiles: `hp-server`, `hp-standby`, `ricardo-desktop`, `ricardo-travel`, `jp-light`, `jp-heavy` (with `os: linux-mint` per F13), `phones` (with `platform: ios|android` field per F26)
+- `bootstrap-machine.sh` skeleton (idempotent; full installer logic deferred to per-plan work)
 
-**Dependencies:** None. This is the entry point.
+**Dependencies:** None — entry point. Several deliverables already partly done in terrain prep (Ricardo's age key, interim `.gitignore`, `infra/age-recipients.txt` with Ricardo pubkey + JP placeholder, Gitea origin remote) — these become VERIFY tasks inside 01a, not CREATE.
 
 **Success criteria:**
-- `infra/scripts/smoke-test.sh` returns green (all checks pass)
-- A simulated HP-down → warm-standby failover documented and dry-run completes
-- A test commit on any clone mirrors to GitHub within seconds (verified)
-- A planted plaintext secret in a staged file is blocked by pre-commit
-- A new clone on a fresh machine runs `bootstrap-machine.sh ricardo-travel` and completes successfully
-- Repo tagged `v0.1-foundation`
+- JP can encrypt a file with `infra/age-recipients.txt`; Ricardo can decrypt it on his machine. Reverse roundtrip holds.
+- `infra/scripts/run-with-secrets.sh sleep 60 &` followed by 2s `ls /dev/shm/nexostrat-secrets-*` returns no files (no leak — C1 verified).
+- `python -m jsonschema infra/schemas/tasks.schema.json tasks.json` passes; same for `calendar.json`.
+- A planted plaintext secret in a staged file is blocked by the basic pre-commit hook (full hook surface in 01c).
+- Signed partnership PDF decrypts cleanly with each co-founder's key.
+- Repo tagged `v0.1a-foundation`.
 
-**Spec references:** §1 (Topology), §2 (Repository Structure), §3 (Foundation Layer), §4.1-§4.5 (Personas + ADRs + Partnership), ADRs 002, 003, 004, 005, 006, 008, 011, 021, 023, 033.
+**Spec references:** §1 (Topology), §2 (Repository Structure), §3 (Foundation Layer), §4.1-§4.5 (Personas + Partnership), §6.4 (intake 2-file split — informs `_template/` shape), ADRs 002, 003, 004, 005, 006, 008, 011, 015, 021, 027, 033, 036.
 
-**File:** [`2026-05-13_plan-01-repository-foundation.md`](2026-05-13_plan-01-repository-foundation.md) (FULLY DETAILED, ready to execute)
+**File:** *(to be written via writing-plans in Batch 2)*
+
+---
+
+### Plan 01b — Mirrors + warm-standby
+
+**Goal:** Stand up the off-site git mirror network (GitHub + Codeberg) via host-side systemd path-watchers, provision the warm-standby clone, and verify the warm-rsync timer actually works end-to-end. After 01b, a single-machine failure can be recovered from in 15-30 min and an off-site loss costs nothing.
+
+**Deliverables:**
+- `infra/systemd/nexostrat-mirror-github.path` + `.service` (path-watcher on Gitea bare-repo `refs/heads/main`, runs as `ricardo`, pushes to `git@github.com:nexostrat/nexostrat.git`) — implements C4 fix; replaces Gitea-internal post-receive hook entirely
+- Same pattern for Codeberg per F7: `nexostrat-mirror-codeberg.{path,service}` (different remote, different PAT in `secrets.env.age`)
+- Gitea bare-repo on-disk path verified at execution time and documented in `00_GOVERNANCE/system_map.md` (resolves F22 sub-task — Gitea verification only; n8n verification is moot per the no-n8n directive)
+- Warm-standby provisioning: SSH-bootstrap to second laptop, initial clone of `/srv/Nexostrat/`, `docker-compose pull` (services left stopped), age key recovery roundtrip tested against the standby clone
+- `infra/systemd/nexostrat-warm-rsync.{timer,service}` (nightly 03:00 local, rsync HP→standby with `--delete`, sensible excludes)
+- Real warm-rsync smoke test per F24: `systemctl start nexostrat-warm-rsync.service` returns `status=0/SUCCESS` with non-trivial file count
+- HP-down failover runbook at `docs/runbooks/hp_down.md` (SSH into standby, `docker-compose up`, point Tailscale DNS to standby IP) — dry-run completed
+- `00_GOVERNANCE/system_map.md` first version with Gitea path, mirror unit paths, standby host info, rsync exclusions
+
+**Dependencies:** 01a (age keys + recipients file + secrets workflow must exist before mirror units can decrypt PATs).
+
+**Success criteria:**
+- A test commit on HP origin appears on GitHub `nexostrat/nexostrat` within 60s of `git push origin main`.
+- Same commit appears on Codeberg `nexostrat/nexostrat` within 60s.
+- `systemctl status nexostrat-warm-rsync.service` after manual trigger returns `status=0/SUCCESS` with file-transferred count > 0.
+- HP-down failover runbook dry-run completes in <30 min and the standby boots services cleanly.
+- Repo tagged `v0.1b-mirrors`.
+
+**Spec references:** §1 (Replication topology), §3 (Backup ladder + recovery procedures), §9.4 (Python agents — mirror agents live in `infra/systemd/` as units, not Python this time; F22 closure), ADRs 006, 023.
+
+**File:** *(to be written via writing-plans in Batch 2)*
+
+---
+
+### Plan 01c — Personas + hooks + integration test
+
+**Goal:** Instantiate the three persona CLAUDE.md/GEMINI.md files from canonical shared stanzas via an inliner script, populate the pre-commit hook surface, and prove the whole foundation works end-to-end via a rich integration smoke test. After 01c, the foundation milestone is reached and downstream plans can rely on the persona + hook + smoke-test contract.
+
+**Deliverables:**
+- `00_META/shared/*.md` canonical stanzas (rule1, session_start, session_end, session_output_format, memo_protocol, gemini_handoff, vault_access, backup_posture, change_log) audited free of any `/srv/brain`, `BRAIN_STATUS`, or `00_TEMPLATES` leaks per F20
+- `infra/scripts/inline_includes.py` (~30 lines Python, C3 fix): reads a template, replaces `{{include: path}}` markers with the file contents, writes the final; supports `--check` mode for drift detection
+- `infra/scripts/nexostrat-memos.py` (~40 lines, F8): reads `**/00_META/inbox/*.md` frontmatter, filters by `to:` field, prints formatted summary; called by SessionStart hook (Plan 06) and `/inbox` Telegram plugin (Plan 04)
+- 6 persona files: Founder root (CLAUDE.md + GEMINI.md — already Nexostrat-native from terrain prep; 01c adds the canonical shared-stanza pattern on top via the inliner), `skills/CLAUDE.md` + `skills/GEMINI.md` (Skills-Master), `pipeline/CLAUDE.md` + `pipeline/GEMINI.md` (Client-Owner). Persona-specific scope sections reflect F10 vault reallocation (Founder owns `vault/{partnership,legal,accounting,keys}`; Client-Owner owns `vault/clients/<slug>/`; Skills-Master owns no vault content)
+- Pre-commit hook surface at `infra/hooks/pre-commit.d/*.sh`: 01-secret-scan, 02-file-pattern-block, 03-docs-pair-check (basic; full drift audit is Plan 02), 04-checkpoint-validation
+- `infra/scripts/smoke-test.sh` rich version per R2:
+  1. Decrypt `secrets.env.age` to `/dev/shm`, source one env var, re-encrypt round-trip
+  2. `git push origin main` (no-op safe), wait 60s, verify GitHub HEAD SHA equals local
+  3. `systemctl start nexostrat-warm-rsync.service --no-block`, verify status `0/SUCCESS`
+  4. `run-with-secrets.sh sleep 5 &`, wait 7s, verify no leftover `/dev/shm/nexostrat-secrets-*` files
+  5. Run `infra/scripts/inline_includes.py --check` against all 6 persona files; verify zero drift
+  6. `python -m jsonschema infra/schemas/tasks.schema.json tasks.json`; same for calendar.json
+- `00_META/shared/STATUS.md` template (replaces any prior `BRAIN_STATUS.md` reference per F20)
+- F27 follow-through: any Hosted references stripped from STATUS.md / templates
+
+**Dependencies:** 01b (mirrors + warm-standby must exist for steps 2-3 of the smoke test).
+
+**Success criteria:**
+- `infra/scripts/inline_includes.py --check` reports zero drift across all 6 persona files.
+- `infra/scripts/smoke-test.sh` returns green in <3 min; every sub-test prints a clear pass/fail line.
+- A test edit to `00_META/shared/session_start.md` followed by re-running the inliner regenerates all 6 persona files with the new content; `git diff` shows the expected change in each.
+- Repo tagged `v0.1-foundation` (the original Plan 01 milestone, reached at end of 01c).
+
+**Spec references:** §4 (Personas + protocols), §4.6 (docs-pair hook), §4.7 (memo protocol), §4.10 (CHECKPOINT + concurrent-session protection), §4.11 (Unified inbox — files only; Telegram delivery surface is Plan 04), §10.1 (smoke test layer), ADRs 011, 014, 025, 031, 036.
+
+**File:** *(to be written via writing-plans in Batch 2)*
 
 ---
 
@@ -127,7 +195,7 @@ When it's time to draft Plan N in detail, future Claude reads (a) the spec, (b) 
 - `docs/reference/{stack_inventory,machine_matrix,folder_layout,naming_conventions,event_taxonomy,glossary}.md` (some auto-generated)
 - Print-to-Aurora-PDF script `print-doc.sh` working
 
-**Dependencies:** Plan 01 (repo scaffold + persona files must exist).
+**Dependencies:** Plan 01c (foundation complete, repo scaffold + persona files exist).
 
 **Success criteria:**
 - A test that modifies a tier-1 `.md` without its `-explicado.md` partner is blocked
@@ -158,7 +226,7 @@ When it's time to draft Plan N in detail, future Claude reads (a) the spec, (b) 
 - pytest test suite with mocks for Anthropic/Gemini/Grok/Notion/Calendar/Telegram
 - `tests/integration/test_event_emission.py` proves atomic-append + schema validation
 
-**Dependencies:** Plan 01 (folder structure + secrets workflow).
+**Dependencies:** Plan 01c (foundation complete; folder structure + secrets workflow + personas in place).
 
 **Success criteria:**
 - `nexostrat run --help` lists all registered agents
@@ -192,7 +260,7 @@ When it's time to draft Plan N in detail, future Claude reads (a) the spec, (b) 
 - Bot reloads on plugin add/edit without restart
 - pytest tests + integration test that exercises capture → inbox → resolve
 
-**Dependencies:** Plan 01 (foundation), Plan 03 (events + agent framework).
+**Dependencies:** Plan 01c (foundation complete), Plan 03 (events + agent framework).
 
 **Success criteria:**
 - `/note pipeline test message` in group chat creates a file at `pipeline/00_META/inbox/YYYY-MM-DD_HHMM_telegram_<slug>.md` with correct frontmatter
@@ -438,3 +506,4 @@ Each layer is intentionally redundant with the others — different audiences, d
 | Date | Agent | Description |
 |------|-------|-------------|
 | 2026-05-13 | Claude (Opus 4.7, with Ricardo at root) | Master plan index created. 10 plans drafted at header-level; Plan 01 fully detailed. Plans 02-10 status `DRAFT-PENDING` — to be written via `writing-plans` skill at execution time. |
+| 2026-05-14 | Claude (Opus 4.7 1M, Batch 1 amendments) | **Plan 01 split into 01a / 01b / 01c** per [`../proposals/2026-05-14_amendments.md`](../proposals/2026-05-14_amendments.md) §R1. Status table reorganized; original Plan 01 row marked SUPERSEDED with banner pointing to the three replacement plans. Dependency graph updated: Plan 01c (foundation milestone reached) is the new entry-point dependency for Plans 02-04. Per-plan headers (Goal · Deliverables · Dependencies · Success criteria · Spec references) drafted for 01a/01b/01c reflecting locked audit-amendment decisions (C1-C4, F5-F27, R1-R6). R6 calendar honesty applied: 01a by 2026-05-27, 01b by 2026-06-03, 01c by 2026-06-10 (v0.1-foundation milestone). Plans 02/03/04 dependency strings rewritten Plan 01 → Plan 01c. |

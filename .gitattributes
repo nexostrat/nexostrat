@@ -1,0 +1,20 @@
+# Default: text auto-detected, normalized to LF on commit
+* text=auto eol=lf
+
+# Binary files (no diff/merge attempts, no line-ending conversion)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.pdf binary
+*.docx binary
+*.xlsx binary
+*.pptx binary
+*.zst binary
+*.gz binary
+*.zip binary
+*.tar binary
+*.age binary
+*.key binary
+*.pem binary

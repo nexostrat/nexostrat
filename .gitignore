@@ -1,1 +1,20 @@
+# Editor / tool dumps
 excalidraw.log
+*.swp
+*~
+
+# Secrets and keys (interim minimal — Plan 01a Task 4.5 owns full version)
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+*.pfx
+*secrets*
+key.txt
+infra/age/keys/
+
+# OS junk
+.DS_Store
+Thumbs.db

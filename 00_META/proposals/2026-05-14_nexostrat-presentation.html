@@ -786,7 +786,7 @@ footer a { color: var(--arctic-muted); }
   <div class="cover-meta">
     <span><strong>Firma:</strong> Nexostrat · consultoría IA para PyMEs en MX/CO/LatAm</span>
     <span><strong>Socios:</strong> Ricardo Mejía Caicedo + Juan Pablo (50/50)</span>
-    <span><strong>Fase:</strong> pre-lanzamiento · Stage 1 live target 2026-06-30 a 2026-07-15</span>
+    <span><strong>Fase:</strong> pre-lanzamiento · Stage 1 live cuando el checklist esté verde, sin fecha calendario</span>
   </div>
 
   <div class="cover-howto">
@@ -928,7 +928,7 @@ footer a { color: var(--arctic-muted); }
       <div class="card-num">04</div>
       <div class="card-title">
         <h3>Fase actual — pre-lanzamiento</h3>
-        <div class="card-eli5-summary">El sistema todavía no está completamente construido. Estamos en la fase de armar los cimientos sobre los cuales todo lo demás se monta. Stage 1 (firma operativa, primer cliente real) tiene fecha objetivo entre el 30 de junio y el 15 de julio de 2026.</div>
+        <div class="card-eli5-summary">El sistema todavía no está completamente construido. Estamos en la fase de armar los cimientos sobre los cuales todo lo demás se monta. Stage 1 — firma operativa, primer cliente real — se activa cuando los planes 01a/b/c y 02-10 estén verdes, no antes y no por calendario.</div>
       </div>
       <div class="card-chevron">▾</div>
     </div>
@@ -936,7 +936,7 @@ footer a { color: var(--arctic-muted); }
       <div class="col col-eli5">
         <h4>ELI5</h4>
         <p>Como construir una casa: hoy tenemos terreno comprado, planos firmados, y los primeros cimientos vertidos. Falta levantar paredes, instalar plomería, conectar luz. No vivimos en ella todavía.</p>
-        <p>El target es que entre el 30 de junio y el 15 de julio puedas decir "Nexostrat está live" — significa que tomar un cliente piloto y correr el proceso completo (intake → diagnóstico → entrega) funciona end-to-end sin pegamento manual.</p>
+        <p>"Stage 1 live" significa que tomar un cliente piloto y correr el proceso completo (intake → diagnóstico → entrega) funciona end-to-end sin pegamento manual. No hay fecha calendario para esto — el sistema se declara live cuando los criterios de Plan 10 (go-live checklist) están verdes, no por presión de calendario.</p>
       </div>
       <div class="col col-tech">
         <h4>Técnico · estado al 2026-05-14</h4>
@@ -1038,7 +1038,7 @@ footer a { color: var(--arctic-muted); }
 
   <div class="diagram">
     <div class="diagram-title">Diagrama · topología de replicación (warm-standby)</div>
-    <svg viewBox="0 0 880 440" xmlns="http://www.w3.org/2000/svg" font-family="Manrope, sans-serif">
+    <svg viewBox="0 0 1100 720" xmlns="http://www.w3.org/2000/svg" font-family="Manrope, sans-serif">
       <defs>
         <linearGradient id="gHP" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stop-color="#0EA5E9"/>
@@ -1056,105 +1056,129 @@ footer a { color: var(--arctic-muted); }
           <stop offset="0%" stop-color="#F59E0B"/>
           <stop offset="100%" stop-color="#8a5a06"/>
         </linearGradient>
-        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="8" orient="auto">
+        <marker id="arrSky" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
           <path d="M0,0 L10,5 L0,10 z" fill="#0EA5E9"/>
         </marker>
-        <marker id="arrowEm" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="8" orient="auto">
+        <marker id="arrEm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
           <path d="M0,0 L10,5 L0,10 z" fill="#10B981"/>
         </marker>
-        <marker id="arrowAm" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="8" orient="auto">
+        <marker id="arrAm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
           <path d="M0,0 L10,5 L0,10 z" fill="#F59E0B"/>
         </marker>
       </defs>
 
-      <!-- HP LAPTOP (center-left, live) -->
+      <!-- ROW 1: Off-site mirrors (top row) -->
+      <!-- GitHub -->
       <g>
-        <rect x="40" y="160" width="240" height="180" rx="14" fill="url(#gHP)" stroke="rgba(255,255,255,0.20)" stroke-width="1"/>
-        <text x="60" y="186" fill="#F0FBFF" font-size="10" font-weight="600" letter-spacing="2" text-transform="uppercase">LIVE · PRIMARY</text>
-        <text x="60" y="212" fill="#F0FBFF" font-size="18" font-weight="600" font-family="Space Grotesk">HP Laptop</text>
-        <text x="60" y="231" fill="#c8e6f0" font-size="12" font-family="JetBrains Mono">ricardo-hp-laptop</text>
-        <text x="60" y="252" fill="#F0FBFF" font-size="11">Docker stack 24/7</text>
-        <text x="60" y="269" fill="#c8e6f0" font-size="11">  • gitea origin (:3001)</text>
-        <text x="60" y="286" fill="#c8e6f0" font-size="11">  • nexostrat-bot</text>
-        <text x="60" y="303" fill="#c8e6f0" font-size="11">  • event-router daemon</text>
-        <text x="60" y="320" fill="#c8e6f0" font-size="11">  • jitsi · nextcloud · whisper</text>
+        <rect x="40" y="40" width="220" height="110" rx="12" fill="url(#gMirror)" stroke="rgba(255,255,255,0.20)" stroke-width="1"/>
+        <text x="60" y="68" fill="#F0FBFF" font-size="11" font-weight="600" letter-spacing="2">MIRROR · OFF-SITE</text>
+        <text x="60" y="96" fill="#F0FBFF" font-size="20" font-weight="600" font-family="Space Grotesk">GitHub</text>
+        <text x="60" y="122" fill="#c8e6f0" font-size="13" font-family="JetBrains Mono">nexostrat/nexostrat</text>
+        <text x="60" y="140" fill="#c8e6f0" font-size="11">privado · pago por trigger</text>
       </g>
 
-      <!-- WARM STANDBY (center-right) -->
+      <!-- Codeberg -->
       <g>
-        <rect x="600" y="160" width="240" height="180" rx="14" fill="url(#gStandby)" stroke="rgba(255,255,255,0.15)" stroke-width="1" stroke-dasharray="3 4"/>
-        <text x="620" y="186" fill="#F0FBFF" font-size="10" font-weight="600" letter-spacing="2">WARM-STANDBY · IDLE</text>
-        <text x="620" y="212" fill="#F0FBFF" font-size="18" font-weight="600" font-family="Space Grotesk">Standby Laptop</text>
-        <text x="620" y="231" fill="#c8e6f0" font-size="12" font-family="JetBrains Mono">RTO 15-30 min</text>
-        <text x="620" y="252" fill="#F0FBFF" font-size="11">/srv/Nexostrat/ data clone</text>
-        <text x="620" y="269" fill="#c8e6f0" font-size="11">docker-compose.yml mismo</text>
-        <text x="620" y="286" fill="#c8e6f0" font-size="11">servicios apagados</text>
-        <text x="620" y="303" fill="#c8e6f0" font-size="11">SSH + compose up = live</text>
-        <text x="620" y="320" fill="#c8e6f0" font-size="11" font-style="italic">(failover manual)</text>
+        <rect x="290" y="40" width="220" height="110" rx="12" fill="url(#gMirror)" stroke="rgba(255,255,255,0.20)" stroke-width="1"/>
+        <text x="310" y="68" fill="#F0FBFF" font-size="11" font-weight="600" letter-spacing="2">MIRROR · OFF-SITE</text>
+        <text x="310" y="96" fill="#F0FBFF" font-size="20" font-weight="600" font-family="Space Grotesk">Codeberg</text>
+        <text x="310" y="122" fill="#c8e6f0" font-size="13" font-family="JetBrains Mono">nexostrat/nexostrat</text>
+        <text x="310" y="140" fill="#c8e6f0" font-size="11">privado · pago por trigger</text>
       </g>
 
-      <!-- GITHUB (top-left of HP) -->
+      <!-- Drive 2TB -->
       <g>
-        <rect x="40" y="40" width="180" height="80" rx="12" fill="url(#gMirror)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-        <text x="60" y="62" fill="#F0FBFF" font-size="10" font-weight="600" letter-spacing="2">MIRROR · OFF-SITE</text>
-        <text x="60" y="84" fill="#F0FBFF" font-size="15" font-weight="600" font-family="Space Grotesk">GitHub</text>
-        <text x="60" y="102" fill="#c8e6f0" font-size="11" font-family="JetBrains Mono">nexostrat/nexostrat</text>
-      </g>
-
-      <!-- CODEBERG -->
-      <g>
-        <rect x="240" y="40" width="180" height="80" rx="12" fill="url(#gMirror)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-        <text x="260" y="62" fill="#F0FBFF" font-size="10" font-weight="600" letter-spacing="2">MIRROR · OFF-SITE</text>
-        <text x="260" y="84" fill="#F0FBFF" font-size="15" font-weight="600" font-family="Space Grotesk">Codeberg</text>
-        <text x="260" y="102" fill="#c8e6f0" font-size="11" font-family="JetBrains Mono">nexostrat/nexostrat</text>
-      </g>
-
-      <!-- DRIVE 2TB -->
-      <g>
-        <rect x="440" y="40" width="180" height="80" rx="12" fill="url(#gDrive)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-        <text x="460" y="62" fill="#0C1A2E" font-size="10" font-weight="700" letter-spacing="2">HEAVY ASSETS</text>
-        <text x="460" y="84" fill="#0C1A2E" font-size="15" font-weight="700" font-family="Space Grotesk">Drive 2TB</text>
-        <text x="460" y="102" fill="#0C1A2E" font-size="11" font-family="JetBrains Mono">age-encrypted</text>
+        <rect x="600" y="40" width="220" height="110" rx="12" fill="url(#gDrive)" stroke="rgba(255,255,255,0.20)" stroke-width="1"/>
+        <text x="620" y="68" fill="#0C1A2E" font-size="11" font-weight="700" letter-spacing="2">HEAVY ASSETS</text>
+        <text x="620" y="96" fill="#0C1A2E" font-size="20" font-weight="700" font-family="Space Grotesk">Drive 2TB</text>
+        <text x="620" y="122" fill="#0C1A2E" font-size="13" font-family="JetBrains Mono">age-encrypted</text>
+        <text x="620" y="140" fill="#0C1A2E" font-size="11">audio · PDFs · binarios</text>
       </g>
 
       <!-- NAS -->
       <g>
-        <rect x="640" y="40" width="180" height="80" rx="12" fill="url(#gDrive)" stroke="rgba(255,255,255,0.15)" stroke-width="1" stroke-dasharray="3 4"/>
-        <text x="660" y="62" fill="#0C1A2E" font-size="10" font-weight="700" letter-spacing="2">NAS · LOCAL MIRROR</text>
-        <text x="660" y="84" fill="#0C1A2E" font-size="15" font-weight="700" font-family="Space Grotesk">NAS rclone</text>
-        <text x="660" y="102" fill="#0C1A2E" font-size="11" font-family="JetBrains Mono">nightly 04:00</text>
+        <rect x="850" y="40" width="210" height="110" rx="12" fill="url(#gDrive)" stroke="rgba(255,255,255,0.20)" stroke-width="1" stroke-dasharray="4 4"/>
+        <text x="870" y="68" fill="#0C1A2E" font-size="11" font-weight="700" letter-spacing="2">NAS · LOCAL MIRROR</text>
+        <text x="870" y="96" fill="#0C1A2E" font-size="20" font-weight="700" font-family="Space Grotesk">NAS rclone</text>
+        <text x="870" y="122" fill="#0C1A2E" font-size="13" font-family="JetBrains Mono">noche · 04:00</text>
+        <text x="870" y="140" fill="#0C1A2E" font-size="11">copia local de Drive</text>
       </g>
 
-      <!-- Arrows from HP to mirrors -->
-      <path d="M 160 160 L 120 120" stroke="#10B981" stroke-width="2" fill="none" marker-end="url(#arrowEm)"/>
-      <path d="M 200 160 L 305 120" stroke="#10B981" stroke-width="2" fill="none" marker-end="url(#arrowEm)"/>
-      <path d="M 220 160 L 500 120" stroke="#F59E0B" stroke-width="2" fill="none" marker-end="url(#arrowAm)"/>
-      <text x="240" y="148" fill="#10B981" font-size="10" font-family="JetBrains Mono">post-commit watcher</text>
-      <text x="340" y="148" fill="#F59E0B" font-size="10" font-family="JetBrains Mono">rclone heavy assets</text>
+      <!-- ROW 2: HP (live) and Standby (warm) -->
+      <!-- HP Laptop -->
+      <g>
+        <rect x="160" y="290" width="320" height="240" rx="14" fill="url(#gHP)" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+        <text x="180" y="320" fill="#F0FBFF" font-size="11" font-weight="600" letter-spacing="2">LIVE · PRIMARY</text>
+        <text x="180" y="356" fill="#F0FBFF" font-size="26" font-weight="700" font-family="Space Grotesk">HP Laptop</text>
+        <text x="180" y="380" fill="#c8e6f0" font-size="14" font-family="JetBrains Mono">ricardo-hp-laptop</text>
+        <text x="180" y="408" fill="#F0FBFF" font-size="13" font-weight="600">Docker stack · siempre encendida</text>
+        <text x="180" y="430" fill="#c8e6f0" font-size="12">• gitea origin (:3001)</text>
+        <text x="180" y="450" fill="#c8e6f0" font-size="12">• nexostrat-bot (Telegram)</text>
+        <text x="180" y="470" fill="#c8e6f0" font-size="12">• event-router daemon</text>
+        <text x="180" y="490" fill="#c8e6f0" font-size="12">• jitsi · nextcloud · whisper.cpp</text>
+        <text x="180" y="510" fill="#c8e6f0" font-size="12">• Tailscale IP 100.64.121.80</text>
+      </g>
 
-      <!-- Drive to NAS -->
-      <path d="M 620 80 L 640 80" stroke="#F59E0B" stroke-width="2" fill="none" marker-end="url(#arrowAm)"/>
+      <!-- Standby Laptop -->
+      <g>
+        <rect x="620" y="290" width="320" height="240" rx="14" fill="url(#gStandby)" stroke="rgba(255,255,255,0.20)" stroke-width="1.5" stroke-dasharray="4 4"/>
+        <text x="640" y="320" fill="#F0FBFF" font-size="11" font-weight="600" letter-spacing="2">WARM-STANDBY · IDLE</text>
+        <text x="640" y="356" fill="#F0FBFF" font-size="26" font-weight="700" font-family="Space Grotesk">Standby Laptop</text>
+        <text x="640" y="380" fill="#c8e6f0" font-size="14" font-family="JetBrains Mono">RTO 15-30 min</text>
+        <text x="640" y="408" fill="#F0FBFF" font-size="13" font-weight="600">Clon idle del repo</text>
+        <text x="640" y="430" fill="#c8e6f0" font-size="12">• /srv/Nexostrat/ data clone</text>
+        <text x="640" y="450" fill="#c8e6f0" font-size="12">• docker-compose.yml mismo</text>
+        <text x="640" y="470" fill="#c8e6f0" font-size="12">• servicios apagados</text>
+        <text x="640" y="490" fill="#c8e6f0" font-size="12">• SSH + compose up = live</text>
+        <text x="640" y="510" fill="#c8e6f0" font-size="12" font-style="italic">failover manual</text>
+      </g>
 
-      <!-- HP to Standby -->
-      <path d="M 280 250 L 600 250" stroke="#0EA5E9" stroke-width="2.5" fill="none" marker-end="url(#arrow)" stroke-dasharray="5 5"/>
-      <text x="370" y="240" fill="#0EA5E9" font-size="11" font-family="JetBrains Mono">nightly rsync (data only)</text>
-      <text x="370" y="270" fill="#0EA5E9" font-size="11" font-family="JetBrains Mono">03:00 local</text>
+      <!-- ============ CONNECTIONS — 90° angles, no overlap ============ -->
 
-      <!-- Bottom legend -->
-      <g transform="translate(40, 370)">
-        <text x="0" y="0" fill="#8aa9b6" font-size="10" font-weight="600" letter-spacing="2">RTO POR ESCENARIO</text>
-        <rect x="0" y="10" width="120" height="50" rx="6" fill="rgba(16,185,129,0.10)" stroke="rgba(16,185,129,0.35)"/>
-        <text x="10" y="30" fill="#34d399" font-size="11" font-weight="600">HP cae</text>
-        <text x="10" y="48" fill="#c8e6f0" font-size="11">15-30 min</text>
-        <rect x="130" y="10" width="160" height="50" rx="6" fill="rgba(245,158,11,0.10)" stroke="rgba(245,158,11,0.35)"/>
-        <text x="140" y="30" fill="#fbbf24" font-size="11" font-weight="600">HP + standby caen</text>
-        <text x="140" y="48" fill="#c8e6f0" font-size="11">4-8 h vía mirror restore</text>
-        <rect x="300" y="10" width="170" height="50" rx="6" fill="rgba(14,165,233,0.10)" stroke="rgba(14,165,233,0.35)"/>
-        <text x="310" y="30" fill="#38bdf8" font-size="11" font-weight="600">Laptop robada</text>
-        <text x="310" y="48" fill="#c8e6f0" font-size="11">1h bloqueo + 24h rotación</text>
-        <rect x="480" y="10" width="170" height="50" rx="6" fill="rgba(239,68,68,0.10)" stroke="rgba(239,68,68,0.35)"/>
-        <text x="490" y="30" fill="#fca5a5" font-size="11" font-weight="600">Servidor comprometido</text>
-        <text x="490" y="48" fill="#c8e6f0" font-size="11">24-48 h runbook</text>
+      <!-- HP → GitHub (orthogonal: up-left from HP, then up to GitHub) -->
+      <polyline points="200,290 200,200 150,200 150,150" fill="none" stroke="#10B981" stroke-width="2.5" marker-end="url(#arrEm)"/>
+      <text x="208" y="240" fill="#34d399" font-size="12" font-family="JetBrains Mono">post-commit watcher</text>
+
+      <!-- HP → Codeberg (orthogonal: straight up-right) -->
+      <polyline points="280,290 280,200 400,200 400,150" fill="none" stroke="#10B981" stroke-width="2.5" marker-end="url(#arrEm)"/>
+
+      <!-- HP → Drive 2TB (separate channel — heavy assets, going right-up) -->
+      <polyline points="430,290 430,230 710,230 710,150" fill="none" stroke="#F59E0B" stroke-width="2.5" marker-end="url(#arrAm)"/>
+      <text x="468" y="222" fill="#fbbf24" font-size="12" font-family="JetBrains Mono">rclone heavy assets</text>
+
+      <!-- Drive → NAS (horizontal, top row) -->
+      <polyline points="820,95 850,95" fill="none" stroke="#F59E0B" stroke-width="2.5" marker-end="url(#arrAm)"/>
+
+      <!-- HP → Standby (horizontal, mid level) -->
+      <polyline points="480,410 620,410" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-dasharray="6 5" marker-end="url(#arrSky)"/>
+      <text x="500" y="402" fill="#38bdf8" font-size="12" font-family="JetBrains Mono">nightly rsync · 03:00</text>
+
+      <!-- ============ ROW 3: RTO scenarios (bottom) ============ -->
+      <text x="40" y="588" fill="#8aa9b6" font-size="12" font-weight="600" letter-spacing="2">RTO POR ESCENARIO DE FALLA</text>
+
+      <g>
+        <rect x="40" y="608" width="240" height="80" rx="8" fill="rgba(16,185,129,0.10)" stroke="rgba(16,185,129,0.40)" stroke-width="1"/>
+        <text x="56" y="634" fill="#34d399" font-size="13" font-weight="700">HP cae</text>
+        <text x="56" y="656" fill="#F0FBFF" font-size="13" font-weight="600">15–30 minutos</text>
+        <text x="56" y="676" fill="#c8e6f0" font-size="11">warm-standby toma el relevo</text>
+      </g>
+      <g>
+        <rect x="295" y="608" width="240" height="80" rx="8" fill="rgba(245,158,11,0.10)" stroke="rgba(245,158,11,0.40)" stroke-width="1"/>
+        <text x="311" y="634" fill="#fbbf24" font-size="13" font-weight="700">HP + standby caen</text>
+        <text x="311" y="656" fill="#F0FBFF" font-size="13" font-weight="600">4–8 horas</text>
+        <text x="311" y="676" fill="#c8e6f0" font-size="11">restore desde mirror off-site</text>
+      </g>
+      <g>
+        <rect x="550" y="608" width="240" height="80" rx="8" fill="rgba(14,165,233,0.10)" stroke="rgba(14,165,233,0.40)" stroke-width="1"/>
+        <text x="566" y="634" fill="#38bdf8" font-size="13" font-weight="700">Laptop robada</text>
+        <text x="566" y="656" fill="#F0FBFF" font-size="13" font-weight="600">1h bloqueo · 24h rotación</text>
+        <text x="566" y="676" fill="#c8e6f0" font-size="11">key revocation + re-encrypt</text>
+      </g>
+      <g>
+        <rect x="805" y="608" width="255" height="80" rx="8" fill="rgba(220,38,38,0.10)" stroke="rgba(220,38,38,0.40)" stroke-width="1"/>
+        <text x="821" y="634" fill="#fca5a5" font-size="13" font-weight="700">Servidor comprometido</text>
+        <text x="821" y="656" fill="#F0FBFF" font-size="13" font-weight="600">24–48 horas</text>
+        <text x="821" y="676" fill="#c8e6f0" font-size="11">runbook server_compromise.md</text>
       </g>
     </svg>
   </div>
@@ -1320,12 +1344,12 @@ footer a { color: var(--arctic-muted); }
 │
 ├─ <span class="ft-skills">skills/</span>                                   <span class="ft-comment">← SKILLS bucket · Skills-Master persona</span>
 │   ├─ <span class="ft-skills">CLAUDE.md  GEMINI.md  CHECKPOINT.md</span>
-│   ├─ <span class="ft-skills">01_company_analyst/</span>                    <span class="ft-comment">  ya construido</span>
-│   ├─ <span class="ft-skills">02_industry_analyst/</span>                   <span class="ft-comment">  to build</span>
-│   ├─ <span class="ft-skills">03_competitor_analyst/</span>                 <span class="ft-comment">  to build</span>
-│   ├─ <span class="ft-skills">04_meeting_script/</span>                     <span class="ft-comment">  PRIVATE — nunca al cliente</span>
-│   ├─ <span class="ft-skills">05_opportunity_report/</span>                 <span class="ft-comment">  el Diagnóstico</span>
-│   ├─ <span class="ft-skills">06_discovery_meeting/</span>                  <span class="ft-comment">  facilitación en vivo</span>
+│   ├─ <span class="ft-skills">01_company_analyst/</span>                    <span class="ft-comment">  ya construido ✓</span>
+│   ├─ <span class="ft-skills">02_industry_analyst/</span>                   <span class="ft-comment">  ya construido ✓</span>
+│   ├─ <span class="ft-skills">03_competitor_analyst/</span>                 <span class="ft-comment">  ya construido ✓</span>
+│   ├─ <span class="ft-skills">04_meeting_script/</span>                     <span class="ft-comment">  to build · PRIVATE — nunca al cliente</span>
+│   ├─ <span class="ft-skills">05_opportunity_report/</span>                 <span class="ft-comment">  to build · el Diagnóstico</span>
+│   ├─ <span class="ft-skills">06_discovery_meeting/</span>                  <span class="ft-comment">  ya construido ✓ · facilitación en vivo</span>
 │   └─ <span class="ft-skills">shared/</span>                               <span class="ft-comment">  judge_prompt, anti_hallucination</span>
 │
 ├─ <span class="ft-client">pipeline/</span>                                 <span class="ft-comment">← PIPELINE bucket · Client-Owner persona</span>
@@ -1396,7 +1420,6 @@ footer a { color: var(--arctic-muted); }
           <li><strong>Carpetas nuevas top-level requieren una ADR</strong> — no se agrega <code>00_NUEVOSITIO/</code> sin documentar por qué.</li>
           <li><strong>Sin operaciones destructivas sin aprobación</strong> — borrar, mover, sobreescribir un archivo "no obvio" siempre pasa por confirmación humana.</li>
           <li><strong>Contenido sensible solo en vault, encriptado</strong> — nunca plaintext en otra carpeta.</li>
-          <li><strong>No hay <code>/srv/brain</code> ni <code>n8n</code> en Nexostrat</strong> — son entidades separadas / herramientas que no usamos. Si encontramos referencias, las eliminamos.</li>
         </ol>
       </div>
       <div class="col col-tech">
@@ -2216,13 +2239,14 @@ footer a { color: var(--arctic-muted); }
         <p>Una skill es una capacidad reusable. La skill "análisis de compañía" se entrena una sola vez (escribir el prompt, validar contra un caso real, probarlo) y después se aplica a cada cliente que entra.</p>
         <p>Las 5 skills + 1 de discovery son:</p>
         <ol>
-          <li><strong>Análisis de Compañía</strong> — quién es el cliente, su modelo de negocio, sus números públicos.</li>
-          <li><strong>Análisis de Industria</strong> — el mercado donde compite, sus dinámicas, datos oficiales (DANE Colombia, INEGI México).</li>
-          <li><strong>Análisis de Competencia</strong> — 3-5 competidores directos + 2-3 indirectos, fortalezas/debilidades.</li>
-          <li><strong>Guión de Reunión</strong> — privado, NUNCA al cliente; preparación interna de cómo conducir la reunión de descubrimiento.</li>
-          <li><strong>Reporte de Oportunidades</strong> — la entrega final del Diagnóstico (20-30 pp); 5-7 oportunidades concretas con costo estimado y prioridad.</li>
-          <li><strong>Discovery Meeting</strong> — facilitación en vivo (no automatizable; protocolo guiado).</li>
+          <li><strong>Análisis de Compañía</strong> · ya construido — quién es el cliente, su modelo de negocio, sus números públicos.</li>
+          <li><strong>Análisis de Industria</strong> · ya construido — el mercado donde compite, sus dinámicas, datos oficiales (DANE Colombia, INEGI México).</li>
+          <li><strong>Análisis de Competencia</strong> · ya construido — 3-5 competidores directos + 2-3 indirectos, fortalezas/debilidades.</li>
+          <li><strong>Guión de Reunión</strong> · to build — privado, NUNCA al cliente; preparación interna de cómo conducir la reunión de descubrimiento.</li>
+          <li><strong>Reporte de Oportunidades</strong> · to build — la entrega final del Diagnóstico (20-30 pp); 5-7 oportunidades concretas con costo estimado y prioridad.</li>
+          <li><strong>Discovery Meeting</strong> · ya construido — facilitación en vivo (no automatizable; protocolo guiado).</li>
         </ol>
+        <p style="font-size:12.5px;color:var(--arctic-muted);margin-top:8px"><em>Las skills construidas viven hoy en <code>00_META/skills/{company-analyst, industry-analyst, competitor-analyst, discovery-meeting}/</code>; Plan 01a las moverá a <code>skills/&lt;NN&gt;_&lt;name&gt;/</code> en el layout canónico.</em></p>
       </div>
       <div class="col col-tech">
         <h4>Técnico · per-skill folder template (<span class="adr-badge" data-adr="012">ADR-012</span>)</h4>
@@ -2280,6 +2304,84 @@ footer a { color: var(--arctic-muted); }
     </div></div>
   </div>
 
+  <!-- ============ OLLAMA · LOCAL AI · FEATURED ============ -->
+  <div style="margin: 28px 0 24px; padding: 28px 32px; border-radius: 16px; background: linear-gradient(135deg, rgba(167,139,250,0.18) 0%, rgba(16,185,129,0.12) 60%, rgba(14,165,233,0.10) 100%); border: 1px solid rgba(167,139,250,0.40); box-shadow: 0 8px 32px rgba(167,139,250,0.15), 0 2px 12px rgba(0,0,0,0.30); position: relative; overflow: hidden;">
+    <div style="position: absolute; top: -40px; right: -40px; width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle, rgba(167,139,250,0.30) 0%, transparent 70%); pointer-events: none;"></div>
+    <div style="position: absolute; bottom: -60px; left: -30px; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle, rgba(16,185,129,0.20) 0%, transparent 70%); pointer-events: none;"></div>
+
+    <div style="position: relative; z-index: 1;">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px">
+        <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #a78bfa 0%, #10B981 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(167,139,250,0.40);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F0FBFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M9 9h6v6H9z"/>
+            <path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/>
+          </svg>
+        </div>
+        <div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.22em; color: #a78bfa; font-weight: 700; text-transform: uppercase;">Característica diferenciadora · soberanía de IA</div>
+          <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 700; color: var(--arctic); margin: 4px 0 0; letter-spacing: -0.02em;">Ollama local · modelos que corren en nuestro hardware</h3>
+        </div>
+      </div>
+
+      <p style="font-size: 15.5px; line-height: 1.65; color: var(--arctic-dim); max-width: 800px; margin-bottom: 18px;">
+        <strong style="color: var(--arctic)">No todas las consultas de IA salen a Anthropic o Google.</strong> Una parte significativa del trabajo — extracción de chats, auto-respuesta de preguntas, parity diff de meetings — corre <strong>localmente</strong> sobre Ollama en el Desktop con GPU. Esto significa: cero costo marginal, cero data leaving the premises, cero latencia de red, y la habilidad operacional para ofrecerlo a clientes que lo pidan.
+      </p>
+
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 22px 0 18px;">
+        <div style="background: rgba(8,17,31,0.55); border: 1px solid rgba(167,139,250,0.30); border-radius: 10px; padding: 16px 18px;">
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; color: #a78bfa; font-weight: 700; margin-bottom: 6px;">MODELO 1 · LIGHT</div>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 600; color: var(--arctic);">Llama 3.1 8B Q5</div>
+          <div style="font-size: 12.5px; color: var(--arctic-dim); margin-top: 6px; line-height: 1.55;">Respuestas rápidas, summaries cortos, tareas simples. Cabe en 6-8 GB VRAM.</div>
+        </div>
+        <div style="background: rgba(8,17,31,0.55); border: 1px solid rgba(16,185,129,0.30); border-radius: 10px; padding: 16px 18px;">
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; color: #34d399; font-weight: 700; margin-bottom: 6px;">MODELO 2 · SPANISH-STRONG</div>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 600; color: var(--arctic);">Qwen 2.5 14B Q4</div>
+          <div style="font-size: 12.5px; color: var(--arctic-dim); margin-top: 6px; line-height: 1.55;">Extracción de chats en español, parity diff, multilingual. Workhorse principal.</div>
+        </div>
+        <div style="background: rgba(8,17,31,0.55); border: 1px solid rgba(14,165,233,0.30); border-radius: 10px; padding: 16px 18px;">
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; color: #38bdf8; font-weight: 700; margin-bottom: 6px;">MODELO 3 · INSTRUCT</div>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 600; color: var(--arctic);">Mistral 7B</div>
+          <div style="font-size: 12.5px; color: var(--arctic-dim); margin-top: 6px; line-height: 1.55;">Tasks instructivas, JSON-shaping, agentes de extracción estructurada.</div>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 8px;">
+        <div>
+          <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--emerald-bright); font-weight: 700; margin-bottom: 10px;">QUÉ GANAMOS</div>
+          <ul style="margin: 0; padding-left: 18px; font-size: 14px; line-height: 1.7; color: var(--arctic-dim);">
+            <li><strong style="color: var(--arctic)">Costo marginal cero</strong> para extracción ambiental y auto-resolución de preguntas del inbox.</li>
+            <li><strong style="color: var(--arctic)">Privacidad por construcción</strong> — chats sensibles, transcripciones internas, drafts de contratos nunca dejan nuestro hardware.</li>
+            <li><strong style="color: var(--arctic)">Independencia operativa</strong> — si Anthropic o Google se caen, lo importante sigue funcionando.</li>
+            <li><strong style="color: var(--arctic)">Línea de servicio billable</strong> — clientes regulados (salud, legal, gov) que no pueden mandar datos a procesadores externos: les ofrecemos el mismo stack en su infraestructura.</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--amber-bright); font-weight: 700; margin-bottom: 10px;">CUÁNDO USA OLLAMA VS API</div>
+          <ul style="margin: 0; padding-left: 18px; font-size: 14px; line-height: 1.7; color: var(--arctic-dim);">
+            <li><strong style="color: var(--arctic)">Default Ollama:</strong> extracción de chats, auto-resolución de questions del inbox, parity diff, transcript summarization, JSON shaping de outputs estructurados.</li>
+            <li><strong style="color: var(--arctic)">Fallback API:</strong> Ollama unreachable (desktop dormido sin wake), low confidence, <code>/ask --fast</code> con prioridad alta.</li>
+            <li><strong style="color: var(--arctic)">Siempre API:</strong> Mode B production runs (Claude judge), workflows donde queremos los mejores modelos posibles porque el ticket lo justifica.</li>
+            <li><strong style="color: var(--arctic)">Decisión per-task</strong> codificada en cada agent · <span class="adr-badge" data-adr="028">ADR-028</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top: 18px; padding: 14px 18px; background: rgba(167,139,250,0.10); border-left: 3px solid #a78bfa; border-radius: 0 8px 8px 0;">
+        <strong style="color: var(--arctic)">El detalle que importa estratégicamente:</strong>
+        <span style="color: var(--arctic-dim); font-size: 14px;">Cada herramienta libre que operamos internamente se vuelve una línea de servicio que podemos ofertar. Ollama-canonical + Whisper-canonical + Jitsi-canonical + Nextcloud-canonical son, juntas, una propuesta de valor para PyMEs que quieren IA sin sacrificar soberanía de datos. Lo operamos meses antes de ofertarlo — eso es lo que nos diferencia.</span>
+      </div>
+
+      <div style="margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap;">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 4px 10px; background: rgba(167,139,250,0.15); color: #a78bfa; border: 1px solid rgba(167,139,250,0.35); border-radius: 4px;">soberanía de datos</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 4px 10px; background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.35); border-radius: 4px;">costo marginal $0</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 4px 10px; background: rgba(14,165,233,0.15); color: #38bdf8; border: 1px solid rgba(14,165,233,0.35); border-radius: 4px;">offline-capable</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 4px 10px; background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.35); border-radius: 4px;">línea de servicio billable</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 4px 10px; background: rgba(255,255,255,0.06); color: var(--arctic-dim); border: 1px solid rgba(255,255,255,0.15); border-radius: 4px;">wake-on-LAN desde HP</span>
+      </div>
+    </div>
+  </div>
+
   <div class="card" id="card-6-4">
     <div class="card-head" onclick="toggleCard('card-6-4')">
       <div class="card-num">26</div>
@@ -2328,9 +2430,79 @@ footer a { color: var(--arctic-muted); }
     </div></div>
   </div>
 
+  <div class="card" id="card-6-bot-jobs">
+    <div class="card-head" onclick="toggleCard('card-6-bot-jobs')">
+      <div class="card-num">27a</div>
+      <div class="card-title">
+        <h3>Qué hace el bot por nosotros · capacidades concretas</h3>
+        <div class="card-eli5-summary">El bot no es solo "comandos slash". Es un asistente persistente que graba conversaciones, extrae información importante (tareas, fechas, decisiones, links), las pone en tu calendario, te recuerda meetings con su contexto previo, confirma asistencia, te trae los pendientes, y muta cuando lo necesites. Está diseñado para evolucionar — los plugins nuevos se agregan sin tocar el resto.</div>
+      </div>
+      <div class="card-chevron">▾</div>
+    </div>
+    <div class="card-body"><div class="card-body-inner">
+      <div class="col col-eli5">
+        <h4>ELI5 · trabajos que hace por ti</h4>
+        <ul>
+          <li><strong>Registra todas las conversaciones</strong> (group + DMs) cifradas día a día — nunca pierdes el "¿qué dijimos sobre X?".</li>
+          <li><strong>Extrae lo importante</strong> de esas conversaciones — tareas, deadlines, decisiones, links — y te lo confirma antes de archivarlo.</li>
+          <li><strong>Pone fechas en tu calendario</strong> automáticamente. Si en el chat dijiste "reunión con Bodai el martes 10am", aparece en tu Google Calendar con el contexto enlazado.</li>
+          <li><strong>Te recuerda meetings</strong> dos veces: brief matinal 07:00 (con agenda + acciones pendientes de meetings previos + decisiones esperando seguimiento) y recordatorio T-15.</li>
+          <li><strong>Confirma asistencia</strong> a meetings: <code>/confirm</code>, <code>/decline</code>, <code>/reschedule</code>. Si nadie responde, te pingea individualmente.</li>
+          <li><strong>Te trae el "estado del mundo"</strong> con un comando: <code>/status</code> resume qué está activo, qué bloqueado, qué pasó hoy.</li>
+          <li><strong>Captura cualquier cosa con un comando corto</strong>: <code>/idea</code>, <code>/note</code>, <code>/decision</code>, <code>/expense</code>, <code>/observation</code> — todas con timestamp y attribution.</li>
+          <li><strong>Operar pipelines</strong> de clientes desde el teléfono: <code>/go bodai-skill-2</code> avanza la cadena, <code>/ask &lt;pregunta&gt;</code> abre una thread con Claude API.</li>
+        </ul>
+        <p style="margin-top:14px"><strong>Lo importante: el bot evoluciona.</strong> Su arquitectura de plugins (una carpeta por comando) permite agregar capacidades sin tocar el resto. Si descubrimos que falta un workflow, escribimos un plugin nuevo en una sesión, el bot lo carga al instante (auto-reload), y a partir de ahí lo usamos.</p>
+      </div>
+      <div class="col col-tech">
+        <h4>Técnico · catálogo de jobs + futuro</h4>
+        <p><strong>Persistencia y captura:</strong></p>
+        <ul>
+          <li>Chat logger encrypted: <code>infra/telegram/chat_log/&lt;scope&gt;/YYYY-MM-DD.jsonl.age</code> · age-encrypted a TODOS los recipients</li>
+          <li>Captura on-demand: <code>/note</code>, <code>/idea</code>, <code>/question</code>, <code>/decision</code>, <code>/expense</code>, <code>/observation</code>, <code>/voice</code>, <code>/photo</code></li>
+        </ul>
+        <p><strong>Extracción ambiental</strong> (<span class="adr-badge" data-adr="034">ADR-034</span>):</p>
+        <ul>
+          <li>Loop cada 4h en office hours · Ollama Qwen 2.5 14B (Spanish-strong)</li>
+          <li>Extrae: tasks, dates, decisions, file/link mentions, client mentions, questions, reading recs</li>
+          <li>Sensitive-content filter excluye secrets/PII/medical</li>
+          <li>Confidence threshold ≥0.6 → threaded confirmation reply</li>
+          <li>Auto-confirm tras 24h sin reply (low priority + provenance attribution)</li>
+          <li>Reactions 📌 (confirmed) / 🚫 (rejected) en el mensaje original</li>
+        </ul>
+        <p><strong>Meeting management</strong> (<span class="adr-badge" data-adr="035">ADR-035</span>):</p>
+        <ul>
+          <li>Brief matinal · <code>infra/agents/meeting/brief_morning.py</code> · 07:00 per user TZ vía systemd timer</li>
+          <li>Brief incluye: agenda submitted via <code>/agenda</code>, open actions de meetings previas, decisiones esperando followup</li>
+          <li>T-15 reminder · <code>brief_t15.py</code></li>
+          <li>Confirmation flow: <code>/confirm &lt;meeting-id&gt;</code>, <code>/decline &lt;...&gt; [reason]</code>, <code>/reschedule &lt;...&gt;</code></li>
+          <li>If silent by T-2h, bot pings individually</li>
+          <li>Lifecycle commands: <code>/meeting start/pause/resume/end/recover/override</code></li>
+          <li>Extracción post-meeting: summary 5-bullet, action items → tasks.json, decisions → governance, dates → Google Calendar, open questions → inbox</li>
+        </ul>
+        <p><strong>Calendar integration:</strong> <code>infra/agents/_lib/calendar.py</code> · Google Calendar API · auto-creates events from extracted dates · links back al chat / meeting de origen.</p>
+        <p><strong>State of the world:</strong> <code>/status</code>, <code>/pipeline</code>, <code>/infra</code>, <code>/events recent</code>, <code>/errors today</code>, <code>/metrics</code>.</p>
+        <p><strong>Adaptabilidad por plugin framework</strong> (<span class="adr-badge" data-adr="019">ADR-019</span>):</p>
+        <ul>
+          <li>Cada comando = una carpeta <code>infra/telegram/plugins/&lt;command&gt;/</code> con <code>manifest.yaml</code> + <code>handler.py</code> + <code>tests/</code></li>
+          <li>Auto-reload on add/edit · no restart</li>
+          <li><code>manifest.yaml</code> es canonical machine-readable: command, aliases, description ES/EN, usage, fires_event, allowed channels</li>
+          <li>Agregar capacidad nueva ≈ escribir un plugin (15-60 min)</li>
+        </ul>
+        <p><strong>Futuro · canal cliente vía WhatsApp:</strong></p>
+        <ul>
+          <li>Trigger Stage 2: primer cliente con <code>comm_preference: whatsapp</code> en su <code>state.json</code></li>
+          <li>Activa <code>waha-nexostrat</code> docker service (WhatsApp HTTP API)</li>
+          <li>Bot Python existente gana un transport adicional (no se duplica) — mismas extracciones, mismos recordatorios, mismas confirmaciones aplican al canal del cliente</li>
+          <li>Permite: confirmar meetings con el cliente, enviar pre-meeting brief, capturar respuestas y meterlas a su <code>communications/</code> folder</li>
+        </ul>
+      </div>
+    </div></div>
+  </div>
+
   <div class="card" id="card-6-5">
     <div class="card-head" onclick="toggleCard('card-6-5')">
-      <div class="card-num">27</div>
+      <div class="card-num">27b</div>
       <div class="card-title">
         <h3>El inbox unificado — todo lo no-resuelto en un solo lugar</h3>
         <div class="card-eli5-summary">Capturas que entran por Telegram (<code>/note</code>, <code>/idea</code>, <code>/question</code>, etc.) y memos manuales que tú dejes en una carpeta llegan al mismo "inbox" por scope. Founder, Skills-Master y Client-Owner tienen cada uno su inbox. Al iniciar una sesión, lo primero que ve cada persona es su inbox + el CHECKPOINT del baton previo.</div>
@@ -2390,36 +2562,41 @@ footer a { color: var(--arctic-muted); }
     <div class="card-head" onclick="toggleCard('card-7-1')">
       <div class="card-num">28</div>
       <div class="card-title">
-        <h3>Costos Stage 1 — USD 36-91/mes total</h3>
-        <div class="card-eli5-summary">El sistema corriendo en Stage 1 cuesta entre 36 y 91 dólares al mes — todo el stack, todas las APIs, todo. Notion lo absorbe JP en su subscripción personal (cero costo para la firma). Mayoría es open source self-hosted. Stage 2 se activa item por item solo cuando lo justifica.</div>
+        <h3>Costos Stage 1 — pagados de bolsillo por los socios</h3>
+        <div class="card-eli5-summary">El gasto mensual del sistema lo absorben Ricardo y JP cada uno con sus suscripciones personales. Las APIs de modelos están cubiertas (Claude MAX × 2, Gemini gratis hasta ~octubre 2026, Grok bajo consumo). Notion + email + hosting + dominio los cubre JP en su side. Drive 2TB + hardware Ricardo. La firma como entidad paga $0 hasta que haya revenue.</div>
       </div>
       <div class="card-chevron">▾</div>
     </div>
     <div class="card-body"><div class="card-body-inner">
       <div class="col col-eli5">
         <h4>ELI5</h4>
-        <p>El gasto mensual mínimo viable de Nexostrat es alrededor de 40 dólares; el máximo del rango es alrededor de 90, dependiendo de cuánto uses Claude API para Mode B durante el mes. Es ridículamente bajo para una firma de consultoría — la mayoría gasta eso en café en una semana.</p>
-        <p>Por qué tan barato: porque la mayoría del stack es open source que corremos en la HP (Gitea, bot, Jitsi, Nextcloud, Whisper, Ollama). Lo único que pagamos a otros es API de Claude/Grok y un poco de Drive. Notion (CRM + meeting notes) lo aporta JP de su personal — eso es ~$10/mo que la firma no paga.</p>
-        <p>Marginal cost per Diagnóstico en Mode B: ~$1.25 (5 skills × ~$0.25). Pricing del Diagnóstico: USD 1500-3000. El costo de API es rounding error frente al ticket.</p>
+        <p>La estrategia económica de Stage 1 es: <strong>cero gasto fijo de la firma</strong>. Los costos los absorben los socios en sus suscripciones personales que ya tenían o que decidieron pagar como inversión inicial. Ricardo cubre Claude MAX + Drive + hardware. JP cubre Claude MAX + Notion + email/hosting + dominio. Gemini API está en el periodo gratuito hasta más o menos octubre 2026.</p>
+        <p>Esto significa que mientras no haya clientes pagos, la firma no quema dinero. Cuando llegue el primer ingreso, parte de él reembolsa lo adelantado por cada socio (registrado en <code>00_PARTNERSHIP/cost-sharing-agreement.md</code>), y a partir de ahí los gastos pasan a ser de la firma.</p>
+        <p>Marginal cost per Diagnóstico en Mode B: prácticamente cero — Claude MAX no cobra por uso adicional dentro del plan, Gemini API en periodo gratuito, Grok API en consumo bajo. Cuando la firma esté revenue-positive, el cálculo cambia, pero hoy esto es eficiencia pura.</p>
       </div>
       <div class="col col-tech">
-        <h4>Técnico · cost breakdown</h4>
-        <p><strong>Stage 1 paid:</strong></p>
+        <h4>Técnico · cost-sharing en Stage 1 (socios pagan)</h4>
         <table class="kv-table">
-          <thead><tr><th>Servicio</th><th>USD/mo</th><th>Quien paga</th><th>Propósito</th></tr></thead>
+          <thead><tr><th>Servicio</th><th>Costo aprox</th><th>Quien paga</th><th>Propósito</th></tr></thead>
           <tbody>
-            <tr><td class="col-emph">Anthropic API</td><td>$20-60</td><td>Ricardo</td><td>Claude judge, /ask, Mode B</td></tr>
-            <tr><td class="col-emph">Google Drive 2TB</td><td>~$10</td><td>Ricardo</td><td>Heavy assets encrypted</td></tr>
-            <tr><td class="col-emph">xAI Grok API</td><td>$5-15</td><td>Ricardo</td><td>3rd-model parallel research</td></tr>
-            <tr><td class="col-emph">Notion</td><td>$0 to firm</td><td>JP (personal)</td><td>CRM + client meeting notes</td></tr>
-            <tr><td class="col-emph">Domain (amortized)</td><td>~$1</td><td>Compartido</td><td>nexostrat.com</td></tr>
-            <tr><td>Super Grok web (optional)</td><td>$30</td><td>Ricardo</td><td>Interactive only, NO pipeline</td></tr>
+            <tr><td class="col-emph">Claude MAX (Ricardo)</td><td>$200/mo</td><td>Ricardo · personal</td><td>Claude Code · /ask · Mode A/B host</td></tr>
+            <tr><td class="col-emph">Claude MAX (JP)</td><td>$200/mo</td><td>JP · personal</td><td>Claude Code para JP cuando entre a Heavy</td></tr>
+            <tr><td class="col-emph">Gemini API</td><td>$0</td><td>—</td><td>Periodo gratuito hasta ~octubre 2026</td></tr>
+            <tr><td class="col-emph">xAI Grok API</td><td>$5–15</td><td>Ricardo · personal</td><td>3er modelo parallel research</td></tr>
+            <tr><td class="col-emph">Google Drive 2TB</td><td>~$10</td><td>Ricardo · personal</td><td>Heavy assets encrypted</td></tr>
+            <tr><td class="col-emph">Hardware (HP, standby, desktop)</td><td>amortizado</td><td>Ricardo · ya owned</td><td>Stack live + GPU work</td></tr>
+            <tr><td class="col-emph">Notion + Notion AI</td><td>~$10–18</td><td>JP · personal</td><td>CRM + meeting notes</td></tr>
+            <tr><td class="col-emph">Email · <code>contacto@nexostrat.com</code></td><td>~$3–5</td><td>JP · personal</td><td>Mailbox profesional de la firma</td></tr>
+            <tr><td class="col-emph">Hosting · dominio nexostrat.com</td><td>~$2–4</td><td>JP · personal</td><td>Dominio + cualquier landing futuro</td></tr>
+            <tr><td><strong>Costo a la firma</strong></td><td><strong>$0</strong></td><td>—</td><td>Stage 1 cero gasto fijo de la entidad</td></tr>
           </tbody>
         </table>
-        <p><strong>Stage 1 self-hosted (free):</strong> Gitea, nexostrat-bot, Tailscale, age, rclone, pandoc, Whisper.cpp (CPU on HP), Jitsi Meet, Nextcloud, MCP servers, GitHub free mirror, Codeberg mirror.</p>
-        <p><strong>Stage 1 GPU (Desktop office hours):</strong> Ollama con Llama 3.1 8B Q5, Qwen 2.5 14B Q4, Mistral 7B. Awake 08:00-20:00, suspend after, wake-on-LAN from HP.</p>
-        <p><strong>Stage 2 triggers (cada uno activa una línea de gasto):</strong></p>
+        <p><strong>Self-hosted (gratis, en hardware de Ricardo):</strong> Gitea, nexostrat-bot, Tailscale, age, rclone, pandoc, Whisper.cpp (CPU on HP), Jitsi Meet, Nextcloud, MCP servers, GitHub free mirror, Codeberg mirror.</p>
+        <p><strong>GPU local (Desktop office hours):</strong> Ollama con Llama 3.1 8B Q5, Qwen 2.5 14B Q4, Mistral 7B. Awake 08:00–20:00, suspend after, wake-on-LAN from HP.</p>
+        <p><strong>Stage 2 triggers (cuando se activa cada línea, la firma empieza a pagar):</strong></p>
         <ul>
+          <li>Claude API per-call → cuando MAX cap no alcanza para volumen de clientes</li>
+          <li>Gemini API per-token → cuando termine el periodo gratuito (~Oct 2026)</li>
           <li>DocuSign/Documenso ← first contract signed</li>
           <li>Stripe ← first invoice issued</li>
           <li>Backblaze B2 ← Drive 2TB &gt; 80%</li>
@@ -2427,7 +2604,7 @@ footer a { color: var(--arctic-muted); }
           <li>Bitwarden org ← shared logins routine</li>
           <li>WAHA-Nexostrat ← first client via WhatsApp</li>
         </ul>
-        <p><strong>Pre-revenue cost-sharing</strong> (per <code>00_PARTNERSHIP/cost-sharing-agreement.md</code>): Ricardo paga Claude + Drive + hardware. JP aporta Notion. Quien adelanta se reembolsa con primer ingreso o entra a equity adicional negociada.</p>
+        <p><strong>Reembolso protocol</strong> (per <code>00_PARTNERSHIP/cost-sharing-agreement.md</code>): cada socio mantiene log de gastos absorbidos en su side. El primer ingreso suficiente reembolsa el saldo o se convierte en equity adicional negociada — la decisión exacta es trigger-driven, no pre-comprometida.</p>
       </div>
     </div></div>
   </div>
@@ -2594,99 +2771,148 @@ Tier 4 INFO      solo events.jsonl; surface vía /events</pre>
   </div>
 
   <div class="diagram">
-    <div class="diagram-title">Roadmap · de fundación a Stage 1 live</div>
-    <svg viewBox="0 0 880 400" xmlns="http://www.w3.org/2000/svg" font-family="Manrope, sans-serif">
+    <div class="diagram-title">Roadmap · secuencia de planes hacia Stage 1 (sin calendario)</div>
+    <svg viewBox="0 0 1200 920" xmlns="http://www.w3.org/2000/svg" font-family="Manrope, sans-serif">
       <defs>
-        <linearGradient id="gPlan" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stop-color="#0EA5E9"/>
-          <stop offset="100%" stop-color="#10B981"/>
-        </linearGradient>
+        <marker id="arrPlan" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#0EA5E9"/>
+        </marker>
       </defs>
-      <!-- Timeline base -->
-      <line x1="40" y1="40" x2="840" y2="40" stroke="rgba(255,255,255,0.10)" stroke-width="1"/>
-      <text x="40" y="28" fill="#8aa9b6" font-size="10" letter-spacing="2" font-weight="600">2026-05-14 · hoy</text>
-      <text x="820" y="28" fill="#8aa9b6" font-size="10" letter-spacing="2" font-weight="600" text-anchor="end">Stage 1 · 2026-06-30 to 07-15</text>
-      <circle cx="40" cy="40" r="5" fill="#10B981"/>
-      <circle cx="840" cy="40" r="5" fill="#F59E0B"/>
 
-      <!-- Phase 1: Foundation (Plans 01a/b/c) -->
-      <g transform="translate(20, 60)">
-        <rect x="0" y="0" width="280" height="80" rx="10" fill="rgba(14,165,233,0.12)" stroke="#0EA5E9"/>
-        <text x="14" y="22" fill="#38bdf8" font-size="10" font-weight="600" letter-spacing="1.5">FUNDACIÓN · v0.1-foundation</text>
-        <text x="14" y="44" fill="#F0FBFF" font-size="14" font-weight="600" font-family="Space Grotesk">Plans 01a · 01b · 01c</text>
-        <text x="14" y="62" fill="#c8e6f0" font-size="11">scaffold + identity + crypto · mirrors + standby · personas + hooks + smoke test</text>
-        <text x="14" y="76" fill="#8aa9b6" font-size="10">due 2026-05-27 → 06-03 → 06-10</text>
+      <!-- Header strip -->
+      <text x="40" y="32" fill="#8aa9b6" font-size="13" letter-spacing="2" font-weight="600">SECUENCIA · planes ordenados por dependencias, no por fecha</text>
+
+      <!-- ROW 1: Foundation (Plans 01a / 01b / 01c) — three boxes -->
+      <text x="40" y="78" fill="#38bdf8" font-size="13" font-weight="700" letter-spacing="2">FASE · FUNDACIÓN</text>
+
+      <g>
+        <rect x="40" y="92" width="360" height="130" rx="12" fill="rgba(14,165,233,0.12)" stroke="#0EA5E9" stroke-width="1.5"/>
+        <text x="60" y="120" fill="#38bdf8" font-size="11" font-weight="700" letter-spacing="2">PLAN 01a</text>
+        <text x="60" y="148" fill="#F0FBFF" font-size="20" font-weight="600" font-family="Space Grotesk">Scaffold + identity + crypto</text>
+        <text x="60" y="170" fill="#c8e6f0" font-size="13">Carpetas, age keypairs, secrets.env.age,</text>
+        <text x="60" y="188" fill="#c8e6f0" font-size="13">recipients de Ricardo + JP, run-with-secrets.sh,</text>
+        <text x="60" y="206" fill="#c8e6f0" font-size="13">JSON schemas validados.</text>
+      </g>
+      <polyline points="400,157 420,157" fill="none" stroke="#0EA5E9" stroke-width="2.5" marker-end="url(#arrPlan)"/>
+
+      <g>
+        <rect x="420" y="92" width="360" height="130" rx="12" fill="rgba(14,165,233,0.12)" stroke="#0EA5E9" stroke-width="1.5"/>
+        <text x="440" y="120" fill="#38bdf8" font-size="11" font-weight="700" letter-spacing="2">PLAN 01b</text>
+        <text x="440" y="148" fill="#F0FBFF" font-size="20" font-weight="600" font-family="Space Grotesk">Mirrors + warm-standby</text>
+        <text x="440" y="170" fill="#c8e6f0" font-size="13">GitHub + Codeberg path-watchers,</text>
+        <text x="440" y="188" fill="#c8e6f0" font-size="13">warm-standby provisioned, nightly rsync</text>
+        <text x="440" y="206" fill="#c8e6f0" font-size="13">smoke-tested end-to-end.</text>
+      </g>
+      <polyline points="780,157 800,157" fill="none" stroke="#0EA5E9" stroke-width="2.5" marker-end="url(#arrPlan)"/>
+
+      <g>
+        <rect x="800" y="92" width="360" height="130" rx="12" fill="rgba(16,185,129,0.18)" stroke="#10B981" stroke-width="2"/>
+        <text x="820" y="120" fill="#34d399" font-size="11" font-weight="700" letter-spacing="2">PLAN 01c · TAG v0.1-foundation</text>
+        <text x="820" y="148" fill="#F0FBFF" font-size="20" font-weight="600" font-family="Space Grotesk">Personas + hooks + smoke test</text>
+        <text x="820" y="170" fill="#c8e6f0" font-size="13">CLAUDE.md / GEMINI.md por persona,</text>
+        <text x="820" y="188" fill="#c8e6f0" font-size="13">pre-commit hooks, integration smoke test</text>
+        <text x="820" y="206" fill="#c8e6f0" font-size="13">verde — fundación lista.</text>
       </g>
 
-      <!-- Phase 2: Docs / Events / Bot (Plans 02-04 in parallel) -->
-      <g transform="translate(320, 60)">
-        <rect x="0" y="0" width="280" height="80" rx="10" fill="rgba(167,139,250,0.12)" stroke="#a78bfa"/>
-        <text x="14" y="22" fill="#a78bfa" font-size="10" font-weight="600" letter-spacing="1.5">SISTEMAS BASE · paralelo</text>
-        <text x="14" y="44" fill="#F0FBFF" font-size="14" font-weight="600" font-family="Space Grotesk">Plans 02 · 03 · 04</text>
-        <text x="14" y="62" fill="#c8e6f0" font-size="11">docs Diátaxis · events.jsonl + agents · Telegram bot + inbox</text>
-        <text x="14" y="76" fill="#8aa9b6" font-size="10">~3 weeks combinado</text>
+      <!-- Down arrow from 01c center -->
+      <polyline points="980,222 980,262" fill="none" stroke="#0EA5E9" stroke-width="2.5" marker-end="url(#arrPlan)"/>
+
+      <!-- ROW 2: Base systems (Plans 02, 03, 04 in parallel) — three boxes -->
+      <text x="40" y="298" fill="#a78bfa" font-size="13" font-weight="700" letter-spacing="2">FASE · SISTEMAS BASE (paralelo después de 01c)</text>
+
+      <g>
+        <rect x="40" y="312" width="360" height="130" rx="12" fill="rgba(167,139,250,0.12)" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="60" y="340" fill="#a78bfa" font-size="11" font-weight="700" letter-spacing="2">PLAN 02</text>
+        <text x="60" y="368" fill="#F0FBFF" font-size="20" font-weight="600" font-family="Space Grotesk">Documentation System</text>
+        <text x="60" y="390" fill="#c8e6f0" font-size="13">Diátaxis: tutorials / how-to / reference /</text>
+        <text x="60" y="408" fill="#c8e6f0" font-size="13">explanation / runbooks. Paired-files hook.</text>
+        <text x="60" y="426" fill="#c8e6f0" font-size="13">Auto-generators de reference docs.</text>
       </g>
 
-      <!-- Phase 3: Skills + Pipeline (Plans 05-07) -->
-      <g transform="translate(620, 60)">
-        <rect x="0" y="0" width="240" height="80" rx="10" fill="rgba(16,185,129,0.12)" stroke="#10B981"/>
-        <text x="14" y="22" fill="#34d399" font-size="10" font-weight="600" letter-spacing="1.5">CAPACIDADES · skills</text>
-        <text x="14" y="44" fill="#F0FBFF" font-size="14" font-weight="600" font-family="Space Grotesk">Plans 05 · 06 · 07</text>
-        <text x="14" y="62" fill="#c8e6f0" font-size="11">Skill 1 e2e · Skills 2-5 · pipeline orchestrator</text>
-        <text x="14" y="76" fill="#8aa9b6" font-size="10">~4 weeks</text>
+      <g>
+        <rect x="420" y="312" width="360" height="130" rx="12" fill="rgba(167,139,250,0.12)" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="440" y="340" fill="#a78bfa" font-size="11" font-weight="700" letter-spacing="2">PLAN 03</text>
+        <text x="440" y="368" fill="#F0FBFF" font-size="20" font-weight="600" font-family="Space Grotesk">events.jsonl + Python agents</text>
+        <text x="440" y="390" fill="#c8e6f0" font-size="13">Event spine + schemas. Agent framework</text>
+        <text x="440" y="408" fill="#c8e6f0" font-size="13">+ dispatcher. systemd timers + units.</text>
+        <text x="440" y="426" fill="#c8e6f0" font-size="13">Event-router daemon long-running.</text>
       </g>
 
-      <!-- Row 2: Meetings + Chat + Go-live -->
-      <g transform="translate(120, 160)">
-        <rect x="0" y="0" width="240" height="80" rx="10" fill="rgba(245,158,11,0.12)" stroke="#F59E0B"/>
-        <text x="14" y="22" fill="#fbbf24" font-size="10" font-weight="600" letter-spacing="1.5">REUNIONES · captura</text>
-        <text x="14" y="44" fill="#F0FBFF" font-size="14" font-weight="600" font-family="Space Grotesk">Plan 08</text>
-        <text x="14" y="62" fill="#c8e6f0" font-size="11">Notion canonical + Jitsi/Whisper shadow · parity diff · extraction</text>
-        <text x="14" y="76" fill="#8aa9b6" font-size="10">~1.5 weeks</text>
-      </g>
-      <g transform="translate(400, 160)">
-        <rect x="0" y="0" width="240" height="80" rx="10" fill="rgba(167,139,250,0.12)" stroke="#a78bfa"/>
-        <text x="14" y="22" fill="#a78bfa" font-size="10" font-weight="600" letter-spacing="1.5">AMBIENT CHAT · v1</text>
-        <text x="14" y="44" fill="#F0FBFF" font-size="14" font-weight="600" font-family="Space Grotesk">Plan 09</text>
-        <text x="14" y="62" fill="#c8e6f0" font-size="11">Ollama extraction + confirmation loop + wake-on-LAN</text>
-        <text x="14" y="76" fill="#8aa9b6" font-size="10">~3 days · v0 fidelity en Stage 1</text>
-      </g>
-      <g transform="translate(680, 160)">
-        <rect x="0" y="0" width="180" height="80" rx="10" fill="rgba(220,38,38,0.15)" stroke="#dc2626"/>
-        <text x="14" y="22" fill="#fca5a5" font-size="10" font-weight="600" letter-spacing="1.5">GO-LIVE · v1.0</text>
-        <text x="14" y="44" fill="#F0FBFF" font-size="14" font-weight="600" font-family="Space Grotesk">Plan 10</text>
-        <text x="14" y="62" fill="#c8e6f0" font-size="11">observability + runbooks + checklist</text>
-        <text x="14" y="76" fill="#8aa9b6" font-size="10">~3 days</text>
+      <g>
+        <rect x="800" y="312" width="360" height="130" rx="12" fill="rgba(167,139,250,0.12)" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="820" y="340" fill="#a78bfa" font-size="11" font-weight="700" letter-spacing="2">PLAN 04</text>
+        <text x="820" y="368" fill="#F0FBFF" font-size="20" font-weight="600" font-family="Space Grotesk">Telegram bot + unified inbox</text>
+        <text x="820" y="390" fill="#c8e6f0" font-size="13">Bot service + plugin framework.</text>
+        <text x="820" y="408" fill="#c8e6f0" font-size="13">Capture commands + inspection commands.</text>
+        <text x="820" y="426" fill="#c8e6f0" font-size="13">Per-user TZ-aware delivery queue.</text>
       </g>
 
-      <!-- Row 3: Milestones text -->
-      <g transform="translate(40, 280)">
-        <text x="0" y="0" fill="#8aa9b6" font-size="11" letter-spacing="2" font-weight="600">HITOS Y TAGS</text>
+      <!-- Down arrow from row 2 center -->
+      <polyline points="600,442 600,482" fill="none" stroke="#0EA5E9" stroke-width="2.5" marker-end="url(#arrPlan)"/>
 
-        <g transform="translate(0, 20)">
-          <circle cx="6" cy="6" r="5" fill="#0EA5E9"/>
-          <text x="20" y="11" fill="#F0FBFF" font-size="12"><tspan font-family="JetBrains Mono">v0.1a-foundation</tspan> · Plan 01a done · scaffold + crypto operativo</text>
-        </g>
-        <g transform="translate(0, 44)">
-          <circle cx="6" cy="6" r="5" fill="#0EA5E9"/>
-          <text x="20" y="11" fill="#F0FBFF" font-size="12"><tspan font-family="JetBrains Mono">v0.1b-mirrors</tspan> · Plan 01b done · mirrors + warm-standby probados</text>
-        </g>
-        <g transform="translate(0, 68)">
-          <circle cx="6" cy="6" r="5" fill="#10B981"/>
-          <text x="20" y="11" fill="#F0FBFF" font-size="12"><tspan font-family="JetBrains Mono">v0.1-foundation</tspan> · Plan 01c done · personas + hooks + smoke test verde</text>
-        </g>
-        <g transform="translate(420, 20)">
-          <circle cx="6" cy="6" r="5" fill="#10B981"/>
-          <text x="20" y="11" fill="#F0FBFF" font-size="12">Primer Diagnóstico piloto (Bodai)</text>
-        </g>
-        <g transform="translate(420, 44)">
-          <circle cx="6" cy="6" r="5" fill="#F59E0B"/>
-          <text x="20" y="11" fill="#F0FBFF" font-size="12">Primera meeting con Alfa Bitcoin grabada y procesada</text>
-        </g>
-        <g transform="translate(420, 68)">
-          <circle cx="6" cy="6" r="5" fill="#dc2626"/>
-          <text x="20" y="11" fill="#F0FBFF" font-size="12"><tspan font-family="JetBrains Mono">v1.0</tspan> · Stage 1 live · primer cliente pago elegible</text>
-        </g>
+      <!-- ROW 3: Skills + Pipeline (Plans 05, 06, 07) -->
+      <text x="40" y="518" fill="#34d399" font-size="13" font-weight="700" letter-spacing="2">FASE · CAPACIDADES Y CADENA DE CLIENTE</text>
+
+      <g>
+        <rect x="40" y="532" width="360" height="130" rx="12" fill="rgba(16,185,129,0.12)" stroke="#10B981" stroke-width="1.5"/>
+        <text x="60" y="560" fill="#34d399" font-size="11" font-weight="700" letter-spacing="2">PLAN 05</text>
+        <text x="60" y="588" fill="#F0FBFF" font-size="20" font-weight="600" font-family="Space Grotesk">Skill 1 end-to-end</text>
+        <text x="60" y="610" fill="#c8e6f0" font-size="13">Análisis de Compañía completo en Mode A</text>
+        <text x="60" y="628" fill="#c8e6f0" font-size="13">y Mode B. Bodai benchmark establecido.</text>
+        <text x="60" y="646" fill="#c8e6f0" font-size="13">Patrón replicable para 2-5.</text>
+      </g>
+      <polyline points="400,597 420,597" fill="none" stroke="#0EA5E9" stroke-width="2.5" marker-end="url(#arrPlan)"/>
+
+      <g>
+        <rect x="420" y="532" width="360" height="130" rx="12" fill="rgba(16,185,129,0.12)" stroke="#10B981" stroke-width="1.5"/>
+        <text x="440" y="560" fill="#34d399" font-size="11" font-weight="700" letter-spacing="2">PLAN 06</text>
+        <text x="440" y="588" fill="#F0FBFF" font-size="20" font-weight="600" font-family="Space Grotesk">Skills 2-5</text>
+        <text x="440" y="610" fill="#c8e6f0" font-size="13">Industria, competencia, guión de reunión,</text>
+        <text x="440" y="628" fill="#c8e6f0" font-size="13">reporte de oportunidades. Mismo patrón</text>
+        <text x="440" y="646" fill="#c8e6f0" font-size="13">que Skill 1. Cadena Diagnóstico completa.</text>
+      </g>
+      <polyline points="780,597 800,597" fill="none" stroke="#0EA5E9" stroke-width="2.5" marker-end="url(#arrPlan)"/>
+
+      <g>
+        <rect x="800" y="532" width="360" height="130" rx="12" fill="rgba(16,185,129,0.12)" stroke="#10B981" stroke-width="1.5"/>
+        <text x="820" y="560" fill="#34d399" font-size="11" font-weight="700" letter-spacing="2">PLAN 07</text>
+        <text x="820" y="588" fill="#F0FBFF" font-size="20" font-weight="600" font-family="Space Grotesk">Pipeline orchestrator</text>
+        <text x="820" y="610" fill="#c8e6f0" font-size="13">12 estaciones por cliente operacional.</text>
+        <text x="820" y="628" fill="#c8e6f0" font-size="13">state.json + transitions. Telegram gates.</text>
+        <text x="820" y="646" fill="#c8e6f0" font-size="13">Primer piloto end-to-end posible.</text>
+      </g>
+
+      <!-- Down arrow from row 3 center -->
+      <polyline points="600,662 600,702" fill="none" stroke="#0EA5E9" stroke-width="2.5" marker-end="url(#arrPlan)"/>
+
+      <!-- ROW 4: Meetings + Chat + Go-live -->
+      <text x="40" y="738" fill="#fbbf24" font-size="13" font-weight="700" letter-spacing="2">FASE · CAPTURA AMBIENTAL Y GO-LIVE</text>
+
+      <g>
+        <rect x="40" y="752" width="360" height="130" rx="12" fill="rgba(245,158,11,0.12)" stroke="#F59E0B" stroke-width="1.5"/>
+        <text x="60" y="780" fill="#fbbf24" font-size="11" font-weight="700" letter-spacing="2">PLAN 08</text>
+        <text x="60" y="808" fill="#F0FBFF" font-size="20" font-weight="600" font-family="Space Grotesk">Meeting pipeline</text>
+        <text x="60" y="830" fill="#c8e6f0" font-size="13">Notion AI canonical + Jitsi/Whisper shadow.</text>
+        <text x="60" y="848" fill="#c8e6f0" font-size="13">Parity diff. Extracción de actions/decisions/</text>
+        <text x="60" y="866" fill="#c8e6f0" font-size="13">dates. Brief matinal + T-15.</text>
+      </g>
+
+      <g>
+        <rect x="420" y="752" width="360" height="130" rx="12" fill="rgba(167,139,250,0.12)" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="440" y="780" fill="#a78bfa" font-size="11" font-weight="700" letter-spacing="2">PLAN 09</text>
+        <text x="440" y="808" fill="#F0FBFF" font-size="20" font-weight="600" font-family="Space Grotesk">Ambient chat extraction</text>
+        <text x="440" y="830" fill="#c8e6f0" font-size="13">Ollama (Qwen 2.5 14B) extrae tasks/dates</text>
+        <text x="440" y="848" fill="#c8e6f0" font-size="13">de Telegram cada 4h. Confirmation loop.</text>
+        <text x="440" y="866" fill="#c8e6f0" font-size="13">Wake-on-LAN al desktop. Filter sensitivo.</text>
+      </g>
+
+      <g>
+        <rect x="800" y="752" width="360" height="130" rx="12" fill="rgba(220,38,38,0.15)" stroke="#dc2626" stroke-width="2"/>
+        <text x="820" y="780" fill="#fca5a5" font-size="11" font-weight="700" letter-spacing="2">PLAN 10 · TAG v1.0</text>
+        <text x="820" y="808" fill="#F0FBFF" font-size="20" font-weight="600" font-family="Space Grotesk">Observability + go-live</text>
+        <text x="820" y="830" fill="#c8e6f0" font-size="13">Inspection surfaces, daily brief, runbooks,</text>
+        <text x="820" y="848" fill="#c8e6f0" font-size="13">recovery scripts, go-live checklist verde.</text>
+        <text x="820" y="866" fill="#c8e6f0" font-size="13">Stage 1 LIVE — primer cliente pago elegible.</text>
       </g>
     </svg>
   </div>
@@ -2695,8 +2921,8 @@ Tier 4 INFO      solo events.jsonl; surface vía /events</pre>
     <div class="card-head" onclick="toggleCard('card-8-1')">
       <div class="card-num">32</div>
       <div class="card-title">
-        <h3>Roadmap — 10 planes, ~7-9 semanas calendar</h3>
-        <div class="card-eli5-summary">Diez planes secuenciados que cubren todo desde "el repo está vacío" hasta "el primer cliente pago corre la cadena completa". Cada plan se escribe con un skill llamado <code>writing-plans</code> justo antes de ejecutarlo, para que la realidad del momento se refleje. Plan 01 fue splitteado en 01a/01b/01c per audit recommendation; los demás se mantienen como están.</div>
+        <h3>Roadmap — 10 planes en secuencia por dependencias</h3>
+        <div class="card-eli5-summary">Diez planes secuenciados que cubren todo desde "el repo está vacío" hasta "el primer cliente pago corre la cadena completa". Cada plan se escribe con un skill llamado <code>writing-plans</code> justo antes de ejecutarlo, para que la realidad del momento se refleje. Plan 01 fue splitteado en 01a/01b/01c per audit recommendation. El orden está locked por dependencias; las fechas no — un plan está listo cuando sus criterios están verdes, no por calendario.</div>
       </div>
       <div class="card-chevron">▾</div>
     </div>
@@ -2714,25 +2940,25 @@ Tier 4 INFO      solo events.jsonl; surface vía /events</pre>
           <li><strong>Plan 09</strong> · captura ambiental (extracción de chats — Stage 1 ships v0, v1 según trigger)</li>
           <li><strong>Plan 10</strong> · inspección final + entrega de llaves (observabilidad + runbooks + go-live)</li>
         </ol>
-        <p>Calendar realista: ~7-9 semanas para que Ricardo + Claude lleguen a Stage 1 live. Mucho del trabajo de cada plan se subagenta — escribir un plan, ejecutarlo task por task con re-audit.</p>
+        <p>El orden está locked por dependencias técnicas: 01a habilita 01b, 01b habilita 01c, 01c habilita el resto. La duración de cada plan depende del contenido y del descubrimiento — no se fuerza un calendario.</p>
       </div>
       <div class="col col-tech">
         <h4>Técnico · status table</h4>
         <table class="kv-table">
-          <thead><tr><th>#</th><th>Plan</th><th>Status</th><th>Due</th></tr></thead>
+          <thead><tr><th>#</th><th>Plan</th><th>Status</th></tr></thead>
           <tbody>
-            <tr><td>01a</td><td>Foundation · scaffold + crypto</td><td>DRAFT-PENDING</td><td>2026-05-27</td></tr>
-            <tr><td>01b</td><td>Mirrors + warm-standby</td><td>DRAFT-PENDING</td><td>2026-06-03</td></tr>
-            <tr><td>01c</td><td>Personas + hooks + smoke test</td><td>DRAFT-PENDING</td><td>2026-06-10</td></tr>
-            <tr><td>02</td><td>Documentation System</td><td>DRAFT-PENDING</td><td>~3 días</td></tr>
-            <tr><td>03</td><td>events.jsonl + Python agents</td><td>DRAFT-PENDING</td><td>~1 semana</td></tr>
-            <tr><td>04</td><td>Telegram bot + unified inbox</td><td>DRAFT-PENDING</td><td>~1 semana</td></tr>
-            <tr><td>05</td><td>Skill 1 end-to-end</td><td>DRAFT-PENDING</td><td>~1 semana</td></tr>
-            <tr><td>06</td><td>Skills 2-5</td><td>DRAFT-PENDING</td><td>~2 semanas</td></tr>
-            <tr><td>07</td><td>Per-client chain + orchestrator</td><td>DRAFT-PENDING</td><td>~1 semana</td></tr>
-            <tr><td>08</td><td>Meeting pipeline</td><td>DRAFT-PENDING</td><td>~1.5 semanas</td></tr>
-            <tr><td>09</td><td>Ambient chat extraction</td><td>DRAFT-PENDING</td><td>~3 días</td></tr>
-            <tr><td>10</td><td>Observability + go-live</td><td>DRAFT-PENDING</td><td>~3 días</td></tr>
+            <tr><td>01a</td><td>Foundation · scaffold + crypto</td><td>DRAFT-PENDING</td></tr>
+            <tr><td>01b</td><td>Mirrors + warm-standby</td><td>DRAFT-PENDING</td></tr>
+            <tr><td>01c</td><td>Personas + hooks + smoke test</td><td>DRAFT-PENDING</td></tr>
+            <tr><td>02</td><td>Documentation System</td><td>DRAFT-PENDING</td></tr>
+            <tr><td>03</td><td>events.jsonl + Python agents</td><td>DRAFT-PENDING</td></tr>
+            <tr><td>04</td><td>Telegram bot + unified inbox</td><td>DRAFT-PENDING</td></tr>
+            <tr><td>05</td><td>Skill 1 end-to-end</td><td>DRAFT-PENDING</td></tr>
+            <tr><td>06</td><td>Skills 2-5</td><td>DRAFT-PENDING</td></tr>
+            <tr><td>07</td><td>Per-client chain + orchestrator</td><td>DRAFT-PENDING</td></tr>
+            <tr><td>08</td><td>Meeting pipeline</td><td>DRAFT-PENDING</td></tr>
+            <tr><td>09</td><td>Ambient chat extraction</td><td>DRAFT-PENDING</td></tr>
+            <tr><td>10</td><td>Observability + go-live</td><td>DRAFT-PENDING</td></tr>
           </tbody>
         </table>
         <p><strong>Plans 02-10 son DRAFT-PENDING</strong> intencionalmente — se escriben en detalle vía <code>superpowers:writing-plans</code> skill cuando llega su turno, no antes. Razón: tool versions, lecciones aprendidas, y ajustes después de cada plan invalidarían silenciosamente un plan pre-escrito.</p>
@@ -3028,7 +3254,7 @@ $ # NO sobreescribir el snapshot original</pre>
     '036': {
       title: 'Stage 1 surface area · v0 vs v1 fidelity',
       decision: 'Features que ship en v0 con trigger documentado a v1: per-user TZ briefs, ambient chat extraction, docs drift audit automated, parity diff, backup verification timer, observability dashboards, multi-language. Cada uno con trigger explícito.',
-      consequence: 'Stage 1 reachable en 7-9 semanas; v0 entries son deliberate choices, no surprise tech debt.'
+      consequence: 'Stage 1 alcanzable sin pre-comprometer calendario; v0 entries son deliberate choices, no surprise tech debt.'
     },
     '037': {
       title: 'Notion canonical role · Stage 2 review trigger',

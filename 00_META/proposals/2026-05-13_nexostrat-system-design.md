@@ -31,11 +31,11 @@ All decisions in this document were reached during the 2026-05-13 brainstorming 
 
 | ADR | Title | Status | Source |
 |---|---|---|---|
-| ADR-001 | System substrate: lightweight Brain + Notion + Telegram | Accepted | 2026-05-11 spec |
+| ADR-001 | System substrate: markdown-in-git + Notion + Telegram | Accepted | 2026-05-11 spec (rebranded; substrate description Nexostrat-native) |
 | ADR-002 | Repository home: `/srv/Nexostrat/`, Gitea org `nexostrat` | Amended | 2026-05-11 spec (path updated for brand) |
 | ADR-003 | Document vault: `age` per-user keys | Accepted | 2026-05-11 |
 | ADR-004 | Secrets: `secrets.env.age` in git | Accepted | 2026-05-11 |
-| ADR-005 | Git discipline: PRs on protected paths | Accepted | 2026-05-11 |
+| ADR-005 | Git discipline: PRs on protected paths | Amended | 2026-05-11 (protected-path list updated for 3-bucket layout per ADR-021) |
 | ADR-006 | Backup topology: phased A→B→C + Drive heavy assets | Amended | 2026-05-11 (warm-standby added per ADR-023) |
 | ADR-007 | AI-vs-human permissions: layered | Accepted | 2026-05-11 |
 | ADR-008 | Heavy assets: Drive 2TB via OAuth | Accepted | 2026-05-11 |
@@ -43,15 +43,16 @@ All decisions in this document were reached during the 2026-05-13 brainstorming 
 | ADR-010 | Per-client production chain (12 stations + 3 cross-cutting) | Accepted | 2026-05-11 |
 | ADR-011 | Persona model: 3 personas | Accepted | 2026-05-11 |
 | ADR-012 | Per-skill folder template | Accepted | 2026-05-11 |
-| ADR-013 | Inter-folder communication: events.jsonl | Accepted | 2026-05-11 |
+| ADR-013 | Inter-folder communication: events.jsonl | Amended | 2026-05-11 (spine path locked at `infra/events/events.jsonl`; root `calendar.json` is the disjoint calendar file — see F12) |
 | ADR-014 | `00_GOVERNANCE/` shape | Accepted | 2026-05-11 |
 | ADR-015 | `00_PARTNERSHIP/` shape | Amended | 2026-05-11 (cost-share + qualified-prospect docs added) |
 | ADR-016 | `operations/` sub-tree | Amended | 2026-05-11 (lives under `operations/` bucket per ADR-021) |
 | ADR-017 | Agent framework: Python multi-path invocation | **Amended** | 2026-05-11 (Python in-house — see ADR-029) |
-| ADR-018 | Agent inventory | Accepted | 2026-05-11 |
+| ADR-018 | Agent inventory | Amended | 2026-05-11 (inventory expanded by ADRs 029-035; canonical list lives in §9) |
 | ADR-019 | Telegram bot design | Accepted | 2026-05-11 |
 | ADR-020 | Independent bot codebase | Accepted | 2026-05-11 |
 | **ADR-021** | **3-bucket top-level grouping (Skills/Pipeline/Operations)** | **New** | this session |
+| **ADR-021bis** | **Drop "Hosted" from JP interface options (Heavy/Light only)** | **New** | 2026-05-14 amendment (supersedes the original Hosted option, never formalized; see F27) |
 | **ADR-022** | **Dual-mode pipeline (Manual + API), same contract** | **New** | this session |
 | **ADR-023** | **Warm-standby service redundancy** | **New** | this session |
 | **ADR-024** | **Dual meeting capture (Notion AI canonical + Jitsi/Whisper shadow) for internal; single canonical for client** | **New** | this session |
@@ -66,6 +67,8 @@ All decisions in this document were reached during the 2026-05-13 brainstorming 
 | **ADR-033** | **Aurora brand palette + Space Grotesk/Manrope/JBM typography** | **New** | this session |
 | **ADR-034** | **Ambient chat extraction with Ollama (sensitive-content filtered)** | **New** | this session |
 | **ADR-035** | **Meeting lifecycle protocol (start/pause/resume/end/recover/override)** | **New** | this session |
+| **ADR-036** | **Stage 1 surface area — v0 vs v1 fidelity (deliberate trade-offs)** | **New** | 2026-05-14 amendment (R3; lists features shipping at v0 fidelity with v1 deferred) |
+| **ADR-037** | **Notion canonical role — Stage 2 review trigger** | **New** | 2026-05-14 amendment (R5; captures conditions that trigger reconsidering Notion vs Whisper-canonical) |
 
 Full ADRs (Context · Options · Decision · Consequences) are drafted into `00_GOVERNANCE/adr/` during scaffold.
 
@@ -73,9 +76,9 @@ Full ADRs (Context · Options · Decision · Consequences) are drafted into `00_
 
 # Section 1 — Topology & Brand
 
-## Where the company brain lives
+## Where Nexostrat lives
 
-Path: `/srv/Nexostrat/` on the HP laptop (Linux Mint 22.2, `ricardo-hp-laptop`, Tailscale `100.64.121.80`). Standalone git repo. Separate from `/srv/brain/` (Ricardo's personal Brain). Git author per-repo: `Nexostrat <contacto@nexostrat.com>` — every commit carries this email as the firm's auditable signature.
+Path: `/srv/Nexostrat/` on the HP laptop (Linux Mint 22.2, `ricardo-hp-laptop`, Tailscale `100.64.121.80`). Standalone git repo. Git author per-repo: `Nexostrat <contacto@nexostrat.com>` — every commit carries this email as the firm's auditable signature.
 
 ## Brand identity (locked)
 
@@ -140,7 +143,7 @@ Phones (R + JP)
 
 ## Network
 
-Tailscale mesh is the VPN. HP exposes Gitea, n8n (AttenBot's, irrelevant), Jitsi, Nextcloud only on Tailscale IP — no public port forward. DNS via Tailscale split-DNS: `gitea.nexostrat.internal`, `jitsi.nexostrat.internal`, etc.
+Tailscale mesh is the VPN. HP exposes Gitea (host port `:3001`), Jitsi, Nextcloud only on Tailscale IP — no public port forward. DNS via Tailscale split-DNS: `gitea.nexostrat.internal`, `jitsi.nexostrat.internal`, etc.
 
 ---
 
@@ -153,7 +156,7 @@ Tailscale mesh is the VPN. HP exposes Gitea, n8n (AttenBot's, irrelevant), Jitsi
 │
 ├─ CLAUDE.md  GEMINI.md  README.md  STATUS.md
 ├─ CHECKPOINT.md           ← Founder's session-handoff baton (Section 4.10)
-├─ tasks.json  events.json
+├─ tasks.json  calendar.json
 ├─ docker-compose.yml  .env.example
 ├─ .gitignore  .gitattributes
 │
@@ -194,7 +197,7 @@ Tailscale mesh is the VPN. HP exposes Gitea, n8n (AttenBot's, irrelevant), Jitsi
 │   └─ (each doc + -explicado.md pair where it's JP/operator facing)
 │
 ├─ infra/                  ← code we build (cross-cutting)
-│   ├─ agents/             ← Python agents (replaces n8n workflows — ADR-029)
+│   ├─ agents/             ← Python agents (orchestration substrate — ADR-029)
 │   ├─ telegram/           ← bot source + plugins + users/ + delivery_queue/
 │   ├─ events/             ← events.jsonl + schemas/ + taxonomy.md (auto-gen)
 │   ├─ shadow/             ← dual-tools configs (jitsi, nextcloud, ollama, whisper, anytype)
@@ -266,7 +269,7 @@ vault/
 └─ keys/   (recovery codes, key-rotation log)
 ```
 
-Decrypt to `/dev/shm` (RAM tmpfs) at use time → use → shred. **No persistent mounted plaintext** (differs from Ricardo's personal Brain). Heavy assets (audio, large PDFs) age-encrypted before Drive upload; index lives in `sensitive_index.md`.
+Decrypt to `/dev/shm` (RAM tmpfs) at use time → use → shred. **No persistent mounted plaintext.** Heavy assets (audio, large PDFs) age-encrypted before Drive upload; index lives in `sensitive_index.md`.
 
 ## Secrets — runtime injection (ADR-004)
 
@@ -322,9 +325,9 @@ Each maps to a runbook (`docs/runbooks/`) + script (`infra/recovery/`):
 
 | Persona | Lives at | Owns |
 |---|---|---|
-| **Founder** | `/CLAUDE.md` | Root governance, `operations/*`, `prospects/`, `infra/`, `docs/`, `knowledge/`, `vault/` |
-| **Skills-Master** | `/skills/CLAUDE.md` | The 5+1 reusable skills, prompts, versions, benchmark tests |
-| **Client-Owner** | `/pipeline/CLAUDE.md` | Active client work (the 13-station chain) |
+| **Founder** | `/CLAUDE.md` | Root governance, `operations/*`, `infra/`, `docs/`, `knowledge/`, `vault/{partnership,legal,accounting,keys}/` (NOT `vault/clients/`) |
+| **Skills-Master** | `/skills/CLAUDE.md` | The 5+1 reusable skills, prompts, versions, benchmark tests (no vault content) |
+| **Client-Owner** | `/pipeline/CLAUDE.md` | Active client work (the 12-station chain + 3 cross-cutting), `pipeline/{clients,prospects}/`, AND `vault/clients/<slug>/` |
 
 6 persona files total (3 CLAUDE.md + 3 GEMINI.md). Operations sub-folders (marketing, sales, etc.) don't get personas — they get **skills**. Persona = WHO operates; Skill = WHAT capability.
 
@@ -383,7 +386,9 @@ Pre-commit refuses if `X.md` in a tier-1 folder (`docs/`, `00_PARTNERSHIP/`, `00
 
 Required fields: timestamp, persona, "what I just did," "in flight — concrete next action," "blocked on," "open questions," "files modified but not committed," "estimated time to finish," "after this, what's next."
 
-Empty CHECKPOINT.md commits refused unless explicitly written as `CHECKPOINT_NO_ACTIVE_WORK`. SessionStart hook reads it first; Session End Protocol Step 3.0 writes it. Mode B (n8n-replacement Python agents) writes CHECKPOINT.md automatically when a pipeline pauses awaiting review. Telegram `/handoff [scope]` posts current CHECKPOINT to group.
+Empty CHECKPOINT.md commits refused unless explicitly written as `CHECKPOINT_NO_ACTIVE_WORK`. SessionStart hook reads it first; Session End Protocol Step 3.0 writes it. Mode B Python agents write CHECKPOINT.md automatically when a pipeline pauses awaiting review. Telegram `/handoff [scope]` posts current CHECKPOINT to group.
+
+**Concurrent-session protection (R4):** the SessionStart hook (Plan 06 territory) checks `CHECKPOINT.md`'s mtime — if it was modified within the last 10 minutes by a process other than the current session, the hook warns loudly before allowing the session to proceed. This catches the "Ricardo opened a second Claude Code session by mistake" failure mode without forcing a hard lock.
 
 ## Unified inbox — Telegram + manual converge (ADR-032)
 
@@ -450,15 +455,15 @@ One YAML file per machine declares hostname, role, Docker services, CLI tools, d
 
 Profiles: `hp-server`, `hp-standby`, `ricardo-desktop`, `ricardo-travel`, `jp-light`, `jp-heavy`, `phones`.
 
+**JP-side OS baseline (F13):** `bootstrap-machine.sh` is Linux-only. **Linux Mint** is the recommended baseline for JP's Heavy machine — same family as Ricardo's HP, well-trodden install path, no surprises. macOS support is out of Stage 1 scope and handled as an explicit exception in Plan 02 only if JP cannot install Linux Mint. `jp-heavy.yaml` declares `os: linux-mint`; if the exception path is taken, Plan 02 produces an `os: macos` variant alongside.
+
 **JP Light onboarding: 5 minutes.** Telegram + Tailscale (optional). Heavy onboarding: ~1 hour additive when JP chooses.
 
 ## Docker stack on HP
 
 Single `/srv/Nexostrat/docker-compose.yml`. All versions pinned (no `:latest`). All ports bound to Tailscale IP. Secrets via wrapper script.
 
-Services: gitea (1.22), nexostrat-bot (custom Python), jitsi-web/prosody/jicofo/jvb (stable-9457), nextcloud (29-apache), whisper-cpp (custom build with Spanish model), mcp-filesystem/time/fetch, cal-com (Stage 2 — disabled until trigger).
-
-**`n8n` is NOT in Nexostrat's docker-compose.** The existing `n8n` running on HP belongs to AttenBot's stack at `/srv/atten-bot/`; it stays running there. Nexostrat orchestration is Python (Section 9).
+Services: gitea (1.22, host port `:3001`), nexostrat-bot (custom Python), jitsi-web/prosody/jicofo/jvb (stable-9457), nextcloud (29-apache), whisper-cpp (custom build with Spanish model), mcp-filesystem/time/fetch, cal-com (Stage 2 — disabled until trigger).
 
 ## Dual-tools shadow — 4-week cronograma
 
@@ -473,7 +478,7 @@ Each shadow tool gets `infra/shadow/<tool>/` with compose snippet, configs, READ
 
 ## Stage 2 triggers
 
-DocuSign/Documenso ← first contract signed. Stripe ← first invoice issued. Backblaze B2 ← Drive 2TB > 80%. code-server ← JP picks Hosted. CRM upgrade ← pipeline > 15 clients. Static site ← public web prioritized. Bitwarden org ← shared logins routine. WAHA-Nexostrat ← first client via WhatsApp.
+DocuSign/Documenso ← first contract signed. Stripe ← first invoice issued. Backblaze B2 ← Drive 2TB > 80%. CRM upgrade ← pipeline > 15 clients. Static site ← public web prioritized. Bitwarden org ← shared logins routine. WAHA-Nexostrat ← first client via WhatsApp.
 
 ## Upgrade discipline
 
@@ -522,6 +527,28 @@ Input mechanisms (all produce the same 2 files):
 Same prompt + research_input.md → Claude + Gemini + Grok in parallel → 3 raw_outputs → Claude-as-Judge reads all 3 + our_hypotheses + research_input → unified final_report.md flagging disagreements + "What we expected vs. what research found."
 
 Per-run folder: `runs/YYYY-MM-DD_<mode>_v<N>/{raw_outputs/, final_report.md, manifest.json}`. `canonical.md` symlink at station root points to the chosen run. `comparison.md` auto-generated when 2+ runs exist. `thread.jsonl` per skill captures `/ask` continuity.
+
+## `manifest.json` schema (ADR-022 + F9)
+
+Both modes write the same `manifest.json` so Mode-A and Mode-B runs are diffable. Schema:
+
+**Mandatory (both modes):**
+- `mode` — `"manual" | "api"`
+- `model` — primary model identifier (e.g., `"claude-opus-4-7"`; for Mode B, the synthesizer model; for Mode A, the model that drove the session)
+- `prompt_version` — semver-ish (e.g., `"v1"`, `"v1.2"`)
+- `inputs_hash` — sha256 of `research_input.md` + `our_hypotheses.md` at run time
+- `final_report_hash` — sha256 of `final_report.md`
+
+**Mode-B-specific (required when `mode == "api"`):**
+- `tokens_in`, `tokens_out` — int totals across the run
+- `latency_ms` — wall-clock duration int
+- `stop_reason` — `"end_turn" | "max_tokens" | "stop_sequence" | "error"`
+- `id` — provider run id (per provider)
+
+**Mode-A-optional:**
+- `turn_count` — int turn count if the session naturally maps to discrete turns (CLI conversation); else omitted
+
+`comparison.md` auto-diffs the **mandatory fields + final_report content** between any two runs; mode-specific fields are reported alongside but not used to score diff. Plan 05 ships `test_manifest_schema_both_modes.py` asserting both modes produce mandatory fields.
 
 ## Judge prompt — `skills/shared/judge_prompt.md`
 
@@ -642,7 +669,7 @@ Same chain, different gates. Pilot: first 3 clients per Plan Maestro, free Diagn
 
 ## Client meetings — WhatsApp confirmation (future, via WAHA — Section 8.3.1)
 
-When `comm_preference: whatsapp` is set in client `state.json`, n8n equivalent (Python agent) sends WhatsApp message via `waha-nexostrat` (separate from AttenBot's waha). Client confirms via WhatsApp. Stage 2 trigger: "first client engaged via WhatsApp" → enables waha-nexostrat docker service + integration.
+When `comm_preference: whatsapp` is set in client `state.json`, a Python agent sends the WhatsApp message via `waha-nexostrat` (Nexostrat's own WAHA instance). Client confirms via WhatsApp. Stage 2 trigger: "first client engaged via WhatsApp" → enables waha-nexostrat docker service + integration.
 
 ## Client recording — three options (ADR-024 + Section 8.3.2)
 
@@ -697,7 +724,7 @@ Internal: default delete from Notion after summary reviewed; retain only with ex
 
 The bot saves and understands all Telegram messages, not just slash commands. R+JP frequently throw tasks/dates/links in the group; nothing gets lost.
 
-**Storage:** every message → `infra/telegram/chat_log/{group,dm-ricardo,dm-jp}/YYYY-MM-DD.jsonl.age` (encrypted to both ages). Plaintext only in HP RAM at capture time.
+**Storage (F17):** during the day, every message → plaintext JSONL append at `/dev/shm/chat_log/{group,dm-ricardo,dm-jp}/YYYY-MM-DD.jsonl` (RAM tmpfs; atomic append works on a single-process bot). Daily at 23:59 a cron runs `infra/agents/infrastructure/chat_log_encrypt.py`, which reads `/dev/shm/chat_log/**/YYYY-MM-DD.jsonl`, encrypts each to `infra/telegram/chat_log/<scope>/YYYY-MM-DD.jsonl.age` (recipients = all `infra/age-recipients.txt` entries), then shreds the plaintext. Trade-off documented: plaintext on RAM tmpfs for up to 24h is the cost of single-process append-safety; the bot is the only writer so no append-race exists, but encryption-per-message would serialize the bot's hot path.
 
 **Extraction agent:** `infra/agents/chat_extractor/` runs every 4h during office hours via systemd timer. Uses Ollama Qwen 2.5 14B (strong Spanish). Sensitive-content filter skips messages with potential secrets/PII/medical info. Extracts: tasks, dates, decisions, file/link mentions, client mentions, questions, reading recs. Each finding has confidence score.
 
@@ -711,9 +738,19 @@ The bot saves and understands all Telegram messages, not just slash commands. R+
 
 # Section 9 — Trigger Chain (Python Agents + systemd Timers)
 
-## ADR-029 — Drop n8n from Nexostrat critical path
+## ADR-029 — Orchestration substrate: Python agents + systemd timers
 
-n8n was a reflex (already installed on HP for AttenBot). Python + systemd is meaningfully better for: maintainability, version control (JSON workflows are bad in git diffs), Claude-authorship (Claude writes Python fluently; n8n JSON poorly), testing (pytest), debugging, composability, no vendor lock-in, no drift between running UI state and exported JSON. The two n8n advantages (visual UI, prebuilt integrations) don't apply here — JP doesn't open the UI; integrations are ~30 lines of SDK code each. **n8n stays running for AttenBot at `/srv/atten-bot/`; Nexostrat doesn't add new dependencies on it.**
+Nexostrat's orchestration substrate is **Python agents driven by systemd timers and a long-running event-router daemon**. Reasons:
+
+- **Maintainability:** code in Python, version-controlled, diffable, refactorable.
+- **Claude-authorship:** Claude writes Python fluently; that is the day-to-day editing surface.
+- **Testing:** pytest covers every agent end-to-end; mocks for Anthropic/Gemini/Grok/Notion/Telegram.
+- **Debugging:** stack traces, structured logs, the same tools as any Python service.
+- **Composability:** agents call each other through `events.jsonl` and through normal Python imports of `infra/agents/_lib/`.
+- **No vendor lock-in:** every external dependency is a thin SDK wrapper we own.
+- **No UI/state drift:** there's no separate workflow definition that can drift from code.
+
+Visual-workflow tools were considered and rejected on this stack: JP does not edit workflows; integrations are ~30 lines of SDK code each; the readability gain doesn't justify a second source of truth. **F22 closes this decision: no visual-workflow runtime is part of Nexostrat at any layer.**
 
 ## The spine — `events.jsonl`
 
@@ -800,11 +837,27 @@ Maps events to recipients per tier (not per channel — tiers are resolved per u
 
 Editing routing.yaml is an ADR-level action.
 
-## Per-user TZ-aware delivery (ADR-030)
+## Per-user TZ-aware delivery (ADR-030, F6)
 
 `infra/telegram/users/<userid>.yaml` per user. Fields: `timezone` (IANA), `working_hours` per weekday, `delivery_rules` per tier (`quiet_hours`, `channels`, `deferred_to: next_07:00 | morning_brief`), `morning_brief.{time,enabled,include_tiers}`, `meeting_brief.{send_at, fallback_min_lead_time}`.
 
 `delivery_flush.py` daemon walks each user's queue every 5 min; delivers items whose `target_time <= now`. Morning-brief deferred items bundled into 07:00 local brief per user.
+
+**Per-user systemd timer pattern (F6).** "07:00 each user's TZ" is implemented as **one timer unit per user** with an IANA-zoned `OnCalendar=` line (systemd 248+):
+
+```ini
+# /etc/systemd/system/nexostrat-brief-ricardo.timer
+[Timer]
+OnCalendar=America/Tijuana 07:00:00
+Unit=nexostrat-brief-ricardo.service
+
+# /etc/systemd/system/nexostrat-brief-jp.timer
+[Timer]
+OnCalendar=America/Bogota 07:00:00
+Unit=nexostrat-brief-jp.service
+```
+
+Adding a third user adds a third pair of units. Group-brief delivery (rare events that should land in *both* mailboxes at *both* local 07:00s) is a Plan 08 design choice — the three candidate behaviors (earlier-of-two, send-twice with dedup token, nominal firm-TZ) are not yet ranked. ADR-036 records this as a v0/v1 trade-off: until 3+ users exist, "single firm TZ" is acceptable v0 fidelity for group briefs.
 
 **Tier 1 is hard-coded (no user override):** hp.down, vault.unreadable, secret.leak_detected, deal_breaker.triggered, server_compromised, mirror_failed, api_budget_exceeded. `/emergency <text>` lets either founder escalate anything to tier 1 deliberately.
 
@@ -928,7 +981,7 @@ When every box green: `/release v1.0` → `deploy.released` event → first pilo
 2. **Domain + handles secured** (t-007, due 2026-05-16). `nexostrat.com` registered (Hostinger). Verify IG/X/TikTok/LinkedIn handles. Trademark clearance IMPI MX + SIC CO + USPTO TESS clase 42.
 3. **JP walkthrough** (t-010, due 2026-05-15). Architecture review confirmed approved per Ricardo this session. Logged for record.
 4. **Founding Meeting (Plan Maestro Paso 1)** before scaffold. Sign partnership agreement.
-5. **JP interface choice** (Heavy/Hosted/Light). Confirmed approved as Light initially with upgrade path.
+5. **JP interface choice** (Heavy/Light — Hosted dropped per ADR-021bis). Confirmed approved as Light initially with upgrade path to Heavy.
 
 ## Glossary
 
@@ -952,3 +1005,4 @@ When every box green: `/release v1.0` → `deploy.released` event → first pilo
 | Date | Agent | Description |
 |------|-------|-------------|
 | 2026-05-13 | Claude (Opus 4.7 1M, with Ricardo at root) | Founding spec v1 written, consolidating 10 design sections + 4 cross-cutting additions ratified during the 2026-05-13 brainstorming session. Supersedes 2026-05-11 partial spec; introduces ADRs 021-035. Pending Ricardo's review of this written artifact before invoking the writing-plans skill for the implementation plan. |
+| 2026-05-14 | Claude (Opus 4.7 1M, Batch 1 amendments) | Single-pass amendment per [`2026-05-14_amendments.md`](2026-05-14_amendments.md). Applied: F6 (per-user systemd timer pattern in §9 + ADR-030 amend), F9 (manifest.json schema in §6), F10 (persona table reallocation in §4 — Founder/Client-Owner/Skills-Master vault namespaces split), F11 (re-status of ADRs 005/013/018 to Amended with notes), F12 (root file map `events.json` → `calendar.json`; rename executed in terrain prep), F13 (Linux Mint recommended baseline for JP Heavy in §5), F17 (chat capture `/dev/shm` daytime + 23:59 encrypt cron in §8.10), F19 ("12-station chain + 3 cross-cutting" standardized — persona table fix in §4), F22 REVISED (all peripheral n8n references deleted; ADR-029 rewritten to positive framing "Python agents + systemd timers"), R3 (ADR-036 row added — Stage 1 v0/v1 fidelity), R4 (CHECKPOINT concurrent-session protection note in §4.10), R5 (ADR-037 row added — Notion canonical role Stage 2 review trigger), ADR-021bis row added (drop Hosted from JP options; §10 Open Items updated). Brain-references stripped per the no-Brain directive: lines that previously cited `/srv/brand/`, "personal Brain", or AttenBot/n8n peripherals in §§1/2/3/4/5/8/9 all rephrased Nexostrat-natively. Gitea host port `:3001` made explicit in §1 Network and §5 docker stack listing. F14 REVISED (Notion cost stays $0 to firm via JP's personal subscription) is a no-op on the spec — original §5 cost table already reflects this; Stage 1 envelope stays at $36-91/mo. Three new ADR bodies (021bis, 036, 037) drafted as separate Batch 1b commit. |

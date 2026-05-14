@@ -1,0 +1,29 @@
+# Nexostrat — age recipients
+#
+# Public keys for everyone who can decrypt firm secrets / vault content.
+# Per ADR-003: per-user age keys; all encrypted artifacts list every active
+# recipient so any holder can decrypt.
+#
+# Per CRITICAL 2 fix (audit 2026-05-14): JP's pubkey is a gating prerequisite
+# for any encryption operation in Plan 01a. Vault encrypted to Ricardo only
+# is an unrecoverable single-point-of-failure.
+#
+# To add a recipient:
+#   1. Recipient runs `age-keygen` on their machine (per the recipe in the
+#      JP coordination message), encrypts privkey with passphrase, shreds
+#      plaintext, and stores the encrypted key in their password manager
+#      vault as a backup.
+#   2. Recipient sends pubkey via Signal (the line beginning `age1...`).
+#   3. Add the line below this comment block, with a comment indicating who
+#      the key belongs to and the machine it was generated on.
+#   4. Re-encrypt every existing secret/vault file to include the new
+#      recipient (use `infra/scripts/reencrypt-vault.sh` once it exists, or
+#      manually `age -d ... | age -R infra/age-recipients.txt -o ...`).
+#
+
+# Ricardo Mejia Caicedo (founder, ricardo-hp-laptop, generated 2026-05-14)
+age14kfstsrnpvvnp56jafnd5uqjpyjz40zak773ny2kdhvvayuy7d6sncjjv3
+
+# Juan Pablo (founder, machine TBD per t-jp-os-confirmation)
+# PENDING — JP runs age-keygen, sends pubkey via Signal (per t-jp-age-keypair).
+# Add as: age1<JP_PUBKEY_HERE>

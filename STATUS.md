@@ -1,50 +1,56 @@
 # Nexostrat — STATUS
 
-> **Last updated:** 2026-05-13 (end of brainstorm + spec + plans session)
-> **Current phase:** Awaiting hard audit before Plan 01 execution
+> **Last updated:** 2026-05-14 (end of audit walkthrough)
+> **Current phase:** Post-audit, awaiting amendment execution
 
 ## Current state
 
-Today's session took Nexostrat from "folder with founding docs and 20 prior ADRs" to "fully designed system with the first plan ready to execute, gated on a hard audit." Specifically:
+The 2026-05-13 founding spec + master plan index + Plan 01 went through hard audit on 2026-05-14. **Audit verdict: RED** with DESIGN-RETHINK FLAG (4 CRITICAL · 11 HIGH · 9 MEDIUM · 4 LOW = 28 findings; 15 HIGH+ exceeded the 10-finding rethink threshold).
 
-- **Founding spec ratified** (committed `493d0b4`): 10 sections, 60 KB, 15 new ADRs (021-035), zero placeholders.
-- **Master plan index** (committed `05ee016`): 10-plan implementation roadmap (~7-9 weeks total to Stage 1 live).
-- **Plan 01 — Repository Foundation — written in full task detail**: 28 tasks across 12 phases (~120 atomic steps, ~1 week to execute). Ready for subagent-driven execution.
-- **Cleanup commit** (`20af199`): zip extraction, logo move, .gitignore, CHANGELOG hygiene.
+Joint walkthrough completed this session: every finding + every auditor recommendation has a locked decision. **Major structural change: Plan 01 splits into 01a / 01b / 01c.** All decisions captured in the amendment plan at `00_META/proposals/2026-05-14_amendments.md`.
 
-The architecture intentionally biases toward completeness over minimalism (per Ricardo's "marginal cost of completeness near zero with AI" principle). The session ended cleanly via the CHECKPOINT pattern designed during this same session — its first real validation test happens at the start of the next session.
+Audit artifacts:
+- **Audit report** (28 findings, 51 KB): `00_META/proposals/2026-05-14_audit-report.md`
+- **Amendment plan** (28 decisions + 6 recommendation decisions + execution sequence): `00_META/proposals/2026-05-14_amendments.md`
+- **Audit request** (now RESOLVED): `00_META/proposals/2026-05-13_audit-request.md`
 
-## Next sequence (locked)
+## Next sequence (locked, replaces 2026-05-13 sequence)
 
-1. **Hard audit** of today's three artifacts (founding spec + master index + Plan 01). Brief at `00_META/proposals/2026-05-13_audit-request.md`. Gates everything.
-2. **Aurora-styled user-friendly presentation** (HTML) covering all decisions for JP-readability. After audit verdict.
-3. **Execute Plan 01** via `superpowers:subagent-driven-development`. After presentation.
-4. Plans 02-10 just-in-time after each previous plan tags out.
+1. **Batch 1 — Apply spec + ADR + master index amendments** (~2-3 hours). Single-pass spec edit covering ~12 findings + 3 new ADRs (021bis, 036, 037) + ADR ledger re-status (001-020) + `events.json` → `calendar.json` rename + master plan index update with 01a/b/c entries + audit-request status flip.
+2. **Batch 2 — Write Plans 01a / 01b / 01c** (~3-4 hours). Three sequential `superpowers:writing-plans` runs. Replaces current Plan 01.
+3. **Batch 3 — Re-audit + execute 01a → 01b → 01c** (~3-4 weeks elapsed). Re-audit each plan before execution; GREEN-or-quick-amend gate. Execute via `superpowers:subagent-driven-development`. Tags: v0.1a-foundation → v0.1b-mirrors → v0.1-foundation.
+4. **Aurora-styled JP-readable HTML presentation** — moved to AFTER Batch 1 (so it reflects amended spec, not stale spec).
+5. Plans 02-10 just-in-time after each prior plan tags out.
 
 ## Blockers
 
-None on the audit. The audit is the next move at session start.
+- **JP age keypair generation** is the new gating prerequisite for Plan 01a execution (per CRITICAL 2 decision). Coordination needed: JP runs `age-keygen` on his machine, captures pubkey, sends via Signal. ~10 min of his time.
+- **JP machine OS confirmation** needed before Plan 01a execution. Per F13: Ricardo recommending JP install Linux Mint for heavy setup. If JP can't / won't, macOS exception path must be designed.
+- **Gitea + n8n actual storage paths** need verification (resolves F22 + C4 sub-task) before Plan 01b can finalize the systemd path-watcher unit.
+
+None of these block Batch 1 (spec amendments) or Batch 2 (plan writing). They surface during Batch 3.
 
 ## Pending JP input
 
-None outstanding.
-- ✅ JP brand top-5 vote: DONE (Nexostrat chosen, Aurora palette chosen).
-- ✅ Founding Meeting (Plan Maestro Paso 1): DONE.
-
-JP will be looped in at:
-- Presentation session (he reads the Aurora HTML).
-- Plan 02 Founding Meeting docs production (questionnaire imports, partnership agreement, conflict protocol).
-- Plan 05+ when client-facing work appears.
+- ✅ JP brand top-5 vote: DONE.
+- ✅ Founding Meeting (Plan Maestro Paso 1): DONE 2026-05-12. Partnership agreement signed.
+- ⏳ JP age keypair (per CRITICAL 2 fix).
+- ⏳ JP machine OS confirmation (per F13).
+- Future: Plan 02 Founding Meeting docs production (questionnaire imports as markdown, conflict protocol).
+- Future: Plan 05+ when client-facing work appears.
 
 ## Open follow-ups
 
-- Hard audit before Plan 01 execution (this is the gate).
-- Presentation session output (Aurora HTML).
-- Plan 01 execution (~1 week, ~28 tasks, subagent-driven).
-- Plans 02-10 after Plan 01 done.
+- Batch 1 execution (spec + ADR amendments) — next session candidate.
+- Batch 2 execution (write 01a/b/c).
+- Batch 3 execution (re-audit + execute, repeated 3×).
+- Aurora HTML presentation (after Batch 1).
+- Plans 02-10 after Plan 01c done.
+- Future hardening items captured in amendment plan (post-Stage-1): Option B for C1 (process substitution secrets), Stage 2 escrow vault recipient, group-brief TZ choice, JP committer access in Gitea org.
 
 ## Recent activity
 
-- **2026-05-13** — Founding spec written, self-reviewed, committed. Master plan index written. Plan 01 (Repository Foundation) written in full task-by-task TDD detail. Session ended cleanly via CHECKPOINT.md baton.
-- **2026-05-12** — (Prior session) JP brand vote completed. Founding Meeting held. Brand pivot landed on Nexostrat with Aurora palette.
-- **2026-05-11** — (Prior session) 20 ADRs locked for the architecture. v2 HTML presentation built.
+- **2026-05-14** — Audit run via dispatched general-purpose agent (adapted Path A; risk-auditor persona inlined). Returned RED with 28 findings + DESIGN-RETHINK FLAG. Joint walkthrough resolved every finding + 6 recommendations to locked decisions. Amendment plan written at `00_META/proposals/2026-05-14_amendments.md`. Major outcome: Plan 01 splits into 01a/01b/01c.
+- **2026-05-13** — Founding spec written, self-reviewed, committed. Master plan index written. Plan 01 (Repository Foundation) written in full task-by-task TDD detail. Session ended cleanly via CHECKPOINT.md baton (which validated successfully when this session resumed).
+- **2026-05-12** — JP brand vote completed. Founding Meeting held; partnership agreement signed. Brand pivot landed on Nexostrat with Aurora palette.
+- **2026-05-11** — 20 ADRs locked for the architecture. v2 HTML presentation built.

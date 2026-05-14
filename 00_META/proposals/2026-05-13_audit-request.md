@@ -1,9 +1,9 @@
 # Audit Request — 2026-05-13 Nexostrat Foundation
 
-> **Status:** OPEN — pending audit session
+> **Status:** RESOLVED 2026-05-14 — see [`2026-05-14_audit-report.md`](2026-05-14_audit-report.md) for verdict (RED, 28 findings) and [`2026-05-14_amendments.md`](2026-05-14_amendments.md) for the locked decisions on each finding.
 > **Date filed:** 2026-05-13 (end of brainstorming session)
 > **Filed by:** Ricardo + Claude (Opus 4.7 1M)
-> **Target audit session:** next opening at `/srv/Nexostrat/` (typically tomorrow or whenever Ricardo resumes)
+> **Audit ran:** 2026-05-14 via adapted Path A (general-purpose agent with risk-auditor persona inlined; risk-auditor not directly loadable from /srv/Nexostrat/).
 
 ## What's being audited
 

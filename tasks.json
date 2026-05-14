@@ -1,102 +1,46 @@
 {
   "$schema": "brain-tasks-v1",
-  "project": "01_VENTURES/04_MejiaIACia",
-  "updated": "2026-05-12T23:50:00-07:00",
+  "project": "nexostrat",
+  "updated": "2026-05-13T22:30:00-07:00",
   "tasks": [
     {
-      "id": "t-001",
-      "subject": "Send v3 HTML + cheat sheet + FAQ to JP; capture accept/edit/decline via walkthrough",
+      "id": "t-audit-design",
+      "subject": "Hard audit of founding spec + master plan index + Plan 01",
       "status": "open",
       "priority": "critical",
-      "due": "2026-05-13",
-      "created": "2026-05-11",
-      "notes": "Deliverable set updated 2026-05-12 evening: v3 HTML at 00_META/proposals/2026-05-12_jp-presentation-v3.html (incorporates JP's ronda-1 questions + Plan dual + Servicios + 6 candados sub-block + closed grabaciones decision); cheat sheet (Ricardo-only) at 00_META/proposals/2026-05-12_jp-presentation-cheatsheet.md; FAQ for JP at 00_META/proposals/2026-05-12_jp-respuestas-ronda-1.md. v2 preserved at 00_META/proposals/2026-05-11_jp-presentation.html. Captures via walkthrough (t-010). Architecture lock + Plan 1 are gated on this."
-    },
-    {
-      "id": "t-002",
-      "subject": "Write Plan 1 — Foundation + Scaffold + Skills 2-5 in parallel (writing-plans skill)",
-      "status": "open",
-      "priority": "high",
-      "due": null,
-      "created": "2026-05-11",
-      "blocked_by": "t-001",
-      "notes": "Spec at 00_META/proposals/2026-05-11_company-system-design.md. Do not start until JP signs off on t-001."
-    },
-    {
-      "id": "t-003",
-      "subject": "Investigate Odoo — install local, scope plugin surface, pricing tiers",
-      "status": "open",
-      "priority": "high",
-      "due": "2026-05-25",
-      "created": "2026-05-11",
-      "notes": "Hands-on technical investigation. Companion to t-008 (which captures and synthesizes Gemini CLI's preliminary research). Document findings in 00_META/proposals/."
-    },
-    {
-      "id": "t-004",
-      "subject": "Decide Heavy/Hosted/Light default with JP",
-      "status": "open",
-      "priority": "medium",
-      "due": null,
-      "created": "2026-05-11",
-      "blocked_by": "t-001",
-      "notes": "Presentation suggests Light as default; JP's preference may differ. Resolve during architecture review conversation."
-    },
-    {
-      "id": "t-005",
-      "subject": "First unpaid pilot client identification",
-      "status": "open",
-      "priority": "medium",
-      "due": "2026-06-30",
-      "created": "2026-05-11",
-      "blocked_by": "t-002",
-      "notes": "Stage 03 of roadmap. Needs scaffold + Skills 2-5 in place first."
-    },
-    {
-      "id": "t-006",
-      "subject": "JP votes on top-5 brand HTML (names + palettes)",
-      "status": "open",
-      "priority": "high",
       "due": "2026-05-14",
-      "created": "2026-05-12",
-      "notes": "Deliverable at 00_META/proposals/2026-05-12_brand-final-top5.html. Ricardo's ratings already recorded: Nexostrat 8/10 top, Aurora + The Architect tied 5/5 palettes. JP votes on each name (1-10) and each palette (1-5), confirms top pick. Blocks t-007 + t-009."
+      "created": "2026-05-13",
+      "notes": "Architectural audit, NOT business. Brief at 00_META/proposals/2026-05-13_audit-request.md. Two methodologies (risk-auditor agent or fresh adversarial Claude session). Output: 00_META/proposals/2026-05-14_audit-report.md with GREEN/YELLOW(+amendments)/RED verdict. Gates t-presentation and t-plan-01."
     },
     {
-      "id": "t-007",
-      "subject": "Manual verification + acquisition of winning name's domains, handles, and trademark clearance",
+      "id": "t-presentation",
+      "subject": "Build Aurora-styled HTML presentation of all decisions",
       "status": "open",
       "priority": "high",
-      "due": "2026-05-16",
-      "created": "2026-05-12",
-      "blocked_by": "t-006",
-      "notes": "After JP confirms a name: verify .com via Namecheap WHOIS (don't trust AI claims), check IG/X/TikTok/LinkedIn handles directly, search IMPI México (tmview) + SIC Colombia + USPTO TESS clase 42 for trademark conflicts. If Nexostrat wins: confirm @nexostrat IG fallback strategy (@nexostrat.ai or @nexostratco). If clean: purchase .com + .ai + secure social handles immediately. Namespace can change daily."
+      "due": "2026-05-15",
+      "created": "2026-05-13",
+      "blocked_by": "t-audit-design",
+      "notes": "User-friendly visualization of the design for JP-readability. Same pedagogical voice as the 2026-05-12 JP v3 cheatsheet (analogies: caja fuerte, cuaderno de bitácora, etc.). Lands at 00_META/proposals/2026-05-XX_nexostrat-presentation.html. ~2-3 hours focused build."
     },
     {
-      "id": "t-008",
-      "subject": "Odoo opportunity memo — synthesize Gemini CLI preliminary findings + define follow-up research",
-      "status": "open",
-      "priority": "high",
-      "due": "2026-05-25",
-      "created": "2026-05-12",
-      "notes": "Gemini CLI delivered preliminary findings during 2026-05-12 session (unprompted scope drift, useful): MX dominance 700+ new implementations/month, MCP-based AI agent integration as differentiator, regional pricing MX vs CO (~USD 19.50 vs ~USD 13.60 per user/month for Custom tier), Odoo.sh ~USD 72/month sweet spot for deployment. Write formal memo at 00_META/proposals/2026-05-XX_odoo-opportunity-memo.md verifying these claims, scoping follow-up research questions, and identifying the consulting venture's specific Odoo angle. Companion to t-003 (which is the hands-on install + scope task)."
-    },
-    {
-      "id": "t-009",
-      "subject": "Propagate winning brand name + palette across project docs",
-      "status": "open",
-      "priority": "low",
-      "due": null,
-      "created": "2026-05-12",
-      "blocked_by": "t-007",
-      "notes": "After name locked and domains purchased: update Plan Maestro DOCX + project README + CLAUDE.md scope reference + GEMINI.md + any other doc that mentions the venture by name. Wait until name is locked — no early renaming."
-    },
-    {
-      "id": "t-010",
-      "subject": "Agendar walkthrough con JP (60-90 min, pantalla compartida)",
+      "id": "t-plan-01",
+      "subject": "Execute Plan 01 — Repository Foundation",
       "status": "open",
       "priority": "critical",
-      "due": "2026-05-15",
-      "created": "2026-05-12",
-      "notes": "Pedirle a JP 2-3 ventanas esta semana. Walkthrough es el mecanismo de captura de t-001: yo presento v3 HTML sección por sección con apoyo del cheat sheet, JP comenta/edita/firma en vivo. Output esperado: decisiones 1 (interfaz Heavy/Hosted/Light), 2 (plan dual Stage 1/después/solo Odoo), 3 (aprobación general accept/amend/decline) cerradas. Las otras 5-6 decisiones pueden cerrarse o quedar anotadas para v4. Si JP propone enmiendas, después del walkthrough armo v4 antes de firma definitiva."
+      "due": "2026-05-20",
+      "created": "2026-05-13",
+      "blocked_by": "t-audit-design",
+      "notes": "Full plan at 00_META/plans/2026-05-13_plan-01-repository-foundation.md. 28 tasks, ~120 steps. Execute via superpowers:subagent-driven-development (fresh subagent per task + two-stage review). Decision points for execution start: standby host (HP-standby YAML profile), GitHub username+repo (recommend nexostrat private), age key passphrase (recommend yes). Tag v0.1-foundation on completion."
+    },
+    {
+      "id": "t-plan-02",
+      "subject": "Write Plan 02 (Documentation System) in full task detail via writing-plans skill",
+      "status": "open",
+      "priority": "high",
+      "due": "2026-05-22",
+      "created": "2026-05-13",
+      "blocked_by": "t-plan-01",
+      "notes": "Master-index header in 00_META/plans/README.md. ~3 days to execute after writing. Includes drafting all 15 new ADRs (021-035) as 00_GOVERNANCE/adr/ files."
     }
   ]
 }

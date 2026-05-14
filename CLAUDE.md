@@ -1,7 +1,14 @@
-# Mejía IA & Cía — Claude Context (Founder)
+# Nexostrat — Claude Context (Founder)
 
-> **Last Updated:** 2026-05-11
-> **Scope:** AI consulting venture targeting SMEs (PyMEs) in Mexico and Latin America. Revenue-bearing, ongoing service — does not graduate.
+> **Last Updated:** 2026-05-13 (partial brand update; full rewrite pending Plan 01 Task 18)
+> **Scope:** Founder persona — root of `/srv/Nexostrat/`. AI consulting for SMEs (PyMEs) in Mexico, Colombia, and LatAm.
+>
+> **⚠️ Architectural source of truth (always read these first):**
+> - **Founding spec:** [`00_META/proposals/2026-05-13_nexostrat-system-design.md`](00_META/proposals/2026-05-13_nexostrat-system-design.md) — 10 sections, ADRs 001-035
+> - **Master plan index:** [`00_META/plans/README.md`](00_META/plans/README.md) — 10-plan roadmap
+> - **Current baton:** [`CHECKPOINT.md`](CHECKPOINT.md) — where the last session left off
+>
+> This CLAUDE.md is partially out of date as of 2026-05-13. The brand was renamed Mejía IA & Cía → **Nexostrat** and the architecture expanded substantially. Plan 01 Task 18 will rewrite this file in full using the canonical pattern (shared stanzas inlined from `00_META/shared/`). Until then, treat the founding spec as authoritative for any conflict.
 
 ## Role
 

@@ -1,33 +1,50 @@
-# Mejía IA & Cía — STATUS
+# Nexostrat — STATUS
 
-> **Last updated:** 2026-05-12
+> **Last updated:** 2026-05-13 (end of brainstorm + spec + plans session)
+> **Current phase:** Awaiting hard audit before Plan 01 execution
 
-## Current phase
+## Current state
 
-**Pre-launch / v3 architecture ready for JP walkthrough, brand top-5 also pending JP vote.** Twenty architectural ADRs captured 2026-05-11 → v2 HTML built. JP delivered ronda 1 de preguntas 2026-05-12 → answered + extended into a **v3 HTML** that incorporates all enmiendas plus a major new strategic addition: the **Plan dual de herramientas** (paid in production + free shadow + future line of service for clients) and a **Servicios** section cataloguing 5 billable service lines built on libre tools. Brand pivot tournament closed 2026-05-12 with Nexostrat as Ricardo's pick (8/10) and Aurora/The Architect tied on palettes (5/5). Plan 1 work and brand acquisition both gated on JP's reviews — walkthrough con JP es el cuello de botella.
+Today's session took Nexostrat from "folder with founding docs and 20 prior ADRs" to "fully designed system with the first plan ready to execute, gated on a hard audit." Specifically:
 
-## Recent activity
+- **Founding spec ratified** (committed `493d0b4`): 10 sections, 60 KB, 15 new ADRs (021-035), zero placeholders.
+- **Master plan index** (committed `05ee016`): 10-plan implementation roadmap (~7-9 weeks total to Stage 1 live).
+- **Plan 01 — Repository Foundation — written in full task detail**: 28 tasks across 12 phases (~120 atomic steps, ~1 week to execute). Ready for subagent-driven execution.
+- **Cleanup commit** (`20af199`): zip extraction, logo move, .gitignore, CHANGELOG hygiene.
 
-- **2026-05-12** — Set completo de deliverables para JP listo. Cheat sheet en español como guion de presentador (`2026-05-12_jp-presentation-cheatsheet.md`, 544 líneas) + FAQ estructurado respondiendo 5 preguntas directas + 8 preguntas anticipadas por 5 concerns (privacidad, seguridad, escalabilidad, despliegue, costo) más sección "Plan dual" (`2026-05-12_jp-respuestas-ronda-1.md`). **v3 del HTML** construida (`2026-05-12_jp-presentation-v3.html`, 2923 líneas, 123 KB) con: nuevo sub-bloque "Los 6 candados" con analogía caja fuerte al final de Cimientos, nueva sección "Plan dual de herramientas" entre Stack y Odoo (9 pares producción↔shadow + cronograma 4 semanas), nueva sección "Servicios" después de Odoo (5 líneas de servicio con tickets aproximados), decisión grabaciones marcada CERRADA por JP, Notion=$0 (cuenta JP), Whisper movido a shadow, nuevo radio button "Plan dual" en Firma. Lenguaje ELI5 con analogías (caja fuerte, cuaderno de bitácora, pizarra de memoria, guardia en la puerta, asistente humano, shadow). v2 preservada intacta como histórico.
-- **2026-05-12** — Brand identity tournament complete. Four AIs ran in parallel across three rounds. Real availability audit via Verisign RDAP + Python DNS + WebFetch tested 41 names; only `nexostrat.com` and `criteriostrategy.com` genuinely available. StratiaLabs descartado. Final top-5 HTML deliverable at `00_META/proposals/2026-05-12_brand-final-top5.html`. Ricardo's ratings: Nexostrat 8 (top), Criterio Strategy 4, Consilea 3, Tervia Strategy 1, Veracta Partners 0. Palette ratings: Aurora 5/5 + The Architect 5/5 tied; Solera 4; Architectural Blue 4; Cosmos 3. Side findings: Gemini CLI preliminary Odoo research (feeds t-008); Fraunces serif banned (feedback memory).
-- **2026-05-11** — Architecture locked across 20 ADRs. Full spec at `00_META/proposals/2026-05-11_company-system-design.md`. v2 HTML at `00_META/proposals/2026-05-11_jp-presentation.html`.
-- **2026-05-11** — Project scaffolded under `01_VENTURES/04_MejiaIACia/`.
+The architecture intentionally biases toward completeness over minimalism (per Ricardo's "marginal cost of completeness near zero with AI" principle). The session ended cleanly via the CHECKPOINT pattern designed during this same session — its first real validation test happens at the start of the next session.
+
+## Next sequence (locked)
+
+1. **Hard audit** of today's three artifacts (founding spec + master index + Plan 01). Brief at `00_META/proposals/2026-05-13_audit-request.md`. Gates everything.
+2. **Aurora-styled user-friendly presentation** (HTML) covering all decisions for JP-readability. After audit verdict.
+3. **Execute Plan 01** via `superpowers:subagent-driven-development`. After presentation.
+4. Plans 02-10 just-in-time after each previous plan tags out.
 
 ## Blockers
 
-- **Agendar walkthrough con JP** — t-010, critical, due 2026-05-15. JP debe mandar 2-3 ventanas para sesión de 60-90 min en pantalla compartida. Cierre de decisiones obligatorias 1/2/3 (interfaz, plan dual, aprobación general) depende del walkthrough.
-- **JP review de v3 HTML + cheat sheet + FAQ** — t-001 (updated), critical, due 2026-05-13. Mismo blocker pero captura el "send + capture accept/edit/decline". El walkthrough es el mecanismo de captura.
-- **JP vote on top-5 brand HTML** — t-006, due 2026-05-14. Brand decision gates name/domain acquisition.
+None on the audit. The audit is the next move at session start.
 
-## Next milestone
+## Pending JP input
 
-JP firma v3 (con o sin enmiendas) + vota brand top-5 → desbloquear Plan 1 (Foundation + Scaffold + Skills 2-5 + shadows del plan dual en paralelo) y brand acquisition (t-007).
+None outstanding.
+- ✅ JP brand top-5 vote: DONE (Nexostrat chosen, Aurora palette chosen).
+- ✅ Founding Meeting (Plan Maestro Paso 1): DONE.
 
-Open follow-ups beyond Plan 1:
+JP will be looped in at:
+- Presentation session (he reads the Aurora HTML).
+- Plan 02 Founding Meeting docs production (questionnaire imports, partnership agreement, conflict protocol).
+- Plan 05+ when client-facing work appears.
 
-- Manual verification + acquisition of winning brand name's surfaces — t-007, due 2026-05-16.
-- Odoo opportunity memo — t-008, due 2026-05-25.
-- Decide Heavy/Hosted/Light default with JP during architecture review — t-004.
-- Brand propagation across project docs (Plan Maestro, README, scope) after name locked — t-009.
-- First unpaid pilot client identification — t-005, target 2026-06-30.
-- **Crear docs de gobernanza** durante scaffold (parte de t-002): `key-rotation-protocol.md`, `meeting-protocol.md`, `cost-sharing-agreement.md`, `compliance-checklist.md`.
+## Open follow-ups
+
+- Hard audit before Plan 01 execution (this is the gate).
+- Presentation session output (Aurora HTML).
+- Plan 01 execution (~1 week, ~28 tasks, subagent-driven).
+- Plans 02-10 after Plan 01 done.
+
+## Recent activity
+
+- **2026-05-13** — Founding spec written, self-reviewed, committed. Master plan index written. Plan 01 (Repository Foundation) written in full task-by-task TDD detail. Session ended cleanly via CHECKPOINT.md baton.
+- **2026-05-12** — (Prior session) JP brand vote completed. Founding Meeting held. Brand pivot landed on Nexostrat with Aurora palette.
+- **2026-05-11** — (Prior session) 20 ADRs locked for the architecture. v2 HTML presentation built.

@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v1",
   "project": "nexostrat",
-  "updated": "2026-05-14T19:00:00-07:00",
+  "updated": "2026-05-14T22:00:00-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -36,20 +36,21 @@
     {
       "id": "t-presentation",
       "subject": "Build Aurora-styled HTML presentation of the AMENDED design",
-      "status": "open",
+      "status": "done",
       "priority": "critical",
       "due": "2026-05-17",
       "created": "2026-05-13",
-      "notes": "**NEXT SESSION ACTION** per Ricardo's directive 2026-05-14 evening. Now unblocked (Batch 1 complete). User-friendly visualization of the AMENDED design for JP-readability, NOT a diff-style 'what changed' doc — clean 'this is the architecture' doc reflecting all Batch 1 changes (persona vault split, 12+3 stations, Linux Mint baseline for JP, /dev/shm chat capture, ADR-021bis/036/037, no Brain refs, no n8n, Gitea :3001). Same pedagogical voice as the 2026-05-12 JP v3 cheatsheet. Aurora palette, Space Grotesk/Manrope/JBM typography. Lands at 00_META/proposals/2026-05-XX_nexostrat-presentation.html. ~2-3 hours focused build."
+      "completed": "2026-05-14",
+      "notes": "Done 2026-05-14 in two commits. v1 (c1b791d): single-file HTML at 00_META/proposals/2026-05-14_nexostrat-presentation.html, 8 Parts × 34 disclosure cards (ELI5/Técnico side-by-side), 5 SVG diagrams (replication topology, vault decrypt flow, 12-station pipeline, Heavy/Light side-by-side, plan roadmap), 22 ADR badges with hover/click popovers wired to a 35-entry JS dict, sticky TOC with scroll-spy, Aurora palette + Space Grotesk/Manrope/JBM via Google Fonts CDN. Sibling .tests.md documents validation harness. v2 (e6a8eca): 9 edits per Ricardo's review — no calendar dates anywhere, replication topology SVG rebuilt at 1100x720 with orthogonal lines, folder tree corrected (Skills 1/2/3/6 marked built), strict-rules rule 6 removed, costs rewritten to actual (Claude MAX × 2 from socios personal, Gemini free until ~Oct 2026, firm $0 Stage 1), roadmap diagram rebuilt at 1200x920, Card 32 Due column dropped, new Card 27a 'Qué hace el bot por nosotros' with capabilities + plugin adaptability + WhatsApp future, new featured Ollama gradient block before bot card. 218.9 KB / 3409 lines final. Validation: JS syntax ✓, 6 SVGs well-formed ✓, all anchors resolve ✓, all 25 ADR badges wired ✓. Journal at 00_META/journal/2026-05-14_aurora-html-presentation.md."
     },
     {
       "id": "t-amendments-batch-2",
       "subject": "Batch 2 — Write Plans 01a / 01b / 01c via writing-plans skill",
       "status": "open",
       "priority": "critical",
-      "due": "2026-05-20",
+      "due": "2026-05-22",
       "created": "2026-05-14",
-      "notes": "Per amendment plan §Batch 2. Now unblocked (Batch 1 done) but queued behind t-presentation per Ricardo's sequencing. Three sequential superpowers:writing-plans runs. 01a (~15 tasks foundation), 01b (~10 tasks mirrors+standby), 01c (~10 tasks personas+hooks+integration test). Per-plan headers already landed in 00_META/plans/README.md commit d5ebbf9 — the writing-plans skill expands those headers into full task-by-task plans. Each plan inherits its share of the 28 finding amendments per the amendment plan. Plan 01c scope reduced because terrain-prep already did Nexostrat-native CLAUDE.md/GEMINI.md rewrite — 01c just adds canonical shared-stanza pattern on top, doesn't re-derive from scratch. ~3-4 hours total writing time."
+      "notes": "**NEXT SESSION ACTION** as of 2026-05-14 end. Aurora HTML presentation done (t-presentation closed). Now fully unblocked. Three sequential superpowers:writing-plans runs. 01a (~15 tasks foundation), 01b (~10 tasks mirrors+standby), 01c (~10 tasks personas+hooks+integration test). Per-plan headers already landed in 00_META/plans/README.md commit d5ebbf9 — the writing-plans skill expands those headers into full task-by-task plans. Each plan inherits its share of the 28 finding amendments per the amendment plan. Plan 01c scope reduced because terrain-prep already did Nexostrat-native CLAUDE.md/GEMINI.md rewrite — 01c just adds canonical shared-stanza pattern on top, doesn't re-derive from scratch. ~3-4 hours total writing time."
     },
     {
       "id": "t-jp-coordination-2026-05-14",
@@ -116,6 +117,15 @@
       "created": "2026-05-14",
       "blocked_by": "t-plan-01b-execute",
       "notes": "Re-audit, then execute via subagent-driven-development. Tag v0.1-foundation on completion (the original Plan 01 milestone, now reached at end of 01c). Scope reduced because terrain prep did the Nexostrat-native CLAUDE.md/GEMINI.md/README.md rewrite — 01c just layers canonical shared-stanza pattern on top + creates Skills-Master + Client-Owner persona files. Per-plan header landed in 00_META/plans/README.md commit d5ebbf9."
+    },
+    {
+      "id": "t-spec-cost-table-amendment",
+      "subject": "Future amendment cycle — update spec §5 cost table to actual cost-sharing",
+      "status": "open",
+      "priority": "low",
+      "due": "2026-07-01",
+      "created": "2026-05-14",
+      "notes": "Spec §5 carries 'Anthropic API $20-60' to Ricardo. Reality surfaced during Aurora HTML v2 build: both founders pay Claude MAX at $200/mo each from personal subscriptions; Gemini free until ~Oct 2026; Notion + email + hosting + domain JP-personal; Drive + hardware Ricardo-personal. Firm-as-entity pays $0 Stage 1. The presentation (v2 Card 28) reflects reality; the spec doesn't yet. Future amendment cycle should update §5 and add an ADR if needed. Not urgent — the presentation is the JP-facing surface; spec is internal reference and the discrepancy is captured in this task + the 2026-05-14_aurora-html-presentation.md journal."
     },
     {
       "id": "t-plan-02-write",

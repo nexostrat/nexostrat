@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 # Test: .gitignore covers every Plan 01a F23 required pattern category.
-set -u
+set -euo pipefail
 PASS=0
 FAIL=0
 GITIGNORE="/srv/Nexostrat/.gitignore"
+[ -f "$GITIGNORE" ] || { echo "ERROR: $GITIGNORE not found" >&2; exit 2; }
 
 check() {
   local label="$1"; local pattern="$2"
-  if grep -qE "$pattern" "$GITIGNORE"; then
+  if grep -vE '^\s*(#|$)' "$GITIGNORE" | grep -qE "$pattern"; then
     echo "PASS  $label  ($pattern)"; PASS=$((PASS+1))
   else
     echo "FAIL  $label  ($pattern)"; FAIL=$((FAIL+1))

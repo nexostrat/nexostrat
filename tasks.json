@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v1",
   "project": "nexostrat",
-  "updated": "2026-05-14T22:00:00-07:00",
+  "updated": "2026-05-14T23:30:00-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -21,7 +21,7 @@
       "due": "2026-05-14",
       "created": "2026-05-14",
       "completed": "2026-05-14",
-      "notes": "Pre-Batch-1 readiness session per Ricardo's pivot ('clean the terrain before pouring foundation'). Landed: prior-session audit/walkthrough commits; .gitignore + .gitattributes hygiene; contacto@nexostrat.com mailbox; nexostrat accounts on GitHub/Codeberg/Gitea (Notion via JP's personal subscription); ed25519 SSH keypair + ~/.ssh/config Host aliases for clean git ops; Ricardo's age keypair (passphrase-encrypted, Bitwarden-backed); infra/age-recipients.txt with Ricardo pubkey + JP placeholder; git remote origin -> Gitea pushed (8 commits); JP Spanish coordination Signal message sent; full Nexostrat-native rewrite of CLAUDE.md / GEMINI.md / README.md (no Brain refs); events.json -> calendar.json rename + $schema field updates. Surfaced corrections to fold into Batch 1: Gitea port :3001 not :3000, F14 Notion cost reverts to $0 to firm. Journal at 00_META/journal/2026-05-14_terrain-prep.md."
+      "notes": "Pre-Batch-1 readiness session per Ricardo's pivot ('clean the terrain before pouring foundation'). Journal at 00_META/journal/2026-05-14_terrain-prep.md."
     },
     {
       "id": "t-amendments-batch-1",
@@ -31,7 +31,7 @@
       "due": "2026-05-16",
       "created": "2026-05-14",
       "completed": "2026-05-14",
-      "notes": "Done 2026-05-14 evening. Three commits pushed to Gitea origin: dc5cbec (Batch 1a spec single-pass amendment), 5f126a7 (Batch 1b new ADR bodies 021bis/036/037), d5ebbf9 (Batch 1c master plan index split Plan 01 -> 01a/01b/01c + SUPERSEDED banner). All 28 audit findings + 6 recommendations either landed in the spec/ADR/index layer or scheduled into 01a/01b/01c per their tags. F14-REVISED resolved to a no-op (original spec already shows Notion at $0 to firm). Working tree clean. Journal at 00_META/journal/2026-05-14_batch-1-amendments.md."
+      "notes": "Three commits pushed to Gitea origin: dc5cbec (Batch 1a spec single-pass amendment), 5f126a7 (Batch 1b new ADR bodies 021bis/036/037), d5ebbf9 (Batch 1c master plan index split Plan 01 -> 01a/01b/01c). All 28 audit findings + 6 recommendations either landed or scheduled. Journal at 00_META/journal/2026-05-14_batch-1-amendments.md."
     },
     {
       "id": "t-presentation",
@@ -41,16 +41,17 @@
       "due": "2026-05-17",
       "created": "2026-05-13",
       "completed": "2026-05-14",
-      "notes": "Done 2026-05-14 in two commits. v1 (c1b791d): single-file HTML at 00_META/proposals/2026-05-14_nexostrat-presentation.html, 8 Parts × 34 disclosure cards (ELI5/Técnico side-by-side), 5 SVG diagrams (replication topology, vault decrypt flow, 12-station pipeline, Heavy/Light side-by-side, plan roadmap), 22 ADR badges with hover/click popovers wired to a 35-entry JS dict, sticky TOC with scroll-spy, Aurora palette + Space Grotesk/Manrope/JBM via Google Fonts CDN. Sibling .tests.md documents validation harness. v2 (e6a8eca): 9 edits per Ricardo's review — no calendar dates anywhere, replication topology SVG rebuilt at 1100x720 with orthogonal lines, folder tree corrected (Skills 1/2/3/6 marked built), strict-rules rule 6 removed, costs rewritten to actual (Claude MAX × 2 from socios personal, Gemini free until ~Oct 2026, firm $0 Stage 1), roadmap diagram rebuilt at 1200x920, Card 32 Due column dropped, new Card 27a 'Qué hace el bot por nosotros' with capabilities + plugin adaptability + WhatsApp future, new featured Ollama gradient block before bot card. 218.9 KB / 3409 lines final. Validation: JS syntax ✓, 6 SVGs well-formed ✓, all anchors resolve ✓, all 25 ADR badges wired ✓. Journal at 00_META/journal/2026-05-14_aurora-html-presentation.md."
+      "notes": "Done in two commits c1b791d (v1) + e6a8eca (v2). 218.9 KB / 3409 lines final. Journal at 00_META/journal/2026-05-14_aurora-html-presentation.md."
     },
     {
       "id": "t-amendments-batch-2",
       "subject": "Batch 2 — Write Plans 01a / 01b / 01c via writing-plans skill",
-      "status": "open",
+      "status": "done",
       "priority": "critical",
       "due": "2026-05-22",
       "created": "2026-05-14",
-      "notes": "**NEXT SESSION ACTION** as of 2026-05-14 end. Aurora HTML presentation done (t-presentation closed). Now fully unblocked. Three sequential superpowers:writing-plans runs. 01a (~15 tasks foundation), 01b (~10 tasks mirrors+standby), 01c (~10 tasks personas+hooks+integration test). Per-plan headers already landed in 00_META/plans/README.md commit d5ebbf9 — the writing-plans skill expands those headers into full task-by-task plans. Each plan inherits its share of the 28 finding amendments per the amendment plan. Plan 01c scope reduced because terrain-prep already did Nexostrat-native CLAUDE.md/GEMINI.md rewrite — 01c just adds canonical shared-stanza pattern on top, doesn't re-derive from scratch. ~3-4 hours total writing time."
+      "completed": "2026-05-14",
+      "notes": "Three commits pushed to Gitea origin: 7d588ed (Plan 01a foundation, 18 tasks ~3300 lines), 42c4c4a (Plan 01b mirrors+warm-standby, 12 tasks ~1750 lines), 508c160 (Plan 01c personas+hooks+smoke-test, 11 tasks ~2050 lines + master plan index README updated). Audit-finding inheritance: 01a closes C1/C2/F5/F10/F12/F13/F15/F16/F19/F21/F23/F26; 01b closes C4/F7/F22-subset/F24/F25; 01c closes C3/F8/F18/F20/F27/R2/R4. Coordination gates marked per plan (01a Tasks 12-18 gate on JP age pubkey; 01b Tasks 7-12 gate on physical second host). Journal at 00_META/journal/2026-05-14_batch-2-plan-writes.md."
     },
     {
       "id": "t-jp-coordination-2026-05-14",
@@ -59,7 +60,7 @@
       "priority": "high",
       "due": "2026-05-22",
       "created": "2026-05-14",
-      "notes": "Single Signal message sent to JP 2026-05-14 requesting: (1) age pubkey [t-jp-age-keypair sub-item], (2) OS choice (Linux Mint recommended) [t-jp-os-confirmation sub-item], (3) Telegram chat_id, (4) Gitea username preference, (5) invite Ricardo to JP's existing Notion workspace, (6) GitHub username decision. JP has 10h/wk bandwidth — expect drip-feed replies over next few days. Per-item handling: (1)+(5) gating for Plan 01a encryption + Notion ops; (2) gating for Plan 02 OS bootstrap design; (3)+(4)+(6) gating for Plan 04+ telegram/git work. Update this task as items arrive."
+      "notes": "Single Signal message sent to JP 2026-05-14 requesting: (1) age pubkey [t-jp-age-keypair], (2) OS choice [t-jp-os-confirmation], (3) Telegram chat_id, (4) Gitea username preference, (5) invite Ricardo to JP's existing Notion workspace, (6) GitHub username decision. JP has 10h/wk bandwidth — drip-feed expected over next few days."
     },
     {
       "id": "t-jp-age-keypair",
@@ -68,7 +69,7 @@
       "priority": "high",
       "due": "2026-05-22",
       "created": "2026-05-14",
-      "notes": "Per CRITICAL 2 fix. Subset of t-jp-coordination-2026-05-14. Message sent 2026-05-14 with full age-keygen recipe (install + generate + extract pubkey FIRST + encrypt with passphrase + shred + verify). JP sends pubkey via Signal. Ricardo adds to infra/age-recipients.txt BEFORE any encryption happens in Plan 01a. ~10 min JP time + coordination latency."
+      "notes": "Per CRITICAL 2 fix. Subset of t-jp-coordination-2026-05-14. Message sent 2026-05-14 with full age-keygen recipe. Gates Plan 01a Tasks 12-18 (Tasks 1-11 are unblocked)."
     },
     {
       "id": "t-jp-os-confirmation",
@@ -77,16 +78,25 @@
       "priority": "medium",
       "due": "2026-05-22",
       "created": "2026-05-14",
-      "notes": "Per F13 decision. Subset of t-jp-coordination-2026-05-14. Ricardo recommending Linux Mint. If JP can/will install Mint, no macOS bootstrap work needed. If not, macOS exception path designed in Plan 02. F13 landed in spec §5 commit dc5cbec — jp-heavy.yaml `os: linux-mint`."
+      "notes": "Per F13. Subset of t-jp-coordination-2026-05-14. Recommending Linux Mint. F13 landed in spec §5; jp-heavy.yaml in Plan 01a Task 6 declares os: linux-mint."
     },
     {
       "id": "t-gitea-path-verify",
-      "subject": "Verify Gitea bare-repo on-disk path for systemd path-watcher (Plan 01b)",
+      "subject": "Verify Gitea bare-repo on-disk path for systemd path-watcher",
       "status": "open",
       "priority": "medium",
       "due": "2026-05-22",
       "created": "2026-05-14",
-      "notes": "Replaces t-gitea-n8n-paths (n8n verification dropped per 'drop n8n entirely' directive — n8n references fully stripped from spec in Batch 1 commit dc5cbec). Gitea container data is bind-mounted at /srv/gitea/data/git/repositories/nexostrat/nexostrat.git per docker inspect (verified during terrain prep). Plan 01b's systemd path-watcher unit (per C4 fix) watches refs/heads/main inside that path. Cross-check this is correct at Plan 01b execution time and document in 00_GOVERNANCE/system_map.md."
+      "notes": "Resolved within Plan 01b Task 1 execution (path verification + 00_GOVERNANCE/system_map.md). Per terrain prep: /srv/gitea/data/git/repositories/nexostrat/nexostrat.git. Closes when 01b Task 1 commits."
+    },
+    {
+      "id": "t-plan-01a-reaudit",
+      "subject": "Batch 3 step 1 — Re-audit Plan 01a (independent risk-auditor pass)",
+      "status": "open",
+      "priority": "critical",
+      "due": "2026-05-21",
+      "created": "2026-05-14",
+      "notes": "**NEXT SESSION ACTION** as of 2026-05-14 end. Same dispatch pattern as 2026-05-14 audit (general-purpose agent with risk-auditor persona inlined; or direct risk-auditor subagent). Target GREEN. If YELLOW with <=3 amendments, apply inline and proceed. If more, re-write affected tasks. Plan 01a at 00_META/plans/2026-05-14_plan-01a-foundation.md (18 tasks, ~3300 lines). Per amendment plan §Batch 3."
     },
     {
       "id": "t-plan-01a-execute",
@@ -95,8 +105,18 @@
       "priority": "critical",
       "due": "2026-05-27",
       "created": "2026-05-14",
-      "blocked_by": "t-amendments-batch-2",
-      "notes": "Per amendment plan §Batch 3. Re-audit Plan 01a first (independent risk-auditor pass; same dispatch pattern as 2026-05-14 audit). Target: GREEN. If YELLOW with <=3 amendments, apply inline and proceed. Execute via superpowers:subagent-driven-development. Tag v0.1a-foundation on completion. Also gated on t-jp-age-keypair. Several Plan 01a deliverables already done in terrain prep (.gitignore start, .gitattributes, age key, infra/age-recipients.txt, origin remote) — these become VERIFY tasks instead of CREATE. Per-plan header landed in 00_META/plans/README.md commit d5ebbf9."
+      "blocked_by": "t-plan-01a-reaudit",
+      "notes": "Execute via superpowers:subagent-driven-development. Tag v0.1a-foundation on completion. Tasks 1-11 unblocked once re-audit GREEN; Tasks 12-18 also gate on t-jp-age-keypair. Several deliverables already partly done in terrain prep — those become VERIFY tasks per Plan 01a Task 11."
+    },
+    {
+      "id": "t-plan-01b-reaudit",
+      "subject": "Batch 3 step 3 — Re-audit Plan 01b (after 01a executed)",
+      "status": "open",
+      "priority": "critical",
+      "due": "2026-05-29",
+      "created": "2026-05-14",
+      "blocked_by": "t-plan-01a-execute",
+      "notes": "Same pattern as t-plan-01a-reaudit. 01a execution may have surfaced learnings worth folding in before 01b execute starts. Plan 01b at 00_META/plans/2026-05-14_plan-01b-mirrors.md (12 tasks, ~1750 lines)."
     },
     {
       "id": "t-plan-01b-execute",
@@ -105,8 +125,18 @@
       "priority": "critical",
       "due": "2026-06-03",
       "created": "2026-05-14",
-      "blocked_by": "t-plan-01a-execute",
-      "notes": "Re-audit, then execute via subagent-driven-development. Tag v0.1b-mirrors on completion. Also gated on t-gitea-path-verify. Pre-conditions already partly in place from terrain prep: nexostrat GitHub + Codeberg accounts exist and SSH key registered; Gitea origin pushing successfully. Per-plan header landed in 00_META/plans/README.md commit d5ebbf9."
+      "blocked_by": "t-plan-01b-reaudit",
+      "notes": "Tag v0.1b-mirrors on completion. Tasks 1-6 unblocked once re-audit GREEN; Tasks 7-12 also gate on physical second host (Linux Mint + Tailscale-joined). Pre-conditions partly in place from terrain prep: nexostrat GitHub + Codeberg accounts exist; SSH key registered; Gitea origin pushing."
+    },
+    {
+      "id": "t-plan-01c-reaudit",
+      "subject": "Batch 3 step 5 — Re-audit Plan 01c (after 01b executed)",
+      "status": "open",
+      "priority": "critical",
+      "due": "2026-06-05",
+      "created": "2026-05-14",
+      "blocked_by": "t-plan-01b-execute",
+      "notes": "Same pattern. 01b execution may have surfaced learnings. Plan 01c at 00_META/plans/2026-05-14_plan-01c-personas.md (11 tasks, ~2050 lines)."
     },
     {
       "id": "t-plan-01c-execute",
@@ -115,8 +145,8 @@
       "priority": "critical",
       "due": "2026-06-10",
       "created": "2026-05-14",
-      "blocked_by": "t-plan-01b-execute",
-      "notes": "Re-audit, then execute via subagent-driven-development. Tag v0.1-foundation on completion (the original Plan 01 milestone, now reached at end of 01c). Scope reduced because terrain prep did the Nexostrat-native CLAUDE.md/GEMINI.md/README.md rewrite — 01c just layers canonical shared-stanza pattern on top + creates Skills-Master + Client-Owner persona files. Per-plan header landed in 00_META/plans/README.md commit d5ebbf9."
+      "blocked_by": "t-plan-01c-reaudit",
+      "notes": "Tag v0.1-foundation on completion (the original Plan 01 milestone, now reached at end of 01c). No coordination gates within the plan itself — 11 tasks runnable in a single ~4-6h session."
     },
     {
       "id": "t-spec-cost-table-amendment",
@@ -125,7 +155,7 @@
       "priority": "low",
       "due": "2026-07-01",
       "created": "2026-05-14",
-      "notes": "Spec §5 carries 'Anthropic API $20-60' to Ricardo. Reality surfaced during Aurora HTML v2 build: both founders pay Claude MAX at $200/mo each from personal subscriptions; Gemini free until ~Oct 2026; Notion + email + hosting + domain JP-personal; Drive + hardware Ricardo-personal. Firm-as-entity pays $0 Stage 1. The presentation (v2 Card 28) reflects reality; the spec doesn't yet. Future amendment cycle should update §5 and add an ADR if needed. Not urgent — the presentation is the JP-facing surface; spec is internal reference and the discrepancy is captured in this task + the 2026-05-14_aurora-html-presentation.md journal."
+      "notes": "Spec §5 carries 'Anthropic API $20-60' to Ricardo. Reality (per Aurora HTML v2 + Plan 01a Task 9 cost-sharing-agreement.md): both founders pay Claude MAX at $200/mo each from personal subscriptions; Gemini free until ~Oct 2026; Notion + email + hosting + domain JP-personal; Drive + hardware Ricardo-personal. Firm-as-entity pays $0 Stage 1. Future amendment cycle should update §5 and add an ADR if needed."
     },
     {
       "id": "t-plan-02-write",

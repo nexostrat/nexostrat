@@ -1,64 +1,61 @@
 # CHECKPOINT — root (Founder)
 
-**Updated:** 2026-05-14T23:30:00-07:00
+**Updated:** 2026-05-14T23:59:00-07:00
 **By:** ricardo (via Claude Code session at /srv/Nexostrat/)
 **Persona:** Founder
-**Session topic:** Batch 2 plan-writes — Plans 01a/01b/01c shipped via writing-plans skill
+**Session topic:** Plan 01a re-audit (Batch 3 step 1) + 7 HIGH inline patches
 
 ## What I just did
 
-Wrote the three foundation plans end-to-end via `superpowers:writing-plans` and pushed them to Gitea origin in three clean commits. Master plan index README updated to reflect READY status with file-column links + Batch-2 changelog row. Working tree clean at session end.
+Dispatched independent risk-auditor pass on Plan 01a (same general-purpose-agent-with-risk-auditor-persona-inlined pattern as the 2026-05-14 founding-spec audit). Verdict: **YELLOW (large)** — 0 CRITICAL, 7 HIGH, 5 MEDIUM, 3 LOW, no DESIGN-RETHINK FLAG. Per Ricardo's chosen path (auditor's own recommended next step over strict-letter rewrite rule), patched all 7 HIGH findings inline into Plan 01a — no architectural rewrites. Built a forensic patch-verification-trail doc so future audits can reproduce.
 
 **Commits pushed this session:**
 
-- `7d588ed` — **Plan 01a (Foundation: scaffold + identity + crypto).** 18 tasks · ~3300 lines. Coverage: 3-bucket folder scaffold, comprehensive .gitignore (F23), basic pre-commit secret-scan, _template/ with 12 stations + 3 cross-cutting (F16, F19), JSON Schemas (F21), 7 machine profiles (F13, F26), bootstrap skeleton, skills relocation, questionnaires migration (F15), 00_PARTNERSHIP/ canonical files, vault scaffold (F10), Ricardo age verify, JP coordination gate, bidirectional roundtrip (C2), secrets.env.age, run-with-secrets.sh with C1 fix, secrets MANIFEST, signed partnership PDF (F5), final verification + tag v0.1a-foundation. JP-coordination gate cleanly marked between Tasks 11-12.
-- `42c4c4a` — **Plan 01b (Mirrors + warm-standby).** 12 tasks · ~1750 lines. Coverage: Gitea path verify + system_map.md (F22-subset), GitHub + Codeberg mirror remotes + PATs (F7), systemd path-watchers replacing dead Gitea-internal hook (C4), 60s window verification, warm-standby provisioning, age key roundtrip on standby, warm-rsync timer + service (nightly 03:00 America/Tijuana), real-trigger smoke test (F24), HP-down failover runbook + dry-run, tag v0.1b-mirrors. Tasks 7-12 gate on physical second host.
-- `508c160` — **Plan 01c (Personas + hooks + integration test) + README update.** 11 tasks · ~2050 lines. Coverage: 9 canonical shared stanzas + F20 leak audit + F27 follow-through, inline_includes.py (C3), nexostrat-memos.py (F8), checkpoint-mtime-check.sh (R4), 6 persona files via inliner (Founder + Skills-Master + Client-Owner with F10 vault scope), 4-hook surface (orchestrator + secret-scan reuse + vault-age-only + docs-pair-basic + checkpoint validation), R2 rich smoke test (6 sub-tests), final tag v0.1-foundation. Master plan index README updated in same commit (3 status rows + 3 inline File: lines + 1 changelog row).
+- `6ca022c` — **Plan 01a re-audit (Batch 3 step 1) + 7 HIGH inline patches.** 700 insertions / 79 deletions / 3 files. New audit report (`00_META/proposals/2026-05-14_plan-01a-audit-report.md`), patched plan (3319 → 3523 lines with audit-response note in header), tasks.json (`t-plan-01a-reaudit` moved to done).
+- (session-end, this commit) — Session journal + patch-verification-trail doc + STATUS rewrite + CHECKPOINT rewrite.
 
-**16 commits total ahead of pre-audit baseline.**
+**17 commits total ahead of pre-audit baseline.**
 
 ## In flight — concrete next action
 
-**Batch 3 step 1 — Re-audit Plan 01a.** Per amendment plan §Batch 3. Now fully unblocked.
+**Batch 3 step 2 — Execute Plan 01a Tasks 1-11** via `superpowers:subagent-driven-development`. Plan is patched and execute-ready.
 
 ```
-NEXT SESSION (Batch 3 step 1, ~1 day re-audit + ~5 days execute Plan 01a):
+NEXT SESSION (Batch 3 step 2, ~4-6h estimated):
   1. Open Claude Code AT /srv/Nexostrat/.
   2. Ricardo types "Start Session."
-  3. Claude reads CHECKPOINT.md (this file), STATUS.md, tasks.json,
-     calendar.json, latest journal (2026-05-14_batch-2-plan-writes.md).
-  4. Claude proposes the Batch 3 step 1 sequence:
-       a. Dispatch the re-audit. Two options (Ricardo to confirm or
-          accept the default):
-            - Default: general-purpose agent with risk-auditor persona
-              inlined (same pattern as 2026-05-14 audit).
-            - Alt: direct risk-auditor subagent invocation.
-          The 2026-05-14 precedent worked well; default suggested.
-       b. Audit target: GREEN. The auditor reads:
-            - 00_META/plans/2026-05-14_plan-01a-foundation.md (the plan)
-            - 00_META/proposals/2026-05-13_nexostrat-system-design.md (the spec)
-            - 00_META/proposals/2026-05-14_amendments.md (the audit-finding decisions)
-            - Current repo state (terrain-prep work) — to flag any
-              VERIFY tasks that are stale.
-       c. If GREEN: proceed to execute via subagent-driven-development.
-          Tasks 1-11 in one session; pause at gate; Tasks 12-18 when
-          JP age pubkey lands via Signal.
-       d. If YELLOW with <=3 amendments: fix inline, proceed.
-       e. If RED or YELLOW with >3 amendments: re-write affected tasks
-          before executing.
-       f. Tag v0.1a-foundation on Plan 01a completion.
-  5. After 01a complete: Batch 3 step 3 = re-audit Plan 01b. Same flow.
-  6. After 01b complete: Batch 3 step 5 = re-audit Plan 01c. Same flow.
-  7. After 01c complete: tag v0.1-foundation. Foundation milestone reached.
+  3. Claude reads this CHECKPOINT.md + STATUS.md + tasks.json + calendar.json
+     + latest journal (2026-05-14_plan-01a-reaudit-and-patches.md).
+  4. Claude proposes the Batch 3 step 2 sequence:
+       a. Confirm `t-plan-01a-execute` is the next critical action (it is).
+       b. Verify working tree clean + on `main`.
+       c. (Recommended defensive check before starting execution): run the
+          patch-verification-trail's "one-pass spot-check" block to confirm
+          all 7 HIGH patches are still live. Lives at
+          00_META/proposals/2026-05-14_plan-01a-patch-verification-trail.md
+          § "How to re-verify the entire patch trail in one pass".
+          If any check FAILs: investigate before proceeding (intersessional
+          drift or regression).
+       d. If spot-check passes: dispatch Plan 01a execution via
+          superpowers:subagent-driven-development. Tasks 1-11 in one session.
+       e. Pause cleanly at the JP-coordination gate between Task 11 and Task 12.
+       f. Commit Task 11; update CHECKPOINT.md saying "blocked on JP age
+          pubkey"; close the session.
+  5. When JP key lands (via Signal): resume Plan 01a execution for Tasks 12-18.
+     Direction A + Direction B sentinel roundtrip per patched Task 13 Step 3.
+  6. On Plan 01a completion: tag v0.1a-foundation. Close t-plan-01a-execute.
+  7. Then Batch 3 step 3 = re-audit Plan 01b. Same flow.
+  8. Then Batch 3 step 5 = re-audit Plan 01c.
+  9. After 01c executes: tag v0.1-foundation (original Plan-01 milestone).
 ```
 
 ## Blocked on
 
-**For next session (Batch 3 step 1 — Plan 01a re-audit): NOTHING.**
+**For next session (Batch 3 step 2 — Plan 01a Tasks 1-11 execution): NOTHING.**
 
-**For Plan 01a execution Tasks 12-18 (downstream within 01a, not blocking next session):**
+**For Plan 01a Tasks 12-18 (downstream within 01a, not blocking next session):**
 - JP age pubkey via Signal (per `t-jp-age-keypair`)
-- (cascading) JP confirmation of bidirectional roundtrip on his machine
+- (cascading) JP confirmation of bidirectional roundtrip — Direction A (git push) AND Direction B (Signal-attachment per the patched Task 13 Step 3)
 
 **For Plan 01b execution Tasks 7-12 (further downstream):**
 - Physical second host (Linux Mint 22.2 + Tailscale-joined)
@@ -67,33 +64,45 @@ NEXT SESSION (Batch 3 step 1, ~1 day re-audit + ~5 days execute Plan 01a):
 
 **Soft choices, not blocking:**
 
-- **Re-audit dispatch pattern.** Default = general-purpose agent with risk-auditor persona inlined (matches 2026-05-14 audit pattern). Alternative = direct `risk-auditor` subagent invocation. The 2026-05-14 audit returned RED with 28 findings and worked extremely well; staying with the same pattern is the safe choice.
-- **Re-audit calendar dates.** I spaced them 2-3 days before each `execute` due date. If Ricardo wants tighter or looser, the dates in tasks.json (`t-plan-01a-reaudit` due 2026-05-21, `t-plan-01b-reaudit` due 2026-05-29, `t-plan-01c-reaudit` due 2026-06-05) can be revised.
+- **Optional defensive spot-check before execution.** The patch-verification-trail doc includes a 17-line bash block that re-runs every patch-verification grep in one pass. Recommended at execution-start as a defensive check against intersessional drift, but not strictly necessary if the working tree is verifiably at HEAD `6ca022c`+.
+- **Hook clobber check (Finding 9, MEDIUM, deferred).** Task 3 Step 4 does `ln -sf .git/hooks/pre-commit` without a pre-check for existing custom hooks. The auditor flagged this as MEDIUM and Ricardo chose to defer. Next session's executor can optionally add a 2-line stat-check pre-flight; if they don't, no harm — current `.git/hooks/pre-commit` is whatever it is and gets overwritten.
+- **`t-plan-01a-execute` due date.** Currently 2026-05-27. With ~4-6h for Tasks 1-11 + JP-coordination latency for Tasks 12-18, this is realistic. No revision needed unless JP responds faster or slower than expected.
 
 ## Files modified but not yet committed
 
-This CHECKPOINT.md is being written as part of the session-end commit batch. After the final commit, working tree will be clean. Files staged for the final commit:
+This CHECKPOINT.md is being written as part of the session-end commit batch. After the final commit, working tree will be clean. Files in the session-end commit:
 
-- `STATUS.md` (REWRITE — Batch 2 done; Batch 3 NEXT)
-- `tasks.json` (UPDATE — close `t-amendments-batch-2`; add 3 re-audit tasks; rewire blocked_by chains)
-- `00_META/journal/2026-05-14_batch-2-plan-writes.md` (CREATE — session journal)
+- `STATUS.md` (REWRITE — Batch 3 step 1 done; step 2 NEXT)
+- `00_META/journal/2026-05-14_plan-01a-reaudit-and-patches.md` (CREATE — session narrative)
+- `00_META/proposals/2026-05-14_plan-01a-patch-verification-trail.md` (CREATE — forensic future-audit companion to the audit report)
 - `CHECKPOINT.md` (REWRITE — this file, baton for next session)
 
-No edits to CLAUDE.md / GEMINI.md / README.md this session, so no `00_META/CHANGELOG.md` entry.
-
-No Gemini handoff this session.
+No edits to CLAUDE.md / GEMINI.md / README.md this session → no `00_META/CHANGELOG.md` entry. No Gemini handoff this session — both handoff files remain TEMPLATE.
 
 ## Estimated time to finish (roadmap)
 
-- **Batch 3 step 1 (Plan 01a re-audit + execute): ~1 day re-audit + ~5 days execute.** Re-audit is a single-session dispatch; execute is multi-session via subagent-driven-development with JP-coordination latency between Tasks 11 and 12.
-- Batch 3 cont. (01b + 01c): ~2 weeks elapsed each, accounting for re-audit + execute + any JP latency.
-- Foundation milestone (v0.1-foundation tag) realistic by **2026-06-10** per the amendment plan calendar honesty (R6).
-- Stage 1 live: after Plan 10. Per Ricardo's no-calendar-pressure posture this session: when the Plan 10 checklist is green, not by calendar.
+- **Batch 3 step 2 (Plan 01a Tasks 1-11 execution): ~4-6h** in a single session.
+- **Plan 01a Tasks 12-18: ~1-2h** once JP key lands (estimated within 7-10 days at JP's 10h/wk bandwidth).
+- **Tag `v0.1a-foundation`:** realistic by **2026-05-22 to 2026-05-27**.
+- Batch 3 cont. (01b + 01c): ~2 weeks elapsed each, accounting for re-audit + execute + any JP latency + physical-second-host (01b).
+- Foundation milestone (`v0.1-foundation` tag): realistic by **2026-06-10** per the amendment plan calendar honesty (R6).
+- Stage 1 live: after Plan 10. Per Ricardo's no-calendar-pressure posture: when Plan 10's checklist is green, not by calendar.
 
 ## After this, what's next
 
-Batch 3 step 1 (re-audit + execute Plan 01a, tag v0.1a-foundation) → Batch 3 step 3 (re-audit + execute Plan 01b, tag v0.1b-mirrors) → Batch 3 step 5 (re-audit + execute Plan 01c, tag v0.1-foundation) → Plans 02-10 in dependency order per `00_META/plans/README.md`.
+Batch 3 step 2 (execute Plan 01a Tasks 1-11) → Plan 01a Tasks 12-18 on JP-key arrival → tag `v0.1a-foundation` → Batch 3 step 3 (re-audit + execute Plan 01b → tag `v0.1b-mirrors`) → Batch 3 step 5 (re-audit + execute Plan 01c → tag `v0.1-foundation`) → Plans 02-10 in dependency order per `00_META/plans/README.md`.
+
+## For a future auditor reading this baton
+
+The Plan 01a re-audit + patches arc is fully documented across four artifacts:
+
+1. **Audit report** (`00_META/proposals/2026-05-14_plan-01a-audit-report.md`) — the adversarial finding. Immutable; do not edit.
+2. **Patched plan** (`00_META/plans/2026-05-14_plan-01a-foundation.md`) — fix landing-site. Has an "Re-audit response (2026-05-14)" block at the top (lines 27-37) summarizing what was patched. Each individual patch carries an inline comment referencing its Finding number.
+3. **Patch-verification-trail** (`00_META/proposals/2026-05-14_plan-01a-patch-verification-trail.md`) — forensic companion. Per-finding: pre-patch snippet, post-patch snippet, post-patch line range, specific `grep`/test commands a future auditor can run to verify each fix is live. Also includes a 17-check one-pass spot-check block + a section flagging unknown-unknowns the patches may have introduced.
+4. **Session journal** (`00_META/journal/2026-05-14_plan-01a-reaudit-and-patches.md`) — narrative of how the session ran, why each decision was made (verdict-rubric vs recommendation tension, surgical vs rewrite path, trail-doc format), and what was learned. Read this for context behind the choices, not for what-the-code-says.
+
+Read order for a re-audit: (1) audit report → (2) patched plan → (3) patch-trail to verify each fix → (4) journal for color.
 
 ---
 
-*This CHECKPOINT.md is the baton between sessions. Next session: type "Start Session" → Claude reads this + STATUS + tasks + calendar + latest journal (`2026-05-14_batch-2-plan-writes.md`) → proposes the Batch 3 step 1 (re-audit Plan 01a) sequence above → dispatches the audit → proceeds based on color (GREEN → execute; YELLOW ≤3 amendments → fix inline + execute; RED or YELLOW >3 → re-write affected tasks).*
+*This CHECKPOINT.md is the baton between sessions. Next session: type "Start Session" → Claude reads this + STATUS + tasks + calendar + the journal entry `2026-05-14_plan-01a-reaudit-and-patches.md` → proposes the Batch 3 step 2 (execute Plan 01a Tasks 1-11) sequence above → optionally runs the patch-trail spot-check → dispatches execution via `superpowers:subagent-driven-development`.*

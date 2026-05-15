@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v1",
   "project": "nexostrat",
-  "updated": "2026-05-14T23:59:00-07:00",
+  "updated": "2026-05-15T08:00:00-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -56,29 +56,50 @@
     {
       "id": "t-jp-coordination-2026-05-14",
       "subject": "JP coordination items requested 2026-05-14 — awaiting reply",
-      "status": "open",
+      "status": "done",
       "priority": "high",
       "due": "2026-05-22",
       "created": "2026-05-14",
-      "notes": "Single Signal message sent to JP 2026-05-14 requesting: (1) age pubkey [t-jp-age-keypair], (2) OS choice [t-jp-os-confirmation], (3) Telegram chat_id, (4) Gitea username preference, (5) invite Ricardo to JP's existing Notion workspace, (6) GitHub username decision. JP has 10h/wk bandwidth — drip-feed expected over next few days."
+      "completed": "2026-05-15",
+      "notes": "JP replied 2026-05-15 (Signal + Proton email) to all 6 items: (1) Telegram chat_id 459242980 ✓; (2) age pubkey via Proton email — added to infra/age-recipients.txt 2026-05-15 (closes t-jp-age-keypair); (3) OS = macOS Sequoia 15.7.3 — NOT Linux Mint as recommended (closes t-jp-os-confirmation, opens t-macos-deviation-decision); (4) Gitea — JP has no account, asked why; Ricardo will create server-side and send password via Signal (tracked in t-ricardo-jp-onboarding-actions); (5) Notion — JP created workspace and invited contacto@nexostrat.com; Ricardo to accept (tracked in t-ricardo-jp-onboarding-actions); (6) GitHub — JP confirmed plan to create new account with contacto@nexostrat.com; Ricardo to create (tracked in t-ricardo-jp-onboarding-actions)."
     },
     {
       "id": "t-jp-age-keypair",
       "subject": "JP age keypair generation — awaiting Signal reply",
-      "status": "open",
+      "status": "done",
       "priority": "high",
       "due": "2026-05-22",
       "created": "2026-05-14",
-      "notes": "Per CRITICAL 2 fix. Subset of t-jp-coordination-2026-05-14. Message sent 2026-05-14 with full age-keygen recipe. Gates Plan 01a Tasks 12-18 (Tasks 1-11 are unblocked)."
+      "completed": "2026-05-15",
+      "notes": "JP generated age keypair on jp-mac (macOS Sequoia 15.7.3) and sent pubkey via Proton email 2026-05-15. Pubkey age10k4rzha64ykqtjrjkqut6dyzxy5qexu2038lpe6gqk58l7rx4p4qrupv79 added to infra/age-recipients.txt. Format validated by encrypting test string to both recipients (age accepted both -R parses; decrypt-side requires tty for Ricardo's passphrase, deferred to Plan 01a Task 13 bidirectional roundtrip during execution). Closes CRITICAL 2 fix prerequisite. Plan 01a Tasks 12-18 unblocked from a key-on-file perspective; Task 13 roundtrip will prove JP's privkey + passphrase actually work end-to-end on the Mac."
     },
     {
       "id": "t-jp-os-confirmation",
       "subject": "JP machine OS confirmation — awaiting Signal reply",
-      "status": "open",
+      "status": "done",
       "priority": "medium",
       "due": "2026-05-22",
       "created": "2026-05-14",
-      "notes": "Per F13. Subset of t-jp-coordination-2026-05-14. Recommending Linux Mint. F13 landed in spec §5; jp-heavy.yaml in Plan 01a Task 6 declares os: linux-mint."
+      "completed": "2026-05-15",
+      "notes": "JP confirmed 2026-05-15: macOS Sequoia 15.7.3 (NOT Linux Mint as recommended). Triggers macOS-deviation work — see t-macos-deviation-decision. Concrete impacts: Plan 01a Task 6 jp-heavy.yaml currently declares os: linux-mint and needs patch; spec §3 secrets discipline (/dev/shm RAM-tmpfs + shred) is Linux-specific and needs macOS-equivalent (RAM disk via diskutil + hdiutil; shred via gshred from brew coreutils or RAM-disk unmount). age tooling itself works fine on macOS."
+    },
+    {
+      "id": "t-ricardo-jp-onboarding-actions",
+      "subject": "Ricardo-side actions to complete JP onboarding (Gitea + Notion + GitHub)",
+      "status": "open",
+      "priority": "high",
+      "due": "2026-05-22",
+      "created": "2026-05-15",
+      "notes": "(1) Create JP's Gitea user server-side on HP (gitea admin user create), send initial password via Signal — JP doesn't have account, will use web/Tailscale for Light-mode read access. (2) Accept JP's Notion workspace invite from contacto@nexostrat.com mailbox. (3) Create new GitHub account with contacto@nexostrat.com (precondition for Plan 01b GitHub mirror). All three are mechanical, can be done in any order, no coordination required from JP."
+    },
+    {
+      "id": "t-macos-deviation-decision",
+      "subject": "Decide macOS-deviation path: quick triage patch vs full amendment cycle",
+      "status": "open",
+      "priority": "high",
+      "due": "2026-05-20",
+      "created": "2026-05-15",
+      "notes": "JP confirmed jp-mac is macOS Sequoia 15.7.3, deviating from spec §5 / F13 / Plan 01a Task 6 jp-heavy.yaml assumption of Linux Mint. Three concrete impacts: (1) jp-heavy.yaml os field — trivial; (2) /dev/shm RAM-tmpfs secrets discipline does not exist on macOS — needs RAM disk via diskutil/hdiutil or alternative; SPEC AMENDMENT territory (touches §3); (3) shred not in macOS base — needs gshred via brew coreutils, rm -P (deprecated), or accept RAM-disk unmount as the shred. age tooling itself works fine on macOS (JP got past keygen unaided). Claude's lean: quick triage patch now (jp-heavy.yaml only, keeps Plan 01a Tasks 1-11 execute-ready) + proper amendment cycle for /dev/shm/shred discipline before Tasks 12-18 (which is where JP's machine gets touched). Decision pending Ricardo."
     },
     {
       "id": "t-gitea-path-verify",

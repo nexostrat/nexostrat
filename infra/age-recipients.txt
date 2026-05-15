@@ -24,6 +24,5 @@
 # Ricardo Mejia Caicedo (founder, ricardo-hp-laptop, generated 2026-05-14)
 age14kfstsrnpvvnp56jafnd5uqjpyjz40zak773ny2kdhvvayuy7d6sncjjv3
 
-# Juan Pablo (founder, machine TBD per t-jp-os-confirmation)
-# PENDING — JP runs age-keygen, sends pubkey via Signal (per t-jp-age-keypair).
-# Add as: age1<JP_PUBKEY_HERE>
+# Juan Pablo Mejia (founder, jp-mac, macOS Sequoia 15.7.3, received 2026-05-15)
+age10k4rzha64ykqtjrjkqut6dyzxy5qexu2038lpe6gqk58l7rx4p4qrupv79

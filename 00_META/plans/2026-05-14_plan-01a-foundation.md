@@ -24,6 +24,17 @@
 
 **Audit-finding inheritance:** This plan resolves C1 (run-with-secrets leak), C2 (vault encrypted to one recipient), F5 (partnership PDF), F10 (vault namespace split for personas), F12 (calendar.json — already done in Batch 1), F13 (Linux Mint baseline for JP-Heavy), F15 (questionnaires migration), F16 (`_template/` ordering moved into Plan 01a), F19 (12+3 station standardization), F21 (nexostrat-tasks-v1 schema), F23 (comprehensive .gitignore), F26 (phones platform field). R3 (Stage 1 surface area ADR) is reflected via deliverable scoping: only what ADR-036 lists as v0 fidelity ships here.
 
+**Re-audit response (2026-05-14):** independent risk-auditor pass returned YELLOW (large) — 0 CRITICAL, 7 HIGH, 5 MEDIUM, 3 LOW, no DESIGN-RETHINK FLAG. Report at [`00_META/proposals/2026-05-14_plan-01a-audit-report.md`](../proposals/2026-05-14_plan-01a-audit-report.md). The 7 HIGH findings were patched inline into the tasks below (no architectural changes):
+- **Finding 1** (gitignore `*secrets*` glob blocks `secrets.env.age` + `infra/secrets/MANIFEST.md` commits) — Task 2 Step 3 (surgical patterns + allowlist), Step 1 (positive `git check-ignore` assertions added to test).
+- **Finding 2** (C1 leak-test passes by accident — backgrounded wrapper hangs on passphrase, never reaches the write that would leak) — Task 15 Step 1 rewritten as a 2-step interactive protocol with positive control (file exists during execution) + negative control (cleanup verified after kill).
+- **Finding 3** (secret-scan hook scans on-disk, not staged blob — bypassable by stage→edit→commit) — Task 3 Step 3 hook reads via `git show :path` in git-hook mode; `--files-from-stdin` mode kept for unit-testing. Task 3 gets a Step 6b stage-then-edit integration test.
+- **Finding 4** (`SIGNED_PDF="~/Downloads/..."` — tilde does not expand inside quotes) — Task 17 Steps 1-3 use `$HOME` instead.
+- **Finding 5** (Task 7 `git add 00_META/skills` after `rmdir` errors fatal) — Task 7 Step 5 uses `git add -A`.
+- **Finding 6** (C2 reverse-direction roundtrip underspecified for JP Light-mode — no clear delivery channel for JP's encrypted sentinel) — Task 13 Step 3 specifies the Signal-attachment flow concretely; Step 4 cleanup commits both removals in one pass.
+- **Finding 7** (`run-with-secrets.sh` `2>/dev/null` swallows age error diagnostics) — Task 15 Step 3 captures age stderr to a temp log and surfaces it on decrypt failure.
+
+Findings 8-15 (MEDIUM/LOW) are deferred per the auditor's recommendation; the gating concerns are closed.
+
 ---
 
 ## File Structure
@@ -326,7 +337,9 @@ check "OS macOS"              '\.DS_Store'
 check "OS Windows"            'Thumbs\.db'
 check "Docker override"       'docker-compose\.override\.yml'
 check "Age private keys"      '\*\.key|^\*\.key$'
-check "Age password files"    '\*secrets\*|secrets\.env\$|\*\.env\b'
+check "Age password files"    'secrets\.env$|\*\*/secrets\.env|\*\.secrets\.json'
+check "Allowlist secrets.env.age"      '^!secrets\.env\.age'
+check "Allowlist secrets MANIFEST.md"  '^!infra/secrets/MANIFEST\.md'
 check "shm tmpfs dumps"       '/dev/shm|nexostrat-secrets-'
 check "Log dumps"             '\*\.log$'
 check "PEM/PFX certs"         '\*\.pem|\*\.pfx|\*\.p12'
@@ -363,14 +376,25 @@ Write `/srv/Nexostrat/.gitignore` (REPLACE entire file):
 .env
 .env.*
 !.env.example
-*secrets*
+# Surgical secret patterns — DO NOT use a blanket `*secrets*` glob (per Finding 1
+# of the 2026-05-14 re-audit): it would silently block the intentional commits
+# of secrets.env.age (Task 14) and infra/secrets/MANIFEST.md (Task 16).
 secrets.env
+secrets.env.local
+secrets.local.env
+*.secrets.json
+**/secrets.env
+**/secrets.local.env
 *.key
 *.pem
 *.pfx
 *.p12
 key.txt
 infra/age/keys/
+
+# Explicit allowlist — these MUST be committable despite the patterns above.
+!secrets.env.age
+!infra/secrets/MANIFEST.md
 
 # /dev/shm runtime decryption surface (paranoia — should never be in working tree)
 /dev/shm/nexostrat-secrets-*
@@ -458,6 +482,25 @@ Expected: every line is `PASS`; exit code 0.
 git check-ignore -v secrets.env .env *.key node_modules/ __pycache__ excalidraw.log
 # Expected: each path matched against the new .gitignore (no errors)
 ```
+
+- [ ] **Step 5b: Positive control — the two intentional commits MUST NOT be ignored (Finding 1 fix)**
+
+The Plan 01a deliverables `secrets.env.age` (Task 14) and `infra/secrets/MANIFEST.md` (Task 16) must remain committable. Assert via `git check-ignore`:
+
+```bash
+cd /srv/Nexostrat
+# git check-ignore exits 0 if path IS ignored, 1 if NOT ignored. We want 1 (NOT ignored) for these.
+for p in secrets.env.age infra/secrets/MANIFEST.md; do
+  if git check-ignore -q "$p"; then
+    echo "FAIL — $p is ignored by .gitignore (would break Plan 01a Tasks 14/16)"
+    exit 1
+  else
+    echo "PASS — $p is NOT ignored"
+  fi
+done
+```
+
+Expected: both PASS. If either FAILs, the allowlist `!secrets.env.age` or `!infra/secrets/MANIFEST.md` was lost in the gitignore edit — restore before proceeding.
 
 - [ ] **Step 6: Stage + commit**
 
@@ -567,8 +610,20 @@ set -uo pipefail
 # Pattern set — pipe-separated for a single grep -E
 PATTERNS='(sk-ant-[A-Za-z0-9_-]{20,})|(\bsk-[A-Za-z0-9]{20,})|(\bAKIA[0-9A-Z]{16}\b)|(\bghp_[A-Za-z0-9]{30,})|(\bgho_[A-Za-z0-9]{30,})|(\bghs_[A-Za-z0-9]{30,})|(\bghu_[A-Za-z0-9]{30,})|(\bglpat-[A-Za-z0-9_-]{20,})|(\bxox[baprs]-[A-Za-z0-9-]{10,})|(\beyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+)'
 
-# Decide source of paths
+# Decide source of paths AND which content surface to scan.
+#   git-hook mode (default):   scan the STAGED BLOB via `git show :<path>` —
+#                              this is what the commit actually contains, not
+#                              what's on disk (per Finding 3 of the 2026-05-14
+#                              re-audit: stage-then-edit-clean would bypass an
+#                              on-disk scanner).
+#   --files-from-stdin mode:   scan on-disk content directly — used by the
+#                              unit-test harness where files aren't in any git
+#                              index. (Integration test in Task 3 Step 6b
+#                              exercises the staged-blob path via a real git
+#                              workflow.)
+MODE="git-hook"
 if [[ "${1:-}" == "--files-from-stdin" ]]; then
+  MODE="stdin"
   mapfile -t FILES < <(cat)
 else
   mapfile -t FILES < <(git diff --cached --name-only --diff-filter=ACMR)
@@ -576,16 +631,31 @@ fi
 
 [[ ${#FILES[@]} -eq 0 ]] && exit 0
 
+scan_content() {
+  # stdin: content to scan; $1: label (file path) for grep output
+  grep -EHn "$PATTERNS" --label="$1" - 2>/dev/null
+}
+
 violations=0
 for f in "${FILES[@]}"; do
-  [[ -f "$f" ]] || continue
   # Skip anything that matches our own .gitignore secret patterns — defensive
   case "$f" in
     *.age) continue ;;
     *secrets*) ;;  # still scan — explicit
   esac
-  if grep -EHn "$PATTERNS" "$f" 2>/dev/null; then
-    violations=$((violations+1))
+  if [[ "$MODE" == "git-hook" ]]; then
+    # Read the staged blob. Skip silently if blob unavailable (e.g. deleted path).
+    if blob=$(git show ":$f" 2>/dev/null); then
+      if printf '%s' "$blob" | scan_content "$f"; then
+        violations=$((violations+1))
+      fi
+    fi
+  else
+    # stdin mode — scan disk file directly
+    [[ -f "$f" ]] || continue
+    if grep -EHn "$PATTERNS" "$f" 2>/dev/null; then
+      violations=$((violations+1))
+    fi
   fi
 done
 
@@ -641,6 +711,37 @@ Cleanup:
 git restore --staged planted_test.txt
 rm planted_test.txt /tmp/planted_test.txt
 ```
+
+- [ ] **Step 6b: Stage-then-edit-clean integration test (Finding 3 fix proof)**
+
+This test proves the hook reads the **staged blob**, not the on-disk file. Without the Finding 3 fix, the test below would let the secret slip through because the on-disk content is clean by commit time.
+
+```bash
+cd /srv/Nexostrat
+# 1. Plant a secret, stage it.
+echo "sk-ant-stagedblob1234567890abcdef" > stage_edit_test.txt
+git add stage_edit_test.txt
+
+# 2. Edit the on-disk file to remove the secret BEFORE committing.
+#    The staged blob still contains the secret; on-disk is now clean.
+echo "harmless content" > stage_edit_test.txt
+
+# 3. Attempt commit — the staged-blob scanner MUST block this.
+if git commit -m "stage-then-edit test (should be blocked by staged-blob scan)" 2>&1 | tail -5; then
+  echo "FAIL — commit succeeded despite secret in staged blob (Finding 3 not fixed)"
+  CLEANUP_FAIL=1
+else
+  echo "PASS — hook blocked commit based on staged-blob content"
+  CLEANUP_FAIL=0
+fi
+
+# Cleanup
+git restore --staged stage_edit_test.txt 2>/dev/null
+rm -f stage_edit_test.txt
+[[ "$CLEANUP_FAIL" == "1" ]] && { echo "ABORT — Finding 3 fix is not working; investigate before continuing"; exit 1; }
+```
+
+Expected: `PASS — hook blocked commit based on staged-blob content`. If FAIL: the hook is still scanning on-disk content; verify `MODE="git-hook"` branch is using `git show :$f` and re-run.
 
 - [ ] **Step 7: Stage + commit the hook itself**
 
@@ -1480,7 +1581,12 @@ ls /srv/Nexostrat/skills/
 - [ ] **Step 5: Stage + commit**
 
 ```bash
-git add 00_META/skills skills/
+# `git mv` (Step 2) has already staged the renames; `rmdir` (Step 3) removed the
+# now-empty source directory. Use `git add -A` to pick up any remaining
+# `.gitkeep` housekeeping without erroring on the removed source path
+# (per Finding 5 of the 2026-05-14 re-audit — the previous `git add 00_META/skills`
+# would have errored fatal because the path no longer exists).
+git add -A
 git status --short
 # Expected: many "R" (renamed) entries; net additions ≈ 0
 
@@ -2528,46 +2634,88 @@ shred -u /tmp/test.txt /tmp/test.age
 
 JP confirms via Signal: "roundtrip works." Document the confirmation in `STATUS.md` Recent activity.
 
-- [ ] **Step 3: Cross-decrypt — file encrypted by Ricardo, decrypted by JP (and vice versa)**
+- [ ] **Step 3: Cross-decrypt — bidirectional sentinel roundtrip (load-bearing C2 criterion)**
 
-This is the load-bearing C2 criterion. Ricardo encrypts a sentinel string and pushes; JP pulls and decrypts.
+This is the load-bearing C2 criterion: **either holder can decrypt firm content**. Both directions must succeed before proceeding to Task 14. Per Finding 6 of the 2026-05-14 re-audit, JP is Light-mode by default (Telegram + Gitea web only, no git CLI on his machine), so the reverse direction (JP encrypts, Ricardo decrypts) uses a Signal-attachment delivery channel instead of git push.
+
+**Direction A — Ricardo → JP:**
 
 ```bash
-# Ricardo:
+# Ricardo (HP laptop):
 TMP=/dev/shm/sentinel-$$.txt
 echo "Sentinel from Ricardo $(date -Iseconds)" > "$TMP"
-age -R /srv/Nexostrat/infra/age-recipients.txt -o /srv/Nexostrat/vault/keys/sentinel-ricardo-to-jp.age "$TMP"
+age -R /srv/Nexostrat/infra/age-recipients.txt \
+    -o /srv/Nexostrat/vault/keys/sentinel-ricardo-to-jp.age "$TMP"
 shred -u "$TMP"
 
 git add vault/keys/sentinel-ricardo-to-jp.age
-git commit -m "Plan 01a Task 13 · sentinel from Ricardo (will be removed after JP verifies)"
+git commit -m "Plan 01a Task 13 · sentinel from Ricardo (will be removed after both directions confirmed)"
 git push origin main
 ```
 
-JP, on his machine, runs (via Signal recipe):
+JP pulls via Gitea web (downloads the .age file from the Gitea web file viewer's "raw" link, OR uses a one-time git clone if he chooses Heavy mode for the test) and runs locally:
 
 ```bash
-git pull
-age -d -i <(age -d ~/.config/age/nexostrat.key.age) vault/keys/sentinel-ricardo-to-jp.age
+# JP (his machine):
+age -d -i <(age -d ~/.config/age/nexostrat.key.age) sentinel-ricardo-to-jp.age
 # Expected output: "Sentinel from Ricardo <timestamp>"
 ```
 
-JP confirms via Signal. Then the reverse (JP encrypts a sentinel; Ricardo decrypts).
+JP confirms via Signal: "Direction A works — got: 'Sentinel from Ricardo <timestamp>'". Document the confirmation in `STATUS.md` Recent activity (Direction A line).
 
-- [ ] **Step 4: Remove the sentinels after both confirmations**
+**Direction B — JP → Ricardo (Signal-attachment flow, no git on JP's side required):**
+
+Ricardo sends JP the contents of `infra/age-recipients.txt` via Signal (paste as a message — it's a 2-line public file, safe to share over Signal). JP saves it as `/tmp/nexostrat-recipients.txt` locally.
 
 ```bash
-git rm vault/keys/sentinel-ricardo-to-jp.age vault/keys/sentinel-jp-to-ricardo.age 2>/dev/null
+# JP runs (on his machine, no git required):
+echo "Sentinel from JP $(date -Iseconds)" | \
+  age -R /tmp/nexostrat-recipients.txt -o /tmp/sentinel-jp-to-ricardo.age
+```
+
+JP attaches `/tmp/sentinel-jp-to-ricardo.age` to a Signal message → Ricardo. Ricardo saves the attachment to a known path and runs:
+
+```bash
+# Ricardo (HP laptop) — assumes Signal saved the file to ~/Downloads/sentinel-jp-to-ricardo.age
+cp ~/Downloads/sentinel-jp-to-ricardo.age /srv/Nexostrat/vault/keys/sentinel-jp-to-ricardo.age
+
+age -d -i <(age -d ~/.config/age/nexostrat.key.age) \
+    /srv/Nexostrat/vault/keys/sentinel-jp-to-ricardo.age
+# Expected output: "Sentinel from JP <timestamp>"
+```
+
+Ricardo confirms back on Signal: "Direction B works — got: 'Sentinel from JP <timestamp>'". Document in `STATUS.md` Recent activity (Direction B line).
+
+Then stage the JP-side sentinel for cleanup-commit:
+
+```bash
+git add vault/keys/sentinel-jp-to-ricardo.age
+git commit -m "Plan 01a Task 13 · sentinel from JP (will be removed in next commit after both directions confirmed)"
+git push origin main
+```
+
+If **either** direction fails, do NOT proceed to Step 4 or Task 14. Resolve the failing direction first — possible causes: JP's pubkey not in recipients file (Task 12), wrong passphrase on JP's key, or recipients-file contents corrupted in Signal paste (re-send as attachment instead).
+
+- [ ] **Step 4: Remove both sentinels after bidirectional confirmation**
+
+```bash
+# Both sentinels are now committed (Direction A commit + Direction B commit above).
+# This commit removes both in one pass — `git rm` will error if either is missing,
+# which is the desired loud failure if Step 3 was skipped/partial.
+git rm vault/keys/sentinel-ricardo-to-jp.age vault/keys/sentinel-jp-to-ricardo.age
 git commit -m "$(cat <<'EOF'
 Plan 01a Task 13 · remove C2 verification sentinels
 
-Sentinels confirmed bidirectional encrypt/decrypt with both recipients
-(Ricardo-encrypts → JP-decrypts and reverse). Files removed; verification
-recorded in STATUS.md Recent activity.
+Bidirectional encrypt/decrypt confirmed (Direction A: Ricardo→JP via git;
+Direction B: JP→Ricardo via Signal attachment, per the JP Light-mode flow
+specified in Plan 01a Task 13 Step 3). Both holders can decrypt firm content
+with their own age key. Verification timestamps logged in STATUS.md Recent
+activity.
 
-Spec refs: §3, C2.
+Spec refs: §3 (Identities), C2 closure.
 EOF
 )"
+git push origin main
 ```
 
 If only one direction was verified, do NOT proceed to Task 14. Resolve the failing direction first.
@@ -2674,51 +2822,93 @@ Create `/srv/Nexostrat/infra/scripts/test_run_with_secrets_no_leak.sh`:
 
 ```bash
 #!/usr/bin/env bash
-# Test: run-with-secrets.sh leaves no /dev/shm plaintext after wrapped command exits.
+# Test: run-with-secrets.sh creates plaintext at /dev/shm DURING execution,
+#       and removes it AFTER exit (positive + negative control for C1).
+#
+# This test is INTERACTIVE — the wrapper's inner `age -d` reads the age-key
+# passphrase from /dev/tty. Enter Ricardo's (or JP's) passphrase when prompted.
+#
+# Per Finding 2 of the 2026-05-14 re-audit: this replaces an earlier version
+# that backgrounded the wrapper, never created the plaintext (wrapper was
+# blocked on passphrase prompt), then false-PASSed by observing absence of a
+# file that was never written. The new design polls for the file's appearance
+# (positive control), then checks the specific path is gone after kill
+# (negative control). It also avoids blasting concurrent legitimate sessions
+# (no global `rm -f /dev/shm/nexostrat-secrets-*`).
+
 set -uo pipefail
 WRAPPER="/srv/Nexostrat/infra/scripts/run-with-secrets.sh"
+SENTINEL_CMD='sleep 20'   # long enough to observe + kill mid-execution
+POLL_DEADLINE_SECS=30     # generous: user types passphrase, age decrypts, wrapper writes
 
-# Pre-condition: clean slate
-rm -f /dev/shm/nexostrat-secrets-* 2>/dev/null || true
+if [[ ! -x "$WRAPPER" ]]; then
+  echo "FAIL — wrapper script not found or not executable at $WRAPPER"
+  exit 1
+fi
 
-# Run the wrapper around `sleep 60 &` — disown so the test continues
-"$WRAPPER" sh -c 'sleep 60' &
+echo "================================================================"
+echo "  C1 Leak Test (interactive — type your age passphrase when asked)"
+echo "================================================================"
+echo "  Backgrounded wrapper runs '$SENTINEL_CMD'. Polling /dev/shm for"
+echo "  up to ${POLL_DEADLINE_SECS}s to see the plaintext appear (positive"
+echo "  control). Then kills the wrapper and verifies cleanup (negative"
+echo "  control)."
+echo
+
+# Snapshot existing /dev/shm/nexostrat-secrets-* files so concurrent sessions
+# are preserved. We compute set-difference to identify OUR file.
+BEFORE=$(ls /dev/shm/nexostrat-secrets-* 2>/dev/null | sort -u || true)
+
+"$WRAPPER" sh -c "$SENTINEL_CMD" &
 WRAPPER_PID=$!
-sleep 2
 
-# Did anything leak?
-LEAKED=$(ls /dev/shm/nexostrat-secrets-* 2>/dev/null | wc -l)
-if [[ $LEAKED -gt 0 ]]; then
-  echo "FAIL — $LEAKED file(s) leaked to /dev/shm:"
-  ls -la /dev/shm/nexostrat-secrets-*
-  kill $WRAPPER_PID 2>/dev/null
-  pkill -P $WRAPPER_PID 2>/dev/null
-  rm -f /dev/shm/nexostrat-secrets-* 2>/dev/null
+# Poll for a new file to appear (means wrapper got past decrypt+write).
+echo "--- waiting for plaintext to appear at /dev/shm ---"
+FOUND=""
+DEADLINE=$((SECONDS + POLL_DEADLINE_SECS))
+while (( SECONDS < DEADLINE )); do
+  if ! kill -0 "$WRAPPER_PID" 2>/dev/null; then
+    echo "FAIL — wrapper exited before creating plaintext (decrypt failure?)"
+    wait "$WRAPPER_PID" 2>/dev/null
+    exit 1
+  fi
+  CURRENT=$(ls /dev/shm/nexostrat-secrets-* 2>/dev/null | sort -u || true)
+  NEW=$(comm -23 <(echo "$CURRENT") <(echo "$BEFORE") 2>/dev/null | head -1)
+  if [[ -n "$NEW" ]]; then FOUND="$NEW"; break; fi
+  sleep 1
+done
+
+if [[ -z "$FOUND" ]]; then
+  echo "FAIL — no plaintext file appeared at /dev/shm within ${POLL_DEADLINE_SECS}s"
+  echo "  (user may not have entered passphrase, or wrapper is broken)"
+  kill "$WRAPPER_PID" 2>/dev/null
+  wait "$WRAPPER_PID" 2>/dev/null
   exit 1
 fi
+echo "PASS — wrapper created $FOUND during execution (positive control)"
 
-# C1 spec also requires: secrets ARE available inside the wrapped process
-# (i.e. the wrapper actually sourced them). Test in foreground:
-echo "--- positive: secrets reachable inside wrapped command ---"
-"$WRAPPER" sh -c 'echo "ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY-UNSET}"'
-# Expected: prints "ANTHROPIC_API_KEY=" (empty value from template) — NOT "UNSET"
-
-# Cleanup the backgrounded sleep
-kill $WRAPPER_PID 2>/dev/null
-pkill -P $WRAPPER_PID 2>/dev/null
-wait 2>/dev/null
-
-# Final check — no leftovers after wrapper terminates
+# Now kill the wrapper and verify the SPECIFIC file we observed is removed.
+kill "$WRAPPER_PID" 2>/dev/null
+wait "$WRAPPER_PID" 2>/dev/null
 sleep 1
-LEFTOVER=$(ls /dev/shm/nexostrat-secrets-* 2>/dev/null | wc -l)
-if [[ $LEFTOVER -gt 0 ]]; then
-  echo "FAIL — leftover after kill:"
-  ls -la /dev/shm/nexostrat-secrets-*
-  rm -f /dev/shm/nexostrat-secrets-*
+
+if [[ -e "$FOUND" ]]; then
+  echo "FAIL — $FOUND still exists after wrapper killed; C1 cleanup did NOT fire"
+  ls -la "$FOUND"
   exit 1
 fi
+echo "PASS — $FOUND removed after wrapper exit (negative control — C1 cleanup verified)"
 
-echo "PASS — no leak; positive sourcing verified"
+# Optional sanity: any other newly-created leftovers we didn't track?
+AFTER=$(ls /dev/shm/nexostrat-secrets-* 2>/dev/null | sort -u || true)
+EXTRA=$(comm -23 <(echo "$AFTER") <(echo "$BEFORE") 2>/dev/null || true)
+if [[ -n "$EXTRA" ]]; then
+  echo "WARN — unexpected leftover files (concurrent session, or test ran twice?):"
+  printf '  %s\n' $EXTRA
+fi
+
+echo
+echo "All assertions passed (C1 leak test)."
 ```
 
 ```bash
@@ -2783,11 +2973,23 @@ if [[ ! -f "$PRIV_KEY_AGE" ]]; then
 fi
 
 # Decrypt secrets to /dev/shm
-# (the inner age -d prompts for the private-key passphrase)
-if ! age -d -i <(age -d "$PRIV_KEY_AGE") "$ENC" > "$PT" 2>/dev/null; then
-  echo "ERROR: failed to decrypt $ENC (wrong passphrase or recipient mismatch)" >&2
+# (the inner age -d prompts for the private-key passphrase on /dev/tty;
+#  age's diagnostic messages go to stderr — capture them rather than silence,
+#  per Finding 7 of the 2026-05-14 re-audit: first-time users need to
+#  distinguish wrong-passphrase vs recipient-mismatch vs identity-file-format
+#  failures.)
+AGE_ERR=$(mktemp)
+if ! age -d -i <(age -d "$PRIV_KEY_AGE") "$ENC" > "$PT" 2>"$AGE_ERR"; then
+  echo "ERROR: failed to decrypt $ENC" >&2
+  echo "  hint: wrong passphrase, recipient mismatch, or identity-file format issue" >&2
+  if [[ -s "$AGE_ERR" ]]; then
+    echo "  age stderr:" >&2
+    sed 's/^/    /' "$AGE_ERR" >&2
+  fi
+  rm -f "$AGE_ERR"
   exit 1
 fi
+rm -f "$AGE_ERR"
 chmod 600 "$PT"
 
 # Source the env into the current shell
@@ -2812,36 +3014,37 @@ chmod +x /srv/Nexostrat/infra/scripts/run-with-secrets.sh
 
 ```bash
 bash /srv/Nexostrat/infra/scripts/test_run_with_secrets_no_leak.sh
-# Expected: PASS — no leak; positive sourcing verified
+# Expected (interactive — enter passphrase at the prompt):
+#   PASS — wrapper created /dev/shm/nexostrat-secrets-<pid> during execution (positive control)
+#   PASS — /dev/shm/nexostrat-secrets-<pid> removed after wrapper exit (negative control — C1 cleanup verified)
+#   All assertions passed (C1 leak test).
 ```
 
-If the test fails (passphrase prompt issues or similar), the wrapper needs to be runnable in non-interactive contexts. For Plan 01a, the assumption is interactive Ricardo-or-JP at the prompt; future hardening (process substitution; per-machine cached unlock token) is post-Stage-1.
+If the test fails because the passphrase prompt is invisible (no /dev/tty available — e.g., running over a non-interactive SSH or inside a CI runner), wrap the test invocation in `script -q -c "bash …" /dev/null` to allocate a pty. For Plan 01a, the assumption is interactive Ricardo-or-JP at the prompt; future hardening (process substitution; per-machine cached unlock token) is post-Stage-1.
 
-- [ ] **Step 5: Smoke-test the documented C1 success criterion explicitly**
+- [ ] **Step 5: Plan-level success-criterion smoke-test (post-test sanity)**
+
+The plan-level success criterion (`run-with-secrets.sh sleep 60 &` then 2s later `ls /dev/shm/nexostrat-secrets-*` returns no files) is **already verified by Step 1's negative-control assertion** (Finding 2 of the 2026-05-14 re-audit fixed the previously-buggy version that backgrounded before passphrase and false-PASSed). If you want an additional eyeballed check, the manual incantation below mirrors the success criterion as written in the plan header:
 
 ```bash
-# The plan-level success criterion: 60-sec sleep wrapped, 2s later check shm
+# Manual smoke — type passphrase when prompted, then watch /dev/shm.
 /srv/Nexostrat/infra/scripts/run-with-secrets.sh sleep 60 &
 SLEEP_PID=$!
-sleep 2
 
-# C1 success criterion: NO files match /dev/shm/nexostrat-secrets-*
-LEAKED=$(ls /dev/shm/nexostrat-secrets-* 2>/dev/null | wc -l)
-echo "Leaked files: $LEAKED  (success criterion: 0)"
-# Wait — sleep is still running, plaintext IS at /dev/shm/nexostrat-secrets-<pid>
-# during the sleep. The success criterion is "after wrapped command exits".
+# DURING execution — file SHOULD exist (positive control).
+sleep 3  # wait for passphrase + decrypt + write
+ls /dev/shm/nexostrat-secrets-* 2>/dev/null && echo "during: file present (good)"
 
-# Kill the wrapper, wait for cleanup, recount
-kill $SLEEP_PID 2>/dev/null
-pkill -P $SLEEP_PID 2>/dev/null
+# AFTER kill — file MUST be gone (negative control = plan success criterion).
+kill "$SLEEP_PID" 2>/dev/null
+wait "$SLEEP_PID" 2>/dev/null
 sleep 1
-
 LEAKED_AFTER=$(ls /dev/shm/nexostrat-secrets-* 2>/dev/null | wc -l)
-echo "After wrapper exits — leaked: $LEAKED_AFTER  (success criterion: 0)"
+echo "after wrapper exits — leaked: $LEAKED_AFTER  (success criterion: 0)"
 [[ $LEAKED_AFTER -eq 0 ]] && echo "C1 PASS" || echo "C1 FAIL — investigate trap"
 ```
 
-Expected: `C1 PASS`.
+Expected: `during: file present (good)` followed by `C1 PASS`.
 
 - [ ] **Step 6: Stage + commit**
 
@@ -2985,7 +3188,8 @@ EOF
 Ricardo provides the path to the signed PDF (e.g., `~/Downloads/PARTNERSHIP_AGREEMENT_2026-05-12_signed.pdf`). Verify:
 
 ```bash
-SIGNED_PDF="~/Downloads/PARTNERSHIP_AGREEMENT_2026-05-12_signed.pdf"  # adjust to actual path
+# Use $HOME (not ~ inside quotes — tilde does NOT expand inside double quotes; per Finding 4 of the 2026-05-14 re-audit).
+SIGNED_PDF="$HOME/Downloads/PARTNERSHIP_AGREEMENT_2026-05-12_signed.pdf"  # adjust to actual path
 ls -la "$SIGNED_PDF"
 # Expected: PDF file, signed-version, ~few hundred KB
 ```

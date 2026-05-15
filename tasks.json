@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v1",
   "project": "nexostrat",
-  "updated": "2026-05-14T23:30:00-07:00",
+  "updated": "2026-05-14T23:59:00-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -92,11 +92,12 @@
     {
       "id": "t-plan-01a-reaudit",
       "subject": "Batch 3 step 1 — Re-audit Plan 01a (independent risk-auditor pass)",
-      "status": "open",
+      "status": "done",
       "priority": "critical",
       "due": "2026-05-21",
       "created": "2026-05-14",
-      "notes": "**NEXT SESSION ACTION** as of 2026-05-14 end. Same dispatch pattern as 2026-05-14 audit (general-purpose agent with risk-auditor persona inlined; or direct risk-auditor subagent). Target GREEN. If YELLOW with <=3 amendments, apply inline and proceed. If more, re-write affected tasks. Plan 01a at 00_META/plans/2026-05-14_plan-01a-foundation.md (18 tasks, ~3300 lines). Per amendment plan §Batch 3."
+      "completed": "2026-05-14",
+      "notes": "Dispatched 2026-05-14 via general-purpose agent with risk-auditor persona inlined (same pattern as 2026-05-14 founding-spec audit). Returned YELLOW (large): 0 CRITICAL, 7 HIGH, 5 MEDIUM, 3 LOW, no DESIGN-RETHINK FLAG. Report at 00_META/proposals/2026-05-14_plan-01a-audit-report.md. Per Ricardo's decision, the 7 HIGH findings were patched inline into Plan 01a (rather than re-running writing-plans) because the auditor's own recommended path was surgical patches; defects were localized to specific tasks. Patched: Finding 1 (gitignore *secrets* glob → surgical patterns + allowlist), Finding 2 (C1 leak-test passphrase-hang false PASS → poll-based positive+negative control), Finding 3 (secret-scan on-disk vs staged-blob → git show :path + stage-then-edit integration test), Finding 4 (SIGNED_PDF tilde quoting → $HOME), Finding 5 (Task 7 git add after rmdir → git add -A), Finding 6 (C2 reverse-direction underspecified for JP Light-mode → Signal-attachment flow), Finding 7 (run-with-secrets 2>/dev/null swallows age errors → captured-stderr log). MEDIUM/LOW deferred."
     },
     {
       "id": "t-plan-01a-execute",
@@ -106,7 +107,7 @@
       "due": "2026-05-27",
       "created": "2026-05-14",
       "blocked_by": "t-plan-01a-reaudit",
-      "notes": "Execute via superpowers:subagent-driven-development. Tag v0.1a-foundation on completion. Tasks 1-11 unblocked once re-audit GREEN; Tasks 12-18 also gate on t-jp-age-keypair. Several deliverables already partly done in terrain prep — those become VERIFY tasks per Plan 01a Task 11."
+      "notes": "Execute via superpowers:subagent-driven-development. Tag v0.1a-foundation on completion. Tasks 1-11 unblocked (re-audit done, 7 HIGH findings patched inline); Tasks 12-18 also gate on t-jp-age-keypair. Several deliverables already partly done in terrain prep — those become VERIFY tasks per Plan 01a Task 11. Patched plan at 00_META/plans/2026-05-14_plan-01a-foundation.md; audit report at 00_META/proposals/2026-05-14_plan-01a-audit-report.md."
     },
     {
       "id": "t-plan-01b-reaudit",

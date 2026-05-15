@@ -15,9 +15,9 @@ The reason for just-in-time writing: tool versions, learned lessons, and small a
 
 | # | Plan | Status | File | Effort | Due | Done |
 |---|---|---|---|---|---|---|
-| 01a | Repository Foundation — scaffold + identity + crypto | DRAFT-PENDING | — | ~5 days execute + ~1 day write + ~1 day re-audit | 2026-05-27 | — |
-| 01b | Mirrors + warm-standby | DRAFT-PENDING | — | ~5 days execute + ~1 day write + ~1 day re-audit | 2026-06-03 | — |
-| 01c | Personas + hooks + integration test | DRAFT-PENDING | — | ~5 days execute + ~1 day write + ~1 day re-audit | 2026-06-10 | — |
+| 01a | Repository Foundation — scaffold + identity + crypto | READY | [`2026-05-14_plan-01a-foundation.md`](2026-05-14_plan-01a-foundation.md) | ~5 days execute + ~1 day re-audit | 2026-05-27 | — |
+| 01b | Mirrors + warm-standby | READY | [`2026-05-14_plan-01b-mirrors.md`](2026-05-14_plan-01b-mirrors.md) | ~5 days execute + ~1 day re-audit | 2026-06-03 | — |
+| 01c | Personas + hooks + integration test | READY | [`2026-05-14_plan-01c-personas.md`](2026-05-14_plan-01c-personas.md) | ~5 days execute + ~1 day re-audit | 2026-06-10 | — |
 | 01 (original) | Repository Foundation (single plan) | **SUPERSEDED** | [`2026-05-13_plan-01-repository-foundation.md`](2026-05-13_plan-01-repository-foundation.md) | — | — | replaced by 01a/01b/01c per [`../proposals/2026-05-14_amendments.md`](../proposals/2026-05-14_amendments.md) §R1 |
 | 02 | Documentation System | DRAFT-PENDING | — | ~3 days | — | — |
 | 03 | events.jsonl + Python Agent Framework | DRAFT-PENDING | — | ~1 week | — | — |
@@ -112,7 +112,7 @@ When it's time to draft Plan N in detail, future Claude reads (a) the spec, (b) 
 
 **Spec references:** §1 (Topology), §2 (Repository Structure), §3 (Foundation Layer), §4.1-§4.5 (Personas + Partnership), §6.4 (intake 2-file split — informs `_template/` shape), ADRs 002, 003, 004, 005, 006, 008, 011, 015, 021, 027, 033, 036.
 
-**File:** *(to be written via writing-plans in Batch 2)*
+**File:** [`2026-05-14_plan-01a-foundation.md`](2026-05-14_plan-01a-foundation.md) — 18 tasks, ~3300 lines.
 
 ---
 
@@ -141,7 +141,7 @@ When it's time to draft Plan N in detail, future Claude reads (a) the spec, (b) 
 
 **Spec references:** §1 (Replication topology), §3 (Backup ladder + recovery procedures), §9.4 (Python agents — mirror agents live in `infra/systemd/` as units, not Python this time; F22 closure), ADRs 006, 023.
 
-**File:** *(to be written via writing-plans in Batch 2)*
+**File:** [`2026-05-14_plan-01b-mirrors.md`](2026-05-14_plan-01b-mirrors.md) — 12 tasks, ~1750 lines. Tasks 1-6 (mirror cluster) + Tasks 7-12 (warm-standby cluster, gates on physical second host).
 
 ---
 
@@ -175,7 +175,7 @@ When it's time to draft Plan N in detail, future Claude reads (a) the spec, (b) 
 
 **Spec references:** §4 (Personas + protocols), §4.6 (docs-pair hook), §4.7 (memo protocol), §4.10 (CHECKPOINT + concurrent-session protection), §4.11 (Unified inbox — files only; Telegram delivery surface is Plan 04), §10.1 (smoke test layer), ADRs 011, 014, 025, 031, 036.
 
-**File:** *(to be written via writing-plans in Batch 2)*
+**File:** [`2026-05-14_plan-01c-personas.md`](2026-05-14_plan-01c-personas.md) — 11 tasks, ~2050 lines.
 
 ---
 
@@ -507,3 +507,4 @@ Each layer is intentionally redundant with the others — different audiences, d
 |------|-------|-------------|
 | 2026-05-13 | Claude (Opus 4.7, with Ricardo at root) | Master plan index created. 10 plans drafted at header-level; Plan 01 fully detailed. Plans 02-10 status `DRAFT-PENDING` — to be written via `writing-plans` skill at execution time. |
 | 2026-05-14 | Claude (Opus 4.7 1M, Batch 1 amendments) | **Plan 01 split into 01a / 01b / 01c** per [`../proposals/2026-05-14_amendments.md`](../proposals/2026-05-14_amendments.md) §R1. Status table reorganized; original Plan 01 row marked SUPERSEDED with banner pointing to the three replacement plans. Dependency graph updated: Plan 01c (foundation milestone reached) is the new entry-point dependency for Plans 02-04. Per-plan headers (Goal · Deliverables · Dependencies · Success criteria · Spec references) drafted for 01a/01b/01c reflecting locked audit-amendment decisions (C1-C4, F5-F27, R1-R6). R6 calendar honesty applied: 01a by 2026-05-27, 01b by 2026-06-03, 01c by 2026-06-10 (v0.1-foundation milestone). Plans 02/03/04 dependency strings rewritten Plan 01 → Plan 01c. |
+| 2026-05-14 | Claude (Opus 4.7 1M, Batch 2 plan-write) | **Plans 01a/01b/01c written in full via `superpowers:writing-plans`.** Status: DRAFT-PENDING → READY for all three. File-column links populated. 01a = 18 tasks (~3300 lines) covering scaffold + crypto + secrets + questionnaires + partnership + machine profiles. 01b = 12 tasks (~1750 lines) covering mirrors (GitHub + Codeberg via systemd path-watchers per C4) + warm-standby + failover runbook. 01c = 11 tasks (~2050 lines) covering canonical shared stanzas + inliner script (C3) + memos script (F8) + 6 persona files + 4-hook surface + R2 rich smoke test + v0.1-foundation tag. All 3 plans use TDD discipline where applicable + frequent commits. Audit-finding inheritance documented per-plan. JP-coordination gates (Plan 01a Tasks 12-18) and physical-host gates (Plan 01b Tasks 7-12) explicitly marked. Next: Batch 3 — re-audit + execute 01a → 01b → 01c. |

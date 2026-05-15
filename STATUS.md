@@ -1,7 +1,7 @@
 # Nexostrat — STATUS
 
-> **Last updated:** 2026-05-15 (JP onboarding closure — pubkey landed, macOS-deviation surfaced)
-> **Current phase:** Foundation construction — Plan 01a re-audited + patched + execute-ready; Batch 3 step 2 (execute Plan 01a Tasks 1-11) is the next critical sequence; macOS-deviation decision pending before Tasks 12-18
+> **Last updated:** 2026-05-15 (JP-Light refinement: no Gitea web for JP, Notion dropped firm-wide per ADR-038, macOS adaptation mooted)
+> **Current phase:** Foundation construction — all soft-blockers resolved; Plan 01a fully execute-ready; Batch 3 step 2 (execute Plan 01a Tasks 1-11) ready to dispatch on greenlight
 
 ## Current state
 
@@ -30,7 +30,7 @@ A forensic-friendly **patch-verification-trail doc** was written so any future a
 
 **For Batch 3 step 2 (Plan 01a Tasks 1-11 execution): NONE.** Plan is patched; ready to execute.
 
-**For Plan 01a execution Tasks 12-18 (downstream within 01a):** JP age pubkey ✅ landed 2026-05-15. NEW soft-blocker: macOS-deviation decision (jp-heavy.yaml + `/dev/shm`/shred discipline) per `t-macos-deviation-decision`. Tasks 12-18 touch JP's machine, so the macOS path needs to be decided (quick-triage patch + follow-up amendment, or full amendment cycle now). Tasks 1-11 unaffected.
+**For Plan 01a execution Tasks 12-18 (downstream within 01a):** JP age pubkey ✅ landed 2026-05-15. macOS-deviation soft-blocker MOOTED 2026-05-15 — JP picked Light mode, never decrypts vault locally except a one-time innocuous sentinel for Task 13 Direction B (plain `/tmp` is fine). `jp-heavy.yaml` remains as future-state stub for whenever JP flips. Tasks 12-18 unblocked.
 
 **For Plan 01b execution Tasks 7-12 (downstream within 01b):** physical second host (Linux Mint 22.2 + Tailscale-joined). Tasks 1-6 of 01b unblocked.
 
@@ -47,19 +47,20 @@ All JP-side coordination items received 2026-05-15 via Signal + Proton email. **
 - ✅ JP Gitea preference: DONE 2026-05-15 (no account; Ricardo to create server-side and send password via Signal)
 - ✅ JP GitHub preference: DONE 2026-05-15 (new account at `contacto@nexostrat.com`; Ricardo to create)
 
-## Pending Ricardo-side actions (from JP onboarding closure)
+## Pending Ricardo-side actions
 
-Tracked in `t-ricardo-jp-onboarding-actions`:
-- Create JP's Gitea user on HP (`gitea admin user create ...`), send initial password via Signal
-- Accept JP's Notion workspace invite from `contacto@nexostrat.com`
-- Create new GitHub account at `contacto@nexostrat.com` (precondition for Plan 01b)
+**None active.** All four prior items resolved 2026-05-15:
 
-Plus: decide macOS-deviation path per `t-macos-deviation-decision`.
+- ~~Create JP's Gitea user~~ → POSTPONED INDEFINITELY (JP-Light variant opts out of Gitea web; he wants results, not architecture browsing — can be created in 10 min if he ever asks)
+- ~~Accept JP's Notion invite~~ → CANCELLED per ADR-038 (Notion exits firm-level)
+- ~~Create GitHub account at `contacto@nexostrat.com`~~ → ALREADY DONE during 2026-05-14 terrain prep (verified via `ssh -T` returning friendly greeting)
+- ~~Decide macOS-deviation path~~ → MOOT (JP-Light never decrypts vault locally; macOS Heavy adaptation deferred until JP-flip event)
 
 ## Open follow-ups
 
 - Batch 3 execution sequence (step 2 = Plan 01a Tasks 1-11 NEXT)
-- **macOS-deviation path (NEW 2026-05-15):** JP confirmed `jp-mac` is macOS Sequoia 15.7.3, not Linux Mint. See `t-macos-deviation-decision`. Affects Plan 01a Task 6 `jp-heavy.yaml` (trivial) + spec §3 secrets discipline (`/dev/shm` + `shred` are Linux-specific; needs macOS-equivalent path before Tasks 12-18 touch JP's machine).
+- **Notion removal spec touchups (NEW 2026-05-15):** per ADR-038, all Notion references in spec + amendments + plans need a single-pass cleanup commit (similar shape to Batch 1a `dc5cbec`). Tracked in `t-spec-notion-removal-amendment`; scheduled between Plan 01c execution and Plan 02 writing. Touches ADR-001/024/037, §5 cost table (revert F14), §6/§8/§10.
+- **FOSS docs stack decision (NEW 2026-05-15):** per ADR-038, Plan 02 brainstorm picks FOSS replacements for Notion's four roles (meeting capture, summary gen, CRM, collaborative docs). All options open. Tracked in `t-foss-docs-stack-decision`.
 - **Deferred audit findings (Plan 01a):** 5 MEDIUM + 3 LOW from the 2026-05-14 re-audit. Listed in `00_META/proposals/2026-05-14_plan-01a-patch-verification-trail.md` § Deferred findings with brief rationale per finding. None block Plan 01a execution.
 - **Possible new defects from the patches themselves:** the patch-verification-trail flags three unknown-unknowns to scrutinize during execution — `MODE="git-hook"` hook branch under partial-stage-with-deletion; `git add -A` broader scope in Task 7; `AGE_ERR=$(mktemp)` file outside `/dev/shm` not shred-cleaned. Future re-audit should look.
 - Plans 02-10 after Plan 01c done
@@ -68,6 +69,8 @@ Plus: decide macOS-deviation path per `t-macos-deviation-decision`.
 - Future hardening items (post-Stage-1): Option B for C1 (process substitution secrets), Stage 2 escrow vault recipient, group-brief TZ choice, JP committer access in Gitea org
 
 ## Recent activity
+
+- **2026-05-15 (JP-Light refinement + Notion drop — ADR-038)** — JP picked Light mode (Telegram + email + FOSS dashboard, no Gitea web, no local Claude Code on his Mac). Cascading decisions same session: (a) JP's Gitea user creation postponed indefinitely — he wants results not architecture browsing; can be created in 10 min when/if he asks; (b) macOS-deviation work mooted entirely — Light JP never decrypts vault locally except a one-time innocuous sentinel for Task 13 Direction B (plain `/tmp` is fine); `jp-heavy.yaml` remains as future-state stub for the eventual flip; (c) Notion dropped firm-wide per ADR-038 — Ricardo elected to act on the audit-flagged Notion fragility (R5/ADR-037) immediately rather than at Stage 2, AND to lean heavily on FOSS self-hosted solutions; all four Notion roles (meeting capture canonical, summary gen, CRM, collaborative docs) reassigned to FOSS replacements TBD via Plan 02 brainstorm with all options open. Tasks closed: `t-ricardo-jp-onboarding-actions`, `t-macos-deviation-decision`. Tasks opened: `t-foss-docs-stack-decision`, `t-spec-notion-removal-amendment`. Memory `notion-via-jp-personal` deleted, replaced with `no-notion`. Net: all soft-blockers cleared; Plan 01a fully execute-ready.
 
 - **2026-05-15 (JP onboarding closure)** — JP replied to all 6 coordination items requested 2026-05-14. Telegram chat_id `459242980` captured. age pubkey `age10k4rz...rupv79` received via Proton email and added to `infra/age-recipients.txt`; format validated by encrypt-side test (age accepted both `-R` parses). Closes CRITICAL 2 fix prerequisite — Plan 01a Tasks 12-18 unblocked from a key-on-file perspective; Task 13 bidirectional roundtrip will prove JP's privkey + passphrase actually work on the Mac during execution. OS confirmed as macOS Sequoia 15.7.3 (NOT Linux Mint) — opens `t-macos-deviation-decision` for spec §3 secrets-discipline adaptation (`/dev/shm` + `shred` Linux-specific). Notion workspace created with `contacto@nexostrat.com` invited; Gitea = Ricardo creates server-side; GitHub = new account at `contacto@nexostrat.com`. Tasks closed: `t-jp-coordination-2026-05-14`, `t-jp-age-keypair`, `t-jp-os-confirmation`. Tasks opened: `t-ricardo-jp-onboarding-actions`, `t-macos-deviation-decision`.
 

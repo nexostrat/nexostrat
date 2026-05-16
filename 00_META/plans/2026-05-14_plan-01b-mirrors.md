@@ -21,7 +21,7 @@
 
 **Coordination gates:**
 - **GitHub + Codeberg accounts** must exist as `nexostrat` org/user with SSH keys registered (terrain-prep work — VERIFY at pre-flight). PATs (`GITHUB_MIRROR_PAT`, `CODEBERG_MIRROR_PAT`) get added to `secrets.env.age` during this plan.
-- **Warm-standby host** must be physically available + have Linux Mint installed + Tailscale joined to the tailnet. If not yet provisioned, Tasks 7-11 (warm-standby cluster) pause until the host is ready; Tasks 1-6 (mirror cluster) run unblocked.
+- **Warm-standby host** must be physically available + have Linux Mint installed + Tailscale joined to the tailnet. If not yet provisioned, Tasks 7-12 (warm-standby cluster) pause until the host is ready; Tasks 1-6 (mirror cluster) run unblocked.
 
 **Spec references:** §1 (Replication topology), §3 (Backup ladder + recovery procedures), §5 (Per-machine profiles — `hp-standby.yaml` filled out at provisioning), §9.4 (Python agents — note: mirror agents live in `infra/systemd/`, not Python, per ADR-029 + C4). ADRs 002, 006, 023, 029.
 
@@ -202,6 +202,9 @@ Write `/srv/Nexostrat/00_GOVERNANCE/system_map.md`:
 | `<warm-standby-tbd>` | `<TBD>` | Linux Mint 22.2 | hp-standby | Filled at standby provisioning (Plan 01b Tasks 7-9) |
 | `ricardo-desktop`     | `<TBD>` | Linux Mint 22.2 | ricardo-desktop | GPU host (Ollama); wake-on-LAN target |
 
+> **OS pinning:** Linux Mint 22.2 LTS across all hosts at Stage 1. Bump this
+> column (here and in `infra/machines/*.yaml`) when any host is upgraded.
+
 ## Docker stack on hp-server
 
 Compose file: `/srv/Nexostrat/docker-compose.yml` (Plan 02 lands the actual compose; Plan 01b uses what already exists for Gitea).
@@ -283,12 +286,19 @@ System-level units at `/etc/systemd/system/`:
   Stale entries trigger a quarterly review (`00_PARTNERSHIP/reviews/`).
 ```
 
-- [ ] **Step 6: Stage + commit**
+- [ ] **Step 6: Pre-create `00_GOVERNANCE/incidents/`, stage + commit**
 
 ```bash
-git add 00_GOVERNANCE/system_map.md
+# Pre-create the incidents folder so Task 11's HP-down runbook has a tracked
+# destination on first incident (matches Plan 01a's scaffold-with-.gitkeep
+# pattern; otherwise the folder appears mid-incident, which is the wrong time
+# for tooling friction).
+mkdir -p 00_GOVERNANCE/incidents
+touch 00_GOVERNANCE/incidents/.gitkeep
+
+git add 00_GOVERNANCE/system_map.md 00_GOVERNANCE/incidents/.gitkeep
 git commit -m "$(cat <<'EOF'
-Plan 01b Task 1 · system_map.md + Gitea bare-repo path verified (F22, F25)
+Plan 01b Task 1 · system_map.md + incidents/ scaffold + Gitea path verified (F22, F25)
 
 Verified Gitea bare-repo lives at:
   /srv/gitea/data/git/repositories/nexostrat/nexostrat.git
@@ -298,6 +308,9 @@ repo per F25 (not personal namespace).
 
 00_GOVERNANCE/system_map.md is the new "where things live" reference,
 populated incrementally as each Plan 01b task lands its piece.
+
+00_GOVERNANCE/incidents/.gitkeep pre-creates the destination for Task 11's
+HP-down post-mortem entries.
 
 Spec refs: §1 (replication topology), F22-subset, F25, ADR-002.
 EOF
@@ -331,6 +344,10 @@ age -d -i ~/.config/age/nexostrat.key.age \
     /srv/Nexostrat/secrets.env.age > "$TMP"
 
 # Edit the empty value (use nano, vim, or Ricardo's editor of choice)
+# Reminder: never paste the PAT into shell history or any tracked file other
+# than "$TMP" (in /dev/shm, shredded below). The Plan 01a Task 3 pre-commit
+# secret-scan hook catches tokens in staged blobs as a safety net — but the
+# right discipline is to not stage them in the first place.
 nano "$TMP"
 # Change line:  GITHUB_MIRROR_PAT=
 # To:           GITHUB_MIRROR_PAT=<token-pasted-here>
@@ -432,6 +449,10 @@ TMP=/dev/shm/secrets-edit-$$
 age -d -i ~/.config/age/nexostrat.key.age \
     /srv/Nexostrat/secrets.env.age > "$TMP"
 
+# Reminder: never paste the PAT into shell history or any tracked file other
+# than "$TMP" (in /dev/shm, shredded below). The Plan 01a Task 3 pre-commit
+# secret-scan hook catches tokens in staged blobs as a safety net — but the
+# right discipline is to not stage them in the first place.
 nano "$TMP"
 # Change line:  CODEBERG_MIRROR_PAT=
 # To:           CODEBERG_MIRROR_PAT=<token>
@@ -1061,7 +1082,7 @@ git push origin main
 ```bash
 ssh ricardo@<standby> bash -c "$(cat <<'EOF'
 sudo apt update
-sudo apt install -y git age rsync python3 python3-pip pandoc docker.io docker-compose-plugin
+sudo apt install -y git age rsync python3 python3-pip pandoc docker.io docker-compose
 sudo systemctl enable docker
 sudo usermod -aG docker ricardo
 EOF
@@ -1069,28 +1090,34 @@ EOF
 # Note: usermod requires logout/login to take effect — Step 2 reconnects
 ```
 
-- [ ] **Step 2: SSH back in (so docker group takes effect), clone the repo**
+- [ ] **Step 2: Copy SSH key + config to the standby, then clone the repo**
+
+First, copy HP's SSH key and `~/.ssh/config` to the standby so it can resolve
+the `git@gitea-nexostrat` Tailscale alias (the alias lives only in HP's
+config; standby's `~/.ssh/config` is empty on a fresh Mint install). This MUST
+happen before the clone — otherwise the clone fails with a confusing "unknown
+host" error and the operator debugs what looks like a network problem.
+
+```bash
+scp ~/.ssh/nexostrat_ed25519 ~/.ssh/nexostrat_ed25519.pub ricardo@<standby>:~/.ssh/
+ssh ricardo@<standby> "chmod 600 ~/.ssh/nexostrat_ed25519"
+scp ~/.ssh/config ricardo@<standby>:~/.ssh/config
+```
+
+Then SSH back in (so docker group takes effect from Step 1's `usermod`) and
+clone:
 
 ```bash
 ssh ricardo@<standby> bash -c "$(cat <<'EOF'
 sudo mkdir -p /srv/Nexostrat && sudo chown ricardo:ricardo /srv/Nexostrat
 cd /srv
-# Use SSH-via-Tailscale to Gitea origin (standby has the same SSH key per Task 7)
+# Tailscale alias gitea-nexostrat now resolves (key + config copied above)
 git clone git@gitea-nexostrat:nexostrat/nexostrat.git Nexostrat
 cd Nexostrat
 git status
 EOF
 )"
 # Expected: clean clone with current main checked out
-```
-
-If the clone fails because the standby doesn't have the SSH key, copy it:
-
-```bash
-scp ~/.ssh/nexostrat_ed25519 ~/.ssh/nexostrat_ed25519.pub ricardo@<standby>:~/.ssh/
-ssh ricardo@<standby> "chmod 600 ~/.ssh/nexostrat_ed25519"
-# Then add the SSH config entries — copy ~/.ssh/config or selectively add
-scp ~/.ssh/config ricardo@<standby>:~/.ssh/config
 ```
 
 - [ ] **Step 3: Install Ricardo's age key on the standby**
@@ -1141,7 +1168,7 @@ EOF
 ```bash
 ssh ricardo@<standby> bash -c "$(cat <<'EOF'
 cd /srv/Nexostrat
-docker compose pull 2>&1 | tail -20
+docker-compose pull 2>&1 | tail -20
 # Expected: pulls all referenced images; services NOT started
 EOF
 )"
@@ -1484,8 +1511,10 @@ cd /srv/Nexostrat
 git pull origin main 2>&1 || git fetch origin && git reset --hard origin/main
 ```
 
-(`git pull` may fail if the standby's clone is behind; falling back to
-hard-reset is safe because the standby is read-only between failovers.)
+(`git pull` fails if the standby's clone has *diverged* from origin — e.g.,
+local commits during a prior partial failover. A clone that's merely *behind*
+will succeed on pull. The fallback hard-reset is safe because the standby is
+read-only between failovers.)
 
 ---
 
@@ -1493,15 +1522,15 @@ hard-reset is safe because the standby is read-only between failovers.)
 
 ```bash
 cd /srv/Nexostrat
-docker compose up -d
+docker-compose up -d
 sleep 10
-docker compose ps
+docker-compose ps
 # Expected: all containers showing "Up" status
 ```
 
 If any container fails to start:
-- Check `docker compose logs <service>` for the specific error.
-- Most common: missing secrets — run `infra/scripts/run-with-secrets.sh docker compose up -d`.
+- Check `docker-compose logs <service>` for the specific error.
+- Most common: missing secrets — run `infra/scripts/run-with-secrets.sh docker-compose up -d`.
 
 ---
 
@@ -1559,8 +1588,8 @@ SSH alias points to standby until further notice."
 2. SSH to HP, do not start any services yet.
 3. On HP: `cd /srv/Nexostrat && git pull origin main` (will pull any commits
    landed via the standby during the outage).
-4. On standby: stop Docker (`cd /srv/Nexostrat && docker compose down`).
-5. On HP: `docker compose up -d`.
+4. On standby: stop Docker (`cd /srv/Nexostrat && docker-compose down`).
+5. On HP: `docker-compose up -d`.
 6. Revert `~/.ssh/config` Hostname back to HP's IP on every device.
 7. Manually trigger a warm-rsync to ensure standby is back in sync:
    `sudo systemctl start nexostrat-warm-rsync.service`.
@@ -1612,8 +1641,8 @@ ssh ricardo@<standby> "echo standby-reachable"
 # Step 3 — standby's git is up to date
 ssh ricardo@<standby> "cd /srv/Nexostrat && git fetch origin && git status"
 
-# Step 4 — docker compose can be triggered (don't actually start; just validate)
-ssh ricardo@<standby> "cd /srv/Nexostrat && docker compose config | head -3"
+# Step 4 — docker-compose can be triggered (don't actually start; just validate)
+ssh ricardo@<standby> "cd /srv/Nexostrat && docker-compose config | head -3"
 ```
 
 Document the dry-run result. Time it: from "decide to fail over" to "standby
@@ -1630,14 +1659,14 @@ docs/runbooks/hp_down.md walks the operator through:
 1. Confirm HP is actually down (not a network glitch)
 2. SSH to standby
 3. git pull on standby
-4. docker compose up -d
+4. docker-compose up -d
 5. Update Tailscale/SSH-config DNS pointing
 6. Notify (manual, out-of-band; Plan 04 will Telegram-automate)
 7. HP restoration sequence (stop standby, restart HP, re-rsync)
 8. Post-mortem entry in 00_GOVERNANCE/incidents/
 
 Dry-run completed: SSH to standby works; git fetch on standby works;
-docker compose config validates. Time-to-decision-to-validation ~10 min.
+docker-compose config validates. Time-to-decision-to-validation ~10 min.
 
 RTO target 15-30 min looks achievable.
 

@@ -21,11 +21,21 @@
 
 Compose file: `/srv/Nexostrat/docker-compose.yml` (Plan 02 lands the actual compose; Plan 01b uses what already exists for Gitea).
 
-| Container | Image (pinned) | Host port | Bound to | Purpose |
+| Container | Image | Host port | Bound to | Purpose |
 |---|---|---|---|---|
-| `gitea`     | `gitea/gitea:1.22` | `3001` | Tailscale `100.64.121.80` | Git origin, web UI |
+| `gitea`     | `gitea/gitea:latest` (running 1.25.5) | `3001` (web), `2222` (SSH) | `0.0.0.0` (all interfaces) | Git origin, web UI |
 | `nexostrat-bot` | (custom — Plan 04) | (none) | n/a | Telegram bot service |
 | (others)    | (Plan 02-08 add) | | | |
+
+> **Image-pinning gap:** `gitea/gitea:latest` is NOT a pinned tag — Gitea
+> could float to a new minor version on container restart. Plan 02 owns the
+> compose file landing; the fix is to pin to `gitea/gitea:1.25.5` (the version
+> currently running) or to a content digest, then update this row.
+>
+> **Network-binding gap:** Gitea listens on `0.0.0.0`, not the Tailscale IP.
+> Access control is currently host-level: Tailscale ACLs + LAN trust. If the
+> host ever joins an untrusted LAN, port 3001/2222 are exposed. Plan 02 may
+> rebind to `127.0.0.1:3001:3000` and route Tailscale-only via reverse proxy.
 
 ## Gitea on-disk paths
 
@@ -47,9 +57,13 @@ elevated privilege needed.
 
 | Host alias | Real host | Port | Identity |
 |---|---|---|---|
-| `gitea-nexostrat` | `100.64.121.80` (Tailscale) | `2222` | `~/.ssh/nexostrat_ed25519` |
-| `github.com` | (default) | `22` | `~/.ssh/nexostrat_ed25519` |
-| `codeberg.org` | (default) | `22` | `~/.ssh/nexostrat_ed25519` |
+| `gitea-nexostrat`     | `100.64.121.80` (Tailscale) | `2222` | `~/.ssh/nexostrat_ed25519` |
+| `github-nexostrat`    | `github.com`                | `22`   | `~/.ssh/nexostrat_ed25519` |
+| `codeberg-nexostrat`  | `codeberg.org`              | `22`   | `~/.ssh/nexostrat_ed25519` |
+
+All three aliases set `IdentitiesOnly yes` so the firm key never leaks into
+generic git operations (e.g., `ssh -T git@github.com` without an alias hits a
+DIFFERENT identity — typically Ricardo's personal-account key).
 
 ## Mirrors (populated by Tasks 4-5)
 
@@ -62,8 +76,12 @@ elevated privilege needed.
 
 | Mirror | Remote URL | Trigger | Service |
 |---|---|---|---|
-| GitHub | `git@github.com:ricardomejiacaicedo-del/nexostrat.git` | systemd `.path` watching Gitea bare-repo `refs/heads/main` | `nexostrat-mirror-github.service` |
-| Codeberg | `git@codeberg.org:nexostrat/nexostrat.git` | same | `nexostrat-mirror-codeberg.service` |
+| GitHub   | `git@github-nexostrat:ricardomejiacaicedo-del/nexostrat.git` | systemd `.path` watching Gitea bare-repo `refs/heads/main` | `nexostrat-mirror-github.service` |
+| Codeberg | `git@codeberg-nexostrat:nexostrat/nexostrat.git`           | same | `nexostrat-mirror-codeberg.service` |
+
+The remote URLs use the SSH-config aliases (not the bare domain), which forces
+the `nexostrat_ed25519` identity via `IdentitiesOnly yes`. This is the same
+pattern as the `gitea-nexostrat` origin already in use.
 
 ## Warm-standby (populated by Tasks 7-12)
 
@@ -72,7 +90,7 @@ elevated privilege needed.
 | Hostname | `<TBD-at-provisioning>` |
 | Tailscale IP | `<TBD>` |
 | Clone path | `/srv/Nexostrat/` (mirror of HP) |
-| Rsync source | `ricardo@hp-server:/srv/Nexostrat/` |
+| Rsync source | `ricardo@100.64.121.80:/srv/Nexostrat/` (Tailscale IP of `ricardo-hp-laptop`) |
 | Rsync schedule | nightly 03:00 America/Tijuana |
 | Service status at rest | All Docker services pulled but stopped |
 | Failover RTO target | 15-30 min |

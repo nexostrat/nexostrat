@@ -10,20 +10,20 @@
 | `XAI_API_KEY` | xAI | Mode B Grok calls (Plan 05+) | every 6 mo | (not yet provisioned) | Hard cap configured |
 | `GITHUB_MIRROR_PAT` | GitHub | `nexostrat-mirror-github.service` (Plan 01b) | every 12 mo | (not yet provisioned) | scope: `repo` only |
 | `CODEBERG_MIRROR_PAT` | Codeberg | `nexostrat-mirror-codeberg.service` (Plan 01b) | every 12 mo | (not yet provisioned) | scope: `repo` only |
-| `NOTION_API_KEY` | Notion | Meeting transcription watcher (Plan 08), `/note` plugin (Plan 04) | every 6 mo | (not yet provisioned) | Internal integration in JP's workspace |
+| ~~`NOTION_API_KEY`~~ | ~~Notion~~ | ~~Meeting transcription / `/note` plugin~~ | ~~every 6 mo~~ | **DEPRECATED 2026-05-16** | Per ADR-038: Notion exits firm-level. The variable will be physically stripped from `secrets.env.age` at next TTY-required re-encrypt (tracked in `t-plan-01a-jp-and-tty-deferred`). FOSS replacement for meeting capture decided in Plan 02 — no API key needed if self-hosted Whisper.cpp + Ollama. |
 | `TELEGRAM_BOT_TOKEN` | Telegram | `nexostrat-bot` Docker service (Plan 04) | only on suspected leak | (not yet provisioned) | Allowlist enforced via `infra/telegram/allowlist.yaml` |
 | `RCLONE_DRIVE_TOKEN` | Google Drive (OAuth via rclone) | Heavy-asset upload (Plan 08+) | every 12 mo or on token expiry | (not yet provisioned) | Drive 2TB account |
 
 ## Rotation procedure (per secret)
 
 1. Generate new value at the provider.
-2. Decrypt `secrets.env.age` to `/dev/shm`:
+2. Decrypt `secrets.env.age` to `/dev/shm` (age 1.1.0+ accepts passphrase-protected identity files directly via `-i`; one passphrase prompt, no subshell):
    ```bash
-   age -d -i <(age -d ~/.config/age/nexostrat.key.age) secrets.env.age \
+   age -d -i ~/.config/age/nexostrat.key.age secrets.env.age \
        > /dev/shm/secrets.env.tmp
    ```
 3. Edit the value in place (e.g., via `nano /dev/shm/secrets.env.tmp`).
-4. Re-encrypt to both recipients:
+4. Re-encrypt to both recipients (`&&`-chained so a partial `age` write does NOT trigger `shred` of the only plaintext copy — see 2026-05-16 hardening in commit `ed9a596`):
    ```bash
    age -R infra/age-recipients.txt -o secrets.env.age /dev/shm/secrets.env.tmp \
        && shred -u /dev/shm/secrets.env.tmp

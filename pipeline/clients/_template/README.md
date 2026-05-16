@@ -27,7 +27,7 @@ copies it to `pipeline/clients/<slug>/` and substitutes placeholders in
 
 | Folder | Holds |
 |---|---|
-| `transcripts/` | Meeting transcripts (canonical = Notion AI per ADR-024; shadow = Whisper for internal) |
+| `transcripts/` | Meeting transcripts. Canonical source TBD per Plan 02 FOSS stack decision (ADR-038 superseded ADR-024's Notion-canonical posture; Whisper.cpp + Jitsi promoted to canonical pending Plan 02). |
 | `communications/` | Email + WhatsApp + Telegram captures |
 | `archive/` | Superseded artifacts (kept for forensic record; never deleted) |
 

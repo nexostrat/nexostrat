@@ -1,7 +1,7 @@
 # Nexostrat — System Design (Founding Spec v1)
 
-> **Status:** PROPOSED — pending Ricardo's review of this written spec
-> **Date:** 2026-05-13
+> **Status:** ACTIVE — Batch 1 amendments applied 2026-05-14 (commits `dc5cbec`/`5f126a7`/`d5ebbf9`); ADR-038 (Notion drop) spec-body integration applied 2026-05-16 via `t-spec-notion-removal-amendment` sweep post-hard-system-audit. Plan 01a tagged `v0.1a-foundation` 2026-05-16.
+> **Date:** 2026-05-13 (initial draft) · 2026-05-14 (Batch 1 amendments) · 2026-05-16 (ADR-038 sweep)
 > **Authors:** Ricardo Mejía Caicedo + Claude (Opus 4.7, 1M context)
 > **Audience:** Ricardo, Juan Pablo, future operators (hires, contractors, AI personas)
 > **Supersedes:** [`2026-05-11_company-system-design.md`](2026-05-11_company-system-design.md) (extends; ADRs 001-020 retained with amendments per ADRs 021-028)
@@ -31,7 +31,7 @@ All decisions in this document were reached during the 2026-05-13 brainstorming 
 
 | ADR | Title | Status | Source |
 |---|---|---|---|
-| ADR-001 | System substrate: markdown-in-git + Notion + Telegram | Accepted | 2026-05-11 spec (rebranded; substrate description Nexostrat-native) |
+| ADR-001 | System substrate: markdown-in-git + Telegram + FOSS workspace (Plan 02 TBD) | **Amended** | 2026-05-11 spec (rebranded). Amended 2026-05-16 per ADR-038: Notion removed from substrate; FOSS replacement decided in Plan 02 brainstorm. |
 | ADR-002 | Repository home: `/srv/Nexostrat/`, Gitea org `nexostrat` | Amended | 2026-05-11 spec (path updated for brand) |
 | ADR-003 | Document vault: `age` per-user keys | Accepted | 2026-05-11 |
 | ADR-004 | Secrets: `secrets.env.age` in git | Accepted | 2026-05-11 |
@@ -55,7 +55,7 @@ All decisions in this document were reached during the 2026-05-13 brainstorming 
 | **ADR-021bis** | **Drop "Hosted" from JP interface options (Heavy/Light only)** | **New** | 2026-05-14 amendment (supersedes the original Hosted option, never formalized; see F27) |
 | **ADR-022** | **Dual-mode pipeline (Manual + API), same contract** | **New** | this session |
 | **ADR-023** | **Warm-standby service redundancy** | **New** | this session |
-| **ADR-024** | **Dual meeting capture (Notion AI canonical + Jitsi/Whisper shadow) for internal; single canonical for client** | **New** | this session |
+| **ADR-024** | **Dual meeting capture (Notion AI canonical + Jitsi/Whisper shadow) for internal; single canonical for client** | **Superseded by ADR-038** (2026-05-15) | this session. Notion-canonical posture withdrawn 2026-05-15; Jitsi/Whisper promoted to canonical pending Plan 02. |
 | **ADR-025** | **Paired-file two-tier documentation (English/English)** | **New** | this session |
 | **ADR-026** | **Multi-model investigation: parallel-then-judge** | **New** | this session |
 | **ADR-027** | **Intake: 2-file split, hypotheses sealed during research** | **New** | this session |
@@ -68,9 +68,10 @@ All decisions in this document were reached during the 2026-05-13 brainstorming 
 | **ADR-034** | **Ambient chat extraction with Ollama (sensitive-content filtered)** | **New** | this session |
 | **ADR-035** | **Meeting lifecycle protocol (start/pause/resume/end/recover/override)** | **New** | this session |
 | **ADR-036** | **Stage 1 surface area — v0 vs v1 fidelity (deliberate trade-offs)** | **New** | 2026-05-14 amendment (R3; lists features shipping at v0 fidelity with v1 deferred) |
-| **ADR-037** | **Notion canonical role — Stage 2 review trigger** | **New** | 2026-05-14 amendment (R5; captures conditions that trigger reconsidering Notion vs Whisper-canonical) |
+| **ADR-037** | **Notion canonical role — Stage 2 review trigger** | **Superseded by ADR-038** (2026-05-15) | 2026-05-14 amendment (R5). Stage-2 review brought forward to immediate (2026-05-15); ADR-038 supersedes the canonical-Notion posture this ADR was defending. |
+| **ADR-038** | **Drop Notion at firm level; FOSS self-hosted replacement deferred to Plan 02 brainstorm** | **Accepted** | 2026-05-15. Notion exits the firm-level architecture. All four Notion roles (meeting capture canonical, summary generation, CRM, collaborative docs workspace) reassigned to FOSS self-hosted solutions — specific tools chosen during Plan 02 brainstorm with all options open. Full ADR body at [`00_GOVERNANCE/adr/ADR-038-drop-notion-foss-tbd.md`](../../00_GOVERNANCE/adr/ADR-038-drop-notion-foss-tbd.md). Supersedes ADR-024 + ADR-037. Reverses amendment F14. Mooted memory `notion-via-jp-personal`. |
 
-Full ADRs (Context · Options · Decision · Consequences) are drafted into `00_GOVERNANCE/adr/` during scaffold.
+Full ADRs (Context · Options · Decision · Consequences) are drafted into `00_GOVERNANCE/adr/` during scaffold. ADRs 021bis / 036 / 037 / 038 already exist as full ADR bodies in `00_GOVERNANCE/adr/`; ADRs 001-020 + 022-035 are scheduled for Plan 02 to draft.
 
 ---
 
@@ -166,9 +167,9 @@ Tailscale mesh is the VPN. HP exposes Gitea (host port `:3001`), Jitsi, Nextclou
 │   ├─ journal/            ← session-end entries
 │   ├─ handoff/            ← Claude ↔ Gemini handoff + archive
 │   │   └─ checkpoints/    ← archived CHECKPOINT.md history
-│   ├─ inbox/              ← Founder's cross-folder memo inbox
+│   ├─ inbox/              ← Founder's cross-folder memo inbox (PLAN 04 — Telegram bot writes here)
 │   │   └─ archive/
-│   └─ shared/             ← canonical short-form stanzas (rule1, session_start, etc.)
+│   └─ shared/             ← canonical short-form stanzas (rule1, session_start, etc.) (PLAN 01c)
 │
 ├─ 00_GOVERNANCE/          ← decisions ledger + protocols
 │   ├─ adr/                ← ADR-001 .. ADR-035, one .md per decision
@@ -184,7 +185,7 @@ Tailscale mesh is the VPN. HP exposes Gitea (host port `:3001`), Jitsi, Nextclou
 │   ├─ CONFLICT_PROTOCOL.md             (15-min raised-hand)
 │   ├─ REVENUE_DISTRIBUTION.md
 │   ├─ ROLES.md  KPIs.md
-│   ├─ cost-sharing-agreement.md        (pre-revenue: R covers Claude/Drive/hw; JP covers Notion)
+│   ├─ cost-sharing-agreement.md        (pre-revenue: R covers Claude+Grok+Drive+hw; JP covers Claude+domain+email — Notion line removed per ADR-038)
 │   ├─ qualified-prospect-definition.md (>= USD 50K/yr client revenue, per Q6)
 │   ├─ questionnaires/                  (from Plan_Maestro docx → migrated)
 │   ├─ meetings/weekly/  meetings/decisions/
@@ -428,14 +429,20 @@ Session-start hook surfaces inbox count + top-3 unresolved alongside CHECKPOINT.
 
 ## Stage 1 — paid / reserved services
 
-| Service | Cost/mo USD | Who pays | Purpose |
+The firm-as-entity pays **USD $0/mo** at Stage 1; pre-revenue founder personal-spend is documented in [`00_PARTNERSHIP/cost-sharing-agreement.md`](../../00_PARTNERSHIP/cost-sharing-agreement.md) and reimbursed at first-revenue. The table below describes services that have a non-zero firm-bearing cost component reserved for future stages plus optional personal interactive tools.
+
+| Service | Stage 1 cost (firm) | Personal-spend equivalent (per cost-sharing-agreement.md) | Purpose |
 |---|---|---|---|
-| Anthropic API | $20-60 | Ricardo | Claude judge, /ask, automation |
-| Google Drive 2TB | ~$10 | Ricardo | Heavy assets |
-| xAI Grok API | $5-15 | Ricardo | 3rd-model parallel research |
-| Notion | $0 to firm | JP (his account) | CRM + client meeting notes |
-| Domain | ~$1 amortized | Compartido | nexostrat.com |
-| Super Grok (web, optional) | $30 | Ricardo | Interactive Grok (NOT pipeline) |
+| Claude MAX (Ricardo + JP) | $0 firm | ~$200/mo each (Anthropic personal) | Mode A skill execution + judge synthesis + /ask + automation. **Replaces the pay-per-use Anthropic API line from earlier draft** — at MAX usage volumes the subscription is cheaper. |
+| Google Drive 2TB | $0 firm | ~$10/mo (Ricardo personal) | Heavy assets (audio, large PDFs) — age-encrypted before upload |
+| xAI Grok API | $0 firm | ~$5-15/mo (Ricardo personal) | 3rd-model parallel research |
+| Domain `nexostrat.com` | $0 firm | ~$12/yr amortized (JP personal Hostinger) | Brand DNS |
+| Email `contacto@nexostrat.com` | $0 firm | ~$6/mo (JP personal hosting) | Outbound firm email |
+| Super Grok (web, optional) | $0 firm | $30/mo (Ricardo personal, optional) | Interactive Grok web (NOT pipeline) |
+
+**~~Notion~~** — REMOVED 2026-05-15 per ADR-038. Notion exits Nexostrat at firm level; JP's personal Notion subscription, if retained, is outside firm scope and non-reimbursable. FOSS replacement for meeting capture / summary generation / CRM / collaborative docs chosen during Plan 02 brainstorm — candidates include Whisper.cpp + Ollama + EspoCRM/AppFlowy/Outline/etc.
+
+**Stage 2 firm-bearing services** (when reserve target met OR cumulative revenue ≥ USD 5,000 — see ADR-019): DocuSign/Documenso, Stripe, Backblaze B2 (when Drive 2TB > 80%), CRM upgrade (when pipeline > 15 clients), Bitwarden org sub, WAHA-Nexostrat (when first WhatsApp client).
 
 ## Stage 1 — self-hosted (free)
 
@@ -486,7 +493,7 @@ Renovate-cli weekly report. Each version bump → ADR → test on warm-standby 7
 
 ## Cost summary
 
-**Stage 1 total: USD ~$36-91/month** (within JP's stated cost-share appetite). Per-Diagnóstico marginal cost in Mode B: ~$1.25 (5 skills × ~$0.25). Pricing baseline USD 1500-3000 → API cost is rounding error.
+**Stage 1 firm pays: USD $0/month** (amended 2026-05-16 per ADR-038). Pre-revenue founder personal-spend per [`cost-sharing-agreement.md`](../../00_PARTNERSHIP/cost-sharing-agreement.md): Ricardo ~$215-225/mo (Claude MAX 200 + Grok 5-15 + Drive 10); JP ~$207/mo (Claude MAX 200 + Domain ~1 + Email 6) — Notion line removed. Reimbursement triggers at firm cumulative revenue ≥ USD 1,000. Per-Diagnóstico marginal cost in Mode B: ~$1.25 (5 skills × ~$0.25) covered by Claude MAX subscription headroom. Pricing baseline USD 1500-3000 → API cost is rounding error.
 
 ---
 
@@ -615,7 +622,7 @@ pipeline/clients/<slug>/
 
 ## `state.json` schema
 
-Fields: `client`, `name`, `country`, `sector`, `started`, `owner`, `phase`, `phase_history[]`, `pilot`, `pricing`, `next_action`, `kpis`, `blockers[]`, `tags[]`, `recording_preference` (Notion/Jitsi/none per ADR-024 client choice).
+Fields: `client`, `name`, `country`, `sector`, `started`, `owner`, `phase`, `phase_history[]`, `pilot`, `pricing`, `next_action`, `kpis`, `blockers[]`, `tags[]`, `recording_preference` (`jitsi-whisper` / `none` / `<FOSS-tool-TBD-plan-02>` — pre-ADR-038 wording was `Notion/Jitsi/none per ADR-024`; ADR-024 superseded by ADR-038; Plan 02 brainstorm decides if a third option lands).
 
 **Phases:** prospect → intake → exploring → diagnostico_pendiente → diagnostico_delivered → propuesta_pendiente → propuesta_sent → propuesta_{accepted,rejected,revising} → cliente_firmado → diseño → implementación → seguimiento_30/60/90 → retainer_active. Plus `churned`, `nurture`, `retainer_paused`.
 
@@ -653,11 +660,13 @@ Same chain, different gates. Pilot: first 3 clients per Plan Maestro, free Diagn
 
 ## Meeting types
 
+**Amended 2026-05-15 per ADR-038:** Notion-canonical posture withdrawn. Jitsi + Whisper.cpp promoted to canonical for both internal and client meetings pending Plan 02 brainstorm. If Plan 02 picks a different FOSS stack (e.g., self-hosted Meet + AppFlowy), a follow-on ADR will supersede this interim canonical.
+
 | Type | Canonical capture | Shadow capture | Sensitivity |
 |---|---|---|---|
-| Internal R+JP | Notion AI | Jitsi + Whisper | Medium-high |
-| Client (default) | Notion AI | — | Client-confidential |
-| Client (self-hosted option) | Jitsi + Whisper | — | Per client agreement |
+| Internal R+JP | Jitsi + Whisper.cpp (FOSS-canonical, interim per ADR-038) | — | Medium-high |
+| Client (default) | Jitsi + Whisper.cpp (FOSS-canonical, interim per ADR-038) | — | Client-confidential |
+| Client (custom request) | TBD per Plan 02 brainstorm output | — | Per client agreement |
 | Client (no recording) | Manual notes | — | Variable |
 | Phone / async | Manual via `/note` + audio upload | — | Variable |
 
@@ -671,18 +680,18 @@ Same chain, different gates. Pilot: first 3 clients per Plan Maestro, free Diagn
 
 When `comm_preference: whatsapp` is set in client `state.json`, a Python agent sends the WhatsApp message via `waha-nexostrat` (Nexostrat's own WAHA instance). Client confirms via WhatsApp. Stage 2 trigger: "first client engaged via WhatsApp" → enables waha-nexostrat docker service + integration.
 
-## Client recording — three options (ADR-024 + Section 8.3.2)
+## Client recording — options (post-ADR-038)
 
-Scope doc asks client to pick:
-- **A. Notion AI** (default, polished)
-- **B. Nuestro sistema self-hosted (Jitsi + Whisper)** (strict data privacy)
-- **C. Sin grabación** (manual notes only)
+**Amended 2026-05-15:** Notion-canonical removed (ADR-038). Pending Plan 02 brainstorm, the active client-recording options are:
 
-Choice stored in `state.json.recording_preference`. Same downstream pipeline for A and B; option C disables parity diff + runs extraction on manual notes.
+- **A. Nuestro sistema self-hosted (Jitsi + Whisper.cpp)** — default; FOSS-canonical interim per ADR-038
+- **B. Sin grabación** — manual notes only
+
+Choice stored in `state.json.recording_preference` (`jitsi-whisper` | `none`). Option B disables parity diff + runs extraction on manual notes. Plan 02 may add a third option once the FOSS docs stack is decided. Parity-diff infrastructure (Jitsi-vs-shadow) only runs when ≥2 capture paths are active; with single-canonical it's degenerate and skipped.
 
 ## Internal meeting flow (end-to-end)
 
-T-15 reminder fires → `/meeting start partnership-weekly-mon` opens recording (Notion + Jitsi shadow) → live annotation via `/meeting note|decision|action <user> <text> [by <date>]` → `/meeting end` → Notion summary review ≤15 min (mandatory per JP's rule) → `/confirm partnership-weekly-mon` → export to `00_PARTNERSHIP/meetings/weekly/<week>_<topic>.md` + frontmatter → Whisper.cpp transcribes shadow in parallel → parity diff job → AI extraction (summary/actions/dates/decisions) → calendar events created → tasks.json updated → decisions logged to `00_PARTNERSHIP/decisions/<date>_<slug>.md` → Telegram digest.
+T-15 reminder fires → `/meeting start partnership-weekly-mon` opens Jitsi recording → live annotation via `/meeting note|decision|action <user> <text> [by <date>]` → `/meeting end` → Whisper.cpp transcribes (CPU on HP at ~1.5× real-time; Spanish model) → Ollama-powered summary review ≤15 min (mandatory per JP's rule; Plan 02 picks the summarization tool) → `/confirm partnership-weekly-mon` → export to `00_PARTNERSHIP/meetings/weekly/<week>_<topic>.md` + frontmatter → AI extraction (summary/actions/dates/decisions) → calendar events created → tasks.json updated → decisions logged to `00_PARTNERSHIP/decisions/<date>_<slug>.md` → Telegram digest. *Pre-ADR-038 flow used Notion AI as canonical with Jitsi/Whisper as shadow + parity-diff job; that dual-tools layer is now degenerate (single canonical) — parity-diff infrastructure remains in the spec as a Stage-2 readiness mechanism if Plan 02 picks a tool with a polished alternative summary path.*
 
 ## Parity diff job
 
@@ -709,7 +718,7 @@ States: `scheduled → confirmed → active → paused → active → ended → 
 - `/meeting pause [reason]` — pauses recording; auto-pause if no `/meeting end` within 4h
 - `/meeting resume` — resumes; gap <30 min = same meeting_id, >30 min = ask
 - `/meeting end` — closes, triggers pipeline
-- `/meeting recover <meeting-id>` — tries Notion → Whisper → manual fallback
+- `/meeting recover <meeting-id>` — tries Whisper transcript → manual fallback (post-ADR-038: Notion arm removed; pre-amendment was `Notion → Whisper → manual`)
 - `/meeting start --override <series> --reason <text>` — bypass confirmation (logged loudly)
 
 ## Meeting recall — pre-meeting brief brings prior context
@@ -718,7 +727,7 @@ Brief job pulls last 3 meetings in series → collects open action items + decis
 
 ## Audio archival
 
-Internal: default delete from Notion after summary reviewed; retain only with explicit reason → `vault/partnership/meetings/<date>/audio.m4a.age` ciphertext on Drive. Client: default retain (evidence) → `vault/clients/<slug>/meetings/<date>/audio.m4a.age`. Retention policy per `00_GOVERNANCE/meeting-protocol.md`: internal 0-90 days; client = contract duration + 12 months.
+Internal: default delete the Jitsi recording after summary reviewed (post-ADR-038: previously "delete from Notion"); retain only with explicit reason → `vault/partnership/meetings/<date>/audio.m4a.age` ciphertext on Drive. Client: default retain (evidence) → `vault/clients/<slug>/meetings/<date>/audio.m4a.age`. Retention policy per `00_GOVERNANCE/meeting-protocol.md`: internal 0-90 days; client = contract duration + 12 months.
 
 ## Ambient chat capture (ADR-034 + Section 8.10)
 
@@ -744,7 +753,7 @@ Nexostrat's orchestration substrate is **Python agents driven by systemd timers 
 
 - **Maintainability:** code in Python, version-controlled, diffable, refactorable.
 - **Claude-authorship:** Claude writes Python fluently; that is the day-to-day editing surface.
-- **Testing:** pytest covers every agent end-to-end; mocks for Anthropic/Gemini/Grok/Notion/Telegram.
+- **Testing:** pytest covers every agent end-to-end; mocks for Anthropic/Gemini/Grok/Telegram + whatever FOSS workspace Plan 02 picks (pre-ADR-038 list included Notion).
 - **Debugging:** stack traces, structured logs, the same tools as any Python service.
 - **Composability:** agents call each other through `events.jsonl` and through normal Python imports of `infra/agents/_lib/`.
 - **No vendor lock-in:** every external dependency is a thin SDK wrapper we own.
@@ -767,7 +776,7 @@ Single append-only log at `/srv/Nexostrat/infra/events/events.jsonl`. Every mean
 - **tasks:** task.{created,completed,overdue,reassigned,due_changed}
 - **vault & secrets:** vault.{read,write}, key.{rotated_routine,rotated_emergency}, secret.rotated, recipient.{added,removed}
 - **infrastructure:** service.*, backup.*, warm_standby.*, desktop.{awake,asleep,wake_requested}, ollama.*, failover.executed
-- **external:** notion.*, calendar.*, whatsapp.* (future)
+- **external:** calendar.*, whatsapp.* (future); plus whatever FOSS workspace Plan 02 picks (pre-ADR-038 list included `notion.*` — removed per ADR-038)
 - **errors & safety:** hook.blocked, agent.{failed,timeout}, pipeline.timeout, secret.leak_detected, deal_breaker.triggered
 
 ## Python agents — `infra/agents/`
@@ -778,7 +787,7 @@ infra/agents/
 │   ├─ events.py               atomic append + read events.jsonl
 │   ├─ secrets.py              decrypt secrets.env.age
 │   ├─ telegram.py             bot client
-│   ├─ notion.py  calendar.py  models.py  state.py  docs_gen.py  tz.py
+│   ├─ calendar.py  models.py  state.py  docs_gen.py  tz.py  (pre-ADR-038 included notion.py — removed; Plan 02 picks the FOSS workspace client module)
 ├─ skill_<N>_<name>/           Skills 1-5 agents (run_manual.py + run_api.py)
 ├─ judge/                       Claude-as-judge synthesizer
 ├─ pipeline_orchestrator/       chains skills end-to-end with gates
@@ -882,7 +891,7 @@ Triggered by chat extractor queue >5 items OR direct command. Magic packet via e
 
 **Chain 1 — Intake to Diagnóstico delivered.** `/intake bodai` → `intake.completed` → orchestrator advances to exploring → Skills 1-3 parallel via `run_api.py` → judge → Skill 4 → pause → `/go bodai-skills-1-4` → Skill 5 → pause → human review → `/go bodai-diagnostico` → `pipeline.advanced` to delivered → `task.created` for followup +7 days. **~30-45 min wall clock + human review pace.**
 
-**Chain 2 — Meeting to followup.** 07:00 brief job → Telegram with confirmation → `/confirm` ×2 → T-15 reminder → `/meeting start` → recording → `/meeting end` → Notion poll + Whisper parallel → both `meeting.transcribed` → parity diff → extraction agent → events for actions/decisions/dates → Telegram digest.
+**Chain 2 — Meeting to followup.** 07:00 brief job → Telegram with confirmation → `/confirm` ×2 → T-15 reminder → `/meeting start` → Jitsi recording → `/meeting end` → Whisper transcribes → `meeting.transcribed` → Ollama summarization → extraction agent → events for actions/decisions/dates → Telegram digest. *Pre-ADR-038 flow used Notion poll + Whisper in parallel with parity diff; that dual-path is single-canonical now per ADR-038.*
 
 **Chain 3 — Ambient chat to task.** Group message → encrypted log → 12:00 cron → extractor agent → `chat.finding_extracted` → threaded confirmation → `/confirm-extract` → `chat.finding_confirmed` → `task.created` → 📌 reaction.
 
@@ -893,8 +902,8 @@ events.jsonl locked      → retry 3× backoff → write events.jsonl.pending �
 Workflow timeout         → pipeline.timeout event → DM Ricardo
 Bot crashes              → systemd watchdog restart → DM Ricardo with stack trace
 Ollama unreachable       → ollama.unreachable event → API fallback
-Notion summary missing   → poll exhausts → /meeting recover prompt
-Whisper crashes          → retry once → mark "no-shadow" → continue with Notion
+Whisper crashes          → retry once → mark "no-transcript" → /meeting recover prompt
+                           (pre-ADR-038: 2 rows handled Notion summary missing + Whisper-as-shadow fallback)
 Pre-receive blocks       → secret.leak_detected → DM Ricardo with file path
 Backup fails             → DM Ricardo CRITICAL → investigate before next push
 ```
@@ -931,7 +940,7 @@ Five categories, ~30 specific failure modes, each with detection mechanism + RTO
 - **Infrastructure:** HP down (15-30 min), HP+standby down (4-8h), disk full, network partition, power outage
 - **Security:** laptop stolen (1h block + 24h rotate), key compromise, secret leak (immediate), server compromise (24-48h)
 - **Data integrity:** events.jsonl corrupted, tasks.json corrupted, state.json corrupted, mirror divergence, vault unreadable
-- **Pipeline:** Anthropic/Gemini/Grok API down, Ollama unreachable (auto-fallback), Notion API down, skill regression, orchestrator hung, bot down, Whisper crash, pandoc fail, libreoffice fail, meeting recording lost, chat extractor backlog
+- **Pipeline:** Anthropic/Gemini/Grok API down, Ollama unreachable (auto-fallback), skill regression, orchestrator hung, bot down, Whisper crash, pandoc fail, libreoffice fail, meeting recording lost, chat extractor backlog (pre-ADR-038 also listed `Notion API down` — removed)
 - **Human/governance:** wrong client edited (pre-commit confirms), phase advanced by mistake (state.json history preserved), accidental delete (git restore), deal-breaker triggered (24h conflict protocol)
 
 Each runbook at `docs/runbooks/<name>.md` + script at `infra/recovery/<name>.{sh,py}`. Runbook explains; script does. **All written before Stage 1 ships.**
@@ -977,11 +986,15 @@ When every box green: `/release v1.0` → `deploy.released` event → first pilo
 
 ## Open Items — what needs to happen before scaffolding
 
-1. **JP brand top-5 vote** (t-006, due 2026-05-14). Nexostrat already Ricardo's top pick at 8/10; JP confirms. Aurora palette confirmed by Ricardo this session.
-2. **Domain + handles secured** (t-007, due 2026-05-16). `nexostrat.com` registered (Hostinger). Verify IG/X/TikTok/LinkedIn handles. Trademark clearance IMPI MX + SIC CO + USPTO TESS clase 42.
-3. **JP walkthrough** (t-010, due 2026-05-15). Architecture review confirmed approved per Ricardo this session. Logged for record.
-4. **Founding Meeting (Plan Maestro Paso 1)** before scaffold. Sign partnership agreement.
-5. **JP interface choice** (Heavy/Light — Hosted dropped per ADR-021bis). Confirmed approved as Light initially with upgrade path to Heavy.
+**All items closed as of 2026-05-16.** Historical record preserved (with completion dates) so the document narrative remains intact.
+
+1. ~~**JP brand top-5 vote** (t-006, due 2026-05-14).~~ **DONE 2026-05-12** — JP voted; Nexostrat won; partnership signed same day.
+2. ~~**Domain + handles secured** (t-007, due 2026-05-16).~~ **DONE 2026-05-12** — `nexostrat.com` registered (Hostinger). Email `contacto@nexostrat.com` provisioned. Trademark clearance pending Stage 2 when entity is constituted.
+3. ~~**JP walkthrough** (t-010, due 2026-05-15).~~ **DONE 2026-05-13** — architecture review approved.
+4. ~~**Founding Meeting (Plan Maestro Paso 1)** before scaffold. Sign partnership agreement.~~ **DONE 2026-05-12** — verbal+operational agreement; markdown PARTNERSHIP_AGREEMENT.md is the canonical artifact (per 2026-05-16 ceremony-reduction decision; formality returns at external need).
+5. ~~**JP interface choice** (Heavy/Light — Hosted dropped per ADR-021bis).~~ **DONE 2026-05-15** — JP picked Light; JP-Light variant excludes Gitea web (per ADR-038 companion decision).
+
+Going-forward backlog (was implicit, now explicit post-Plan-01a-execution): Plan 01b execute (mirrors + warm-standby; due 2026-06-05), Plan 01c execute (personas + hooks + smoke test; due 2026-06-12), Plan 02 brainstorm + write + execute (FOSS docs stack picks; load-bearing per ADR-038). Live state tracked in [`tasks.json`](../../tasks.json) and [`STATUS.md`](../../STATUS.md).
 
 ## Glossary
 
@@ -992,7 +1005,7 @@ When every box green: `/release v1.0` → `deploy.released` event → first pilo
 - **events.jsonl** — append-only spine; every meaningful action emits one line.
 - **judge prompt** — Claude-as-Judge synthesizer template at `skills/shared/judge_prompt.md`.
 - **Mode A / Mode B** — dual pipeline: manual (CLI session, $0) and API (Python agents, ~$1.25/Diagnóstico).
-- **parity diff** — Notion AI vs Whisper.cpp transcript comparison job; rolling readiness score.
+- **parity diff** — transcript-vs-transcript comparison job; rolling readiness score. Originally (pre-ADR-038) ran Notion AI vs Whisper.cpp; post-ADR-038 the infrastructure remains as a Stage-2 readiness mechanism if Plan 02 picks a FOSS tool with a polished alternative summary path.
 - **research_input.md** — slices 1+2 of intake (facts + private context); fed to research models.
 - **our_hypotheses.md** — slice 3 of intake (judgment); SEALED during research, read at synthesis.
 - **runs/** — per-skill folder holding multiple Mode A or Mode B runs; canonical.md symlinks the chosen one.
@@ -1006,3 +1019,4 @@ When every box green: `/release v1.0` → `deploy.released` event → first pilo
 |------|-------|-------------|
 | 2026-05-13 | Claude (Opus 4.7 1M, with Ricardo at root) | Founding spec v1 written, consolidating 10 design sections + 4 cross-cutting additions ratified during the 2026-05-13 brainstorming session. Supersedes 2026-05-11 partial spec; introduces ADRs 021-035. Pending Ricardo's review of this written artifact before invoking the writing-plans skill for the implementation plan. |
 | 2026-05-14 | Claude (Opus 4.7 1M, Batch 1 amendments) | Single-pass amendment per [`2026-05-14_amendments.md`](2026-05-14_amendments.md). Applied: F6 (per-user systemd timer pattern in §9 + ADR-030 amend), F9 (manifest.json schema in §6), F10 (persona table reallocation in §4 — Founder/Client-Owner/Skills-Master vault namespaces split), F11 (re-status of ADRs 005/013/018 to Amended with notes), F12 (root file map `events.json` → `calendar.json`; rename executed in terrain prep), F13 (Linux Mint recommended baseline for JP Heavy in §5), F17 (chat capture `/dev/shm` daytime + 23:59 encrypt cron in §8.10), F19 ("12-station chain + 3 cross-cutting" standardized — persona table fix in §4), F22 REVISED (all peripheral n8n references deleted; ADR-029 rewritten to positive framing "Python agents + systemd timers"), R3 (ADR-036 row added — Stage 1 v0/v1 fidelity), R4 (CHECKPOINT concurrent-session protection note in §4.10), R5 (ADR-037 row added — Notion canonical role Stage 2 review trigger), ADR-021bis row added (drop Hosted from JP options; §10 Open Items updated). Brain-references stripped per the no-Brain directive: lines that previously cited `/srv/brand/`, "personal Brain", or AttenBot/n8n peripherals in §§1/2/3/4/5/8/9 all rephrased Nexostrat-natively. Gitea host port `:3001` made explicit in §1 Network and §5 docker stack listing. F14 REVISED (Notion cost stays $0 to firm via JP's personal subscription) is a no-op on the spec — original §5 cost table already reflects this; Stage 1 envelope stays at $36-91/mo. Three new ADR bodies (021bis, 036, 037) drafted as separate Batch 1b commit. |
+| 2026-05-16 | Claude (Opus 4.7 1M, ADR-038 sweep + hard-system-audit patches) | **`t-spec-notion-removal-amendment` sweep pulled forward** per 2026-05-16 hard system audit recommendation. Header status `PROPOSED` → `ACTIVE`. ADR-024 + ADR-037 flipped to `Superseded by ADR-038`. ADR-038 row added to ADR map with link to full body. ADR-001 substrate description amended ("markdown-in-git + Telegram + FOSS workspace TBD" — removed Notion). §2 file map: `inbox/` annotated `(PLAN 04)`, `shared/` annotated `(PLAN 01c)`, cost-sharing parenthetical de-Notioned. §5 cost table restructured: firm-paid is $0 Stage 1; pre-revenue founder personal-spend reflects Claude MAX subscription reality + Notion line removed (JP total drops to ~$207/mo from ~$237-257). §6 state.json recording_preference enum updated. §8 meeting-capture table + client recording options + internal meeting flow + /meeting recover + audio archival all amended to single-canonical (Jitsi + Whisper.cpp interim per ADR-038; Plan 02 may revise). §9 testing/event-taxonomy/`_lib` references purged of `notion.*` / `notion.py`. §9 Sample Chain 2 amended. §9 + §10 failure modes: 2 rows handling Notion failures collapsed to single Whisper-crash row. §10 Open Items 1-5 marked DONE with dates + going-forward backlog added. F14 REVISE-REVERSED (per ADR-038). M5 (REVENUE_DISTRIBUTION.md:38) fixed in companion partnership-file sweep same date. Glossary parity-diff entry amended. |

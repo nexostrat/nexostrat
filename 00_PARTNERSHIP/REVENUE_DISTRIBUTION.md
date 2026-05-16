@@ -35,7 +35,7 @@ founder-sourced-and-delivered work.
 
 - **Direct API costs** (Anthropic, Gemini, Grok per engagement) are paid by
   Company before split. Tracked in `operations/accounting/api-spend.md`.
-- **Shared infrastructure** (Notion, hosting, domain — see
+- **Shared infrastructure** (hosting, domain, email, Drive, future FOSS workspace per Plan 02 — see
   `cost-sharing-agreement.md`) does NOT come out of per-engagement revenue;
   it's pre-revenue founder personal-spend reimbursed at first-revenue per
   the cost-sharing agreement.

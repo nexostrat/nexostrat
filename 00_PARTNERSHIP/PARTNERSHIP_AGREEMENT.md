@@ -58,7 +58,7 @@ reserve targets in [`REVENUE_DISTRIBUTION.md`](REVENUE_DISTRIBUTION.md).
 ## Cost-sharing (pre-revenue)
 
 Pre-revenue, the firm carries USD $0/mo. Each founder absorbs domain tooling on personal
-subscriptions (Ricardo ~USD 215-225/mo; JP ~USD 237-257/mo). Reimbursement triggers when
+subscriptions (Ricardo ~USD 215-225/mo; JP ~USD 207/mo per ADR-038 amendment 2026-05-16 — Notion line removed; was ~$237-257). Reimbursement triggers when
 firm cumulative revenue ≥ USD 1,000. Full schedule and line-item table in
 [`cost-sharing-agreement.md`](cost-sharing-agreement.md).
 
@@ -95,5 +95,5 @@ Full pipeline health and quality metrics in [`KPIs.md`](KPIs.md).
 
 **Form of agreement:** plain markdown (no notarized PDF; brothers-as-partners — see top blockquote)
 **Founding Meeting:** 2026-05-12 (verbal + operational agreement on these terms; both founders present)
-**This document updated:** 2026-05-16 (Plan 01a Task 17 reframed per `feedback_prefer_architecture_over_ceremony.md`)
+**This document updated:** 2026-05-16 (Plan 01a Task 17 reframed per `feedback_prefer_architecture_over_ceremony.md`; cost-sharing JP total recalculated per ADR-038 sweep same date)
 **Amendment procedure:** edit this file with both founders' consent; commit message documents the change; raised-hand (`CONFLICT_PROTOCOL.md`) precedes any substantive amendment.

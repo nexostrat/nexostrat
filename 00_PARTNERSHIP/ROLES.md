@@ -20,10 +20,10 @@ describe operational division of labor, NOT decision-making weight.
 - **Operational ownership:**
   - Prospect sourcing (LatAm network)
   - Closer-of-record on most early engagements
-  - Notion canonical workspace ownership
   - Brand voice in Spanish-language client materials
-- **Default communication:** Telegram, Signal, Notion, Gitea web (Light mode);
-  Heavy mode (Claude Code on Linux Mint) when chosen
+  - (Pre-2026-05-16: Notion canonical workspace ownership. Removed per ADR-038 — Notion exits firm-level; replacement FOSS workspace TBD in Plan 02.)
+- **Default communication:** Telegram bot, Signal, email/report digests, future FOSS dashboard (Plan 02).
+  - JP-Light variant (2026-05-15 election): opts out of Gitea web — wants results, not architecture browsing. Heavy mode (Claude Code on `jp-mac` macOS Sequoia 15.7.3) available on demand.
 - **Bandwidth:** ~10 h/week in Stage 1 (parallel obligations)
 
 ## Decision rights

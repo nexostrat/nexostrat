@@ -36,7 +36,7 @@ Per F10 namespace split:
    For each access:
    1. Identify the .age file you need.
    2. Decrypt to /dev/shm (RAM tmpfs):
-        age -d -i ~/.config/age/nexostrat.key vault/path/file.age \
+        age -d -i ~/.config/age/nexostrat.key.age vault/path/file.age \
             > /dev/shm/<short-name>
    3. Use the file (open, read, edit if needed).
    4. If edited, re-encrypt:
@@ -74,7 +74,7 @@ pass over the entire vault tree:
 ```bash
 # Plan 01a does NOT ship this script — for now, manual one-liner:
 find vault -name '*.age' -print0 | while IFS= read -r -d '' f; do
-  age -d -i ~/.config/age/nexostrat.key "$f" \
+  age -d -i ~/.config/age/nexostrat.key.age "$f" \
     | age -R infra/age-recipients.txt -o "${f}.new" \
     && mv "${f}.new" "$f"
 done

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "nexostrat-calendar-v1",
+  "title": "Nexostrat calendar.json",
+  "type": "object",
+  "required": ["$schema", "project", "events"],
+  "properties": {
+    "$schema": { "const": "nexostrat-calendar-v1" },
+    "project": { "type": "string", "minLength": 1 },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "when"],
+        "properties": {
+          "id":      { "type": "string", "minLength": 1 },
+          "title":   { "type": "string", "minLength": 1 },
+          "when":    { "type": "string" },
+          "tz":      { "type": "string" },
+          "kind":    { "enum": ["deadline", "meeting", "milestone", "reminder", "review"] },
+          "owner":   { "type": "string" },
+          "related": { "type": "array", "items": { "type": "string" } },
+          "notes":   { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

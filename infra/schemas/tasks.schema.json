@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "nexostrat-tasks-v1",
+  "title": "Nexostrat tasks.json",
+  "type": "object",
+  "required": ["$schema", "project", "updated", "tasks"],
+  "properties": {
+    "$schema":  { "const": "nexostrat-tasks-v1" },
+    "project":  { "type": "string", "minLength": 1 },
+    "updated":  { "type": "string", "format": "date-time" },
+    "tasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "subject", "status", "priority", "created"],
+        "properties": {
+          "id":         { "type": "string", "pattern": "^t-[a-z0-9-]+$" },
+          "subject":    { "type": "string", "minLength": 1 },
+          "status":     { "enum": ["open", "in_progress", "blocked", "done", "deferred", "cancelled"] },
+          "priority":   { "enum": ["critical", "high", "medium", "low"] },
+          "due":        { "type": "string", "format": "date" },
+          "created":    { "type": "string", "format": "date" },
+          "completed":  { "type": "string", "format": "date" },
+          "blocked_by": { "type": "string", "pattern": "^t-[a-z0-9-]+$" },
+          "notes":      { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -18,8 +18,15 @@
 
 set -uo pipefail
 
+# Defensive — git should always be in PATH when invoked as a git hook, but be loud
+# if it's not rather than silently letting a commit through.
+if ! command -v git >/dev/null 2>&1; then
+  echo "pre-commit-secret-scan: git not found in PATH — aborting" >&2
+  exit 1
+fi
+
 # Pattern set — pipe-separated for a single grep -E
-PATTERNS='(sk-ant-[A-Za-z0-9_-]{20,})|(\bsk-[A-Za-z0-9]{20,})|(\bAKIA[0-9A-Z]{16}\b)|(\bghp_[A-Za-z0-9]{30,})|(\bgho_[A-Za-z0-9]{30,})|(\bghs_[A-Za-z0-9]{30,})|(\bghu_[A-Za-z0-9]{30,})|(\bglpat-[A-Za-z0-9_-]{20,})|(\bxox[baprs]-[A-Za-z0-9-]{10,})|(\beyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+)'
+PATTERNS='(\bsk-ant-[A-Za-z0-9_-]{20,})|(\bsk-[A-Za-z0-9]{20,})|(\bAKIA[0-9A-Z]{16}\b)|(\bghp_[A-Za-z0-9]{30,})|(\bgho_[A-Za-z0-9]{30,})|(\bghs_[A-Za-z0-9]{30,})|(\bghu_[A-Za-z0-9]{30,})|(\bglpat-[A-Za-z0-9_-]{20,})|(\bxox[baprs]-[A-Za-z0-9-]{10,})|(\beyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+)'
 
 # Decide source of paths AND which content surface to scan.
 #   git-hook mode (default):   scan the STAGED BLOB via `git show :<path>` —
@@ -49,7 +56,8 @@ scan_content() {
 
 violations=0
 for f in "${FILES[@]}"; do
-  # Skip anything that matches our own .gitignore secret patterns — defensive
+  # *.age files are already-encrypted blobs — scanning their ciphertext is pointless and noisy.
+  # Files matching *secrets* are still scanned (they may contain plaintext secrets).
   case "$f" in
     *.age) continue ;;
     *secrets*) ;;  # still scan — explicit
@@ -62,9 +70,9 @@ for f in "${FILES[@]}"; do
       fi
     fi
   else
-    # stdin mode — scan disk file directly
+    # stdin mode — scan disk file directly via the same scan_content function
     [[ -f "$f" ]] || continue
-    if grep -EHn "$PATTERNS" "$f" 2>/dev/null; then
+    if scan_content "$f" < "$f"; then
       violations=$((violations+1))
     fi
   fi

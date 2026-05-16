@@ -327,7 +327,7 @@ Copy the token. **Do not paste it into terminal history** (use the next step's s
 
 ```bash
 TMP=/dev/shm/secrets-edit-$$
-age -d -i <(age -d ~/.config/age/nexostrat.key.age) \
+age -d -i ~/.config/age/nexostrat.key.age \
     /srv/Nexostrat/secrets.env.age > "$TMP"
 
 # Edit the empty value (use nano, vim, or Ricardo's editor of choice)
@@ -429,7 +429,7 @@ Same pattern as Task 2 Step 2:
 
 ```bash
 TMP=/dev/shm/secrets-edit-$$
-age -d -i <(age -d ~/.config/age/nexostrat.key.age) \
+age -d -i ~/.config/age/nexostrat.key.age \
     /srv/Nexostrat/secrets.env.age > "$TMP"
 
 nano "$TMP"
@@ -1073,7 +1073,7 @@ EOF
 
 ```bash
 ssh ricardo@<standby> bash -c "$(cat <<'EOF'
-sudo mkdir -p /srv && sudo chown ricardo:ricardo /srv
+sudo mkdir -p /srv/Nexostrat && sudo chown ricardo:ricardo /srv/Nexostrat
 cd /srv
 # Use SSH-via-Tailscale to Gitea origin (standby has the same SSH key per Task 7)
 git clone git@gitea-nexostrat:nexostrat/nexostrat.git Nexostrat
@@ -1110,19 +1110,30 @@ ls -la ~/.config/age/nexostrat.key.age
 # Expected: mode 600 file
 ```
 
-- [ ] **Step 4: Verify standby can decrypt the partnership PDF**
+- [ ] **Step 4: Verify standby can decrypt firm secrets (crypto round-trip test)**
+
+Proves the standby's age key matches both recipients and can read the encrypted
+firm-secrets pipeline. Decrypts `secrets.env.age` (the canonical artifact every
+service touches via `run-with-secrets.sh`) and asserts a known variable name is
+present.
 
 ```bash
 ssh ricardo@<standby> bash -c "$(cat <<'EOF'
-TMP=/dev/shm/agreement-test-$$.pdf
-age -d -i <(age -d ~/.config/age/nexostrat.key.age) \
-    /srv/Nexostrat/vault/partnership/PARTNERSHIP_AGREEMENT_2026-05-12.pdf.age \
-    > "$TMP"
-file "$TMP"
+TMP=/dev/shm/secrets-roundtrip-$$
+age -d -i ~/.config/age/nexostrat.key.age \
+    /srv/Nexostrat/secrets.env.age > "$TMP"
+# Sentinel: secrets.env.age contains the mirror PATs added by Tasks 2 + 3
+grep -q "^GITHUB_MIRROR_PAT=" "$TMP" && echo "OK: standby decrypted secrets.env.age"
 shred -u "$TMP"
 EOF
 )"
-# Expected: "PDF document, ..." — proves the standby has working decryption
+# Expected: "OK: standby decrypted secrets.env.age" — proves the standby has working
+# decryption against the actual production secrets artifact.
+# Note: the original draft of this step decrypted a partnership PDF
+# (vault/partnership/PARTNERSHIP_AGREEMENT_2026-05-12.pdf.age) but that artifact
+# was intentionally never created — see commit acdcc4a (2026-05-16) which reframed
+# Plan 01a Task 17 to "markdown is the agreement" per the brothers-as-partners
+# ceremony reduction. secrets.env.age is the durable round-trip target.
 ```
 
 - [ ] **Step 5: Pre-pull all Docker images referenced in `docker-compose.yml`**
@@ -1501,9 +1512,21 @@ The firm's internal references use `gitea-nexostrat` resolved via
 
 ```bash
 # On EACH device using the Gitea alias:
-sed -i.bak \
-  -e 's/Hostname 100.64.121.80/Hostname <STANDBY_TAILSCALE_IP>/' \
+# Case-insensitive match — OpenSSH canonical form is HostName (camelcase per
+# ssh_config(5)), but some users hand-edit with lowercase Hostname.
+sed -i.bak -E \
+  -e 's/^([[:space:]]*)([Hh]ost[Nn]ame)[[:space:]]+100\.64\.121\.80/\1\2 <STANDBY_TAILSCALE_IP>/' \
   ~/.ssh/config
+
+# Post-check — sed -i reports zero exit even on zero substitutions, so verify
+# the swap actually landed. Errors loudly if not (load-bearing for failover).
+if ! grep -qE "^[[:space:]]*[Hh]ost[Nn]ame[[:space:]]+<STANDBY_TAILSCALE_IP>" ~/.ssh/config; then
+  echo "ERROR: sed produced no substitution — DNS swap did NOT happen" >&2
+  echo "       Manually edit ~/.ssh/config so the gitea-nexostrat Host block" >&2
+  echo "       points HostName at <STANDBY_TAILSCALE_IP>" >&2
+  exit 1
+fi
+echo "OK: gitea-nexostrat HostName now points at <STANDBY_TAILSCALE_IP>"
 ```
 
 Or, if you've set up Tailscale MagicDNS aliases (Stage 2 plan), update the
@@ -1522,7 +1545,9 @@ echo "/note hp-down failover complete; standby active at <STANDBY_IP>" | \
   bot-cli   # script lands in Plan 04
 ```
 
-Until Plan 04 is live, send a Signal message to JP manually:
+Until Plan 04's Telegram bot is live, notify JP via the agreed out-of-band
+personal channel (the channel itself is not specified in this runbook — keep
+it private). Message template:
 "Failover complete. Standby active at <IP>. Use git push as normal; gitea-nexostrat
 SSH alias points to standby until further notice."
 
@@ -1607,7 +1632,7 @@ docs/runbooks/hp_down.md walks the operator through:
 3. git pull on standby
 4. docker compose up -d
 5. Update Tailscale/SSH-config DNS pointing
-6. Notify (Signal manual; Plan 04 will Telegram-automate)
+6. Notify (manual, out-of-band; Plan 04 will Telegram-automate)
 7. HP restoration sequence (stop standby, restart HP, re-rsync)
 8. Post-mortem entry in 00_GOVERNANCE/incidents/
 

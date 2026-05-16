@@ -27,8 +27,8 @@ first-revenue per the schedule below.
 | **Signal** | n/a | n/a | $0 | n/a |
 | **Telegram** | n/a | n/a | $0 | n/a |
 | **Total firm pays in Stage 1** | | | **USD $0/mo** | |
-| **Total Ricardo personal pays** | | | **~USD 215/mo + Claude MAX 200** | reimbursable |
-| **Total JP personal pays** | | | **~USD 36-56/mo + Claude MAX 200** | reimbursable |
+| **Total Ricardo personal pays (reimbursable)** | | | **~USD 215-225/mo** (Claude MAX 200 + Grok 5-15 + Drive 10) | Yes |
+| **Total JP personal pays (reimbursable)** | | | **~USD 237-257/mo** (Claude MAX 200 + Notion 30-50 + Domain ~1 + Email 6) | Yes |
 
 ## Reimbursement schedule (triggered at first revenue)
 

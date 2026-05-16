@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v1",
   "project": "nexostrat",
-  "updated": "2026-05-15T10:00:00-07:00",
+  "updated": "2026-05-15T21:30:00-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -113,6 +113,16 @@
       "notes": "Per ADR-038. Four roles to cover: meeting capture canonical (Whisper.cpp/Jitsi/etc.), summary generation (Ollama/etc.), CRM (EspoCRM/SuiteCRM/Krayin/Twenty/Vikunja/custom), collaborative docs workspace (AppFlowy/Outline/BookStack/AFFiNE/Wiki.js/Logseq/Trilium/HedgeDoc/Gitea Wiki). All options open; Plan 02 brainstorm decides. May pick one tool covering multiple roles or specialized tools per role. JP's interface (Telegram + dashboard) means the dashboard choice is the load-bearing JP-facing decision in Plan 02."
     },
     {
+      "id": "t-plan-01a-text-amendments",
+      "subject": "Plan 01a text amendments — fix plan-text drift surfaced during Tasks 1-11 execution",
+      "status": "open",
+      "priority": "medium",
+      "due": "2026-06-12",
+      "created": "2026-05-15",
+      "blocked_by": "t-plan-01c-execute",
+      "notes": "Drift items surfaced during execution: (a) Task 11 Step 4 uses `<(age -d <encrypted-id>)` process substitution which fails TTY-less (proven live in roundtrip test 2026-05-15) — should be `age -d -i <encrypted-id>` directly (matches the vault/README.md hardened command pattern in commit f747312); (b) Task 11 Step 3 expected `AGE-SECRET-KEY-1...` as the first line but standard age identity files start with a `# created: <timestamp>` comment line — wording should clarify the test passes if the file contains AGE-SECRET-KEY-1 anywhere, not necessarily on line 1; (c) Task 4 README and various stations carry pre-ADR-038 Notion references — caught by t-spec-notion-removal-amendment, no separate touchup needed here. Bundle (a) + (b) into the same single-pass plan-text touchup window as t-spec-notion-removal-amendment + t-spec-cost-table-amendment (between Plan 01c execution and Plan 02 writing)."
+    },
+    {
       "id": "t-spec-notion-removal-amendment",
       "subject": "Single-pass spec/plan touchup removing all Notion references per ADR-038",
       "status": "open",
@@ -144,12 +154,12 @@
     {
       "id": "t-plan-01a-execute",
       "subject": "Execute Plan 01a — Foundation (after re-audit)",
-      "status": "open",
+      "status": "in_progress",
       "priority": "critical",
       "due": "2026-05-27",
       "created": "2026-05-14",
       "blocked_by": "t-plan-01a-reaudit",
-      "notes": "Execute via superpowers:subagent-driven-development. Tag v0.1a-foundation on completion. Tasks 1-11 unblocked (re-audit done, 7 HIGH findings patched inline); Tasks 12-18 also gate on t-jp-age-keypair. Several deliverables already partly done in terrain prep — those become VERIFY tasks per Plan 01a Task 11. Patched plan at 00_META/plans/2026-05-14_plan-01a-foundation.md; audit report at 00_META/proposals/2026-05-14_plan-01a-audit-report.md."
+      "notes": "Tasks 1-11 EXECUTED 2026-05-15 via superpowers:subagent-driven-development. 16 commits on main (10 task + 6 hardening for code-quality reviewer Important findings): af908d5 Task 1 / 4bb6490+5709af7 Task 2 / 15539cd+8453148 Task 3 / 91b5c9c Task 4 / 8a432c6+c454031 Task 5 / 7ea853d+789eea2 Task 6 / 50a4504 Task 7 / d941d55 Task 8 / c258466+f72d382 Task 9 / e5fd40d+f747312 Task 10 / Task 11 verification-only (no commit). At JP-coordination gate. Tasks 12-18 pending next session: 12 likely collapses to verify-only (JP pubkey already on file b7e39bf); 13 needs JP Direction B Signal-attachment exchange; 14-18 mechanical. Plan-text bugs surfaced during execution covered by t-plan-01a-text-amendments. Code-quality reviewer Minor findings deferred to post-01c polish pass. Tag v0.1a-foundation on completion."
     },
     {
       "id": "t-plan-01b-reaudit",

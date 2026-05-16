@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v1",
   "project": "nexostrat",
-  "updated": "2026-05-16T14:00:00-07:00",
+  "updated": "2026-05-16T17:30:00-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -184,21 +184,21 @@
     {
       "id": "t-plan-01b-reaudit",
       "subject": "Batch 3 step 3 — Re-audit Plan 01b (after 01a executed)",
-      "status": "open",
+      "status": "done",
       "priority": "critical",
       "due": "2026-05-29",
       "created": "2026-05-14",
-      "notes": "Same pattern as t-plan-01a-reaudit. 01a execution + hard system audit 2026-05-16 surfaced learnings now folded into the baseline (verdict YELLOW small; HIGH/MEDIUM patches applied same-day). Plan 01b at 00_META/plans/2026-05-14_plan-01b-mirrors.md (12 tasks, ~1750 lines). UNBLOCKED 2026-05-16: t-hard-system-audit-v01a closed. Per audit Phase 'What this audit did NOT cover' item 4: this re-audit is responsible for line-by-line Plan 01b coherence including process-substitution patterns at lines 330/432/1118 (carry the same age -d -i <(...) issue that t-plan-01a-text-amendments fixed in Plan 01a)."
+      "completed": "2026-05-16",
+      "notes": "DONE 2026-05-16 (13 days ahead of due). Dispatched general-purpose Opus agent with risk-auditor persona inlined (4th audit at this discipline; brief was inline, no separate brief file). Verdict YELLOW (small): 0 CRITICAL, 5 HIGH, 7 MEDIUM, 5 LOW, no DESIGN-RETHINK. Report at 00_META/proposals/2026-05-16_plan-01b-reaudit-report.md (commit ce3d112, 474 lines). All 5 HIGH + 7 MEDIUM patched same-session: commit 3057714 (HIGH H1-H5: process-sub × 3 → direct -i, Task 8 Step 4 PDF target swap to secrets.env.age, Signal × 2 → out-of-band, sed Hostname case fix + post-check, chown FHS scope), commit 6efdec3 (MEDIUM M1-M7: task-range typo, docker.io+docker-compose v1 cascade across 11 sites, pull comment reword, scp-before-clone hoist, secret-scan reminders × 2, OS-pinning note, incidents/.gitkeep pre-create). LOW (L1-L5) deferred per audit recommendation (d) for post-Plan-01c polish-pass. H1 confirmed the process-substitution defect hard-audit flagged (lines 330/432/1118). H3 is the first concrete enforcement of the 2026-05-16 telegram-not-signal directive locked this session. Unblocks t-plan-01b-execute."
     },
     {
       "id": "t-plan-01b-execute",
       "subject": "Execute Plan 01b — Mirrors + warm-standby (after re-audit)",
       "status": "open",
       "priority": "critical",
-      "due": "2026-06-03",
+      "due": "2026-06-05",
       "created": "2026-05-14",
-      "blocked_by": "t-plan-01b-reaudit",
-      "notes": "Tag v0.1b-mirrors on completion. Tasks 1-6 unblocked once re-audit GREEN; Tasks 7-12 also gate on physical second host (Linux Mint + Tailscale-joined). Pre-conditions partly in place from terrain prep: nexostrat GitHub + Codeberg accounts exist; SSH key registered; Gitea origin pushing."
+      "notes": "UNBLOCKED 2026-05-16 — t-plan-01b-reaudit closed YELLOW (small); all 5 HIGH + 7 MEDIUM patched same-session in commits 3057714 + 6efdec3. Plan 01b at 00_META/plans/2026-05-14_plan-01b-mirrors.md (12 tasks, ~1750 lines, post-patch ~1810 lines). Tag v0.1b-mirrors on completion. Tasks 1-6 (mirror cluster — GitHub + Codeberg path-watchers) runnable IMMEDIATELY via superpowers:subagent-driven-development; ~3-4h wall-time matching Plan 01a Tasks 1-11 shape. Tasks 7-12 (warm-standby cluster) gate on physical second host (Linux Mint 22.2 + Tailscale-joined). Pre-conditions in place from terrain prep: nexostrat GitHub + Codeberg accounts exist + SSH key registered + Gitea origin pushing + age recipients file has both Ricardo + JP pubkeys. Due slipped from 2026-06-03 to 2026-06-05 to absorb the re-audit cycle (matches master plan index)."
     },
     {
       "id": "t-plan-01c-reaudit",

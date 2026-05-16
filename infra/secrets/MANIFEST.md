@@ -25,8 +25,8 @@
 3. Edit the value in place (e.g., via `nano /dev/shm/secrets.env.tmp`).
 4. Re-encrypt to both recipients:
    ```bash
-   age -R infra/age-recipients.txt -o secrets.env.age /dev/shm/secrets.env.tmp
-   shred -u /dev/shm/secrets.env.tmp
+   age -R infra/age-recipients.txt -o secrets.env.age /dev/shm/secrets.env.tmp \
+       && shred -u /dev/shm/secrets.env.tmp
    ```
 5. Update the **Last rotated** column in this file.
 6. Commit both files (`secrets.env.age` + `infra/secrets/MANIFEST.md`).

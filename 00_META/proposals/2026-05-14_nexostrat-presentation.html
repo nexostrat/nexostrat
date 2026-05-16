@@ -776,7 +776,17 @@ footer a { color: var(--arctic-muted); }
 
 <!-- ===================== COVER ===================== -->
 <section class="cover" id="cover">
-  <div class="eyebrow">Sistema operativo de la firma · vista post-auditoría 2026-05-14</div>
+  <div style="background:rgba(245,158,11,0.15);border:1px solid var(--amber-bright);border-radius:8px;padding:12px 16px;margin:0 0 18px 0;font-size:13px;line-height:1.55">
+    <strong style="color:var(--amber-bright)">⚠ Snapshot 2026-05-14 · revisado 2026-05-16</strong><br>
+    Esta presentación se escribió 2026-05-14 y refleja el estado del sistema antes de tres decisiones posteriores que ya están <em>locked</em>:
+    <ol style="margin:6px 0 0 18px;padding:0">
+      <li><strong>ADR-038 (2026-05-15) — Notion sale del firm-level.</strong> Las menciones de "Notion canonical" en esta presentación están <em>superseded</em>; la captura de reuniones es Jitsi + Whisper.cpp (FOSS-canonical interim) hasta que Plan 02 elija el FOSS stack definitivo. Buscar "ADR-038" para ver las ubicaciones tachadas.</li>
+      <li><strong>JP-Light variant (2026-05-15) — JP opta por Telegram + email + dashboard FOSS, no Gitea web.</strong> Cualquier mención de "JP usa Gitea web" está obsoleta.</li>
+      <li><strong>Brothers-as-partners ceremony reduction (2026-05-16) — la PDF firmada no es necesaria.</strong> El markdown <code>00_PARTNERSHIP/PARTNERSHIP_AGREEMENT.md</code> ES el acuerdo a Stage 1; la formalidad regresa al primer evento externo.</li>
+    </ol>
+    Para regenerar la presentación con estos cambios aplicados de raíz, ver task <code>t-presentation-refresh-post-adr-038</code>. Fuente de verdad actual: <code>00_META/proposals/2026-05-13_nexostrat-system-design.md</code> + ADR-038 + STATUS.md.
+  </div>
+  <div class="eyebrow">Sistema operativo de la firma · vista post-auditoría 2026-05-14 · banner ADR-038 añadido 2026-05-16</div>
   <h1>La arquitectura de Nexostrat,<br>explicada en limpio.</h1>
   <p class="tagline">
     Esta es la fotografía actual del sistema: cómo está construido, por qué cada pieza existe,
@@ -865,7 +875,7 @@ footer a { color: var(--arctic-muted); }
         <h4>ELI5</h4>
         <p>La sociedad está firmada (2026-05-12). 50% cada uno. Si alguno de los dos vetará una decisión grande, hay un protocolo de 15 minutos para escucharse antes de discutir.</p>
         <p>El reparto de ingresos por cliente es: <strong>20%</strong> a la compañía (reinversión), <strong>20%</strong> al que originó el cliente, <strong>20%</strong> al que cerró el deal, <strong>40%</strong> al que ejecuta el trabajo. Esto pone los incentivos en lo correcto sin discusiones caso por caso.</p>
-        <p>JP tiene <strong>derecho de veto</strong> sobre cualquier decisión arquitectónica. No tiene que entender cada línea de código — el sistema le reporta automáticamente vía Telegram y Notion, no tiene que preguntar "¿qué hiciste hoy?".</p>
+        <p>JP tiene <strong>derecho de veto</strong> sobre cualquier decisión arquitectónica. No tiene que entender cada línea de código — el sistema le reporta automáticamente vía Telegram y email/digest (y el dashboard FOSS que elija Plan 02), no tiene que preguntar "¿qué hiciste hoy?". <em>(Pre-ADR-038: "Telegram y Notion".)</em></p>
       </div>
       <div class="col col-tech">
         <h4>Técnico · los artefactos de la sociedad</h4>
@@ -874,7 +884,7 @@ footer a { color: var(--arctic-muted); }
           <li><code>PARTNERSHIP_AGREEMENT.md</code> · 50/50 fully vested, firmado 2026-05-12</li>
           <li><code>CONFLICT_PROTOCOL.md</code> · 15-min raised-hand de JP</li>
           <li><code>REVENUE_DISTRIBUTION.md</code> · 20/20/20/40</li>
-          <li><code>cost-sharing-agreement.md</code> · pre-revenue: Ricardo cubre Claude+Drive+hardware; JP cubre Notion</li>
+          <li><code>cost-sharing-agreement.md</code> · pre-revenue: Ricardo cubre Claude+Grok+Drive+hardware; JP cubre Claude+dominio+email <em>(pre-ADR-038: "JP cubre Notion" — removido 2026-05-15)</em></li>
           <li><code>qualified-prospect-definition.md</code> · &ge;USD 50K/yr revenue + sector + decision-maker</li>
           <li><code>raised_hand_log.md</code> · cada vez que se usa el protocolo, se anota</li>
         </ul>
@@ -914,7 +924,7 @@ footer a { color: var(--arctic-muted); }
           <li>Stack + costos (Stage 1, $36-91/mo)</li>
           <li>Skills + multi-model + intake (<span class="adr-badge" data-adr="026">ADR-026</span> + <span class="adr-badge" data-adr="027">ADR-027</span>)</li>
           <li>Cadena de cliente (12 estaciones + 3 cross-cutting)</li>
-          <li>Captura de reuniones (Notion canonical + shadow opcional)</li>
+          <li>Captura de reuniones (Jitsi + Whisper.cpp canonical interim per ADR-038; Plan 02 puede revisar)</li>
           <li>Sustrato de ejecución (Python agents + systemd timers — <span class="adr-badge" data-adr="029">ADR-029</span>)</li>
           <li>Testing, observabilidad, modos de falla, go-live</li>
         </ul>
@@ -2298,7 +2308,7 @@ footer a { color: var(--arctic-muted); }
         </ul>
         <p><strong>Spine:</strong> <code>infra/events/events.jsonl</code> · append-only · schema-enforced via <code>infra/events/schemas/&lt;type&gt;.json</code>. Required fields: <code>ts</code>, <code>id</code>, <code>actor</code>, <code>type</code>, <code>scope</code>. Optional: <code>data</code>, <code>correlation_id</code>, <code>causation_id</code>. Monthly rotation a <code>events-YYYY-MM.jsonl.zst</code>; nunca se borra.</p>
         <p><strong>Taxonomy:</strong> ~80 event types en 10 dominios — meta/governance, intake & pipeline, skills, meetings, chat, tasks, vault & secrets, infrastructure, external, errors & safety. Catálogo en <code>docs/reference/event_taxonomy.md</code> (auto-gen).</p>
-        <p><strong>Agents:</strong> <code>infra/agents/</code> · una sub-carpeta por dominio. Compartidos en <code>_lib/</code> (<code>events.py</code>, <code>secrets.py</code>, <code>telegram.py</code>, <code>notion.py</code>, <code>calendar.py</code>, <code>models.py</code>, <code>state.py</code>, <code>tz.py</code>).</p>
+        <p><strong>Agents:</strong> <code>infra/agents/</code> · una sub-carpeta por dominio. Compartidos en <code>_lib/</code> (<code>events.py</code>, <code>secrets.py</code>, <code>telegram.py</code>, <code>calendar.py</code>, <code>models.py</code>, <code>state.py</code>, <code>tz.py</code>) + el cliente del FOSS workspace que Plan 02 elija (pre-ADR-038 incluía <code>notion.py</code>).</p>
         <p><strong>Scheduling:</strong> systemd timers en <code>infra/systemd/</code> — declarativos, committed a git. Cleaner que crontab. Ejemplos: <code>nexostrat-meeting-brief.timer</code> (07:00 daily per user TZ), <code>nexostrat-warm-rsync.timer</code> (nightly 03:00), <code>nexostrat-backup-verify.timer</code> (weekly).</p>
       </div>
     </div></div>
@@ -2563,14 +2573,14 @@ footer a { color: var(--arctic-muted); }
       <div class="card-num">28</div>
       <div class="card-title">
         <h3>Costos Stage 1 — pagados de bolsillo por los socios</h3>
-        <div class="card-eli5-summary">El gasto mensual del sistema lo absorben Ricardo y JP cada uno con sus suscripciones personales. Las APIs de modelos están cubiertas (Claude MAX × 2, Gemini gratis hasta ~octubre 2026, Grok bajo consumo). Notion + email + hosting + dominio los cubre JP en su side. Drive 2TB + hardware Ricardo. La firma como entidad paga $0 hasta que haya revenue.</div>
+        <div class="card-eli5-summary">El gasto mensual del sistema lo absorben Ricardo y JP cada uno con sus suscripciones personales. Las APIs de modelos están cubiertas (Claude MAX × 2, Gemini gratis hasta ~octubre 2026, Grok bajo consumo). Email + dominio los cubre JP. Drive 2TB + hardware Ricardo. La firma como entidad paga $0 hasta que haya revenue. <em>(Actualizado 2026-05-16 per ADR-038: línea Notion removida; JP total bajó de ~$237-257/mo a ~$207/mo.)</em></div>
       </div>
       <div class="card-chevron">▾</div>
     </div>
     <div class="card-body"><div class="card-body-inner">
       <div class="col col-eli5">
         <h4>ELI5</h4>
-        <p>La estrategia económica de Stage 1 es: <strong>cero gasto fijo de la firma</strong>. Los costos los absorben los socios en sus suscripciones personales que ya tenían o que decidieron pagar como inversión inicial. Ricardo cubre Claude MAX + Drive + hardware. JP cubre Claude MAX + Notion + email/hosting + dominio. Gemini API está en el periodo gratuito hasta más o menos octubre 2026.</p>
+        <p>La estrategia económica de Stage 1 es: <strong>cero gasto fijo de la firma</strong>. Los costos los absorben los socios en sus suscripciones personales que ya tenían o que decidieron pagar como inversión inicial. Ricardo cubre Claude MAX + Grok + Drive + hardware. JP cubre Claude MAX + email/hosting + dominio. Gemini API está en el periodo gratuito hasta más o menos octubre 2026. <em>(Pre-ADR-038: JP también cubría Notion + AI add-on ~$30-50/mo; línea removida 2026-05-15.)</em></p>
         <p>Esto significa que mientras no haya clientes pagos, la firma no quema dinero. Cuando llegue el primer ingreso, parte de él reembolsa lo adelantado por cada socio (registrado en <code>00_PARTNERSHIP/cost-sharing-agreement.md</code>), y a partir de ahí los gastos pasan a ser de la firma.</p>
         <p>Marginal cost per Diagnóstico en Mode B: prácticamente cero — Claude MAX no cobra por uso adicional dentro del plan, Gemini API en periodo gratuito, Grok API en consumo bajo. Cuando la firma esté revenue-positive, el cálculo cambia, pero hoy esto es eficiencia pura.</p>
       </div>
@@ -2585,7 +2595,7 @@ footer a { color: var(--arctic-muted); }
             <tr><td class="col-emph">xAI Grok API</td><td>$5–15</td><td>Ricardo · personal</td><td>3er modelo parallel research</td></tr>
             <tr><td class="col-emph">Google Drive 2TB</td><td>~$10</td><td>Ricardo · personal</td><td>Heavy assets encrypted</td></tr>
             <tr><td class="col-emph">Hardware (HP, standby, desktop)</td><td>amortizado</td><td>Ricardo · ya owned</td><td>Stack live + GPU work</td></tr>
-            <tr><td class="col-emph">Notion + Notion AI</td><td>~$10–18</td><td>JP · personal</td><td>CRM + meeting notes</td></tr>
+            <tr style="opacity:0.5;text-decoration:line-through"><td class="col-emph">Notion + Notion AI</td><td>~$10–18</td><td>JP · personal</td><td>CRM + meeting notes <em style="text-decoration:none">(REMOVIDO 2026-05-15 per ADR-038; FOSS replacement TBD en Plan 02)</em></td></tr>
             <tr><td class="col-emph">Email · <code>contacto@nexostrat.com</code></td><td>~$3–5</td><td>JP · personal</td><td>Mailbox profesional de la firma</td></tr>
             <tr><td class="col-emph">Hosting · dominio nexostrat.com</td><td>~$2–4</td><td>JP · personal</td><td>Dominio + cualquier landing futuro</td></tr>
             <tr><td><strong>Costo a la firma</strong></td><td><strong>$0</strong></td><td>—</td><td>Stage 1 cero gasto fijo de la entidad</td></tr>
@@ -2693,7 +2703,8 @@ footer a { color: var(--arctic-muted); }
           <li><span class="adr-badge" data-adr="029">ADR-029</span> · Python + systemd (no n8n)</li>
           <li><span class="adr-badge" data-adr="033">ADR-033</span> · Aurora palette + tipografía</li>
           <li><span class="adr-badge" data-adr="036">ADR-036</span> · Stage 1 v0/v1 fidelity</li>
-          <li><span class="adr-badge" data-adr="037">ADR-037</span> · Notion canonical + Stage 2 review trigger</li>
+          <li><span class="adr-badge" data-adr="037">ADR-037</span> · <s>Notion canonical + Stage 2 review trigger</s> — <strong>SUPERSEDED por <span class="adr-badge" data-adr="038">ADR-038</span></strong> (2026-05-15: Notion sale del firm-level)</li>
+          <li><span class="adr-badge" data-adr="038">ADR-038</span> · Drop Notion at firm level; FOSS self-hosted replacement deferred a Plan 02 brainstorm</li>
         </ul>
         <p><strong>DECISIONS.md</strong> es el índice one-line auto-generado de todos los ADRs. <code>infra/scripts/gen_adr_index.py</code> lo regenera; pre-commit hook lo valida.</p>
       </div>
@@ -2892,7 +2903,7 @@ Tier 4 INFO      solo events.jsonl; surface vía /events</pre>
         <rect x="40" y="752" width="360" height="130" rx="12" fill="rgba(245,158,11,0.12)" stroke="#F59E0B" stroke-width="1.5"/>
         <text x="60" y="780" fill="#fbbf24" font-size="11" font-weight="700" letter-spacing="2">PLAN 08</text>
         <text x="60" y="808" fill="#F0FBFF" font-size="20" font-weight="600" font-family="Space Grotesk">Meeting pipeline</text>
-        <text x="60" y="830" fill="#c8e6f0" font-size="13">Notion AI canonical + Jitsi/Whisper shadow.</text>
+        <text x="60" y="830" fill="#c8e6f0" font-size="13">Jitsi + Whisper.cpp canonical (ADR-038); Plan 02 puede ajustar.</text>
         <text x="60" y="848" fill="#c8e6f0" font-size="13">Parity diff. Extracción de actions/decisions/</text>
         <text x="60" y="866" fill="#c8e6f0" font-size="13">dates. Brief matinal + T-15.</text>
       </g>
@@ -2986,7 +2997,7 @@ Tier 4 INFO      solo events.jsonl; surface vía /events</pre>
           <li><strong>CHECKPOINT.md</strong> · el "baton" entre sesiones — qué hice, qué sigue, qué bloqueé.</li>
           <li><strong>Diagnóstico</strong> · el primer entregable de la firma (reporte de 20-30 pp). Pilotos gratis × 3, después se cobra.</li>
           <li><strong>Mode A / Mode B</strong> · dos backends para correr una skill (manual / vía API).</li>
-          <li><strong>parity diff</strong> · comparación entre transcript de Notion AI y Whisper.cpp para evaluar paridad.</li>
+          <li><strong>parity diff</strong> · originalmente comparación Notion AI vs Whisper.cpp; post-ADR-038 (Notion removido) la infra queda como mecanismo Stage-2 readiness si Plan 02 elige una herramienta FOSS con summary path alternativo.</li>
           <li><strong>research_input.md</strong> · hechos públicos + contexto privado factual del cliente (slices 1+2 del intake).</li>
           <li><strong>our_hypotheses.md</strong> · nuestros juicios + opiniones (slice 3) — sellado durante research.</li>
           <li><strong>runs/</strong> · folder por skill que tiene múltiples ejecuciones (Mode A y Mode B coexisten).</li>
@@ -3087,9 +3098,9 @@ $ # NO sobreescribir el snapshot original</pre>
   /* Each entry: title, decision (one paragraph), consequence (one line). */
   const ADR = {
     '001': {
-      title: 'System substrate · markdown-in-git + Notion + Telegram',
-      decision: 'El sistema operativo de Nexostrat se construye sobre markdown en git (fuente de verdad), Notion (vista CRM + meeting notes para JP) y Telegram (interfaz humana). Tres superficies, tres roles distintos.',
-      consequence: 'Texto plano siempre auditable; cambios versionados; ninguna herramienta es indispensable individualmente.'
+      title: 'System substrate · markdown-in-git + Telegram + FOSS workspace (Plan 02 TBD) — AMENDED 2026-05-15 per ADR-038',
+      decision: 'El sistema operativo de Nexostrat se construye sobre markdown en git (fuente de verdad), un FOSS workspace TBD per Plan 02 (vista CRM + meeting notes para JP — pre-ADR-038 era Notion; salió del firm-level 2026-05-15) y Telegram (interfaz humana). Tres superficies, tres roles distintos.',
+      consequence: 'Texto plano siempre auditable; cambios versionados; ninguna herramienta es indispensable individualmente. Post-ADR-038: FOSS sovereignty completa, build cost mayor (Whisper.cpp + Ollama + dashboard FOSS reemplazan a Notion AI).'
     },
     '002': {
       title: 'Repository home · /srv/Nexostrat/ · Gitea org nexostrat',
@@ -3192,9 +3203,9 @@ $ # NO sobreescribir el snapshot original</pre>
       consequence: 'Single-machine failure recuperable rápido; nightly rsync mantiene data fresh.'
     },
     '024': {
-      title: 'Dual meeting capture (Notion canonical + shadow)',
-      decision: 'Internal R+JP: Notion AI canonical + Jitsi/Whisper shadow (parity comparison). Client default: Notion canonical solo. Client option B: Jitsi/Whisper self-hosted. Client option C: sin recording.',
-      consequence: 'Stage 2 trigger: parity ≥0.9 por 4 internal meetings consecutivas → Whisper-as-a-service ofertable.'
+      title: 'Dual meeting capture (Notion canonical + shadow) — SUPERSEDED por ADR-038 (2026-05-15)',
+      decision: 'PRE-ADR-038 (2026-05-13): Internal R+JP: Notion AI canonical + Jitsi/Whisper shadow (parity comparison). Client default: Notion canonical solo. Client option B: Jitsi/Whisper self-hosted. Client option C: sin recording. POST-ADR-038 (2026-05-15): Notion-canonical retirada; Jitsi + Whisper.cpp promovidas a canonical interim pending Plan 02; client options son ahora "Jitsi+Whisper" o "sin recording".',
+      consequence: 'Stage 2 trigger original (parity ≥0.9 → Whisper-as-a-service) ahora es moot — el sistema YA es Whisper-canonical. Plan 02 puede revisar si elige otro stack FOSS.'
     },
     '025': {
       title: 'Paired-file two-tier documentation',
@@ -3257,9 +3268,14 @@ $ # NO sobreescribir el snapshot original</pre>
       consequence: 'Stage 1 alcanzable sin pre-comprometer calendario; v0 entries son deliberate choices, no surprise tech debt.'
     },
     '037': {
-      title: 'Notion canonical role · Stage 2 review trigger',
-      decision: 'Notion AI permanece canonical para meeting capture en Stage 1. Stage 2 review triggers: cost reversal (JP no puede absorber + firma-paid >$50/mo), client data-residency need, JP workflow shift, parity score ≥0.9 por 4 meetings (Whisper-canonical viable).',
-      consequence: 'Decisión revisable con conditions explícitas; Whisper-canonical es alternativa nombrada.'
+      title: 'Notion canonical role · Stage 2 review trigger — SUPERSEDED por ADR-038 (2026-05-15)',
+      decision: 'PRE-supersession: Notion AI permanece canonical para meeting capture en Stage 1; review triggers Stage 2 (cost reversal, data-residency, JP workflow shift, parity ≥0.9). El Stage-2 review se adelantó a immediate 2026-05-15 — ADR-038 supersede la canonical-Notion posture que este ADR defendía. Los triggers nombrados aquí son irrelevantes porque la posture cae.',
+      consequence: 'ADR-038 es el sucesor; la lógica de "review condicional" es reemplazada por "Notion sale del firm-level ahora; FOSS replacement Plan 02".'
+    },
+    '038': {
+      title: 'Drop Notion at firm level; FOSS self-hosted replacement deferred to Plan 02 brainstorm',
+      decision: 'Notion sale de la arquitectura Nexostrat al firm level (2026-05-15). Sin firm-paid Notion ever, sin firm-canonical dependence en la subscription personal de JP. Los cuatro roles que Notion cubría (meeting capture canonical, summary generation, CRM, collaborative docs workspace) se reasignan a soluciones FOSS self-hosted; las elecciones específicas se hacen en el Plan 02 brainstorm con todas las opciones abiertas (Whisper.cpp + Jitsi + Ollama + EspoCRM/SuiteCRM/Krayin/Twenty / AppFlowy/Outline/BookStack/AFFiNE/Wiki.js/Logseq/Trilium/HedgeDoc/Gitea Wiki / Grafana/Metabase/custom).',
+      consequence: 'Positive: cero firm-paid SaaS, full architectural sovereignty, no third-party data processor para client transcripts. Negative: build cost mayor (FOSS replacements requieren self-hosting + glue code; Whisper.cpp Spanish CPU es ~1.5× real-time vs Notion AI default polish); Plan 02 scope crece materialmente y es ahora load-bearing.'
     }
   };
 

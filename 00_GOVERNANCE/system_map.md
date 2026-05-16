@@ -67,17 +67,20 @@ DIFFERENT identity — typically Ricardo's personal-account key).
 
 ## Mirrors (populated by Tasks 4-5)
 
-> **Asymmetric topology note (2026-05-16):** Codeberg uses the firm-identity
-> namespace `nexostrat/nexostrat`. GitHub uses Ricardo's personal namespace
-> `ricardomejiacaicedo-del/nexostrat` because the existing `nexostrat_ed25519`
-> SSH key authenticates as `ricardomejiacaicedo-del` on github.com (registered
-> during 2026-05-14 terrain prep). Re-aligning to a firm-identity GitHub
-> namespace is deferred to a Stage 2 cleanup.
+Both mirrors live in the firm-identity namespace `nexostrat/nexostrat`. The
+`nexostrat_ed25519` key is registered on the firm GitHub user (`Hi nexostrat!`
+on `ssh -T git@github-nexostrat`) and on the firm Codeberg user.
+
+> **Identity caveat — DO NOT use bare-domain SSH for firm git ops:** Running
+> `ssh -T git@github.com` (no alias) hits Ricardo's default identity and reports
+> `Hi ricardomejiacaicedo-del!` — that's the personal account, NOT the firm.
+> Always use the alias (`git@github-nexostrat:...`) to force the firm key. The
+> mirror service uses the alias form; manual debugging should too.
 
 | Mirror | Remote URL | Trigger | Service |
 |---|---|---|---|
-| GitHub   | `git@github-nexostrat:ricardomejiacaicedo-del/nexostrat.git` | systemd `.path` watching Gitea bare-repo `refs/heads/main` | `nexostrat-mirror-github.service` |
-| Codeberg | `git@codeberg-nexostrat:nexostrat/nexostrat.git`           | same | `nexostrat-mirror-codeberg.service` |
+| GitHub   | `git@github-nexostrat:nexostrat/nexostrat.git`   | systemd `.path` watching Gitea bare-repo `refs/heads/main` | `nexostrat-mirror-github.service` |
+| Codeberg | `git@codeberg-nexostrat:nexostrat/nexostrat.git` | same | `nexostrat-mirror-codeberg.service` |
 
 The remote URLs use the SSH-config aliases (not the bare domain), which forces
 the `nexostrat_ed25519` identity via `IdentitiesOnly yes`. This is the same

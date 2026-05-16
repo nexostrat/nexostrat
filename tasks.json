@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v1",
   "project": "nexostrat",
-  "updated": "2026-05-15T21:30:00-07:00",
+  "updated": "2026-05-16T18:00:00-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -120,7 +120,7 @@
       "due": "2026-06-12",
       "created": "2026-05-15",
       "blocked_by": "t-plan-01c-execute",
-      "notes": "Drift items surfaced during execution: (a) Task 11 Step 4 uses `<(age -d <encrypted-id>)` process substitution which fails TTY-less (proven live in roundtrip test 2026-05-15) — should be `age -d -i <encrypted-id>` directly (matches the vault/README.md hardened command pattern in commit f747312); (b) Task 11 Step 3 expected `AGE-SECRET-KEY-1...` as the first line but standard age identity files start with a `# created: <timestamp>` comment line — wording should clarify the test passes if the file contains AGE-SECRET-KEY-1 anywhere, not necessarily on line 1; (c) Task 4 README and various stations carry pre-ADR-038 Notion references — caught by t-spec-notion-removal-amendment, no separate touchup needed here. Bundle (a) + (b) into the same single-pass plan-text touchup window as t-spec-notion-removal-amendment + t-spec-cost-table-amendment (between Plan 01c execution and Plan 02 writing)."
+      "notes": "Drift items surfaced during execution. SCOPE (expanded 2026-05-16): process-substitution `<(age -d ~/.config/age/nexostrat.key.age)` pattern appears in Task 11 Step 4 + Task 13 Steps 1/2/3 + Task 14 Step 3 + Task 15 Step 3 (the run-with-secrets.sh wrapper itself) + Task 16 MANIFEST.md rotation snippet + Task 17 Step 3 + Task 18 Steps 2/3. All should simplify to direct `age -d -i ~/.config/age/nexostrat.key.age <ciphertext>` form (age 1.1.0+ supports passphrase-protected identity files directly via -i). The process-sub form works for INTERACTIVE TTY use but adds an extra subprocess and fails TTY-less (proven 2026-05-15). The simplification matches the hardened pattern in vault/README.md commit f747312 and the proven Task 11 Step 4 workaround. (a) was the originally-logged Task 11 case — same fix applies to all listed sites. (b) Task 11 Step 3 expected `AGE-SECRET-KEY-1...` on line 1 but standard age identity files start with `# created: <timestamp>` comment — wording should clarify the test passes if the file contains AGE-SECRET-KEY-1 anywhere, not necessarily on line 1. (c) Task 4 README and various stations carry pre-ADR-038 Notion references — caught by t-spec-notion-removal-amendment, no separate touchup needed here. Bundle (a) + (b) into the same single-pass plan-text touchup window as t-spec-notion-removal-amendment + t-spec-cost-table-amendment (between Plan 01c execution and Plan 02 writing)."
     },
     {
       "id": "t-spec-notion-removal-amendment",
@@ -130,7 +130,7 @@
       "due": "2026-06-12",
       "created": "2026-05-15",
       "blocked_by": "t-plan-01c-execute",
-      "notes": "Scheduled between Plan 01c execution and Plan 02 writing (similar shape to Batch 1a single-pass amendment commit dc5cbec). Touches: spec ADR-001 (substrate definition), ADR-024 (mark superseded), ADR-037 (mark superseded), §5 cost table (remove Notion line, revert F14), §6 storage hierarchy + CRM, §8 service contracts (notion.*), §10 failure modes. Also: amendment doc 2026-05-14_amendments.md F14/R5 entries get superseded notes. Cost-table reverts to roughly $36-91/mo or lower."
+      "notes": "Scheduled between Plan 01c execution and Plan 02 writing (similar shape to Batch 1a single-pass amendment commit dc5cbec). Touches: spec ADR-001 (substrate definition), ADR-024 (mark superseded), ADR-037 (mark superseded), §5 cost table (remove Notion line, revert F14), §6 storage hierarchy + CRM, §8 service contracts (notion.*), §10 failure modes. Also: amendment doc 2026-05-14_amendments.md F14/R5 entries get superseded notes. Additional sites surfaced 2026-05-16 during Plan 01a Tasks 12-18: (i) infra/secrets/MANIFEST.md NOTION_API_KEY row (Used-by mentions Plan 08 transcription watcher + Plan 04 /note plugin; Notes mentions 'Internal integration in JP's workspace'); (ii) secrets.env.age needs re-encryption without the NOTION_API_KEY= line (decrypt → strip line → re-encrypt to both recipients → commit); (iii) 00_PARTNERSHIP/cost-sharing-agreement.md JP cost line (Notion+AI add-on ~USD 30-50/mo) and the consequential JP total (USD 237-257/mo); (iv) 00_PARTNERSHIP/PARTNERSHIP_AGREEMENT.md cost-sharing range (cites the JP figure). Cost-table reverts to roughly $36-91/mo or lower."
     },
     {
       "id": "t-gitea-path-verify",
@@ -154,12 +154,22 @@
     {
       "id": "t-plan-01a-execute",
       "subject": "Execute Plan 01a — Foundation (after re-audit)",
-      "status": "in_progress",
+      "status": "done",
       "priority": "critical",
       "due": "2026-05-27",
       "created": "2026-05-14",
+      "completed": "2026-05-16",
       "blocked_by": "t-plan-01a-reaudit",
-      "notes": "Tasks 1-11 EXECUTED 2026-05-15 via superpowers:subagent-driven-development. 16 commits on main (10 task + 6 hardening for code-quality reviewer Important findings): af908d5 Task 1 / 4bb6490+5709af7 Task 2 / 15539cd+8453148 Task 3 / 91b5c9c Task 4 / 8a432c6+c454031 Task 5 / 7ea853d+789eea2 Task 6 / 50a4504 Task 7 / d941d55 Task 8 / c258466+f72d382 Task 9 / e5fd40d+f747312 Task 10 / Task 11 verification-only (no commit). At JP-coordination gate. Tasks 12-18 pending next session: 12 likely collapses to verify-only (JP pubkey already on file b7e39bf); 13 needs JP Direction B Signal-attachment exchange; 14-18 mechanical. Plan-text bugs surfaced during execution covered by t-plan-01a-text-amendments. Code-quality reviewer Minor findings deferred to post-01c polish pass. Tag v0.1a-foundation on completion."
+      "notes": "DONE 2026-05-16. Tasks 1-11 executed 2026-05-15 via superpowers:subagent-driven-development (16 commits: 10 task + 6 hardening). Tasks 12-18 autonomous parts executed 2026-05-16 via the same skill loop (6 commits): Task 12 verify-only (JP pubkey already on file b7e39bf) / ff01d52 Task 13 Direction A (encrypt sentinel + push, JP-side decrypt deferred) / f63f82b Task 14 (skipped Step 3 decrypt-verify; encrypt-side smoke confirmed 2 X25519 stanzas) / b6bfd70 Task 15 (wrapper + leak test; Steps 4-5 interactive runs deferred) / 5882af1 Task 16 + ed9a596 hardening (&&-chain age+shred in rotation runbook) / acdcc4a Task 17 reframed (markdown is the agreement; PDF encrypt + sensitive_index row skipped per 2026-05-16 directive). v0.1a-foundation tag landed on acdcc4a. F5 closed via alternate satisfaction (markdown per feedback_prefer_architecture_over_ceremony.md). C1 closed. C2 Direction A confirmed at age-parse level (two X25519 stanzas per artifact); full bidirectional decrypt roundtrip + sentinel cleanup deferred to t-plan-01a-jp-and-tty-deferred. Code-quality Minor findings (NOTION row staleness in MANIFEST.md, AGE_ERR not in cleanup trap) tracked for post-Plan-01c polish + bundled into t-spec-notion-removal-amendment scope."
+    },
+    {
+      "id": "t-plan-01a-jp-and-tty-deferred",
+      "subject": "Plan 01a JP-side + TTY-deferred items (close C2 fully; sentinel cleanup)",
+      "status": "open",
+      "priority": "medium",
+      "due": "2026-06-30",
+      "created": "2026-05-16",
+      "notes": "Deferred from Plan 01a 12-18 execution per 2026-05-16 directive (build now; JP downloads on his own schedule). NOT BLOCKING Plan 01b — Plan 01b can execute in parallel; this task can close anytime JP and Ricardo coordinate. Items: (1) Task 13 Step 2 — JP runs own-key roundtrip on jp-mac (encrypts a test sentinel to both recipients, decrypts with his key, confirms 'roundtrip works' via Signal); (2) Task 13 Direction A confirmation — JP downloads vault/keys/sentinel-ricardo-to-jp.age from Gitea web (or git clone if Heavy), decrypts via `age -d -i ~/.config/age/nexostrat.key.age sentinel-ricardo-to-jp.age`, confirms via Signal; (3) Task 13 Direction B — Ricardo Signals the recipients-file plaintext to JP; JP encrypts a sentinel to both recipients via `age -R /tmp/nexostrat-recipients.txt -o /tmp/sentinel-jp-to-ricardo.age`, Signal-attaches; Ricardo saves attachment, decrypts via `age -d -i ~/.config/age/nexostrat.key.age`, confirms back; (4) Task 13 Step 4 — sentinel cleanup commit removing both sentinel files in one `git rm` (gated on Directions A+B both confirmed); (5) Task 14 Step 3 — Ricardo decrypt-verify of secrets.env.age (TTY for passphrase); (6) Task 15 Steps 4-5 — interactive leak test run (positive + negative control); (7) Task 18 Steps 1-3 — full Plan 01a test rerun (gitignore + secret-scan + schema + leak-test) + bidirectional roundtrip + PDF check (PDF skipped per F5 alternate satisfaction). USE DIRECT `-i ~/.config/age/nexostrat.key.age` DECRYPT PATTERN — NOT process-substitution (proven by Task 11 + vault README hardening f747312; tracked broader in t-plan-01a-text-amendments). Closing this task closes C2 fully."
     },
     {
       "id": "t-plan-01b-reaudit",

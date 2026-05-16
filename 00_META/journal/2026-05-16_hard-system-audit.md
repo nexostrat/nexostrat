@@ -115,5 +115,19 @@ No new durable memory entries. Existing memories (`do-it-right-do-it-once`, `pre
 
 ---
 
-*Session ended: 2026-05-16 13:30 PT (working tree clean post-session-end commit; both Arc 1 and Arc 2 from this date pushed to Gitea origin).*
+## Addendum — 2026-05-16 post-bookkeeping: NOTION strip (`63b48ed`)
+
+After the formal session-end commit `900ccc7`, Ricardo asked what was left and whether to close anything more before terminating. Per the "five-more-minutes" clause of the do-it-right-do-it-once directive, I offered three options; he picked closing the `secrets.env.age` NOTION strip (the one TTY-required item I could shepherd via the `!` shell-prefix without needing JP coordination).
+
+First attempt: I gave a single-line shell command in-conversation. The conversation rendering wrapped the long line across visual lines, copy-paste preserved the visual newlines, bash rejected with a syntax error before `age -d` could run. **Nothing executed; `secrets.env.age` was untouched.** This is a quiet failure mode worth remembering — long single-line bash commands DO NOT survive paste from a wrapped conversation. The fix: write a small script file (`/tmp/strip-notion-from-secrets.sh`) via the `Write` tool; Ricardo runs `! bash /tmp/strip-notion-from-secrets.sh`. The script also upgraded the inline version with `set -euo pipefail` + `trap cleanup EXIT INT TERM HUP` + atomic re-encrypt via tempfile + `mv` — strictly better safety than the inline `&&`-chain.
+
+Second attempt: clean. Passphrase prompt once, NOTION line confirmed present (1), stripped, line-count delta confirmed exactly −1 (21 → 20; the 21-vs-the-predicted-8 difference is because the file has comments/blanks for readability around the 8 variables — the verification is the **delta**, not the absolute count, and the delta held). Re-encrypted to both recipients via tempfile + `mv`, plaintext shredded by trap. Verifications: `file secrets.env.age` reports `age encrypted file, X25519 recipient, among others`; `grep -c -a '^-> X25519' secrets.env.age` returns 2; `/dev/shm/` post-run is empty; `grep -rn NOTION_API_KEY infra/` returns no matches. Committed in `63b48ed` (3 files: `secrets.env.age`, `MANIFEST.md` row note flipped DEPRECATED→REMOVED with operation receipt inline, `tasks.json` item 5 of the deferred task marked ✅). Pushed to Gitea. `/tmp/strip-notion-from-secrets.sh` deleted (transient; the operation receipt is in the commit message + MANIFEST row).
+
+**Lesson logged:** for any future TTY-required maintenance, write the operation as a `Write`-tool script + `! bash <path>` rather than inline shell. Robust against conversation line-wrap, adds `set -euo pipefail` + `trap` discipline for free, and the script itself is reviewable before execution.
+
+A final session-end-final commit follows this addendum to capture the doc-drift fixes (CHECKPOINT + STATUS + this journal addendum were written *after* `63b48ed`, so they needed a small update to reflect the strip).
+
+---
+
+*Session ended: 2026-05-16 14:20 PT (working tree clean post-session-end-final commit; both Arc 1 and Arc 2 from this date — including the post-bookkeeping NOTION strip — pushed to Gitea origin).*
 *Next session opens at: Plan 01b re-audit, with `t-plan-01b-reaudit` as the first task.*

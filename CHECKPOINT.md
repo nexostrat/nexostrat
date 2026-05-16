@@ -1,15 +1,15 @@
 # CHECKPOINT — root (Founder)
 
-**Updated:** 2026-05-16T13:30:00-07:00
+**Updated:** 2026-05-16T14:15:00-07:00
 **By:** ricardo (via Claude Code session at /srv/Nexostrat/)
 **Persona:** Founder
-**Session topic:** Hard system audit dispatched, walked, patched in one session · Plan 01b re-audit unblocked
+**Session topic:** Hard system audit dispatched, walked, patched + post-bookkeeping NOTION strip · Plan 01b re-audit unblocked
 
 ## What just happened (last session — read once, don't re-litigate)
 
 After a PC freeze interrupted the prior auditor mid-run (only the empty SKELETON report file survived), the audit was re-dispatched, completed, and the full patch arc executed in the same session per Ricardo's directive ("Do the whole thing. Do it right. The marginal cost of completeness is near zero with AI."). The audit returned **YELLOW (small)** with 0 CRITICAL, 5 HIGH, 9 MEDIUM, 6 LOW, no DESIGN-RETHINK FLAG — foundation structurally sound; staleness was documentation drift from post-2026-05-14 decisions (ADR-038 Notion drop 2026-05-15, JP-Light variant 2026-05-15, brothers-as-partners ceremony reduction 2026-05-16) not yet propagated to load-bearing operator-facing files.
 
-Per the audit's #1 recommendation, `t-spec-notion-removal-amendment` was pulled forward to run BEFORE Plan 01b re-audit. The sweep + companion patches landed in **5 substantive commits** (plus this session-end commit):
+Per the audit's #1 recommendation, `t-spec-notion-removal-amendment` was pulled forward to run BEFORE Plan 01b re-audit. The sweep + companion patches landed in **5 substantive commits + bookkeeping + a post-bookkeeping NOTION strip**:
 
 | # | Commit | Substance |
 |---|---|---|
@@ -18,7 +18,9 @@ Per the audit's #1 recommendation, `t-spec-notion-removal-amendment` was pulled 
 | 3 | `1b2f653` | ADR-038 sweep — 8 files: spec body (header status, ADR map, §5 cost table, §6 state.json, §8 meeting capture, §9 service contracts + Sample Chain 2, §10 failure modes + Open Items, glossary, change log), cost-sharing-agreement.md (JP total $237-257→$207), ROLES.md, REVENUE_DISTRIBUTION.md, PARTNERSHIP_AGREEMENT.md, MANIFEST.md (NOTION deprecated + rotation runbook hardened), pipeline _template README, master plan index (Plan 01a→DONE, L6 wording fix) |
 | 4 | `7e950ee` | `t-plan-01a-text-amendments` closure: 11 process-sub sites → direct `-i`, Task 11 Step 3 AGE-SECRET-KEY-1 grep robustified, Task 3 Step 1/6/6b fixture strings runtime-assembled (the secret-scan hook self-blocked on plan-text re-edit — fixed by adopting the same trick the live test script uses). `infra/scripts/run-with-secrets.sh:53` patched in lockstep. |
 | 5 | `3964d00` | Presentation H4 patch-in-place — banner at cover flagging ADR-038 + JP-Light + ceremony reduction; 16 in-body Notion refs neutralized; ADR popover database updated (001 amended, 024+037 SUPERSEDED, 038 added) |
-| 6 | (this session-end commit) | Bookkeeping: tasks.json (4 closed + 1 created + 1 unblocked + due adjustments) + STATUS.md + this CHECKPOINT + journal `2026-05-16_hard-system-audit.md` + CHANGELOG entry |
+| 6 | `900ccc7` | Bookkeeping: tasks.json (4 closed + 1 created + 1 unblocked + due adjustments) + STATUS.md + this CHECKPOINT + journal `2026-05-16_hard-system-audit.md` + CHANGELOG entry |
+| 7 | `63b48ed` | Post-bookkeeping NOTION strip — Ricardo ran `/tmp/strip-notion-from-secrets.sh` (set -euo pipefail + trap shred + atomic tempfile+mv re-encrypt). `secrets.env.age` 833→817 bytes; line-count delta exactly −1; both X25519 stanzas confirmed; `grep -rn NOTION_API_KEY infra/` empty. MANIFEST row note flipped "DEPRECATED + pending" → "REMOVED 2026-05-16". `t-plan-01a-jp-and-tty-deferred` item 5 marked DONE. |
+| 8 | (this session-end-final commit) | Doc-drift fix: CHECKPOINT + STATUS + journal updated to reflect commit 63b48ed (originally written before the strip). |
 
 **H5 (sentinel cleanup at the v0.1a-foundation tree) DEFERRED, not closed.** Requires JP Signal coordination (Direction A confirmation + Direction B + single cleanup commit). The audit explicitly allows status-quo if JP unavailable in the Plan-01b window; tracked in `t-plan-01a-jp-and-tty-deferred`. The audit's hygiene-regression concern (`vault/keys/` as test-fixture namespace) carries forward as a known footnote on the tag.
 
@@ -78,7 +80,7 @@ NEXT SESSION (Plan 01b re-audit, estimated ~5-7h elapsed for audit + ~1h walk + 
 
 **For Plan 01b execution Tasks 7-12 (downstream):** physical second host (Linux Mint 22.2 + Tailscale-joined). Tasks 1-6 of 01b unblocked.
 
-**For `t-plan-01a-jp-and-tty-deferred` (non-blocking parallel track):** JP availability for the Direction A confirmation + Direction B exchange; Ricardo's TTY availability for passphrase-required tests + `secrets.env.age` re-encrypt. Closure also closes audit Finding H5.
+**For `t-plan-01a-jp-and-tty-deferred` (non-blocking parallel track):** JP availability for the Direction A confirmation + Direction B exchange; Ricardo's TTY availability for the remaining interactive leak test (Task 15) + full Plan 01a test rerun (Task 18). The `secrets.env.age` re-encrypt sub-item is now DONE (commit `63b48ed`, 2026-05-16 post-bookkeeping). Closure of the remaining items also closes audit Finding H5.
 
 **For `t-presentation-refresh-post-adr-038` (non-blocking parallel track):** scheduling time. Effort ~1 day matching the 2026-05-14 build, or ~half-day if scoped as minimal diff. Due 2026-06-01.
 
@@ -92,15 +94,13 @@ NEXT SESSION (Plan 01b re-audit, estimated ~5-7h elapsed for audit + ~1h walk + 
 
 ## Files modified but not yet committed
 
-After this session-end commit, working tree will be clean. Files in this session-end commit:
+After this session-end-final commit, working tree will be clean. Files in this commit:
 
-- `tasks.json` (4 closed + 1 created + 1 unblocked + due adjustments + updated timestamp)
-- `STATUS.md` (rewritten header + current state + next sequence + blockers + open follow-ups + recent activity entry for the hard-audit session)
-- `CHECKPOINT.md` (this file, rewritten as baton for Plan 01b re-audit)
-- `00_META/journal/2026-05-16_hard-system-audit.md` (new session journal)
-- `00_META/CHANGELOG.md` (CLAUDE.md change-log addition reflected in the project changelog)
+- `CHECKPOINT.md` (this file — commit list extended to include 63b48ed + this 8th commit; deferred-items section reflects item 5 now DONE)
+- `STATUS.md` ("Recent activity" entry for the hard-audit session extended with one sentence on the post-bookkeeping strip)
+- `00_META/journal/2026-05-16_hard-system-audit.md` (one-paragraph addendum at the end describing the strip + the decision to do it pre-terminate)
 
-(Prior commits this session: `66aeb93`, `2e7e36f`, `1b2f653`, `7e950ee`, `3964d00` — all pushed via the session-end commit step.)
+(All prior commits this session pushed already: `66aeb93`, `2e7e36f`, `1b2f653`, `7e950ee`, `3964d00`, `900ccc7`, `63b48ed`.)
 
 ## Estimated time to finish (roadmap)
 

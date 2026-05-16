@@ -15,7 +15,7 @@
 # Exit codes:
 #   0  = success (intent logged or actions completed)
 #   1  = profile not found / parse error
-#   2  = unsupported OS
+#   2  = (reserved — Plan 02 will use this for unsupported-OS detection)
 
 set -euo pipefail
 
@@ -32,7 +32,7 @@ fi
 
 # Parse profile via Python (PyYAML — already a Plan 01a prerequisite)
 python3 - <<PYEOF
-import sys, yaml, json
+import sys, yaml
 profile = yaml.safe_load(open("$PROFILE_FILE"))
 if profile is None:
     sys.exit("ERROR: profile is empty")

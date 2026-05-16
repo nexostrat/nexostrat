@@ -1,142 +1,136 @@
 # CHECKPOINT — root (Founder)
 
-**Updated:** 2026-05-16T19:45:00-07:00
+**Updated:** 2026-05-16T13:30:00-07:00
 **By:** ricardo (via Claude Code session at /srv/Nexostrat/)
 **Persona:** Founder
-**Session topic:** Plan 01a Tasks 12-18 autonomous parts executed; v0.1a-foundation tagged; hard system audit queued for next session
+**Session topic:** Hard system audit dispatched, walked, patched in one session · Plan 01b re-audit unblocked
 
 ## What just happened (last session — read once, don't re-litigate)
 
-Plan 01a Tasks 12-18 autonomous portions executed per Ricardo's 2026-05-16 directive ("build now; JP downloads on his own schedule"). 8 commits + the annotated `v0.1a-foundation` tag landed on Gitea via the `superpowers:subagent-driven-development` skill loop (implementer → spec reviewer → code-quality reviewer per task; one hardening commit). Two directional decisions locked early shaped the cut:
+After a PC freeze interrupted the prior auditor mid-run (only the empty SKELETON report file survived), the audit was re-dispatched, completed, and the full patch arc executed in the same session per Ricardo's directive ("Do the whole thing. Do it right. The marginal cost of completeness is near zero with AI."). The audit returned **YELLOW (small)** with 0 CRITICAL, 5 HIGH, 9 MEDIUM, 6 LOW, no DESIGN-RETHINK FLAG — foundation structurally sound; staleness was documentation drift from post-2026-05-14 decisions (ADR-038 Notion drop 2026-05-15, JP-Light variant 2026-05-15, brothers-as-partners ceremony reduction 2026-05-16) not yet propagated to load-bearing operator-facing files.
 
-1. **Build-everything-autonomously / JP downloads on his schedule** → Direction A's encrypt+commit+push happens; Direction B + Step 4 cleanup + JP-side roundtrip + TTY-required tests deferred to new tracked task `t-plan-01a-jp-and-tty-deferred` (medium, due 2026-06-30, non-blocking for Plan 01b).
+Per the audit's #1 recommendation, `t-spec-notion-removal-amendment` was pulled forward to run BEFORE Plan 01b re-audit. The sweep + companion patches landed in **5 substantive commits** (plus this session-end commit):
 
-2. **Brothers-as-partners ceremony reduction** → Task 17 reframed. Skip the signed-PDF encrypt + `sensitive_index.md` row; the markdown `00_PARTNERSHIP/PARTNERSHIP_AGREEMENT.md` IS the canonical agreement at Stage 1; formality returns at external need. New feedback memory `prefer-architecture-over-ceremony` locked.
+| # | Commit | Substance |
+|---|---|---|
+| 1 | `66aeb93` | Audit report — 517 lines covering verdict + counts + findings table + 5 detailed HIGH writeups + production-readiness gap + recommended actions |
+| 2 | `2e7e36f` | Immediate patches: CLAUDE.md (H1 JP pubkey + H2 ADR count + M6 JP interface), jp-light.yaml (M9 os: macos) |
+| 3 | `1b2f653` | ADR-038 sweep — 8 files: spec body (header status, ADR map, §5 cost table, §6 state.json, §8 meeting capture, §9 service contracts + Sample Chain 2, §10 failure modes + Open Items, glossary, change log), cost-sharing-agreement.md (JP total $237-257→$207), ROLES.md, REVENUE_DISTRIBUTION.md, PARTNERSHIP_AGREEMENT.md, MANIFEST.md (NOTION deprecated + rotation runbook hardened), pipeline _template README, master plan index (Plan 01a→DONE, L6 wording fix) |
+| 4 | `7e950ee` | `t-plan-01a-text-amendments` closure: 11 process-sub sites → direct `-i`, Task 11 Step 3 AGE-SECRET-KEY-1 grep robustified, Task 3 Step 1/6/6b fixture strings runtime-assembled (the secret-scan hook self-blocked on plan-text re-edit — fixed by adopting the same trick the live test script uses). `infra/scripts/run-with-secrets.sh:53` patched in lockstep. |
+| 5 | `3964d00` | Presentation H4 patch-in-place — banner at cover flagging ADR-038 + JP-Light + ceremony reduction; 16 in-body Notion refs neutralized; ADR popover database updated (001 amended, 024+037 SUPERSEDED, 038 added) |
+| 6 | (this session-end commit) | Bookkeeping: tasks.json (4 closed + 1 created + 1 unblocked + due adjustments) + STATUS.md + this CHECKPOINT + journal `2026-05-16_hard-system-audit.md` + CHANGELOG entry |
 
-**Commits this session:**
-- `ff01d52` Task 13 Direction A · sentinel-from-Ricardo encrypted to both recipients + pushed (inline; not via subagent — 4-command operation)
-- `f63f82b` Task 14 · `secrets.env.age` 8 placeholder vars; encrypt-side smoke confirmed 2 X25519 stanzas
-- `b6bfd70` Task 15 · `run-with-secrets.sh` (C1 fix) + leak test (Finding 2 poll-based design); TDD-red Step 2 passed
-- `5882af1` Task 16 · `infra/secrets/MANIFEST.md`
-- `ed9a596` Task 16 hardening · `&&`-chain `age`+`shred` in rotation runbook (real data-loss path, caught by code-quality reviewer)
-- `acdcc4a` Task 17 reframed · `00_PARTNERSHIP/PARTNERSHIP_AGREEMENT.md` markdown is the agreement (F5 alternate satisfaction)
-- `25a5401` Bookkeeping · STATUS.md + tasks.json (mark `t-plan-01a-execute` done; add `t-plan-01a-jp-and-tty-deferred`; expand sweep-task scopes)
-- `28da1fc` Audit brief + new task · queued for next session
+**H5 (sentinel cleanup at the v0.1a-foundation tree) DEFERRED, not closed.** Requires JP Signal coordination (Direction A confirmation + Direction B + single cleanup commit). The audit explicitly allows status-quo if JP unavailable in the Plan-01b window; tracked in `t-plan-01a-jp-and-tty-deferred`. The audit's hygiene-regression concern (`vault/keys/` as test-fixture namespace) carries forward as a known footnote on the tag.
 
-**Tag `v0.1a-foundation` on `acdcc4a` pushed.** Annotated with HONEST message listing what landed AND what's deferred — does not pretend C2 is fully closed; documents JP-side gating explicitly.
-
-**Cross-cutting final code-reviewer pass** approved the range. 1 Important finding (NOTION row staleness in MANIFEST.md) bundled into `t-spec-notion-removal-amendment` sweep; 1 Minor (AGE_ERR cleanup gap) deferred to post-Plan-01c polish.
+**Schema validation post-edits:** `bash infra/scripts/validate_schemas.sh` PASS for both `tasks.json` and `calendar.json`.
 
 ## Decisions locked this session — DO NOT re-open without explicit cause
 
-1. **Build-everything-autonomously / JP downloads on his schedule.** Cascading impact across Tasks 13/14/15/17/18. Future analogous tasks should default to "build autonomous portions; defer JP-dependent + TTY-required to follow-up task" rather than blocking the session.
+1. **Audit dispatch pattern proven a 3rd time.** Same `general-purpose` + risk-auditor-inlined pattern as 2026-05-13 founding-spec + 2026-05-14 Plan 01a re-audit. Quota-mid-run recoverable because the agent wrote the full report before being cut off.
 
-2. **Brothers-as-partners ceremony reduction** ([[feedback_prefer_architecture_over_ceremony.md]]). Internal artifacts default to markdown not signed PDFs. Formality at external boundaries only (first client, first hire, regulator, dissolution).
+2. **Pull single-pass sweeps forward when an audit recommends.** `t-spec-notion-removal-amendment` was originally scheduled between Plan 01c + Plan 02; the hard audit found Notion staleness was the dominant finding-source and recommended moving it up. Decision: yes, move it. Gives Plan 01b re-audit a verified baseline.
 
-3. **Honest tag messages.** When tagging a milestone whose success criteria are not 100% closed (e.g., C2's JP-side roundtrip deferred), the tag annotation must list what landed AND what's deferred. No overclaiming.
+3. **Live wrapper changes need lockstep with their plan-text source.** `infra/scripts/run-with-secrets.sh` and its in-plan documentation in `00_META/plans/2026-05-14_plan-01a-foundation.md` must move together. Patched in the same commit (`7e950ee`).
 
-4. **Audit-before-next-plan-execution.** Before charging into Plan 01b re-audit, run an end-to-end gap audit at v0.1a-foundation. This is the next-session move. Brief at `00_META/proposals/2026-05-17_hard-system-audit-brief.md`. New task `t-hard-system-audit-v01a` (critical, due 2026-05-19) is now `blocked_by` for `t-plan-01b-reaudit`.
+4. **Patch-in-place with banner is acceptable for HTML artifacts** when full regeneration is a separate effort. Audit said regeneration preferred (~1 day) or patch acceptable; chose patch-in-place this session because the regen task is now tracked separately (`t-presentation-refresh-post-adr-038`, due 2026-06-01).
 
-5. **Direct-to-main continues.** No feature branch, no worktree. Per-task commits keep main in a clean state.
-
-6. **Sonnet for all subagent dispatches.** No quality regressions noticed across two sessions; cost-efficient.
-
-7. **Hardening commit discipline holds.** Engineering-hygiene Important findings get hardened immediately. Plan-text content drift (Notion, process-substitution patterns) gets bundled into single-pass amendment sweeps. The discipline survived a real test this session — the `age`+`shred` data-loss fix in Task 16 was the kind of catch that justifies dispatched reviewers.
+5. **Secret-scan hook can self-block on plan-text re-edits** when the plan documents the hook's own test fixtures literally. The fix: assemble fixture strings at runtime (`PREFIX/SUFFIX/printf`) — same trick the live `test_secret_scan_hook.sh` already used. Lesson: any code embedded literally in plan documentation needs the same secret-safety discipline as the live code.
 
 ## In flight — concrete next action
 
-**Run the hard end-to-end system audit per the brief.** This is the gating action for Plan 01b re-audit.
+**Plan 01b re-audit.** Same risk-auditor pattern. Plan 01b at `00_META/plans/2026-05-14_plan-01b-mirrors.md` (12 tasks, ~1750 lines covering GitHub + Codeberg mirrors via systemd path-watchers + warm-standby clone + failover runbook).
 
 ```
-NEXT SESSION (hard system audit, estimated ~5-7h elapsed):
+NEXT SESSION (Plan 01b re-audit, estimated ~5-7h elapsed for audit + ~1h walk + patches):
   1. Open Claude Code AT /srv/Nexostrat/.
   2. Ricardo types "Start Session."
   3. Claude reads this CHECKPOINT.md + STATUS.md + tasks.json
-     + calendar.json + latest journal (2026-05-16_plan-01a-tasks-12-18.md).
-  4. Claude proposes dispatching the audit per the brief at
-     00_META/proposals/2026-05-17_hard-system-audit-brief.md.
-  5. Verify working tree clean + on `main` + in sync with origin.
-     Should be at the post-push state from this session-end commit.
-  6. Dispatch general-purpose agent with risk-auditor persona inlined
-     (same pattern as 2026-05-13 founding-spec audit + 2026-05-14
-     Plan 01a re-audit). Brief is the agent's primary instruction;
-     it's self-contained.
-  7. PAUSE during audit (~5-7h elapsed for the auditor; controller
-     can drop other context while it runs).
-  8. On audit return, Claude + Ricardo walk the report paragraph by
-     paragraph for HIGH+ findings.
-  9. Decide patches:
-     - Small surgical → inline patches this session (analogous to
-       Plan 01a's 7-HIGH surgical patches in commit 6ca022c).
-     - Large architectural → amendment plan + future patch session.
-     - Accept with note → STATUS.md / tasks.json bookkeeping.
- 10. Apply patches. Update tasks.json (mark `t-hard-system-audit-v01a`
-     done; create follow-up tasks for deferred findings).
- 11. Verify the audit's recommended actions list is fully addressed
-     or explicitly deferred with rationale.
+     + calendar.json + latest journal (2026-05-16_hard-system-audit.md).
+  4. Claude proposes dispatching the Plan 01b re-audit. No new brief needed —
+     the pattern is established (2026-05-13/14/16 priors); brief can be
+     scoped inline as: "audit 00_META/plans/2026-05-14_plan-01b-mirrors.md
+     for HIGH+ findings against the hard-system-audit baseline at v0.1a;
+     same severity definitions; same report format; output to
+     00_META/proposals/YYYY-MM-DD_plan-01b-reaudit-report.md".
+  5. Dispatch general-purpose agent (opus). Hard audit took ~10 min of
+     effective work; Plan 01b re-audit should be similar or shorter
+     (smaller scope: one plan + cross-checks vs the v0.1a-foundation
+     state).
+  6. Auditor MUST also handle the process-sub residue at Plan 01b
+     lines 330/432/1118 (carries the same age -d <(...) pattern that
+     Plan 01a was just patched for).
+  7. On return: walk findings; apply patches inline (same pattern as
+     today). Surgical patches by default; amendment plan only if a
+     finding is architectural.
+  8. Update tasks.json (mark t-plan-01b-reaudit done; create follow-up
+     tasks for deferred findings if any).
+  9. Then: green-light Plan 01b EXECUTE. t-plan-01b-execute is the
+     follow-on task. Subagent-driven-development for the 12 tasks.
+ 10. Tasks 1-6 of Plan 01b unblocked; Tasks 7-12 gate on physical
+     second host (Linux Mint 22.2 + Tailscale-joined).
+ 11. Tag v0.1b-mirrors when Plan 01b lands.
  12. Close session per CLAUDE.md Session End Protocol.
- 13. NEXT-NEXT session: `t-plan-01b-reaudit` becomes unblocked.
 ```
 
 ## Blocked on
 
-**For next session (hard system audit): NOTHING blocking.** The audit is independent — auditor reads brief + repo + sources of truth, produces report. No coordination items pending. Ricardo + Claude can walk the report whenever it comes back.
+**For Plan 01b re-audit (next session): NOTHING blocking.** The audit baseline is verified post-hard-audit; auditor reads plan + verifies against current state + reports.
 
-**For `t-plan-01a-jp-and-tty-deferred` (non-blocking parallel track):** JP available for the Direction A confirmation + Direction B exchange (his 2026-05-15 responsiveness pattern suggests short turnaround); Ricardo's TTY available for the passphrase-required tests at his convenience. Can close anytime; does not block Plan 01b.
+**For Plan 01b execution Tasks 7-12 (downstream):** physical second host (Linux Mint 22.2 + Tailscale-joined). Tasks 1-6 of 01b unblocked.
 
-**For `t-plan-01b-reaudit` (blocked):** `t-hard-system-audit-v01a` must close first (audit findings inform whether Plan 01b's plan text is still load-bearing or needs amendment).
+**For `t-plan-01a-jp-and-tty-deferred` (non-blocking parallel track):** JP availability for the Direction A confirmation + Direction B exchange; Ricardo's TTY availability for passphrase-required tests + `secrets.env.age` re-encrypt. Closure also closes audit Finding H5.
 
-**For Plan 01b execution Tasks 7-12 (further downstream):** physical second host (Linux Mint 22.2 + Tailscale-joined). Tasks 1-6 of Plan 01b unblocked.
+**For `t-presentation-refresh-post-adr-038` (non-blocking parallel track):** scheduling time. Effort ~1 day matching the 2026-05-14 build, or ~half-day if scoped as minimal diff. Due 2026-06-01.
 
 ## Open questions
 
-**None blocking.** Items to remember (not act on next session unless audit surfaces them):
+**None blocking.**
 
-- The audit's verdict will determine whether the deferred sweep tasks (`t-plan-01a-text-amendments` + `t-spec-notion-removal-amendment` + `t-spec-cost-table-amendment`) should run earlier than scheduled (between Plan 01c execute + Plan 02 write). If the audit finds that Notion staleness is misleading external observers, the sweep moves up.
+- Should Ricardo decide on H5 now (coordinate with JP this week) or accept the deferral until Plan 01b lands? Audit's recommendation: ideally close before Plan 01b execution starts so the v0.1b-mirrors tag tree is clean; status-quo also acceptable. Tracked decision.
 
-- The audit might surface that ADR-038 needs to be written into the spec body NOW rather than waiting for the sweep — if the spec body's silence about ADR-038 is itself a finding.
-
-- The audit might recommend `t-plan-01a-jp-and-tty-deferred` be split into JP-side and Ricardo-TTY-side as separate tasks. Defer the call until the audit recommends.
-
-- The audit may flag the cross-document fact that the `2026-05-14_amendments.md` doc tracks Batch 1 amendments only; subsequent decisions (ADR-038, brothers-as-partners reduction, build-now-JP-downloads-later) are NOT yet in that doc. Decision: amendments doc may need a 2026-05-15 + 2026-05-16 supplement section, or those decisions live solely in feedback memories + this journal trail.
+- Should `t-presentation-refresh-post-adr-038` be a session of its own or fold into a Plan 02 brainstorm session? Audit didn't dictate.
 
 ## Files modified but not yet committed
 
 After this session-end commit, working tree will be clean. Files in this session-end commit:
 
-- `00_META/journal/2026-05-16_plan-01a-tasks-12-18.md` (CREATE — session narrative)
-- `CHECKPOINT.md` (REWRITE — this file, baton for next session)
+- `tasks.json` (4 closed + 1 created + 1 unblocked + due adjustments + updated timestamp)
+- `STATUS.md` (rewritten header + current state + next sequence + blockers + open follow-ups + recent activity entry for the hard-audit session)
+- `CHECKPOINT.md` (this file, rewritten as baton for Plan 01b re-audit)
+- `00_META/journal/2026-05-16_hard-system-audit.md` (new session journal)
+- `00_META/CHANGELOG.md` (CLAUDE.md change-log addition reflected in the project changelog)
 
-(STATUS.md + tasks.json + audit brief landed in earlier commits this session — `25a5401` + `28da1fc`. MEMORY.md + the new memory file live outside the repo at `/home/ricardo/.claude/projects/-srv-Nexostrat/memory/` — both updated this session via Write + Edit.)
+(Prior commits this session: `66aeb93`, `2e7e36f`, `1b2f653`, `7e950ee`, `3964d00` — all pushed via the session-end commit step.)
 
 ## Estimated time to finish (roadmap)
 
-- **Hard system audit (next session): ~5-7h elapsed** including dispatch + report read + patch decisions. Report walked + actions applied by **2026-05-18 to 2026-05-19**.
-- **Plan 01b re-audit + execute** (post-audit): re-audit ~1 day + execute Tasks 1-6 ~3-4 days. Tasks 7-12 gate on physical second host. Tag `v0.1b-mirrors` realistic by **2026-06-05** (slipped ~2 days from prior estimate to absorb the audit cycle).
+- **Plan 01b re-audit + execute (next session + ~1 week elapsed):** re-audit ~5-7h then execute Tasks 1-6 ~3-4 days. Tasks 7-12 gate on physical second host. Tag `v0.1b-mirrors` realistic by **2026-06-05** (slipped from prior 2026-06-03 to absorb hard-audit cycle; matches updated due date in master plan index).
 - **Plan 01c re-audit + execute:** Tag `v0.1-foundation` realistic by **2026-06-12**.
-- **Single-pass amendment sweep** (between Plan 01c execute + Plan 02 write): ~half-day, possibly pulled earlier if audit recommends.
-- **Plan 02 brainstorm + write + audit + execute:** ~1.5 weeks elapsed.
-- **Plans 03-10** in dependency order. **Stage 1 launch readiness: 2026-06-30 to 2026-07-15** realistic with do-it-right-do-it-once + audit-before-each-plan-execution pacing.
-- **`t-plan-01a-jp-and-tty-deferred`** closes anytime JP coordinates + Ricardo runs TTY tests; non-blocking; due 2026-06-30 to keep it from drifting indefinitely.
+- **Plan 02 brainstorm + write + audit + execute:** ~1.5-2 weeks elapsed (load-bearing per ADR-038).
+- **Plans 03-10** in dependency order. **Stage 1 launch realistic: 2026-07-15 to 2026-07-30** (audit's production-readiness assessment slipped the original 2026-06-30-to-2026-07-15 window by ~2-4 weeks to absorb the audit-before-each-plan-execution discipline + ADR-038 Plan 02 load-bearing scope growth).
+- **`t-plan-01a-jp-and-tty-deferred`** closes anytime JP coordinates; non-blocking; due 2026-06-30.
+- **`t-presentation-refresh-post-adr-038`** closes anytime; non-blocking; due 2026-06-01.
 
 ## After this, what's next
 
-Hard system audit → patches → Plan 01b re-audit → Plan 01b execute → tag `v0.1b-mirrors` → Plan 01c re-audit → Plan 01c execute → tag `v0.1-foundation` → single-pass plan-text amendments → Plan 02 brainstorm + write + audit + execute → Plans 03-10 in dependency order.
+Plan 01b re-audit → Plan 01b execute → tag `v0.1b-mirrors` → Plan 01c re-audit → Plan 01c execute → tag `v0.1-foundation` → Plan 02 brainstorm + write + audit + execute → Plans 03-10 in dependency order.
 
 ## For a future auditor reading this baton
 
-The 2026-05-16 session's work arc is documented across:
+The 2026-05-16 session's TWO arcs are documented across:
 
-1. **8 commits on `main`** between `05a3fe6` (pre-session baseline, session 2026-05-15's session-end commit) and this session-end commit. Each commit message is self-contained and references the task or finding it addresses.
-2. **Tag `v0.1a-foundation`** on `acdcc4a` — `git tag -n100 v0.1a-foundation` reads the honest annotated message.
-3. **Session journal** (`00_META/journal/2026-05-16_plan-01a-tasks-12-18.md`) — narrative + decisions + statistics + cross-session coherence check.
-4. **Hard system audit brief** (`00_META/proposals/2026-05-17_hard-system-audit-brief.md`) — the next-session instruction (~380 lines, self-contained for the dispatched auditor).
-5. **STATUS.md** (post-this-session) — current state, blockers, next milestone, recent activity.
-6. **tasks.json** — `t-plan-01a-execute` done; `t-plan-01a-jp-and-tty-deferred` open; `t-hard-system-audit-v01a` open + critical; sweep tasks have expanded scope notes.
-7. **Memory updates** at `/home/ricardo/.claude/projects/-srv-Nexostrat/memory/`: new `feedback_prefer_architecture_over_ceremony.md`; MEMORY.md index updated.
+**Arc 1 — Plan 01a Tasks 12-18 + v0.1a-foundation tag (earlier same day):**
+- 8 commits on `main` between `05a3fe6` and `af6eb0a`. Tag `v0.1a-foundation` on `acdcc4a`.
+- Session journal: `00_META/journal/2026-05-16_plan-01a-tasks-12-18.md`.
 
-Read order for a re-audit: (1) this CHECKPOINT → (2) STATUS.md → (3) journal → (4) audit brief → (5) v0.1a-foundation tag annotation → (6) commit diffs in order (`ff01d52` → session-end). Per-commit messages are self-documenting; hardening commit cites the original task commit it extends.
+**Arc 2 — Hard system audit + patch arc (this session, afternoon):**
+- 6 commits on `main` between `66aeb93` and this session-end commit.
+- Audit report (`00_META/proposals/2026-05-16_hard-system-audit-report.md`, 517 lines).
+- Session journal: `00_META/journal/2026-05-16_hard-system-audit.md`.
+- Audit brief (`00_META/proposals/2026-05-17_hard-system-audit-brief.md`) — the source instruction for the auditor, retained for future-audit reference.
+
+Read order for a re-audit: (1) this CHECKPOINT → (2) STATUS.md → (3) audit report → (4) Arc-2 journal → (5) commit diffs in order (`66aeb93` → session-end).
 
 ---
 
-*This CHECKPOINT.md is the baton between sessions. Next session: type "Start Session" → Claude reads this + STATUS + tasks + calendar + journal `2026-05-16_plan-01a-tasks-12-18.md` → proposes dispatching the hard system audit per `00_META/proposals/2026-05-17_hard-system-audit-brief.md` → dispatches → walks report → applies patches → closes session. Plan 01b re-audit unblocks the session after that.*
+*This CHECKPOINT.md is the baton between sessions. Next session: type "Start Session" → Claude reads this + STATUS + tasks + calendar + journal → proposes Plan 01b re-audit → dispatches → walks report → applies patches → closes session. Plan 01b execute unblocks the session after that.*

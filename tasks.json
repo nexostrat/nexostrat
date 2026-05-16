@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v1",
   "project": "nexostrat",
-  "updated": "2026-05-16T18:00:00-07:00",
+  "updated": "2026-05-16T13:00:00-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -115,22 +115,22 @@
     {
       "id": "t-plan-01a-text-amendments",
       "subject": "Plan 01a text amendments — fix plan-text drift surfaced during Tasks 1-11 execution",
-      "status": "open",
+      "status": "done",
       "priority": "medium",
       "due": "2026-06-12",
       "created": "2026-05-15",
-      "blocked_by": "t-plan-01c-execute",
-      "notes": "Drift items surfaced during execution. SCOPE (expanded 2026-05-16): process-substitution `<(age -d ~/.config/age/nexostrat.key.age)` pattern appears in Task 11 Step 4 + Task 13 Steps 1/2/3 + Task 14 Step 3 + Task 15 Step 3 (the run-with-secrets.sh wrapper itself) + Task 16 MANIFEST.md rotation snippet + Task 17 Step 3 + Task 18 Steps 2/3. All should simplify to direct `age -d -i ~/.config/age/nexostrat.key.age <ciphertext>` form (age 1.1.0+ supports passphrase-protected identity files directly via -i). The process-sub form works for INTERACTIVE TTY use but adds an extra subprocess and fails TTY-less (proven 2026-05-15). The simplification matches the hardened pattern in vault/README.md commit f747312 and the proven Task 11 Step 4 workaround. (a) was the originally-logged Task 11 case — same fix applies to all listed sites. (b) Task 11 Step 3 expected `AGE-SECRET-KEY-1...` on line 1 but standard age identity files start with `# created: <timestamp>` comment — wording should clarify the test passes if the file contains AGE-SECRET-KEY-1 anywhere, not necessarily on line 1. (c) Task 4 README and various stations carry pre-ADR-038 Notion references — caught by t-spec-notion-removal-amendment, no separate touchup needed here. Bundle (a) + (b) into the same single-pass plan-text touchup window as t-spec-notion-removal-amendment + t-spec-cost-table-amendment (between Plan 01c execution and Plan 02 writing)."
+      "completed": "2026-05-16",
+      "notes": "DONE 2026-05-16 in commit 7e950ee as part of the post-hard-audit patch arc. All 11 process-substitution sites in 00_META/plans/2026-05-14_plan-01a-foundation.md simplified to direct -i form (10 tilde-form uses + 1 PRIV_KEY_AGE wrapper-text-in-plan), age 1.1.0+ semantics verified. Task 11 Step 3 wording fixed (head -1 AGE-SECRET-KEY-1 check → grep -q '^AGE-SECRET-KEY-1' anywhere — robust against the standard `# created` line-1 comment). Live wrapper infra/scripts/run-with-secrets.sh:53 patched in lockstep. Surfaced + fixed an unrelated 4th issue: Plan 01a's Task 3 documentation contained LITERAL sk-ant-test... fixture strings that the secret-scan hook (installed in Task 3 itself) now blocks on re-edit — patched by adopting the runtime-assembly trick the actual test_secret_scan_hook.sh already uses (PREFIX/SUFFIX/printf). Plan 01b + Plan 01c carry the same process-sub pattern; deferred to their respective re-audit cycles per hard-audit recommendation."
     },
     {
       "id": "t-spec-notion-removal-amendment",
       "subject": "Single-pass spec/plan touchup removing all Notion references per ADR-038",
-      "status": "open",
+      "status": "done",
       "priority": "medium",
       "due": "2026-06-12",
       "created": "2026-05-15",
-      "blocked_by": "t-plan-01c-execute",
-      "notes": "Scheduled between Plan 01c execution and Plan 02 writing (similar shape to Batch 1a single-pass amendment commit dc5cbec). Touches: spec ADR-001 (substrate definition), ADR-024 (mark superseded), ADR-037 (mark superseded), §5 cost table (remove Notion line, revert F14), §6 storage hierarchy + CRM, §8 service contracts (notion.*), §10 failure modes. Also: amendment doc 2026-05-14_amendments.md F14/R5 entries get superseded notes. Additional sites surfaced 2026-05-16 during Plan 01a Tasks 12-18: (i) infra/secrets/MANIFEST.md NOTION_API_KEY row (Used-by mentions Plan 08 transcription watcher + Plan 04 /note plugin; Notes mentions 'Internal integration in JP's workspace'); (ii) secrets.env.age needs re-encryption without the NOTION_API_KEY= line (decrypt → strip line → re-encrypt to both recipients → commit); (iii) 00_PARTNERSHIP/cost-sharing-agreement.md JP cost line (Notion+AI add-on ~USD 30-50/mo) and the consequential JP total (USD 237-257/mo); (iv) 00_PARTNERSHIP/PARTNERSHIP_AGREEMENT.md cost-sharing range (cites the JP figure). Cost-table reverts to roughly $36-91/mo or lower."
+      "completed": "2026-05-16",
+      "notes": "DONE 2026-05-16 in commit 1b2f653 — sweep pulled forward per hard-system-audit recommendation (the audit found Notion staleness was the largest single source of finding-count; running the sweep before Plan 01b re-audit gives that re-audit a verified baseline). 8 files in single commit: spec body (header status PROPOSED→ACTIVE; ADR-024+037 flipped to Superseded; ADR-038 row added; ADR-001 substrate amended; §2 file map annotations; §5 cost table restructured; §6 state.json enum; §8 meeting capture single-canonical; §9 testing/event-taxonomy/_lib refs; Sample Chain 2; §9+§10 failure modes; §10 Open Items 1-5 closed; glossary; change log), cost-sharing-agreement.md (JP total $237-257→$207), ROLES.md, REVENUE_DISTRIBUTION.md, PARTNERSHIP_AGREEMENT.md, MANIFEST.md (NOTION row + rotation runbook hardened), pipeline _template README, master plan index (Plan 01a→DONE, dates updated, L6 wording fix). Companion task t-spec-cost-table-amendment FOLDED INTO this sweep (cost-table reality now matches across spec §5 + cost-sharing-agreement.md + PARTNERSHIP_AGREEMENT.md). ONE deferred sub-item: secrets.env.age re-encryption without NOTION_API_KEY= line — requires TTY for Ricardo's age passphrase, tracked in t-plan-01a-jp-and-tty-deferred (MANIFEST.md NOTION row marked DEPRECATED 2026-05-16 with note pointing to the TTY-deferred task)."
     },
     {
       "id": "t-gitea-path-verify",
@@ -174,11 +174,12 @@
     {
       "id": "t-hard-system-audit-v01a",
       "subject": "Hard end-to-end system audit at v0.1a-foundation — docs vs implementation gap audit",
-      "status": "open",
+      "status": "done",
       "priority": "critical",
       "due": "2026-05-19",
       "created": "2026-05-16",
-      "notes": "Per Ricardo 2026-05-16 directive: hard audit of all system layers (documentation, implementation, infrastructure, build) against every source of truth — ADRs, founding spec, Plan 01a, presentation, CLAUDE.md, repo reality. Goal: verify what we BUILT matches what we PLANNED + PROMISED. Pinpoint divergences, recommend fixes, surface production-readiness gaps. Self-contained brief at 00_META/proposals/2026-05-17_hard-system-audit-brief.md — open next session, type Start Session, dispatch general-purpose agent with risk-auditor persona inlined (same pattern as 2026-05-13 founding-spec audit + 2026-05-14 Plan 01a re-audit). Auditor's deliverable: 00_META/proposals/YYYY-MM-DD_hard-system-audit-report.md with verdict (RED/YELLOW/GREEN), findings table, detailed HIGH+CRITICAL writeups, production-readiness gap, recommended actions. Auditor does NOT patch — Ricardo + Claude walk the report and apply patches inline or via amendment plan. Estimated audit run: ~5-7h elapsed. Blocks t-plan-01b-reaudit (don't re-audit Plan 01b from a corrupted baseline)."
+      "completed": "2026-05-16",
+      "notes": "DONE 2026-05-16 (3 days ahead of due). Audit dispatched + executed + walked + patches applied + bookkeeping closed in one session. Verdict YELLOW (small): 0 CRITICAL, 5 HIGH, 9 MEDIUM, 6 LOW, no DESIGN-RETHINK FLAG. Report at 00_META/proposals/2026-05-16_hard-system-audit-report.md (commit 66aeb93). Patches landed inline in same-session commits: 2e7e36f (H1 CLAUDE.md JP pubkey + H2 ADR count + M6 JP interface + M9 jp-light.yaml os: macos), 1b2f653 (single-pass Notion-removal sweep covering H3 cost-table + bulk of M1-M5 + M7 file map + M8 plan README + L1 spec status + L2 Open Items + L6 wording), 7e950ee (t-plan-01a-text-amendments closure: process-sub → direct -i + AGE-SECRET-KEY-1 grep + Task 3 fixture runtime-assembly), 3964d00 (H4 presentation patch-in-place with banner + 16 Notion-ref de-canonicalization + ADR-038 popover entry). H5 (sentinel cleanup at v0.1a-foundation tree) DOCUMENTED but DEFERRED — requires JP Signal coordination; audit explicitly allows status-quo if JP unavailable; tracked in t-plan-01a-jp-and-tty-deferred. Unblocks t-plan-01b-reaudit."
     },
     {
       "id": "t-plan-01b-reaudit",
@@ -187,8 +188,7 @@
       "priority": "critical",
       "due": "2026-05-29",
       "created": "2026-05-14",
-      "blocked_by": "t-hard-system-audit-v01a",
-      "notes": "Same pattern as t-plan-01a-reaudit. 01a execution may have surfaced learnings worth folding in before 01b execute starts. Plan 01b at 00_META/plans/2026-05-14_plan-01b-mirrors.md (12 tasks, ~1750 lines). Blocked_by updated 2026-05-16: hard system audit (t-hard-system-audit-v01a) runs first so Plan 01b re-audit starts from a verified baseline."
+      "notes": "Same pattern as t-plan-01a-reaudit. 01a execution + hard system audit 2026-05-16 surfaced learnings now folded into the baseline (verdict YELLOW small; HIGH/MEDIUM patches applied same-day). Plan 01b at 00_META/plans/2026-05-14_plan-01b-mirrors.md (12 tasks, ~1750 lines). UNBLOCKED 2026-05-16: t-hard-system-audit-v01a closed. Per audit Phase 'What this audit did NOT cover' item 4: this re-audit is responsible for line-by-line Plan 01b coherence including process-substitution patterns at lines 330/432/1118 (carry the same age -d -i <(...) issue that t-plan-01a-text-amendments fixed in Plan 01a)."
     },
     {
       "id": "t-plan-01b-execute",
@@ -223,21 +223,31 @@
     {
       "id": "t-spec-cost-table-amendment",
       "subject": "Future amendment cycle — update spec §5 cost table to actual cost-sharing",
-      "status": "open",
+      "status": "done",
       "priority": "low",
       "due": "2026-07-01",
       "created": "2026-05-14",
-      "notes": "Spec §5 carries 'Anthropic API $20-60' to Ricardo. Reality (per Aurora HTML v2 + Plan 01a Task 9 cost-sharing-agreement.md): both founders pay Claude MAX at $200/mo each from personal subscriptions; Gemini free until ~Oct 2026; Notion + email + hosting + domain JP-personal; Drive + hardware Ricardo-personal. Firm-as-entity pays $0 Stage 1. Future amendment cycle should update §5 and add an ADR if needed."
+      "completed": "2026-05-16",
+      "notes": "DONE 2026-05-16 in commit 1b2f653 as part of t-spec-notion-removal-amendment sweep. Spec §5 fully restructured: firm-pays $0 Stage 1; personal-spend reality (Claude MAX $200×2 + Grok 5-15 + Drive 10 / Domain ~1 + Email 6 — Notion line removed per ADR-038); pointer to cost-sharing-agreement.md for live truth. Stage-2 firm-bearing services enumerated. Cost summary at §5 bottom updated. No separate ADR needed (folded into ADR-038's supersession scope)."
     },
     {
       "id": "t-plan-02-write",
       "subject": "Write Plan 02 (Documentation System) in full task detail via writing-plans skill",
       "status": "open",
       "priority": "high",
-      "due": "2026-06-12",
+      "due": "2026-06-15",
       "created": "2026-05-13",
       "blocked_by": "t-plan-01c-execute",
-      "notes": "Master-index header in 00_META/plans/README.md. Plan 02's drift hook becomes simpler now that Plan 01c's inliner script (per CRITICAL 3 fix) already exists. ~3 days execute after writing."
+      "notes": "Master-index header in 00_META/plans/README.md. Plan 02's drift hook becomes simpler now that Plan 01c's inliner script (per CRITICAL 3 fix) already exists. ~3 days execute after writing. Due slipped from 2026-06-12 to 2026-06-15 to absorb the hard-system-audit-2026-05-16 cycle. Per ADR-038: Plan 02 is now LOAD-BEARING — must pick FOSS replacements for four Notion roles (meeting capture canonical / summary generation / CRM / collaborative docs workspace) before Stage 1 launch."
+    },
+    {
+      "id": "t-presentation-refresh-post-adr-038",
+      "subject": "Regenerate the 2026-05-14 presentation HTML clean from current spec",
+      "status": "open",
+      "priority": "high",
+      "due": "2026-06-01",
+      "created": "2026-05-16",
+      "notes": "Created 2026-05-16 per hard-system-audit Finding H4 recommendation. The 2026-05-14 presentation got an interim patch-in-place commit 3964d00 (16 Notion refs strike-through + banner + ADR-038 popover added), but the audit's preferred path is full regeneration from current spec + ADRs + STATUS — clean, no historical scaffolding. Mechanism exists per the presentation footer's regeneration instructions. New filename: 2026-05-XX_nexostrat-presentation.html (post-sweep date); old file moved to 00_META/proposals/archive/2026-05-14_nexostrat-presentation.html. Also: regeneration should add ADRs 016 + 018 to the popover database (currently missing); ADR-009 correctly absent (Superseded). Effort: ~1 day matching the 2026-05-14 build (brainstorm + write + iterate); reduces to ~half-day if prompted as 'minimal diff from prior version, applying ADR-038 supersessions only'. Gating: nothing — can run anytime; not blocking Plan 01b."
     }
   ]
 }

@@ -1,0 +1,30 @@
+{
+  "$schema": "nexostrat-client-state-v1",
+  "client": "<slug>",
+  "name": "<Full Legal Name>",
+  "country": "<ISO-3166 alpha-2>",
+  "sector": "<plain-text sector>",
+  "started": "<ISO-8601 date>",
+  "owner": "<persona — usually client-owner>",
+  "phase": "prospect",
+  "phase_history": [
+    {
+      "from": null,
+      "to": "prospect",
+      "at": "<ISO-8601 timestamp>",
+      "by": "<initiator — telegram-id or persona>",
+      "note": "Created via _template/ scaffold"
+    }
+  ],
+  "pilot": false,
+  "pricing": {
+    "model": null,
+    "currency": null,
+    "amount": null
+  },
+  "next_action": null,
+  "kpis": {},
+  "blockers": [],
+  "tags": [],
+  "recording_preference": null
+}

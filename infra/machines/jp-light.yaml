@@ -1,20 +1,30 @@
 # infra/machines/jp-light.yaml
-# JP — Light mode default. Telegram bot + Gitea web only. 5-min onboarding.
+# JP — Light mode default. Telegram bot + email + future FOSS dashboard (Plan 02).
 # Per ADR-021bis: "Hosted" option dropped; Light is the default JP entry point.
-hostname: <jp-phone-or-laptop>
+# Per ADR-038 + 2026-05-15 JP-Light variant decision: JP opts out of Gitea web
+# (he wants results, not architecture browsing). User can be created server-side
+# in ~10 min any time he asks.
+hostname: jp-mac
 role: jp-light
 owner: jp
-os: <TBD>  # JP's existing device — could be macOS, iOS, Android, anything
-os_version: <TBD>
-tailscale_ip: null  # optional — only if JP installs Tailscale
+os: macos
+os_version: "15.7.3"  # Sequoia, confirmed via Signal 2026-05-15
+tailscale_ip: null  # Light JP does not install Tailscale
 docker:
   compose_file: null
   services: []
-cli_tools: []  # web + Telegram only; no CLI requirement
+cli_tools: []  # web + Telegram + email only; no CLI requirement for Light mode.
 desktop_apps:
-  - telegram
-  - chrome  # or any browser — for Gitea web
+  - telegram  # primary interface — Telegram bot from Plan 04
+  - mail      # primary interface — email/report digests
+  # No browser line for Gitea web: JP opts out per 2026-05-15 Light variant.
+  # If JP flips to Heavy, bootstrap-machine.sh would re-add a browser + git CLI + Claude Code.
 schedule: {}
 gpu: null
 hooks: {}
 crons: []
+# Note: `infra/scripts/bootstrap-machine.sh` is Linux-only (apt-get, /dev/shm).
+# Light-mode JP requires no bootstrap (no docker, no cli_tools), so this file
+# is descriptive metadata only — there is no script to run against it at Stage 1.
+# A future flip to Heavy (jp-heavy.yaml) would require macOS-adapted bootstrap
+# (RAM disk via diskutil + hdiutil; gshred from brew coreutils; etc.).

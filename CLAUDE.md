@@ -1,12 +1,12 @@
 # Nexostrat — Claude Context (Founder)
 
-> **Last Updated:** 2026-05-14 (Nexostrat-native rewrite during terrain prep; no Brain dependencies)
+> **Last Updated:** 2026-05-16 (hard-system-audit patch pass: H1+H2+M6+M9 closed; ADR-038 reflected; JP-Light interface corrected)
 > **Scope:** Founder persona — root of `/srv/Nexostrat/`. AI consulting firm for SMEs (PyMEs) in Mexico, Colombia, and LatAm.
 >
 > **⚠️ Architectural source of truth (always read these first):**
-> - **Founding spec:** [`00_META/proposals/2026-05-13_nexostrat-system-design.md`](00_META/proposals/2026-05-13_nexostrat-system-design.md) — 10 sections, ADRs 001-035 (Batch 1 amendments pending; see [`00_META/proposals/2026-05-14_amendments.md`](00_META/proposals/2026-05-14_amendments.md))
-> - **Master plan index:** [`00_META/plans/README.md`](00_META/plans/README.md) — 10-plan roadmap (Plan 01 will split into 01a/01b/01c per amendment plan)
-> - **Current baton:** [`CHECKPOINT.md`](CHECKPOINT.md) — where the last session left off
+> - **Founding spec:** [`00_META/proposals/2026-05-13_nexostrat-system-design.md`](00_META/proposals/2026-05-13_nexostrat-system-design.md) — 10 sections, ADRs 001-038 (Batch 1 amendments applied 2026-05-14 in commits `dc5cbec`/`5f126a7`/`d5ebbf9`; ADR-038 lives in `00_GOVERNANCE/adr/` and was integrated into the spec body via the `t-spec-notion-removal-amendment` sweep 2026-05-16).
+> - **Master plan index:** [`00_META/plans/README.md`](00_META/plans/README.md) — 10-plan roadmap (Plan 01 split into 01a/01b/01c per the amendment plan; 01a tagged `v0.1a-foundation` 2026-05-16).
+> - **Current baton:** [`CHECKPOINT.md`](CHECKPOINT.md) — where the last session left off.
 >
 > Plan 01c will further restructure to use canonical shared stanzas inlined from `00_META/shared/*.md` (which don't exist yet). Until then, this file is operationally complete on its own.
 
@@ -16,9 +16,9 @@ You are the **Founder persona** of Nexostrat. Operate this folder (`/srv/Nexostr
 
 **Co-founders:** Ricardo Mejía Caicedo + Juan Pablo (JP). 50/50 partnership signed 2026-05-12. Per the partnership agreement: equal equity, equal decision-making, "Ricardo's recommendation = Claude's default" meta-rule so JP has equal say even when not directly in-session.
 
-**Current phase:** pre-launch / foundation construction. Terrain prep complete 2026-05-14: git identity locked, accounts created, age key + recipients in place, origin remote pushing to Gitea. Next: Batch 1 spec amendments per the amendment plan.
+**Current phase:** pre-launch / foundation construction. **Plan 01a tagged `v0.1a-foundation` 2026-05-16.** Hard system audit landed YELLOW (small) 2026-05-16; H1-H4 + M1-M9 patches applied in the same session. Next: Plan 01b re-audit + execute (mirrors + warm-standby).
 
-You assist with strategy, written deliverables, pricing, sales materials, code, and execution of client work as it materializes. JP is in Light mode default (Telegram + Gitea web only) and may move to Heavy mode (full clone + Claude Code) when he chooses.
+You assist with strategy, written deliverables, pricing, sales materials, code, and execution of client work as it materializes. JP is in **Light mode** (per his 2026-05-15 election): Telegram bot + email/report digests + the FOSS dashboard chosen in Plan 02. He explicitly opts out of Gitea web (no architecture-browsing surface; he wants results, not config). His Gitea user can be created in ~10 min server-side any time he asks; the architecture supports a flip to Heavy mode (full clone + Claude Code on `jp-mac`) whenever he chooses.
 
 ## Strict Rules
 
@@ -82,7 +82,7 @@ The session-start brief and session-end Step 1 follow this format:
 
 ## Architecture / Context
 
-**Authoritative source:** [`00_META/proposals/2026-05-13_nexostrat-system-design.md`](00_META/proposals/2026-05-13_nexostrat-system-design.md) (founding spec, 10 sections, ADRs 001-035; Batch 1 amendments pending per [`00_META/proposals/2026-05-14_amendments.md`](00_META/proposals/2026-05-14_amendments.md)).
+**Authoritative source:** [`00_META/proposals/2026-05-13_nexostrat-system-design.md`](00_META/proposals/2026-05-13_nexostrat-system-design.md) (founding spec, 10 sections, ADRs 001-038 — Batch 1 amendments applied 2026-05-14; ADR-038 spec-body integration applied 2026-05-16 via the `t-spec-notion-removal-amendment` sweep).
 
 This CLAUDE.md does NOT duplicate spec content — read the spec for any architectural question.
 
@@ -93,11 +93,11 @@ This CLAUDE.md does NOT duplicate spec content — read the spec for any archite
 - Three personas (per ADR-011): **Founder** (root, this file), **Skills-Master** (`skills/`, planned in Plan 01c), **Client-Owner** (`pipeline/`, planned in Plan 01c).
 - Stage 1 launch target: 2026-06-30 to 2026-07-15.
 
-**Current phase: pre-launch / foundation construction.** Terrain prep complete 2026-05-14. Next: Batch 1 spec amendments. Then Batches 2-3 (write + execute Plans 01a/01b/01c).
+**Current phase: pre-launch / foundation construction.** Plan 01a tagged `v0.1a-foundation` 2026-05-16 (8 commits + annotated tag pushed to Gitea origin). Hard system audit landed 2026-05-16 (YELLOW small; 5 HIGH, 9 MEDIUM, 6 LOW) and HIGH/MEDIUM patches applied same session. Next: Plan 01b re-audit + execute (mirrors + warm-standby).
 
 **Key collaborators:**
 - **Ricardo** — co-founder, primary technical operator, runs daily sessions.
-- **JP** — co-founder, Light mode default (Telegram + Gitea web), 10h/wk bandwidth, async coordination via Signal.
+- **JP** — co-founder, Light mode (Telegram bot + email/report digests + future FOSS dashboard from Plan 02; opts out of Gitea web), 10h/wk bandwidth, async coordination via Signal. Machine: `jp-mac` (macOS Sequoia 15.7.3, no Tailscale, no local Claude Code).
 - **Claude (you)** — Founder persona; assists strategy, deliverables, code.
 - **Gemini** — second seat; consulted via handoff for search, audit, review (see § Gemini Handoff Protocol).
 
@@ -145,7 +145,7 @@ Per ADR-013: **`infra/events/events.jsonl`** is the cross-persona/cross-folder p
 
 Nexostrat uses **age encryption** (per ADR-003). Per-user keys; all encrypted artifacts list every active recipient so any holder can decrypt.
 
-**Recipients file:** [`infra/age-recipients.txt`](infra/age-recipients.txt) — public file, safe to commit. Contains pubkeys of everyone who can decrypt firm secrets/vault. Currently: Ricardo. JP pubkey pending (per `t-jp-age-keypair`).
+**Recipients file:** [`infra/age-recipients.txt`](infra/age-recipients.txt) — public file, safe to commit. Contains pubkeys of everyone who can decrypt firm secrets/vault. **Currently: Ricardo + JP** (both pubkeys on file since 2026-05-15 commit `b7e39bf`). The C2 audit finding is structurally closed at the artifacts level (every encrypted artifact has two X25519 stanzas — verified via `file vault/keys/sentinel-ricardo-to-jp.age` and `file secrets.env.age`). Bidirectional decrypt roundtrip is partially verified (Direction A sentinel encrypted + pushed); JP-side decrypt confirmation + Direction B + sentinel cleanup tracked in `t-plan-01a-jp-and-tty-deferred`.
 
 **Ricardo's private key:** `~/.config/age/nexostrat.key.age` (passphrase-protected, mode 600). Backed up to encrypted cloud vault (Bitwarden/1Password) with passphrase stored in same vault. Recovery path: vault → restore file → decrypt with passphrase.
 
@@ -203,3 +203,4 @@ NAS rclone mirror (when NAS comes online)
 |------|-------|-------------|
 | 2026-05-11 | Claude (root scaffold) | Project scaffolded under prior brand "Mejía IA & Cía". Founding documents (Plan Maestro v1, Consultoria IA PyMEs v1, plus 2026-05-07 backup) moved into the folder. Pre-launch / planning phase. (Historical entry; the inherited template has since been excised.) |
 | 2026-05-14 | Claude (terrain-prep session) | **Nexostrat-native rewrite.** Stripped all Brain references; inlined previously-pointered protocol content; updated brand from "Mejía IA & Cía" to Nexostrat throughout; reflected Ricardo + JP 50/50 partnership; updated session protocols to use `calendar.json` (renamed from `events.json` same commit); rewrote vault model to match age-based pattern (recipients file + cloud-vault key backup); rewrote backup posture to match Nexostrat ladder; replaced "Cross-Folder Memo Protocol" with `events.jsonl` pointer (ADR-013 + Plan 03 territory); added explicit "no n8n" rule per ADR-029. Plan 01c will further restructure to the canonical shared-stanza pattern; this rewrite is operationally complete on its own in the meantime. |
+| 2026-05-16 | Claude (hard-audit patch session) | **Audit-driven patches.** H1: header + §Architecture/Context refreshed to "ADRs 001-038" (was "ADRs 001-035"). H2: §Vault Access Model recipients-file note updated to reflect Ricardo + JP both on file since 2026-05-15 + C2 structural closure. M6: JP interface description corrected from "Telegram + Gitea web only" to "Telegram + email + future FOSS dashboard (Plan 02)" — JP opts out of Gitea web. M9 (companion): `infra/machines/jp-light.yaml` updated to `os: macos` / `15.7.3`. "Current phase" updated to reflect v0.1a-foundation tag + post-audit state. All edits per 2026-05-16 hard system audit at `00_META/proposals/2026-05-16_hard-system-audit-report.md`. |

@@ -1,0 +1,27 @@
+# infra/machines/hp-standby.yaml
+# Warm-standby clone — receives nightly rsync from hp-server. Idle until activated.
+# RTO target 15-30 min from cold to serving. Provisioned in Plan 01b.
+hostname: <TBD-at-provisioning>
+role: hp-standby
+owner: ricardo
+os: linux-mint
+os_version: "22.2"
+tailscale_ip: <TBD-at-provisioning>
+docker:
+  compose_file: /srv/Nexostrat/docker-compose.yml
+  services: []  # all stopped at rest; started during failover
+cli_tools:
+  - age
+  - git
+  - pandoc
+  - python3
+  - jq
+  - rclone
+  - rsync
+desktop_apps: []
+schedule: {}  # passive; receives rsync, runs nothing
+gpu: null
+hooks:
+  pre_commit: infra/hooks/pre-commit-secret-scan.sh
+  pre_receive: null
+crons: []

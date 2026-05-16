@@ -1,0 +1,27 @@
+# infra/machines/ricardo-travel.yaml
+# Ricardo's travel laptop — read-mostly clone + Telegram + Claude Code.
+hostname: <TBD-at-bootstrap>
+role: ricardo-travel
+owner: ricardo
+os: linux-mint
+os_version: "22.2"
+tailscale_ip: <TBD-at-bootstrap>
+docker:
+  compose_file: null
+  services: []
+cli_tools:
+  - age
+  - git
+  - python3
+  - jq
+desktop_apps:
+  - claude-code
+  - chrome
+  - signal
+  - bitwarden
+schedule: {}
+gpu: null
+hooks:
+  pre_commit: infra/hooks/pre-commit-secret-scan.sh
+  pre_receive: null
+crons: []

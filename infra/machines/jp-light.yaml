@@ -1,0 +1,20 @@
+# infra/machines/jp-light.yaml
+# JP — Light mode default. Telegram bot + Gitea web only. 5-min onboarding.
+# Per ADR-021bis: "Hosted" option dropped; Light is the default JP entry point.
+hostname: <jp-phone-or-laptop>
+role: jp-light
+owner: jp
+os: <TBD>  # JP's existing device — could be macOS, iOS, Android, anything
+os_version: <TBD>
+tailscale_ip: null  # optional — only if JP installs Tailscale
+docker:
+  compose_file: null
+  services: []
+cli_tools: []  # web + Telegram only; no CLI requirement
+desktop_apps:
+  - telegram
+  - chrome  # or any browser — for Gitea web
+schedule: {}
+gpu: null
+hooks: {}
+crons: []

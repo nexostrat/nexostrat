@@ -1,0 +1,33 @@
+# infra/machines/jp-heavy.yaml
+# future-state stub; JP currently Light per ADR-038 (2026-05-15). This file activates when JP flips to Heavy mode; until then it documents intent only.
+# JP — Heavy mode. Full clone + Claude Code + age key. ~1h additive onboarding.
+# Per F13: Linux Mint is the recommended baseline; matches Ricardo's HP family,
+# well-trodden install path, no surprises. macOS handled as an exception in
+# Plan 02 only if JP cannot install Linux Mint.
+hostname: <jp-laptop>
+role: jp-heavy
+owner: jp
+os: linux-mint
+os_version: "22.2"
+tailscale_ip: <TBD-at-bootstrap>
+docker:
+  compose_file: null  # JP doesn't run firm services; he reads/writes via clone
+  services: []
+cli_tools:
+  - age
+  - git
+  - pandoc
+  - python3
+  - jq
+desktop_apps:
+  - claude-code
+  - chrome
+  - telegram
+  - signal
+  - bitwarden
+schedule: {}
+gpu: null
+hooks:
+  pre_commit: infra/hooks/pre-commit-secret-scan.sh
+  pre_receive: null
+crons: []

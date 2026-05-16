@@ -1,0 +1,38 @@
+# infra/machines/ricardo-desktop.yaml
+# Ricardo's desktop workstation — also the GPU host (office hours). Wake-on-LAN target.
+hostname: <TBD-at-bootstrap>
+role: ricardo-desktop
+owner: ricardo
+os: linux-mint
+os_version: "22.2"
+tailscale_ip: <TBD-at-bootstrap>
+docker:
+  compose_file: null  # no firm services here
+  services: []
+cli_tools:
+  - age
+  - git
+  - python3
+  - jq
+  - ollama
+desktop_apps:
+  - claude-code
+  - chrome
+  - signal
+  - bitwarden
+  - vscode
+schedule:
+  ollama_office_hours: "09:00-18:00 America/Tijuana"
+gpu:
+  vendor: nvidia  # placeholder — confirm at bootstrap
+  models:
+    - llama3.1:8b
+    - qwen2.5:14b
+    - mistral:7b
+hooks:
+  pre_commit: infra/hooks/pre-commit-secret-scan.sh
+  pre_receive: null
+crons: []
+wake_on_lan:
+  mac_address: <TBD-at-bootstrap>
+  enabled: true  # Plan 09 wires the trigger

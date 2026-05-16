@@ -1,0 +1,37 @@
+# infra/machines/hp-server.yaml
+# Primary host — Linux Mint 22.2; Tailscale 100.64.121.80; runs Gitea + bot + shadow stack.
+hostname: ricardo-hp-laptop
+role: hp-server
+owner: ricardo
+os: linux-mint
+os_version: "22.2"
+tailscale_ip: 100.64.121.80
+docker:
+  compose_file: /srv/Nexostrat/docker-compose.yml
+  services:
+    - gitea
+    - nexostrat-bot
+    - jitsi-web
+    - prosody
+    - jicofo
+    - jvb
+    - nextcloud
+    - whisper-cpp
+cli_tools:
+  - age
+  - git
+  - pandoc
+  - python3
+  - jq
+  - rclone
+  - rsync
+desktop_apps: []  # headless server posture; desktop work is on ricardo-desktop
+schedule:
+  warm_rsync: "03:00 America/Tijuana"  # Plan 01b implements
+  daily_brief: "07:00 America/Tijuana"  # Plan 03+ implements
+  weekly_verify: "Sun 02:00 America/Tijuana"
+gpu: null  # CPU-only; GPU work runs on ricardo-desktop
+hooks:
+  pre_commit: infra/hooks/pre-commit-secret-scan.sh
+  pre_receive: null  # Gitea-side; Plan 01b
+crons: []  # systemd timers preferred per ADR-029

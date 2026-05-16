@@ -550,9 +550,13 @@ HOOK="/srv/Nexostrat/infra/hooks/pre-commit-secret-scan.sh"
 TMPDIR="$(mktemp -d)"
 trap 'rm -rf "$TMPDIR"' EXIT
 
-# Create a fake staged file with a planted secret
+# Create a fake staged file with a planted secret.
+# The secret string is assembled at runtime so this script itself does not
+# contain a literal match that would trip the pre-commit hook on commit.
 PLANTED="$TMPDIR/planted.txt"
-printf 'something something\nsk-ant-test1234567890abcdef\nfoo bar\n' > "$PLANTED"
+SECRET_PREFIX="sk-ant-"
+SECRET_SUFFIX="test1234567890abcdef"
+printf 'something something\n%s%s\nfoo bar\n' "$SECRET_PREFIX" "$SECRET_SUFFIX" > "$PLANTED"
 
 # Hook reads file paths from stdin (one per line) — simulate staged file list
 if echo "$PLANTED" | bash "$HOOK" --files-from-stdin; then
@@ -696,9 +700,17 @@ bash /srv/Nexostrat/infra/scripts/test_secret_scan_hook.sh
 
 - [ ] **Step 6: Live integration test — try to commit a planted secret**
 
+The fixture strings are assembled at runtime so this plan file itself does
+not contain a literal-match that would trip the hook on re-commit (same
+trick used inside `infra/scripts/test_secret_scan_hook.sh`; documented
+2026-05-16 per audit follow-up after the original literal-form blocked
+edits to this plan file).
+
 ```bash
 cd /srv/Nexostrat
-echo "sk-ant-test1234567890abcdef1234567890" > /tmp/planted_test.txt
+# Assemble fixture at runtime — no literal-match in this plan file's blob.
+PREFIX='sk-ant-'; SUFFIX='test1234567890abcdef1234567890'
+printf '%s%s\n' "$PREFIX" "$SUFFIX" > /tmp/planted_test.txt
 cp /tmp/planted_test.txt .
 git add planted_test.txt
 git commit -m "should be blocked" 2>&1 | tail -5
@@ -714,12 +726,13 @@ rm planted_test.txt /tmp/planted_test.txt
 
 - [ ] **Step 6b: Stage-then-edit-clean integration test (Finding 3 fix proof)**
 
-This test proves the hook reads the **staged blob**, not the on-disk file. Without the Finding 3 fix, the test below would let the secret slip through because the on-disk content is clean by commit time.
+This test proves the hook reads the **staged blob**, not the on-disk file. Without the Finding 3 fix, the test below would let the secret slip through because the on-disk content is clean by commit time. Same runtime-assembly convention.
 
 ```bash
 cd /srv/Nexostrat
-# 1. Plant a secret, stage it.
-echo "sk-ant-stagedblob1234567890abcdef" > stage_edit_test.txt
+# 1. Plant a secret, stage it. Assemble at runtime to avoid literal-match.
+PREFIX='sk-ant-'; SUFFIX='stagedblob1234567890abcdef'
+printf '%s%s\n' "$PREFIX" "$SUFFIX" > stage_edit_test.txt
 git add stage_edit_test.txt
 
 # 2. Edit the on-disk file to remove the secret BEFORE committing.
@@ -2458,12 +2471,21 @@ If the file is at a different path or has wrong permissions, **stop and surface 
 age -d ~/.config/age/nexostrat.key.age > /dev/shm/test-key-$$.txt
 # Expected: passphrase prompt; on success, file written
 
-head -1 /dev/shm/test-key-$$.txt
-# Expected: starts with "AGE-SECRET-KEY-1..."
+# Standard age identity files start with a `# created: <timestamp>` comment line,
+# followed by `# public key: age1...`, then the secret key `AGE-SECRET-KEY-1...`.
+# Verify the file contains a valid secret key anywhere in its body:
+grep -q '^AGE-SECRET-KEY-1' /dev/shm/test-key-$$.txt && echo "OK: identity parses" || echo "FAIL: no AGE-SECRET-KEY-1 line found"
+# Expected: "OK: identity parses"
 
 shred -u /dev/shm/test-key-$$.txt
 # Expected: file removed; no error
 ```
+
+> **Note (2026-05-16 amendment per `t-plan-01a-text-amendments`):** earlier
+> draft used `head -1` to look for `AGE-SECRET-KEY-1` on line 1. Standard
+> `age-keygen -p` output puts `# created: ...` on line 1 and the secret key
+> later in the file. The corrected check greps for the secret-key marker
+> anywhere in the file, which is the robust form.
 
 - [ ] **Step 4: Roundtrip — encrypt a test plaintext to the recipients file, decrypt with Ricardo's key**
 
@@ -2479,7 +2501,7 @@ ls -la "$TMP_CT"
 # Expected: ciphertext file exists
 
 # Decrypt requires Ricardo's private key (passphrase prompt)
-age -d -i <(age -d ~/.config/age/nexostrat.key.age) "$TMP_CT" > "$TMP_DEC"
+age -d -i ~/.config/age/nexostrat.key.age "$TMP_CT" > "$TMP_DEC"
 
 diff "$TMP_PT" "$TMP_DEC" && echo "ROUNDTRIP PASS" || echo "ROUNDTRIP FAIL"
 # Expected: ROUNDTRIP PASS
@@ -2611,7 +2633,7 @@ echo "Both-recipients roundtrip $(date -Iseconds)" > "$TMP_PT"
 
 age -R /srv/Nexostrat/infra/age-recipients.txt -o "$TMP_CT" "$TMP_PT"
 
-age -d -i <(age -d ~/.config/age/nexostrat.key.age) "$TMP_CT" > "$TMP_DEC"
+age -d -i ~/.config/age/nexostrat.key.age "$TMP_CT" > "$TMP_DEC"
 diff "$TMP_PT" "$TMP_DEC" && echo "RICARDO DECRYPT PASS" || echo "FAIL"
 
 shred -u "$TMP_PT" "$TMP_CT" "$TMP_DEC"
@@ -2627,7 +2649,7 @@ JP needs to perform the equivalent verification on his side (his machine, his ke
 # JP runs (after pulling latest infra/age-recipients.txt from Gitea):
 echo "test" > /tmp/test.txt
 age -R infra/age-recipients.txt -o /tmp/test.age /tmp/test.txt
-age -d -i <(age -d ~/.config/age/nexostrat.key.age) /tmp/test.age
+age -d -i ~/.config/age/nexostrat.key.age /tmp/test.age
 # Expected output: "test"
 shred -u /tmp/test.txt /tmp/test.age
 ```
@@ -2657,7 +2679,7 @@ JP pulls via Gitea web (downloads the .age file from the Gitea web file viewer's
 
 ```bash
 # JP (his machine):
-age -d -i <(age -d ~/.config/age/nexostrat.key.age) sentinel-ricardo-to-jp.age
+age -d -i ~/.config/age/nexostrat.key.age sentinel-ricardo-to-jp.age
 # Expected output: "Sentinel from Ricardo <timestamp>"
 ```
 
@@ -2679,7 +2701,7 @@ JP attaches `/tmp/sentinel-jp-to-ricardo.age` to a Signal message → Ricardo. R
 # Ricardo (HP laptop) — assumes Signal saved the file to ~/Downloads/sentinel-jp-to-ricardo.age
 cp ~/Downloads/sentinel-jp-to-ricardo.age /srv/Nexostrat/vault/keys/sentinel-jp-to-ricardo.age
 
-age -d -i <(age -d ~/.config/age/nexostrat.key.age) \
+age -d -i ~/.config/age/nexostrat.key.age \
     /srv/Nexostrat/vault/keys/sentinel-jp-to-ricardo.age
 # Expected output: "Sentinel from JP <timestamp>"
 ```
@@ -2774,7 +2796,7 @@ ls -la /srv/Nexostrat/secrets.env.age
 
 ```bash
 TMP_DEC=/dev/shm/decrypt-test-$$
-age -d -i <(age -d ~/.config/age/nexostrat.key.age) \
+age -d -i ~/.config/age/nexostrat.key.age \
     /srv/Nexostrat/secrets.env.age > "$TMP_DEC"
 head -3 "$TMP_DEC"
 # Expected: the comment header lines from the template
@@ -2972,14 +2994,18 @@ if [[ ! -f "$PRIV_KEY_AGE" ]]; then
   exit 1
 fi
 
-# Decrypt secrets to /dev/shm
-# (the inner age -d prompts for the private-key passphrase on /dev/tty;
-#  age's diagnostic messages go to stderr — capture them rather than silence,
-#  per Finding 7 of the 2026-05-14 re-audit: first-time users need to
-#  distinguish wrong-passphrase vs recipient-mismatch vs identity-file-format
-#  failures.)
+# Decrypt secrets to /dev/shm.
+# age 1.1.0+ accepts passphrase-encrypted identity files via `-i` directly
+# (per `age --help`: "Passphrase encrypted age files can be used as identity
+# files."). One prompt on /dev/tty, no inner subshell. Earlier drafts wrapped
+# the identity through process-substitution `<(age -d "$PRIV_KEY_AGE")`,
+# which breaks under TTY-less execution (the inner subshell can't reach the
+# parent's controlling tty) — fixed 2026-05-16 per `t-plan-01a-text-amendments`.
+# Finding 7 of the 2026-05-14 re-audit: capture age's stderr rather than
+# silence, so first-time users can distinguish wrong-passphrase vs
+# recipient-mismatch vs identity-file-format failures.
 AGE_ERR=$(mktemp)
-if ! age -d -i <(age -d "$PRIV_KEY_AGE") "$ENC" > "$PT" 2>"$AGE_ERR"; then
+if ! age -d -i "$PRIV_KEY_AGE" "$ENC" > "$PT" 2>"$AGE_ERR"; then
   echo "ERROR: failed to decrypt $ENC" >&2
   echo "  hint: wrong passphrase, recipient mismatch, or identity-file format issue" >&2
   if [[ -s "$AGE_ERR" ]]; then
@@ -3106,7 +3132,7 @@ Write `/srv/Nexostrat/infra/secrets/MANIFEST.md`:
 1. Generate new value at the provider.
 2. Decrypt `secrets.env.age` to `/dev/shm`:
    ```bash
-   age -d -i <(age -d ~/.config/age/nexostrat.key.age) secrets.env.age \
+   age -d -i ~/.config/age/nexostrat.key.age secrets.env.age \
        > /dev/shm/secrets.env.tmp
    ```
 3. Edit the value in place (e.g., via `nano /dev/shm/secrets.env.tmp`).
@@ -3211,7 +3237,7 @@ ls -la /srv/Nexostrat/vault/partnership/PARTNERSHIP_AGREEMENT_2026-05-12.pdf.age
 
 ```bash
 TMP_DEC=/dev/shm/agreement-decrypt-$$.pdf
-age -d -i <(age -d ~/.config/age/nexostrat.key.age) \
+age -d -i ~/.config/age/nexostrat.key.age \
     /srv/Nexostrat/vault/partnership/PARTNERSHIP_AGREEMENT_2026-05-12.pdf.age \
     > "$TMP_DEC"
 
@@ -3373,7 +3399,7 @@ TMP_DEC=/dev/shm/v01a-final-dec-$$.txt
 
 echo "v0.1a tag check $(date -Iseconds)" > "$TMP_PT"
 age -R infra/age-recipients.txt -o "$TMP_CT" "$TMP_PT"
-age -d -i <(age -d ~/.config/age/nexostrat.key.age) "$TMP_CT" > "$TMP_DEC"
+age -d -i ~/.config/age/nexostrat.key.age "$TMP_CT" > "$TMP_DEC"
 diff "$TMP_PT" "$TMP_DEC" && echo "RICARDO-DECRYPT GREEN" || echo "RED"
 shred -u "$TMP_PT" "$TMP_CT" "$TMP_DEC"
 ```
@@ -3384,7 +3410,7 @@ JP runs the equivalent on his machine; confirms via Signal. Both directions must
 
 ```bash
 TMP=/dev/shm/agreement-final-$$.pdf
-age -d -i <(age -d ~/.config/age/nexostrat.key.age) \
+age -d -i ~/.config/age/nexostrat.key.age \
     vault/partnership/PARTNERSHIP_AGREEMENT_2026-05-12.pdf.age > "$TMP"
 file "$TMP"
 # Expected: "$TMP: PDF document, ..."

@@ -43,14 +43,18 @@ if [[ ! -f "$PRIV_KEY_AGE" ]]; then
   exit 1
 fi
 
-# Decrypt secrets to /dev/shm
-# (the inner age -d prompts for the private-key passphrase on /dev/tty;
-#  age's diagnostic messages go to stderr — capture them rather than silence,
-#  per Finding 7 of the 2026-05-14 re-audit: first-time users need to
-#  distinguish wrong-passphrase vs recipient-mismatch vs identity-file-format
-#  failures.)
+# Decrypt secrets to /dev/shm.
+# age 1.1.0+ accepts passphrase-encrypted identity files via `-i` directly
+# (per `age --help`: "Passphrase encrypted age files can be used as identity
+# files."). One prompt on /dev/tty, no inner subshell. Earlier drafts wrapped
+# the identity through process-substitution `<(age -d "$PRIV_KEY_AGE")`,
+# which breaks under TTY-less execution (the inner subshell can't reach the
+# parent's controlling tty) — fixed 2026-05-16 per `t-plan-01a-text-amendments`.
+# Finding 7 of the 2026-05-14 re-audit: capture age's stderr rather than
+# silence, so first-time users can distinguish wrong-passphrase vs
+# recipient-mismatch vs identity-file-format failures.
 AGE_ERR=$(mktemp)
-if ! age -d -i <(age -d "$PRIV_KEY_AGE") "$ENC" > "$PT" 2>"$AGE_ERR"; then
+if ! age -d -i "$PRIV_KEY_AGE" "$ENC" > "$PT" 2>"$AGE_ERR"; then
   echo "ERROR: failed to decrypt $ENC" >&2
   echo "  hint: wrong passphrase, recipient mismatch, or identity-file format issue" >&2
   if [[ -s "$AGE_ERR" ]]; then

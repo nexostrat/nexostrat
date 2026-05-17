@@ -8,8 +8,8 @@
 | `ANTHROPIC_API_KEY` | Anthropic | Mode B Skills (Plan 05+), judge agent | every 6 mo | (not yet provisioned) | Hard cap configured at provider |
 | `GOOGLE_API_KEY` | Google AI Studio | Mode B Gemini calls (Plan 05+) | every 6 mo | (not yet provisioned) | Free tier until ~Oct 2026 |
 | `XAI_API_KEY` | xAI | Mode B Grok calls (Plan 05+) | every 6 mo | (not yet provisioned) | Hard cap configured |
-| `GITHUB_MIRROR_PAT` | GitHub | `nexostrat-mirror-github.service` (Plan 01b) | every 12 mo | (not yet provisioned) | scope: `repo` only |
-| `CODEBERG_MIRROR_PAT` | Codeberg | `nexostrat-mirror-codeberg.service` (Plan 01b) | every 12 mo | (not yet provisioned) | scope: `repo` only |
+| `GITHUB_MIRROR_PAT` | GitHub | `nexostrat-mirror-github.service` (Plan 01b) | every 12 mo | 2026-05-16 | scope: `repo` only; classic PAT (`ghp_…`), no expiration |
+| `CODEBERG_MIRROR_PAT` | Codeberg | `nexostrat-mirror-codeberg.service` (Plan 01b) | every 12 mo | 2026-05-16 | scope: `write:repository`, no expiration |
 | ~~`NOTION_API_KEY`~~ | ~~Notion~~ | ~~Meeting transcription / `/note` plugin~~ | ~~every 6 mo~~ | **REMOVED 2026-05-16** | Per ADR-038: Notion exits firm-level. Variable physically stripped from `secrets.env.age` on 2026-05-16 via the re-encrypt routine documented above (decrypted to `/dev/shm`, `grep -v` stripped the line, re-encrypted to both recipients via atomic tempfile + `mv`, plaintexts shredded by trap). `file` post-strip confirms 2 X25519 stanzas; `grep -rn NOTION_API_KEY infra/` is empty. FOSS replacement for meeting capture decided in Plan 02 — no API key needed if self-hosted Whisper.cpp + Ollama. |
 | `TELEGRAM_BOT_TOKEN` | Telegram | `nexostrat-bot` Docker service (Plan 04) | only on suspected leak | (not yet provisioned) | Allowlist enforced via `infra/telegram/allowlist.yaml` |
 | `RCLONE_DRIVE_TOKEN` | Google Drive (OAuth via rclone) | Heavy-asset upload (Plan 08+) | every 12 mo or on token expiry | (not yet provisioned) | Drive 2TB account |

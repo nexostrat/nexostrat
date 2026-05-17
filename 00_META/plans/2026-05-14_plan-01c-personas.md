@@ -469,6 +469,28 @@ if python3 "$INLINER" --template "$TMPDIR/template.tmpl" --check "$TMPDIR/out.md
 else
   echo "PASS — --check detected drift"
 fi
+
+# Nested include: the inliner iterates to a fixed point. snippet-outer includes
+# snippet-inner, and template includes snippet-outer. Both levels must expand.
+echo "INNER" > "$TMPDIR/snippet-inner.md"
+cat > "$TMPDIR/snippet-outer.md" <<'EOF'
+OUTER-PRE
+{{include: snippet-inner.md}}
+OUTER-POST
+EOF
+cat > "$TMPDIR/template-nested.tmpl" <<'EOF'
+TOP
+{{include: snippet-outer.md}}
+BOTTOM
+EOF
+python3 "$INLINER" --template "$TMPDIR/template-nested.tmpl" --output "$TMPDIR/nested-out.md"
+if grep -q '^INNER$' "$TMPDIR/nested-out.md" && ! grep -q '{{include:' "$TMPDIR/nested-out.md"; then
+  echo "PASS — nested include fully expanded"
+else
+  echo "FAIL — nested include not expanded:"
+  cat "$TMPDIR/nested-out.md"
+  exit 1
+fi
 ```
 
 ```bash
@@ -507,6 +529,9 @@ import argparse, difflib, pathlib, re, sys
 MARKER = re.compile(r'^\{\{include:\s*([^}]+?)\s*\}\}\s*$', re.M)
 
 
+MAX_DEPTH = 10  # Hard cap to defend against include-cycles; 10 is generous.
+
+
 def render(template_path: pathlib.Path) -> str:
     text = template_path.read_text(encoding='utf-8')
     base = template_path.parent
@@ -520,7 +545,16 @@ def render(template_path: pathlib.Path) -> str:
         # line doesn't double-blank.
         return target.read_text(encoding='utf-8').rstrip('\n')
 
-    return MARKER.sub(sub, text)
+    # Iterate to a fixed point so nested {{include}} markers (an include whose
+    # content itself contains an include) expand fully. Stanzas at 01c don't
+    # nest today, but future stanzas may; the guard bounds depth so a cycle
+    # fails loudly instead of looping forever.
+    for _ in range(MAX_DEPTH):
+        new_text = MARKER.sub(sub, text)
+        if new_text == text:
+            return text
+        text = new_text
+    sys.exit(f"ERROR: include depth exceeded {MAX_DEPTH} — possible cycle in {template_path}")
 
 
 def main() -> int:
@@ -670,7 +704,9 @@ def collect(persona: str) -> list[tuple[str, dict[str, str], pathlib.Path]]:
             if fm.get('status', 'open') != 'open':
                 continue
             to_field = fm.get('to', '')
-            if persona == 'all' or to_field == persona or to_field == 'broadcast' and persona != 'all':
+            # Note: Python `and` binds tighter than `or`, so the `broadcast` clause is parenthesized
+            # explicitly to spare future readers a parse step.
+            if persona == 'all' or to_field == persona or (to_field == 'broadcast' and persona != 'all'):
                 out.append((to_field, fm, memo))
     out.sort(key=lambda t: (PRIORITY_ORDER.get(t[1].get('priority', ''), 4),
                             t[1].get('created', '')))
@@ -791,6 +827,12 @@ Create `/srv/Nexostrat/infra/scripts/checkpoint-mtime-check.sh`:
 # Usage:
 #   checkpoint-mtime-check.sh [THRESHOLD_MIN]
 # Default threshold: 10 minutes.
+# Note (MVP scope): in normal single-operator flow the gap between session-end
+# (push CHECKPOINT.md) and the next session-start (read CHECKPOINT.md) is well
+# under 10 minutes, which means this check will warn often when the system is
+# behaving correctly. That noise is the cost of an mtime-only MVP. Plan 03's
+# events.jsonl router supersedes this with a proper session-lock; until then
+# operators can tune `THRESHOLD_SEC` per host if the warnings are too chatty.
 #
 # Exit codes:
 #   0 — no recent edits (or only by this session, which we can't detect; documented limitation)
@@ -996,7 +1038,9 @@ You are the **second seat** to Claude (Founder persona) at root of `/srv/Nexostr
 
 {{include: ../shared/gemini_handoff.md}}
 
-{{include: ../shared/vault_access.md}}
+## Vault constraint (Gemini)
+
+You have an age private key + passphrase. Decrypt is permitted for review purposes (e.g., reading a sealed proposal or partnership artifact during a handoff). **Do not write into `vault/`** — that namespace is Claude's per ADR-003/F10. If you need to surface a finding from decrypted content, write it into your handoff response (`gemini_to_claude.md`) and let Claude stage the resulting artifact. The wrapper discipline (`run-with-secrets.sh`, `/dev/shm`, `shred`) documented in CLAUDE.md does not apply to your review-only workflows.
 
 {{include: ../shared/change_log.md}}
 ```
@@ -1247,7 +1291,9 @@ You are the **second seat** to Claude (Skills-Master persona) within `skills/`. 
 
 {{include: ../00_META/shared/gemini_handoff.md}}
 
-{{include: ../00_META/shared/vault_access.md}}
+## Vault constraint (Gemini)
+
+Skills-Master Gemini owns no vault content (per F10). You do not decrypt or write to `vault/`. Sensitive material in a skill output — rare — should be flagged in your handoff response so Skills-Master Claude can route via memo to Founder Claude for proper vault staging. The wrapper discipline documented in CLAUDE.md does not apply to you.
 
 {{include: ../00_META/shared/change_log.md}}
 ```
@@ -1447,7 +1493,9 @@ You are the **second seat** to Claude (Client-Owner persona) within `pipeline/`.
 
 {{include: ../00_META/shared/gemini_handoff.md}}
 
-{{include: ../00_META/shared/vault_access.md}}
+## Vault constraint (Gemini)
+
+You have an age private key. Decrypt of `vault/clients/<slug>/*.age` is permitted for review-only purposes — e.g., reading a sealed proposal during draft review or fact-checking a signed scope. **Do not write into `vault/clients/`** — Client-Owner Claude stages the encrypted artifact per F10. If a decrypted content surface a finding, write it into your handoff response (`gemini_to_claude.md`) so Claude can stage the correction. Wrapper discipline (`run-with-secrets.sh`, `/dev/shm`, `shred`) documented in CLAUDE.md does not apply to your review workflows.
 
 {{include: ../00_META/shared/change_log.md}}
 ```
@@ -1614,8 +1662,10 @@ done
 if [[ $violations -gt 0 ]]; then
   echo
   echo "Tier-1 docs require the -explicado partner to be staged in the same commit."
-  echo "Either stage it or, if intentional, add 'docs-skip-pair' to the commit body."
-  echo "(The escape-hatch enforcement is Plan 02 territory; for now just stage both.)"
+  echo "Either stage the partner, or use 'git commit --no-verify' if intentionally"
+  echo "skipping the pair. (A 'docs-skip-pair' commit-body escape-hatch is planned"
+  echo "for Plan 02; pre-commit hooks can't inspect the commit message yet, so for"
+  echo "now --no-verify is the documented escape.)"
   echo "Hook: infra/hooks/pre-commit-docs-pair.sh"
   exit 1
 fi
@@ -1819,13 +1869,35 @@ grep -i hosted /srv/Nexostrat/infra/machines/*.yaml
 # Expected: empty
 ```
 
-- [ ] **Step 3: If anything was edited in Step 1, stage + commit**
+- [ ] **Step 2b: Signal sweep (per 2026-05-16 Telegram-only directive)**
+
+The Plan 01c re-audit (2026-05-16) flagged `jp-heavy.yaml` still listing
+`signal` in `desktop_apps` (M8 — pre-existing debt from before the
+Telegram-not-Signal lock). That entry was removed in commit landing the
+Plan 01c re-audit MEDIUM patches; this step verifies no other Nexostrat
+artifact carries Signal references as a documented in-system channel.
+Historical mentions in plans/proposals/journal/handoff-archive are
+intentionally preserved (they describe what was; current code+config
+is what is).
+
+```bash
+grep -rn -i signal /srv/Nexostrat/ \
+  --include='*.yaml' --include='*.md' --include='*.sh' --include='*.py' \
+  --exclude-dir={.git,.superpowers,.claude,00_META/plans,00_META/proposals,00_META/journal,00_META/handoff/archive}
+# Expected: empty (or only matches in actively-edited plan body referencing the
+# 2026-05-16 directive itself).
+```
+
+If anything else matches, edit it out (or replace with "agreed personal
+channel" / "out-of-band" wording).
+
+- [ ] **Step 3: If anything was edited in Step 1 or Step 2b, stage + commit**
 
 ```bash
 # Only if changes were made:
 git status --short
 git add <files>
-git commit -m "Plan 01c Task 9 · F27 follow-through — Hosted-mode references swept"
+git commit -m "Plan 01c Task 9 · F27 follow-through + Signal-residue sweep"
 git push origin main
 ```
 
@@ -2108,12 +2180,34 @@ Persona surface complete:
 Hook surface complete (basic):
 - secret-scan, vault-age-only, docs-pair (basic), checkpoint validation
 
-Audit findings closed across 01a/01b/01c:
-C1, C2, C3, C4
-F5, F7, F8, F10, F12, F13, F15, F16, F18, F19, F20, F21, F22, F23, F24, F25, F26, F27
-R1 (split executed), R2 (rich smoke), R3 (Stage 1 surface), R4 (CHECKPOINT race), R6 (calendar honesty)
+Audit findings closed per plan (cumulative from the 2026-05-13 founding-spec audit + each plan's re-audit):
+  Plan 01a closed: C1 (process-sub leak), C2 (recipients/JP-roundtrip key-on-file),
+                   F5 (partnership artifact — by alternate-satisfaction markdown),
+                   F11 (3-bucket scaffold), F12 (gitignore comprehensive),
+                   F13 (machine profiles), F15 (questionnaire pandoc),
+                   F16 (pipeline _template state.json), F17 (skills canonical layout),
+                   F19 (per-client checkpoint), F21 (JSON schemas + validator),
+                   F23 (.gitignore secrets discipline), F26 (bootstrap-machine.sh),
+                   R3 (Stage 1 surface area minimization), R5 (deferred-Hosted path),
+                   R6 (calendar honesty)
+  Plan 01b closed: C4 (Gitea-internal hook decrypt impossibility → host-side path-watcher),
+                   F7 (Codeberg mirror missing from original Plan 01),
+                   F22 (Gitea bare-repo on-disk verification, n8n removed),
+                   F24 (real systemctl start vs --dry-run),
+                   F25 (firm-namespace topology nexostrat/nexostrat on both mirrors)
+  Plan 01c closed: C3 (canonical-shared-stanzas inliner — drift detection),
+                   F8 (nexostrat-memos.py + per-persona inboxes),
+                   F10 (vault namespace split per persona scope),
+                   F18 (persona ownership table resolved by F10),
+                   F20 (BRAIN_STATUS / 00_TEMPLATES leak audit — Task 1 gate),
+                   F27 (Hosted-option follow-through — STATUS template scope),
+                   R2 (rich integration smoke test — 6 sub-tests),
+                   R4 (CHECKPOINT mtime concurrent-session warning — MVP)
 
-Remaining audit work: cost-table amendment is a low-priority future cycle item.
+Remaining audit work: post-Plan-01c polish-pass collects the LOW findings
+deferred from each re-audit (Plan 01a re-audit MEDIUM/LOW residue,
+Plan 01b re-audit L1-L5, Plan 01c re-audit L1-L6). Cost-table amendment
+folded into the 2026-05-16 ADR-038 sweep (commit 1b2f653).
 
 Next: Plan 02 (Documentation System).
 EOF

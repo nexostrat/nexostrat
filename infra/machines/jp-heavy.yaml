@@ -23,7 +23,6 @@ desktop_apps:
   - claude-code
   - chrome
   - telegram
-  - signal
   - bitwarden
 schedule: {}
 gpu: null

@@ -73,3 +73,41 @@ else
   cat "$TMPDIR/nested-out.md"
   exit 1
 fi
+
+# Path-escape test: a marker that points outside the template directory must be
+# rejected with a non-zero exit and a message containing "escapes template directory".
+echo "OUTSIDE" > "$TMPDIR/../escape.md"
+cat > "$TMPDIR/template-escape.tmpl" <<'EOF'
+{{include: ../escape.md}}
+EOF
+set +e
+escape_output=$(python3 "$INLINER" --template "$TMPDIR/template-escape.tmpl" --output "$TMPDIR/escape-out.md" 2>&1)
+escape_exit=$?
+set -e
+if [[ $escape_exit -ne 0 ]] && echo "$escape_output" | grep -q "escapes template directory"; then
+  echo "PASS — path-escape rejected with correct error"
+else
+  echo "FAIL — path-escape not rejected (exit=$escape_exit, output=$escape_output)"
+  exit 1
+fi
+
+# Multi-newline test: a snippet ending with two trailing newlines ("BODY\n\n") must
+# have exactly ONE trailing newline stripped — leaving "BODY\n" inlined, not "BODY"
+# (which rstrip('\n') would have produced).
+# The template is a single marker line, so the rendered output is "BODY\n" exactly
+# (the inlined "BODY\n" — one newline survived — occupies the marker's position).
+# Verification: output contains BODY, and the file ends with a newline byte (i.e.,
+# `wc -c` equals `wc -m` of "BODY\n" = 5 bytes).
+printf 'BODY\n\n' > "$TMPDIR/snippet-multinl.md"
+cat > "$TMPDIR/template-multinl.tmpl" <<'EOF'
+{{include: snippet-multinl.md}}
+EOF
+python3 "$INLINER" --template "$TMPDIR/template-multinl.tmpl" --output "$TMPDIR/multinl-out.md"
+multinl_bytes=$(wc -c < "$TMPDIR/multinl-out.md")
+if grep -q '^BODY$' "$TMPDIR/multinl-out.md" && [[ $multinl_bytes -eq 5 ]]; then
+  echo "PASS — multi-newline snippet preserves one trailing newline"
+else
+  echo "FAIL — multi-newline snippet output wrong (bytes=$multinl_bytes, expected 5):"
+  cat -A "$TMPDIR/multinl-out.md"
+  exit 1
+fi

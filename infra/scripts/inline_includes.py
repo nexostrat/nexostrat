@@ -28,11 +28,15 @@ def render(template_path: pathlib.Path) -> str:
     def sub(match: re.Match[str]) -> str:
         rel = match.group(1).strip()
         target = (base / rel).resolve()
+        if not target.is_relative_to(base.resolve()):
+            sys.exit(f"ERROR: include path escapes template directory: {rel} (resolved {target})")
         if not target.is_file():
             sys.exit(f"ERROR: include path not found: {rel} (resolved {target})")
-        # Strip trailing newline of the included file so {{include}} on its own
-        # line doesn't double-blank.
-        return target.read_text(encoding='utf-8').rstrip('\n')
+        # Strip exactly one trailing newline (not all) so {{include}} on its own
+        # line doesn't double-blank, while preserving any intentional blank lines
+        # the included file ends with.
+        content = target.read_text(encoding='utf-8')
+        return content[:-1] if content.endswith('\n') else content
 
     # Iterate to a fixed point so nested {{include}} markers (an include whose
     # content itself contains an include) expand fully. Stanzas at 01c don't

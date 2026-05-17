@@ -84,11 +84,18 @@
 - [ ] **Confirm Plan 01a + 01b tags both exist**
 
 ```bash
-git tag | grep -E 'v0.1[ab]'
-# Expected: v0.1a-foundation  v0.1b-mirrors
+git tag | grep -E 'v0\.1[ab]'
+# Expected: v0.1a-foundation  v0.1b-mirrors-only
 ```
 
 If either is missing, STOP — preceding plans not complete.
+
+Note: `v0.1b-mirrors-only` is the post-mirror-cluster interim tag (Plan 01b
+Tasks 1-6). The warm-standby cluster (Tasks 7-12) is gated on a physical
+second host (`t-plan-01b-execute-warm-standby`, due 2026-06-30) and will
+land later as `v0.1b-mirrors`. Plan 01c can complete at the `mirrors-only`
+baseline — sub-test [3/6] in the integration smoke test (Task 10) auto-SKIPs
+the warm-rsync trigger when the unit isn't installed.
 
 - [ ] **Confirm working tree is clean and pushed**
 
@@ -125,7 +132,7 @@ touch /srv/Nexostrat/00_META/inbox/.gitkeep \
 - [ ] **Step 2: Write `00_META/shared/rule1.md`**
 
 ```markdown
-**Operator-driven scope.** When Ricardo or JP is in-session driving, any persona may edit any folder. Memos remain for specialist requests, paper trails, and autonomous async work. Vault namespaces (per ADR-003 + F10) stay strictly isolated regardless: Founder owns `vault/{partnership,legal,accounting,keys}/`; Client-Owner owns `vault/clients/<slug>/`; Skills-Master owns no vault content.
+**Folder-scope discipline.** Each persona's primary write scope is its own folder. When Ricardo is in-session driving, small obvious cross-persona edits are fine. **Heuristic:** if the cross-persona edit takes more than a sentence to explain, defer to that persona's session — route via memo to the appropriate persona inbox instead. Vault namespaces (per ADR-003 + F10) stay strictly isolated regardless: Founder owns `vault/{partnership,legal,accounting,keys}/`; Client-Owner owns `vault/clients/<slug>/`; Skills-Master owns no vault content. Reading anywhere within `/srv/Nexostrat/` is always permitted. (JP-Light per ADR-021bis has no session-driving surface at Stage 1 — Telegram + email + future FOSS dashboard only. If JP later flips to Heavy, that flip lands as an ADR and this stanza updates.)
 ```
 
 - [ ] **Step 3: Write `00_META/shared/session_start.md`**
@@ -925,9 +932,38 @@ You are the **Founder persona** of Nexostrat. Operate this folder (`/srv/Nexostr
 
 {{include: ../shared/session_output_format.md}}
 
+## Architecture / Context
+
+**Authoritative source:** [`00_META/proposals/2026-05-13_nexostrat-system-design.md`](00_META/proposals/2026-05-13_nexostrat-system-design.md) (founding spec, ADRs 001-038). This CLAUDE.md does NOT duplicate spec content — read the spec for any architectural question.
+
+**Quick orientation:**
+- Nexostrat is the AI consulting firm of Ricardo + JP for SMEs (PyMEs) in Mexico, Colombia, and LatAm.
+- Lives at `/srv/Nexostrat/` on `ricardo-hp-laptop` (Linux Mint 22.2; Tailscale `100.64.121.80`).
+- Standalone git repo. Origin: Gitea at `git@gitea-nexostrat:nexostrat/nexostrat.git` (resolves via `~/.ssh/config` to Tailscale `100.64.121.80:2222`). Mirrors to GitHub + Codeberg landed in Plan 01b (firm namespace `nexostrat/nexostrat` on both).
+- Three personas (per ADR-011): **Founder** (root, this file), **Skills-Master** (`skills/`), **Client-Owner** (`pipeline/`).
+- Stage 1 launch target: 2026-06-30 to 2026-07-15.
+
+**Key collaborators:**
+- **Ricardo** — co-founder, primary technical operator, runs daily sessions.
+- **JP** — co-founder, Light mode per ADR-021bis (Telegram bot + email/report digests + future FOSS dashboard from Plan 02; opts out of Gitea web), 10h/wk bandwidth, async coordination via Telegram. Machine: `jp-mac` (macOS Sequoia 15.7.3). Heavy mode (full clone + Claude Code on `jp-mac`) is a future flip event, not a Stage 1 deliverable.
+- **Claude (you)** — Founder persona; assists strategy, deliverables, code.
+- **Gemini** — second seat (see § Gemini Handoff Protocol).
+
 {{include: ../shared/memo_protocol.md}}
 
 {{include: ../shared/gemini_handoff.md}}
+
+## Inter-Persona Coordination
+
+Per ADR-013: **`infra/events/events.jsonl`** is the cross-persona/cross-folder primitive. Append-only event log. Built in Plan 03.
+
+**Pre-Plan-03 (current state):** memo-style routing via `nexostrat-memos.py` and per-persona `00_META/inbox/` folders (F8 / spec §4.7). Founder's inbox is `/srv/Nexostrat/00_META/inbox/`. Sibling inboxes: `skills/00_META/inbox/`, `pipeline/00_META/inbox/`.
+
+**Post-Plan-03:** any persona that needs another's attention emits an event into `events.jsonl`. The event-router daemon (Plan 03) routes per `routing.yaml` and supersedes the memo protocol. After Plan 03 lands, `events.jsonl` is the single cross-persona primitive.
+
+**External coordination:**
+- Ricardo ↔ JP: Telegram (Plan 04+ for in-system events; agreed personal channel for ad-hoc out-of-band).
+- Cross-entity (Ricardo's other projects): manually mediated by Ricardo. Nexostrat doesn't participate in any cross-entity protocol.
 
 {{include: ../shared/vault_access.md}}
 
@@ -981,15 +1017,53 @@ ls -la CLAUDE.md GEMINI.md
 # Expected: both files exist with reasonable sizes (CLAUDE.md ~10-15 KB, GEMINI.md ~5 KB)
 ```
 
-- [ ] **Step 5: Diff against the previous version (sanity-check)**
+- [ ] **Step 5: Diff against the previous version (load-bearing-content check)**
+
+The Plan 01c re-audit (2026-05-16) flagged H3: earlier drafts of the Founder
+template dropped two load-bearing sections (Architecture/Context + Inter-
+Persona Coordination) that lived in the pre-regeneration `CLAUDE.md` but had
+no shared stanza. Those blocks are now inlined per-persona in the templates.
+This step verifies the regenerated file still carries every load-bearing fact
+from the prior version.
 
 ```bash
-git diff CLAUDE.md GEMINI.md | head -50
+# (a) Full diff for visual scan
+git diff CLAUDE.md GEMINI.md | head -100
+
+# (b) Targeted load-bearing-content check against the v0.1b-mirrors-only baseline
+for needle in \
+  "Stage 1 launch target: 2026-06-30" \
+  "Tailscale \`100.64.121.80\`" \
+  "ricardo-hp-laptop" \
+  "jp-mac" \
+  "ADR-013" \
+  "events.jsonl" \
+  "Light mode per ADR-021bis" \
+  "ADR-011"
+do
+  if grep -qF "$needle" CLAUDE.md; then
+    echo "  ok    $needle"
+  else
+    echo "  MISS  $needle  ← load-bearing content lost; edit template + re-render"
+  fi
+done
+
+# (c) Cross-check: every section heading in the v0.1b-mirrors-only CLAUDE.md
+# should have a matching heading (or be deliberately superseded) in the new one
+echo "--- headings in v0.1b-mirrors-only:CLAUDE.md ---"
+git show v0.1b-mirrors-only:CLAUDE.md | grep -E '^## '
+echo "--- headings in regenerated CLAUDE.md ---"
+grep -E '^## ' CLAUDE.md
 ```
 
-Expected: significant changes (the entire structure is now stanza-driven). The substantive content (Founder role, partnership context, rule list) should still be present.
+Expected: every `needle` prints `ok`; section-heading set is a superset
+(Memo Protocol is new from Plan 01c; nothing from the prior version is missing
+without justification).
 
-If anything load-bearing was lost (e.g., session-protocol details), edit the templates and re-render. The terrain-prep CLAUDE.md was the source of stanza content; this regeneration should produce a CLAUDE.md that is functionally equivalent + more maintainable.
+If any needle prints `MISS`, edit the relevant template (Founder
+`00_META/templates/CLAUDE.md.tmpl`, Architecture/Context block) and re-run
+Step 4. Don't paper over with a per-file edit to the regenerated `CLAUDE.md` —
+that would re-introduce drift at the next inline run.
 
 - [ ] **Step 6: Verify --check is now drift-free**
 
@@ -1114,9 +1188,34 @@ You are the **Skills-Master persona**. Operate this folder (`skills/`) as the st
 
 {{include: ../00_META/shared/session_output_format.md}}
 
+## Architecture / Context
+
+**Authoritative source:** [`../00_META/proposals/2026-05-13_nexostrat-system-design.md`](../00_META/proposals/2026-05-13_nexostrat-system-design.md) (founding spec, ADRs 001-038; especially §4.4 Skills-Master + §7 anti-hallucination + Plan 07 Bodai benchmark).
+
+**Quick orientation:**
+- Skills-Master operates `/srv/Nexostrat/skills/` — the 5+1 reusable skills bucket (company-analyst, industry-analyst, competitor-analyst, meeting-script, opportunity-report, discovery-meeting).
+- Per-skill structure: `skills/<NN>_<name>/{prompts,versions,benchmarks,tests}/`.
+- Stage 1 launch target: 2026-06-30 to 2026-07-15. Skills 1-3 + discovery-meeting are Stage-1 gating; 4-5 land Stage 2.
+- The Bodai benchmark dataset (Plan 07) is the regression gate: factual-accuracy drop blocks unconditionally; >10% Bodai drop blocks commit.
+
+**Key collaborators:**
+- **Ricardo** — co-founder, primary operator for in-session skill work.
+- **JP** — co-founder, Light mode per ADR-021bis (no session-driving surface at Stage 1; consumed-content only via the FOSS dashboard from Plan 02).
+- **Claude (you)** — Skills-Master persona, this file.
+- **Gemini** — second seat (prompt review + factual sourcing; see § Gemini Handoff Protocol).
+- **Sibling personas** — Founder Claude at repo root; Client-Owner Claude at `../pipeline/`. Skill outputs feed Client-Owner chains; see § Inter-Persona Coordination.
+
 {{include: ../00_META/shared/memo_protocol.md}}
 
 {{include: ../00_META/shared/gemini_handoff.md}}
+
+## Inter-Persona Coordination
+
+Per ADR-013: **`/srv/Nexostrat/infra/events/events.jsonl`** is the cross-persona/cross-folder primitive. Built in Plan 03.
+
+**Pre-Plan-03 (current state):** memo-style routing via `nexostrat-memos.py` and per-persona inboxes (F8 / spec §4.7). Skills-Master's inbox is `skills/00_META/inbox/`. Sibling inboxes: `../00_META/inbox/` (Founder), `../pipeline/00_META/inbox/` (Client-Owner).
+
+**Post-Plan-03:** events.jsonl supersedes memos. Common cross-persona signals from Skills-Master: skill-version pin notifications (→ Client-Owner), Bodai-benchmark regressions (→ Founder), prompt-template changes affecting active chains (→ Client-Owner).
 
 {{include: ../00_META/shared/vault_access.md}}
 
@@ -1289,9 +1388,34 @@ You are the **Client-Owner persona**. Operate `pipeline/` and `vault/clients/`: 
 
 {{include: ../00_META/shared/session_output_format.md}}
 
+## Architecture / Context
+
+**Authoritative source:** [`../00_META/proposals/2026-05-13_nexostrat-system-design.md`](../00_META/proposals/2026-05-13_nexostrat-system-design.md) (founding spec, ADRs 001-038; especially §4.5 Client-Owner + §6 state.json + §8 chain stations).
+
+**Quick orientation:**
+- Client-Owner operates `/srv/Nexostrat/pipeline/` (per-client production chains) and `vault/clients/<slug>/` (encrypted client material).
+- Per-client structure follows `clients/_template/` (12 stations + 3 cross-cutting; state machine in `state.json`).
+- Stage 1 launch target: 2026-06-30 to 2026-07-15. First paying client marks the Stage-1-Stage-2 boundary.
+- Engagement lifecycle: `prospect` → `qualified` → `discovery` → `proposal` → `retainer_active` (or `churned`).
+
+**Key collaborators:**
+- **Ricardo** — co-founder, primary operator; closes engagements + reviews proposals.
+- **JP** — co-founder, Light mode per ADR-021bis (no session-driving surface; visibility via Telegram + future FOSS dashboard from Plan 02).
+- **Claude (you)** — Client-Owner persona, this file.
+- **Gemini** — second seat (prospect research + draft review; see § Gemini Handoff Protocol).
+- **Sibling personas** — Founder Claude at repo root; Skills-Master Claude at `../skills/`. Client chains consume skill outputs; see § Inter-Persona Coordination.
+
 {{include: ../00_META/shared/memo_protocol.md}}
 
 {{include: ../00_META/shared/gemini_handoff.md}}
+
+## Inter-Persona Coordination
+
+Per ADR-013: **`/srv/Nexostrat/infra/events/events.jsonl`** is the cross-persona/cross-folder primitive. Built in Plan 03.
+
+**Pre-Plan-03 (current state):** memo-style routing via `nexostrat-memos.py` and per-persona inboxes (F8 / spec §4.7). Client-Owner's inbox is `pipeline/00_META/inbox/`. Sibling inboxes: `../00_META/inbox/` (Founder), `../skills/00_META/inbox/` (Skills-Master).
+
+**Post-Plan-03:** events.jsonl supersedes memos. Common cross-persona signals from Client-Owner: skill-version pin requests (→ Skills-Master), partnership/legal escalations (→ Founder), vault-recipient changes per client (→ Founder for `infra/age-recipients.txt` updates).
 
 {{include: ../00_META/shared/vault_access.md}}
 
@@ -1616,8 +1740,12 @@ Docs-pair (intentionally skip — verifying the basic version works in the integ
 Checkpoint:
 
 ```bash
-echo "" > /tmp/empty-cp.md
-cp /tmp/empty-cp.md /srv/Nexostrat/CHECKPOINT.md.bak
+# Back up the REAL CHECKPOINT.md (NOT an empty stub — the earlier draft had
+# the cp source/dest reversed, which silently destroyed the real file on
+# restore). Assertions guard both ends.
+cp /srv/Nexostrat/CHECKPOINT.md /srv/Nexostrat/CHECKPOINT.md.bak
+[[ -s /srv/Nexostrat/CHECKPOINT.md.bak ]] || { echo "ABORT: empty backup (CHECKPOINT.md was already empty?)"; exit 1; }
+
 echo "" > /srv/Nexostrat/CHECKPOINT.md
 git add /srv/Nexostrat/CHECKPOINT.md
 git commit -m "should be blocked" 2>&1 | tail -5
@@ -1625,8 +1753,8 @@ git commit -m "should be blocked" 2>&1 | tail -5
 
 # Restore
 mv /srv/Nexostrat/CHECKPOINT.md.bak /srv/Nexostrat/CHECKPOINT.md
+[[ -s /srv/Nexostrat/CHECKPOINT.md ]] || { echo "ABORT: restore failed — CHECKPOINT.md is empty"; exit 1; }
 git restore --staged /srv/Nexostrat/CHECKPOINT.md
-rm /tmp/empty-cp.md
 ```
 
 - [ ] **Step 7: Stage + commit**
@@ -1738,7 +1866,7 @@ no()  { echo "  FAIL  $1"; FAIL=$((FAIL+1)); }
 echo
 echo "[1/6] Decrypt round-trip on secrets.env.age"
 TMP=/dev/shm/smoke-test-secrets-$$
-if age -d -i <(age -d "$HOME/.config/age/nexostrat.key.age") \
+if age -d -i "$HOME/.config/age/nexostrat.key.age" \
         "$REPO/secrets.env.age" > "$TMP" 2>/dev/null \
    && grep -q 'ANTHROPIC_API_KEY' "$TMP"; then
   ok "secrets.env.age decrypts and contains expected key"
@@ -1753,7 +1881,7 @@ TMP_CT=/dev/shm/smoke-ct-$$.age
 TMP_DEC=/dev/shm/smoke-dec-$$.txt
 echo "smoke-test $(date -Iseconds)" > "$TMP_PT"
 if age -R "$REPO/infra/age-recipients.txt" -o "$TMP_CT" "$TMP_PT" \
-   && age -d -i <(age -d "$HOME/.config/age/nexostrat.key.age") "$TMP_CT" > "$TMP_DEC" \
+   && age -d -i "$HOME/.config/age/nexostrat.key.age" "$TMP_CT" > "$TMP_DEC" \
    && diff -q "$TMP_PT" "$TMP_DEC" >/dev/null; then
   ok "encrypt-to-recipients + decrypt-with-Ricardo-key round-trip"
 else
@@ -1761,55 +1889,82 @@ else
 fi
 shred -u "$TMP_PT" "$TMP_CT" "$TMP_DEC" 2>/dev/null || rm -f "$TMP_PT" "$TMP_CT" "$TMP_DEC"
 
-# ---- 2. Mirror push + GitHub HEAD verification ----------------------------
+# ---- 2. Mirror HEAD parity (no-commit; uses current state) ---------------
+# Earlier draft pushed a smoke-test commit to verify convergence; that
+# (a) polluted main history with a permanent smoke-test <ts> commit per
+# run, and (b) silently false-positived when the pre-commit hook refused
+# the commit (HEAD unchanged → convergence loop trivially succeeded).
+# Plan 01b already proved end-to-end convergence (3 s GitHub / 8 s
+# Codeberg at d38e865). This sub-test just asserts the mirrors are at
+# current HEAD — if the path-watchers fell behind, this catches it
+# without mutating main.
 echo
-echo "[2/6] git push + GitHub HEAD parity"
+echo "[2/6] GitHub + Codeberg mirror HEAD parity"
 cd "$REPO"
-date -Iseconds > infra/systemd/.last-mirror-test
-git add infra/systemd/.last-mirror-test
-git commit -q -m "smoke-test $(date -Iseconds)" 2>/dev/null
-git push origin main >/dev/null 2>&1
 LOCAL=$(git rev-parse HEAD)
-for i in {1..60}; do
-  sleep 1
-  GH=$(git ls-remote github main 2>/dev/null | awk '{print $1}')
-  [[ "$GH" == "$LOCAL" ]] && break
-done
-if [[ "$GH" == "$LOCAL" ]]; then
-  ok "GitHub HEAD matches local within 60s"
+GH=$(git ls-remote github main 2>/dev/null | awk '{print $1}')
+CB=$(git ls-remote codeberg main 2>/dev/null | awk '{print $1}')
+if [[ "$GH" == "$LOCAL" && "$CB" == "$LOCAL" ]]; then
+  ok "GitHub + Codeberg at HEAD ($LOCAL) without intervention"
 else
-  no "GitHub HEAD did not converge within 60s"
+  no "mirror not in sync: GH=$GH CB=$CB local=$LOCAL"
 fi
 
 # ---- 3. Warm-rsync real-trigger ------------------------------------------
+# Plan 01b Tasks 7-12 (warm-standby cluster, including this unit) were
+# DEFERRED 2026-05-16; tag landed v0.1b-mirrors-only. The warm-rsync
+# unit doesn't exist until t-plan-01b-execute-warm-standby completes
+# (gated on physical second host; due 2026-06-30). Gate this sub-test
+# on unit presence and SKIP-not-FAIL when absent — v0.1-foundation can
+# tag at 5-PASS + 1-SKIP. The SKIP becomes PASS once the warm-standby
+# cluster lands.
 echo
 echo "[3/6] warm-rsync real trigger"
-sudo systemctl start nexostrat-warm-rsync.service 2>/dev/null
-sleep 5
-RES=$(sudo systemctl show nexostrat-warm-rsync.service --property=Result --value 2>/dev/null)
-RC=$(sudo systemctl show nexostrat-warm-rsync.service --property=ExecMainStatus --value 2>/dev/null)
-if [[ "$RES" == "success" && "$RC" == "0" ]]; then
-  ok "warm-rsync.service Result=success ExecMainStatus=0"
+if ! systemctl cat nexostrat-warm-rsync.service >/dev/null 2>&1; then
+  echo "  SKIP  nexostrat-warm-rsync.service not installed"
+  echo "        (Plan 01b Tasks 7-12 deferred to t-plan-01b-execute-warm-standby;"
+  echo "         gates on physical second host; due 2026-06-30)"
 else
-  no "warm-rsync.service Result=$RES ExecMainStatus=$RC"
+  sudo systemctl start nexostrat-warm-rsync.service 2>/dev/null
+  sleep 5
+  RES=$(sudo systemctl show nexostrat-warm-rsync.service --property=Result --value 2>/dev/null)
+  RC=$(sudo systemctl show nexostrat-warm-rsync.service --property=ExecMainStatus --value 2>/dev/null)
+  if [[ "$RES" == "success" && "$RC" == "0" ]]; then
+    ok "warm-rsync.service Result=success ExecMainStatus=0"
+  else
+    no "warm-rsync.service Result=$RES ExecMainStatus=$RC"
+  fi
 fi
 
 # ---- 4. run-with-secrets.sh leak check -----------------------------------
+# The wrapper calls `age -d -i $PRIV_KEY_AGE` which prompts on /dev/tty.
+# Under TTY-less execution (subagent-driven-development, scripted runs)
+# the wrapper hangs at the prompt and never decrypts — INTRA stays 0,
+# POST stays 0, the test silently false-positives. TTY-gate the check
+# and assert INTRA>0 before declaring PASS so the leak path is actually
+# exercised. Companion item tracked in t-plan-01a-jp-and-tty-deferred.
 echo
 echo "[4/6] run-with-secrets.sh /dev/shm leak check"
-"$REPO/infra/scripts/run-with-secrets.sh" sh -c 'sleep 60' &
-WPID=$!
-sleep 2
-INTRA=$(ls /dev/shm/nexostrat-secrets-* 2>/dev/null | wc -l)
-kill $WPID 2>/dev/null
-pkill -P $WPID 2>/dev/null
-sleep 1
-POST=$(ls /dev/shm/nexostrat-secrets-* 2>/dev/null | wc -l)
-if [[ $POST -eq 0 ]]; then
-  ok "no /dev/shm leak after wrapper exit (intra-run had $INTRA which is expected)"
+if [ ! -t 0 ] || [ ! -t 1 ]; then
+  echo "  SKIP  no TTY; leak check requires interactive passphrase entry"
+  echo "        (run via t-plan-01a-jp-and-tty-deferred TTY-side rerun)"
 else
-  no "leftover plaintext in /dev/shm: $POST file(s)"
-  rm -f /dev/shm/nexostrat-secrets-*
+  "$REPO/infra/scripts/run-with-secrets.sh" sh -c 'sleep 60' &
+  WPID=$!
+  sleep 5
+  INTRA=$(ls /dev/shm/nexostrat-secrets-* 2>/dev/null | wc -l)
+  kill $WPID 2>/dev/null
+  pkill -P $WPID 2>/dev/null
+  sleep 1
+  POST=$(ls /dev/shm/nexostrat-secrets-* 2>/dev/null | wc -l)
+  if [[ $INTRA -eq 0 ]]; then
+    no "wrapper never decrypted — INTRA=0 (passphrase not entered or wrapper broken)"
+  elif [[ $POST -eq 0 ]]; then
+    ok "no /dev/shm leak after wrapper exit (intra-run had $INTRA as expected)"
+  else
+    no "leftover plaintext in /dev/shm: $POST file(s)"
+    rm -f /dev/shm/nexostrat-secrets-*
+  fi
 fi
 
 # ---- 5. Inliner drift across all 6 persona files -------------------------
@@ -1895,14 +2050,16 @@ git push origin main
 bash /srv/Nexostrat/infra/scripts/smoke-test.sh
 ```
 
-Expected: 6 × PASS, "Result: 6 pass, 0 fail", exit 0.
+Expected: 5 × PASS + 1 × SKIP (warm-rsync), "Result: 5 pass, 0 fail, 1 skip", exit 0. The SKIP becomes PASS once `t-plan-01b-execute-warm-standby` lands (Plan 01b Tasks 7-12 on a physical second host). Sub-test [4/6] additionally SKIPs under TTY-less execution; the operator running the tag step interactively will see it PASS.
 
 If anything is FAIL:
 - Re-read the output, identify which sub-test failed
 - Fix the underlying issue (re-run individual checks via the corresponding script)
-- Re-run smoke test until all green
+- Re-run smoke test until all green (FAIL → PASS or SKIP).
 
-Do NOT tag until smoke test is fully green.
+Do NOT tag until every sub-test is PASS or a documented SKIP. A SKIP must
+correspond to a tracked deferred task (e.g., [3] → `t-plan-01b-execute-warm-standby`;
+[4] → `t-plan-01a-jp-and-tty-deferred` for the TTY-side rerun).
 
 - [ ] **Step 2: Update `STATUS.md` to reflect Plan 01c done + foundation milestone reached**
 
@@ -1937,9 +2094,9 @@ split (01a → 01b → 01c).
 
 All Plan 01c success criteria green (smoke-test.sh):
 [1] Crypto round-trip PASS
-[2] GitHub mirror HEAD parity within 60s PASS
-[3] warm-rsync real trigger Result=success PASS
-[4] run-with-secrets.sh /dev/shm leak check PASS
+[2] GitHub + Codeberg mirror HEAD parity PASS
+[3] warm-rsync real trigger SKIP (Plan 01b Tasks 7-12 deferred; t-plan-01b-execute-warm-standby due 2026-06-30) — becomes PASS once warm-standby lands
+[4] run-with-secrets.sh /dev/shm leak check PASS (or SKIP under TTY-less execution; see t-plan-01a-jp-and-tty-deferred)
 [5] inline_includes.py drift-free across 6 persona files PASS
 [6] tasks.json + calendar.json schema validation PASS
 
@@ -1989,7 +2146,8 @@ git tag | grep -E 'v0\.1[abc]?-'
 # Expected:
 #   v0.1-foundation
 #   v0.1a-foundation
-#   v0.1b-mirrors
+#   v0.1b-mirrors-only
+# (v0.1b-mirrors will appear later when the warm-standby cluster lands)
 
 git log --oneline -10
 # Expected: recent commits all pushed, working tree clean

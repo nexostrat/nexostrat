@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v1",
   "project": "nexostrat",
-  "updated": "2026-05-16T18:30:00-07:00",
+  "updated": "2026-05-16T22:30:00-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -214,11 +214,12 @@
     {
       "id": "t-plan-01c-reaudit",
       "subject": "Batch 3 step 5 — Re-audit Plan 01c",
-      "status": "open",
+      "status": "done",
       "priority": "critical",
       "due": "2026-06-05",
       "created": "2026-05-14",
-      "notes": "UNBLOCKED 2026-05-16 — t-plan-01b-execute (mirror cluster) closed; per Ricardo's session-end call, warm-standby learnings are unlikely to affect Plan 01c's persona/hooks design, so no need to wait. Same audit pattern as priors (4 audits at this discipline now; 5th coming). Plan 01c at 00_META/plans/2026-05-14_plan-01c-personas.md (11 tasks, ~2050 lines). Next session: dispatch general-purpose Opus agent with risk-auditor persona inlined."
+      "completed": "2026-05-16",
+      "notes": "DONE 2026-05-16 (20 days ahead of due). 5th audit at this discipline; dispatched general-purpose Opus 4.7 agent with risk-auditor persona inlined (inline brief, no separate file). Sub-agent harness blocked direct .md creation per a recent system reminder; parent agent persisted the report verbatim from sub-agent's final message. Verdict YELLOW (large): 0 CRITICAL, 7 HIGH, 8 MEDIUM, 6 LOW, no DESIGN-RETHINK. Report at 00_META/proposals/2026-05-16_plan-01c-reaudit-report.md (commit f28342a, 384 lines). All 7 HIGH + 8 MEDIUM patched same-session in 3-commit arc: f28342a (report) → cbb5e27 (HIGH H1-H7: warm-rsync SKIP gate + 2 process-sub sites + per-template Architecture/Context + CHECKPOINT cp direction + rule1 restored tighter + TTY-gate leak check + no-commit mirror parity) → 6cb1869 (MEDIUM M1-M8: tag fix bundled with H1 + parens + honest docs-pair error + GEMINI vault constraint inline + mtime MVP note + inliner fixed-point + tag-msg per-plan attribution + jp-heavy.yaml signal removal + Task 9 Signal sweep). LOW (L1-L6) deferred to t-plan-01c-polish-pass per audit recommendation (d). H1 was the dominant defect — without that fix Plan 01c could not have actually tagged v0.1-foundation at the v0.1b-mirrors-only baseline. H4 was a near-miss data-loss bug that would have destroyed CHECKPOINT.md on every Plan 01c execute test run. Mirror cluster recursive validation: 3-commit arc converged to GitHub + Codeberg within ~12 s (second post-tag validation; system works without manual intervention). Unblocks t-plan-01c-execute."
     },
     {
       "id": "t-plan-01c-execute",
@@ -227,8 +228,16 @@
       "priority": "critical",
       "due": "2026-06-10",
       "created": "2026-05-14",
-      "blocked_by": "t-plan-01c-reaudit",
-      "notes": "Tag v0.1-foundation on completion (the original Plan 01 milestone, now reached at end of 01c). No coordination gates within the plan itself — 11 tasks runnable in a single ~4-6h session."
+      "notes": "UNBLOCKED 2026-05-16 — t-plan-01c-reaudit closed (YELLOW large, 7 HIGH + 8 MEDIUM patched in commits cbb5e27 + 6cb1869 against report f28342a). Plan 01c at 00_META/plans/2026-05-14_plan-01c-personas.md (now ~2200 lines post-patch). 11 tasks runnable in a single ~5h session via superpowers:subagent-driven-development. Tag v0.1-foundation on Task 11 completion (the original Plan 01 milestone, reached at end of the 3-plan split). Smoke test will produce 5 PASS + 1 SKIP (warm-rsync gated on Plan 01b Tasks 7-12) + potentially 1 SKIP (TTY-less leak check). Both SKIPs become PASS later as the deferred items close. No coordination gates within the plan itself."
+    },
+    {
+      "id": "t-plan-01c-polish-pass",
+      "subject": "Plan 01c post-execute polish-pass — collect LOW residue from all 4 re-audits + remaining process-debt",
+      "status": "open",
+      "priority": "low",
+      "due": "2026-06-30",
+      "created": "2026-05-16",
+      "notes": "Created 2026-05-16 per Ricardo's session-end directive — collect LOW residue across all 4 re-audits + remaining process-debt items so they don't get lost across Plan 01c execute commits. Scope: (a) Plan 01a re-audit deferred MEDIUM+LOW (see 00_META/proposals/2026-05-14_plan-01a-patch-verification-trail.md § Deferred findings — 5 MEDIUM + 3 LOW); (b) Plan 01b re-audit L1-L5 (see 00_META/proposals/2026-05-16_plan-01b-reaudit-report.md § LOW lane); (c) Plan 01c re-audit L1-L6 (see 00_META/proposals/2026-05-16_plan-01c-reaudit-report.md § LOW lane — L1 explicitly recommended NOT to bundle Tasks 5/6/7; L5 naturally resolved by H7; L2/L3/L4/L6 collected); (d) hard-system-audit L3/L4/L5 (intentional historical confirmations from 00_META/proposals/2026-05-16_hard-system-audit-report.md); (e) Process-debt items: AGE_ERR=$(mktemp) outside /dev/shm not shred-cleaned (from patch-verification-trail); Task 2 vault block extension list documentation; Task 3 false-positive allowlist documentation; Task 6 jp-light hooks comment; broader hygiene notes from per-task code-quality reviews. Can be addressed as a single commit or spread across Plan 02 brainstorm prep. Non-blocking for any milestone."
     },
     {
       "id": "t-spec-cost-table-amendment",

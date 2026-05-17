@@ -1,93 +1,81 @@
 # CHECKPOINT — root (Founder)
 
-**Updated:** 2026-05-16T18:45:00-07:00
+**Updated:** 2026-05-16T22:45:00-07:00
 **By:** ricardo (via Claude Code session at /srv/Nexostrat/)
 **Persona:** Founder
-**Session topic:** Plan 01b mirror cluster (Tasks 1-6) executed end-to-end · v0.1b-mirrors-only tagged · C4 + F7 closed
+**Session topic:** Plan 01c re-audit cycle complete · YELLOW (large), 7 HIGH + 8 MEDIUM patched same-session · t-plan-01c-execute unblocked
 
 ## What just happened (last session — read once, don't re-litigate)
 
-This session executed **Tasks 1-6 of Plan 01b (the mirror cluster)** via `superpowers:subagent-driven-development`. 8 commits between `beff92a..d38e865` (+ this bookkeeping commit). Annotated tag **`v0.1b-mirrors-only`** lives on `d38e865`, pushed to all 3 remotes. Audit findings **C4 (Gitea-internal hook decrypt impossibility) and F7 (Codeberg mirror missing from original Plan 01) are fully closed end-to-end**.
+This session executed **the Plan 01c re-audit cycle end-to-end** via the established risk-auditor-inlined dispatch pattern (5th audit at this discipline; same shape as the 4 priors — founding spec / 01a re-audit / hard system audit / 01b re-audit). 3-commit patch arc landed clean + this bookkeeping commit.
 
-The 8-commit arc summary table:
+**The 3 patch commits (all pushed; mirrors converged within ~12 s):**
 
 | # | Commit | Substance |
 |---|---|---|
-| 1 | `615372a` | Task 1 — system_map.md + incidents/ scaffold |
-| 2 | `314ada6` | Task 1 fixup-1 — 3 factual corrections (gitea v1.25.5, 0.0.0.0 binding, real SSH aliases, TS rsync source) |
-| 3 | `4dd9301` | Task 1 fixup-2 — realign GitHub mirror to firm namespace `nexostrat/nexostrat` (reversed an earlier asymmetric-topology detour) |
-| 4 | `f1fc501` | Tasks 2+3 bundle — both remotes + both PATs into secrets.env.age (one atomic age cycle) + MANIFEST. F7 closed |
-| 5 | `d9cdf3a` | Tasks 4+5 artifacts — mirror-push.sh + install-systemd-units.sh + 4 systemd units + system_map.md units table |
-| 6 | `260dc75` | Tasks 4+5 pre-install patch — phantom After=gitea.service removed; enable-suppression replaced with systemd-analyze verify + propagated errors; cross-cutting note corrected to SSH-only |
-| 7 | `d04191d` | Test sentinel commit |
-| 8 | `d38e865` | Tasks 4+5+6 post-validation — Mirrors table populated. GitHub 3 s / Codeberg 8 s in the 60 s window |
+| 1 | `f28342a` | Audit report — 384 lines. Verdict **YELLOW (large)**: 0 CRITICAL, 7 HIGH, 8 MEDIUM, 6 LOW, no DESIGN-RETHINK FLAG. Persisted by parent agent from sub-agent's inline output (sub-agent harness blocked .md creation per a recent system reminder — first time this dispatch pattern hit that restriction). |
+| 2 | `cbb5e27` | 7 HIGH closed in single pass. H1 (dominant defect): smoke test sub-test [3/6] gated on `systemctl cat nexostrat-warm-rsync.service`; SKIP-not-FAIL when Plan 01b Tasks 7-12 not yet executed → unblocks `v0.1-foundation` tagging at the v0.1b-mirrors-only baseline. H2: 2 process-sub → direct -i. H3: per-template Architecture/Context + Inter-Persona Coordination blocks inlined across Founder/Skills-Master/Client-Owner Claude templates (Option B — each persona's view of the architecture is genuinely different). H4: Task 8 Step 6 CHECKPOINT.md cp direction fixed (near-miss data-loss bug). H5: rule1.md restored to tighter "small obvious + one-sentence heuristic" + Ricardo-only driving + JP-Light no-session-driving-surface note. H6: sub-test [4/6] TTY-gated + INTRA>0 assertion. H7: sub-test [2/6] no-commit redesign — `git ls-remote {github,codeberg} main` parity vs HEAD (naturally resolves L5). |
+| 3 | `6cb1869` | 8 MEDIUM closed in single pass. M1 bundled in H1. M2: nexostrat-memos.py:709 parens. M3: docs-pair BLOCKED error honest (`--no-verify` escape; commit-body escape lands in Plan 02). M4: 3 GEMINI templates drop vault_access include → inline "Vault constraint (Gemini)" per persona. M5: checkpoint-mtime MVP threshold note. M6: inliner fixed-point iteration with MAX_DEPTH=10 + nested-include test case. M7: tag-message audit-closure per-plan attribution. M8: jp-heavy.yaml:26 `- signal` removed + Task 9 gains Signal-sweep sub-step. |
 
-**End-to-end validation recursive proof:** the harness's redundant `git push github main` after the post-validation commit was BEATEN by the mirror service ("remote rejected: already at d38e865"). The wire-up works in production, including for its own validation commit. All four SHAs converged: local HEAD, origin/main, github/main, codeberg/main.
+**LOW (L1-L6) deferred** to new task `t-plan-01c-polish-pass` (low, due 2026-06-30) which also bundles LOW residue from all prior re-audits + remaining process-debt items.
 
-**Ricardo's TTY-required steps handled out-of-band** (each worked first-try):
-- One-shot script in `/dev/shm/add-pats.sh` (self-shredding) for the age decrypt-encrypt PAT injection.
-- `sudo bash /srv/Nexostrat/infra/scripts/install-systemd-units.sh` — 4 symlinked + daemon-reload OK + 4 systemd-analyze verify clean + 4 enabled.
-- `sudo systemctl start nexostrat-mirror-github.path nexostrat-mirror-codeberg.path` — both `Active: active (waiting)`.
+**Mirror cluster recursive-validated again** — 3-commit arc pushed to Gitea origin converged to GitHub + Codeberg within ~12 s. Second post-tag validation in 24 hours. The system works without manual intervention; H7's no-commit smoke test is well-justified by this real-world measurement.
 
 ## Decisions locked this session — DO NOT re-open without explicit cause
 
-1. **Firm-namespace topology for both mirrors.** `nexostrat/nexostrat` on both GitHub and Codeberg. The earlier "asymmetric" detour was based on a misread of bare-domain `ssh -T` output; via the `github-nexostrat` alias the firm key auths as `nexostrat`.
+1. **H3 Option B (per-template inlined architecture-context, not shared stanza).** Each persona's view of the architecture is genuinely different (scopes differ per persona). Accepting ~15 lines of per-template duplication for a single source of truth per persona is the right trade-off.
 
-2. **Mirror authentication is SSH-only at Stage 1.** PATs are stored in secrets.env.age for a future HTTPS-fallback path (Plan 02+) but the mirror services never read them. Don't add `run-with-secrets.sh` to `mirror-push.sh` unless Plan 02+ explicitly wires HTTPS fallback.
+2. **H7 no-commit smoke test design.** Plan 01b's measured 3-8 s convergence is the production precedent; no-commit `git ls-remote` parity check tests the actual reality (path-watchers keep mirrors converged) without polluting `origin main` history. Eliminates the silent-failure-on-commit-refused path simultaneously.
 
-3. **Bundling for atomic operations.** Tasks 2+3 bundled (one age cycle). Tasks 4+5 bundled (structurally identical units). Tasks 4+5+6 bundled into one post-validation commit. Bundling pattern is now established for Plan 01b/01c structurally-identical task pairs.
+3. **`v0.1-foundation` tags at 5 PASS + 1 SKIP.** Plan 01c success criteria allow the warm-rsync sub-test to SKIP (Plan 01b Tasks 7-12 deferred, gates on physical second host). The SKIP becomes PASS once `t-plan-01b-execute-warm-standby` lands. A SKIP must correspond to a tracked deferred task — that's the documented criterion.
 
-4. **`After=gitea.service` is incorrect** — mirror service pushes from local working tree to remote git providers, not to Gitea. Only `network-online.target` is a real dependency. Don't add the phantom back.
+4. **Polish-pass collector task created now, not deferred.** Per Ricardo's session-end directive — bundle LOW residue from all 4 re-audits + remaining process-debt so they don't get lost across Plan 01c execute commits. `t-plan-01c-polish-pass` (low, due 2026-06-30).
 
-5. **`systemctl enable` errors must propagate** — don't suppress via `|| { echo WARN; continue; }`. The installer now uses `systemd-analyze verify` as a parse gate.
+5. **R6 audit-closure verification deferred** to Plan 01c execute (when smoke-test sub-test [6/6] runs schema validation) or to the polish pass. `calendar.json` is currently empty so R6 is vacuously satisfied at Stage 1.
 
-6. **Interim tag `v0.1b-mirrors-only`** is the milestone tag for the mirror cluster. Full `v0.1b-mirrors` is reserved for warm-standby (Tasks 7-12) completion.
-
-7. **Plan 01c re-audit unblocked** — per Ricardo's session-end call, warm-standby learnings unlikely to affect Plan 01c's persona/hooks design.
+6. **Plan 01c re-audit + execute split confirmed.** Re-audit done this session; execute in next session. Matches the 4 prior audit cycles' shape; "do it right, do it once" feedback locked.
 
 ## In flight — concrete next action
 
-**Default next-session work: Plan 01c re-audit** (5th audit at this discipline; same pattern as the 4 priors).
+**Default next-session work: Plan 01c EXECUTE** via `superpowers:subagent-driven-development`. Plan at `00_META/plans/2026-05-14_plan-01c-personas.md` (~2200 lines post-patch, 11 tasks). Runnable in ~5h single session.
 
 ```
 NEXT SESSION:
   1. Open Claude Code AT /srv/Nexostrat/.
   2. Ricardo types "Start Session."
   3. Claude reads this CHECKPOINT.md + STATUS.md + tasks.json
-     + calendar.json + latest journal (2026-05-16_plan-01b-mirror-cluster.md).
-  4. Claude proposes dispatching Plan 01c re-audit via the established
-     general-purpose + risk-auditor-inlined pattern (same as 2026-05-13
-     spec audit / 2026-05-14 Plan 01a re-audit / 2026-05-16 hard system
-     audit / 2026-05-16 Plan 01b re-audit). Brief can be inline (the
-     pattern is well enough established — no separate brief file needed).
-  5. Plan 01c is at 00_META/plans/2026-05-14_plan-01c-personas.md
-     (11 tasks, ~2050 lines). It covers persona scaffolding for
-     Skills-Master + Client-Owner, hooks (SessionStart, Stop),
-     events.jsonl event-router daemon, and a full integration smoke test.
-  6. Auditor returns YELLOW (small/large) or RED → walk findings →
-     same-session HIGH+MEDIUM patches if surgical (matches the Plan 01b
-     re-audit shape). LOW deferred for post-Plan-01c polish-pass.
-  7. After re-audit closure: dispatch Plan 01c EXECUTE in the next
-     session (or same session if time permits).
-  8. Close session per CLAUDE.md Session End Protocol.
+     + calendar.json + latest journal (2026-05-16_plan-01c-reaudit.md).
+  4. Claude proposes dispatching Plan 01c EXECUTE via
+     superpowers:subagent-driven-development (same pattern as Plan 01a
+     Tasks 1-11 / Plan 01a Tasks 12-18 / Plan 01b mirror cluster).
+  5. Pre-flight: confirm v0.1a-foundation + v0.1b-mirrors-only tags
+     exist; confirm working tree clean + pushed.
+  6. Task-by-task execution. 11 tasks; per-task two-stage review
+     (code-quality + cross-cutting); hardening commits as needed.
+  7. Task 10 runs the integration smoke test — expect 5 PASS + 1 SKIP
+     (warm-rsync; tracked deferred). Sub-test [4/6] may also SKIP under
+     non-TTY harness (leak check requires interactive passphrase).
+  8. Task 11 tags v0.1-foundation on Task 10 GREEN.
+  9. Push to Gitea + verify mirrors converge.
+  10. Close session per CLAUDE.md Session End Protocol.
 
 PARALLEL / NON-BLOCKING (any can run anytime, none gate Plan 01c):
   - t-plan-01b-execute-warm-standby — when physical second host
-    (Linux Mint 22.2 + Tailscale-joined) is available. Tasks 7-12 of
-    Plan 01b. ~2-3h wall-time. Tag v0.1b-mirrors on completion.
-  - t-plan-01a-jp-and-tty-deferred items 1-4 + 6-8 — JP coordination
-    + Ricardo TTY tests (including the new item 8: wrapper smoke-test
-    for the Plan 01b mirror PATs). Self-contained Spanish Telegram
-    message for JP was drafted in the prior session and is ready to send.
-  - t-presentation-refresh-post-adr-038 — full HTML regen from clean
-    current spec. Due 2026-06-01. Interim patch-in-place is live.
+    available. Tasks 7-12 of Plan 01b. ~2-3h wall-time. Tag
+    v0.1b-mirrors on completion.
+  - t-plan-01a-jp-and-tty-deferred — JP coordination + Ricardo TTY
+    tests (including item 8: PAT wrapper smoke-test). Self-contained
+    Spanish Telegram message ready to send.
+  - t-presentation-refresh-post-adr-038 — full HTML regen.
+    Due 2026-06-01.
+  - t-plan-01c-polish-pass (NEW 2026-05-16) — LOW residue collector
+    + process-debt. Low priority, due 2026-06-30. Can absorb into
+    Plan 02 brainstorm or stand alone.
 ```
 
 ## Blocked on
 
-**For Plan 01c re-audit (default next):** NOTHING blocking. `t-plan-01c-reaudit` unblocked this session.
-
-**For Plan 01c EXECUTE (after re-audit):** nothing beyond the re-audit closing clean.
+**For Plan 01c EXECUTE (default next):** NOTHING blocking.
 
 **For Plan 01b warm-standby Tasks 7-12 (parallel non-blocking):** physical second host availability.
 
@@ -97,38 +85,35 @@ PARALLEL / NON-BLOCKING (any can run anytime, none gate Plan 01c):
 
 **None blocking.**
 
-- Should Plan 01c re-audit + execute happen in a single session (~6h total) or split (~1h audit + walk in session N, ~5h execute in session N+1)? Past pattern has been split for the larger plans. Default: split unless wall-time pressure permits.
-
-- For the warm-standby cluster: when the physical second host is available, do Tasks 7-12 in one session (~2-3h) or just bring up the standby + tag `v0.1b-mirrors` in a quick session? Default: one session.
-
-- LOW hygiene items from this session (4 items per the cross-cutting review: `.last-mirror-test` gitignore, plan-text divergence notes, MANIFEST row style, mirror-push.sh `cd` safety-net) collect for the post-Plan-01c polish pass. No urgency.
+- **For Plan 01c execute dispatch:** subagent-driven-development with task-by-task review-and-commit is the default shape (matches Plan 01a + Plan 01b precedents). Single session vs split if any task feels weighty? Default: single session unless something specific surfaces.
+- **Sub-agent harness restriction surfaced this session:** the dispatched audit agent could not Write .md files (system reminder explicitly told it to inline findings). For Plan 01c execute, the dispatched subagent will be writing many files (templates, scripts, hooks, smoke test). If the same restriction applies to execution-mode subagents, we have a problem; if it only applies to audit-mode dispatches, no issue. Worth a quick smoke check at the start of Plan 01c execute — dispatch a tiny test task that writes a single file before committing to the full 11-task run.
+- **LOW items collected:** `t-plan-01c-polish-pass` exists; populated by polish-pass execute when convenient. Not gating anything.
 
 ## Files modified but not yet committed
 
-After this session-end commit, working tree will be clean. Files in this commit:
+After this session-end bookkeeping commit, working tree will be clean. Files in this commit:
 
-- `STATUS.md` (Recent activity entry for the mirror cluster + Current state rewrite + Next sequence simplified to "Plan 01c re-audit next" + Blockers updated)
-- `CHECKPOINT.md` (this file — full rewrite for Plan 01c re-audit next-session)
-- `tasks.json` (3 changes: t-plan-01b-execute closed for mirror-cluster portion / t-gitea-path-verify closed / NEW t-plan-01b-execute-warm-standby created for Tasks 7-12 / t-plan-01c-reaudit blocked_by removed; also: in-flight item-(8) addition to t-plan-01a-jp-and-tty-deferred from earlier in the session)
-- `00_META/journal/2026-05-16_plan-01b-mirror-cluster.md` (new journal entry — full session narrative)
+- `STATUS.md` (Last-updated header + Current state full rewrite for Plan-01c-reaudit cycle + new Recent activity entry at top of section + Next sequence + Blockers + Open follow-ups → all updated; Next sequence Step 1 is now "Execute Plan 01c" not "Re-audit + execute Plan 01c")
+- `CHECKPOINT.md` (this file — full rewrite for Plan 01c EXECUTE next-session)
+- `tasks.json` (close t-plan-01c-reaudit + remove blocked_by from t-plan-01c-execute + create new t-plan-01c-polish-pass; updated timestamp)
+- `00_META/journal/2026-05-16_plan-01c-reaudit.md` (new journal entry — full session narrative)
 
-(All prior commits this session pushed already: `615372a` `314ada6` `4dd9301` `f1fc501` `d9cdf3a` `260dc75` `d04191d` `d38e865`. Tag `v0.1b-mirrors-only` on `d38e865` also pushed to all 3 remotes.)
+(All 3 prior patch commits already pushed: `f28342a` `cbb5e27` `6cb1869`. Mirrors converged within ~12 s.)
 
 ## Estimated time to finish (roadmap)
 
-- **Plan 01c re-audit (next session, ~1-2h):** Tag `v0.1c-personas-audit-closed` is not a thing; closure = `t-plan-01c-reaudit` marked done + report committed.
-- **Plan 01c EXECUTE (session after, ~5h):** Tag `v0.1-foundation` (original Plan 01 milestone, reached at end of 01c) realistic by **2026-06-12**.
-- **Plan 01b warm-standby Tasks 7-12 (parallel, when host available, ~2-3h):** Tag `v0.1b-mirrors`. Due 2026-06-30; can happen any time the standby arrives.
+- **Plan 01c EXECUTE (next session, ~5h):** Tag `v0.1-foundation` (original Plan 01 milestone, reached at end of 01c). Realistic by **2026-05-18 to 2026-05-20** if Ricardo opens the next session within a few days.
+- **Plan 01b warm-standby Tasks 7-12 (parallel, when host available, ~2-3h):** Tag `v0.1b-mirrors`. Due 2026-06-30.
 - **Plan 02 brainstorm + write + audit + execute:** ~1.5-2 weeks elapsed (load-bearing per ADR-038; picks FOSS replacements for Notion's four roles + the JP-facing dashboard).
 - **Plans 03-10** in dependency order. **Stage 1 launch realistic: 2026-07-15 to 2026-07-30**.
 
 ## After this, what's next
 
-Plan 01c re-audit → Plan 01c execute → tag `v0.1-foundation` → Plan 02 brainstorm + write + audit + execute → Plans 03-10 in dependency order → Stage 1 launch. Warm-standby Tasks 7-12 + JP roundtrip + presentation regen all happen in parallel as opportunity allows.
+Plan 01c execute → tag `v0.1-foundation` → Plan 02 brainstorm + write + audit + execute → Plans 03-10 in dependency order → Stage 1 launch. Warm-standby Tasks 7-12 + JP roundtrip + presentation regen + LOW polish-pass all happen in parallel as opportunity allows.
 
 ## For a future auditor reading this baton
 
-The 2026-05-16 session activity spans FOUR arcs across the day (all on `main`):
+The 2026-05-16 session activity spans FIVE arcs across the day (all on `main`; this CHECKPOINT lives at the end of arc 5):
 
 **Arc 1 — Plan 01a Tasks 12-18 + v0.1a-foundation tag (early morning):**
 - 8 commits on `main` between `05a3fe6` and `af6eb0a`. Tag `v0.1a-foundation` on `acdcc4a`.
@@ -145,14 +130,21 @@ The 2026-05-16 session activity spans FOUR arcs across the day (all on `main`):
 - Session journal: `00_META/journal/2026-05-16_plan-01b-reaudit.md`.
 - Memories locked: `telegram-not-signal.md` + `defer-jp-until-test-phase.md`.
 
-**Arc 4 — Plan 01b mirror cluster EXECUTE + v0.1b-mirrors-only tag (this session — late evening):**
+**Arc 4 — Plan 01b mirror cluster EXECUTE + v0.1b-mirrors-only tag (mid-evening):**
 - 8 commits on `main` between `615372a` and `d38e865` + bookkeeping commit.
-- Tag `v0.1b-mirrors-only` on `d38e865`, pushed to all 3 remotes (Gitea + GitHub + Codeberg).
+- Tag `v0.1b-mirrors-only` on `d38e865`, pushed to all 3 remotes.
 - Session journal: `00_META/journal/2026-05-16_plan-01b-mirror-cluster.md`.
 - Audit closures: **C4 + F7 fully end-to-end.**
 
-Read order for a re-audit of Arc 4: (1) this CHECKPOINT → (2) STATUS.md "Current state" + most-recent Recent activity entry → (3) Arc-4 journal → (4) `00_GOVERNANCE/system_map.md` (the single source of truth for the deployed mirror topology) → (5) commit diffs in order (`615372a` → `d38e865`).
+**Arc 5 — Plan 01c re-audit + patch arc (this session — late evening):**
+- 3 commits on `main` between `f28342a` and `6cb1869` + bookkeeping commit.
+- Audit report: `00_META/proposals/2026-05-16_plan-01c-reaudit-report.md` (384 lines, dispatched inline; persisted by parent due to sub-agent harness .md write restriction).
+- Session journal: `00_META/journal/2026-05-16_plan-01c-reaudit.md`.
+- Mirror cluster recursive-validated AGAIN (~12 s convergence).
+- 5th audit at this discipline; pattern is mature.
+
+Read order for re-auditing Arc 5: (1) this CHECKPOINT → (2) STATUS.md "Current state" + top Recent activity entry → (3) Arc-5 journal → (4) re-audit report → (5) commit diffs `f28342a` → `cbb5e27` → `6cb1869` → bookkeeping.
 
 ---
 
-*This CHECKPOINT.md is the baton between sessions. Next session: type "Start Session" → Claude reads this + STATUS + tasks + calendar + journal → proposes Plan 01c re-audit via the established general-purpose + risk-auditor-inlined pattern → walks findings + patches if surgical → closes session.*
+*This CHECKPOINT.md is the baton between sessions. Next session: type "Start Session" → Claude reads this + STATUS + tasks + calendar + journal → proposes Plan 01c EXECUTE via subagent-driven-development → 11-task arc → tag `v0.1-foundation` → close session.*

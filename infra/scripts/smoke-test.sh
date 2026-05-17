@@ -16,31 +16,41 @@ ok()  { echo "  PASS  $1"; PASS=$((PASS+1)); }
 no()  { echo "  FAIL  $1"; FAIL=$((FAIL+1)); }
 
 # ---- 1. Crypto round-trip -------------------------------------------------
+# Both decrypt invocations use `age -d -i <encrypted-identity>` which prompts
+# for the passphrase on /dev/tty. Under TTY-less execution (subagent-driven,
+# CI, scripted runs) age fails with "could not read passphrase". TTY-gate the
+# whole sub-test and surface a SKIP rather than two FAILs. Companion task:
+# t-plan-01a-jp-and-tty-deferred tracks the interactive rerun.
 echo
 echo "[1/6] Decrypt round-trip on secrets.env.age"
-TMP=/dev/shm/smoke-test-secrets-$$
-if age -d -i "$HOME/.config/age/nexostrat.key.age" \
-        "$REPO/secrets.env.age" > "$TMP" 2>/dev/null \
-   && grep -q 'ANTHROPIC_API_KEY' "$TMP"; then
-  ok "secrets.env.age decrypts and contains expected key"
+if [ ! -t 0 ] || [ ! -t 1 ]; then
+  echo "  SKIP  no TTY; crypto round-trip needs interactive passphrase entry"
+  echo "        (run via t-plan-01a-jp-and-tty-deferred TTY-side rerun)"
 else
-  no "secrets.env.age decrypt failed"
-fi
-shred -u "$TMP" 2>/dev/null || rm -f "$TMP"
+  TMP=/dev/shm/smoke-test-secrets-$$
+  if age -d -i "$HOME/.config/age/nexostrat.key.age" \
+          "$REPO/secrets.env.age" > "$TMP" 2>/dev/null \
+     && grep -q 'ANTHROPIC_API_KEY' "$TMP"; then
+    ok "secrets.env.age decrypts and contains expected key"
+  else
+    no "secrets.env.age decrypt failed"
+  fi
+  shred -u "$TMP" 2>/dev/null || rm -f "$TMP"
 
-# Re-encrypt round-trip to confirm both recipients still work
-TMP_PT=/dev/shm/smoke-pt-$$.txt
-TMP_CT=/dev/shm/smoke-ct-$$.age
-TMP_DEC=/dev/shm/smoke-dec-$$.txt
-echo "smoke-test $(date -Iseconds)" > "$TMP_PT"
-if age -R "$REPO/infra/age-recipients.txt" -o "$TMP_CT" "$TMP_PT" \
-   && age -d -i "$HOME/.config/age/nexostrat.key.age" "$TMP_CT" > "$TMP_DEC" \
-   && diff -q "$TMP_PT" "$TMP_DEC" >/dev/null; then
-  ok "encrypt-to-recipients + decrypt-with-Ricardo-key round-trip"
-else
-  no "round-trip failed"
+  # Re-encrypt round-trip to confirm both recipients still work
+  TMP_PT=/dev/shm/smoke-pt-$$.txt
+  TMP_CT=/dev/shm/smoke-ct-$$.age
+  TMP_DEC=/dev/shm/smoke-dec-$$.txt
+  echo "smoke-test $(date -Iseconds)" > "$TMP_PT"
+  if age -R "$REPO/infra/age-recipients.txt" -o "$TMP_CT" "$TMP_PT" \
+     && age -d -i "$HOME/.config/age/nexostrat.key.age" "$TMP_CT" > "$TMP_DEC" \
+     && diff -q "$TMP_PT" "$TMP_DEC" >/dev/null; then
+    ok "encrypt-to-recipients + decrypt-with-Ricardo-key round-trip"
+  else
+    no "round-trip failed"
+  fi
+  shred -u "$TMP_PT" "$TMP_CT" "$TMP_DEC" 2>/dev/null || rm -f "$TMP_PT" "$TMP_CT" "$TMP_DEC"
 fi
-shred -u "$TMP_PT" "$TMP_CT" "$TMP_DEC" 2>/dev/null || rm -f "$TMP_PT" "$TMP_CT" "$TMP_DEC"
 
 # ---- 2. Mirror HEAD parity (no-commit; uses current state) ---------------
 # Earlier draft pushed a smoke-test commit to verify convergence; that

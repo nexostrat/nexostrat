@@ -111,9 +111,15 @@ System-level units at `/etc/systemd/system/`:
 
 ## Cross-cutting notes
 
-- All mirror PATs (`GITHUB_MIRROR_PAT`, `CODEBERG_MIRROR_PAT`) live in
-  `secrets.env.age` per `infra/secrets/MANIFEST.md`. The mirror service
-  reads them via `infra/scripts/run-with-secrets.sh`.
+- The mirror services use **SSH only** (via the `~/.ssh/config` aliases set
+  in the `.service` units' git push command). They do NOT read the PATs at
+  runtime. SSH-only is the Stage-1 design (one identity surface, no token
+  expiration mid-mirror).
+- The PATs (`GITHUB_MIRROR_PAT`, `CODEBERG_MIRROR_PAT`) live in
+  `secrets.env.age` per `infra/secrets/MANIFEST.md` and are reserved for
+  a future HTTPS-fallback path (Plan 02+, not yet wired). Until that wiring
+  lands, `infra/scripts/run-with-secrets.sh` is not called by these
+  mirror services.
 - The age key for decryption is `~/.config/age/nexostrat.key.age` for
   `ricardo`. JP's same-named file on his machine has the same purpose.
 - The mirror `.service` units are NOT triggered by Gitea internals (per

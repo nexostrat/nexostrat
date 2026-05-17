@@ -35,10 +35,26 @@ done
 systemctl daemon-reload
 echo "daemon-reload OK"
 
+# Verify each unit file parses BEFORE enabling — daemon-reload only warns to
+# the journal for malformed units (exits 0), so without this gate a broken
+# unit can ship undetected and only surface when something tries to use it.
+for unit in "${units[@]}"; do
+  if ! systemd-analyze verify "$unit" 2>&1; then
+    echo "ERROR: $(basename "$unit") failed systemd-analyze verify" >&2
+    exit 1
+  fi
+done
+echo "all units parse OK (systemd-analyze verify)"
+
+# Enable. `systemctl enable` succeeds and is silent on already-enabled units,
+# so a non-zero exit is a real failure (e.g., [Install] section issue) — don't
+# suppress it.
 for unit in "${units[@]}"; do
   base="$(basename "$unit")"
-  systemctl enable "$base" >/dev/null 2>&1 || \
-    { echo "WARN: enable $base — skipping (probably already enabled)"; continue; }
+  if ! systemctl enable "$base"; then
+    echo "ERROR: systemctl enable $base failed" >&2
+    exit 1
+  fi
   echo "  enabled $base"
 done
 

@@ -1,7 +1,7 @@
 [Unit]
 Description=Nexostrat — push HP origin to GitHub mirror
 Documentation=file:///srv/Nexostrat/00_GOVERNANCE/system_map.md
-After=network-online.target gitea.service
+After=network-online.target
 Wants=network-online.target
 
 [Service]

@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# pre-commit — Nexostrat orchestrator
+#
+# Runs all sub-hooks under infra/hooks/pre-commit-*.sh in order. Fails fast on
+# the first non-zero exit.
+
+set -uo pipefail
+HOOKS_DIR="/srv/Nexostrat/infra/hooks"
+
+for hook in \
+  "$HOOKS_DIR/pre-commit-secret-scan.sh" \
+  "$HOOKS_DIR/pre-commit-vault-age-only.sh" \
+  "$HOOKS_DIR/pre-commit-docs-pair.sh" \
+  "$HOOKS_DIR/pre-commit-checkpoint.sh"
+do
+  if [[ ! -x "$hook" ]]; then
+    echo "WARN: $hook not executable; skipping" >&2
+    continue
+  fi
+  if ! bash "$hook"; then
+    echo
+    echo "Pre-commit halted at: $hook"
+    exit 1
+  fi
+done
+
+exit 0

@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v1",
   "project": "nexostrat",
-  "updated": "2026-05-16T17:30:00-07:00",
+  "updated": "2026-05-16T18:30:00-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -135,11 +135,12 @@
     {
       "id": "t-gitea-path-verify",
       "subject": "Verify Gitea bare-repo on-disk path for systemd path-watcher",
-      "status": "open",
+      "status": "done",
       "priority": "medium",
       "due": "2026-05-22",
       "created": "2026-05-14",
-      "notes": "Resolved within Plan 01b Task 1 execution (path verification + 00_GOVERNANCE/system_map.md). Per terrain prep: /srv/gitea/data/git/repositories/nexostrat/nexostrat.git. Closes when 01b Task 1 commits."
+      "completed": "2026-05-16",
+      "notes": "DONE 2026-05-16 via Plan 01b Task 1 commit 615372a. Confirmed path: /srv/gitea/data/git/repositories/nexostrat/nexostrat.git (owner ricardo:ricardo host-side, no chmod ceremony needed). Encoded into 00_GOVERNANCE/system_map.md as the canonical reference. The systemd .path units in Tasks 4-5 (commits d9cdf3a/260dc75) watch refs/heads/main inside this directory and fired end-to-end at validation commit d38e865."
     },
     {
       "id": "t-plan-01a-reaudit",
@@ -169,7 +170,7 @@
       "priority": "medium",
       "due": "2026-06-30",
       "created": "2026-05-16",
-      "notes": "Deferred from Plan 01a 12-18 execution per 2026-05-16 directive (build now; JP downloads on his own schedule). NOT BLOCKING Plan 01b — Plan 01b can execute in parallel; this task can close anytime JP and Ricardo coordinate. Items: (1) Task 13 Step 2 — JP runs own-key roundtrip on jp-mac (encrypts a test sentinel to both recipients, decrypts with his key, confirms 'roundtrip works' via Signal); (2) Task 13 Direction A confirmation — JP downloads vault/keys/sentinel-ricardo-to-jp.age from Gitea web (or git clone if Heavy), decrypts via `age -d -i ~/.config/age/nexostrat.key.age sentinel-ricardo-to-jp.age`, confirms via Signal; (3) Task 13 Direction B — Ricardo Signals the recipients-file plaintext to JP; JP encrypts a sentinel to both recipients via `age -R /tmp/nexostrat-recipients.txt -o /tmp/sentinel-jp-to-ricardo.age`, Signal-attaches; Ricardo saves attachment, decrypts via `age -d -i ~/.config/age/nexostrat.key.age`, confirms back; (4) Task 13 Step 4 — sentinel cleanup commit removing both sentinel files in one `git rm` (gated on Directions A+B both confirmed); (5) ✅ Task 14 Step 3 + secrets.env.age NOTION strip — DONE 2026-05-16 in commit (this strip + MANIFEST update). Decrypt + line-count delta + re-encrypt verified; both X25519 stanzas confirmed in new ciphertext (817 bytes); `grep -rn NOTION_API_KEY infra/` empty post-strip. Closes the ADR-038 follow-on from the hard-system-audit sweep. (6) Task 15 Steps 4-5 — interactive leak test run (positive + negative control); (7) Task 18 Steps 1-3 — full Plan 01a test rerun (gitignore + secret-scan + schema + leak-test) + bidirectional roundtrip + PDF check (PDF skipped per F5 alternate satisfaction). USE DIRECT `-i ~/.config/age/nexostrat.key.age` DECRYPT PATTERN — NOT process-substitution (proven by Task 11 + vault README hardening f747312; tracked broader in t-plan-01a-text-amendments, closed in commit 7e950ee). Closing remaining items 1-4 + 6-7 closes C2 fully + closes audit Finding H5."
+      "notes": "Deferred from Plan 01a 12-18 execution per 2026-05-16 directive (build now; JP downloads on his own schedule). NOT BLOCKING Plan 01b — Plan 01b can execute in parallel; this task can close anytime JP and Ricardo coordinate. Items: (1) Task 13 Step 2 — JP runs own-key roundtrip on jp-mac (encrypts a test sentinel to both recipients, decrypts with his key, confirms 'roundtrip works' via Signal); (2) Task 13 Direction A confirmation — JP downloads vault/keys/sentinel-ricardo-to-jp.age from Gitea web (or git clone if Heavy), decrypts via `age -d -i ~/.config/age/nexostrat.key.age sentinel-ricardo-to-jp.age`, confirms via Signal; (3) Task 13 Direction B — Ricardo Signals the recipients-file plaintext to JP; JP encrypts a sentinel to both recipients via `age -R /tmp/nexostrat-recipients.txt -o /tmp/sentinel-jp-to-ricardo.age`, Signal-attaches; Ricardo saves attachment, decrypts via `age -d -i ~/.config/age/nexostrat.key.age`, confirms back; (4) Task 13 Step 4 — sentinel cleanup commit removing both sentinel files in one `git rm` (gated on Directions A+B both confirmed); (5) ✅ Task 14 Step 3 + secrets.env.age NOTION strip — DONE 2026-05-16 in commit (this strip + MANIFEST update). Decrypt + line-count delta + re-encrypt verified; both X25519 stanzas confirmed in new ciphertext (817 bytes); `grep -rn NOTION_API_KEY infra/` empty post-strip. Closes the ADR-038 follow-on from the hard-system-audit sweep. (6) Task 15 Steps 4-5 — interactive leak test run (positive + negative control); (7) Task 18 Steps 1-3 — full Plan 01a test rerun (gitignore + secret-scan + schema + leak-test) + bidirectional roundtrip + PDF check (PDF skipped per F5 alternate satisfaction). (8) Plan 01b Tasks 2+3 wrapper smoke-test (added 2026-05-16) — run `infra/scripts/run-with-secrets.sh sh -c 'echo \"GITHUB len: ${#GITHUB_MIRROR_PAT}; CODEBERG len: ${#CODEBERG_MIRROR_PAT}\"'`; both lengths must be non-zero (40 each for the classic PATs landed in commit f1fc501). Gate for Plan 01b Tasks 4-5: must run before the systemd mirror services depend on these env vars in production, otherwise a wrapper regression could result in silent empty-credential pushes. USE DIRECT `-i ~/.config/age/nexostrat.key.age` DECRYPT PATTERN — NOT process-substitution (proven by Task 11 + vault README hardening f747312; tracked broader in t-plan-01a-text-amendments, closed in commit 7e950ee). Closing remaining items 1-4 + 6-8 closes C2 fully + closes audit Finding H5."
     },
     {
       "id": "t-hard-system-audit-v01a",
@@ -193,22 +194,31 @@
     },
     {
       "id": "t-plan-01b-execute",
-      "subject": "Execute Plan 01b — Mirrors + warm-standby (after re-audit)",
-      "status": "open",
+      "subject": "Execute Plan 01b — Mirror cluster (Tasks 1-6 of the 12-task plan)",
+      "status": "done",
       "priority": "critical",
       "due": "2026-06-05",
       "created": "2026-05-14",
-      "notes": "UNBLOCKED 2026-05-16 — t-plan-01b-reaudit closed YELLOW (small); all 5 HIGH + 7 MEDIUM patched same-session in commits 3057714 + 6efdec3. Plan 01b at 00_META/plans/2026-05-14_plan-01b-mirrors.md (12 tasks, ~1750 lines, post-patch ~1810 lines). Tag v0.1b-mirrors on completion. Tasks 1-6 (mirror cluster — GitHub + Codeberg path-watchers) runnable IMMEDIATELY via superpowers:subagent-driven-development; ~3-4h wall-time matching Plan 01a Tasks 1-11 shape. Tasks 7-12 (warm-standby cluster) gate on physical second host (Linux Mint 22.2 + Tailscale-joined). Pre-conditions in place from terrain prep: nexostrat GitHub + Codeberg accounts exist + SSH key registered + Gitea origin pushing + age recipients file has both Ricardo + JP pubkeys. Due slipped from 2026-06-03 to 2026-06-05 to absorb the re-audit cycle (matches master plan index)."
+      "completed": "2026-05-16",
+      "notes": "DONE 2026-05-16 (20 days ahead of due). Mirror cluster (Tasks 1-6) executed via superpowers:subagent-driven-development in 8 commits between beff92a..d38e865, tagged v0.1b-mirrors-only on d38e865. Original task scope was 'Mirrors + warm-standby' but the warm-standby cluster (Tasks 7-12) is structurally separable and gates on physical second host — split into new task t-plan-01b-execute-warm-standby on 2026-05-16. Commits: 615372a Task 1 (system_map.md + incidents/) → 314ada6 fixup-1 (factual corrections: gitea v1.25.5, 0.0.0.0 binding, real SSH aliases, TS rsync source) → 4dd9301 fixup-2 (realign GitHub mirror to firm namespace nexostrat/nexostrat — reversed the asymmetric-topology detour after verifying via alias that firm key DOES auth as 'nexostrat' on github.com) → f1fc501 Tasks 2+3 bundle (both remotes + both PATs into secrets.env.age in single atomic age cycle + MANIFEST update; F7 closed) → d9cdf3a Tasks 4+5 artifacts (mirror-push.sh + install-systemd-units.sh + 4 systemd unit files + system_map.md systemd table) → 260dc75 pre-install patch (phantom After=gitea.service removed; systemctl enable suppression replaced with systemd-analyze verify + propagated errors; cross-cutting note corrected to reflect SSH-only) → d04191d test sentinel → d38e865 Tasks 4+5+6 post-validation (Mirrors table populated with measured 60s window: GitHub 3s, Codeberg 8s). Closes C4 (Gitea-internal hook decrypt impossibility, replaced by host-side path-watchers, end-to-end proven). Closes F7 (Codeberg mirror present + validated). End-to-end validation recursive: the redundant manual push to GitHub from the harness was BEATEN by the mirror service ('remote rejected, already at d38e865') — proof the wire-up works in production."
+    },
+    {
+      "id": "t-plan-01b-execute-warm-standby",
+      "subject": "Execute Plan 01b — Warm-standby cluster (Tasks 7-12 of the 12-task plan)",
+      "status": "open",
+      "priority": "critical",
+      "due": "2026-06-30",
+      "created": "2026-05-16",
+      "notes": "Split from t-plan-01b-execute on 2026-05-16 after mirror cluster (Tasks 1-6) landed clean at v0.1b-mirrors-only tag. Tasks 7-12 (warm-standby cluster) at 00_META/plans/2026-05-14_plan-01b-mirrors.md lines 1003+. Gates on physical second host (Linux Mint 22.2 + Tailscale-joined). When the host is available: bootstrap (Task 7 inventory + 8 clone + age key recovery roundtrip), populate (Task 9 first rsync), install (Task 10 nexostrat-warm-rsync timer + service), validate (Task 11 systemctl start && grep status=0/SUCCESS), write failover runbook (Task 12 docs/runbooks/hp_down.md). Tag v0.1b-mirrors on Task 12 completion. ~2-3h wall-time. Due 2026-06-30 reflects the physical-host gate; advance once host is in hand."
     },
     {
       "id": "t-plan-01c-reaudit",
-      "subject": "Batch 3 step 5 — Re-audit Plan 01c (after 01b executed)",
+      "subject": "Batch 3 step 5 — Re-audit Plan 01c",
       "status": "open",
       "priority": "critical",
       "due": "2026-06-05",
       "created": "2026-05-14",
-      "blocked_by": "t-plan-01b-execute",
-      "notes": "Same pattern. 01b execution may have surfaced learnings. Plan 01c at 00_META/plans/2026-05-14_plan-01c-personas.md (11 tasks, ~2050 lines)."
+      "notes": "UNBLOCKED 2026-05-16 — t-plan-01b-execute (mirror cluster) closed; per Ricardo's session-end call, warm-standby learnings are unlikely to affect Plan 01c's persona/hooks design, so no need to wait. Same audit pattern as priors (4 audits at this discipline now; 5th coming). Plan 01c at 00_META/plans/2026-05-14_plan-01c-personas.md (11 tasks, ~2050 lines). Next session: dispatch general-purpose Opus agent with risk-auditor persona inlined."
     },
     {
       "id": "t-plan-01c-execute",

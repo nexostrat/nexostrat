@@ -28,8 +28,12 @@ def render(template_path: pathlib.Path) -> str:
     def sub(match: re.Match[str]) -> str:
         rel = match.group(1).strip()
         target = (base / rel).resolve()
-        if not target.is_relative_to(base.resolve()):
-            sys.exit(f"ERROR: include path escapes template directory: {rel} (resolved {target})")
+        # Boundary is base.parent — the template's parent directory's parent. For the
+        # 00_META/templates/ + 00_META/shared/ split this allows curated siblings via
+        # ../shared/<stanza>.md while still blocking escapes to infra/, vault/, /etc/,
+        # etc. Tighten if a template layout ever lands where this boundary is too lax.
+        if not target.is_relative_to(base.parent.resolve()):
+            sys.exit(f"ERROR: include path escapes allowed root: {rel} (resolved {target})")
         if not target.is_file():
             sys.exit(f"ERROR: include path not found: {rel} (resolved {target})")
         # Strip exactly one trailing newline (not all) so {{include}} on its own

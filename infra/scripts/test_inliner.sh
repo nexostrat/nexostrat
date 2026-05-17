@@ -74,20 +74,22 @@ else
   exit 1
 fi
 
-# Path-escape test: a marker that points outside the template directory must be
-# rejected with a non-zero exit and a message containing "escapes template directory".
-echo "OUTSIDE" > "$TMPDIR/../escape.md"
+# Path-escape test: absolute include outside the allowed root is rejected.
+# /etc/hostname is reliable on Linux — exists, readable, definitely outside /tmp/.
+# Under the new boundary (base.parent = TMPDIR), the old ../escape.md fixture would
+# resolve to /tmp/escape.md which IS under TMPDIR's parent, so it no longer escapes.
+# An absolute path to /etc/hostname always escapes any tmpdir-rooted boundary.
 cat > "$TMPDIR/template-escape.tmpl" <<'EOF'
-{{include: ../escape.md}}
+{{include: /etc/hostname}}
 EOF
-set +e
-escape_output=$(python3 "$INLINER" --template "$TMPDIR/template-escape.tmpl" --output "$TMPDIR/escape-out.md" 2>&1)
-escape_exit=$?
-set -e
-if [[ $escape_exit -ne 0 ]] && echo "$escape_output" | grep -q "escapes template directory"; then
+set +u
+python3 "$INLINER" --template "$TMPDIR/template-escape.tmpl" --output "$TMPDIR/escape-out.md" > "$TMPDIR/escape-stdout.txt" 2>&1
+ec=$?
+set -u
+if [[ $ec -ne 0 ]] && grep -q "escapes allowed root" "$TMPDIR/escape-stdout.txt"; then
   echo "PASS — path-escape rejected with correct error"
 else
-  echo "FAIL — path-escape not rejected (exit=$escape_exit, output=$escape_output)"
+  echo "FAIL — path-escape: ec=$ec stdout=$(cat "$TMPDIR/escape-stdout.txt")"
   exit 1
 fi
 

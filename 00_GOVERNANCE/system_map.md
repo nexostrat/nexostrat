@@ -104,7 +104,10 @@ System-level units at `/etc/systemd/system/`:
 
 | Unit | Type | Trigger | Purpose |
 |---|---|---|---|
-| (filled by Plan 01b execution) | | | |
+| `nexostrat-mirror-github.path`     | path-watcher | gitea bare-repo `refs/heads/main` change | Triggers `nexostrat-mirror-github.service`     |
+| `nexostrat-mirror-github.service`  | oneshot      | invoked by .path                         | Pushes HP origin → GitHub via SSH alias        |
+| `nexostrat-mirror-codeberg.path`   | path-watcher | gitea bare-repo `refs/heads/main` change | Triggers `nexostrat-mirror-codeberg.service`   |
+| `nexostrat-mirror-codeberg.service`| oneshot      | invoked by .path                         | Pushes HP origin → Codeberg via SSH alias      |
 
 ## Cross-cutting notes
 

@@ -1,0 +1,10 @@
+[Unit]
+Description=Nexostrat — watch Gitea bare-repo refs/heads/main and trigger GitHub mirror
+Documentation=file:///srv/Nexostrat/00_GOVERNANCE/system_map.md
+
+[Path]
+PathChanged=/srv/gitea/data/git/repositories/nexostrat/nexostrat.git/refs/heads/main
+Unit=nexostrat-mirror-github.service
+
+[Install]
+WantedBy=multi-user.target

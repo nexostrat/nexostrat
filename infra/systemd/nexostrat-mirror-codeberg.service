@@ -1,0 +1,29 @@
+[Unit]
+Description=Nexostrat — push HP origin to Codeberg mirror
+Documentation=file:///srv/Nexostrat/00_GOVERNANCE/system_map.md
+After=network-online.target gitea.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=ricardo
+Group=ricardo
+WorkingDirectory=/srv/Nexostrat
+Environment=HOME=/home/ricardo
+Environment=SSH_AUTH_SOCK=
+ExecStart=/srv/Nexostrat/infra/scripts/mirror-push.sh codeberg
+
+# Hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/srv/Nexostrat
+ProtectHome=read-only
+BindReadOnlyPaths=/home/ricardo/.ssh
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=nexostrat-mirror-codeberg
+
+[Install]
+WantedBy=multi-user.target

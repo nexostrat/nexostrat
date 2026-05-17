@@ -113,3 +113,64 @@ else
   cat -A "$TMPDIR/multinl-out.md"
   exit 1
 fi
+
+# List-prefix marker test: "1. {{include: ...}}" should expand with the "1. "
+# prefix kept on the first line of the included content (closes Task 5 C1).
+echo "Folder-scope discipline content." > "$TMPDIR/rule1.md"
+cat > "$TMPDIR/template-listprefix.tmpl" <<'EOF'
+## Strict Rules
+
+1. {{include: rule1.md}}
+2. Second rule (already inline).
+EOF
+python3 "$INLINER" --template "$TMPDIR/template-listprefix.tmpl" --output "$TMPDIR/listprefix-out.md"
+if grep -q '^1\. Folder-scope discipline content\.$' "$TMPDIR/listprefix-out.md" \
+   && grep -q '^2\. Second rule (already inline)\.$' "$TMPDIR/listprefix-out.md" \
+   && ! grep -q '{{include:' "$TMPDIR/listprefix-out.md"; then
+  echo "PASS — list-prefix marker expanded with prefix preserved"
+else
+  echo "FAIL — list-prefix expansion broken:"
+  cat "$TMPDIR/listprefix-out.md"
+  exit 1
+fi
+
+# Trailing-newline normalization test: rendered output must end with exactly
+# one newline (POSIX). Tests both that the file ends with \n and that there
+# is only one trailing \n.
+echo "INNER-CONTENT" > "$TMPDIR/snippet-trailing.md"
+cat > "$TMPDIR/template-trailing.tmpl" <<'EOF'
+Header
+{{include: snippet-trailing.md}}
+Footer
+EOF
+python3 "$INLINER" --template "$TMPDIR/template-trailing.tmpl" --output "$TMPDIR/trailing-out.md"
+# Read last 2 bytes (using tail -c) and confirm: exactly one '\n', preceded by 'r' (from "Footer")
+tail2=$(tail -c 2 "$TMPDIR/trailing-out.md" | od -An -c | tr -s ' ' | sed 's/^ //;s/ $//')
+if [[ "$tail2" == "r \\n" ]]; then
+  echo "PASS — output ends with exactly one trailing newline"
+else
+  echo "FAIL — trailing newline: got tail2='$tail2' (expected: 'r \\n')"
+  exit 1
+fi
+
+# Blank-line-between-consecutive-includes test: two consecutive {{include:}}
+# markers separated by \n\n in the template should produce a blank line between
+# the included contents in the output (closes Task 5 I1).
+echo "STANZA-A" > "$TMPDIR/stanza-a.md"
+echo "STANZA-B" > "$TMPDIR/stanza-b.md"
+cat > "$TMPDIR/template-twostanzas.tmpl" <<'EOF'
+{{include: stanza-a.md}}
+
+{{include: stanza-b.md}}
+EOF
+python3 "$INLINER" --template "$TMPDIR/template-twostanzas.tmpl" --output "$TMPDIR/twostanzas-out.md"
+# Expected: "STANZA-A\n\nSTANZA-B\n" — blank line between them, trailing newline.
+# $(cat ...) strips trailing newline, so compare without it.
+actual=$(cat "$TMPDIR/twostanzas-out.md")
+if [[ "$actual" == "STANZA-A"$'\n\n'"STANZA-B" ]]; then
+  echo "PASS — blank line preserved between consecutive includes"
+else
+  echo "FAIL — blank line missing:"
+  od -c "$TMPDIR/twostanzas-out.md"
+  exit 1
+fi

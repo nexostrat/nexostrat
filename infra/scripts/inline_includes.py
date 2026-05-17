@@ -15,7 +15,14 @@ Usage:
 from __future__ import annotations
 import argparse, difflib, pathlib, re, sys
 
-MARKER = re.compile(r'^\{\{include:\s*([^}]+?)\s*\}\}\s*$', re.M)
+# Match {{include: <path>}} as the entire content of a line, optionally
+# prefixed with leading whitespace and an "N. " list-item number. The list-
+# prefix is captured as group 1 and prepended to the included content's first
+# line so the rendered output keeps the list-item numbering intact.
+MARKER = re.compile(
+    r'^(?P<prefix>[ \t]*(?:\d+\.\s+)?)\{\{include:\s*(?P<path>[^}]+?)\s*\}\}\s*$',
+    re.M
+)
 
 
 MAX_DEPTH = 10  # Hard cap to defend against include-cycles; 10 is generous.
@@ -26,7 +33,8 @@ def render(template_path: pathlib.Path) -> str:
     base = template_path.parent
 
     def sub(match: re.Match[str]) -> str:
-        rel = match.group(1).strip()
+        prefix = match.group('prefix')
+        rel = match.group('path').strip()
         target = (base / rel).resolve()
         # Boundary is base.parent — the template's parent directory's parent. For the
         # 00_META/templates/ + 00_META/shared/ split this allows curated siblings via
@@ -36,11 +44,15 @@ def render(template_path: pathlib.Path) -> str:
             sys.exit(f"ERROR: include path escapes allowed root: {rel} (resolved {target})")
         if not target.is_file():
             sys.exit(f"ERROR: include path not found: {rel} (resolved {target})")
-        # Strip exactly one trailing newline (not all) so {{include}} on its own
-        # line doesn't double-blank, while preserving any intentional blank lines
-        # the included file ends with.
-        content = target.read_text(encoding='utf-8')
-        return content[:-1] if content.endswith('\n') else content
+        # Normalize to exactly one trailing newline. The regex's \s*$ consumes the
+        # marker line's trailing newline, so this trailing \n becomes the separator
+        # between this content and whatever follows in the template (preserving
+        # template blank lines between consecutive markers).
+        content = target.read_text(encoding='utf-8').rstrip('\n') + '\n'
+        # If the marker had a list-prefix ("1. ", "  2. ", etc.), prepend it to the
+        # first line of the included content so the rendered list item stays
+        # numbered. Multi-line content keeps subsequent lines unprefixed.
+        return prefix + content if prefix else content
 
     # Iterate to a fixed point so nested {{include}} markers (an include whose
     # content itself contains an include) expand fully. Stanzas at 01c don't

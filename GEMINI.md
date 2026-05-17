@@ -37,6 +37,7 @@ File-based pattern. Claude is the director; Gemini is the second seat consulted 
 - Never edit `gemini_to_claude.md` directly (Gemini's file).
 - Never commit Gemini's WIP while a handoff is `IN_PROGRESS`.
 - Claude authors all `GEMINI.md` files; Gemini may NOT edit any `CLAUDE.md`.
+
 ## Vault constraint (Gemini)
 
 You have an age private key + passphrase. Decrypt is permitted for review purposes (e.g., reading a sealed proposal or partnership artifact during a handoff). **Do not write into `vault/`** — that namespace is Claude's per ADR-003/F10. If you need to surface a finding from decrypted content, write it into your handoff response (`gemini_to_claude.md`) and let Claude stage the resulting artifact. The wrapper discipline (`run-with-secrets.sh`, `/dev/shm`, `shred`) documented in CLAUDE.md does not apply to your review-only workflows.

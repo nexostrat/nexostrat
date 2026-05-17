@@ -65,7 +65,7 @@ All three aliases set `IdentitiesOnly yes` so the firm key never leaks into
 generic git operations (e.g., `ssh -T git@github.com` without an alias hits a
 DIFFERENT identity — typically Ricardo's personal-account key).
 
-## Mirrors (populated by Tasks 4-5)
+## Mirrors
 
 Both mirrors live in the firm-identity namespace `nexostrat/nexostrat`. The
 `nexostrat_ed25519` key is registered on the firm GitHub user (`Hi nexostrat!`
@@ -77,14 +77,19 @@ on `ssh -T git@github-nexostrat`) and on the firm Codeberg user.
 > Always use the alias (`git@github-nexostrat:...`) to force the firm key. The
 > mirror service uses the alias form; manual debugging should too.
 
-| Mirror | Remote URL | Trigger | Service |
-|---|---|---|---|
-| GitHub   | `git@github-nexostrat:nexostrat/nexostrat.git`   | systemd `.path` watching Gitea bare-repo `refs/heads/main` | `nexostrat-mirror-github.service` |
-| Codeberg | `git@codeberg-nexostrat:nexostrat/nexostrat.git` | same | `nexostrat-mirror-codeberg.service` |
+| Mirror | Remote URL | Trigger | Service | Last validated 60s window |
+|---|---|---|---|---|
+| GitHub   | `git@github-nexostrat:nexostrat/nexostrat.git`   | systemd `.path` watching Gitea bare-repo `refs/heads/main` | `nexostrat-mirror-github.service`   | 2026-05-16 — **3 s** (push → github/main matches) |
+| Codeberg | `git@codeberg-nexostrat:nexostrat/nexostrat.git` | same                                                       | `nexostrat-mirror-codeberg.service` | 2026-05-16 — **8 s** (push → codeberg/main matches) |
 
 The remote URLs use the SSH-config aliases (not the bare domain), which forces
 the `nexostrat_ed25519` identity via `IdentitiesOnly yes`. This is the same
 pattern as the `gitea-nexostrat` origin already in use.
+
+End-to-end validated 2026-05-16 (commit `d04191d`): a single `git push origin
+main` propagated to both mirrors within the 60-second success window. The
+sentinel `infra/systemd/.last-mirror-test` carries the timestamp of the most
+recent end-to-end test and gets overwritten on each future validation pass.
 
 ## Warm-standby (populated by Tasks 7-12)
 

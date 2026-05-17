@@ -1,12 +1,11 @@
 # infra/machines/phones.yaml
-# Phones are the always-available capture surface. Telegram bot + Signal.
+# Phones are the always-available capture surface. Telegram bot (primary coordination channel).
 # F26: explicit per-user platform field so bootstrap can install the right apps.
 phones:
   ricardo:
     platform: <ios|android>  # confirm at bootstrap
     apps:
       - telegram
-      - signal
       - chrome
       - bitwarden
     notes: "Capture surface for /note, /idea, /question, /voice, /photo. Read-only inspection of /status, /pipeline, /inbox."
@@ -14,7 +13,6 @@ phones:
     platform: <ios|android>  # confirm via t-jp-coordination-2026-05-14
     apps:
       - telegram
-      - signal
       - chrome
       - bitwarden
     notes: "Same as Ricardo. JP's Light-mode primary surface."

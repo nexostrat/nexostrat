@@ -17,7 +17,7 @@ cli_tools:
 desktop_apps:
   - claude-code
   - chrome
-  - signal
+  - telegram
   - bitwarden
 schedule: {}
 gpu: null

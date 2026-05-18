@@ -3,13 +3,49 @@
   "project": "nexostrat",
   "events": [
     {
-      "id": "e-monday-meeting-prep",
-      "title": "Monday pilot meeting — run Skills 1-4 + meet with target client",
+      "id": "e-trixx-pilot-meeting",
+      "title": "Trixx Logistics pilot meeting (1pm Tijuana) — run Skills 1-5 end-to-end",
       "when": "2026-05-25",
       "kind": "milestone",
       "owner": "ricardo",
-      "related": ["t-monday-meeting-prep"],
-      "notes": "First real client run under JP's confirmed 5-skill 6-phase pipeline. Skills 1→2→3→4 serially with human review between each; PrepLlamada is the meeting guide; record the call; post-meeting Skill 05 produces the Reporte de Oportunidades; Ricardo + JP mandatory internal review before send. JP offered to practice the meeting beforehand if useful."
+      "related": ["t-monday-meeting-prep", "t-trixx-logistics-setup"],
+      "notes": "First real client run under JP's confirmed 5-skill 6-phase pipeline. Target: Trixx Logistics (Mexican logistics, Tijuana). Inbound via Sofi's friend. Meeting 1pm Tijuana. Pre-meeting: Skills 1→2→3→4 serially with human review between each + PrepLlamada as guide. Meeting: 30 min with client, recorded. Post-meeting: Skill 05 (opportunity-report) produces the Reporte de Oportunidades. Pre-send: Ricardo + JP mandatory internal review (Fase 5 of JP's diagram, OBLIGATORIO). JP offered to practice the meeting beforehand if useful."
+    },
+    {
+      "id": "e-brand-renderer-wireup",
+      "title": "Wire brand-kit logos into all 5 generate_docx.py renderers",
+      "when": "2026-05-22",
+      "kind": "deadline",
+      "owner": "ricardo",
+      "related": ["t-brand-renderer-wireup"],
+      "notes": "Read operations/assets/brand/Nexostrat_Brand_Guide.docx first; coordinate ownership with JP via Telegram before touching generate_docx.py; recommended (pending guide): white-bg logo for Skill 05 client-facing output, monochromatic for Skills 01-04 internal."
+    },
+    {
+      "id": "e-intake-upload-workflow",
+      "title": "Design intake-upload workflow + document handoff convention",
+      "when": "2026-05-22",
+      "kind": "deadline",
+      "owner": "ricardo",
+      "related": ["t-intake-upload-workflow"],
+      "notes": "Ricardo edits operations/templates/fase_0_intake_form.md copy at pipeline/clients/<slug>/00_intake/<date>_intake.md; tells Claude 'intake ready for <slug>' → Claude invokes Skill 01. Manual stand-in until /intake Telegram plugin lands in Plan 07."
+    },
+    {
+      "id": "e-trixx-logistics-setup",
+      "title": "Scaffold pipeline/clients/trixx-logistics/ + capture intake + state.json",
+      "when": "2026-05-24",
+      "kind": "deadline",
+      "owner": "ricardo",
+      "related": ["t-trixx-logistics-setup"],
+      "notes": "cp -r pipeline/clients/_template pipeline/clients/trixx-logistics; populate 00_intake/ with WhatsApp + site findings; populate state.json with country=MX + phase=prospect + pilot=true. Unblocks t-monday-meeting-prep."
+    },
+    {
+      "id": "e-migrate-pilotos-to-clients",
+      "title": "Migrate 3 test companies from Pilotos/ to pipeline/clients/<slug>/",
+      "when": "2026-05-30",
+      "kind": "deadline",
+      "owner": "ricardo",
+      "related": ["t-migrate-pilotos-to-clients"],
+      "notes": "Architecture correctness: git mv Pilotos/Bodai → pipeline/clients/bodai-foods/, Ascenso → constructora-ascenso, Scarab → scarab-cycles. Per-skill outputs to station folders. Process-level deck + improvements .txt stay separate. Non-blocking for Trixx Logistics pilot."
     },
     {
       "id": "e-capabilities-catalog",

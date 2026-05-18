@@ -1,7 +1,7 @@
 # Nexostrat — STATUS
 
-> **Last updated:** 2026-05-18 (afternoon — JP confirmed the process via a 6-phase diagram + delivered 5 updated skills as `SKills updated.zip`; Ricardo integrated all 5 into production same day; 32 PASS · 0 SKIP · 0 FAIL test harness)
-> **Current phase:** **JP confirmation received and integrated.** All 5 skills are production-runnable. JP simplified the proposal substantively: 5 skills (not 8-10), no Skill 07.5, no $900K Fase 1 paid phase in the immediate flow — the "Reporte de Oportunidades" from Skill 05 is the entire free first deliverable; the paid "Hoja de Ruta de IA" is a CTA at the end, not yet designed. JP's directive: **"stop building, start testing"** — run Skills 1-4 on Monday's pilot meeting (2026-05-25), evaluate, then decide what comes next. Critical-path gate is now Monday's pilot prep.
+> **Last updated:** 2026-05-18 session end — JP confirmed + integrated (5 skills, 32 PASS test harness, brand kit unpacked); Trixx Logistics identified as Monday's pilot target (Mexican logistics, Tijuana, 1pm 2026-05-25); 4 commits pushed to all 3 remotes.
+> **Current phase:** **Pre-pilot setup mode.** All 5 skills production-runnable. JP simplified the proposal substantively: 5 skills (not 8-10), no Skill 07.5, no $900K paid phase in the immediate flow — the "Reporte de Oportunidades" from Skill 05 IS the free first deliverable; the paid "Hoja de Ruta de IA" is a CTA, not yet designed. JP's directive: **"stop building, start testing."** Critical-path is now the **2026-05-25 Trixx Logistics pilot meeting** with all systems wired so outputs ship branded per JP's brand guide.
 
 ## Current state
 
@@ -53,28 +53,31 @@ Integration done same-day: structural rename (`06_*` → `04_*` via `git mv`), 7
 
 **Critical-path gate:** Monday 2026-05-25 — pilot meeting with the new process running end-to-end.
 
-## Next sequence (post-JP-delivery — testing-first)
+## Next sequence (pre-Trixx-pilot setup → Monday's run)
 
-1. **Critical-path — Monday 2026-05-25 pilot meeting prep** (tracked in `t-monday-meeting-prep`):
-   - Identify target company (Ricardo's call — TBD).
-   - Run Skills 01 → 02 → 03 → 04 serially with human review between each.
-   - Take notes per skill: what's good / bad / improvable.
-   - Use Skill 04's PrepLlamada output as the meeting guide.
-   - Optionally practice the meeting with JP beforehand.
-   - **Post-meeting:** record + transcribe (manual or local Whisper), feed into Skill 05 to produce the Reporte de Oportunidades.
-   - **Pre-send:** Ricardo + JP mandatory internal review per Fase 5 of JP's diagram.
+**Pilot target identified: Trixx Logistics** (Mexican logistics, Tijuana, 20+ years old, inbound via Sofi's friend whose uncle owns the company, meeting **2026-05-25 1pm Tijuana**). Initial intel from WhatsApp + site scrape: Grupo Trixx, customs brokerage + freight + warehousing + cross-border USA-MX, 4 locations (Guadalajara, Tijuana, Vernon CA, San Diego CA), Spanish + Chinese site languages, no RFC visible, no team named, "0 Años" placeholder bug on the site (consistent with the contact's self-description "muy atrás en programas y tecnología").
 
-2. **Parallel / non-gating (can pick up anytime):**
-   - `t-confidence-marking-company-analyst` — JP's new opportunity-report has built-in ✅/⚠️/❓ marking; check whether the new company-analyst also has it, and if not, add it. May already be redundant.
-   - **Plan 02 brainstorm prep** — FOSS option-space mapping including the booking tool role added by the redesign. Not urgent until after 1-2 pilots.
-   - `t-plan-01b-execute-warm-standby` — when the physical second host arrives.
+**The 5 next-session priorities (in execution order):**
 
-3. **DEFERRED until after 1-2 successful pilots** (per JP's explicit directive):
-   - `t-redesign-technical-brainstorm` — state machine + automation triggers + event taxonomy. Pilot evidence will shape the scope.
-   - `t-build-automation-surface` — Calendly + email day-7 + meeting recording. Premature without pilot data.
-   - `t-update-phase-state-machine` — same. Wait for the pilot to surface which states actually matter.
+1. **Coordinate brand-wire-up ownership with JP** (~10 min Telegram exchange) — before touching `generate_docx.py`, ask JP whether the brand-into-renderer wire-up is his or ours per the JP-content / Ricardo-wrapping split. If his, wait. If ours, proceed to #2. Tracked in `t-brand-renderer-wireup`.
+2. **Read `Nexostrat_Brand_Guide.docx`** + wire brand-kit logos into all 5 `generate_docx.py` renderers. Recommendation (pending guide confirmation): white-background logos for client-facing Skill 05 output, monochromatic for internal Skills 01-04 outputs. Tracked in `t-brand-renderer-wireup`. Due 2026-05-22.
+3. **Design + create intake-upload workflow** (`t-intake-upload-workflow`): canonical path `pipeline/clients/<slug>/00_intake/<date>_intake.md`, markdown file Ricardo edits in a text editor; handoff convention is "Ricardo says 'intake ready at <path>'" → Claude proceeds. Replaced by `/intake` Telegram plugin in Plan 07; this is the manual stand-in. Due 2026-05-22.
+4. **Set up `pipeline/clients/trixx-logistics/` from `_template/`** (`t-trixx-logistics-setup`) + capture intake (WhatsApp intro + site scrape) + populate `state.json` (phase: `prospect` for now per old vocabulary — migrates cleanly when `t-update-phase-state-machine` lands). Due 2026-05-24.
+5. **Run Skills 1 → 2 → 3 → 4 serially on Trixx Logistics with human review between each** (`t-monday-meeting-prep`). Take per-skill notes on good/bad/improvable per JP's directive. Use Skill 04's PrepLlamada output as the meeting guide. Optionally practice the meeting with JP first. Due 2026-05-25.
 
-4. **Plans 03-10** sequenced just-in-time. Plan 08 (meeting capture) becomes more urgent if Monday's pilot needs better recording infrastructure than ad-hoc.
+**Architecture-correctness work (parallel-track for after the pilot):**
+
+- **Migrate the 3 test companies** (Bodai Foods, Constructora Ascenso, Scarab Cycles) from `Pilotos/<Company>/` to `pipeline/clients/<slug>/` per canonical structure (`t-migrate-pilotos-to-clients`). Maps each skill output to its station folder. The HTML deck + improvements .txt stay at process-level. Due 2026-05-30.
+
+**Parallel / non-gating (unchanged):**
+- `t-confidence-marking-company-analyst` — verify whether JP's new SKILL.md for company-analyst already includes ✅/⚠️/❓ marking; if yes, this is redundant.
+- **Plan 02 brainstorm prep** — FOSS option-space mapping including the booking-tool role.
+- `t-plan-01b-execute-warm-standby` — when the physical second host arrives.
+
+**DEFERRED until after 1-2 successful pilots** (per JP's explicit directive):
+- `t-redesign-technical-brainstorm` · `t-build-automation-surface` · `t-update-phase-state-machine`.
+
+**Plans 03-10** sequenced just-in-time. None of the next-session work conflicts with future plan execution — everything uses canonical paths from spec §6.4 or modifies skill renderers which are JP-content territory (coordinated via #1).
 
 **Superseded / done by JP's delivery + integration:**
 - `t-redesign-jp-confirmation` — DONE 2026-05-18 PM (JP confirmed via diagram + skill bundle).

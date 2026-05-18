@@ -1,198 +1,199 @@
 # CHECKPOINT — root (Founder)
 
-**Updated:** 2026-05-17T23:55:00-07:00
+**Updated:** 2026-05-18T13:30:00-07:00
 **By:** ricardo (via Claude Code session at /srv/Nexostrat/)
 **Persona:** Founder
-**Session topic:** Pipeline executed on 3 real pilot companies + systematic rebrand "Mejía, IA & CIA" → Nexostrat + honest process analysis + 8 immediate improvements identified
+**Session topic:** Spanish-drift translation + JP-facing proposal docs + JP delivered 5 skills + brand kit + Trixx Logistics identified as Monday's pilot target
 
 ## What just happened (last session — read once, don't re-litigate)
 
-Third Claude Code session of 2026-05-17 (after Plan 01c morning execution and skill-hygiene afternoon execution). Opened from the skill-hygiene CHECKPOINT with Path B (skill-chain test on a real Colombian company) — but Ricardo scaled it up to **3 companies in one session** instead of one. The arc closed the prior `t-skill-chain-test` task at 3x its original scope and added a permanent rebrand on top.
+~6-hour session in three arcs.
 
-**What landed (working tree pending session-end commit):**
+**Arc 1 (morning) — translation + proposal.** Translated Spanish drift in CHECKPOINT / STATUS / tasks / calendar back to English per the bilingual rule. Drafted JP-facing proposal docs for a 4-phase commercial process (Fase 0 free / Fase 1 paid $900K with 2×1hr meetings / Fase 2 implementation / Fase 3 retainer). Two formats: markdown with bold + plain CAPS for direct Telegram paste. Commit `ec37800`.
 
-- **30 files in `Pilotos/`** organized as `Pilotos/<Company>/<NN_skill-name>/`:
-  - 3 companies × 4 skill reports × 2 formats = 24 files (.md + .docx)
-  - 3 executive summaries (Resumen_<Company>.md + .docx) = 6 files
-  - 1 HTML presentation deck (`Nexostrat_Analisis_Pipeline.html`) — 13 slides, consulting-grade design, keyboard navigation
-  - 1 .txt of immediate process improvements (`Mejoras_Inmediatas_Proceso.txt`) — 8 items ordered by ROI/effort
-- **23 files rebranded** "Mejía, IA & CIA" → Nexostrat:
-  - 4 `SKILL.md` (17 occurrences)
-  - 4 `generate_docx.py` (10 occurrences)
-  - 15 `.md` in `Pilotos/` (43 occurrences)
-  - Total: **70 occurrences in 23 files**; `Ricardo Mejía` preserved untouched
-  - 15 `.docx` in `Pilotos/` regenerated from corrected source
-- **4 new memories** at `~/.claude/projects/-srv-Nexostrat/memory/`:
-  - `feedback_briefing_estructurado_pipeline.md` (the #1 process improvement)
-  - `feedback_outputs_premium_visual.md` (deck design standard)
-  - `feedback_honestidad_brutal_evaluacion.md` (when Ricardo asks for opinion)
-  - `project_pilotos_pipeline_mayo2026.md` (snapshot of what was tested + pending)
+**Arc 2 (afternoon pre-JP-reply) — state docs + impact map + intake form.** Updated STATUS / tasks / calendar to reflect the redesign. Wrote architecture impact map at `00_META/proposals/2026-05-18_impacto-redesign-en-plans.md`. Drafted Fase 0 intake form template (Spanish, 7 sections) at `operations/templates/fase_0_intake_form.md`. Commit `b241939`.
 
-**The three pilots:**
+**Arc 3 (afternoon post-JP-reply) — JP simplification + 5-skill integration + brand kit.** JP responded with substantive simplification, not direct confirmation:
 
-| Company | Sector | Size est. | Founders/key |
-|---|---|---|---|
-| **Bodai Foods** | CPG plant-based (yogurt vegano YOCOCO) | USD 0.5-1.2M | María Nieto + Tomás López (esposos, La Estrella Antioquia) |
-| **Constructora Ascenso** | Construcción VIS (Sabaneta + 5 ciudades) | USD 6-12M est. | Founders no identificados públicamente (NIT 901.042.249) |
-| **Scarab Cycles** | Handmade steel bikes premium | USD 1.8-2.5M | Santiago Toro (founder/CEO) + Alejandro Bustamante (designer); El Retiro Antioquia |
+- **5 skills total** (not 8-10): `company-analyst`, `industry-analyst`, `competitor-analyst`, `discovery-meeting` (reshaped to "PrepLlamada" role), `opportunity-report` (NEW Skill 5 — the entire client-facing free deliverable)
+- **No Skill 07.5** (scoring) — not needed
+- **No $900K Fase 1 paid phase in the immediate flow** — collapsed into a future "Hoja de Ruta de IA" CTA (scope + price TBD, not designed yet)
+- **6-phase pipeline diagram** at `00_META/proposals/2026-05-18_jp-diagrama-pipeline.html`: Contacto → Pre-Llamada → Primera Llamada (30 min) → Generación del Reporte → Revisión Interna (🔒 OBLIGATORIA) → Entrega + Seguimiento (D+4 business-days auto-follow-up)
+- **Directive verbatim:** *"Por ahora propongo dejar este proceso como está y probarlo al menos un par de veces antes de seguir haciendo skills."*
 
-**Honest evaluation of pipeline output** (per Ricardo's explicit request for unvarnished judgment):
+Ricardo accepted with 2 corrections to JP's diagram: skills run **serially** (not parallel), all prospects get the 30-min discovery call.
 
-> "Works as internal preparation material for a senior consultant. It does NOT work as a final deliverable or as a substitute for the real selling work. The pipeline takes us 40% of the way. The remaining 60% is what AI does not solve."
+**Same-day integration of JP's 5-skill bundle into production:**
+- `git mv skills/06_discovery_meeting/` → `skills/04_discovery_meeting/`
+- Replaced content of all 5 skills (preserving our v0.1 `generate_docx.py` for Skill 01 — JP didn't include one)
+- Sed-replaced **12 legacy `Mejía, IA & CIA` → `Nexostrat`** across 4 `generate_docx.py` files (Ricardo's surname preserved)
+- Fixed **7 stale Mac/tmp paths** in SKILL.md files to Linux/repo-relative
+- Updated `.claude/skills/discovery-meeting` symlink target, created new `.claude/skills/opportunity-report` symlink
+- Updated `infra/scripts/test_skills.sh` SKILLS registry to 5 entries
+- **Test harness: 32 PASS · 0 SKIP · 0 FAIL** (was 27/4; +5 from Skill 05)
+- v0.2 CHANGELOG entries on 4 existing skills + v0.1 on Skill 05
+- `skills/README.md` rewritten for 5-skill reality
+- Commit `2092395`
 
-The 10-point critique surfaced data weaknesses (Supersociedades returns NOT FOUND for all 3 pilots, so the financial figures are estimates), recipes-with-different-vocabulary across the 3 companies' QWs, hallucination risk (assumed co-founder relationships on thin evidence), discovery-guide density (26 KB markdown — not executable in 60 min), promises of capabilities not validated against Nexostrat's real delivery capacity, invented price ranges.
+**Second JP delivery (brand kit) arrived mid-integration** via a separate Drive download. Unpacked to `operations/assets/brand/` (18 PNG logos in multiple background variants + `Nexostrat_Brand_Guide.docx` + `Nexostrat_Logo_Kit.html`). Created `skills/shared/brand → ../../operations/assets/brand` symlink for renderer convenience. Both source zips deleted. Commit `4e45fd8`.
 
-**Service model decision pending:** Two models enumerated in the deck (slide 11):
-- **Model A — Productized:** 3-4 fixed packages (WhatsApp Agent / CRM+scoring / sell-out Dashboard / Content Pipeline), fixed price USD 2-8K, no prior meeting required, sold via landing + outreach.
-- **Model B — Diagnostic:** 60-min session + 10-day report + custom proposal, USD 15-50K ticket, sold via referrals + LinkedIn outbound.
-- **Hybrid (recommended):** enter via A for volume + reference cases → upgrade to B when the client asks.
+**All 4 commits pushed** to Gitea origin → propagated to GitHub + Codeberg within ~10 seconds.
 
-Decision is **explicitly Ricardo+JP's call**, not mine. Tracked in `t-pick-service-model` due 2026-05-24.
+**Trixx Logistics identified as Monday's pilot target.** Mexican logistics company in Tijuana, 20+ years old, inbound via Sofi's friend (phone +52 1 664 533 3512, friend's uncle is the owner). Self-described as "muy atrás en programas y tecnología." Meeting: **2026-05-25 1pm Tijuana**. Site scrape (via WebFetch — `firecrawl` CLI not installed) revealed: Grupo Trixx / Trixx Logistics Corp., customs brokerage + air/sea/ground freight + warehousing + cross-border USA-MX, 4 locations (Guadalajara MX, Tijuana MX, Vernon CA, San Diego CA), Spanish + Chinese site languages, no RFC visible, "0 Años" placeholder bug on the site.
+
+Ricardo called the session before scaffolding the Trixx folder — too much in one session. Wrap-up locked.
 
 ## Decisions locked this session — DO NOT re-open without explicit cause
 
-1. **Pipeline B (skill-chain on real companies) is the right next high-information move, not Plan 02 brainstorm.** The skill chain demonstrably works end-to-end on diverse sectors. Plan 02 still load-bearing for Stage 1 launch but no longer highest-information — the highest-information moves are now (a) JP review, (b) service-model decision, (c) the 8 process improvements before next pilot run.
+1. **5 skills, not 8-10. No Skill 07.5. No $900K paid phase in the immediate flow.** JP's simplification accepted. The "Hoja de Ruta de IA" remains as a CTA at the end of the free report; price + scope designed only when pilot evidence justifies.
 
-2. **Rebrand "Mejía, IA & CIA" → Nexostrat is permanent and system-wide.** All 4 skill templates + 4 generate_docx.py scripts + 15 pilot docs corrected. Future skill invocations produce Nexostrat-branded output from the start. The runtime catalog now loads skill descriptions as "Analista de compañías — Nexostrat" / etc.
+2. **Ownership split:** JP owns skill content + prompts; Ricardo owns technical wrapping + ALL client calls and communications. Resolves the day-14-alert-handler question (Ricardo) and the FOSS-vs-Calendly question (FOSS preferred if client UX matches).
 
-3. **Pilot outputs are internal input, NOT client deliverables.** The 4 discovery guides are marked CONFIDENCIAL — never share with prospect. Company/industry/competitor reports are Ricardo's internal preparation only. Client-facing deliverables require Skill #5 (Diagnostic Report, post-meeting with client data) — does not yet exist.
+3. **Stop building, start testing.** JP's directive. The deferred items (`t-redesign-technical-brainstorm`, `t-build-automation-surface`, `t-update-phase-state-machine`) wait for pilot evidence.
 
-4. **Process improvements before next pilot run.** The 8-item list in `Pilotos/Mejoras_Inmediatas_Proceso.txt` should land before the 4th company goes through the pipeline. Highest leverage: the structured briefing template (improvement #1, codified in feedback memory `briefing-estructurado-pipeline`).
+4. **Skills run serially with mandatory human review between each** (Ricardo correction to JP's diagram). All prospects get the 30-min discovery call.
 
-5. **Honest evaluation > false positivity.** Locked via feedback memory `honestidad-brutal-evaluacion`. When Ricardo asks for opinion on a process/output, the standard is veredicto en 1 frase + lo que no funciona con la misma especificidad que lo que sí. False positivity produces cero acciones correctivas.
+5. **Folder restructure:** `06_discovery_meeting` → `04_discovery_meeting` (matches JP's diagram); new `05_opportunity_report` (Skill 5). Test harness reflects 5-skill registry.
 
-6. **Visual standard for high-visibility deliverables.** Locked via feedback memory `outputs-premium-visual`. Decks/docs for JP/client/investor: sober consulting-grade palette (Stripe Press / Linear / Anthropic blog reference), Inter typography, single accent color, generous spacing. NO startup-playful, NO generic Bootstrap, NO old-school-consulting.
+6. **Brand assets canonical at `operations/assets/brand/`** with `skills/shared/brand` symlink for renderers. Brand wire-up into `generate_docx.py` files is the next-session priority (after JP coordination + brand guide read).
+
+7. **Foundation milestone holds.** `v0.1-foundation` tag untouched.
 
 ## In flight — concrete next action
-
-**JP review of the 3 pilots + the analysis deck is the immediate blocking move.** Until JP sees this, the service-model decision cannot land, and that blocks 4 downstream tasks.
 
 ```
 NEXT SESSION:
   1. Open Claude Code AT /srv/Nexostrat/.
   2. Ricardo types "Start Session."
-  3. Claude reads this CHECKPOINT.md + STATUS.md + tasks.json
-     + calendar.json + latest journal (2026-05-17_pipeline-
-     pilotos-rebranding.md).
-  4. Claude presents the path forward in the session brief.
+  3. Claude reads this CHECKPOINT + STATUS + tasks + calendar
+     + latest journal (2026-05-18_jp-delivery-and-skill-integration.md).
+  4. Claude presents the 5-priority path forward.
 
-CRITICAL PATH (the 6 decisions to make in order):
+CRITICAL PATH (5 next-session priorities — execute in order):
 
-  ┌── 2026-05-22 ─────────────────────────────────────┐
-  │  t-jp-pilotos-review                              │
-  │  Ricardo + JP sync (60-90 min)                    │
-  │  Material: Pilotos/Nexostrat_Analisis_Pipeline    │
-  │  .html (13-slide deck) + 3 Resumen_*.md           │
-  │  Output: alignment on 6 strategic decisions       │
+  ┌── ASAP ────────────────────────────────────────────┐
+  │  1. Coordinate brand-wire-up ownership with JP    │
+  │     Short Telegram exchange (~10 min).            │
+  │     "Is the brand-into-renderer wire-up yours or  │
+  │     mine?" If his, wait. If ours, proceed to #2.  │
+  └─────────────────────┬─────────────────────────────┘
+                        │
+  ┌── 2026-05-22 ──────▼──────────────────────────────┐
+  │  2. Read Nexostrat_Brand_Guide.docx + wire        │
+  │     brand-kit logos into all 5 generate_docx.py.  │
+  │     Recommendation (pending guide): white-bg for  │
+  │     client-facing Skill 05; monochromatic for     │
+  │     internal Skills 01-04. Verify 32+ PASS.       │
+  │     t-brand-renderer-wireup                       │
+  └─────────────────────┬─────────────────────────────┘
+                        │
+  ┌── 2026-05-22 ──────▼──────────────────────────────┐
+  │  3. Design + document intake-upload workflow.     │
+  │     Path: pipeline/clients/<slug>/00_intake/.     │
+  │     Handoff: Ricardo says "intake ready for       │
+  │     <slug>" → Claude invokes Skill 01.            │
+  │     t-intake-upload-workflow                      │
   └─────────────────────┬─────────────────────────────┘
                         │
   ┌── 2026-05-24 ──────▼──────────────────────────────┐
-  │  t-pick-service-model                             │
-  │  Service model decision: A / B / Hybrid           │
-  │  Defines the next 6-12 months of the business     │
+  │  4. Scaffold pipeline/clients/trixx-logistics/    │
+  │     from _template/. Capture intake (WhatsApp +   │
+  │     site findings). Populate state.json.          │
+  │     t-trixx-logistics-setup                       │
   └─────────────────────┬─────────────────────────────┘
                         │
-              ┌─────────┴──────────┐
-              │                    │
-  ┌── 2026-05-31 ─┐    ┌── 2026-05-31 ─┐
-  │  capabilities │    │  pre-meeting  │
-  │  catalog      │    │  one-pager    │
-  │  (input to    │    │  (marketing   │
-  │  discovery)   │    │  material)    │
-  └─────────┬─────┘    └───────┬───────┘
-            │                  │
-  ┌── 2026-06-07 ──────────────▼─────────┐
-  │  t-validate-pipeline-improvements    │
-  │  The 8 pipeline improvements before  │
-  │  the 4th pilot run                   │
-  └──────────────────────────────────────┘
+  ┌── 2026-05-25 1pm Tijuana ──▼──────────────────────┐
+  │  5. Run Skills 1→2→3→4 serially on Trixx          │
+  │     Logistics with human review + notes between   │
+  │     each. PrepLlamada (Skill 4 output) is the     │
+  │     meeting guide. Optionally practice meeting    │
+  │     with JP first. Then: meeting → record →       │
+  │     Skill 5 → Ricardo+JP review → manual send.    │
+  │     t-monday-meeting-prep                         │
+  └───────────────────────────────────────────────────┘
 
-PARALLEL (do not gate the critical path):
+PARALLEL (non-blocking, can run any time post-priorities-1-5):
 
-  ┌── 2026-06-14 ─┐   ┌── 2026-06-21 ─┐   ┌── 2026-06-30 ─┐
-  │  confidence   │   │  skill #5     │   │  skill #6     │
-  │  marking ✓/~/?│   │  diagnostic   │   │  commercial   │
-  │  in company   │   │  post-meeting │   │  proposal SOW │
-  └───────────────┘   └───────────────┘   └───────────────┘
+  ┌── 2026-05-30 ─┐
+  │  Migrate Bodai, Ascenso, Scarab from Pilotos/ to
+  │  pipeline/clients/<slug>/ per canonical structure.
+  │  t-migrate-pilotos-to-clients
+  └───────────────┘
 
-LONG-RUNNING PARALLEL:
-  - t-plan-02-write (FOSS docs stack, load-bearing for Stage 1
-    launch per ADR-038). Brainstorm via superpowers:brainstorming
-    + writing-plans + audit + execute. ~1.5-2 weeks elapsed.
-    Due 2026-06-15. Does not gate the pilots.
-  - t-plan-01b-execute-warm-standby (Tasks 7-12, ~2-3h once the
-    second host is available). Due 2026-06-30.
-  - t-plan-01a-jp-and-tty-deferred (Plan 01a closure once JP
-    coordinates). Does not gate any milestone.
-  - t-presentation-refresh-post-adr-038 (regen of the 2026-05-14
-    deck). Due 2026-06-01. Non-blocking.
-  - t-plan-01c-polish-pass (LOW residue, partnership Signal docs).
-    Low priority. Due 2026-06-30.
+DEFERRED PER JP DIRECTIVE (wait for pilot evidence):
+  - t-redesign-technical-brainstorm
+  - t-build-automation-surface
+  - t-update-phase-state-machine
 ```
 
-**Recommendation if Ricardo asks Claude:** the next session should open directly with "I have the JP meeting scheduled / I don't have it scheduled" and work from there. If scheduled, prep Ricardo for the meeting (key deck points to guide the conversation). If not, draft the message to coordinate it. The rest of the work (capabilities catalog, one-pager) depends on the decision that comes out of that meeting.
+## Architecture-conflict check (passed)
+
+All 5 next-session priorities use canonical paths or coordinated content edits. None conflicts with future Plans 02-10 execution:
+
+| Priority | Canonical path used | Conflict risk |
+|---|---|---|
+| 1+2 Brand wire-up | `skills/shared/brand/` symlink | **Coordinated via Telegram with JP** — only real risk |
+| 3 Intake workflow | `pipeline/clients/<slug>/00_intake/` per spec §6.4 | None — Plan 07's `/intake` plugin REPLACES the manual handoff later |
+| 4 Trixx scaffold | `pipeline/clients/_template/` → `trixx-logistics/` | None — exactly the shape Plan 07 expects |
+| 5 Skills 1-4 run | Production-registered skills | None — exercises what exists |
+| 6 Pilots migration | `pipeline/clients/<slug>/` per spec | None — cleans up architectural drift |
 
 ## Blocked on
 
-**For the service-model decision and all its downstream:** JP availability for a 60-90 min session. Without this, the critical path stalls.
+**For next-session priority 1 (brand-wire-up):** JP coordination via Telegram (~10 min). Ricardo to initiate.
 
-**For Plan 02 brainstorm (parallel):** nothing blocks it. Can start whenever Ricardo elects to advance there instead of the pilots→service chain.
+**For priority 5 (Skills run on Trixx):** priorities 3+4 must land first (intake workflow + Trixx scaffold).
 
-**For warm-standby Tasks 7-12 (parallel):** availability of the physical second host.
+**For warm-standby Tasks 7-12 (parallel):** physical second host (unchanged).
 
 **For JP-side TTY-deferred items (parallel):** JP availability (Telegram message ready in `t-plan-01a-jp-and-tty-deferred`).
 
 ## Open questions
 
-**None blocking.** Two soft questions for next session start:
+**None blocking.** Three soft questions for next-session start:
 
-1. **Is the JP review scheduled or not?** If yes, prep the key conversation points. If not, draft the Telegram message to coordinate it.
-2. **Pivot to Plan 02 while waiting for JP, or wait?** Plan 02 is load-bearing but not urgent; the pilots without a defined service model are the urgency. Reason to pivot: if JP takes more than 1-2 weeks to schedule, it's worth not staying idle. Reason to wait: the pilots' discovery may shift requirements for the docs stack (which CRM, which meeting-capture).
+1. **Brand wire-up ownership:** JP or Ricardo? Send short Telegram before touching `generate_docx.py`.
+2. **Intake-upload location confirmation:** `pipeline/clients/<slug>/00_intake/<YYYY-MM-DD>_intake.md` matches the recommendation. Document in `skills/README.md` + intake template's "After filling" section.
+3. **Trixx Logistics intel gaps:** RFC, team size, real financial state (vs site "0 Años" bug), real years founded, certifications (C-TPAT and OEA are likely for cross-border), specific China-MX or LATAM-USA niche. Skill 01 will research; intake provides what we know.
 
-## Files modified but not yet committed
+## Files modified but not yet committed at session start
 
-After this session-end bookkeeping commit, working tree will be clean. Files in this commit:
+Session-end commit will land all of:
 
-- **New (Pilotos):** 30 files in `Pilotos/` (15 .md + 15 .docx, organized in 3 subfolders) + 1 HTML deck + 1 .txt of improvements + 3 folders + 3 Resumen .md + 3 Resumen .docx (some already counted)
-- **Modified (skills rebrand):** 4 `SKILL.md` + 4 `generate_docx.py` (in `.claude/skills/<name>/`)
-- **Modified (session-end bookkeeping):** `STATUS.md`, `CHECKPOINT.md` (this file), `tasks.json`, `calendar.json`, `00_META/CHANGELOG.md`
-- **New (journal):** `00_META/journal/2026-05-17_pipeline-pilotos-rebranding.md`
-- **New (memories):** 4 files at `~/.claude/projects/-srv-Nexostrat/memory/feedback_briefing_estructurado_pipeline.md` + `feedback_outputs_premium_visual.md` + `feedback_honestidad_brutal_evaluacion.md` + `project_pilotos_pipeline_mayo2026.md`
-- **Modified (memory index):** `~/.claude/projects/-srv-Nexostrat/memory/MEMORY.md` (4 entries added)
-
-(Memories live outside the repo; only the in-repo files reach the commit. Memory persistence is via Claude's per-project storage at `~/.claude/projects/-srv-Nexostrat/memory/`.)
+- `STATUS.md` (header + Current state + Next sequence + Recent activity)
+- `tasks.json` (5 done + 4 new + 3 deferred + 1 polish-pass item added + 1 monday-prep notes update)
+- `calendar.json` (rebuilt for testing-first sequence + 4 new events + 1 renamed event)
+- `00_META/CHANGELOG.md` (2026-05-18 row added)
+- `00_META/journal/2026-05-18_jp-delivery-and-skill-integration.md` (new)
+- `CHECKPOINT.md` (this file, rewritten)
 
 ## Estimated time to finish (roadmap)
 
-- **Critical path (JP review → service-model → catálogo + one-pager → validate improvements):** ~3 weeks from JP review. Done by 2026-06-07.
-- **Skill #5 + Skill #6 (parallel):** ~2-3 weeks each, due 2026-06-21 / 2026-06-30. Gates on having first real client through the pipeline.
-- **Confidence marking (parallel):** ~1 día, due 2026-06-14. Skill SKILL.md edit pequeño.
-- **Plan 02 brainstorm + write (parallel):** ~3-5 días elapsed write phase + ~1 semana audit+execute. Due 2026-06-15.
-- **Plan 01b warm-standby (parallel, host-gated):** ~2-3h once the host is available. Due 2026-06-30.
-- **Stage 1 launch realistic:** 2026-07-15 to 2026-07-30 — depends on JP review timing + Plan 02 + first real client closed via Model A.
+- **Critical path (priorities 1-5):** ~7 days, completing 2026-05-25 with the Trixx Logistics pilot meeting.
+- **Architecture migration (priority 6):** ~1-2h, due 2026-05-30.
+- **Stage 1 launch realistic:** unchanged at 2026-07-15 to 2026-07-30. Depends on 1-2 successful pilots under the new process + JP's "ready to keep building" signal.
 
 ## After this, what's next
 
-JP review → service model decision → catálogo + one-pager → process improvements validated → 4th pilot run with improved process → first real client through Modelo A or Modelo B → Skill #5 + #6 built when needed → Stage 1 launch.
-
-Plan 02 in parallel as opportunity allows. Plan 01b warm-standby + JP TTY-deferred + presentation regen + polish-pass all happen when ungated.
+Trixx Logistics pilot → Ricardo+JP post-meeting review → 1-2 more real pilots if Trixx surfaces process gaps OR Skill 05 to first delivered report if Trixx accepts → real client closes via "Hoja de Ruta de IA" → architecture brainstorm reopens (deferred items) → Plans 02-10 sequenced just-in-time.
 
 ## For a future auditor reading this baton
 
-This was the 7th major execution arc since 2026-05-15 (Plan 01a + Plan 01b mirrors + Plan 01c re-audit + Plan 01c execute + skill-hygiene + and now this 3-company pilot batch + rebrand). Pattern: each Plan 01 sub-plan was an executed-and-audited release; the foundation milestone (`v0.1-foundation`) closed all 28 original audit findings. Skills became runnable in the skill-hygiene session. **This session was the first ground-truth quality test** of the skill chain end-to-end on real companies — not a placeholder, not a fixture.
+This was the 8th major execution arc since 2026-05-15 (Plan 01a Tasks 1-11 + Plan 01a Tasks 12-18 + hard-system-audit + Plan 01b mirror cluster + Plan 01b re-audit + Plan 01c re-audit + Plan 01c execute + skill-hygiene + 3-company-pilot batch + and now this JP-delivery-and-integration). Pattern: each arc was an executed-and-audited release; the foundation milestone (`v0.1-foundation`) closed all 28 original audit findings; skills became production-runnable in skill-hygiene; first real client now imminent in t-monday-meeting-prep.
 
-The output of this test (40% complete, honest mid-tier evaluation, 8 specific process improvements identified) is more valuable than a "perfect" run would have been — because perfect runs hide gaps until they show up in front of a paying client. Now the gaps are documented + tracked + due-dated before the next pilot.
+The 2026-05-18 arc is where **the architecture stops being theoretical**. JP's "stop building, start testing" directive is the correct response to the 2026-05-17 pilots' honest "40% of the way" evaluation: the remaining 60% (sales work, real client data, capability validation, brand polish) is human work that adding more skills won't solve.
 
-Reading order for re-auditing the 2026-05-17 PM/evening arc:
+Reading order for re-auditing the 2026-05-18 arc:
 1. This CHECKPOINT.
-2. STATUS.md Current state + top Recent activity entry.
-3. Journal `00_META/journal/2026-05-17_pipeline-pilotos-rebranding.md` (full narrative).
-4. The pilot deliverables: `Pilotos/Nexostrat_Analisis_Pipeline.html` (the analysis) + `Pilotos/Mejoras_Inmediatas_Proceso.txt` (the 8 improvements) + the 3 executive summaries.
-5. Individual company reports only if specific question (33 files total — index in the Resumen_*.md files).
-6. The 4 new feedback/project memories (the durable learnings from this session).
+2. `STATUS.md` Current state + Next sequence + top Recent activity entry.
+3. Journal `00_META/journal/2026-05-18_jp-delivery-and-skill-integration.md` (full narrative).
+4. `00_META/proposals/2026-05-18_jp-diagrama-pipeline.html` (JP's 6-phase diagram — open in browser).
+5. `00_META/proposals/2026-05-18_proceso-comercial-fases.md` (the proposal as accepted with simplifications).
+6. `skills/README.md` (current 5-skill reality).
+7. Individual SKILL.md files only when specific skill-content questions arise.
 
-The session-end bookkeeping commit locks all of this. Next session opens with JP coordination as the top priority unless Ricardo redirects.
+The session-end bookkeeping commit (next) locks all of this. Next session opens with brand-wire-up coordination as the top priority, then through the 5-priority path to Monday's pilot meeting.
 
 ---
 
-*This CHECKPOINT.md is the baton between sessions. Next session: type "Start Session" → Claude reads this + STATUS + tasks + calendar + latest journal → present JP-coordination as priority #1 (with Path A / Plan 02 brainstorm as the parallel option if Ricardo prefers to advance there while waiting for JP).*
+*This CHECKPOINT.md is the baton between sessions. Next session: type "Start Session" → Claude reads this + STATUS + tasks + calendar + latest journal → present the 5-priority path forward.*

@@ -1,76 +1,98 @@
 # Nexostrat — STATUS
 
-> **Last updated:** 2026-05-18 (Ricardo–JP redesign meeting — 4-phase commercial process drafted + JP-facing proposal docs sent + 3 Ricardo-side decisions resolved + state docs updated mid-flight while awaiting JP confirmation on 5 remaining items)
-> **Current phase:** **Service-model decision resolved** — 4-phase model picked (Fase 0 free pre-engagement, Fase 1 paid $900K COP diagnostic with 2×1hr meetings, Fase 2 implementation, Fase 3 retainer). JP confirmation on 5 remaining `decisiones pendientes` is the new critical-path gate. Plan 02 (FOSS docs stack) scope grows by one role (booking tool) with a new binding constraint (client UX simplicity).
+> **Last updated:** 2026-05-18 (afternoon — JP confirmed the process via a 6-phase diagram + delivered 5 updated skills as `SKills updated.zip`; Ricardo integrated all 5 into production same day; 32 PASS · 0 SKIP · 0 FAIL test harness)
+> **Current phase:** **JP confirmation received and integrated.** All 5 skills are production-runnable. JP simplified the proposal substantively: 5 skills (not 8-10), no Skill 07.5, no $900K Fase 1 paid phase in the immediate flow — the "Reporte de Oportunidades" from Skill 05 is the entire free first deliverable; the paid "Hoja de Ruta de IA" is a CTA at the end, not yet designed. JP's directive: **"stop building, start testing"** — run Skills 1-4 on Monday's pilot meeting (2026-05-25), evaluate, then decide what comes next. Critical-path gate is now Monday's pilot prep.
 
 ## Current state
 
-**Workflow redesign locked in Ricardo–JP meeting of 2026-05-18.** The 3-company pilot from 2026-05-17 produced the evidence; today's meeting produced the new commercial process. **The service-model decision is resolved.** Nexostrat operates in 4 phases:
+**JP confirmed the process + delivered 5 updated skills in `SKills updated.zip` (afternoon 2026-05-18).** The morning's redesign proposal got reshaped — JP simplified the workflow and shipped working artifacts. The 6-phase pipeline (per JP's diagram at `00_META/proposals/2026-05-18_jp-diagrama-pipeline.html`):
 
-- **Fase 0 — Pre-engagement gratuito** (pilot scope; permanent shape TBD after model validates). Human-filled intake form → Skills 01/02/03/04 with human review between each → 30-min recorded client meeting → Skill 05 produces a 2-page free document with high-level opportunities + hook to paid meeting. Auto-follow-up day 7, call alert day 14 (handled by Ricardo).
-- **Fase 1 — Diagnóstico pagado · $900.000 COP** (includes 2×1hr client meetings). Calendly booking + payment → Skill 06 deep analysis + Reunión 1 (Discovery profundo, 1hr) → Skill 07 implementable solutions → Skill 07.5 scoring (TBC by JP) → Skill 08 client-facing PDF → Reunión 2 (Socialización, 1hr).
-- **Fase 2 — Implementación** (sketch only; designed when first real client arrives at this stage).
-- **Fase 3 — Retainer** (sketch only; designed when first real client arrives at this stage).
+1. **Fase 1 — Contacto y Agendamiento** — prospect contact, first call agendada, nombre + NIT/RFC + sector captured.
+2. **Fase 2 — Preparación Pre-Llamada** — Ricardo runs the 4 analysis skills **serially** (not in parallel — Ricardo correction to JP's diagram). Skill 01 → human review → Skill 02 → human review → Skill 03 → human review → Skill 04 (PrepLlamada).
+3. **Fase 3 — Primera Llamada (30 min)** — Ricardo + client, recorded. PrepLlamada is the guide. **All prospects get this call** (Ricardo's directive — overrides JP's diagram suggestion of "some clients only").
+4. **Fase 4 — Generación del Reporte** — Skill 05 (Reporte de Oportunidades de IA) consumes the 4 prior reports + meeting notes. Produces 6-10 prioritized opportunities + 2 Quick Wins + 4-week plan. **This is the FREE deliverable.**
+5. **Fase 5 — Revisión Interna (🔒 OBLIGATORIA)** — Ricardo + JP review every report before it ships. No exceptions.
+6. **Fase 6 — Entrega + Seguimiento** — Manual send (always personal, never automated for first send). **D+4 business days** auto-follow-up email if no response. CTA at the end of the report invites a paid "Hoja de Ruta de IA" (scope + price TBD; not designed yet).
 
-**Ownership split locked:** JP owns skill content + prompts (the knowledge of what each skill says, outputs, tone). Ricardo owns technical wrapping (folder structure, test harness, integration) + all client calls and communications. Skills 01/02/03 stay as-is in production. Skill 04 = rebrand of `06_discovery_meeting` with JP-adjusted content (60-min post-pay → 30-min pre-pay with paid-meeting hook). Skills 05/06/07/07.5(?)/08 are new — JP delivers content when ready.
+**Major simplifications from the morning proposal:** No Skill 07.5 (scoring); no $900K COP Fase 1 paid phase with 2×1hr meetings (collapsed into the future "Hoja de Ruta de IA" CTA); 5 skills total (was 8-10); D+4 business days follow-up (was D+7); all prospects get the discovery call (earlier "only some" flag reversed).
 
-**Two JP-facing proposal docs live at `00_META/proposals/`:**
-- `2026-05-18_proceso-comercial-fases.md` — markdown version with bold formatting
-- `2026-05-18_proceso-comercial-fases-telegram.md` — plain CAPS version paste-ready for Telegram
+**5 skills now production-ready** (integrated 2026-05-18 PM from JP's bundle):
 
-Both reflect 3 Ricardo-side resolutions made post-meeting: (1) Fase 0 free structure is pilot-scope only, not permanent; (2) Ricardo handles all client calls/communications including the day-14 alert; (3) FOSS booking tool preferred over Calendly if the client UX is equivalent. **5 decisions still pending JP confirmation:** Skill 07.5 yes/no, discount range, FOSS-tool agreement, day-7 email template + tone, Fase 2/3 sketch-deferral confirmation, $900K price + 2-meeting-inclusion confirmation.
+| # | Skill folder | Role | Frontmatter slug |
+|---|---|---|---|
+| 1 | `skills/01_company_analyst/` | Company analysis (CO/NIT + MX/RFC) | `company-analyst` |
+| 2 | `skills/02_industry_analyst/` | Industry analysis (CO + MX) | `industry-analyst` |
+| 3 | `skills/03_competitor_analyst/` | Competitive analysis (CO + MX) | `competitor-analyst` |
+| 4 | `skills/04_discovery_meeting/` (renamed from `06_*`) | PrepLlamada / Guía pre-llamada | `discovery-meeting` |
+| 5 | `skills/05_opportunity_report/` (NEW) | Reporte de Oportunidades — client deliverable | `opportunity-report` |
 
-**Architectural impact (preview — full map at `00_META/proposals/2026-05-18_impacto-redesign-en-plans.md`):**
+Integration done same-day: structural rename (`06_*` → `04_*` via `git mv`), 7 Mac/tmp paths corrected to Linux/repo-relative, 12 legacy `Mejía, IA & CIA` occurrences sed-replaced → `Nexostrat` (Ricardo's surname preserved), test harness updated to 5-skill registry, `.claude/skills/opportunity-report` symlink created, CHANGELOGs documented v0.2 across the 4 existing skills + v0.1 for new Skill 05, `skills/README.md` updated to reflect 5-skill reality. **Test harness: 32 PASS · 0 SKIP · 0 FAIL.**
 
-| Plan | Effect |
+**Pending JP delivery** (per Ricardo's call): the .docx output template + company image branding. JP is still working on these. Current renderers use placeholder Nexostrat branding (palette + typography from the v0.1 work) — replaced when JP ships.
+
+**Ownership split confirmed:** JP owns skill content + prompts (what each skill says, outputs, tone). Ricardo owns technical wrapping (folder structure, paths, test harness, symlinks) + all client calls and communications (overrides the earlier day-14-alert-handler question).
+
+**JP's directive: stop building, start testing.** Next move is **Monday's pilot meeting (2026-05-25)**. Run Skills 1-4 on that company, take notes on good/bad/improvable, arrive at the meeting with the PrepLlamada as Ricardo's guide. JP offered to practice the meeting beforehand if useful.
+
+**Architectural impact** (map at `00_META/proposals/2026-05-18_impacto-redesign-en-plans.md` — partially superseded by JP's simplification):
+
+| Plan | Effect under JP's confirmed scope |
 |---|---|
 | 01a / 01b / 01c | **Untouched** — foundation holds |
-| 02 (docs/FOSS stack) | Scope grows by 1 role (booking tool); new binding constraint (client UX simplicity) |
-| 03 (events.jsonl) | **MORE load-bearing** — every phase transition + automation trigger is an event |
-| 04 (Telegram bot) | New commands: `/phase`, `/call-alert`, `/booking-received`, `/payment-confirmed` |
-| 05 / 06 (skills) | Scope expands from 5 skills to 8-10 |
-| 07 (orchestrator) | Much bigger state machine — the heart of the redesign |
-| 08 (meeting capture) | **Pulled earlier** in priority — Skill 05 needs recording in Fase 0 |
+| 02 (docs/FOSS stack) | Still adds booking tool + client-UX-simplicity constraint; D+4 email automation needs delayed-trigger support |
+| 03 (events.jsonl) | Smaller scope than morning proposal — ~10-15 new event types (vs ~50 in the 8-10-skill version) |
+| 04 (Telegram bot) | Fewer new commands needed — no paid-phase triggers |
+| 05 / 06 (skills) | **Effectively done in spirit** — all 5 skills exist and run; Mode B + judge + benchmark fixtures still deferred |
+| 07 (orchestrator) | State machine smaller than morning proposal (no Fase 1 paid sub-states) |
+| 08 (meeting capture) | **Still pulled earlier** in priority — Skill 05 needs the recording |
 | 09 / 10 | Less affected |
 
-**Foundation milestone holds.** All 3 prior tags (`v0.1a-foundation`, `v0.1b-mirrors-only`, `v0.1-foundation`) remain valid. The redesign sits on top of the foundation, not under it.
+**Technical brainstorm + automation surface + state-machine update** — **DEFERRED** until after 1-2 pilot tests under the new process (JP's explicit "stop building, start testing" directive).
 
-**Critical-path gate:** JP's confirmation on the 5 remaining `decisiones pendientes`. Until that lands, the technical brainstorm + plan rewrites can't kick off. **In the meantime,** this session is producing: state-doc updates (this section), architecture impact map (linked above), Fase 0 intake form template, commit hygiene.
+**Foundation milestone holds.** Tags `v0.1a-foundation` / `v0.1b-mirrors-only` / `v0.1-foundation` remain valid.
 
-**Working tree clean post-commit `ec37800`** (translations + 2 new proposal docs landed 2026-05-18).
+**Critical-path gate:** Monday 2026-05-25 — pilot meeting with the new process running end-to-end.
 
-## Next sequence (post-redesign, JP-confirmation-gated)
+## Next sequence (post-JP-delivery — testing-first)
 
-1. **Critical-path gate — JP confirmation** on the 5 remaining `decisiones pendientes` (target ~2026-05-25, tracked in `t-redesign-jp-confirmation`). Source doc: `00_META/proposals/2026-05-18_proceso-comercial-fases.md`. Until this lands, all redesign-execution work is blocked.
+1. **Critical-path — Monday 2026-05-25 pilot meeting prep** (tracked in `t-monday-meeting-prep`):
+   - Identify target company (Ricardo's call — TBD).
+   - Run Skills 01 → 02 → 03 → 04 serially with human review between each.
+   - Take notes per skill: what's good / bad / improvable.
+   - Use Skill 04's PrepLlamada output as the meeting guide.
+   - Optionally practice the meeting with JP beforehand.
+   - **Post-meeting:** record + transcribe (manual or local Whisper), feed into Skill 05 to produce the Reporte de Oportunidades.
+   - **Pre-send:** Ricardo + JP mandatory internal review per Fase 5 of JP's diagram.
 
-2. **Post-confirmation (gated on #1):**
-   - **Rebrand `06_discovery_meeting` → `04_briefing_30min`** (structural placeholder, ~30 min mechanical work; tracked in `t-skill-04-rebrand`). JP delivers final content separately.
-   - **JP delivers skill content/prompts** for Skills 04 (adjusted), 05, 06, 07, 07.5 (if confirmed), 08. Tracked in `t-jp-deliver-skill-content` (owner: JP).
-   - **Ricardo wraps each delivered skill** into `skills/NN_<name>/` shape (SKILL.md + scripts + tests) following the Skills 01-03 pattern.
-   - **Technical brainstorm** via `superpowers:brainstorming` to design the phase state machine, automation triggers, event taxonomy. Tracked in `t-redesign-technical-brainstorm`.
-   - **Re-scope Plans 02 / 03 / 04 / 05 / 06 / 07 / 08** per the impact map.
+2. **Parallel / non-gating (can pick up anytime):**
+   - `t-confidence-marking-company-analyst` — JP's new opportunity-report has built-in ✅/⚠️/❓ marking; check whether the new company-analyst also has it, and if not, add it. May already be redundant.
+   - **Plan 02 brainstorm prep** — FOSS option-space mapping including the booking tool role added by the redesign. Not urgent until after 1-2 pilots.
+   - `t-plan-01b-execute-warm-standby` — when the physical second host arrives.
 
-3. **Independent of JP confirmation (can run now or in parallel):**
-   - `t-confidence-marking-company-analyst` — small Skill 01 SKILL.md edit (~10-15 min).
-   - **Architecture impact map** at `00_META/proposals/2026-05-18_impacto-redesign-en-plans.md` (in flight this session).
-   - **Fase 0 intake form template** at `operations/templates/` (in flight this session).
+3. **DEFERRED until after 1-2 successful pilots** (per JP's explicit directive):
+   - `t-redesign-technical-brainstorm` — state machine + automation triggers + event taxonomy. Pilot evidence will shape the scope.
+   - `t-build-automation-surface` — Calendly + email day-7 + meeting recording. Premature without pilot data.
+   - `t-update-phase-state-machine` — same. Wait for the pilot to surface which states actually matter.
 
-4. **Parallel — Plan 02 brainstorm prep.** FOSS option-space mapping + new booking-tool role can start. Final tool picks need JP confirmation on decision #3.
+4. **Plans 03-10** sequenced just-in-time. Plan 08 (meeting capture) becomes more urgent if Monday's pilot needs better recording infrastructure than ad-hoc.
 
-5. **Plan 01b warm-standby cluster Tasks 7-12** (parallel non-blocking, when the physical second host arrives). Tag `v0.1b-mirrors`. Tracked in `t-plan-01b-execute-warm-standby`.
+**Superseded / done by JP's delivery + integration:**
+- `t-redesign-jp-confirmation` — DONE 2026-05-18 PM (JP confirmed via diagram + skill bundle).
+- `t-jp-deliver-skill-content` — DONE 2026-05-18 PM (5 skills delivered).
+- `t-skill-04-rebrand` — DONE 2026-05-18 PM (`git mv` 06 → 04, content swapped).
+- `t-build-skill-wrappers` — DONE 2026-05-18 PM (all 5 wrapped + test-harness PASS).
+- `t-build-fase0-intake-form` — DONE 2026-05-18 PM (`operations/templates/fase_0_intake_form.md`).
 
-6. **Plans 03-10** sequenced just-in-time per the master plan index, with scopes shifted per the impact map.
-
-**Superseded / redirected by the redesign:**
-- `t-onepager-prereunion-template` — likely SUPERSEDED. Skill 05's 2-page output becomes the marketing artifact.
-- `t-nexostrat-capabilities-catalog` — REDIRECTED. Now feeds JP's prompt content for Skills 06/07 (what Nexostrat can actually deliver).
-- `t-validate-pipeline-improvements` — PARTLY SUPERSEDED. The human-review-checkpoint rule is built into the new workflow; validation cycle re-scoped to "first real pilot under new process."
-- `t-skill-5-diagnostic-report` — RENAMED. New Skill 05 is "Resumen Pre-engagement" (free 2-page), not "Diagnostic Report." Re-spec pending JP content.
-- `t-skill-6-commercial-proposal` — RENAMED. New Skill 06 is "Análisis Profundo" (paid prep), not "Commercial Proposal." The proposal function moves to Skill 08. Re-spec pending JP content.
+**Superseded / redirected by the redesign (still tracked but inactive):**
+- `t-onepager-prereunion-template` — SUPERSEDED. Skill 05's output is the marketing artifact.
+- `t-nexostrat-capabilities-catalog` — REDIRECTED. Was input for prompt content; now JP owns prompts, so this becomes "what Nexostrat can deliver TODAY" for internal use during pilots.
+- `t-validate-pipeline-improvements` — PARTLY SUPERSEDED by the new workflow + Monday's pilot.
+- `t-skill-5-diagnostic-report`, `t-skill-6-commercial-proposal` — RENAMED & SUPERSEDED (per integration work today).
 
 **Parallel / non-blocking (unchanged):**
-- `t-plan-01a-jp-and-tty-deferred` — JP-side roundtrip + Ricardo TTY tests + PAT wrapper smoke-test for Plan 01b mirror PATs.
-- `t-presentation-refresh-post-adr-038` — full regeneration of the 2026-05-14 presentation HTML.
+- `t-plan-01a-jp-and-tty-deferred` — JP-side roundtrip + Ricardo TTY tests.
+- `t-presentation-refresh-post-adr-038` — full regen of the 2026-05-14 presentation HTML.
+- `t-plan-01c-polish-pass` — LOW residue from 4 re-audits.
 
 ## Blockers
 
@@ -119,7 +141,9 @@ All JP-side coordination items received 2026-05-15 via Signal + Proton email. **
 
 ## Recent activity
 
-- **2026-05-18 (Ricardo–JP redesign meeting · 4-phase commercial process drafted · JP-facing proposal docs sent · 3 Ricardo-side decisions resolved · state-doc updates in flight while awaiting JP confirmation)** — Ricardo had the JP review meeting in the morning. Outcome: a complete redesign of Nexostrat's commercial process based on the 2026-05-17 pilots' "40 % of the way" evaluation. Four phases locked: **Fase 0** free pre-engagement (intake form → Skills 01/02/03/04 with human review between each → 30-min recorded meeting → Skill 05 free 2-page doc + hook to paid meeting + auto-follow-up day 7 + call alert day 14), **Fase 1** paid $900K COP diagnostic including 2×1hr client meetings (Reunión 1 Discovery profundo + Reunión 2 Socialización) with Skills 06/07/07.5(?)/08 between them, **Fase 2** implementation (sketch only — designed when first real client arrives), **Fase 3** retainer (sketch only — designed when first real client arrives). Ownership split: JP owns skill content + prompts (knowledge of what each skill says, outputs, tone), Ricardo owns technical wrapping + all client calls/communications. Skills 01/02/03 unchanged in production. Skill 04 = `06_discovery_meeting` rebranded + JP-adjusted (60-min post-pay → 30-min pre-pay). Skills 05/06/07/07.5(?)/08 net-new; JP delivers content when ready. Two JP-facing proposal docs landed at `00_META/proposals/`: `2026-05-18_proceso-comercial-fases.md` (markdown with bold) and `2026-05-18_proceso-comercial-fases-telegram.md` (plain CAPS for direct paste). Both reflect 3 Ricardo-side resolutions: Fase 0 free structure is pilot-scope only (not permanent), Ricardo handles all client calls/communications, FOSS booking tool preferred if client UX matches Calendly. 5 decisions still pending JP confirmation: Skill 07.5 yes/no, discount range, FOSS-tool agreement, day-7 email template, Fase 2/3 sketch-deferral confirmation, $900K + 2-meeting-inclusion price confirmation. Also in this session: translation pass on Spanish drift in CHECKPOINT.md + STATUS.md + tasks.json (9 notes) + calendar.json (8 events) back to English per the bilingual rule. Schema validation PASS. Commit `ec37800` landed (6 files: 4 modified + 2 new). Working tree clean. **Critical-path gate is now JP's confirmation on the 5 remaining items** (tracked in `t-redesign-jp-confirmation`, target ~2026-05-25). In-flight this same session while awaiting JP: architecture impact map at `00_META/proposals/2026-05-18_impacto-redesign-en-plans.md`, Fase 0 intake form template at `operations/templates/`, plus this STATUS.md update. Tasks closed: `t-jp-pilotos-review`, `t-pick-service-model`. Tasks redirected/superseded: see Next sequence § Superseded.
+- **2026-05-18 PM (JP confirmation + 5-skill bundle integration · 32 PASS test harness · ready for Monday's pilot meeting)** — JP sent the 6-phase pipeline diagram + `SKills updated.zip` (5 .skill bundles: company-analyst, industry-analyst, competitor-analyst, discovery-meeting, opportunity-report). JP's directive verbatim: *"propongo dejar este proceso como está y probarlo al menos un par de veces antes de seguir haciendo skills."* He asked Ricardo to run Skills 1-4 on Monday's pilot company (2026-05-25), take notes on good/bad/improvable, and arrive at the meeting fully prepared. Ricardo flagged 2 corrections to JP's diagram: skills run serially not in parallel; all prospects get the 30-min call (not "only some"). Integration work this session: (1) unpacked all 5 `.skill` bundles to `/tmp/jp-skills-2026-05-18/`; (2) renamed `skills/06_discovery_meeting/` → `skills/04_discovery_meeting/` via `git mv` to match JP's diagram numbering; (3) removed obsolete empty placeholder `skills/04_meeting_script/`; (4) replaced contents of all 5 skill folders with JP's bundle content (preserving our v0.1 `generate_docx.py` for Skill 01 since JP didn't include one); (5) sed-swept 12 legacy `Mejía, IA & CIA` → `Nexostrat` across 4 generate_docx.py files (Ricardo's surname preserved); (6) fixed 7 Mac/tmp paths (5 in industry/competitor SKILL.md → repo-relative; 2 in company-analyst SKILL.md → local `python skills/01_*/scripts/generate_docx.py` pattern); (7) updated `.claude/skills/discovery-meeting` symlink target (06 → 04); (8) created new `.claude/skills/opportunity-report` symlink; (9) updated `infra/scripts/test_skills.sh` SKILLS array (5 entries); (10) re-ran test harness: **32 PASS · 0 SKIP · 0 FAIL**; (11) updated `skills/README.md` (4-skill state → 5-skill state, JP diagram referenced); (12) appended v0.2 CHANGELOG entries to all 4 existing skills + created v0.1 CHANGELOG for new Skill 05; (13) preserved JP's diagram at `00_META/proposals/2026-05-18_jp-diagrama-pipeline.html`. Tasks closed: `t-redesign-jp-confirmation`, `t-jp-deliver-skill-content`, `t-skill-04-rebrand`, `t-build-skill-wrappers`, `t-build-fase0-intake-form`. Tasks deferred per JP directive: `t-redesign-technical-brainstorm`, `t-build-automation-surface`, `t-update-phase-state-machine`. New task: `t-monday-meeting-prep` (critical, due 2026-05-25). Pending JP delivery: docs template + company image for .docx outputs.
+
+- **2026-05-18 AM (Ricardo–JP redesign meeting · 4-phase commercial process drafted · JP-facing proposal docs sent · 3 Ricardo-side decisions resolved · state-doc updates in flight while awaiting JP confirmation)** — Ricardo had the JP review meeting in the morning. Outcome: a complete redesign of Nexostrat's commercial process based on the 2026-05-17 pilots' "40 % of the way" evaluation. Four phases locked: **Fase 0** free pre-engagement (intake form → Skills 01/02/03/04 with human review between each → 30-min recorded meeting → Skill 05 free 2-page doc + hook to paid meeting + auto-follow-up day 7 + call alert day 14), **Fase 1** paid $900K COP diagnostic including 2×1hr client meetings (Reunión 1 Discovery profundo + Reunión 2 Socialización) with Skills 06/07/07.5(?)/08 between them, **Fase 2** implementation (sketch only — designed when first real client arrives), **Fase 3** retainer (sketch only — designed when first real client arrives). Ownership split: JP owns skill content + prompts (knowledge of what each skill says, outputs, tone), Ricardo owns technical wrapping + all client calls/communications. Skills 01/02/03 unchanged in production. Skill 04 = `06_discovery_meeting` rebranded + JP-adjusted (60-min post-pay → 30-min pre-pay). Skills 05/06/07/07.5(?)/08 net-new; JP delivers content when ready. Two JP-facing proposal docs landed at `00_META/proposals/`: `2026-05-18_proceso-comercial-fases.md` (markdown with bold) and `2026-05-18_proceso-comercial-fases-telegram.md` (plain CAPS for direct paste). Both reflect 3 Ricardo-side resolutions: Fase 0 free structure is pilot-scope only (not permanent), Ricardo handles all client calls/communications, FOSS booking tool preferred if client UX matches Calendly. 5 decisions still pending JP confirmation: Skill 07.5 yes/no, discount range, FOSS-tool agreement, day-7 email template, Fase 2/3 sketch-deferral confirmation, $900K + 2-meeting-inclusion price confirmation. Also in this session: translation pass on Spanish drift in CHECKPOINT.md + STATUS.md + tasks.json (9 notes) + calendar.json (8 events) back to English per the bilingual rule. Schema validation PASS. Commit `ec37800` landed (6 files: 4 modified + 2 new). Working tree clean. **Critical-path gate is now JP's confirmation on the 5 remaining items** (tracked in `t-redesign-jp-confirmation`, target ~2026-05-25). In-flight this same session while awaiting JP: architecture impact map at `00_META/proposals/2026-05-18_impacto-redesign-en-plans.md`, Fase 0 intake form template at `operations/templates/`, plus this STATUS.md update. Tasks closed: `t-jp-pilotos-review`, `t-pick-service-model`. Tasks redirected/superseded: see Next sequence § Superseded.
 
 - **2026-05-17 (Pipeline executed on 3 real pilot companies + systematic rebrand "Mejía, IA & CIA" → Nexostrat + honest process analysis — third session this day, started ~17:00 after skill-hygiene session)** — The session opened with `/analyze the company Bodai` from the skill-hygiene CHECKPOINT's Path B option, and scaled organically into a 3-company batch validation of the full 4-skill chain. **Pilots:** Bodai Foods (plant-based CPG, USD 0.5-1.2M, founders María Nieto + Tomás López); Constructora Ascenso (VIS social-housing construction, Medellín + 6 cities, USD 6-12M est., NIT 901.042.249); Scarab Cycles (handmade premium steel bikes, El Retiro Antioquia, USD 1.8-2.5M, Santiago Toro CEO + Alejandro Bustamante designer, 12 people, ~300 framesets/year, frameset from USD 3,400, 5-week lead time uniquely defensible). Each company ran the full chain (company-analyst → industry-analyst → competitor-analyst → discovery-meeting) producing 4 reports each in .md + .docx. **Key insights surfaced:** Mils (Correa Cousins SAS, Envigado) emerged as Bodai's near-twin competitor with an active subscription (missed in initial pre-research); Ascenso doesn't report to Supersociedades despite being "Large" per private directories — a pattern repeated across the 3 pilots that surfaces a structural problem with Colombian transparency for mid-size firms (exactly Nexostrat's ICP); Scarab's combination of 5-week lead time + Colombian cultural narrative is unique globally vs Pegoretti / Mosaic / Argonaut / Sage / Strong / Sven. Then Ricardo requested executive summaries + folder organization (`Pilotos/<Company>/<NN_skill-name>/`) → 30 files organized. Then **honest evaluation requested**: 10-point critique landed with verdict "40% of the way — does NOT work as a final deliverable" + 8 immediate process improvements documented at `Pilotos/Mejoras_Inmediatas_Proceso.txt`. Then **HTML presentation deck** built (13 slides, consulting-grade design, off-black + terracotta palette + Inter typography, keyboard navigation) at `Pilotos/Nexostrat_Analisis_Pipeline.html` — analyzing the process not the per-company outputs. Then **Ricardo caught the brand error**: discovery guides referenced "Mejía, IA & CIA" (legacy brand from before Nexostrat became the firm name); 4 SKILL.md + 4 generate_docx.py + 15 pilot docs were hardcoded with old name. **Sed-based rebrand** swept 23 files / 70 occurrences; 15 .docx regenerated; `Ricardo Mejía` (his real name) preserved untouched. Then a follow-up question about immediate process improvements (without touching architecture) generated the 8-item list. **Closes `t-skill-chain-test`** at 3x scope, spawning 8 new tasks (JP review 2026-05-22 → service-model decision 2026-05-24 → capabilities catalog + one-pager 2026-05-31 → process-improvements validation 2026-06-07 → confidence-marking 2026-06-14 → Skills #5/#6 to follow). Decisions locked: pipeline B was the right next move (not Plan 02), rebrand is permanent, pilot outputs are internal input NOT client deliverables, honest evaluation > false positivity. **4 new memories:** `briefing-estructurado-pipeline` (the #1 process improvement), `outputs-premium-visual` (deck standard), `honestidad-brutal-evaluacion` (when Ricardo asks for an opinion), `pilotos-pipeline-mayo2026` (project snapshot). Journal at `00_META/journal/2026-05-17_pipeline-pilotos-rebranding.md`. Next session: JP review is the immediate blocking move.
 

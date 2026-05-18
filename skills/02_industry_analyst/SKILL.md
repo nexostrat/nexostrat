@@ -1,110 +1,121 @@
 ---
 name: industry-analyst
 description: |
-  Analista de industrias — Nexostrat. Genera un reporte sectorial completo (10 secciones) sobre una industria colombiana: caracterización, actores principales, tendencias 3-5 años, proveedores, clientes, regulación, impacto IA, PESTEL, madurez digital y señales de oportunidad para consultoría. Acepta como input el reporte de company-analyst (`*_AnalisisCompania_*.md`) para identificar el sector automáticamente. Output: .md + .docx. Reutilizable por sector.
+  Analista de industrias — Nexostrat. Genera un reporte sectorial completo (10 secciones) sobre una industria colombiana o mexicana: caracterización, actores principales, tendencias 3-5 años, proveedores, clientes, regulación, impacto IA, PESTEL, madurez digital y señales de oportunidad para consultoría. Acepta el reporte de company-analyst para identificar el sector automáticamente y detectar el país (CO vs MX). Output: .md + .docx. Reutilizable por sector.
 
-  Activar SIEMPRE ante: "analiza el sector X", "análisis de la industria X", "¿cómo está el mercado de X en Colombia?", "dame un análisis sectorial", "investiga la industria X", "industry analysis", "¿qué tan madura digitalmente está la industria X?", "¿dónde puede entrar IA en el sector X?", cuando el usuario comparte un .md de company-analyst y necesita el análisis sectorial, o cuando se necesita el siguiente paso del pipeline de Nexostrat. Ante la duda, activar.
+  Activar SIEMPRE ante: "analiza el sector X", "análisis de la industria X", "¿cómo está el mercado de X en Colombia/México?", "dame un análisis sectorial", "investiga la industria X", "industry analysis", "¿qué tan madura digitalmente está la industria X?", "¿dónde puede entrar IA en el sector X?", cuando el usuario comparte un .md de company-analyst y necesita el análisis sectorial, o cuando se necesita el siguiente paso del pipeline de Nexostrat. Ante la duda, activar.
 ---
 
 # Industry Analyst — Reporte de Inteligencia Sectorial
 
 **Uso:** Interno — Nexostrat  
 **Input:** Reporte .md de company-analyst (`*_AnalisisCompania_*.md`) — opcional, pero recomendado cuando se corre en pipeline  
-**Output:** `SECTOR_CO_YYYYMMDD.md` + `SECTOR_CO_YYYYMMDD.docx`  
+**Output:** `SECTOR_CO_YYYYMMDD.md` / `SECTOR_MX_YYYYMMDD.md` + `.docx`  
 **Propósito:** Alimentar el skill de preparación de llamada y el skill de reporte diagnóstico. Reutilizable: correr una vez por sector, no por empresa.
 
 ---
 
-## REGLA ANTI-ALUCINACIÓN (obligatoria en cada sección)
+## SISTEMA DE CONFIANZA DE DATOS — REGLA ANTI-ALUCINACIÓN
 
-Si una fuente no está disponible, no arroja resultados, o el sitio no responde:
-→ Escribe explícitamente: **"No se encontró información en [nombre de la fuente]."**
+### Etiquetas obligatorias
 
-**Nunca inventes cifras, tamaños de mercado, nombres de empresas, ni casos de uso de IA.**  
-Si no encuentras datos recientes, indica el año de los datos que sí encontraste.  
-Si encuentras rangos o estimaciones, cítalos como tal: "se estima entre X y Y según [fuente]."
+Aplica estas etiquetas a **todos** los datos cuantitativos y afirmaciones verificables del reporte:
+
+| Etiqueta | Significado | Cuándo usarla |
+|---|---|---|
+| ✅ | Verificado | Extraído directamente de la fuente primaria citada |
+| ⚠️ | Estimado | Inferido, calculado, o de fuente secundaria/no oficial |
+| ❓ | Sin datos | Búsqueda realizada — dato no encontrado en ninguna fuente |
+
+**Formato obligatorio en el reporte:**
+- `✅ Tamaño del mercado: COP $12.4 billones (DANE, Cuentas Nacionales 2024)`
+- `⚠️ Tasa de adopción de IA: ~15% de empresas del sector (estimado, Deloitte Tech Trends 2023)`
+- `❓ PIB sectorial México: No se encontró información en INEGI para este subsector.`
+
+### Reglas sin excepción
+
+1. **Sin etiqueta = dato inválido.** Todo número o afirmación verificable lleva etiqueta + fuente + año. No existe el dato sin fuente.
+2. **Datos de más de 2 años:** añadir `⚠️ (dato de [año] — verificar vigencia)` aunque vengan de fuente primaria.
+3. **Fuentes discrepantes:** Si dos fuentes dan cifras distintas para el mismo indicador, mostrar ambas: `⚠️ Tamaño del mercado: entre X (Fuente A, año) y Y (Fuente B, año) — cifras no reconciliadas.`
+4. **Hechos vs. análisis:** Las conclusiones e interpretaciones van bajo el header `> 🔍 Análisis:` para separarlas visualmente de los datos reportados.
+5. **Benchmarks y casos de IA:** Solo citar implementaciones reales con nombre de empresa o estudio + fuente + año. Nunca: "empresas del sector han logrado X% de ahorro" sin fuente nombrada. Si no hay caso verificable → omitir el dato.
+6. **Fuente no disponible:** Escribir exactamente `❓ No se encontró información en [nombre de la fuente].` — nunca omitir la búsqueda ni sustituir con datos inventados.
+7. **Prohibido sin fuente:** "aproximadamente", "se estima", "es probable" aplicados a datos específicos. Reservar para análisis interpretativo únicamente.
+8. **Nunca omitir una sección:** Si no hay datos, incluir la sección con ❓ y la declaración de búsqueda realizada. La ausencia de datos es información válida.
 
 ---
 
 ## WORKFLOW COMPLETO
 
-### SETUP — Destino de outputs
-
-**Convención canónica (per spec §7).** Cuando se ejecuta dentro del pipeline de un cliente, los outputs van a:
-
-```
-pipeline/clients/<slug>/02_industry_analysis/runs/<YYYY-MM-DD_HHMM>_mode-a/
-├── final_report.md      ← reporte principal (este skill)
-├── final_report.docx    ← versión Word (generada por scripts/generate_docx.py)
-└── notes.md             ← opcional: juicio cualitativo del operador (útil para iteración de prompts)
-```
-
-Para este skill, `<stage>` = `02_industry_analysis` (corresponde a `pipeline/clients/_template/02_industry_analysis/`).
-
-**Reutilización por sector (no por empresa):** este skill produce análisis sectoriales reutilizables ~6-12 meses. Si ya hay un reporte vigente del sector salud (por ejemplo), reutilizarlo en lugar de regenerarlo. Considerar mantener un caché en `knowledge/sector-reports/` (fuera de pipeline/) para reportes compartidos entre múltiples prospectos.
-
-**Invocación standalone (fuera del pipeline):** guardar en el directorio de trabajo actual usando la convención de nombre `[SectorCamelCase]_CO_YYYYMMDD.md/.docx` (ver Paso 3 abajo).
-
-**Captura de versión:** el SHA del commit Git al momento del run identifica la versión exacta del prompt usado (per ADR-022).
-
----
-
-### Paso 0 — Identificar el sector
+### Paso 0 — Identificar el sector y el país
 
 **Si hay un reporte de company-analyst disponible (pipeline):**  
 Busca en el directorio de trabajo un archivo con el patrón `*_AnalisisCompania_*.md`. Si existe, léelo y extrae:
-- El sector o industria de la empresa (del campo CIIU, la descripción del giro del negocio, o los productos/servicios principales)
-- El nombre canónico del sector en Colombia (ej: si la empresa es de software y BPO → "sector TI y software"; si es distribución textil → "industria textil y confección")
+- El sector o industria de la empresa (del campo CIIU o SCIAN, los productos/servicios principales)
+- El **país** de la empresa: Colombia (campo "NIT" o "País: Colombia") o México (campo "RFC" o "País: México")
+- El nombre canónico del sector en ese país
 - Subsectores relevantes para el tipo de empresa
-- Contexto de tamaño y geografía — útil para calibrar qué actores del sector son más comparables
+- Contexto de tamaño y geografía
 
-Usa esta extracción como base para el análisis: así el reporte sectorial no es genérico sino calibrado al tipo de empresa que lo originó.
+Usa esta extracción como base: así el reporte sectorial no es genérico sino calibrado al tipo de empresa que lo originó.
 
 **Si no hay reporte de company-analyst (uso standalone):**  
-Usa el sector indicado en el prompt directamente. Si el sector no está especificado con claridad suficiente, pregunta antes de comenzar la investigación.
+Usa el sector y país indicados en el prompt directamente. Si no están especificados con claridad suficiente, pregunta antes de comenzar.
 
-Con el sector identificado (por cualquiera de las dos vías), define mentalmente:
-- ¿Cuál es el nombre canónico del sector en Colombia? (ej: "sector salud privado", "industria textil y confección", "sector TI y software")
+**Con el sector y país identificados, define:**
+- ¿Cuál es el nombre canónico del sector en ese país? (ej: "sector salud privado", "industria textil y confección", "sector TI y software")
 - ¿Hay subsectores relevantes que deben cubrirse?
-- ¿Hay empresas internacionales con operaciones significativas en Colombia?
+- ¿Hay empresas internacionales con operaciones significativas en ese país?
 
-Consulta `references/sector_associations.md` para identificar la asociación gremial correspondiente — es la fuente de datos más valiosa para cifras nacionales.
+**Nomenclatura de archivos según país:**
+- Colombia → `SECTOR_CO_YYYYMMDD.md` / `SECTOR_CO_YYYYMMDD.docx`
+- México → `SECTOR_MX_YYYYMMDD.md` / `SECTOR_MX_YYYYMMDD.docx`
 
 ### Paso 1 — Investigar cada sección sistemáticamente
 
-Para cada sección del reporte, consulta `references/sources_guide.md` para saber qué fuentes buscar. El orden recomendado de investigación:
+Para cada sección del reporte, usa las fuentes del país correspondiente.
 
-1. Asociación gremial del sector (ANDI, ACOPI, y/o asociación específica)
+**Para Colombia:** Consulta `references/sources_guide.md` para fuentes específicas. Orden recomendado:
+1. Asociación gremial del sector (ANDI, ACOPI, asociación específica) — fuente más valiosa para cifras nacionales
 2. DANE — estadísticas nacionales del sector
 3. MinComercio / DNP — políticas y proyecciones
 4. Press colombiana — portafolio.co, larepublica.co, dinero.com, elcolombiano.com
-5. LinkedIn + web corporativa de los líderes del sector (para actores principales)
-6. Reportes de consultoras (Deloitte, McKinsey, PwC) si hay versiones públicas
+5. LinkedIn + web corporativa de los líderes del sector
+6. Reportes de consultoras (Deloitte, McKinsey, PwC) versiones públicas
 7. Fuentes internacionales con datos de Colombia: World Bank, IFC, CEPAL
 
-Para la sección de IA (Sección 7), busca también:
-- "inteligencia artificial [sector] Colombia casos"
-- "[sector] automation Colombia 2024 2025"
-- Herramientas de IA adoptadas globalmente en el sector con presencia en CO
+**Para México:** Orden recomendado:
+1. Asociación gremial del sector en México (CANACINTRA, CONCAMIN, CÁMARA DE COMERCIO DE MÉXICO, o asociación específica del sector)
+2. INEGI — estadísticas nacionales (inegi.org.mx)
+3. Secretaría de Economía / CONCANACO — políticas y proyecciones
+4. Press mexicana — expansión.mx, elfinanciero.com.mx, eleconomista.com.mx, milenio.com, forbes.com.mx
+5. LinkedIn + web corporativa de los líderes del sector en México
+6. Reportes de consultoras versiones públicas para México
+7. Fuentes internacionales con datos de México: World Bank, IDB, CEPAL
+
+**Para la sección de IA (Sección 7), busca también en ambos países:**
+- "inteligencia artificial [sector] [Colombia/México] casos"
+- "[sector] automation [país] 2024 2025"
+- Herramientas de IA adoptadas globalmente en el sector con presencia en el país objetivo
 
 ### Paso 2 — Escribir el reporte completo
 
-Usa el template de abajo. **No omitas ninguna sección.** Si los datos de una subsección son insuficientes, escríbelo explícitamente (ver regla anti-alucinación). Cada sección debe tener densidad real: datos concretos, nombres de empresas reales, cifras con fuente y año.
+Usa el template de abajo. **No omitas ninguna sección.** Si los datos de una subsección son insuficientes, escríbelo explícitamente. Cada sección debe tener densidad real: datos concretos, nombres de empresas reales, cifras con fuente y año.
 
 El reporte debe tener al menos 3,500 palabras.
 
 ### Paso 3 — Generar el .docx
 
-Una vez que el .md esté completo y guardado, ejecuta el renderer local (desde la raíz del repo `/srv/Nexostrat/`):
+Una vez que el .md esté completo y guardado, ejecuta:
 
 ```bash
 pip install python-docx --break-system-packages -q
-python3 skills/02_industry_analyst/scripts/generate_docx.py <ruta_al_md> <ruta_output_docx>
+python skills/02_industry_analyst/scripts/generate_docx.py <ruta_al_md> <ruta_output_docx>
 ```
 
-Guarda ambos archivos en el directorio de outputs (ver § PASO 0 — Setup). Convenciones de nombre:
-- **Dentro del pipeline:** `final_report.md` + `final_report.docx` (canónico per spec §7)
-- **Standalone:** `[SectorCamelCase]_CO_YYYYMMDD.md/.docx` — ej: `SaludPrivada_CO_20260511.md`, `LogisticaCarga_CO_20260511.md`
+Guarda ambos archivos en el directorio de outputs con el formato:  
+- Colombia: `SECTOR_CO_YYYYMMDD.md` y `SECTOR_CO_YYYYMMDD.docx`
+- México: `SECTOR_MX_YYYYMMDD.md` y `SECTOR_MX_YYYYMMDD.docx`
 
 ---
 
@@ -114,7 +125,7 @@ Usa exactamente estos encabezados. El texto entre corchetes es guía — reempl�
 
 ```markdown
 # Análisis de Industria: [NOMBRE DEL SECTOR]
-**Colombia · [Mes Año]**  
+**[Colombia / México] · [Mes Año]**  
 **Preparado por:** Nexostrat — Uso Interno  
 **Reutilizable para prospectos del sector hasta:** [fecha estimada de vigencia, ej: dic 2026]
 
@@ -123,20 +134,20 @@ Usa exactamente estos encabezados. El texto entre corchetes es guía — reempl�
 ## 1. CARACTERIZACIÓN DEL SECTOR
 
 ### Definición y alcance
-[Qué incluye este sector, qué excluye, cómo lo clasifica el DANE/CIIU]
+[Qué incluye este sector, qué excluye, cómo lo clasifica el DANE/CIIU (Colombia) o INEGI/SCIAN (México)]
 
 ### Subsectores principales
 [Lista de subsectores con descripción breve de cada uno]
 
-### Tamaño del mercado en Colombia
+### Tamaño del mercado en [Colombia/México]
 - **PIB sectorial / participación en PIB nacional:** [dato + fuente + año]
-- **Ingresos del sector:** [cifra en COP o USD + fuente + año]
+- **Ingresos del sector:** [cifra en COP/MXN o USD + fuente + año]
 - **Número de empresas activas:** [dato + fuente]
 - **Empleo directo generado:** [dato + fuente]
 - **Tasa de crecimiento reciente:** [% CAGR últimos 3-5 años + fuente]
 
 ### Cifras clave adicionales
-[2-4 métricas específicas del sector que sean relevantes para entender su dinámica]
+[2-4 métricas específicas del sector relevantes para entender su dinámica]
 
 ---
 
@@ -145,12 +156,12 @@ Usa exactamente estos encabezados. El texto entre corchetes es guía — reempl�
 ### Líderes nacionales
 | Empresa | Tipo | Facturación aprox. | Presencia | Notas clave |
 |---------|------|-------------------|-----------|-------------|
-[5-8 empresas colombianas líderes con datos reales]
+[5-8 empresas líderes en ese país con datos reales]
 
-### Internacionales con presencia en Colombia
-| Empresa | País de origen | Tipo de presencia | Participación en CO |
-|---------|---------------|-------------------|---------------------|
-[3-6 empresas internacionales con operaciones reales en CO]
+### Internacionales con presencia en [Colombia/México]
+| Empresa | País de origen | Tipo de presencia | Participación en [CO/MX] |
+|---------|---------------|-------------------|--------------------------|
+[3-6 empresas internacionales con operaciones reales]
 
 ### Panorama competitivo
 [Descripción del nivel de concentración del mercado: ¿hay un líder claro? ¿mercado fragmentado? ¿hay consolidación en curso?]
@@ -169,7 +180,7 @@ Usa exactamente estos encabezados. El texto entre corchetes es guía — reempl�
 [Cambios regulatorios esperados o en curso que impactarán el sector]
 
 ### Tendencias de globalización / internacionalización
-[Qué está pasando a nivel global que llegará a Colombia en 2-4 años]
+[Qué está pasando a nivel global que llegará al país en 2-4 años]
 
 ---
 
@@ -208,7 +219,7 @@ Usa exactamente estos encabezados. El texto entre corchetes es guía — reempl�
 ## 6. MARCO REGULATORIO
 
 ### Entidad reguladora principal
-[Nombre, rol, jurisdicción]
+[Nombre, rol, jurisdicción — específica del país]
 
 ### Normativa vigente más relevante
 | Norma / Ley | Año | Qué regula | Impacto en el sector |
@@ -226,7 +237,7 @@ Usa exactamente estos encabezados. El texto entre corchetes es guía — reempl�
 ## 7. IMPACTO DE LA IA EN EL SECTOR
 
 ### Estado actual de adopción
-[Nivel general de adopción de IA en el sector colombiano vs. global]
+[Nivel general de adopción de IA en el sector en [Colombia/México] vs. global]
 
 ### Casos de uso ya implementados (con nombres de empresas o herramientas reales)
 | Caso de uso | Herramienta / empresa | País / empresa | Resultado reportado |
@@ -236,7 +247,7 @@ Usa exactamente estos encabezados. El texto entre corchetes es guía — reempl�
 ### Herramientas de IA dominantes en el sector
 [Software, plataformas, o modelos que ya están siendo adoptados por empresas del sector]
 
-### Barreras de adopción en Colombia
+### Barreras de adopción en [Colombia/México]
 [Por qué algunas empresas del sector todavía no han adoptado IA — presupuesto, talento, regulación, cultura]
 
 ---
@@ -291,7 +302,7 @@ Usa exactamente estos encabezados. El texto entre corchetes es guía — reempl�
 [Cargo, nivel de conocimiento técnico, principales preocupaciones, cómo suele comprar servicios de consultoría]
 
 ### Señales de alerta (empresas del sector donde la venta será difícil)
-[Características de empresas del sector que indican baja propensión a comprar — presupuesto bajo, cultura resistente, etc.]
+[Características de empresas del sector que indican baja propensión a comprar]
 
 ---
 
@@ -307,11 +318,12 @@ Usa exactamente estos encabezados. El texto entre corchetes es guía — reempl�
 
 ## NOTAS OPERATIVAS
 
-**Naming convention:** `[SectorCamelCase]_CO_[YYYYMMDD].[ext]`  
-Ejemplos: `SaludPrivada_CO_20260511.md`, `LogisticaCarga_CO_20260511.docx`, `TecnologiaTI_CO_20260511.md`
+**Naming convention:**
+- Colombia: `[SectorCamelCase]_CO_[YYYYMMDD].[ext]` — ej: `SaludPrivada_CO_20260518.md`
+- México: `[SectorCamelCase]_MX_[YYYYMMDD].[ext]` — ej: `LogisticaCarga_MX_20260518.md`
 
 **Vigencia:** Los análisis sectoriales son válidos ~6-12 meses. Incluye siempre la fecha en el nombre del archivo y en el encabezado del reporte.
 
-**Reutilización:** Este reporte es sectorial, no por empresa. Si Ricardo ya tiene un análisis del sector salud de hace 3 meses, puede reutilizarlo para todos los prospectos clínicos de ese período sin regenerarlo.
+**Reutilización:** Este reporte es sectorial, no por empresa. Si Ricardo ya tiene un análisis del sector salud de hace 3 meses, puede reutilizarlo para todos los prospectos del sector de ese período.
 
-**Datos financieros de Supersociedades:** Para citar cifras de empresas específicas del sector, el skill de company-analyst tiene acceso a los Excel de Supersociedades. Este skill no los incluye — cubre el sector macro, no empresa individual.
+**Datos financieros de empresas:** Para citar cifras de empresas específicas del sector, el skill de company-analyst tiene acceso a los datos de Supersociedades (Colombia) y a fuentes mexicanas equivalentes. Este skill cubre el sector macro, no empresa individual.

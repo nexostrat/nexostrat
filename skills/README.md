@@ -1,8 +1,8 @@
 # Nexostrat — Skills (Skills-Master bucket)
 
-> **Scope:** the 5+1 reusable, versioned skills that produce the firm's deliverables.
-> **Source of truth:** spec §6 (skills + intake + multi-model) and §7 (per-client chain).
-> **Status (2026-05-17):** four skills are mature and runnable today (`01`, `02`, `03`, `06`); two are placeholders awaiting Plan 06 (`04`, `05`).
+> **Scope:** the 5 reusable, versioned skills that produce the firm's deliverables.
+> **Source of truth:** spec §6 (skills + intake + multi-model), §7 (per-client chain), and JP's pipeline diagram at `00_META/proposals/2026-05-18_jp-diagrama-pipeline.html`.
+> **Status (2026-05-18):** all 5 skills are mature and runnable. JP delivered updated content + the new Skill 05 in `SKills updated.zip` on 2026-05-18; integrated into production same day. Test harness: 32 PASS · 0 SKIP · 0 FAIL.
 
 ---
 
@@ -10,17 +10,40 @@
 
 ```
 skills/
-├── 01_company_analyst/        ← mature · runnable · Mode A
-├── 02_industry_analyst/       ← mature · runnable · Mode A · reusable per sector
-├── 03_competitor_analyst/     ← mature · runnable · Mode A
-├── 04_meeting_script/         ← PLACEHOLDER (Plan 06 — PRIVATE, never client-facing)
-├── 05_opportunity_report/     ← PLACEHOLDER (Plan 06 — THE Diagnóstico deliverable)
-├── 06_discovery_meeting/      ← mature · runnable · Mode A · consumes 01+02+03
+├── 01_company_analyst/        ← mature · CO (NIT) + MX (RFC) support
+├── 02_industry_analyst/       ← mature · reusable per sector · CO + MX
+├── 03_competitor_analyst/     ← mature · CO + MX
+├── 04_discovery_meeting/      ← mature · "PrepLlamada" / Guía de Preparación · consumes 01+02+03
+├── 05_opportunity_report/     ← mature · client-facing deliverable · consumes 01+02+03+meeting-notes
 ├── shared/                    ← future shared lib (Plan 02/05): scoring.py, judge_prompt.md, anti_hallucination.md
 ├── 00_META/                   ← persona inbox + journal for Skills-Master
 ├── CLAUDE.md                  ← Skills-Master persona (Claude)
 ├── GEMINI.md                  ← Skills-Master persona (Gemini)
 └── CHECKPOINT.md              ← session baton
+```
+
+**Pipeline order** (per JP's 2026-05-18 diagram — skills run **serially**, with mandatory human review between each):
+
+```
+Skill 01 → review → Skill 02 → review → Skill 03 → review → Skill 04 (PrepLlamada)
+                                                                  │
+                                                                  ▼
+                                                      30-min discovery call (recorded)
+                                                                  │
+                                                                  ▼
+                                                          meeting notes
+                                                                  │
+                                                                  ▼
+                                                       Skill 05 (Reporte de Oportunidades)
+                                                                  │
+                                                                  ▼
+                                                  Internal review (Ricardo + JP, mandatory)
+                                                                  │
+                                                                  ▼
+                                                       Manual send to client
+                                                                  │
+                                                                  ▼
+                                                  D+4 business days: auto-follow-up
 ```
 
 Each mature skill follows the Anthropic Skills convention plus Nexostrat extensions:
@@ -38,7 +61,7 @@ skills/<NN>_<name>/
 
 ## How to run a skill (Stage 1 — Mode A only)
 
-The four mature skills can be invoked **two ways**. The model is the same; the difference is discoverability.
+The five mature skills can be invoked **two ways**. The model is the same; the difference is discoverability.
 
 ### Path A — Registered via `.claude/skills/` (auto-discovered by Claude Code)
 
@@ -49,7 +72,8 @@ The four mature skills can be invoked **two ways**. The model is the same; the d
 ├── company-analyst    → ../../skills/01_company_analyst
 ├── industry-analyst   → ../../skills/02_industry_analyst
 ├── competitor-analyst → ../../skills/03_competitor_analyst
-└── discovery-meeting  → ../../skills/06_discovery_meeting
+├── discovery-meeting  → ../../skills/04_discovery_meeting
+└── opportunity-report → ../../skills/05_opportunity_report
 ```
 
 A Claude Code session opened at `/srv/Nexostrat/` auto-discovers these and surfaces them by their frontmatter description. Ricardo invokes naturally:
@@ -86,7 +110,8 @@ Stage mapping:
 | `01_company_analyst` | `01_company_analysis` |
 | `02_industry_analyst` | `02_industry_analysis` |
 | `03_competitor_analyst` | `03_competitor_analysis` |
-| `06_discovery_meeting` | `04_meeting_script` |
+| `04_discovery_meeting` | `04_prep_llamada` |
+| `05_opportunity_report` | `05_opportunity_report` |
 
 When running **standalone** (no client context), save to the working directory with the skill's documented naming convention (e.g., `Bodai_AnalisisCompania_20260517.md`). Each skill's `SKILL.md` documents its standalone naming in the `SETUP` section.
 
@@ -170,7 +195,7 @@ pip install python-docx pandas openpyxl --break-system-packages
 | `/intake`, `/go`, `/stop` Telegram plugins around skills | Plan 04 + Plan 07 |
 | `skills/shared/` dedup of generate_docx.py boilerplate | Plan 02 or Plan 05 |
 
-The current scope (commit `2026-05-17_skill-hygiene`) makes the four mature skills cleanly runnable today via manual Claude Code invocation. The rest builds on top — none of the deferred items invalidate what's here.
+The current scope (post-2026-05-18 JP delivery) makes all 5 skills cleanly runnable today via manual Claude Code invocation. The rest builds on top — none of the deferred items invalidate what's here.
 
 ---
 

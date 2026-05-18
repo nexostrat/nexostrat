@@ -6,6 +6,19 @@ The git commit SHA at the time of each version pin is the authoritative artifact
 
 ---
 
+## v0.2 — 2026-05-18 · JP content delivery + Linux path fix + Nexostrat rebrand
+
+**Scope:** integrate JP's 2026-05-18 SKILL.md rewrite (`competitor-analyst-new` from `SKills updated.zip`).
+
+- **Replaced** `SKILL.md`, `references/competitor_research_guide.md`, both scripts (`extract_financials.py` + `generate_docx.py`), and both XLSX assets with JP's 2026-05-18 deliverable.
+- **Frontmatter description** now includes Mexico (RFC) support alongside Colombia (NIT).
+- **Fixed** four `/tmp/competitor-analyst/...` Mac/tmp-path references at SKILL.md lines 113-115 + 131 → `skills/03_competitor_analyst/...` (repo-relative).
+- **Sed-replaced** 2 legacy `Mejía, IA & CIA` → `Nexostrat` in `scripts/generate_docx.py`.
+
+**Verified by:** `bash infra/scripts/test_skills.sh` — 32 PASS · 0 SKIP · 0 FAIL.
+
+---
+
 ## v0.1 — 2026-05-17 · Path-hygiene + canonical output destination
 
 **Scope:** make the skill cleanly runnable inside Nexostrat's current setup. No prompt-content changes.

@@ -6,6 +6,20 @@ The git commit SHA at the time of each version pin is the authoritative artifact
 
 ---
 
+## v0.2 — 2026-05-18 · JP content delivery + DOCX-skill paradigm fix
+
+**Scope:** integrate JP's 2026-05-18 SKILL.md rewrite (`company-analyst-new` from `SKills updated.zip`) + adapt for Linux + preserve v0.1 DOCX renderer.
+
+- **Replaced** `SKILL.md` with JP's 2026-05-18 deliverable. New frontmatter description adds Mexico (RFC) support alongside Colombia (NIT) — country auto-detection.
+- **Replaced** `references/sources_guide.md` and `scripts/extract_financials.py` with JP's updated versions.
+- **Replaced** both XLSX assets (`supersociedades_balance_general.xlsx` + `supersociedades_estado_resultados.xlsx`) with JP's updated versions.
+- **Preserved** our `scripts/generate_docx.py` from v0.1 — JP did not include a DOCX renderer for this skill in his bundle.
+- **Fixed** two `/var/folders/.../skills/docx/SKILL.md` Mac-paradigm references at SKILL.md lines 176 + 487 (Anthropic Skills v2 meta-skill referencing). Replaced with our local `python skills/01_company_analyst/scripts/generate_docx.py <ruta_md> <ruta_docx>` pattern (consistent with the 4 sibling skills' DOCX invocation).
+
+**Verified by:** `bash infra/scripts/test_skills.sh` — 32 PASS · 0 SKIP · 0 FAIL.
+
+---
+
 ## v0.1 — 2026-05-17 · Path-hygiene + DOCX renderer + canonical output destination
 
 **Scope:** make the skill cleanly runnable inside Nexostrat's current setup. No prompt-content changes.

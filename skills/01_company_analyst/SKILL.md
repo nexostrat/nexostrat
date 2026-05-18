@@ -1,9 +1,9 @@
 ---
 name: company-analyst
 description: |
-  Analista de compañías — Nexostrat. Genera un reporte de inteligencia empresarial completo (13 secciones) sobre una empresa colombiana antes de una llamada exploratoria: perfil general, productos/servicios, presencia digital, datos financieros de Supersociedades, FODA, 5 Fuerzas de Porter, cadena de valor, madurez digital (1-5), señales de presupuesto, Quick Win candidates, conclusiones, talking points y señales de alerta. Output: .md + .docx.
+  Analista de compañías — Nexostrat. Genera un reporte de inteligencia empresarial completo (13 secciones) sobre una empresa colombiana o mexicana: perfil general, productos/servicios, presencia digital, datos financieros, FODA, 5 Fuerzas de Porter, cadena de valor, madurez digital (1-5), señales de presupuesto, Quick Win candidates, conclusiones, talking points y señales de alerta. Detecta el país automáticamente (NIT = Colombia → Supersociedades; RFC = México → SAT/DENUE/SIEM); si no está claro, lo pregunta. Output: .md + .docx.
 
-  Activar SIEMPRE ante: "analiza la empresa X", "investiga [empresa]", "prepara el análisis de [compañía]", "briefing de [empresa]", "company analysis", "análisis de prospecto", "dame todo sobre [empresa]", "quiero saber sobre [empresa] antes de la llamada", NIT + contexto de consultoría, o cualquier variante que implique investigar una empresa antes de una reunión comercial. Ante la duda, activar.
+  Activar SIEMPRE ante: "analiza la empresa X", "investiga [empresa]", "prepara el análisis de [compañía]", "briefing de [empresa]", "company analysis", "análisis de prospecto", "dame todo sobre [empresa]", "quiero saber sobre [empresa] antes de la llamada", NIT/RFC + contexto de consultoría, o cualquier variante que implique investigar una empresa antes de una reunión comercial. Ante la duda, activar.
 ---
 
 # Company Analyst — Reporte de Inteligencia Empresarial
@@ -14,50 +14,68 @@ description: |
 
 ---
 
-## REGLA ANTI-ALUCINACIÓN (obligatoria en cada sección)
+## SISTEMA DE CONFIANZA DE DATOS — REGLA ANTI-ALUCINACIÓN
 
-Si una fuente no está disponible, no arroja resultados, o el sitio no responde:
-→ Escribe explícitamente: **"No se encontró información en [nombre de la fuente]."**
+### Etiquetas obligatorias
 
-**NUNCA:**
-- Inventar cifras financieras
-- Asumir productos/servicios no confirmados
-- Inferir fundadores o historia sin fuente
-- Omitir una sección porque no encontraste datos (siempre incluirla con el texto de no-encontrado)
+Aplica estas etiquetas a **todos** los datos cuantitativos y afirmaciones verificables del reporte:
+
+| Etiqueta | Significado | Cuándo usarla |
+|---|---|---|
+| ✅ | Verificado | Extraído directamente de la fuente primaria citada |
+| ⚠️ | Estimado | Inferido, calculado, o de fuente secundaria/no oficial |
+| ❓ | Sin datos | Búsqueda realizada — dato no encontrado en ninguna fuente |
+
+**Formato obligatorio en el reporte:**
+- `✅ Ingresos: COP $4.200M (Supersociedades, 2024)`
+- `⚠️ Empleados: ~80-120 (LinkedIn, estimado por ofertas de empleo publicadas)`
+- `❓ Precio relativo: No se encontró información pública.`
+
+### Reglas sin excepción
+
+1. **Sin etiqueta = dato inválido.** Todo número o afirmación verificable lleva etiqueta + fuente + año. No existe el dato sin fuente.
+2. **Datos de más de 2 años:** añadir `⚠️ (dato de [año] — verificar vigencia)` aunque vengan de fuente primaria.
+3. **Hechos vs. análisis:** Las conclusiones e interpretaciones van bajo el header `> 🔍 Análisis:` para separarlas visualmente de los datos reportados.
+4. **Benchmarks y ROI:** Solo citar casos reales con nombre de empresa o estudio + fuente + año. Nunca escribir "empresas similares logran X%" sin fuente nombrada. Si no hay caso verificable → omitir el dato, no inventarlo.
+5. **Fuente no disponible:** Escribir exactamente `❓ No se encontró información en [nombre de la fuente].` — nunca omitir la búsqueda ni sustituir con datos inventados.
+6. **Prohibido sin fuente:** "aproximadamente", "se estima", "es probable" y "suele ser" aplicados a datos específicos. Reservar estas frases para análisis interpretativo, no para reportar datos.
+7. **Nunca omitir una sección:** Si no hay datos, incluir la sección con la etiqueta ❓ correspondiente. La ausencia de datos es información valiosa.
+
+### Verificación de identidad de la empresa
+
+Antes de correr cualquier búsqueda, confirma que el nombre comercial y el NIT/RFC proporcionados corresponden a la misma entidad legal. Errores frecuentes: empresas con nombres similares en el mismo sector, holdings y filiales con NITs distintos, empresas con cambio de razón social. Si hay ambigüedad → mostrar las opciones encontradas y pedir confirmación explícita del usuario antes de continuar.
 
 ---
 
 ## WORKFLOW COMPLETO
 
-### SETUP — Destino de outputs
+### PASO 0 — Detectar el país de la empresa
 
-**Convención canónica (per spec §7).** Cuando se ejecuta dentro del pipeline de un cliente, los outputs van a:
+**Si el usuario indicó el país explícitamente:** Usa ese país directamente.
 
-```
-pipeline/clients/<slug>/01_company_analysis/runs/<YYYY-MM-DD_HHMM>_mode-a/
-├── final_report.md      ← reporte principal (este skill)
-├── final_report.docx    ← versión Word (generada por scripts/generate_docx.py)
-└── notes.md             ← opcional: juicio cualitativo del operador (útil para iteración de prompts)
-```
+**Si no lo indicó, detecta automáticamente:**
+- **NIT** (formato: XXXXXXXXX-X o número de 9 dígitos) → **Colombia**
+- **RFC** (formato: 3-4 letras + 6 dígitos + 3 homoclave) → **México**
+- Sufijo societario "SA de CV", "SRL de CV", "SAPI de CV", "SC" → **México**
+- Sufijo societario "SAS", "S.A.S.", "Ltda", "E.S.P." → **Colombia**
+- Ciudad mencionada: Bogotá, Medellín, Cali, Barranquilla, Cartagena → Colombia
+- Ciudad mencionada: CDMX, Guadalajara, Monterrey, Puebla, Tijuana → México
+- Si el contexto sigue sin ser claro, pregunta antes de continuar: *"¿La empresa es colombiana o mexicana?"*
 
-Para este skill, `<stage>` = `01_company_analysis` (corresponde a `pipeline/clients/_template/01_company_analysis/`).
-
-**Invocación standalone (fuera del pipeline):** guardar en el directorio de trabajo actual usando la convención de nombre `[EmpresaCamelCase]_AnalisisCompania_YYYYMMDD.md/.docx` (ver PASO 4 abajo).
-
-**Captura de versión:** el SHA del commit Git al momento del run identifica la versión exacta del prompt usado (per ADR-022). Edits posteriores a SKILL.md no contaminan runs históricos. Para iteración de prompts, hacer commit del SKILL.md modificado ANTES de re-ejecutar el skill.
+Según el país detectado, sigue el flujo correspondiente:
+- 🇨🇴 **Colombia** → PASO 1-CO + fuentes colombianas en PASO 2
+- 🇲🇽 **México** → PASO 1-MX + fuentes mexicanas en PASO 2
 
 ---
 
-### PASO 1 — Extraer datos financieros de Supersociedades
+### PASO 1-CO (Colombia) — Extraer datos financieros de Supersociedades
 
-Ejecuta el script Python antes de cualquier búsqueda web. Ruta del script (desde la raíz del repo `/srv/Nexostrat/`):
-`skills/01_company_analyst/scripts/extract_financials.py`
+Ejecuta el script Python antes de cualquier búsqueda web. Ruta del script:
+`<skill_dir>/scripts/extract_financials.py`
 
 ```bash
-python3 skills/01_company_analyst/scripts/extract_financials.py "<nombre_empresa_o_NIT>"
+python3 <skill_dir>/scripts/extract_financials.py "<nombre_empresa_o_NIT>"
 ```
-
-El script se auto-localiza (`Path(__file__).parent.parent / "assets"`), así que funciona desde cualquier directorio de invocación. Si se ejecuta desde fuera del repo, usar ruta absoluta `/srv/Nexostrat/skills/01_company_analyst/scripts/extract_financials.py`.
 
 El script buscará en los archivos de Supersociedades incluidos en assets/ y devolverá:
 - NIT confirmado, razón social exacta, CIIU, ciudad
@@ -71,35 +89,69 @@ Si el NIT no fue proporcionado, el script buscará por nombre con matching flexi
 
 ---
 
+### PASO 1-MX (México) — Verificar datos en SAT / SIEM / DENUE
+
+Para empresas mexicanas no hay una base centralizada equivalente a Supersociedades. Ejecuta estas búsquedas:
+
+**RFC y estado fiscal:**
+- Busca "[empresa] RFC México" para confirmar el RFC
+- Estado fiscal en sat.gob.mx → "Activo" o "Cancelado"
+- Busca en SIEM (siem.gob.mx): razón social, actividad económica, municipio
+
+**Tamaño y actividad:**
+- DENUE (inegi.org.mx/app/mapa/denue/): busca por nombre de empresa o actividad económica para confirmar ubicación, número de empleados estimado, sector SCIAN
+- Número de empleados IMSS: busca "[empresa] empleados IMSS" en prensa
+
+**Datos financieros:**
+- Si cotiza en BMV: bolsa.mx → sección "Emisoras" → reportes anuales y trimestrales
+- Si no cotiza: los estados financieros NO son públicos en México para empresas privadas
+- Busca en prensa: expansión.mx, elfinanciero.com.mx, eleconomista.com.mx, forbes.com.mx
+- Término: "[empresa] ingresos facturación ventas [año reciente]"
+
+Si no se encuentran datos financieros → escribe: **"No se encontraron estados financieros públicos. En México, esta información no es obligatoriamente pública para empresas no cotizadas en la BMV."**
+
+---
+
 ### PASO 2 — Investigación web (hacer todas las búsquedas, en este orden)
 
-Usa WebSearch y WebFetch para cada una. Lee `references/sources_guide.md` para URLs exactas y qué buscar en cada fuente.
+Usa WebSearch y WebFetch para cada una.
+
+**Para empresas colombianas**, consulta `references/sources_guide.md` para URLs exactas. Fuentes clave:
+- Sitio web oficial, LinkedIn, Instagram/Facebook
+- Reseñas: Google reviews, Trustpilot, Reclamos.co
+- Prensa: portafolio.co, dinero.com, larepublica.co, elcolombiano.com
+- Registro legal: RUES (rues.confecamaras.co)
+
+**Para empresas mexicanas**, usa estas fuentes equivalentes:
+- Sitio web oficial, LinkedIn, Instagram/Facebook (igual que Colombia)
+- Reseñas: Google reviews, Trustpilot, Profeco (profeco.gob.mx)
+- Prensa: expansión.mx, elfinanciero.com.mx, eleconomista.com.mx, milenio.com, forbes.com.mx
+- Registro legal: SIEM (siem.gob.mx) + DENUE (inegi.org.mx/app/mapa/denue/)
 
 **2a. Sitio web oficial**
-- Busca "[empresa] sitio web oficial Colombia"
-- Visita el sitio, extrae: productos/servicios, quiénes somos, cobertura geográfica, tecnologías visibles, formularios/automatización visible
+- Busca "[empresa] sitio web oficial [Colombia/México]"
+- Extrae: productos/servicios, quiénes somos, cobertura geográfica, tecnologías visibles, formularios/automatización visible
 
 **2b. Redes sociales**
-- LinkedIn: busca la empresa y extrae: tamaño (# empleados declarado), empleados recientes, actividad de posts
+- LinkedIn: tamaño (# empleados declarado), empleados recientes, actividad de posts
 - Instagram/Facebook: presencia, frecuencia de posts, engagement visible
-- Si no tiene redes: documentarlo explícitamente
 
 **2c. Reseñas y reputación**
-- Google reviews (busca "[empresa] opiniones google")
+- Google reviews: "[empresa] opiniones google"
 - Trustpilot si aplica
-- Reclamos.co u otras plataformas de quejas
+- Colombia: Reclamos.co | México: Profeco (profeco.gob.mx)
 
 **2d. Prensa y noticias**
-- Busca en portafolio.co, dinero.com, larepublica.co, elcolombiano.com
-- Términos: "[empresa] Colombia", "[empresa] noticias", "[razón social] expansión"
+- Usa los medios del país correspondiente (ver arriba)
+- Términos: "[empresa] [país]", "[empresa] noticias", "[razón social] expansión"
 
-**2e. RUES (registro legal)**
-- Busca "[empresa] RUES rues.confecamaras.co"
-- Extrae: estado matrícula, tipo societario, fecha constitución
+**2e. Registro legal**
+- Colombia: RUES (rues.confecamaras.co) → estado matrícula, tipo societario, fecha constitución
+- México: SIEM (siem.gob.mx) + RFC en SAT
 
 **2f. Contexto sectorial**
-- Busca el sector CIIU en contexto colombiano
-- Tamaño del mercado, tendencias, competidores principales en Colombia
+- Colombia: CIIU en contexto colombiano (DANE, ANDI, ACOPI)
+- México: SCIAN en contexto mexicano (INEGI, CANACINTRA, CONCAMIN)
 
 ---
 
@@ -110,7 +162,7 @@ Escribe el reporte completo usando el template de la sección siguiente.
 **Reglas de calidad:**
 - Ser directo y sin diplomacia (uso interno)
 - Citar la fuente de cada dato relevante
-- Cuantificar siempre que sea posible (%, COP, #empleados, años)
+- Cuantificar siempre que sea posible (%, COP/MXN, #empleados, años)
 - La sección de Quick Wins y Talking Points debe ser específica para ESTA empresa, no genérica
 - El FODA debe tener MÍNIMO 4 puntos por cuadrante, todos basados en evidencia real
 
@@ -118,16 +170,17 @@ Escribe el reporte completo usando el template de la sección siguiente.
 
 ### PASO 4 — Generar outputs
 
-**4a. Guardar reporte .md** en el directorio de outputs (ver § PASO 0 — Setup arriba para la convención de destino).
+**4a. Guardar reporte .md** en el directorio de outputs de la sesión.
 
-**4b. Generar DOCX** ejecutando el renderer local:
+**4b. Generar DOCX** usando el script local del skill:
 
 ```bash
 pip install python-docx --break-system-packages -q
-python3 skills/01_company_analyst/scripts/generate_docx.py <ruta_al_md> <ruta_output_docx>
+python skills/01_company_analyst/scripts/generate_docx.py <ruta_al_md> <ruta_output_docx>
 ```
 
-El script produce un documento estilizado con la paleta de marca de Nexostrat (igual que los skills hermanos). Nombre canónico cuando se corre dentro del pipeline: `final_report.docx`. Para invocaciones standalone fuera del pipeline, usar `[Empresa]_AnalisisCompania_YYYYMMDD.docx`.
+- Genera un documento Word profesional con el mismo contenido del .md
+- Nombre del archivo: `EMPRESA_AnalisisCompania_YYYYMMDD.docx`
 
 ---
 
@@ -141,20 +194,21 @@ Usa exactamente esta estructura. No omitas ninguna sección.
 **Clasificación:** Interno — Uso exclusivo Nexostrat  
 **Fecha de análisis:** [fecha]  
 **Analista:** Skill de Análisis de Compañías v1  
-**NIT:** [NIT o "No encontrado"]  
-**CIIU:** [código + descripción]  
+**País:** [Colombia / México]  
+**NIT / RFC:** [número o "No encontrado"]  
+**CIIU / SCIAN:** [código + descripción]  
 **Sector:** [sector en español]  
 
 ---
 
 ## 1. PERFIL GENERAL
 
-**Historia y fundación:** [año de constitución, origen, hitos relevantes. Fuente: RUES / web]  
+**Historia y fundación:** [año de constitución, origen, hitos relevantes. Fuente: RUES/SIEM/web]  
 **Fundadores:** [nombres si disponibles. Fuente: web / LinkedIn]  
 **Sede principal:** [dirección/ciudad]  
 **Cobertura geográfica:** [ciudades/regiones donde opera]  
 **Tamaño estimado:** [# empleados declarado o estimado. Fuente]  
-**Tipo societario:** [SAS / SA / Ltda / otro]  
+**Tipo societario:** [SAS / SA / Ltda / SA de CV / SRL de CV / otro]  
 **Estado legal:** [Activa / En liquidación / En reorganización]  
 **Estructura corporativa:** [grupo empresarial, filiales, holding si aplica]  
 
@@ -167,10 +221,8 @@ Usa exactamente esta estructura. No omitas ninguna sección.
 **Portafolio principal:**  
 [descripción de productos/servicios con suficiente detalle para entender el negocio]
 
-**Precios públicos:** [si disponibles en el sitio web; si no: "No se encontraron precios públicos en el sitio web."]  
-
+**Precios públicos:** [si disponibles; si no: "No se encontraron precios públicos en el sitio web."]  
 **Propuesta de valor declarada:** [lo que dicen en su web/materiales]  
-
 **Canales de venta:** [directo, distribuidores, e-commerce, etc.]  
 
 *Fuentes consultadas: [lista]*
@@ -181,9 +233,9 @@ Usa exactamente esta estructura. No omitas ninguna sección.
 
 **Sitio web:**  
 - URL: [url o "No se encontró sitio web"]
-- UX general: [descripción honesta: profesional/amateur/desactualizado/etc.]
-- Tecnología visible: [CMS si detectable, chat en vivo, formularios, e-commerce]
-- SEO básico: [¿aparece en búsquedas relevantes? ¿meta descripción visible?]
+- UX general: [profesional/amateur/desactualizado/etc.]
+- Tecnología visible: [CMS, chat en vivo, formularios, e-commerce]
+- SEO básico: [¿aparece en búsquedas relevantes?]
 - Velocidad percibida: [rápido/lento/sin dato]
 
 **LinkedIn:**  
@@ -199,7 +251,7 @@ Usa exactamente esta estructura. No omitas ninguna sección.
 **Reseñas y reputación:**  
 - Google: [calificación / # reseñas / temas recurrentes positivos y negativos]
 - Trustpilot: [si aplica]
-- Reclamos.co / otras: [si aplica]
+- CO — Reclamos.co / MX — Profeco: [si aplica]
 
 **Puntuación de Madurez Digital: [X]/5**  
 - 1 = Sin presencia digital / todo manual
@@ -214,22 +266,23 @@ Usa exactamente esta estructura. No omitas ninguna sección.
 
 ---
 
-## 4. DATOS FINANCIEROS (Supersociedades Colombia)
+## 4. DATOS FINANCIEROS
 
-> ⚠️ Valores en miles de pesos colombianos (COP miles). Para convertir a USD usar TRM vigente (~$4,200 COP/USD).
+> ⚠️ Colombia: valores en miles de pesos colombianos (COP miles). TRM vigente ~$4,200 COP/USD. Fuente: Supersociedades.  
+> ⚠️ México: Si cotiza en BMV, valores en MXN. Si es empresa privada, datos de prensa cuando disponibles — los estados financieros no son públicos.
 
-**Período de reporte:** [fecha de corte]  
+**Período de reporte:** [fecha de corte o "No disponible"]  
 
-| Indicador | Periodo Actual | Periodo Anterior | Variación |
-|-----------|---------------|-----------------|-----------|
-| Ingresos operacionales | $ [valor] miles COP | $ [valor] miles COP | [%] |
-| Costo de ventas | $ [valor] miles COP | $ [valor] miles COP | [%] |
-| Ganancia bruta | $ [valor] miles COP | $ [valor] miles COP | [%] |
-| Utilidad operacional | $ [valor] miles COP | $ [valor] miles COP | [%] |
-| Utilidad neta | $ [valor] miles COP | $ [valor] miles COP | [%] |
-| Total activos | $ [valor] miles COP | $ [valor] miles COP | [%] |
-| Total pasivos | $ [valor] miles COP | $ [valor] miles COP | [%] |
-| Patrimonio total | $ [valor] miles COP | $ [valor] miles COP | [%] |
+| Indicador | Periodo Actual | Periodo Anterior | Variación | Etiqueta |
+|-----------|---------------|-----------------|-----------|----------|
+| Ingresos operacionales | $ [valor] | $ [valor] | [%] | ✅/⚠️/❓ |
+| Costo de ventas | $ [valor] | $ [valor] | [%] | ✅/⚠️/❓ |
+| Ganancia bruta | $ [valor] | $ [valor] | [%] | ✅/⚠️/❓ |
+| Utilidad operacional | $ [valor] | $ [valor] | [%] | ✅/⚠️/❓ |
+| Utilidad neta | $ [valor] | $ [valor] | [%] | ✅/⚠️/❓ |
+| Total activos | $ [valor] | $ [valor] | [%] | ✅/⚠️/❓ |
+| Total pasivos | $ [valor] | $ [valor] | [%] | ✅/⚠️/❓ |
+| Patrimonio total | $ [valor] | $ [valor] | [%] | ✅/⚠️/❓ |
 
 **Indicadores calculados:**  
 - Margen bruto: [%]
@@ -239,8 +292,7 @@ Usa exactamente esta estructura. No omitas ninguna sección.
 
 **Interpretación financiera:** [3-5 frases sobre la salud financiera, crecimiento, solvencia]
 
-*Fuente: Supersociedades Colombia — archivo 210030 (Balance) y 310030 (P&G)*  
-*Si no encontrado: "No se encontró en Supersociedades. Empresa no vigilada por esta entidad o no reportó en el período disponible."*
+*Fuente: [Supersociedades Colombia / BMV México / Prensa / No disponible]*  
 
 ---
 
@@ -276,7 +328,7 @@ Usa exactamente esta estructura. No omitas ninguna sección.
 
 ## 6. CINCO FUERZAS DE PORTER
 
-**Aplicadas al contexto específico de esta empresa en Colombia.**
+**Aplicadas al contexto específico de esta empresa en [Colombia/México].**
 
 **1. Rivalidad entre competidores existentes** [Alta/Media/Baja]  
 [análisis específico con nombres de competidores si identificados]
@@ -316,7 +368,7 @@ Usa exactamente esta estructura. No omitas ninguna sección.
 | Tecnología/Sistemas | [descripción] | [Sí/No/Probable] |
 | Compras/Aprovisionamiento | [descripción] | [Sí/No/Probable] |
 
-**Observación clave:** [1-2 frases sobre dónde está el mayor potencial de automatización basado en la cadena de valor]
+**Observación clave:** [1-2 frases sobre dónde está el mayor potencial de automatización]
 
 ---
 
@@ -328,7 +380,7 @@ Usa exactamente esta estructura. No omitas ninguna sección.
 **QW1: [Nombre del proceso]**  
 - Evidencia observada: [qué viste que sugiere este proceso es manual]
 - Impacto estimado: [tiempo, costo, errores]
-- Solución probable: [tipo de automatización: agente, workflow, análisis, etc.]
+- Solución probable: [tipo de automatización]
 - Dificultad estimada: [Baja/Media/Alta]
 
 **QW2: [Nombre del proceso]**  
@@ -359,7 +411,7 @@ Usa exactamente esta estructura. No omitas ninguna sección.
 
 | Factor | Dato | Interpretación |
 |--------|------|----------------|
-| Ingresos anuales (COP miles) | [valor] | [contexto] |
+| Ingresos anuales | [valor en COP/MXN miles] | [contexto] |
 | Margen neto | [%] | [saludable/ajustado/negativo] |
 | Endeudamiento | [%] | [sostenible/alto/crítico] |
 | Tamaño empresa (empleados) | [#] | [micro/pequeña/mediana] |
@@ -376,11 +428,10 @@ Usa exactamente esta estructura. No omitas ninguna sección.
 
 ## 11. TALKING POINTS PARA LA LLAMADA
 
-> 5 preguntas específicas para ESTA empresa. No preguntas genéricas.
-> Cada una debe surgir de algo concreto observado en la investigación.
+> 5 preguntas específicas para ESTA empresa. Cada una basada en algo concreto observado en la investigación.
 
 1. **[Tema]:** "[pregunta específica]"  
-   *Por qué preguntar esto: [lo que observaste que hace relevante esta pregunta]*
+   *Por qué preguntar esto: [lo que observaste]*
 
 2. **[Tema]:** "[pregunta específica]"  
    *Por qué preguntar esto: [fundamento]*
@@ -399,7 +450,7 @@ Usa exactamente esta estructura. No omitas ninguna sección.
 ## 12. SEÑALES DE ALERTA
 
 > Aspectos que Ricardo debe conocer antes de invertir tiempo en este prospecto.
-> Si no hay señales de alerta, escribir: "No se identificaron señales de alerta significativas."
+> Si no hay señales de alerta: "No se identificaron señales de alerta significativas."
 
 ⚠️ [Señal 1 si aplica: deuda alta, litigios, sector en declive, reseñas muy negativas, empresa en liquidación, etc.]
 
@@ -411,10 +462,10 @@ Usa exactamente esta estructura. No omitas ninguna sección.
 
 | Fuente | URL/Referencia | Información obtenida | Disponibilidad |
 |--------|---------------|---------------------|----------------|
-| Supersociedades | Archivo local | Datos financieros | [Encontrado/No encontrado] |
+| Supersociedades / SAT-SIEM | Archivo local / Web | Datos financieros / Registro | [Encontrado/No encontrado] |
 | Sitio web | [url] | [qué obtuviste] | [Disponible/No disponible] |
 | LinkedIn | [url] | [qué obtuviste] | [Disponible/No disponible] |
-| RUES | rues.confecamaras.co | [qué obtuviste] | [Disponible/No disponible] |
+| RUES / SIEM | [url] | [qué obtuviste] | [Disponible/No disponible] |
 | Prensa | [medios] | [qué obtuviste] | [Disponible/No disponible] |
 | Google reviews | [búsqueda] | [qué obtuviste] | [Disponible/No disponible] |
 
@@ -427,18 +478,23 @@ Usa exactamente esta estructura. No omitas ninguna sección.
 
 ## NOTAS OPERATIVAS
 
-**Sobre los archivos financieros:**
-Los archivos de Supersociedades están en `assets/` junto a este skill:
-- `supersociedades_balance_general.xlsx` → Balance general (activos, pasivos, patrimonio)
-- `supersociedades_estado_resultados.xlsx` → Estado de resultados (ingresos, costos, utilidades)
+**Sobre los archivos financieros (Colombia):**
+Los archivos de Supersociedades están en `assets/`:
+- `supersociedades_balance_general.xlsx` → Balance general
+- `supersociedades_estado_resultados.xlsx` → Estado de resultados
 
-Ambos archivos contienen datos de ~3,100 empresas colombianas reportando bajo NIIF.  
-Los valores están en **miles de pesos colombianos (COP miles)**.  
-Cada empresa aparece dos veces: "Periodo Actual" y "Periodo Anterior".
+Valores en **miles de pesos colombianos (COP miles)**. Cada empresa aparece dos veces: "Periodo Actual" y "Periodo Anterior".
+
+**Sobre datos financieros (México):**
+No hay equivalente a Supersociedades para empresas privadas. Si la empresa cotiza en BMV, los reportes están disponibles en bolsa.mx. Para empresas privadas, los estados financieros no son públicos — documentarlo siempre.
 
 **Sobre el DOCX:**  
-Después de escribir el .md completo, ejecuta el renderer local incluido en `scripts/generate_docx.py` (ver PASO 4b). El documento sale con la paleta de marca de Nexostrat — coherente con los outputs de los skills hermanos (industry-analyst, competitor-analyst, discovery-meeting). Requisito: `python-docx` instalable vía `pip install python-docx --break-system-packages`.
+Después de escribir el .md completo, genera el .docx ejecutando el script local del skill:
+
+```bash
+pip install python-docx --break-system-packages -q
+python skills/01_company_analyst/scripts/generate_docx.py <ruta_al_md> <ruta_output_docx>
+```
 
 **Sobre el tiempo de ejecución:**
-Este skill hace bastante trabajo. Es normal que tome 10-20 minutos.  
-Ricardo no necesita hacer nada mientras tanto.
+Este skill hace bastante trabajo. Es normal que tome 10-20 minutos.

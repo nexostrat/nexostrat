@@ -26,7 +26,8 @@ SKILLS=(
   "01_company_analyst:company-analyst"
   "02_industry_analyst:industry-analyst"
   "03_competitor_analyst:competitor-analyst"
-  "06_discovery_meeting:discovery-meeting"
+  "04_discovery_meeting:discovery-meeting"
+  "05_opportunity_report:opportunity-report"
 )
 
 PASS=0

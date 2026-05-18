@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pipeline de Diagnóstico de IA — Nexostrat</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: #F1F5F9;
+  color: #0F172A;
+  line-height: 1.5;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+/* ── HEADER ── */
+.header {
+  background: #0F172A;
+  border-radius: 14px;
+  padding: 32px 40px;
+  margin-bottom: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.header-left .brand {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #60A5FA;
+  margin-bottom: 10px;
+}
+.header-left h1 { font-size: 24px; font-weight: 700; color: #FFFFFF; margin-bottom: 5px; }
+.header-left p  { font-size: 13px; color: #94A3B8; }
+.header-stats { display: flex; gap: 10px; flex-wrap: wrap; }
+.stat {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  padding: 9px 16px;
+  text-align: center;
+}
+.stat .n { font-size: 20px; font-weight: 800; color: #FFFFFF; }
+.stat .l { font-size: 11px; color: #94A3B8; margin-top: 1px; }
+
+/* ── LEGEND ── */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 28px;
+  padding: 13px 20px;
+  background: #FFFFFF;
+  border-radius: 10px;
+  border: 1px solid #E2E8F0;
+  font-size: 13px;
+}
+.legend-title { font-weight: 700; color: #475569; }
+.leg { display: flex; align-items: center; gap: 6px; color: #334155; }
+.leg-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.leg-sep { width: 1px; height: 18px; background: #E2E8F0; }
+
+/* ── PHASE BLOCK ── */
+.phase { margin-bottom: 6px; }
+
+.phase-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  color: #FFFFFF;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.phase-num {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800; flex-shrink: 0;
+}
+
+/* ── STEP CARD ── */
+.step-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.step-head {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 12px 18px;
+  border-bottom: 1px solid #F1F5F9;
+}
+.step-num {
+  width: 30px; height: 30px;
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: #FFFFFF; flex-shrink: 0;
+}
+.step-title { font-size: 15px; font-weight: 600; color: #0F172A; flex: 1; }
+.badges { display: flex; gap: 5px; flex-wrap: wrap; }
+.badge {
+  padding: 3px 9px; border-radius: 20px;
+  font-size: 11px; font-weight: 600; white-space: nowrap;
+}
+.b-human  { background: #ECFDF5; color: #065F46; border: 1px solid #6EE7B7; }
+.b-ai     { background: #EDE9FE; color: #4C1D95; border: 1px solid #C4B5FD; }
+.b-both   { background: #FFF7ED; color: #92400E; border: 1px solid #FCD34D; }
+.b-skill  { background: #EFF6FF; color: #1E40AF; border: 1px solid #93C5FD; }
+.b-time   { background: #FEF3C7; color: #78350F; border: 1px solid #FDE68A; }
+.b-block  { background: #FEF2F2; color: #991B1B; border: 1px solid #FCA5A5; }
+.b-auto   { background: #F0FDF4; color: #14532D; border: 1px solid #4ADE80; }
+
+.step-body { padding: 14px 18px; }
+.step-desc { font-size: 13.5px; color: #334155; line-height: 1.65; margin-bottom: 12px; }
+.step-desc.no-mb { margin-bottom: 0; }
+
+/* ── IO GRID ── */
+.io-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+}
+@media (max-width: 580px) { .io-grid { grid-template-columns: 1fr; } }
+
+.io-box { border-radius: 8px; padding: 10px 12px; font-size: 13px; }
+.io-label {
+  font-size: 10px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.io-in  { background: #F8FAFC; border: 1px solid #E2E8F0; }
+.io-in  .io-label { color: #64748B; }
+.io-out { background: #F0FDF4; border: 1px solid #86EFAC; }
+.io-out .io-label { color: #15803D; }
+
+.io-list { list-style: none; display: flex; flex-direction: column; gap: 3px; }
+.io-list li {
+  display: flex; align-items: flex-start; gap: 5px;
+  color: #334155; font-size: 13px; line-height: 1.4;
+}
+.io-list li::before { content: '·'; font-weight: 700; flex-shrink: 0; color: #94A3B8; }
+
+/* ── CALLOUTS ── */
+.callout {
+  border-radius: 8px; padding: 10px 13px; font-size: 13px;
+  line-height: 1.6; margin-top: 10px;
+  display: flex; gap: 8px; align-items: flex-start;
+}
+.callout-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+.c-tip  { background: #EFF6FF; border: 1px solid #BFDBFE; color: #1E40AF; }
+.c-warn { background: #FFFBEB; border: 1px solid #FDE68A; color: #92400E; }
+.c-plus { background: #F5F3FF; border: 1px solid #DDD6FE; color: #5B21B6; }
+.c-lock { background: #FEF2F2; border: 1px solid #FCA5A5; color: #991B1B; }
+
+/* ── PARALLEL ── */
+.par-bar {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 8px;
+}
+.par-bar::before, .par-bar::after {
+  content: ''; flex: 1; border-top: 2px dashed #CBD5E1;
+}
+.par-label {
+  font-size: 10.5px; font-weight: 700; color: #64748B;
+  letter-spacing: 0.5px; text-transform: uppercase; white-space: nowrap;
+}
+.par-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px; margin-bottom: 8px;
+}
+@media (max-width: 700px) { .par-grid { grid-template-columns: 1fr; } }
+.par-grid .step-card { margin-bottom: 0; }
+
+/* ── CONNECTOR ARROW ── */
+.connector {
+  display: flex; flex-direction: column;
+  align-items: center; padding: 4px 0 8px;
+  color: #94A3B8; font-size: 20px;
+}
+
+/* ── MANDATORY CHECKPOINT ── */
+.checkpoint {
+  border: 2px solid #EF4444;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 8px;
+  background: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(239,68,68,0.08);
+}
+.checkpoint-banner {
+  background: #DC2626;
+  color: white;
+  font-size: 11px; font-weight: 800;
+  letter-spacing: 1px; text-transform: uppercase;
+  padding: 6px 18px;
+  display: flex; align-items: center; gap: 6px;
+}
+
+/* ── DECISION FORK ── */
+.decision-section { margin: 8px 0; }
+
+.decision-box {
+  background: #FFFBEB;
+  border: 2px dashed #F59E0B;
+  border-radius: 10px;
+  padding: 14px 18px;
+  text-align: center;
+  margin: 0 auto;
+  max-width: 380px;
+}
+.decision-box .d-icon { font-size: 22px; margin-bottom: 6px; }
+.decision-box .d-title { font-size: 14px; font-weight: 700; color: #78350F; }
+.decision-box .d-sub { font-size: 12px; color: #92400E; margin-top: 3px; }
+
+.fork-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 12px; margin-top: 12px;
+}
+@media (max-width: 580px) { .fork-grid { grid-template-columns: 1fr; } }
+
+.fork-yes {
+  background: #F0FDF4; border: 1px solid #86EFAC;
+  border-radius: 10px; padding: 14px 16px;
+  text-align: center;
+}
+.fork-yes .f-icon { font-size: 22px; margin-bottom: 6px; }
+.fork-yes .f-title { font-size: 13px; font-weight: 700; color: #14532D; }
+.fork-yes .f-desc  { font-size: 12px; color: #166534; margin-top: 4px; }
+
+.fork-no {
+  background: #FEF2F2; border: 1px solid #FCA5A5;
+  border-radius: 10px; padding: 14px 16px;
+  text-align: center;
+}
+.fork-no .f-icon { font-size: 22px; margin-bottom: 6px; }
+.fork-no .f-title { font-size: 13px; font-weight: 700; color: #991B1B; }
+.fork-no .f-desc  { font-size: 12px; color: #B91C1C; margin-top: 4px; }
+
+.fork-arrow {
+  text-align: center; font-size: 11px; font-weight: 700;
+  color: #94A3B8; letter-spacing: 0.5px; text-transform: uppercase;
+  padding: 5px 0 2px;
+}
+
+/* ── AUTO EMAIL CARD ── */
+.auto-card {
+  background: #F0FDF4;
+  border: 2px solid #4ADE80;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.auto-card-banner {
+  background: #16A34A;
+  color: white; font-size: 11px; font-weight: 800;
+  letter-spacing: 1px; text-transform: uppercase;
+  padding: 5px 16px;
+  display: flex; align-items: center; gap: 6px;
+}
+
+/* ── FINAL BOX ── */
+.final-box {
+  background: #0F172A; border-radius: 14px;
+  padding: 28px 32px; text-align: center;
+  margin-top: 8px; color: #FFFFFF;
+}
+.final-box h2 { font-size: 19px; font-weight: 700; margin-bottom: 6px; }
+.final-box p  { color: #94A3B8; font-size: 13px; max-width: 560px; margin: 0 auto 20px; }
+.skill-pills  { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.skill-pill {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px; padding: 9px 16px;
+}
+.sp-icon { font-size: 16px; margin-bottom: 3px; }
+.sp-num  { font-weight: 700; color: #FFFFFF; font-size: 13px; }
+.sp-name { color: #94A3B8; font-size: 11px; margin-top: 1px; }
+
+/* ── PHASE DIVIDER / TIMELINE MARKER ── */
+.phase-marker {
+  display: flex; align-items: center; gap: 10px;
+  margin: 18px 0 14px;
+}
+.phase-marker::before, .phase-marker::after {
+  content: ''; flex: 1; height: 1px; background: #CBD5E1;
+}
+.phase-marker-text {
+  font-size: 11px; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; padding: 5px 14px;
+  border-radius: 20px; white-space: nowrap;
+}
+
+/* ── FOOTER ── */
+.footer {
+  text-align: center; margin-top: 44px;
+  padding-top: 18px; border-top: 1px solid #E2E8F0;
+  color: #94A3B8; font-size: 12px;
+}
+
+@media print {
+  body { background: white; }
+  .container { padding: 20px; }
+  .step-card, .checkpoint, .auto-card { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <div class="brand">Nexostrat</div>
+    <h1>Pipeline de Diagnóstico de IA</h1>
+    <p>Desde el primer contacto hasta la entrega del reporte final — con seguimiento automatizado</p>
+  </div>
+  <div class="header-stats">
+    <div class="stat"><div class="n">6</div><div class="l">Fases</div></div>
+    <div class="stat"><div class="n">5</div><div class="l">Skills IA</div></div>
+    <div class="stat"><div class="n">✓</div><div class="l">Revisión<br>obligatoria</div></div>
+    <div class="stat"><div class="n">7d</div><div class="l">Follow-up<br>automático</div></div>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <span class="legend-title">Leyenda:</span>
+  <div class="leg"><div class="leg-dot" style="background:#059669;"></div> 👤 Humano</div>
+  <div class="leg"><div class="leg-dot" style="background:#7C3AED;"></div> 🤖 IA (Cowork)</div>
+  <div class="leg"><div class="leg-dot" style="background:#D97706;"></div> 🔄 Humano + IA</div>
+  <div class="leg-sep"></div>
+  <div class="leg">📥 Input requerido</div>
+  <div class="leg">📤 Output / Entregable</div>
+  <div class="leg-sep"></div>
+  <div class="leg"><span class="badge b-block" style="font-size:11px;">🔒 Obligatorio</span> Paso que no se puede omitir</div>
+  <div class="leg"><span class="badge b-auto" style="font-size:11px;">⚙️ Automático</span> Lo ejecuta Cowork solo</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     FASE 1 — CONTACTO
+═══════════════════════════════════════════════════════════ -->
+<div class="phase">
+  <div class="phase-head" style="background:#0F172A;">
+    <div class="phase-num">1</div>
+    Fase 1 — Contacto y Agendamiento
+  </div>
+
+  <div class="step-card">
+    <div class="step-head">
+      <div class="step-num" style="background:#334155;">1.1</div>
+      <div class="step-title">Cliente contacta a Nexostrat — se agenda la llamada</div>
+      <div class="badges">
+        <span class="badge b-human">👤 Cliente + Ricardo</span>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="step-desc">El prospecto llega vía LinkedIn, referido o contacto directo. Ricardo tiene una conversación inicial para entender el contexto del negocio y validar el fit. Se agenda la primera llamada de descubrimiento.</div>
+      <div class="io-grid">
+        <div class="io-box io-in">
+          <div class="io-label">📥 Input</div>
+          <ul class="io-list">
+            <li>Contacto inicial del prospecto</li>
+            <li>Nombre empresa, país, sector</li>
+          </ul>
+        </div>
+        <div class="io-box io-out">
+          <div class="io-label">📤 Output</div>
+          <ul class="io-list">
+            <li>Primera llamada agendada en calendario</li>
+            <li>Nombre empresa + NIT (CO) o RFC (MX) confirmado</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="connector">↓</div>
+
+<!-- PHASE MARKER: PRE-CALL -->
+<div class="phase-marker">
+  <span class="phase-marker-text" style="background:#DBEAFE; color:#1E40AF; border:1px solid #BFDBFE;">
+    📋 Todo lo que sigue ocurre ANTES de la primera llamada
+  </span>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     FASE 2 — PREPARACIÓN PRE-LLAMADA
+═══════════════════════════════════════════════════════════ -->
+<div class="phase">
+  <div class="phase-head" style="background:#1D4ED8;">
+    <div class="phase-num">2</div>
+    Fase 2 — Preparación Pre-Llamada (Ricardo corre los 4 skills en Cowork)
+  </div>
+
+  <div class="par-bar">
+    <span class="par-label">⚡ Skills 1, 2 y 3 se ejecutan en paralelo</span>
+  </div>
+
+  <div class="par-grid">
+
+    <!-- Skill 1 -->
+    <div class="step-card">
+      <div class="step-head">
+        <div class="step-num" style="background:#1D4ED8; font-size:11px;">2.1a</div>
+        <div style="flex:1;">
+          <div class="step-title" style="font-size:14px;">Análisis de la Empresa</div>
+          <div style="margin-top:5px;" class="badges">
+            <span class="badge b-ai">🤖 IA</span>
+            <span class="badge b-skill">Skill 1</span>
+          </div>
+        </div>
+      </div>
+      <div class="step-body">
+        <div class="step-desc" style="font-size:13px; margin-bottom:10px;">Perfil financiero, operativo y digital. Detecta el país automáticamente: NIT → Colombia + Supersociedades / RFC → México + SAT/DENUE/SIEM.</div>
+        <div class="io-box io-in" style="margin-bottom:7px;">
+          <div class="io-label">📥</div>
+          <ul class="io-list"><li>Nombre empresa + NIT o RFC</li></ul>
+        </div>
+        <div class="io-box io-out">
+          <div class="io-label">📤</div>
+          <ul class="io-list">
+            <li>[Empresa]_AnalisisCompania_YYYYMMDD.md + .docx</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skill 2 -->
+    <div class="step-card">
+      <div class="step-head">
+        <div class="step-num" style="background:#1D4ED8; font-size:11px;">2.1b</div>
+        <div style="flex:1;">
+          <div class="step-title" style="font-size:14px;">Análisis de Industria</div>
+          <div style="margin-top:5px;" class="badges">
+            <span class="badge b-ai">🤖 IA</span>
+            <span class="badge b-skill">Skill 2</span>
+          </div>
+        </div>
+      </div>
+      <div class="step-body">
+        <div class="step-desc" style="font-size:13px; margin-bottom:10px;">Tendencias del sector, actores principales, impacto de IA, PESTEL y madurez digital. Reutilizable para otros prospectos del mismo sector.</div>
+        <div class="io-box io-in" style="margin-bottom:7px;">
+          <div class="io-label">📥</div>
+          <ul class="io-list"><li>Reporte empresa (Skill 1)</li></ul>
+        </div>
+        <div class="io-box io-out">
+          <div class="io-label">📤</div>
+          <ul class="io-list">
+            <li>SECTOR_CO_YYYYMMDD.md + .docx</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skill 3 -->
+    <div class="step-card">
+      <div class="step-head">
+        <div class="step-num" style="background:#1D4ED8; font-size:11px;">2.1c</div>
+        <div style="flex:1;">
+          <div class="step-title" style="font-size:14px;">Análisis Competitivo</div>
+          <div style="margin-top:5px;" class="badges">
+            <span class="badge b-ai">🤖 IA</span>
+            <span class="badge b-skill">Skill 3</span>
+          </div>
+        </div>
+      </div>
+      <div class="step-body">
+        <div class="step-desc" style="font-size:13px; margin-bottom:10px;">Mapa de 3–5 competidores directos + 2–3 indirectos. Fichas, tabla comparativa, brechas de IA y talking points para la llamada.</div>
+        <div class="io-box io-in" style="margin-bottom:7px;">
+          <div class="io-label">📥</div>
+          <ul class="io-list"><li>Reporte empresa (Skill 1)</li></ul>
+        </div>
+        <div class="io-box io-out">
+          <div class="io-label">📤</div>
+          <ul class="io-list">
+            <li>[Empresa]_Competencia_CO_YYYYMMDD.md + .docx</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /par-grid -->
+
+  <div class="connector" style="padding:2px 0 6px; font-size:16px; color:#CBD5E1;">↓</div>
+
+  <!-- Skill 4 -->
+  <div class="step-card">
+    <div class="step-head">
+      <div class="step-num" style="background:#1D4ED8;">2.2</div>
+      <div class="step-title">Guía de Preparación para la Llamada</div>
+      <div class="badges">
+        <span class="badge b-ai">🤖 IA</span>
+        <span class="badge b-skill">Skill 4</span>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="step-desc">Consolida los 3 reportes en un documento de 7 secciones: resumen ejecutivo de la empresa, terminología del sector, contexto competitivo, preguntas por área funcional (almacenamiento, contabilidad, marketing, ventas, logística, licencias, seguridad), preguntas game-changer, objetivos de la llamada y señales de alerta.</div>
+      <div class="io-grid">
+        <div class="io-box io-in">
+          <div class="io-label">📥 Input (los 3 reportes anteriores)</div>
+          <ul class="io-list">
+            <li>Análisis empresa — Skill 1</li>
+            <li>Análisis industria — Skill 2</li>
+            <li>Análisis competitivo — Skill 3</li>
+          </ul>
+        </div>
+        <div class="io-box io-out">
+          <div class="io-label">📤 Output</div>
+          <ul class="io-list">
+            <li>[Empresa]_PrepLlamada_YYYYMMDD.docx</li>
+            <li>Preguntas por área funcional</li>
+            <li>Objetivos + señales de alerta</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2.3 Ricardo revisa -->
+  <div class="step-card" style="border-color:#6EE7B7;">
+    <div class="step-head" style="background:#F0FDF4;">
+      <div class="step-num" style="background:#059669;">2.3</div>
+      <div class="step-title">Ricardo lee y prepara su perspectiva</div>
+      <div class="badges">
+        <span class="badge b-human">👤 Ricardo</span>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="step-desc no-mb">Ricardo lee la PrepLlamada, prioriza los ángulos más relevantes para este prospecto y llega a la llamada con contexto profundo — empresa, sector y competencia — sin improvisar.</div>
+    </div>
+  </div>
+
+</div><!-- /phase 2 -->
+
+<div class="connector">↓</div>
+
+<!-- PHASE MARKER: CALL -->
+<div class="phase-marker">
+  <span class="phase-marker-text" style="background:#CCFBF1; color:#0F766E; border:1px solid #5EEAD4;">
+    📞 Primera llamada con el cliente
+  </span>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     FASE 3 — PRIMERA LLAMADA
+═══════════════════════════════════════════════════════════ -->
+<div class="phase">
+  <div class="phase-head" style="background:#0F766E;">
+    <div class="phase-num">3</div>
+    Fase 3 — Primera Llamada de Descubrimiento
+  </div>
+
+  <div class="step-card">
+    <div class="step-head">
+      <div class="step-num" style="background:#0F766E;">3.1</div>
+      <div class="step-title">Sesión de descubrimiento con el cliente</div>
+      <div class="badges">
+        <span class="badge b-human">👤 Ricardo + Cliente</span>
+        <span class="badge b-time">⏱ 30 min</span>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="step-desc">Ricardo conduce la sesión con la PrepLlamada como guía. Explora cada área funcional del negocio, escucha los dolores en las propias palabras del cliente, e identifica oportunidades de IA con datos concretos: horas perdidas, costos, volúmenes, porcentaje de errores.</div>
+      <div class="io-grid">
+        <div class="io-box io-in">
+          <div class="io-label">📥 Input</div>
+          <ul class="io-list">
+            <li>PrepLlamada.docx (guía de Ricardo)</li>
+            <li>Participación activa del cliente</li>
+          </ul>
+        </div>
+        <div class="io-box io-out">
+          <div class="io-label">📤 Output</div>
+          <ul class="io-list">
+            <li>Grabación de la llamada</li>
+            <li>Dolores, oportunidades y datos cuantitativos</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-card">
+    <div class="step-head">
+      <div class="step-num" style="background:#0F766E;">3.2</div>
+      <div class="step-title">Transcripción y notas post-llamada</div>
+      <div class="badges">
+        <span class="badge b-both">🔄 IA + Ricardo</span>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="step-desc">La grabación se procesa automáticamente (transcripción). Ricardo revisa, completa con contexto que la transcripción no captura (tono, énfasis, información fuera del alcance del micrófono) y produce el archivo final de notas.</div>
+      <div class="io-grid">
+        <div class="io-box io-in">
+          <div class="io-label">📥 Input</div>
+          <ul class="io-list">
+            <li>Grabación de la llamada</li>
+            <li>Transcripción automática</li>
+          </ul>
+        </div>
+        <div class="io-box io-out">
+          <div class="io-label">📤 Output</div>
+          <ul class="io-list">
+            <li>[Empresa]_NotasCliente_YYYYMMDD.md</li>
+            <li>Input principal del Skill 5</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout c-tip">
+        <span class="callout-icon">💡</span>
+        <div><strong>Regla de oro:</strong> Las notas son el input más valioso del Skill 5. Cuanto más específicas y con citas directas del cliente, más personalizado y poderoso será el reporte final.</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /phase 3 -->
+
+<div class="connector">↓</div>
+
+<!-- PHASE MARKER: POST-CALL -->
+<div class="phase-marker">
+  <span class="phase-marker-text" style="background:#F5F3FF; color:#6D28D9; border:1px solid #DDD6FE;">
+    🤖 A partir de aquí: generación del reporte (post-llamada)
+  </span>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     FASE 4 — GENERACIÓN DEL REPORTE
+═══════════════════════════════════════════════════════════ -->
+<div class="phase">
+  <div class="phase-head" style="background:#6D28D9;">
+    <div class="phase-num">4</div>
+    Fase 4 — Generación del Reporte de Oportunidades de IA
+  </div>
+
+  <div class="step-card">
+    <div class="step-head">
+      <div class="step-num" style="background:#6D28D9;">4.1</div>
+      <div class="step-title">Reporte de Oportunidades de IA</div>
+      <div class="badges">
+        <span class="badge b-ai">🤖 IA</span>
+        <span class="badge b-skill">Skill 5</span>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="step-desc">Consolida los 4 inputs obligatorios y produce el diagnóstico final. Identifica 6–10 oportunidades de IA en lenguaje de negocio (nunca técnico), las prioriza por score de Quick Win, y genera un documento de 7 secciones: situación actual, diagnóstico por área funcional, inventario de oportunidades, matriz de priorización, 2 Quick Wins con plan de 4 semanas, conclusiones estratégicas y próximos pasos con CTA hacia la Hoja de Ruta.</div>
+      <div class="io-grid">
+        <div class="io-box io-in">
+          <div class="io-label">📥 Inputs obligatorios</div>
+          <ul class="io-list">
+            <li>Análisis empresa — Skill 1</li>
+            <li>Análisis industria — Skill 2</li>
+            <li>Análisis competitivo — Skill 3</li>
+            <li>Notas de la llamada — NotasCliente.md</li>
+          </ul>
+        </div>
+        <div class="io-box io-out">
+          <div class="io-label">📤 Output</div>
+          <ul class="io-list">
+            <li>[Empresa]_ReporteOportunidades_YYYYMMDD.docx</li>
+            <li>6–10 oportunidades priorizadas</li>
+            <li>2 Quick Wins con plan de 4 semanas</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout c-plus">
+        <span class="callout-icon">➕</span>
+        <div><strong>Inputs complementarios (opcionales):</strong> Cualquier material adicional enriquece el análisis — archivos Excel/PDF, URLs, emails, datos cuantitativos sueltos, documentos internos del cliente. El Skill 5 los integra automáticamente donde son pertinentes.</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /phase 4 -->
+
+<div class="connector">↓</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     FASE 5 — REVISIÓN OBLIGATORIA
+═══════════════════════════════════════════════════════════ -->
+<div class="phase">
+  <div class="phase-head" style="background:#B91C1C;">
+    <div class="phase-num">5</div>
+    Fase 5 — Revisión Interna
+    <span class="badge b-block" style="margin-left:auto; font-size:10.5px;">🔒 PASO OBLIGATORIO — No se salta</span>
+  </div>
+
+  <!-- MANDATORY CHECKPOINT -->
+  <div class="checkpoint">
+    <div class="checkpoint-banner">
+      🔒 Checkpoint obligatorio — El reporte NO sale al cliente sin esta revisión
+    </div>
+    <div class="step-head" style="border-bottom:1px solid #FEE2E2;">
+      <div class="step-num" style="background:#DC2626;">5.1</div>
+      <div class="step-title">Revisión por Ricardo y Juan Pablo</div>
+      <div class="badges">
+        <span class="badge b-human">👤 Ricardo + Juan Pablo</span>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="step-desc">El equipo revisa el borrador completo: verifica que las oportunidades estén calibradas a la realidad del cliente, que el lenguaje sea de negocio (no técnico), que los Quick Wins sean realistas y ejecutables, y que el tono del reporte sea el correcto para este prospecto específico.</div>
+      <div class="io-grid">
+        <div class="io-box io-in">
+          <div class="io-label">📥 Input</div>
+          <ul class="io-list">
+            <li>ReporteOportunidades.docx (borrador)</li>
+            <li>Contexto del equipo sobre el cliente</li>
+          </ul>
+        </div>
+        <div class="io-box io-out">
+          <div class="io-label">📤 Output</div>
+          <ul class="io-list">
+            <li>Reporte aprobado ✅</li>
+            <li>— o — lista de ajustes requeridos</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout c-lock">
+        <span class="callout-icon">🔒</span>
+        <div><strong>Este paso no es opcional.</strong> Ningún reporte sale al cliente sin la aprobación explícita de Ricardo y Juan Pablo. El reporte es la primera impresión de Nexostrat para ese cliente.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-card">
+    <div class="step-head">
+      <div class="step-num" style="background:#B91C1C;">5.2</div>
+      <div class="step-title">Ajustes finales (si aplica)</div>
+      <div class="badges">
+        <span class="badge b-both">🔄 Humano + IA</span>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="step-desc no-mb">Si la revisión identifica cambios — ajustar énfasis, agregar datos, refinar tono — Ricardo puede editar directamente el .docx o pedirle a la IA que regenere secciones específicas con el contexto adicional. Una vez aprobado, el reporte está listo.</div>
+    </div>
+  </div>
+
+</div><!-- /phase 5 -->
+
+<div class="connector">↓</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     FASE 6 — ENTREGA Y SEGUIMIENTO
+═══════════════════════════════════════════════════════════ -->
+<div class="phase">
+  <div class="phase-head" style="background:#0369A1;">
+    <div class="phase-num">6</div>
+    Fase 6 — Entrega al Cliente y Seguimiento
+  </div>
+
+  <!-- 6.1 ENVÍO MANUAL -->
+  <div class="step-card" style="border-color:#7DD3FC;">
+    <div class="step-head" style="background:#F0F9FF;">
+      <div class="step-num" style="background:#0369A1;">6.1</div>
+      <div class="step-title">Envío del reporte al cliente</div>
+      <div class="badges">
+        <span class="badge b-human">👤 Ricardo</span>
+        <span class="badge b-block" style="background:#FFF7ED; color:#92400E; border-color:#FCD34D;">✍️ Siempre manual</span>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="step-desc">Ricardo envía el Reporte de Oportunidades con un correo personalizado al dueño o gerente. El primer envío es <strong>siempre manual</strong> — permite personalizar el mensaje y el momento del envío. El reporte habla por sí solo: 90% valor entregado, 10% invitación a la Hoja de Ruta de IA.</div>
+      <div class="io-grid">
+        <div class="io-box io-in">
+          <div class="io-label">📥 Input</div>
+          <ul class="io-list">
+            <li>Reporte final aprobado (.docx)</li>
+          </ul>
+        </div>
+        <div class="io-box io-out">
+          <div class="io-label">📤 Output</div>
+          <ul class="io-list">
+            <li>Correo enviado al cliente</li>
+            <li>CTA: Hoja de Ruta de IA (como invitación, no como presión)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout c-warn">
+        <span class="callout-icon">⚠️</span>
+        <div><strong>Regla de oro del envío:</strong> El primer envío es siempre personal, nunca automatizado. Un correo genérico después de un reporte tan personalizado destruye la percepción de valor.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DECISION FORK -->
+  <div class="decision-section">
+    <div class="connector" style="font-size:16px; color:#0EA5E9; padding:6px 0;">↓</div>
+    <div class="decision-box">
+      <div class="d-icon">⏳</div>
+      <div class="d-title">¿El cliente responde en 4 días hábiles?</div>
+      <div class="d-sub">Cowork monitorea el plazo automáticamente desde el envío (días hábiles)</div>
+    </div>
+
+    <div class="fork-grid">
+      <div>
+        <div class="fork-arrow">✅ SÍ — Responde</div>
+        <div class="fork-yes">
+          <div class="f-icon">🤝</div>
+          <div class="f-title">Conversación activa</div>
+          <div class="f-desc">Ricardo gestiona la respuesta y, si hay interés, agenda la Hoja de Ruta de IA. Este flujo continúa fuera del alcance de este diagrama.</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="fork-arrow">❌ NO — Sin respuesta</div>
+        <div class="fork-no">
+          <div class="f-icon">📧</div>
+          <div class="f-title">Se activa el follow-up automático</div>
+          <div class="f-desc">Cowork envía el email de seguimiento programado al cumplirse los 4 días hábiles sin respuesta.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUTO FOLLOW-UP -->
+  <div class="connector" style="font-size:16px; color:#16A34A; padding:4px 0 6px;">↓</div>
+
+  <div class="auto-card">
+    <div class="auto-card-banner">
+      ⚙️ Automatizado por Cowork — Se ejecuta a los 7 días sin necesidad de intervención de Ricardo
+    </div>
+    <div class="step-head" style="border-bottom:1px solid #BBF7D0;">
+      <div class="step-num" style="background:#16A34A;">6.2</div>
+      <div class="step-title">Email de seguimiento automático (D+4 hábiles)</div>
+      <div class="badges">
+        <span class="badge b-auto">⚙️ Cowork automático</span>
+        <span class="badge b-time">⏱ Día +4 sin respuesta</span>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="step-desc">Si el cliente no ha respondido en 4 días hábiles desde el envío, Cowork dispara automáticamente un email de seguimiento preguntando si recibieron el reporte correctamente y ofreciendo disponibilidad para una nueva llamada donde resolver dudas. El tono es cálido y sin presión de venta.</div>
+      <div class="io-grid">
+        <div class="io-box io-in">
+          <div class="io-label">📥 Condición de activación</div>
+          <ul class="io-list">
+            <li>7 días sin respuesta del cliente desde el envío</li>
+            <li>Tarea programada activa en Cowork</li>
+          </ul>
+        </div>
+        <div class="io-box io-out">
+          <div class="io-label">📤 Output</div>
+          <ul class="io-list">
+            <li>Email de seguimiento enviado automáticamente</li>
+            <li>Oferta de llamada para resolver dudas</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout c-tip">
+        <span class="callout-icon">💡</span>
+        <div><strong>Tono sugerido del email:</strong> "Hola [Nombre], quería confirmar que recibiste el Reporte de Oportunidades que te enviamos la semana pasada. Si tienes alguna duda sobre lo que encontramos o quieres conversar sobre alguna de las oportunidades, con gusto agendamos 30 minutos."</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /phase 6 -->
+
+
+<!-- FINAL BOX -->
+<div style="margin-top:24px;">
+  <div class="final-box">
+    <div style="font-size:32px; margin-bottom:12px;">🎯</div>
+    <h2>Proceso Completo — Diagrama Cerrado</h2>
+    <p>El cliente recibió un diagnóstico profundo y personalizado. El equipo hizo una revisión obligatoria antes del envío. Si no hay respuesta, Cowork hace el seguimiento solo a los 7 días.</p>
+    <div class="skill-pills">
+      <div class="skill-pill">
+        <div class="sp-icon">🏢</div>
+        <div class="sp-num">Skill 1</div>
+        <div class="sp-name">Empresa</div>
+      </div>
+      <div class="skill-pill">
+        <div class="sp-icon">📊</div>
+        <div class="sp-num">Skill 2</div>
+        <div class="sp-name">Industria</div>
+      </div>
+      <div class="skill-pill">
+        <div class="sp-icon">⚔️</div>
+        <div class="sp-num">Skill 3</div>
+        <div class="sp-name">Competencia</div>
+      </div>
+      <div class="skill-pill">
+        <div class="sp-icon">📋</div>
+        <div class="sp-num">Skill 4</div>
+        <div class="sp-name">PrepLlamada</div>
+      </div>
+      <div class="skill-pill">
+        <div class="sp-icon">🚀</div>
+        <div class="sp-num">Skill 5</div>
+        <div class="sp-name">Reporte Final</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  Nexostrat · Pipeline de Diagnóstico de IA · Versión 2.1 · Mayo 2026 · Uso Interno
+</div>
+
+</div><!-- /container -->
+</body>
+</html>

@@ -3,7 +3,7 @@
 **Updated:** 2026-05-17T23:55:00-07:00
 **By:** ricardo (via Claude Code session at /srv/Nexostrat/)
 **Persona:** Founder
-**Session topic:** Pipeline ejecutado en 3 empresas piloto reales + rebranding sistemático "Mejía, IA & CIA" → Nexostrat + análisis honesto del proceso + 8 mejoras inmediatas identificadas
+**Session topic:** Pipeline executed on 3 real pilot companies + systematic rebrand "Mejía, IA & CIA" → Nexostrat + honest process analysis + 8 immediate improvements identified
 
 ## What just happened (last session — read once, don't re-litigate)
 
@@ -38,14 +38,14 @@ Third Claude Code session of 2026-05-17 (after Plan 01c morning execution and sk
 
 **Honest evaluation of pipeline output** (per Ricardo's explicit request for unvarnished judgment):
 
-> "Sirve como insumo interno de preparación de un consultor senior. NO sirve como entregable final ni como sustituto del trabajo de venta real. El pipeline lleva al 40% del camino. El 60% restante son cosas que la IA no resuelve."
+> "Works as internal preparation material for a senior consultant. It does NOT work as a final deliverable or as a substitute for the real selling work. The pipeline takes us 40% of the way. The remaining 60% is what AI does not solve."
 
-The 10-point critique surfaced data weaknesses (Supersociedades returns NOT FOUND for all 3 pilots, so cifras financieras son estimaciones), recipes-with-different-vocabulary across the 3 companies' QWs, hallucination risk (asumí relaciones de cofundador con poca evidencia), discovery guide density (26 KB markdown — no executable in 60 min), promises of capabilities not validated against Nexostrat's real delivery capacity, invented price ranges.
+The 10-point critique surfaced data weaknesses (Supersociedades returns NOT FOUND for all 3 pilots, so the financial figures are estimates), recipes-with-different-vocabulary across the 3 companies' QWs, hallucination risk (assumed co-founder relationships on thin evidence), discovery-guide density (26 KB markdown — not executable in 60 min), promises of capabilities not validated against Nexostrat's real delivery capacity, invented price ranges.
 
 **Service model decision pending:** Two models enumerated in the deck (slide 11):
-- **Modelo A — Productized:** 3-4 paquetes fijos (Agente WhatsApp / CRM+scoring / Dashboard sell-out / Pipeline contenido), precio fijo USD 2-8K, no requiere reunión previa, vendido vía landing + outreach.
-- **Modelo B — Diagnóstico:** sesión 60 min + reporte 10 días + propuesta custom, USD 15-50K ticket, vendido vía referidos + LinkedIn outbound.
-- **Híbrido (recomendado):** entrar por A para volumen + casos referenciables → upgrade a B cuando el cliente pida.
+- **Model A — Productized:** 3-4 fixed packages (WhatsApp Agent / CRM+scoring / sell-out Dashboard / Content Pipeline), fixed price USD 2-8K, no prior meeting required, sold via landing + outreach.
+- **Model B — Diagnostic:** 60-min session + 10-day report + custom proposal, USD 15-50K ticket, sold via referrals + LinkedIn outbound.
+- **Hybrid (recommended):** enter via A for volume + reference cases → upgrade to B when the client asks.
 
 Decision is **explicitly Ricardo+JP's call**, not mine. Tracked in `t-pick-service-model` due 2026-05-24.
 
@@ -55,13 +55,13 @@ Decision is **explicitly Ricardo+JP's call**, not mine. Tracked in `t-pick-servi
 
 2. **Rebrand "Mejía, IA & CIA" → Nexostrat is permanent and system-wide.** All 4 skill templates + 4 generate_docx.py scripts + 15 pilot docs corrected. Future skill invocations produce Nexostrat-branded output from the start. The runtime catalog now loads skill descriptions as "Analista de compañías — Nexostrat" / etc.
 
-3. **Pilot outputs are insumos internos, NOT entregables al cliente.** The 4 discovery guides are marked CONFIDENCIAL — never share with prospect. Company/industry/competitor reports are Ricardo's internal preparation only. Client-facing deliverables require Skill #5 (Reporte Diagnóstico, post-meeting with client data) — does not yet exist.
+3. **Pilot outputs are internal input, NOT client deliverables.** The 4 discovery guides are marked CONFIDENCIAL — never share with prospect. Company/industry/competitor reports are Ricardo's internal preparation only. Client-facing deliverables require Skill #5 (Diagnostic Report, post-meeting with client data) — does not yet exist.
 
 4. **Process improvements before next pilot run.** The 8-item list in `Pilotos/Mejoras_Inmediatas_Proceso.txt` should land before the 4th company goes through the pipeline. Highest leverage: the structured briefing template (improvement #1, codified in feedback memory `briefing-estructurado-pipeline`).
 
 5. **Honest evaluation > false positivity.** Locked via feedback memory `honestidad-brutal-evaluacion`. When Ricardo asks for opinion on a process/output, the standard is veredicto en 1 frase + lo que no funciona con la misma especificidad que lo que sí. False positivity produces cero acciones correctivas.
 
-6. **Visual standard for high-visibility deliverables.** Locked via feedback memory `outputs-premium-visual`. Decks/docs for JP/cliente/inversor: paleta sobria consulting-grade (Stripe Press / Linear / Anthropic blog reference), tipografía Inter, un solo accent color, espaciado generoso. NO startup-playful, NO Bootstrap genérico, NO consultoría-vieja.
+6. **Visual standard for high-visibility deliverables.** Locked via feedback memory `outputs-premium-visual`. Decks/docs for JP/client/investor: sober consulting-grade palette (Stripe Press / Linear / Anthropic blog reference), Inter typography, single accent color, generous spacing. NO startup-playful, NO generic Bootstrap, NO old-school-consulting.
 
 ## In flight — concrete next action
 
@@ -82,78 +82,78 @@ CRITICAL PATH (the 6 decisions to make in order):
   │  t-jp-pilotos-review                              │
   │  Ricardo + JP sync (60-90 min)                    │
   │  Material: Pilotos/Nexostrat_Analisis_Pipeline    │
-  │  .html (deck 13 slides) + 3 Resumen_*.md          │
-  │  Output: alineación en 6 decisiones strategic     │
+  │  .html (13-slide deck) + 3 Resumen_*.md           │
+  │  Output: alignment on 6 strategic decisions       │
   └─────────────────────┬─────────────────────────────┘
                         │
   ┌── 2026-05-24 ──────▼──────────────────────────────┐
   │  t-pick-service-model                             │
-  │  Decisión Modelo A / B / Híbrido                  │
-  │  Define los próximos 6-12 meses del negocio       │
+  │  Service model decision: A / B / Hybrid           │
+  │  Defines the next 6-12 months of the business     │
   └─────────────────────┬─────────────────────────────┘
                         │
               ┌─────────┴──────────┐
               │                    │
   ┌── 2026-05-31 ─┐    ┌── 2026-05-31 ─┐
-  │  capabilities │    │  one-pager    │
-  │  catalog      │    │  pre-reunión  │
-  │  (input al    │    │  (material    │
-  │  discovery)   │    │  marketing)   │
+  │  capabilities │    │  pre-meeting  │
+  │  catalog      │    │  one-pager    │
+  │  (input to    │    │  (marketing   │
+  │  discovery)   │    │  material)    │
   └─────────┬─────┘    └───────┬───────┘
             │                  │
   ┌── 2026-06-07 ──────────────▼─────────┐
   │  t-validate-pipeline-improvements    │
-  │  Las 8 mejoras al pipeline antes     │
-  │  del 4to pilot run                   │
+  │  The 8 pipeline improvements before  │
+  │  the 4th pilot run                   │
   └──────────────────────────────────────┘
 
-PARALLEL (no gatean el critical path):
+PARALLEL (do not gate the critical path):
 
   ┌── 2026-06-14 ─┐   ┌── 2026-06-21 ─┐   ┌── 2026-06-30 ─┐
   │  confidence   │   │  skill #5     │   │  skill #6     │
-  │  marking ✓/~/?│   │  diagnóstico  │   │  propuesta    │
-  │  en company   │   │  post-reunión │   │  SOW          │
+  │  marking ✓/~/?│   │  diagnostic   │   │  commercial   │
+  │  in company   │   │  post-meeting │   │  proposal SOW │
   └───────────────┘   └───────────────┘   └───────────────┘
 
 LONG-RUNNING PARALLEL:
-  - t-plan-02-write (FOSS docs stack, load-bearing para Stage 1
+  - t-plan-02-write (FOSS docs stack, load-bearing for Stage 1
     launch per ADR-038). Brainstorm via superpowers:brainstorming
     + writing-plans + audit + execute. ~1.5-2 weeks elapsed.
-    Due 2026-06-15. No gate de los pilotos.
-  - t-plan-01b-execute-warm-standby (Tasks 7-12, ~2-3h cuando
-    el segundo host esté disponible). Due 2026-06-30.
-  - t-plan-01a-jp-and-tty-deferred (Plan 01a closure cuando JP
-    coordine). No gate de ningún milestone.
-  - t-presentation-refresh-post-adr-038 (regen del deck 2026-05-14).
-    Due 2026-06-01. No bloquea.
+    Due 2026-06-15. Does not gate the pilots.
+  - t-plan-01b-execute-warm-standby (Tasks 7-12, ~2-3h once the
+    second host is available). Due 2026-06-30.
+  - t-plan-01a-jp-and-tty-deferred (Plan 01a closure once JP
+    coordinates). Does not gate any milestone.
+  - t-presentation-refresh-post-adr-038 (regen of the 2026-05-14
+    deck). Due 2026-06-01. Non-blocking.
   - t-plan-01c-polish-pass (LOW residue, partnership Signal docs).
     Low priority. Due 2026-06-30.
 ```
 
-**Recommendation if Ricardo asks Claude:** la sesión siguiente debería abrir directo con "ya tengo la cita con JP / no tengo la cita con JP" y trabajar desde ahí. Si la cita está agendada, preparar Ricardo para la reunión (puntos clave del deck para guiar la conversación). Si no, escribir el mensaje para coordinarla. El resto del trabajo (capabilities catalog, one-pager) depende de la decisión que sale de esa reunión.
+**Recommendation if Ricardo asks Claude:** the next session should open directly with "I have the JP meeting scheduled / I don't have it scheduled" and work from there. If scheduled, prep Ricardo for the meeting (key deck points to guide the conversation). If not, draft the message to coordinate it. The rest of the work (capabilities catalog, one-pager) depends on the decision that comes out of that meeting.
 
 ## Blocked on
 
-**For service-model decision and todos sus downstream:** JP availability para sesión de 60-90 min. Sin esto el critical path se atasca.
+**For the service-model decision and all its downstream:** JP availability for a 60-90 min session. Without this, the critical path stalls.
 
-**For Plan 02 brainstorm (parallel):** nada bloquea. Puede arrancar cuando Ricardo elija hacerlo en lugar de la cadena pilotos→servicio.
+**For Plan 02 brainstorm (parallel):** nothing blocks it. Can start whenever Ricardo elects to advance there instead of the pilots→service chain.
 
-**For warm-standby Tasks 7-12 (parallel):** disponibilidad del segundo host físico.
+**For warm-standby Tasks 7-12 (parallel):** availability of the physical second host.
 
-**For JP-side TTY-deferred items (parallel):** JP availability (mensaje Telegram listo en `t-plan-01a-jp-and-tty-deferred`).
+**For JP-side TTY-deferred items (parallel):** JP availability (Telegram message ready in `t-plan-01a-jp-and-tty-deferred`).
 
 ## Open questions
 
 **None blocking.** Two soft questions for next session start:
 
-1. **¿JP review agendada o no?** Si sí, preparar puntos clave para la conversación. Si no, escribir mensaje a JP coordinando.
-2. **¿Pivot a Plan 02 mientras espera JP, o esperar?** Plan 02 es load-bearing pero no urgente; los pilotos sin servicio definido son la urgencia. Razón para pivot: si JP tarda más de 1-2 semanas en agendar, vale la pena no quedarse parado. Razón para esperar: el descubrimiento de las pilotos puede cambiar requisitos del docs stack (qué CRM, qué meeting-capture).
+1. **Is the JP review scheduled or not?** If yes, prep the key conversation points. If not, draft the Telegram message to coordinate it.
+2. **Pivot to Plan 02 while waiting for JP, or wait?** Plan 02 is load-bearing but not urgent; the pilots without a defined service model are the urgency. Reason to pivot: if JP takes more than 1-2 weeks to schedule, it's worth not staying idle. Reason to wait: the pilots' discovery may shift requirements for the docs stack (which CRM, which meeting-capture).
 
 ## Files modified but not yet committed
 
 After this session-end bookkeeping commit, working tree will be clean. Files in this commit:
 
-- **New (Pilotos):** 30 files in `Pilotos/` (15 .md + 15 .docx, organized in 3 subfolders) + 1 HTML deck + 1 .txt mejoras + 3 carpetas + 3 Resumen .md + 3 Resumen .docx (some already counted)
+- **New (Pilotos):** 30 files in `Pilotos/` (15 .md + 15 .docx, organized in 3 subfolders) + 1 HTML deck + 1 .txt of improvements + 3 folders + 3 Resumen .md + 3 Resumen .docx (some already counted)
 - **Modified (skills rebrand):** 4 `SKILL.md` + 4 `generate_docx.py` (in `.claude/skills/<name>/`)
 - **Modified (session-end bookkeeping):** `STATUS.md`, `CHECKPOINT.md` (this file), `tasks.json`, `calendar.json`, `00_META/CHANGELOG.md`
 - **New (journal):** `00_META/journal/2026-05-17_pipeline-pilotos-rebranding.md`
@@ -168,8 +168,8 @@ After this session-end bookkeeping commit, working tree will be clean. Files in 
 - **Skill #5 + Skill #6 (parallel):** ~2-3 weeks each, due 2026-06-21 / 2026-06-30. Gates on having first real client through the pipeline.
 - **Confidence marking (parallel):** ~1 día, due 2026-06-14. Skill SKILL.md edit pequeño.
 - **Plan 02 brainstorm + write (parallel):** ~3-5 días elapsed write phase + ~1 semana audit+execute. Due 2026-06-15.
-- **Plan 01b warm-standby (parallel, host-gated):** ~2-3h cuando host esté disponible. Due 2026-06-30.
-- **Stage 1 launch realistic:** 2026-07-15 to 2026-07-30 — depende de JP review timing + Plan 02 + primer cliente real cerrado vía Modelo A.
+- **Plan 01b warm-standby (parallel, host-gated):** ~2-3h once the host is available. Due 2026-06-30.
+- **Stage 1 launch realistic:** 2026-07-15 to 2026-07-30 — depends on JP review timing + Plan 02 + first real client closed via Model A.
 
 ## After this, what's next
 

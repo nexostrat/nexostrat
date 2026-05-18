@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v1",
   "project": "nexostrat",
-  "updated": "2026-05-17T22:00:00-07:00",
+  "updated": "2026-05-17T18:30:00-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -267,6 +267,15 @@
       "due": "2026-06-01",
       "created": "2026-05-16",
       "notes": "Created 2026-05-16 per hard-system-audit Finding H4 recommendation. The 2026-05-14 presentation got an interim patch-in-place commit 3964d00 (16 Notion refs strike-through + banner + ADR-038 popover added), but the audit's preferred path is full regeneration from current spec + ADRs + STATUS — clean, no historical scaffolding. Mechanism exists per the presentation footer's regeneration instructions. New filename: 2026-05-XX_nexostrat-presentation.html (post-sweep date); old file moved to 00_META/proposals/archive/2026-05-14_nexostrat-presentation.html. Also: regeneration should add ADRs 016 + 018 to the popover database (currently missing); ADR-009 correctly absent (Superseded). Effort: ~1 day matching the 2026-05-14 build (brainstorm + write + iterate); reduces to ~half-day if prompted as 'minimal diff from prior version, applying ADR-038 supersessions only'. Gating: nothing — can run anytime; not blocking Plan 01b."
+    },
+    {
+      "id": "t-skill-chain-test",
+      "subject": "Run the 4-skill chain (01 → 02 + 03 → 06) against a real Colombian company; judge output usefulness",
+      "status": "open",
+      "priority": "medium",
+      "due": "2026-06-30",
+      "created": "2026-05-17",
+      "notes": "Created 2026-05-17 after the skill-hygiene commit ab24a0d landed (4 mature skills now production-runnable via .claude/skills/ auto-discovery + canonical pipeline output per spec §7). This task is the FIRST CONCRETE TEST of skill output quality — answers Ricardo's session-start question: 'how do we test if the skills are working / what the output is / if it is useful, without breaking stuff in the future.' Steps: (1) Pick target Colombian company — options: a real prospect Ricardo has in mind (real value, real stakes), Bodai if it's a real company (becomes permanent benchmark fixture), or random Supersociedades pick (zero stakes, full control, repeatable). (2) Create pipeline/clients/<slug>/ from pipeline/clients/_template/ via cp -r (no automation yet — Plan 07 builds the new-client.sh script). (3) Run skill 01 → saves to pipeline/clients/<slug>/01_company_analysis/runs/<TIMESTAMP>_mode-a/final_report.{md,docx}. (4) Run skills 02 + 03 in parallel reading 01's output → same pattern in 02_/03_ folders. (5) Run skill 06 reading all three → 04_meeting_script folder. (6) For each run, write notes.md with Ricardo's qualitative judgment (would I use this in a real sales call? what's missing? what's wrong?). (7) Iterate on any skill prompt where the judgment is negative — commit SKILL.md edit, re-run, compare. Verification: bash infra/scripts/test_skills.sh stays green throughout. NOT IN SCOPE: writing Skill 05 (Plan 06), building scoring.py (Plan 05), building judge.py (Plan 05), Aurora render (Plan 05), benchmark_input.md fixture (Plan 05). This is qualitative Mode-A-only validation. Gates on Ricardo picking a target company. Not blocking Plan 02 brainstorm — runs in parallel."
     }
   ]
 }

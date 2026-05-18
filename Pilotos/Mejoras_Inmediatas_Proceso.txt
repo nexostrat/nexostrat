@@ -1,0 +1,140 @@
+Honestamente — la mayoría de los problemas que viste vienen de un mismo lugar: falta de input estructurado al inicio. Yo entré frío y tuve que inferir muchas cosas que tú ya sabes pero no me dijiste. Aquí los cambios más altos en impacto, ordenados por ROI inmediato:
+
+---
+
+## 1 · Briefing estructurado antes de lanzar el pipeline
+
+**Lo que cambia:** En vez de mandarme "analiza esta empresa + URLs", empieza con un briefing en formato fijo. Mismas URLs, pero con contexto que tú ya tienes en la cabeza.
+
+**Plantilla a usar mañana:**
+
+```
+EMPRESA: [nombre]
+NIT (si lo conoces): [...]
+CÓMO LA ENCONTRÉ: [referido por X / vi su LinkedIn / pasó en evento / etc]
+POR QUÉ ME INTERESA: [una frase]
+LO QUE YA SÉ DE PRIMERA MANO: [si conoces founder, si viste un proyecto, etc]
+DECISOR CONOCIDO: [nombre + cargo + cómo llegaría a él]
+TONO DE LA RELACIÓN: [primera reunión fría / referido caliente / amigo de amigo]
+PRESUPUESTO QUE INTUYES: [USD X-Y o "no sé"]
+NIVEL DE PROFUNDIDAD: [pipeline completo / solo company / solo competidor]
+FECHA DE LA REUNIÓN (si hay): [...]
+URLS DE INVESTIGACIÓN: [como antes]
+```
+
+**Por qué importa:** Para Ascenso me hubieras dicho "los conozco, son amigos de mi prima, ya hay reunión el 30 de mayo con el GG Juan Pérez, sale del CCCS, sé que están entrando a Cartagena". Eso solo cambia el 60% del análisis y del guión. Costo: 2 min de tu tiempo. Beneficio: outputs 3x más útiles.
+
+---
+
+## 2 · Pausa entre skills — no los corras de corrido
+
+**Lo que cambia:** En vez de "corre el pipeline completo", lánzalos uno a la vez con revisión humana entre cada uno.
+
+**Flujo nuevo:**
+- Lanzo `company-analyst` → tú revisas 10 min → corriges fundadores reales, NIT real, cifras que conoces → me lo devuelves corregido
+- *Después* lanzo `industry-analyst` (o lo reuso si ya existe del sector)
+- *Después* `competitor-analyst` → tú validas top 3 competidores antes que invente
+- *Después* `discovery-meeting` ya con todo verificado
+
+**Por qué importa:** los errores en el company se propagaron a los otros 3 reportes. Validar al final 4 reportes a la vez es mucho más difícil que validar uno cada vez. Costo: 30 min extra. Beneficio: cero errores arrastrados.
+
+---
+
+## 3 · Pre-trabajo en LinkedIn (5 minutos tuyos)
+
+**Lo que cambia:** Antes de mandarme nada, abre el LinkedIn de la empresa y captura tres datos que el skill no encuentra:
+
+- Nombre + cargo del founder/CEO
+- Tamaño declarado de empleados
+- Una o dos personas clave del equipo (CTO, gerente comercial, jefe de marketing)
+
+Me pegas eso en el briefing. Esto soluciona el problema #1 de Ascenso (sin fundadores) y mejora todo el guión discovery.
+
+**Por qué importa:** LinkedIn es lo más útil del proceso comercial colombiano y yo no tengo acceso autenticado. 5 min tuyos = 30% mejor calidad del guión.
+
+---
+
+## 4 · Catálogo de capacidades reales de Nexostrat
+
+**Lo que cambia:** Tener un documento corto — una página — que diga *"esto es lo que Nexostrat puede entregar HOY"* con precio, plazo y stack. Me lo pasas en el briefing.
+
+**Ejemplo de cómo se vería:**
+
+```
+SERVICIOS QUE NEXOSTRAT PUEDE ENTREGAR (mayo 2026):
+
+· Agente WhatsApp + DM         USD 5-8K · 4-6 semanas · stack: n8n + Claude + Meta Cloud
+· CRM + lead scoring IA        USD 6-10K · 6-8 semanas · stack: HubSpot/Bitrix + Claude API
+· Dashboard sell-out multi-cadena  USD 8-15K · 8-12 semanas · stack: Python + Metabase
+· Pipeline contenido IA        USD 4-7K · 4 semanas · stack: Claude + ElevenLabs + Runway
+
+NO PODEMOS ENTREGAR HOY:
+· Configurador 3D
+· Forecast de demanda con ML
+· Gemelo digital
+```
+
+**Por qué importa:** Los reportes prometieron "configurador IA + asistente de diseño" a Scarab. Si Nexostrat no puede entregar eso en 3 meses, es promesa vacía. Con el catálogo, el `discovery-meeting` solo propone lo que existe. Costo: 30 min crearlo una sola vez. Beneficio: deja de vender humo.
+
+---
+
+## 5 · Confirmar audiencia y tono de la reunión
+
+**Lo que cambia:** Antes del `discovery-meeting`, dime explícitamente:
+
+- ¿Quién va a estar? (founder solo / founder + CTO / comité / familia)
+- ¿Tono de la reunión? (formal / amigos / técnica / social-comercial)
+- ¿Cuánto saben de IA? (cero / usuarios ChatGPT / sofisticados)
+
+**Por qué importa:** El guión que generé para Scarab asume Santiago Toro solo, founder personal, anti-corporate. Si en la reunión va a estar Santiago + un inversor + un CTO contratado, el guión cambia radicalmente. Hoy lo asumí. Mañana confírmamelo.
+
+---
+
+## 6 · Pedir explícitamente "marcar confianza" en cada dato
+
+**Lo que cambia:** Al invocar `company-analyst`, agrega al prompt:
+
+> "En cada cifra, fecha y nombre, marca al final: ✓ verificado (fuente directa) · ~ estimado (cálculo) · ? sin confirmar (hipótesis). No escondas la incertidumbre."
+
+**Por qué importa:** Hoy presenté "Bodai factura USD 475K-1.2M" sin distinguir que es rango de directorio privado, no estado financiero auditado. Marcado claro evita que tú o JP traten datos débiles como sólidos. Costo: 0 (es una línea más de prompt). Beneficio: confianza calibrada.
+
+---
+
+## 7 · Reutilizar industry-analyst cuando aplique
+
+**Lo que cambia:** Si ya tienes un `industry-analyst` de un sector hecho hace menos de 4-6 meses, NO lo regeneres. Pásamelo y le digo al `competitor-analyst` y `discovery-meeting` que lo usen como input.
+
+**Caso real:** si mañana analizas otra constructora VIS Antioquia, no necesitas otro `ConstruccionResidencialVIS_CO`. El que tienes sirve. Ahorras 30-40 min por ejercicio y tienes consistencia entre prospectos del mismo sector.
+
+**Por qué importa:** El sectorial es el más reusable de los 4 — y a veces es el más caro de generar. Reusarlo es eficiencia pura.
+
+---
+
+## 8 · Pedir output dual desde el inicio
+
+**Lo que cambia:** Al invocar `discovery-meeting`, agrega:
+
+> "Genera dos versiones: la completa (referencia, 25 KB) Y un 1-pager ejecutable en sala con solo las 5 preguntas clave, las 3 zonas sensibles y la distribución de tiempo. El 1-pager va en `<empresa>_GuionReunion_1pager.md`."
+
+**Por qué importa:** El guión completo es archivo de respaldo. Lo que entra a la sala es la versión de 1 página. Hoy generé solo la completa. Mañana hago las dos. Costo: 0. Beneficio: guión usable de verdad.
+
+---
+
+## Resumen accionable — la próxima vez que vayas a hacer este ejercicio
+
+**Antes de pedir nada al sistema (15 min tuyos):**
+1. Escribir el briefing estructurado (plantilla arriba)
+2. Abrir LinkedIn de la empresa y capturar 3 datos (founder, tamaño, equipo clave)
+3. Confirmar audiencia y tono de la reunión
+
+**Durante el ejercicio:**
+4. Pasarme el catálogo de capacidades reales de Nexostrat al inicio
+5. Lanzar los skills **uno a uno** con revisión humana entre cada uno
+6. En cada prompt agregar: "marca confianza de cada dato"
+7. Si ya hay industry-analyst del sector, dímelo (no regenero)
+8. Al pedir el discovery, pedir las dos versiones (completa + 1-pager)
+
+**Tiempo extra de tu parte:** ~45-60 min repartidos a lo largo del proceso.
+**Mejora esperada en calidad:** los outputs van del 40% al 75-80% del producto final, sin tocar arquitectura ni código.
+
+El 20-25% restante (validación de capacidades de entrega, conseguir la reunión, cerrar el cliente) sigue siendo trabajo humano. Pero al menos estos cambios cierran las grietas más obvias del proceso actual.

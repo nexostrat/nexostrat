@@ -423,7 +423,7 @@ def generate_docx(md_path, output_path):
 
     p_meta = doc.add_paragraph()
     run_meta = p_meta.add_run(
-        f"Mejía, IA & CIA — Solo para uso de Ricardo  ·  {datetime.now().strftime('%d %b %Y')}")
+        f"Nexostrat — Solo para uso de Ricardo  ·  {datetime.now().strftime('%d %b %Y')}")
     run_meta.font.size = Pt(10)
     run_meta.font.italic = True
     run_meta.font.color.rgb = MID_GRAY
@@ -470,7 +470,7 @@ def generate_docx(md_path, output_path):
         elif btype == 'bold_line':
             t = block['text']
             # Skip the CONFIDENCIAL subtitle line (already on cover)
-            if skip_meta_line and ('CONFIDENCIAL' in t or 'Mejía, IA & CIA' in t):
+            if skip_meta_line and ('CONFIDENCIAL' in t or 'Nexostrat' in t):
                 skip_meta_line = False
                 continue
             p = doc.add_paragraph()
@@ -504,7 +504,7 @@ def generate_docx(md_path, output_path):
         fp = footer.paragraphs[0]
         fp.alignment = WD_ALIGN_PARAGRAPH.CENTER
         run = fp.add_run(
-            f"GUIÓN CONFIDENCIAL — Mejía, IA & CIA — Solo para uso de Ricardo — {datetime.now().strftime('%B %Y')}")
+            f"GUIÓN CONFIDENCIAL — Nexostrat — Solo para uso de Ricardo — {datetime.now().strftime('%B %Y')}")
         run.font.size = Pt(8)
         run.font.color.rgb = MID_GRAY
 

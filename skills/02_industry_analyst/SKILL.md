@@ -1,14 +1,14 @@
 ---
 name: industry-analyst
 description: |
-  Analista de industrias — Mejía, IA & CIA. Genera un reporte sectorial completo (10 secciones) sobre una industria colombiana: caracterización, actores principales, tendencias 3-5 años, proveedores, clientes, regulación, impacto IA, PESTEL, madurez digital y señales de oportunidad para consultoría. Acepta como input el reporte de company-analyst (`*_AnalisisCompania_*.md`) para identificar el sector automáticamente. Output: .md + .docx. Reutilizable por sector.
+  Analista de industrias — Nexostrat. Genera un reporte sectorial completo (10 secciones) sobre una industria colombiana: caracterización, actores principales, tendencias 3-5 años, proveedores, clientes, regulación, impacto IA, PESTEL, madurez digital y señales de oportunidad para consultoría. Acepta como input el reporte de company-analyst (`*_AnalisisCompania_*.md`) para identificar el sector automáticamente. Output: .md + .docx. Reutilizable por sector.
 
-  Activar SIEMPRE ante: "analiza el sector X", "análisis de la industria X", "¿cómo está el mercado de X en Colombia?", "dame un análisis sectorial", "investiga la industria X", "industry analysis", "¿qué tan madura digitalmente está la industria X?", "¿dónde puede entrar IA en el sector X?", cuando el usuario comparte un .md de company-analyst y necesita el análisis sectorial, o cuando se necesita el siguiente paso del pipeline de Mejía, IA & CIA. Ante la duda, activar.
+  Activar SIEMPRE ante: "analiza el sector X", "análisis de la industria X", "¿cómo está el mercado de X en Colombia?", "dame un análisis sectorial", "investiga la industria X", "industry analysis", "¿qué tan madura digitalmente está la industria X?", "¿dónde puede entrar IA en el sector X?", cuando el usuario comparte un .md de company-analyst y necesita el análisis sectorial, o cuando se necesita el siguiente paso del pipeline de Nexostrat. Ante la duda, activar.
 ---
 
 # Industry Analyst — Reporte de Inteligencia Sectorial
 
-**Uso:** Interno — Mejía, IA & CIA  
+**Uso:** Interno — Nexostrat  
 **Input:** Reporte .md de company-analyst (`*_AnalisisCompania_*.md`) — opcional, pero recomendado cuando se corre en pipeline  
 **Output:** `SECTOR_CO_YYYYMMDD.md` + `SECTOR_CO_YYYYMMDD.docx`  
 **Propósito:** Alimentar el skill de preparación de llamada y el skill de reporte diagnóstico. Reutilizable: correr una vez por sector, no por empresa.
@@ -115,7 +115,7 @@ Usa exactamente estos encabezados. El texto entre corchetes es guía — reempl�
 ```markdown
 # Análisis de Industria: [NOMBRE DEL SECTOR]
 **Colombia · [Mes Año]**  
-**Preparado por:** Mejía, IA & CIA — Uso Interno  
+**Preparado por:** Nexostrat — Uso Interno  
 **Reutilizable para prospectos del sector hasta:** [fecha estimada de vigencia, ej: dic 2026]
 
 ---
@@ -300,7 +300,7 @@ Usa exactamente estos encabezados. El texto entre corchetes es guía — reempl�
 [Lista de todas las URLs, publicaciones y fuentes utilizadas para este reporte, con fecha de consulta]
 
 ---
-*Reporte generado por /industry-analyst · Mejía, IA & CIA · [fecha]*
+*Reporte generado por /industry-analyst · Nexostrat · [fecha]*
 ```
 
 ---

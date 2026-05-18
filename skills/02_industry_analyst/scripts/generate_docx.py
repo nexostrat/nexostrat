@@ -310,7 +310,7 @@ def generate_docx(md_path, output_path):
 
     p_meta = doc.add_paragraph()
     p_meta.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    run_meta = p_meta.add_run(f"Mejía, IA & CIA — Uso Interno  ·  {datetime.now().strftime('%d %b %Y')}")
+    run_meta = p_meta.add_run(f"Nexostrat — Uso Interno  ·  {datetime.now().strftime('%d %b %Y')}")
     run_meta.font.size = Pt(10)
     run_meta.font.italic = True
     run_meta.font.color.rgb = MID_GRAY
@@ -360,7 +360,7 @@ def generate_docx(md_path, output_path):
         footer = section.footer
         fp = footer.paragraphs[0]
         fp.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        run = fp.add_run(f"Mejía, IA & CIA — Análisis Sectorial Interno — {datetime.now().strftime('%B %Y')}")
+        run = fp.add_run(f"Nexostrat — Análisis Sectorial Interno — {datetime.now().strftime('%B %Y')}")
         run.font.size = Pt(8)
         run.font.color.rgb = MID_GRAY
 

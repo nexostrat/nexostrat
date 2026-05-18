@@ -1,7 +1,7 @@
 ---
 name: discovery-meeting
 description: |
-  Guión de Reunión de Descubrimiento — Mejía, IA & CIA. Genera el guión completo para la reunión de exploración de 60 minutos: apertura con credibilidad instantánea, áreas de mayor potencial IA priorizadas, guión de preguntas por área con seguimiento (Operaciones, Ventas/CRM, Marketing, Finanzas, RRHH, Atención al Cliente, Logística), señales de oportunidad, manejo de objeciones, zonas sensibles, 10 ítems a documentar y cierre. Output: .docx confidencial para Ricardo.
+  Guión de Reunión de Descubrimiento — Nexostrat. Genera el guión completo para la reunión de exploración de 60 minutos: apertura con credibilidad instantánea, áreas de mayor potencial IA priorizadas, guión de preguntas por área con seguimiento (Operaciones, Ventas/CRM, Marketing, Finanzas, RRHH, Atención al Cliente, Logística), señales de oportunidad, manejo de objeciones, zonas sensibles, 10 ítems a documentar y cierre. Output: .docx confidencial para Ricardo.
 
   INPUT REQUERIDO: Los 3 reportes .md de company-analyst + industry-analyst + competitor-analyst. Si alguno falta, produce un mensaje claro indicando qué falta y por qué es necesario.
 
@@ -133,7 +133,7 @@ El template completo está a continuación. Reemplaza TODOS los corchetes `[...]
 ```
 # Guión de Reunión de Descubrimiento: [Nombre Empresa]
 **[Ciudad] · [Sector] · [Fecha]**
-**CONFIDENCIAL — Solo para uso de Ricardo · Mejía, IA & CIA**
+**CONFIDENCIAL — Solo para uso de Ricardo · Nexostrat**
 
 ---
 

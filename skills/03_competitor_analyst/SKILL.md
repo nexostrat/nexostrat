@@ -1,14 +1,14 @@
 ---
 name: competitor-analyst
 description: |
-  Análisis competitivo — Mejía, IA & CIA. Lee el reporte de company-analyst de la empresa prospecto y genera un análisis completo de la competencia (8 secciones): mapa competitivo (3-5 directos + 2-3 indirectos), fichas por competidor con bullet points de IA adoptada, tabla comparativa empresa vs. competidores, análisis de brechas, posicionamiento relativo, oportunidades de diferenciación con IA, señales de punto ciego, y síntesis lista para la llamada. Output: .md + .docx.
+  Análisis competitivo — Nexostrat. Lee el reporte de company-analyst de la empresa prospecto y genera un análisis completo de la competencia (8 secciones): mapa competitivo (3-5 directos + 2-3 indirectos), fichas por competidor con bullet points de IA adoptada, tabla comparativa empresa vs. competidores, análisis de brechas, posicionamiento relativo, oportunidades de diferenciación con IA, señales de punto ciego, y síntesis lista para la llamada. Output: .md + .docx.
 
   Activar SIEMPRE ante: "analiza la competencia de [empresa]", "¿quiénes son los competidores de [empresa]?", "competitive analysis", "análisis competitivo", "¿cómo está [empresa] vs. sus competidores?", "dame las fichas de los competidores de [empresa]", "quiero saber cómo se compara [empresa] con su competencia", o cualquier variante que implique mapear y analizar competidores antes de una reunión comercial. Activar también cuando el usuario comparte un .md de company-analyst y pide el siguiente paso. Ante la duda, activar.
 ---
 
 # Competitor Analyst — Análisis Competitivo
 
-**Uso:** Interno — Mejía, IA & CIA  
+**Uso:** Interno — Nexostrat  
 **Input:** Reporte .md de company-analyst de la empresa prospecto (obligatorio)  
 **Output:** `[Empresa]_Competencia_CO_YYYYMMDD.md` + `.docx`  
 **Propósito:** Mapear el paisaje competitivo del prospecto para enriquecer la llamada exploratoria y la propuesta de IA
@@ -134,7 +134,7 @@ Convenciones de nombre (ver § PASO 0 — Setup arriba):
 ```markdown
 # Análisis Competitivo: [NOMBRE EMPRESA CLIENTE]
 **Colombia · [Mes Año]**  
-**Preparado por:** Mejía, IA & CIA — Uso Interno  
+**Preparado por:** Nexostrat — Uso Interno  
 **Basado en:** company-analyst [fecha del reporte fuente]
 
 ---
@@ -282,7 +282,7 @@ Convenciones de nombre (ver § PASO 0 — Setup arriba):
 [Lista de URLs, reportes y fuentes con fecha de consulta]
 
 ---
-*Reporte generado por /competitor-analyst · Mejía, IA & CIA · [fecha]*
+*Reporte generado por /competitor-analyst · Nexostrat · [fecha]*
 ```
 
 ---

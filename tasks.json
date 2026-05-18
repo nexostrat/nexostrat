@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v1",
   "project": "nexostrat",
-  "updated": "2026-05-17T18:30:00-07:00",
+  "updated": "2026-05-17T23:55:00-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -271,11 +271,88 @@
     {
       "id": "t-skill-chain-test",
       "subject": "Run the 4-skill chain (01 → 02 + 03 → 06) against a real Colombian company; judge output usefulness",
+      "status": "done",
+      "priority": "medium",
+      "due": "2026-06-30",
+      "created": "2026-05-17",
+      "completed": "2026-05-17",
+      "notes": "DONE 2026-05-17 (44 days ahead of due) — closed in the same day it was created, but scaled 3x beyond the original scope. Ricardo picked Bodai Foods (real Colombian company, plant-based CPG, La Estrella Antioquia) as the first target instead of architectural placeholder. The pipeline ran end-to-end producing 4 reports (.md + .docx). Then Ricardo passed two more companies (Constructora Ascenso + Scarab Cycles) in a single follow-on instruction with autonomous-execution authorization, so the chain ran on 3 radically different sectors total (CPG plant-based + construcción VIS + handmade premium manufacturing) producing 12 reports + 3 executive summaries + 1 HTML analysis deck of the pipeline itself + 1 .txt of immediate process improvements. Total deliverables: 30 files in Pilotos/<Company>/<NN_skill>/ structure. Note: the runs did NOT use the canonical pipeline/clients/<slug>/ destination — Ricardo did standalone naming convention (per skill SETUP section), then organized post-hoc into Pilotos/ folders for human readability. Pipeline destination still works for future runs that cp from _template/. Output quality assessment per honest evaluation requested by Ricardo: insumo interno de preparación de un consultor senior — 40% del producto comercial final; 60% restante (validación humana, conseguir reunión, capacidades reales Nexostrat, post-meeting work) sigue siendo trabajo humano. 8 process improvements identified for next pilot run, captured in Pilotos/Mejoras_Inmediatas_Proceso.txt. Closes the qualitative Mode-A validation question definitively. Spawned 8 follow-up tasks tracking the gaps identified: t-jp-pilotos-review, t-pick-service-model, t-nexostrat-capabilities-catalog, t-onepager-prereunion-template, t-validate-pipeline-improvements, t-skill-5-diagnostic-report, t-skill-6-commercial-proposal, t-confidence-marking-company-analyst."
+    },
+    {
+      "id": "t-jp-pilotos-review",
+      "subject": "Sesión de revisión con JP de los 3 pilotos + presentación HTML de análisis del pipeline",
+      "status": "open",
+      "priority": "critical",
+      "due": "2026-05-22",
+      "created": "2026-05-17",
+      "notes": "Primera vez que JP ve el output del pipeline corrido en 3 empresas reales. Material a revisar (en orden): (1) Pilotos/Nexostrat_Analisis_Pipeline.html — 13-slide deck cubriendo veredicto + análisis por skill + problema datos colombianos + 12 etapas vs 4 que tenemos + dos modelos servicio + 6 decisiones pendientes; (2) los 3 Resumen_<Empresa>.md (no los reportes completos — usar como reference si JP pide profundidad); (3) Pilotos/Mejoras_Inmediatas_Proceso.txt — 8 mejoras al proceso para el próximo pilot run. Duración estimada 60-90 min. Output esperado: alineación con JP sobre las 6 decisiones estratégicas del último slide del deck, especialmente la #1 (modelo de servicio A/B/Híbrido) que tiene su propia tarea con due 2026-05-24. Bloquea t-pick-service-model. Recomendación de cómo abrir la conversación: 'Corrimos el pipeline sobre 3 empresas. Sirve como insumo interno pero no es producto final. Necesitamos decidir cómo lo posicionamos como servicio antes de salir a vender.'"
+    },
+    {
+      "id": "t-pick-service-model",
+      "subject": "Decisión estratégica con JP: Modelo de servicio Nexostrat — A productized / B diagnóstico / Híbrido",
+      "status": "open",
+      "priority": "critical",
+      "due": "2026-05-24",
+      "created": "2026-05-17",
+      "blocked_by": "t-jp-pilotos-review",
+      "notes": "Decisión que define los próximos 6-12 meses del negocio (CAC, LTV, equipo necesario, mix de marketing, canales de adquisición, tono de marca). Tres opciones enumeradas en Pilotos/Nexostrat_Analisis_Pipeline.html slide 11: (A) Productized Services — 3-4 paquetes fijos con precio/scope/timeline fijo (Agente WhatsApp USD 5-8K, CRM+scoring USD 6-10K, Dashboard sell-out USD 8-15K, Pipeline contenido USD 4-7K), vendidos vía landing + cold outreach + eventos sectoriales, no requiere reunión previa, ticket USD 2-8K; (B) Diagnóstico Personalizado — sesión exploratoria 60 min + reporte 10 días + propuesta custom con 2-3 QWs específicos, vendido vía referidos + LinkedIn outbound + inbound de contenido, ticket USD 15-50K; (Híbrido recomendado) entrar por A para volumen + casos referenciables, upgrade a B cuando cliente lo pida. Sin esta decisión, todas las otras tareas (catálogo capacidades, one-pager pre-reunión, marketing material) se improvisan. Bloquea: t-nexostrat-capabilities-catalog (cuyos paquetes dependen del modelo elegido) + t-onepager-prereunion-template (cuyo tono depende del modelo)."
+    },
+    {
+      "id": "t-nexostrat-capabilities-catalog",
+      "subject": "Crear catálogo 1-pager de capacidades reales de Nexostrat (qué podemos entregar HOY con precio + plazo + stack)",
+      "status": "open",
+      "priority": "high",
+      "due": "2026-05-31",
+      "created": "2026-05-17",
+      "blocked_by": "t-pick-service-model",
+      "notes": "Documento corto (1 página) que enumere los servicios que Nexostrat puede entregar HOY con precio fijo + plazo realista + stack tecnológico. Formato sugerido en Pilotos/Mejoras_Inmediatas_Proceso.txt sección 4 ('SERVICIOS QUE NEXOSTRAT PUEDE ENTREGAR (mayo 2026): · Agente WhatsApp + DM ... USD 5-8K · 4-6 semanas · stack: n8n + Claude + Meta Cloud · ...'). Razón: los discovery guides actualmente proponen QWs con precios/plazos que yo inventé sin validación contra capacidad real (ej. 'configurador IA + asistente de diseño' a Scarab — Nexostrat no puede entregar eso en 3 meses). Sin este catálogo seguimos vendiendo humo. El catálogo se debe pasar como INPUT del discovery-meeting (ver feedback memory briefing-estructurado-pipeline) para que el skill solo proponga QWs que están en él. Si Modelo A se elige (productized), el catálogo ES la oferta comercial pública; si Modelo B, es la lista de building blocks de la propuesta custom. NO PODEMOS ENTREGAR HOY: lista explícita (Configurador 3D, Forecast con ML serio, Gemelo digital, etc.) — equivalentemente importante para evitar overpromising."
+    },
+    {
+      "id": "t-onepager-prereunion-template",
+      "subject": "Crear plantilla one-pager público para envío pre-reunión (gancho que abre la puerta del prospecto)",
+      "status": "open",
+      "priority": "high",
+      "due": "2026-05-31",
+      "created": "2026-05-17",
+      "blocked_by": "t-pick-service-model",
+      "notes": "Plantilla 1-2 páginas, lenguaje cliente, no confidencial — que Ricardo pueda enviar a un prospecto ANTES de la reunión para conseguir la cita. Los discovery guides actuales son confidenciales (insumo interno); el one-pager es el material de marketing que el prospecto sí puede ver. Contenido: quiénes somos (Nexostrat en 1 párrafo) + qué hacemos (3-4 capacidades del catálogo de t-nexostrat-capabilities-catalog) + casos breves (cuando los tengamos) + qué pasa después (cómo es una reunión de 60 min con nosotros) + CTA (cómo agendar). Diseño visual debe seguir feedback memory outputs-premium-visual (paleta sobria, tipografía Inter, NO startup-playful). Bloqueado por t-pick-service-model porque el tono cambia radicalmente según modelo A vs B. Es uno de los gaps más obvios del pipeline actual: tenemos análisis interno + guión de reunión, pero NO tenemos material para conseguir la reunión."
+    },
+    {
+      "id": "t-validate-pipeline-improvements",
+      "subject": "Validar las 8 mejoras del proceso antes del próximo pilot run",
+      "status": "open",
+      "priority": "high",
+      "due": "2026-06-07",
+      "created": "2026-05-17",
+      "notes": "Antes de correr el pipeline en una 4ta empresa, ejecutar las 8 mejoras de Pilotos/Mejoras_Inmediatas_Proceso.txt en un mini-piloto controlado (1 empresa nueva, idealmente pequeña/conocida): (1) briefing estructurado en formato fijo; (2) pausa con revisión humana entre cada skill; (3) pre-trabajo LinkedIn 5 min antes de invocar; (4) catálogo capacidades de Nexostrat como input (depende de t-nexostrat-capabilities-catalog); (5) audiencia + tono confirmados antes del discovery; (6) instrucción 'marca confianza ✓/~/?' en el prompt del company-analyst (también ver t-confidence-marking-company-analyst para hacerlo permanente); (7) reusar industry-analyst si ya existe del sector; (8) output dual completo + 1-pager del discovery-meeting. Output esperado: validación que los outputs pasan del 40% al 75-80% del producto final como se predijo. Si las mejoras funcionan, se documentan en el SKILL.md como recommended invocation. Si no funcionan, se iteran. Sin tocar arquitectura de skills — solo cambios al proceso de invocación."
+    },
+    {
+      "id": "t-skill-5-diagnostic-report",
+      "subject": "Construir skill #5: Reporte Diagnóstico (post-reunión, con datos reales del cliente)",
+      "status": "open",
+      "priority": "medium",
+      "due": "2026-06-21",
+      "created": "2026-05-17",
+      "notes": "Skill nuevo que cubre la etapa #9 del pipeline completo (ver Pilotos/Nexostrat_Analisis_Pipeline.html slide 9). Input: notas + datos recolectados por Ricardo durante la reunión de discovery (los 10 ítems obligatorios que cada discovery guide enumera). Output: reporte diagnóstico personalizado con cifras reales del cliente — ya no estimaciones — y 2-3 Quick Wins específicos con caso de ROI cuantificado. Plazo de entrega real: 10 días después de la reunión (lo que promete cada discovery guide en su sección de cierre). Estructura sugerida: situación actual (con datos del cliente, no estimaciones) + 2-3 QWs priorizados (proceso + herramienta + ROI estimado en COP/USD + timeline + dependencias) + caso de inversión total + próximos pasos (firma de propuesta). Plantilla parte de los outputs combinados de company/industry/competitor + las notas de Ricardo de la reunión. Sigue al pipeline actual — no lo reemplaza. Solo necesario cuando haya primer cliente real que pase de reunión a diagnóstico. Naming: 05_diagnostic_report dentro de skills/. Output va a pipeline/clients/<slug>/05_diagnostic_report/runs/<TIMESTAMP>_mode-a/final_report.{md,docx}. No bloquea otras tareas — gate natural es tener primer cliente real (no se construye antes que haga falta)."
+    },
+    {
+      "id": "t-skill-6-commercial-proposal",
+      "subject": "Construir skill #6: Propuesta Comercial / SOW",
       "status": "open",
       "priority": "medium",
       "due": "2026-06-30",
       "created": "2026-05-17",
-      "notes": "Created 2026-05-17 after the skill-hygiene commit ab24a0d landed (4 mature skills now production-runnable via .claude/skills/ auto-discovery + canonical pipeline output per spec §7). This task is the FIRST CONCRETE TEST of skill output quality — answers Ricardo's session-start question: 'how do we test if the skills are working / what the output is / if it is useful, without breaking stuff in the future.' Steps: (1) Pick target Colombian company — options: a real prospect Ricardo has in mind (real value, real stakes), Bodai if it's a real company (becomes permanent benchmark fixture), or random Supersociedades pick (zero stakes, full control, repeatable). (2) Create pipeline/clients/<slug>/ from pipeline/clients/_template/ via cp -r (no automation yet — Plan 07 builds the new-client.sh script). (3) Run skill 01 → saves to pipeline/clients/<slug>/01_company_analysis/runs/<TIMESTAMP>_mode-a/final_report.{md,docx}. (4) Run skills 02 + 03 in parallel reading 01's output → same pattern in 02_/03_ folders. (5) Run skill 06 reading all three → 04_meeting_script folder. (6) For each run, write notes.md with Ricardo's qualitative judgment (would I use this in a real sales call? what's missing? what's wrong?). (7) Iterate on any skill prompt where the judgment is negative — commit SKILL.md edit, re-run, compare. Verification: bash infra/scripts/test_skills.sh stays green throughout. NOT IN SCOPE: writing Skill 05 (Plan 06), building scoring.py (Plan 05), building judge.py (Plan 05), Aurora render (Plan 05), benchmark_input.md fixture (Plan 05). This is qualitative Mode-A-only validation. Gates on Ricardo picking a target company. Not blocking Plan 02 brainstorm — runs in parallel."
+      "blocked_by": "t-skill-5-diagnostic-report",
+      "notes": "Skill nuevo que cubre la etapa #10 del pipeline completo. Input: el Reporte Diagnóstico de t-skill-5 + decisión del cliente sobre qué QWs proceder. Output: SOW formal (Statement of Work) — alcance + entregables + cronograma + precio + términos + aceptación. Esto es documento de cierre comercial — formato necesariamente más formal que los discovery guides. Plantilla por modelo: si Modelo A (productized), SOW estándar adaptado al paquete elegido; si Modelo B (diagnóstico), SOW custom con scope construido sobre el reporte diagnóstico. Naming: 06_commercial_proposal dentro de skills/. Output a pipeline/clients/<slug>/06_proposal/. Cierra el ciclo comercial pre-implementación. Sigue a t-skill-5 y a t-pick-service-model. No bloquea otras tareas — gate natural es haber cerrado el reporte diagnóstico del primer cliente real."
+    },
+    {
+      "id": "t-confidence-marking-company-analyst",
+      "subject": "Implementar marcado de confianza (✓ verificado / ~ estimado / ? hipótesis) en company-analyst",
+      "status": "open",
+      "priority": "medium",
+      "due": "2026-06-14",
+      "created": "2026-05-17",
+      "notes": "Edit pequeño al SKILL.md de company-analyst (skills/01_company_analyst/SKILL.md) para que cada cifra, fecha y nombre en el output salga marcada con un símbolo de nivel de confianza: ✓ verificado (fuente directa citada), ~ estimado (cálculo indirecto / rango de directorio), ? sin confirmar (hipótesis razonable sin fuente directa). Razón: en los 3 pilotos varias cifras se presentaron con más certeza de la que merecían (ej. Bodai 'COP 2-5K M ingresos' del directorio privado se leía como dato auditado; los fundadores de Ascenso quedaron 'sin confirmar' pero el reporte los mencionaba como si fuera firme). Marcado claro evita que Ricardo/JP traten datos débiles como sólidos. Cambio: agregar 1 párrafo al template del reporte + 1 instrucción al workflow del skill. Costo ~10 min. Impacto: credibilidad del output cuando se discute con cliente que pregunta '¿de dónde sacaste eso?'. CHANGELOG entry en skills/01_company_analyst/CHANGELOG.md cuando se haga. Test harness sigue pasando (no cambia estructura)."
     }
   ]
 }

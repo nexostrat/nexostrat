@@ -1,14 +1,14 @@
 ---
 name: company-analyst
 description: |
-  Analista de compañías — Mejía, IA & CIA. Genera un reporte de inteligencia empresarial completo (13 secciones) sobre una empresa colombiana antes de una llamada exploratoria: perfil general, productos/servicios, presencia digital, datos financieros de Supersociedades, FODA, 5 Fuerzas de Porter, cadena de valor, madurez digital (1-5), señales de presupuesto, Quick Win candidates, conclusiones, talking points y señales de alerta. Output: .md + .docx.
+  Analista de compañías — Nexostrat. Genera un reporte de inteligencia empresarial completo (13 secciones) sobre una empresa colombiana antes de una llamada exploratoria: perfil general, productos/servicios, presencia digital, datos financieros de Supersociedades, FODA, 5 Fuerzas de Porter, cadena de valor, madurez digital (1-5), señales de presupuesto, Quick Win candidates, conclusiones, talking points y señales de alerta. Output: .md + .docx.
 
   Activar SIEMPRE ante: "analiza la empresa X", "investiga [empresa]", "prepara el análisis de [compañía]", "briefing de [empresa]", "company analysis", "análisis de prospecto", "dame todo sobre [empresa]", "quiero saber sobre [empresa] antes de la llamada", NIT + contexto de consultoría, o cualquier variante que implique investigar una empresa antes de una reunión comercial. Ante la duda, activar.
 ---
 
 # Company Analyst — Reporte de Inteligencia Empresarial
 
-**Uso:** Interno — Mejía, IA & CIA  
+**Uso:** Interno — Nexostrat  
 **Output:** Reporte .md + .docx  
 **Propósito:** Alimentar el skill de preparación de llamada y el skill de reporte diagnóstico
 
@@ -127,7 +127,7 @@ pip install python-docx --break-system-packages -q
 python3 skills/01_company_analyst/scripts/generate_docx.py <ruta_al_md> <ruta_output_docx>
 ```
 
-El script produce un documento estilizado con la paleta de marca de Mejía, IA & CIA (igual que los skills hermanos). Nombre canónico cuando se corre dentro del pipeline: `final_report.docx`. Para invocaciones standalone fuera del pipeline, usar `[Empresa]_AnalisisCompania_YYYYMMDD.docx`.
+El script produce un documento estilizado con la paleta de marca de Nexostrat (igual que los skills hermanos). Nombre canónico cuando se corre dentro del pipeline: `final_report.docx`. Para invocaciones standalone fuera del pipeline, usar `[Empresa]_AnalisisCompania_YYYYMMDD.docx`.
 
 ---
 
@@ -138,7 +138,7 @@ Usa exactamente esta estructura. No omitas ninguna sección.
 ```
 # ANÁLISIS DE COMPAÑÍA: [NOMBRE EN MAYÚSCULAS]
 
-**Clasificación:** Interno — Uso exclusivo Mejía, IA & CIA  
+**Clasificación:** Interno — Uso exclusivo Nexostrat  
 **Fecha de análisis:** [fecha]  
 **Analista:** Skill de Análisis de Compañías v1  
 **NIT:** [NIT o "No encontrado"]  
@@ -419,7 +419,7 @@ Usa exactamente esta estructura. No omitas ninguna sección.
 | Google reviews | [búsqueda] | [qué obtuviste] | [Disponible/No disponible] |
 
 ---
-*Reporte generado por skill company-analyst v1 — Mejía, IA & CIA*  
+*Reporte generado por skill company-analyst v1 — Nexostrat*  
 *Para uso interno exclusivo. No compartir con el prospecto.*
 ```
 
@@ -437,7 +437,7 @@ Los valores están en **miles de pesos colombianos (COP miles)**.
 Cada empresa aparece dos veces: "Periodo Actual" y "Periodo Anterior".
 
 **Sobre el DOCX:**  
-Después de escribir el .md completo, ejecuta el renderer local incluido en `scripts/generate_docx.py` (ver PASO 4b). El documento sale con la paleta de marca de Mejía, IA & CIA — coherente con los outputs de los skills hermanos (industry-analyst, competitor-analyst, discovery-meeting). Requisito: `python-docx` instalable vía `pip install python-docx --break-system-packages`.
+Después de escribir el .md completo, ejecuta el renderer local incluido en `scripts/generate_docx.py` (ver PASO 4b). El documento sale con la paleta de marca de Nexostrat — coherente con los outputs de los skills hermanos (industry-analyst, competitor-analyst, discovery-meeting). Requisito: `python-docx` instalable vía `pip install python-docx --break-system-packages`.
 
 **Sobre el tiempo de ejecución:**
 Este skill hace bastante trabajo. Es normal que tome 10-20 minutos.  

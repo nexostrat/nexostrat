@@ -8,7 +8,7 @@ Usage:
 Requires: python-docx
     pip install python-docx --break-system-packages
 
-Produces a Mejía, IA & CIA branded internal document matching the company-analyst
+Produces a Nexostrat branded internal document matching the company-analyst
 13-section template. Brand colors mirror the sibling skills (industry-analyst,
 competitor-analyst, discovery-meeting) so the four outputs read as a coherent set.
 """
@@ -264,7 +264,7 @@ def generate_docx(md_path, output_path):
     p_meta = doc.add_paragraph()
     p_meta.alignment = WD_ALIGN_PARAGRAPH.CENTER
     run_m = p_meta.add_run(
-        f"Mejía, IA & CIA — Uso Interno  ·  {datetime.now().strftime('%d %b %Y')}")
+        f"Nexostrat — Uso Interno  ·  {datetime.now().strftime('%d %b %Y')}")
     run_m.font.size = Pt(10)
     run_m.font.italic = True
     run_m.font.color.rgb = MID_GRAY
@@ -314,7 +314,7 @@ def generate_docx(md_path, output_path):
         fp = footer.paragraphs[0]
         fp.alignment = WD_ALIGN_PARAGRAPH.CENTER
         run = fp.add_run(
-            f"Mejía, IA & CIA — Análisis Empresarial Interno — {datetime.now().strftime('%B %Y')}")
+            f"Nexostrat — Análisis Empresarial Interno — {datetime.now().strftime('%B %Y')}")
         run.font.size = Pt(8)
         run.font.color.rgb = MID_GRAY
 

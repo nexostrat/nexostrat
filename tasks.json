@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v1",
   "project": "nexostrat",
-  "updated": "2026-05-17T23:55:00-07:00",
+  "updated": "2026-05-18T09:00:00-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -281,21 +281,23 @@
     {
       "id": "t-jp-pilotos-review",
       "subject": "Review session with JP — 3 pilots + pipeline-analysis HTML deck",
-      "status": "open",
+      "status": "done",
       "priority": "critical",
       "due": "2026-05-22",
       "created": "2026-05-17",
-      "notes": "First time JP sees pipeline output run on 3 real companies. Material to review (in order): (1) Pilotos/Nexostrat_Analisis_Pipeline.html — 13-slide deck covering verdict + per-skill analysis + Colombian-data problem + 12 stages vs 4 we have + two service models + 6 pending decisions; (2) the 3 Resumen_<Company>.md files (not the full reports — use as reference if JP asks for depth); (3) Pilotos/Mejoras_Inmediatas_Proceso.txt — 8 process improvements for the next pilot run. Estimated duration 60-90 min. Expected output: alignment with JP on the 6 strategic decisions on the deck's last slide, especially #1 (service model A/B/Hybrid) which has its own task with due 2026-05-24. Blocks t-pick-service-model. Recommended opener for the conversation: 'We ran the pipeline on 3 companies. It works as internal preparation material but is not a final product. We need to decide how to position it as a service before going to market.'"
+      "completed": "2026-05-18",
+      "notes": "DONE 2026-05-18 (4 days ahead of due). JP review meeting produced a complete redesign of the commercial process — not just an alignment on the 6 strategic decisions but a full rewrite of how Nexostrat sells. Outcome: 4-phase model (Fase 0 free pre-engagement + Fase 1 paid $900K COP diagnostic with 2×1hr meetings + Fase 2 implementation sketch + Fase 3 retainer sketch). The pilots' '40% of the way' evaluation drove the decision to insert human-review checkpoints between every skill + reshape Skill 04 from 60-min post-pay to 30-min pre-pay + add 5 new skills (05/06/07/07.5(?)/08). JP-facing proposal docs at 00_META/proposals/2026-05-18_proceso-comercial-fases.md (markdown) + -telegram.md (plain CAPS). Closes t-pick-service-model in the same meeting (the redesign IS the service model). Spawned: t-redesign-jp-confirmation (critical-path gate), t-skill-04-rebrand, t-jp-deliver-skill-content (owner: JP), t-redesign-technical-brainstorm, t-build-automation-surface, t-update-phase-state-machine, t-build-fase0-intake-form. Redirected/superseded: see notes on t-nexostrat-capabilities-catalog, t-onepager-prereunion-template, t-validate-pipeline-improvements, t-skill-5-diagnostic-report, t-skill-6-commercial-proposal."
     },
     {
       "id": "t-pick-service-model",
       "subject": "Strategic decision with JP: Nexostrat service model — A productized / B diagnostic / Hybrid",
-      "status": "open",
+      "status": "done",
       "priority": "critical",
       "due": "2026-05-24",
       "created": "2026-05-17",
+      "completed": "2026-05-18",
       "blocked_by": "t-jp-pilotos-review",
-      "notes": "Decision that defines the next 6-12 months of the business (CAC, LTV, required team, marketing mix, acquisition channels, brand tone). Three options enumerated in Pilotos/Nexostrat_Analisis_Pipeline.html slide 11: (A) Productized Services — 3-4 fixed packages with fixed price/scope/timeline (WhatsApp Agent USD 5-8K, CRM+scoring USD 6-10K, sell-out Dashboard USD 8-15K, Content Pipeline USD 4-7K), sold via landing + cold outreach + sector events, no prior meeting required, ticket USD 2-8K; (B) Custom Diagnostic — 60-min exploratory session + 10-day report + custom proposal with 2-3 specific Quick Wins, sold via referrals + LinkedIn outbound + inbound content, ticket USD 15-50K; (Hybrid recommended) enter via A for volume + reference cases, upgrade to B when the client asks. Without this decision, every other task (capabilities catalog, pre-meeting one-pager, marketing material) gets improvised. Blocks: t-nexostrat-capabilities-catalog (whose packages depend on the chosen model) + t-onepager-prereunion-template (whose tone depends on the model)."
+      "notes": "DONE 2026-05-18 (6 days ahead of due). Resolved in the JP review meeting (same meeting as t-jp-pilotos-review). The decision wasn't picking A vs B vs Hybrid — JP and Ricardo redesigned the whole shape into a 4-phase model that doesn't map cleanly to the original A/B/Hybrid framing: Fase 0 is a free pre-engagement (Productized-Services-flavored: standardized intake → standardized 2-page free doc), Fase 1 is the paid diagnostic at $900.000 COP with 2×1hr meetings (Custom-Diagnostic-flavored, but with a fixed price floor and 2 included meetings = productized-diagnostic), Fase 2 is custom implementation per client (productized building blocks per t-nexostrat-capabilities-catalog), Fase 3 is retainer subscription. Effectively a Hybrid v2: standardized entry funnel + paid diagnostic gate + custom implementation + retainer. Defines the next 6-12 months. See 00_META/proposals/2026-05-18_proceso-comercial-fases.md for the full process spec."
     },
     {
       "id": "t-nexostrat-capabilities-catalog",
@@ -304,18 +306,19 @@
       "priority": "high",
       "due": "2026-05-31",
       "created": "2026-05-17",
-      "blocked_by": "t-pick-service-model",
-      "notes": "Short document (1 page) listing the services Nexostrat can deliver TODAY with fixed price + realistic timeline + technology stack. Format suggested in Pilotos/Mejoras_Inmediatas_Proceso.txt section 4 ('SERVICES NEXOSTRAT CAN DELIVER (May 2026): · WhatsApp + DM Agent ... USD 5-8K · 4-6 weeks · stack: n8n + Claude + Meta Cloud · ...'). Reason: the current discovery guides propose Quick Wins with prices/timelines I invented without validation against real delivery capacity (e.g., 'AI configurator + design assistant' for Scarab — Nexostrat can't deliver that in 3 months). Without this catalog we keep selling vapor. The catalog must be passed as INPUT to the discovery-meeting skill (see feedback memory briefing-estructurado-pipeline) so that the skill only proposes QWs that exist in it. If Model A is picked (productized), the catalog IS the public commercial offer; if Model B, it's the list of building blocks for the custom proposal. CANNOT DELIVER TODAY: explicit list (3D configurator, serious ML forecasting, digital twin, etc.) — equally important to avoid overpromising."
+      "blocked_by": "t-redesign-jp-confirmation",
+      "notes": "[REDIRECTED 2026-05-18 by redesign.] Catalog still needed but its downstream consumer changed. Old framing: input to the discovery-meeting skill so it proposes only deliverable QWs. New framing: input to JP's prompt content for Skills 06 (Análisis Profundo) and 07 (Soluciones Implementables) — JP needs to know what Nexostrat can actually build before authoring those skills' prompts. The deliverable shape (1-pager: service + fixed price + realistic timeline + stack + 'cannot deliver today' explicit list) stays the same. Ownership shifts: Ricardo + JP draft jointly (Ricardo knows engineering capacity, JP knows commercial framing). Blocked on t-redesign-jp-confirmation because the catalog's level of detail depends on whether Fase 1 sticks at $900K (which constrains how complex Skill 07's solutions can be). Original notes preserved below for context: Short document (1 page) listing the services Nexostrat can deliver TODAY with fixed price + realistic timeline + technology stack. Format suggested in Pilotos/Mejoras_Inmediatas_Proceso.txt section 4. Reason: the discovery guides from the 2026-05-17 pilots proposed QWs with prices/timelines invented without validation against real delivery capacity (e.g., 'AI configurator + design assistant' for Scarab — Nexostrat can't deliver that in 3 months). Without this catalog we keep selling vapor."
     },
     {
       "id": "t-onepager-prereunion-template",
       "subject": "Build public one-pager template for pre-meeting outreach (hook that opens the prospect's door)",
-      "status": "open",
+      "status": "done",
       "priority": "high",
       "due": "2026-05-31",
       "created": "2026-05-17",
+      "completed": "2026-05-18",
       "blocked_by": "t-pick-service-model",
-      "notes": "1-2 page template, client-facing language, non-confidential — that Ricardo can send to a prospect BEFORE the meeting to secure the appointment. The current discovery guides are confidential (internal input); the one-pager is the marketing material the prospect can actually see. Content: who we are (Nexostrat in 1 paragraph) + what we do (3-4 capabilities from t-nexostrat-capabilities-catalog) + brief case studies (once we have them) + what happens next (what a 60-min meeting with us looks like) + CTA (how to schedule). Visual design must follow feedback memory outputs-premium-visual (sober palette, Inter typography, NO startup-playful). Blocked by t-pick-service-model because the tone changes radically between Model A and B. One of the most obvious gaps in the current pipeline: we have internal analysis + meeting script, but NO material to actually secure the meeting."
+      "notes": "[SUPERSEDED 2026-05-18 by redesign.] The marketing-material role this task tracked is now filled by the output of Skill 05 (Resumen Pre-engagement) — the 2-page free document produced after the 30-min discovery call in Fase 0. That document IS the pre-meeting marketing artifact (with the difference that it's post-meeting in the new flow: hook for the paid Fase 1 meeting, not for the initial discovery). The 'how to open the prospect's door' work is now upstream of Skill 05 — Ricardo's outreach to get the initial 30-min meeting, which is a sales activity not a templated artifact. Closed. Original spec preserved below. Original notes: 1-2 page template, client-facing language, non-confidential — that Ricardo can send to a prospect BEFORE the meeting to secure the appointment. Content: who we are (Nexostrat in 1 paragraph) + what we do (3-4 capabilities from t-nexostrat-capabilities-catalog) + brief case studies + what happens next + CTA (how to schedule). Visual design must follow feedback memory outputs-premium-visual."
     },
     {
       "id": "t-validate-pipeline-improvements",
@@ -324,26 +327,28 @@
       "priority": "high",
       "due": "2026-06-07",
       "created": "2026-05-17",
-      "notes": "Before running the pipeline on a 4th company, execute the 8 improvements from Pilotos/Mejoras_Inmediatas_Proceso.txt in a controlled mini-pilot (1 new company, ideally small/familiar): (1) structured briefing in a fixed format; (2) human-review pause between each skill; (3) 5-min LinkedIn prep before invocation; (4) Nexostrat capabilities catalog as input (depends on t-nexostrat-capabilities-catalog); (5) audience + tone confirmed before discovery; (6) 'mark confidence ✓/~/?' instruction in the company-analyst prompt (also see t-confidence-marking-company-analyst for the permanent fix); (7) reuse industry-analyst if one already exists for the sector; (8) full dual output + discovery-meeting 1-pager. Expected output: validation that outputs move from 40% to 75-80% of the final product as predicted. If the improvements work, document them in the SKILL.md as recommended invocation. If they don't, iterate. No skill-architecture changes — only invocation-process changes."
+      "notes": "[PARTLY SUPERSEDED 2026-05-18 by redesign.] Of the 8 improvements, several are built directly into the redesigned workflow and no longer need ad-hoc validation: (2) human-review pause between each skill becomes a non-negotiable workflow rule, (1) structured briefing becomes the Fase 0 step 1 intake form, (4) capabilities catalog as input is now part of t-nexostrat-capabilities-catalog feeding JP's Skill 06/07 prompts. The remaining items (3 LinkedIn prep, 5 audience confirmation, 6 confidence marking → see t-confidence-marking-company-analyst, 7 industry-analyst reuse, 8 dual output) become per-pilot tactics, not a separate validation cycle. The validation cycle itself re-scopes to: 'first real pilot client under the new 4-phase process' (whichever client lands first post-confirmation). When that happens, run the full new workflow + measure: does Fase 0 produce the 2-page doc reliably? Does the 30-min meeting yield enough signal? Does the day-7 email convert? Does the paid Fase 1 actually close? Tracked separately when the first real client arrives — until then this task can stay open but the 'controlled mini-pilot before 4th run' framing is gone."
     },
     {
       "id": "t-skill-5-diagnostic-report",
       "subject": "Build skill #5: Diagnostic Report (post-meeting, with real client data)",
-      "status": "open",
+      "status": "done",
       "priority": "medium",
       "due": "2026-06-21",
       "created": "2026-05-17",
-      "notes": "New skill covering stage #9 of the full pipeline (see Pilotos/Nexostrat_Analisis_Pipeline.html slide 9). Input: notes + data collected by Ricardo during the discovery meeting (the 10 mandatory items each discovery guide enumerates). Output: custom diagnostic report with real client figures — no longer estimates — and 2-3 specific Quick Wins with quantified ROI case. Real delivery timeline: 10 days after the meeting (what each discovery guide promises in its closing section). Suggested structure: current situation (with client data, not estimates) + 2-3 prioritized QWs (process + tool + estimated ROI in COP/USD + timeline + dependencies) + total investment case + next steps (proposal sign-off). Template starts from the combined outputs of company/industry/competitor + Ricardo's meeting notes. Follows the current pipeline — does not replace it. Only needed when there's a first real client moving from meeting to diagnostic. Naming: 05_diagnostic_report under skills/. Output goes to pipeline/clients/<slug>/05_diagnostic_report/runs/<TIMESTAMP>_mode-a/final_report.{md,docx}. Doesn't block other tasks — the natural gate is having a first real client (don't build it before it's needed)."
+      "completed": "2026-05-18",
+      "notes": "[SUPERSEDED 2026-05-18 by redesign — renamed/re-scoped.] In the redesign, Skill 05 is no longer 'Diagnostic Report' — it's 'Resumen Pre-engagement', a 2-page free document at the end of Fase 0 (post-30min-meeting, pre-payment) that surfaces high-level opportunities and hooks the client into paying for the Fase 1 deep dive. The 'diagnostic report with real client figures + 2-3 Quick Wins + 10-day timeline' role this task tracked is now split across Skill 06 (Análisis Profundo, paid prep), Skill 07 (Soluciones Implementables), and Skill 08 (PDF Comercial Cliente). Replaced by the new task t-jp-deliver-skill-content + the per-skill wrapping work in t-build-skill-wrappers."
     },
     {
       "id": "t-skill-6-commercial-proposal",
       "subject": "Build skill #6: Commercial Proposal / SOW",
-      "status": "open",
+      "status": "done",
       "priority": "medium",
       "due": "2026-06-30",
       "created": "2026-05-17",
+      "completed": "2026-05-18",
       "blocked_by": "t-skill-5-diagnostic-report",
-      "notes": "New skill covering stage #10 of the full pipeline. Input: the Diagnostic Report from t-skill-5 + the client's decision on which QWs to proceed with. Output: formal SOW (Statement of Work) — scope + deliverables + schedule + price + terms + acceptance. This is a commercial-closing document — necessarily more formal than the discovery guides. Template by model: if Model A (productized), standard SOW adapted to the chosen package; if Model B (diagnostic), custom SOW with scope built on top of the diagnostic report. Naming: 06_commercial_proposal under skills/. Output to pipeline/clients/<slug>/06_proposal/. Closes the pre-implementation commercial cycle. Follows t-skill-5 and t-pick-service-model. Doesn't block other tasks — the natural gate is having closed the diagnostic report for a first real client."
+      "notes": "[SUPERSEDED 2026-05-18 by redesign — renamed/re-scoped.] In the redesign, Skill 06 is no longer 'Commercial Proposal / SOW' — it's 'Análisis Profundo', the paid-flow deep analysis that runs immediately after Calendly booking + payment (input: Fase 0 outputs + Calendly free-text field; output: deeper company/process analysis + questionnaire + guide for Reunión 1). The Commercial Proposal / SOW role this task tracked moves to Skill 08 (PDF Comercial Cliente) — a client-facing PDF with solutions, benefit-vs-complexity graph, per-solution cost/time, ELI5 language. Replaced by t-jp-deliver-skill-content (JP delivers content for Skills 06 + 08 + others) + t-build-skill-wrappers (Ricardo wraps them)."
     },
     {
       "id": "t-confidence-marking-company-analyst",
@@ -353,6 +358,84 @@
       "due": "2026-06-14",
       "created": "2026-05-17",
       "notes": "Small edit to the company-analyst SKILL.md (skills/01_company_analyst/SKILL.md) so every figure, date and name in the output is marked with a confidence symbol: ✓ verified (direct source cited), ~ estimated (indirect calculation / directory range), ? unconfirmed (reasonable hypothesis without direct source). Reason: across the 3 pilots, several figures were presented with more certainty than they deserved (e.g., Bodai 'COP 2-5K M revenue' from the private directory read as audited data; Ascenso's founders were 'unconfirmed' but the report mentioned them as if firm). Clear marking prevents Ricardo/JP from treating soft data as solid. Change: add 1 paragraph to the report template + 1 instruction to the skill workflow. Cost ~10 min. Impact: output credibility when discussed with a client who asks 'where did you get that?'. CHANGELOG entry in skills/01_company_analyst/CHANGELOG.md once done. Test harness keeps passing (no structural change)."
+    },
+    {
+      "id": "t-redesign-jp-confirmation",
+      "subject": "JP confirms the 5 remaining decisiones pendientes from the 2026-05-18 redesign proposal",
+      "status": "open",
+      "priority": "critical",
+      "due": "2026-05-25",
+      "created": "2026-05-18",
+      "notes": "Critical-path gate for all post-redesign work. JP reviews 00_META/proposals/2026-05-18_proceso-comercial-fases.md (or the Telegram version) and confirms / objects on 5 items: (1) Skill 07.5 — separate skill or merged with 07; (2) discount range allowed on $900.000 COP; (3) FOSS booking tool agreement (Ricardo proposes FOSS like Cal.com self-hosted if client UX matches Calendly); (4) day-7 auto-follow-up email template + tone (must read as Ricardo, not bot); (5) confirming Fase 2 and Fase 3 stay as sketches until first real client arrives at each; (6) confirming $900.000 COP price including the 2×1hr client meetings. Until JP confirms, the following are blocked: t-skill-04-rebrand, t-jp-deliver-skill-content, t-build-skill-wrappers, t-redesign-technical-brainstorm, t-build-automation-surface, t-update-phase-state-machine. Three Ricardo-side decisions already resolved unilaterally and reflected in the proposal doc: Fase 0 free structure is pilot-scope only (not permanent); Ricardo handles all client calls + communications; FOSS booking preferred if client UX matches Calendly."
+    },
+    {
+      "id": "t-skill-04-rebrand",
+      "subject": "Rebrand 06_discovery_meeting → 04_briefing_30min (structural placeholder; JP delivers content separately)",
+      "status": "open",
+      "priority": "medium",
+      "due": "2026-06-05",
+      "created": "2026-05-18",
+      "blocked_by": "t-redesign-jp-confirmation",
+      "notes": "Mechanical work, ~30 min. Once JP confirms the redesign: git mv skills/06_discovery_meeting → skills/04_briefing_30min; update .claude/skills/ symlink (discovery-meeting → briefing-30min); update SKILL.md frontmatter name + description; update test harness paths; update skills/README.md skill list. KEEP the existing prompt content as-is — JP will deliver the new 30-min pre-pay-with-paid-meeting-hook content separately via t-jp-deliver-skill-content. The rebrand is a pure rename + symlink update; content swap is JP's deliverable. After rebrand: test_skills.sh must still report 27 PASS · 0 SKIP · 0 FAIL."
+    },
+    {
+      "id": "t-jp-deliver-skill-content",
+      "subject": "JP delivers content / prompts for Skills 04 (adjusted) + 05 + 06 + 07 + 07.5 (if confirmed) + 08",
+      "status": "open",
+      "priority": "high",
+      "due": "2026-06-30",
+      "created": "2026-05-18",
+      "blocked_by": "t-redesign-jp-confirmation",
+      "notes": "Owner: JP. JP authors the prompts, output structures, sample outputs, and tone guidelines for each new skill. Ricardo wraps the delivered content into the canonical skills/NN_<name>/ shape (SKILL.md + scripts/generate_docx.py + tests/) per the existing Skills 01-03 pattern via t-build-skill-wrappers. Per-skill content brief: (04) 30-min pre-pay briefing + meeting script with paid-meeting hook (replaces 60-min post-pay content); (05) 2-page free Resumen Pre-engagement document with high-level opportunities and Calendly hook; (06) Análisis Profundo deep analysis for Fase 1 with questionnaire for Reunión 1; (07) Soluciones Implementables — actionable solutions Nexostrat can build; (07.5 if confirmed) Scoring per solution — cost, complexity, time, capacity yes/no; (08) PDF Comercial Cliente — client-facing PDF with solutions, benefit-vs-complexity graph, ELI5 language. Delivery format: markdown documents per skill with the prompt body + expected output structure + 1 worked example. Can be delivered all-at-once or skill-by-skill."
+    },
+    {
+      "id": "t-build-skill-wrappers",
+      "subject": "Ricardo wraps each delivered skill into skills/NN_<name>/ shape (SKILL.md + scripts + tests)",
+      "status": "open",
+      "priority": "medium",
+      "due": "2026-07-15",
+      "created": "2026-05-18",
+      "blocked_by": "t-jp-deliver-skill-content",
+      "notes": "Per skill delivered by JP, Ricardo creates: skills/NN_<name>/SKILL.md (frontmatter + content from JP), skills/NN_<name>/scripts/generate_docx.py (modeled on existing skills' DOCX renderer with brand palette), skills/NN_<name>/tests/ (smoke test), skills/NN_<name>/CHANGELOG.md, .claude/skills/<name> symlink, register in skills/README.md skill list, ensure test_skills.sh still 27+ PASS · 0 SKIP · 0 FAIL. ~1-2h per skill. Can run incrementally as JP delivers each."
+    },
+    {
+      "id": "t-redesign-technical-brainstorm",
+      "subject": "Technical brainstorm for redesign architecture — phase state machine + automation triggers + event taxonomy",
+      "status": "open",
+      "priority": "high",
+      "due": "2026-06-08",
+      "created": "2026-05-18",
+      "blocked_by": "t-redesign-jp-confirmation",
+      "notes": "Via superpowers:brainstorming → superpowers:writing-plans. Outputs: (a) phase state machine spec — state names + legal transitions + transition triggers (phase_0_intake → phase_0_skill_chain → phase_0_30min_meeting → phase_0_free_doc_sent → (paid_booking | dead_after_2weeks) → phase_1_deep_skill_chain → phase_1_1h_meeting_1 → phase_1_solutions → phase_1_pdf_sent → phase_1_1h_meeting_2 → phase_1_closed → phase_2_implementation → phase_3_retainer); (b) automation trigger spec — day-7 email, day-14 alert, Calendly webhook, payment-confirmation webhook, meeting-recorded webhook; (c) event taxonomy additions to spec §9.2 — new event types for phase transitions, automation triggers, skill invocations, human-checkpoints. Output spec lives at docs/superpowers/specs/2026-05-XX-nexostrat-workflow-redesign-design.md per the brainstorming skill convention. Feeds the rewrite of Plans 02/03/04/05/06/07/08 (impact map at 00_META/proposals/2026-05-18_impacto-redesign-en-plans.md)."
+    },
+    {
+      "id": "t-build-automation-surface",
+      "subject": "Build automation surface — Calendly webhook + payment webhook + day-7 email + day-14 alert + meeting recording",
+      "status": "open",
+      "priority": "medium",
+      "due": "2026-07-15",
+      "created": "2026-05-18",
+      "blocked_by": "t-redesign-technical-brainstorm",
+      "notes": "Concrete artifacts to build after the technical brainstorm picks the exact tooling: (a) booking tool integration (Cal.com self-hosted or alternative per Plan 02 decision); (b) Calendly/Cal.com webhook → Fase 1 trigger; (c) payment confirmation tool/webhook → Fase 1 unlock; (d) email tool with delayed-trigger capability (Postmark / Mailgun / Listmonk self-hosted / etc. — picked in Plan 02) → day-7 auto-follow-up; (e) day-14 alert system → Telegram notification to Ricardo (Plan 04); (f) meeting recording tool → Whisper.cpp / Jitsi shadow (Plan 08, pulled earlier in priority). Each becomes its own task once the brainstorm picks the tooling. Tooling picks are gated on Plan 02 (FOSS docs stack)."
+    },
+    {
+      "id": "t-update-phase-state-machine",
+      "subject": "Update state.json schema + transition validator for the 4-phase model",
+      "status": "open",
+      "priority": "medium",
+      "due": "2026-06-30",
+      "created": "2026-05-18",
+      "blocked_by": "t-redesign-technical-brainstorm",
+      "notes": "Currently state.json schema (Plan 07 scope, defined in 00_META/proposals/2026-05-13_nexostrat-system-design.md §6 + pipeline/clients/_template/) has states like prospect / exploring / diagnostico_delivered. The redesign needs a different state set covering all 4 phases. New states: phase_0_intake / phase_0_skill_chain / phase_0_30min_scheduled / phase_0_30min_done / phase_0_free_doc_sent / phase_0_dead_no_response_2w / phase_1_booked / phase_1_paid / phase_1_skill_chain / phase_1_meeting_1_scheduled / phase_1_meeting_1_done / phase_1_solutions_drafted / phase_1_pdf_sent / phase_1_meeting_2_scheduled / phase_1_closed / phase_2_implementing_<solution-slug> / phase_3_retainer_active. Transition validator at infra/agents/_lib/state.py needs the new state graph + legal-transition rules. Schema update lives at infra/schemas/state.schema.json. Update pipeline/clients/_template/state.json with the new initial state. Update Plan 07 scope to reflect."
+    },
+    {
+      "id": "t-build-fase0-intake-form",
+      "subject": "Build Fase 0 intake form template (Spanish, pilot-ready)",
+      "status": "in_progress",
+      "priority": "medium",
+      "due": "2026-05-25",
+      "created": "2026-05-18",
+      "notes": "Concrete artifact: the pre-meeting format that the human fills before invoking Skill 01 (Fase 0 step 1 in 00_META/proposals/2026-05-18_proceso-comercial-fases.md). Independent of JP — can build now without waiting for confirmation. Fields per the proposal doc: company name + social media links + website + known internal contact + their role + sector. Plus a few enriching fields that came out of the 2026-05-17 pilots (e.g., who we know inside the company, why we're approaching them now, what we already think we know about their problem). Save to operations/templates/fase_0_intake_form.md (Spanish). When Ricardo runs the first pilot under the new process, he fills this in and pastes into Claude Code to kick off Skill 01."
     }
   ]
 }

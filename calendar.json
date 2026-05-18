@@ -3,22 +3,13 @@
   "project": "nexostrat",
   "events": [
     {
-      "id": "e-jp-pilotos-review",
-      "title": "JP review of pilots + pipeline-analysis deck",
-      "when": "2026-05-22",
-      "kind": "review",
-      "owner": "ricardo",
-      "related": ["t-jp-pilotos-review"],
-      "notes": "First time JP sees outputs from the pipeline run on 3 real companies (Bodai, Ascenso, Scarab). Material: Pilotos/Nexostrat_Analisis_Pipeline.html + 3 executive summaries. Blocks the service-model decision."
-    },
-    {
-      "id": "e-service-model-decision",
-      "title": "Nexostrat service-model decision A / B / Hybrid (with JP)",
-      "when": "2026-05-24",
+      "id": "e-jp-redesign-confirmation",
+      "title": "JP confirms 5 remaining decisiones pendientes from 2026-05-18 redesign",
+      "when": "2026-05-25",
       "kind": "milestone",
-      "owner": "ricardo",
-      "related": ["t-pick-service-model", "t-jp-pilotos-review"],
-      "notes": "Strategic decision defining the next 6-12 months (CAC, LTV, channels, average ticket). Blocks the capabilities catalog and the pre-meeting one-pager."
+      "owner": "jp",
+      "related": ["t-redesign-jp-confirmation"],
+      "notes": "Critical-path gate. JP reviews 00_META/proposals/2026-05-18_proceso-comercial-fases.md and confirms / objects on Skill 07.5, discount range, FOSS booking tool, day-7 email template + tone, Fase 2/3 deferral, $900K + 2-meetings price. Until this lands, all redesign-execution work (skill builds, automation, state machine) is blocked."
     },
     {
       "id": "e-capabilities-catalog",
@@ -27,25 +18,7 @@
       "kind": "deadline",
       "owner": "ricardo",
       "related": ["t-nexostrat-capabilities-catalog"],
-      "notes": "Input for future discovery-meeting invocations. Without it, the guides keep selling vapor (QWs not validated against real delivery capacity)."
-    },
-    {
-      "id": "e-onepager-template",
-      "title": "Public pre-meeting one-pager template",
-      "when": "2026-05-31",
-      "kind": "deadline",
-      "owner": "ricardo",
-      "related": ["t-onepager-prereunion-template"],
-      "notes": "Marketing material to secure the meeting. Current gap: we have internal analysis + confidential script, but nothing to open the door."
-    },
-    {
-      "id": "e-pipeline-improvements-validation",
-      "title": "Validate the 8 pipeline improvements before the 4th pilot run",
-      "when": "2026-06-07",
-      "kind": "deadline",
-      "owner": "ricardo",
-      "related": ["t-validate-pipeline-improvements"],
-      "notes": "Before running the pipeline on another real company, validate the improvements in a controlled mini-pilot."
+      "notes": "Redirected by 2026-05-18 redesign — now feeds JP's prompt content for Skills 06 (Análisis Profundo) and 07 (Soluciones Implementables). Deliverable shape unchanged: 1-pager with service + fixed price + timeline + stack + 'cannot deliver today' list. Blocked on JP confirmation."
     },
     {
       "id": "e-confidence-marking",
@@ -54,25 +27,61 @@
       "kind": "deadline",
       "owner": "ricardo",
       "related": ["t-confidence-marking-company-analyst"],
-      "notes": "Small edit to SKILL.md so output figures are marked by confidence level."
+      "notes": "Small edit to SKILL.md so output figures are marked by confidence level. Independent of redesign — can run any time."
     },
     {
-      "id": "e-skill-5-diagnostic",
-      "title": "Skill #5: Diagnostic Report (post-meeting, real client data)",
-      "when": "2026-06-21",
+      "id": "e-redesign-technical-brainstorm",
+      "title": "Technical brainstorm — phase state machine + automation triggers + event taxonomy",
+      "when": "2026-06-08",
+      "kind": "milestone",
+      "owner": "ricardo",
+      "related": ["t-redesign-technical-brainstorm"],
+      "notes": "Via superpowers:brainstorming → superpowers:writing-plans. Output spec at docs/superpowers/specs/. Feeds rewrite of Plans 02-08. Gated on JP confirmation."
+    },
+    {
+      "id": "e-skill-04-rebrand",
+      "title": "Rebrand 06_discovery_meeting → 04_briefing_30min (structural placeholder)",
+      "when": "2026-06-05",
       "kind": "deadline",
       "owner": "ricardo",
-      "related": ["t-skill-5-diagnostic-report"],
-      "notes": "Covers stage #9 of the full pipeline. Natural gate: first real client moving from meeting to diagnostic."
+      "related": ["t-skill-04-rebrand"],
+      "notes": "Mechanical work, ~30 min. JP delivers new content separately via e-jp-skill-content-delivery. Blocked on JP confirmation."
     },
     {
-      "id": "e-skill-6-proposal",
-      "title": "Skill #6: Commercial Proposal / SOW",
+      "id": "e-jp-skill-content-delivery",
+      "title": "JP delivers content / prompts for Skills 04 (adjusted) + 05 + 06 + 07 + 07.5 (if confirmed) + 08",
+      "when": "2026-06-30",
+      "kind": "deadline",
+      "owner": "jp",
+      "related": ["t-jp-deliver-skill-content"],
+      "notes": "Owner JP. Per-skill markdown deliverables: prompt body + expected output structure + 1 worked example. Can be delivered all-at-once or skill-by-skill. Ricardo wraps each into skills/NN_<name>/ shape per t-build-skill-wrappers."
+    },
+    {
+      "id": "e-build-skill-wrappers",
+      "title": "Ricardo wraps each delivered skill into skills/NN_<name>/ shape",
+      "when": "2026-07-15",
+      "kind": "deadline",
+      "owner": "ricardo",
+      "related": ["t-build-skill-wrappers"],
+      "notes": "Per skill from JP: SKILL.md + scripts/generate_docx.py + tests/ + CHANGELOG.md + .claude/skills/ symlink. ~1-2h per skill. Incremental as JP delivers."
+    },
+    {
+      "id": "e-update-phase-state-machine",
+      "title": "Update state.json schema + transition validator for the 4-phase model",
       "when": "2026-06-30",
       "kind": "deadline",
       "owner": "ricardo",
-      "related": ["t-skill-6-commercial-proposal"],
-      "notes": "Covers stage #10 of the full pipeline. Closes the pre-implementation commercial cycle."
+      "related": ["t-update-phase-state-machine"],
+      "notes": "Replace prospect / exploring / diagnostico_delivered with phase_0_intake / phase_0_skill_chain / ... / phase_3_retainer_active. Schema at infra/schemas/state.schema.json. Validator at infra/agents/_lib/state.py. Updates Plan 07 scope. Gated on technical brainstorm."
+    },
+    {
+      "id": "e-build-automation-surface",
+      "title": "Build automation surface — Calendly + payment + day-7 email + day-14 alert + meeting recording",
+      "when": "2026-07-15",
+      "kind": "deadline",
+      "owner": "ricardo",
+      "related": ["t-build-automation-surface"],
+      "notes": "Concrete artifacts after the technical brainstorm picks tooling. Gated on Plan 02 (FOSS docs stack) for booking + email tool choices."
     }
   ]
 }

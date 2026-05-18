@@ -28,6 +28,27 @@ Si encuentras rangos o estimaciones, cítalos como tal: "se estima entre X y Y s
 
 ## WORKFLOW COMPLETO
 
+### SETUP — Destino de outputs
+
+**Convención canónica (per spec §7).** Cuando se ejecuta dentro del pipeline de un cliente, los outputs van a:
+
+```
+pipeline/clients/<slug>/02_industry_analysis/runs/<YYYY-MM-DD_HHMM>_mode-a/
+├── final_report.md      ← reporte principal (este skill)
+├── final_report.docx    ← versión Word (generada por scripts/generate_docx.py)
+└── notes.md             ← opcional: juicio cualitativo del operador (útil para iteración de prompts)
+```
+
+Para este skill, `<stage>` = `02_industry_analysis` (corresponde a `pipeline/clients/_template/02_industry_analysis/`).
+
+**Reutilización por sector (no por empresa):** este skill produce análisis sectoriales reutilizables ~6-12 meses. Si ya hay un reporte vigente del sector salud (por ejemplo), reutilizarlo en lugar de regenerarlo. Considerar mantener un caché en `knowledge/sector-reports/` (fuera de pipeline/) para reportes compartidos entre múltiples prospectos.
+
+**Invocación standalone (fuera del pipeline):** guardar en el directorio de trabajo actual usando la convención de nombre `[SectorCamelCase]_CO_YYYYMMDD.md/.docx` (ver Paso 3 abajo).
+
+**Captura de versión:** el SHA del commit Git al momento del run identifica la versión exacta del prompt usado (per ADR-022).
+
+---
+
 ### Paso 0 — Identificar el sector
 
 **Si hay un reporte de company-analyst disponible (pipeline):**  
@@ -74,16 +95,16 @@ El reporte debe tener al menos 3,500 palabras.
 
 ### Paso 3 — Generar el .docx
 
-Una vez que el .md esté completo y guardado, ejecuta:
+Una vez que el .md esté completo y guardado, ejecuta el renderer local (desde la raíz del repo `/srv/Nexostrat/`):
 
 ```bash
 pip install python-docx --break-system-packages -q
-python /tmp/industry-analyst/scripts/generate_docx.py <ruta_al_md> <ruta_output_docx>
+python3 skills/02_industry_analyst/scripts/generate_docx.py <ruta_al_md> <ruta_output_docx>
 ```
 
-Guarda ambos archivos en el directorio de outputs con el formato:  
-`SECTOR_CO_YYYYMMDD.md` y `SECTOR_CO_YYYYMMDD.docx`  
-(ej: `SaludPrivada_CO_20260511.md`, `LogisticaCarga_CO_20260511.md`)
+Guarda ambos archivos en el directorio de outputs (ver § PASO 0 — Setup). Convenciones de nombre:
+- **Dentro del pipeline:** `final_report.md` + `final_report.docx` (canónico per spec §7)
+- **Standalone:** `[SectorCamelCase]_CO_YYYYMMDD.md/.docx` — ej: `SaludPrivada_CO_20260511.md`, `LogisticaCarga_CO_20260511.md`
 
 ---
 

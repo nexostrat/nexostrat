@@ -29,14 +29,35 @@ Si una fuente no está disponible, no arroja resultados, o el sitio no responde:
 
 ## WORKFLOW COMPLETO
 
+### SETUP — Destino de outputs
+
+**Convención canónica (per spec §7).** Cuando se ejecuta dentro del pipeline de un cliente, los outputs van a:
+
+```
+pipeline/clients/<slug>/01_company_analysis/runs/<YYYY-MM-DD_HHMM>_mode-a/
+├── final_report.md      ← reporte principal (este skill)
+├── final_report.docx    ← versión Word (generada por scripts/generate_docx.py)
+└── notes.md             ← opcional: juicio cualitativo del operador (útil para iteración de prompts)
+```
+
+Para este skill, `<stage>` = `01_company_analysis` (corresponde a `pipeline/clients/_template/01_company_analysis/`).
+
+**Invocación standalone (fuera del pipeline):** guardar en el directorio de trabajo actual usando la convención de nombre `[EmpresaCamelCase]_AnalisisCompania_YYYYMMDD.md/.docx` (ver PASO 4 abajo).
+
+**Captura de versión:** el SHA del commit Git al momento del run identifica la versión exacta del prompt usado (per ADR-022). Edits posteriores a SKILL.md no contaminan runs históricos. Para iteración de prompts, hacer commit del SKILL.md modificado ANTES de re-ejecutar el skill.
+
+---
+
 ### PASO 1 — Extraer datos financieros de Supersociedades
 
-Ejecuta el script Python antes de cualquier búsqueda web. Ruta del script:
-`<skill_dir>/scripts/extract_financials.py`
+Ejecuta el script Python antes de cualquier búsqueda web. Ruta del script (desde la raíz del repo `/srv/Nexostrat/`):
+`skills/01_company_analyst/scripts/extract_financials.py`
 
 ```bash
-python3 <skill_dir>/scripts/extract_financials.py "<nombre_empresa_o_NIT>"
+python3 skills/01_company_analyst/scripts/extract_financials.py "<nombre_empresa_o_NIT>"
 ```
+
+El script se auto-localiza (`Path(__file__).parent.parent / "assets"`), así que funciona desde cualquier directorio de invocación. Si se ejecuta desde fuera del repo, usar ruta absoluta `/srv/Nexostrat/skills/01_company_analyst/scripts/extract_financials.py`.
 
 El script buscará en los archivos de Supersociedades incluidos en assets/ y devolverá:
 - NIT confirmado, razón social exacta, CIIU, ciudad
@@ -97,12 +118,16 @@ Escribe el reporte completo usando el template de la sección siguiente.
 
 ### PASO 4 — Generar outputs
 
-**4a. Guardar reporte .md** en el directorio de outputs de la sesión.
+**4a. Guardar reporte .md** en el directorio de outputs (ver § PASO 0 — Setup arriba para la convención de destino).
 
-**4b. Generar DOCX** usando el skill de Word:
-- Lee el skill: `/var/folders/.../skills/docx/SKILL.md`
-- Genera un documento Word profesional con el mismo contenido
-- Nombre del archivo: `EMPRESA_AnalisisCompania_YYYYMMDD.docx`
+**4b. Generar DOCX** ejecutando el renderer local:
+
+```bash
+pip install python-docx --break-system-packages -q
+python3 skills/01_company_analyst/scripts/generate_docx.py <ruta_al_md> <ruta_output_docx>
+```
+
+El script produce un documento estilizado con la paleta de marca de Mejía, IA & CIA (igual que los skills hermanos). Nombre canónico cuando se corre dentro del pipeline: `final_report.docx`. Para invocaciones standalone fuera del pipeline, usar `[Empresa]_AnalisisCompania_YYYYMMDD.docx`.
 
 ---
 
@@ -412,9 +437,7 @@ Los valores están en **miles de pesos colombianos (COP miles)**.
 Cada empresa aparece dos veces: "Periodo Actual" y "Periodo Anterior".
 
 **Sobre el DOCX:**  
-Después de escribir el .md completo, usa el skill de docx para generar el Word.  
-Llama: `Read /var/folders/.../skills/docx/SKILL.md` y sigue sus instrucciones.  
-El documento debe verse profesional con la misma estructura de secciones.
+Después de escribir el .md completo, ejecuta el renderer local incluido en `scripts/generate_docx.py` (ver PASO 4b). El documento sale con la paleta de marca de Mejía, IA & CIA — coherente con los outputs de los skills hermanos (industry-analyst, competitor-analyst, discovery-meeting). Requisito: `python-docx` instalable vía `pip install python-docx --break-system-packages`.
 
 **Sobre el tiempo de ejecución:**
 Este skill hace bastante trabajo. Es normal que tome 10-20 minutos.  

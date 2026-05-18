@@ -45,6 +45,27 @@ Si el usuario no proporcionó el .md de company-analyst, busca el archivo más r
 
 ## WORKFLOW
 
+### SETUP — Destino de outputs
+
+**Convención canónica (per spec §7).** Cuando se ejecuta dentro del pipeline de un cliente, los outputs van a:
+
+```
+pipeline/clients/<slug>/03_competitor_analysis/runs/<YYYY-MM-DD_HHMM>_mode-a/
+├── final_report.md      ← reporte principal (este skill)
+├── final_report.docx    ← versión Word (generada por scripts/generate_docx.py)
+└── notes.md             ← opcional: juicio cualitativo del operador (útil para iteración de prompts)
+```
+
+Para este skill, `<stage>` = `03_competitor_analysis` (corresponde a `pipeline/clients/_template/03_competitor_analysis/`).
+
+**Input requerido:** el reporte .md de company-analyst del mismo cliente. Típicamente ubicado en `pipeline/clients/<slug>/01_company_analysis/runs/<RUN_ANTERIOR>/final_report.md`.
+
+**Invocación standalone (fuera del pipeline):** guardar en el directorio de trabajo actual usando la convención de nombre `[EmpresaCamelCase]_Competencia_CO_YYYYMMDD.md/.docx` (ver Paso 5 abajo).
+
+**Captura de versión:** el SHA del commit Git al momento del run identifica la versión exacta del prompt usado (per ADR-022).
+
+---
+
 ### Paso 1 — Identificar el mapa competitivo
 
 Con base en el perfil extraído del company-analyst:
@@ -83,13 +104,13 @@ Consulta `references/competitor_research_guide.md` para señales específicas de
 
 ### Paso 3 — Buscar datos financieros (competidores colombianos)
 
-Para cada competidor colombiano, ejecuta:
+Para cada competidor colombiano, ejecuta (desde la raíz del repo `/srv/Nexostrat/`):
 ```bash
 pip install openpyxl pandas --break-system-packages -q
-python /tmp/competitor-analyst/scripts/extract_financials.py "[nombre o NIT]" \
-  /tmp/competitor-analyst/assets/supersociedades_balance_general.xlsx \
-  /tmp/competitor-analyst/assets/supersociedades_estado_resultados.xlsx
+python3 skills/03_competitor_analyst/scripts/extract_financials.py "[nombre o NIT]"
 ```
+
+El script se auto-localiza y lee los archivos de Supersociedades incluidos en `skills/03_competitor_analyst/assets/` automáticamente (`supersociedades_balance_general.xlsx` + `supersociedades_estado_resultados.xlsx`). No requiere argumentos adicionales.
 
 ### Paso 4 — Escribir el reporte
 
@@ -99,10 +120,12 @@ Usa el template de abajo. El reporte completo debe tener al menos 3,000 palabras
 
 ```bash
 pip install python-docx --break-system-packages -q
-python /tmp/competitor-analyst/scripts/generate_docx.py <ruta_md> <ruta_docx>
+python3 skills/03_competitor_analyst/scripts/generate_docx.py <ruta_md> <ruta_docx>
 ```
 
-Nombrar archivos: `[EmpresaCamelCase]_Competencia_CO_YYYYMMDD.md` y `.docx`
+Convenciones de nombre (ver § PASO 0 — Setup arriba):
+- **Dentro del pipeline:** `final_report.md` + `final_report.docx` (canónico per spec §7)
+- **Standalone:** `[EmpresaCamelCase]_Competencia_CO_YYYYMMDD.md/.docx`
 
 ---
 

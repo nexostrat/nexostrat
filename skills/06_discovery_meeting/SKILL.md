@@ -23,6 +23,29 @@ Todo dato específico en el guión (cifras, nombres, tecnologías, fechas) debe 
 
 ---
 
+## SETUP — Destino de outputs
+
+**Convención canónica (per spec §7).** Cuando se ejecuta dentro del pipeline de un cliente, los outputs van a:
+
+```
+pipeline/clients/<slug>/04_meeting_script/runs/<YYYY-MM-DD_HHMM>_mode-a/
+├── final_report.md      ← el guión completo (este skill)
+├── final_report.docx    ← versión Word con cajas de color (generada por scripts/generate_docx.py)
+└── notes.md             ← opcional: juicio cualitativo de Ricardo post-reunión (útil para iteración de prompts)
+```
+
+Para este skill, `<stage>` = `04_meeting_script` (corresponde a `pipeline/clients/_template/04_meeting_script/`).
+
+**Inputs requeridos:** los 3 reportes .md de company-analyst + industry-analyst + competitor-analyst del mismo cliente. Típicamente ubicados en `pipeline/clients/<slug>/{01_company_analysis,02_industry_analysis,03_competitor_analysis}/runs/<RUN_ANTERIOR>/final_report.md`. El skill valida explícitamente la presencia de los 3 antes de generar el guión (ver PASO 0 abajo).
+
+**Confidencialidad:** este guión es para uso interno exclusivo de Ricardo. NUNCA compartir con el prospecto. El renderer de DOCX agrega un marcador "CONFIDENCIAL" en la portada y el footer.
+
+**Invocación standalone (fuera del pipeline):** guardar en el directorio de trabajo actual usando `[EmpresaCamelCase]_GuionReunion_YYYYMMDD.md/.docx` (ver PASO 4 abajo).
+
+**Captura de versión:** el SHA del commit Git al momento del run identifica la versión exacta del prompt usado (per ADR-022).
+
+---
+
 ## PASO 0 — VALIDAR LOS TRES INPUTS
 
 Antes de hacer cualquier otra cosa, confirma que tienes exactamente estos 3 archivos .md:
@@ -319,12 +342,16 @@ Estos 10 ítems son obligatorios para escribir el Reporte Diagnóstico. Sin ello
 
 ## PASO 4 — GENERAR EL DOCX
 
-Con el .md completo, ejecuta:
+Con el .md completo, ejecuta el renderer local (desde la raíz del repo `/srv/Nexostrat/`):
 
 ```bash
 pip install python-docx --break-system-packages -q
-python scripts/generate_docx.py [Empresa]_GuionReunion_YYYYMMDD.md [Empresa]_GuionReunion_YYYYMMDD.docx
+python3 skills/06_discovery_meeting/scripts/generate_docx.py <ruta_al_md> <ruta_output_docx>
 ```
+
+El renderer aplica colores de caja específicos al guión (verde para apertura, naranja para zonas sensibles, morado para timing, azul para notas). Convenciones de nombre (ver § PASO 0 — Setup arriba):
+- **Dentro del pipeline:** `final_report.md` + `final_report.docx` (canónico per spec §7)
+- **Standalone:** `[EmpresaCamelCase]_GuionReunion_YYYYMMDD.md/.docx`
 
 ---
 

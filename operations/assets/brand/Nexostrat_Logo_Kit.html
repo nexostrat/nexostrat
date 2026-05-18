@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexostrat — Kit de Logos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --midnight:#0C1A2E;--ocean:#0D4A6B;--sky:#0EA5E9;
+      --emerald:#10B981;--amber:#F59E0B;--arctic:#F0FBFF;
+      --g100:#F5F5F5;--g200:#E5E7EB;--g300:#D1D5DB;
+      --g500:#6B7280;--dark:#1F2937;
+    }
+    body{font-family:'Century Gothic','Nunito',-apple-system,sans-serif;background:#F8FAFC;color:var(--dark);line-height:1.6}
+
+    /* ── Header ── */
+    .hd{background:var(--midnight);padding:52px 64px 44px;border-bottom:3px solid var(--sky)}
+    .hd-eyebrow{color:var(--sky);font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;margin-bottom:14px;opacity:.8}
+    .hd h1{color:#fff;font-size:34px;font-weight:800;letter-spacing:-.5px;margin-bottom:6px}
+    .hd-sub{color:var(--arctic);font-size:15px;opacity:.7;margin-bottom:28px}
+    .hd-meta{display:flex;gap:12px;flex-wrap:wrap}
+    .pill{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);padding:6px 16px;border-radius:6px;color:var(--g300);font-size:12px}
+    .pill b{color:#fff;font-weight:600}
+
+    /* ── Layout ── */
+    .main{max-width:1080px;margin:0 auto;padding:64px 48px 80px}
+    .sec{margin-bottom:72px}
+    .sec-label{color:var(--sky);font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:6px}
+    .sec-title{color:var(--midnight);font-size:26px;font-weight:800;letter-spacing:-.3px;margin-bottom:8px}
+    .sec-desc{color:var(--g500);font-size:14px;margin-bottom:32px;max-width:640px;line-height:1.7}
+    .divider{border:none;border-top:1px solid var(--g200);margin:0 0 72px}
+
+    /* ── Grids ── */
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
+    @media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}}
+
+    /* ── Variation Cards ── */
+    .vcard{background:#fff;border-radius:14px;overflow:hidden;border:1.5px solid var(--g200);transition:box-shadow .2s,border-color .2s}
+    .vcard:hover{box-shadow:0 10px 36px rgba(12,26,46,.10);border-color:var(--g300)}
+    .vcard-preview{display:flex;align-items:center;justify-content:center;padding:36px 24px;min-height:152px}
+    .vcard-info{padding:16px 20px;border-top:1px solid var(--g200)}
+    .vcard-name{font-size:13.5px;font-weight:800;color:var(--midnight);margin-bottom:4px;letter-spacing:-.2px}
+    .vcard-use{font-size:12px;color:var(--g500);margin-bottom:12px;line-height:1.55}
+    .chips{display:flex;gap:5px;flex-wrap:wrap}
+    .chip{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:700;letter-spacing:.3px;padding:3px 9px;border-radius:5px;background:var(--g100);color:var(--g500);border:1px solid var(--g200)}
+    .cdot{width:8px;height:8px;border-radius:50%;flex-shrink:0;border:1px solid rgba(0,0,0,.12)}
+    .primary-badge{display:inline-block;background:#EFF6FF;color:var(--sky);font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;letter-spacing:.5px;border:1px solid #BAE6FD;margin-bottom:6px}
+
+    /* ── Don't Cards ── */
+    .dont-card{background:#fff;border-radius:12px;overflow:hidden;border:1.5px solid var(--g200)}
+    .dont-preview{display:flex;align-items:center;justify-content:center;padding:28px 16px;min-height:120px;position:relative}
+    .dont-preview::after{content:'✕';position:absolute;top:10px;right:12px;font-size:18px;font-weight:900;color:#DC2626;opacity:.7}
+    .dont-info{padding:12px 16px;border-top:1px solid var(--g200)}
+    .x-badge{display:inline-block;background:#FEF2F2;color:#DC2626;font-size:10px;font-weight:800;letter-spacing:1px;padding:2px 8px;border-radius:4px;margin-bottom:5px;border:1px solid #FECACA}
+    .dont-text{font-size:12px;color:var(--g500);line-height:1.5}
+
+    /* ── Palette ── */
+    .palette{display:flex;gap:12px;flex-wrap:wrap}
+    .swatch{border-radius:10px;overflow:hidden;border:1.5px solid var(--g200);min-width:100px}
+    .swatch-color{height:72px}
+    .swatch-info{background:#fff;padding:9px 13px}
+    .swatch-name{font-size:12px;font-weight:700;color:var(--midnight);margin-bottom:2px}
+    .swatch-hex{font-size:11px;color:var(--g500);font-family:'Courier New',monospace;letter-spacing:.5px}
+    .swatch-role{font-size:10px;color:var(--sky);font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:3px}
+
+    /* ── Context strip ── */
+    .ctx-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:4px}
+    .ctx-card{background:#fff;border-radius:12px;overflow:hidden;border:1.5px solid var(--g200)}
+    .ctx-preview{display:flex;align-items:center;justify-content:center;padding:20px 12px;min-height:100px}
+    .ctx-label{padding:10px 14px;border-top:1px solid var(--g200);font-size:11px;font-weight:700;color:var(--g500);text-transform:uppercase;letter-spacing:1px;text-align:center}
+    @media(max-width:760px){.ctx-strip{grid-template-columns:1fr 1fr}}
+
+    /* ── Footer ── */
+    .ft{background:var(--midnight);padding:28px 64px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;border-top:2px solid var(--ocean)}
+    .ft-brand{color:#fff;font-size:13px;font-weight:800;letter-spacing:2px}
+    .ft-meta{color:var(--g500);font-size:11px;text-align:right;line-height:1.8}
+  </style>
+</head>
+<body>
+
+<header class="hd">
+  <div class="hd-eyebrow">Nexostrat — Identidad Visual</div>
+  <h1>Kit de Logos</h1>
+  <div class="hd-sub">Variaciones para Todos los Fondos y Contextos · v1.0</div>
+  <div class="hd-meta">
+    <div class="pill">Logo: <b>L02 — Bloque nexo[strat]</b></div>
+    <div class="pill">Variante Ícono: <b>"strat" en Blanco</b></div>
+    <div class="pill">Paleta: <b>Aurora</b></div>
+    <div class="pill">Fecha: <b>Mayo 2026</b></div>
+  </div>
+</header>
+
+<main class="main">
+
+  <!-- ══════════════════════════════════════
+       01 — LOGOTIPO COMPLETO
+  ══════════════════════════════════════ -->
+  <div class="sec">
+    <div class="sec-label">01 — Logotipo Completo</div>
+    <div class="sec-title">Variaciones Según el Fondo</div>
+    <div class="sec-desc">El logotipo horizontal combina "nexo" en tipografía y "strat" dentro del bloque Sky Blue. Selecciona la variante adecuada según el color de la superficie donde se aplicará el logo.</div>
+
+    <div class="grid2">
+
+      <!-- 1. Fondo Blanco — USO PRINCIPAL -->
+      <div class="vcard">
+        <div class="vcard-preview" style="background:#FFFFFF;border-bottom:1px solid var(--g200)">
+          <img src="Nexostrat_Logo_Fondo_Blanco_Transparente.png" width="220" alt="Logo Nexostrat – Fondo Blanco" style="display:block;max-width:100%;height:auto">
+        </div>
+        <div class="vcard-info">
+          <div class="primary-badge">★ Uso Principal</div>
+          <div class="vcard-name">Fondo Blanco</div>
+          <div class="vcard-use">Sitio web, presentaciones, documentos, papelería corporativa, propuestas. La versión de referencia.</div>
+          <div class="chips">
+            <span class="chip"><span class="cdot" style="background:#0C1A2E"></span>Midnight</span>
+            <span class="chip"><span class="cdot" style="background:#0EA5E9"></span>Sky Blue</span>
+            <span class="chip"><span class="cdot" style="background:#fff;border-color:#ddd"></span>Blanco</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Fondo Midnight -->
+      <div class="vcard">
+        <div class="vcard-preview" style="background:#0C1A2E">
+          <img src="Nexostrat_Logo_Fondo_Midnight_Transparente.png" width="220" alt="Logo Nexostrat – Fondo Midnight" style="display:block;max-width:100%;height:auto">
+        </div>
+        <div class="vcard-info">
+          <div class="vcard-name">Fondo Midnight</div>
+          <div class="vcard-use">Headers web oscuros, tarjetas de presentación, fondos corporativos de marca, email signatures oscuras.</div>
+          <div class="chips">
+            <span class="chip"><span class="cdot" style="background:#F0FBFF;border-color:#ddd"></span>Arctic</span>
+            <span class="chip"><span class="cdot" style="background:#0EA5E9"></span>Sky Blue</span>
+            <span class="chip"><span class="cdot" style="background:#fff;border-color:#ddd"></span>Blanco</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Fondo Arctic -->
+      <div class="vcard">
+        <div class="vcard-preview" style="background:#F0FBFF;border-bottom:1px solid #DFF4FD">
+          <img src="Nexostrat_Logo_Fondo_Arctic_Transparente.png" width="220" alt="Logo Nexostrat – Fondo Arctic" style="display:block;max-width:100%;height:auto">
+        </div>
+        <div class="vcard-info">
+          <div class="vcard-name">Fondo Arctic</div>
+          <div class="vcard-use">Slides de presentación, reportes internos, secciones con fondo Aurora claro, fondos de paneles o cards.</div>
+          <div class="chips">
+            <span class="chip"><span class="cdot" style="background:#0C1A2E"></span>Midnight</span>
+            <span class="chip"><span class="cdot" style="background:#0EA5E9"></span>Sky Blue</span>
+            <span class="chip"><span class="cdot" style="background:#fff;border-color:#ddd"></span>Blanco</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Fondo Sky Blue — bloque invierte a Midnight -->
+      <div class="vcard">
+        <div class="vcard-preview" style="background:#0EA5E9">
+          <img src="Nexostrat_Logo_Fondo_SkyBlue_Transparente.png" width="220" alt="Logo Nexostrat – Fondo Sky Blue" style="display:block;max-width:100%;height:auto">
+        </div>
+        <div class="vcard-info">
+          <div class="vcard-name">Fondo Sky Blue</div>
+          <div class="vcard-use">Banners, covers de redes sociales, secciones destacadas sky blue. El bloque invierte a Midnight para mantener contraste.</div>
+          <div class="chips">
+            <span class="chip"><span class="cdot" style="background:#0C1A2E"></span>Midnight</span>
+            <span class="chip"><span class="cdot" style="background:#F0FBFF;border-color:#ddd"></span>Arctic</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Monocromático Oscuro -->
+      <div class="vcard">
+        <div class="vcard-preview" style="background:#FFFFFF;border-bottom:1px solid var(--g200)">
+          <img src="Nexostrat_Logo_Monocromatico_Oscuro_Transparente.png" width="220" alt="Logo Nexostrat – Monocromatico Oscuro" style="display:block;max-width:100%;height:auto">
+        </div>
+        <div class="vcard-info">
+          <div class="vcard-name">Monocromático Oscuro</div>
+          <div class="vcard-use">Impresión en un solo color, sellos de caucho, watermarks, grabado en metal, bordado oscuro.</div>
+          <div class="chips">
+            <span class="chip"><span class="cdot" style="background:#0C1A2E"></span>Midnight — único color</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Monocromático Claro / Knockout -->
+      <div class="vcard">
+        <div class="vcard-preview" style="background:#0C1A2E">
+          <img src="Nexostrat_Logo_Monocromatico_Claro_Transparente.png" width="220" alt="Logo Nexostrat – Monocromatico Claro" style="display:block;max-width:100%;height:auto">
+        </div>
+        <div class="vcard-info">
+          <div class="vcard-name">Monocromático Claro — Knockout</div>
+          <div class="vcard-use">Serigrafía en negro, bordado en fondos oscuros, impresión con un único color claro disponible.</div>
+          <div class="chips">
+            <span class="chip"><span class="cdot" style="background:#F0FBFF;border-color:#ddd"></span>Arctic — único color</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════
+       02 — ÍCONO SOLO
+  ══════════════════════════════════════ -->
+  <div class="sec">
+    <div class="sec-label">02 — Ícono Solo</div>
+    <div class="sec-title">Variaciones del Ícono en Distintos Fondos</div>
+    <div class="sec-desc">El ícono cuadrado se usa en espacios reducidos: avatares de redes sociales, favicons, app icons, badges, insignias y sellos. La palabra "strat" y el bloque adaptan su color según el fondo para garantizar legibilidad y contraste.</div>
+
+    <div class="grid3">
+
+      <!-- Icon 1: Midnight — Primario Oscuro -->
+      <div class="vcard">
+        <div class="vcard-preview" style="background:#0C1A2E;min-height:180px">
+          <img src="Nexostrat_Icono_Midnight_Transparente.png" height="100" alt="Ícono Nexostrat – Midnight" style="display:block;height:100px;width:auto">
+        </div>
+        <div class="vcard-info">
+          <div class="primary-badge">★ Primario Oscuro</div>
+          <div class="vcard-name">Sobre Midnight</div>
+          <div class="vcard-use">Avatar principal, app icon, email signature, LinkedIn profile.</div>
+          <div class="chips">
+            <span class="chip"><span class="cdot" style="background:#0EA5E9"></span>Sky Blue</span>
+            <span class="chip"><span class="cdot" style="background:#F0FBFF;border-color:#ddd"></span>Arctic</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Icon 2: Ocean Deep -->
+      <div class="vcard">
+        <div class="vcard-preview" style="background:#0D4A6B;min-height:180px">
+          <img src="Nexostrat_Icono_Ocean_Deep.png" height="100" alt="Ícono Nexostrat – Ocean Deep" style="display:block;height:100px;width:auto">
+        </div>
+        <div class="vcard-info">
+          <div class="vcard-name">Sobre Ocean Deep</div>
+          <div class="vcard-use">Banners, secciones con fondo Ocean Deep, materiales impresos en azul profundo.</div>
+          <div class="chips">
+            <span class="chip"><span class="cdot" style="background:#0EA5E9"></span>Sky Blue</span>
+            <span class="chip"><span class="cdot" style="background:#F0FBFF;border-color:#ddd"></span>Arctic</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Icon 4: Sky Blue — bloque invierte a Midnight -->
+      <div class="vcard">
+        <div class="vcard-preview" style="background:#0EA5E9;min-height:180px">
+          <img src="Nexostrat_Icono_SkyBlue.png" height="100" alt="Ícono Nexostrat – Sky Blue" style="display:block;height:100px;width:auto">
+        </div>
+        <div class="vcard-info">
+          <div class="vcard-name">Sobre Sky Blue</div>
+          <div class="vcard-use">Covers, banners sky blue. El bloque invierte a Midnight. "strat" en Midnight para contraste.</div>
+          <div class="chips">
+            <span class="chip"><span class="cdot" style="background:#0C1A2E"></span>Midnight</span>
+            <span class="chip"><span class="cdot" style="background:#F0FBFF;border-color:#ddd"></span>Arctic</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Icon 5: Monocromático Oscuro -->
+      <div class="vcard">
+        <div class="vcard-preview" style="background:#0C1A2E;min-height:180px">
+          <img src="Nexostrat_Icono_Monocromatico_Oscuro_Transparente.png" height="100" alt="Ícono Nexostrat – Mono Oscuro" style="display:block;height:100px;width:auto">
+        </div>
+        <div class="vcard-info">
+          <div class="vcard-name">Monocromático Oscuro</div>
+          <div class="vcard-use">Sellos, grabado en metal, serigrafía en 1 color, impresión en B&N.</div>
+          <div class="chips">
+            <span class="chip"><span class="cdot" style="background:#0C1A2E"></span>Midnight — único color</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Icon 6: Monocromático Claro / Knockout -->
+      <div class="vcard">
+        <div class="vcard-preview" style="background:#F0FBFF;min-height:180px">
+          <img src="Nexostrat_Icono_Monocromatico_Claro_Transparente.png" height="100" alt="Ícono Nexostrat – Mono Claro" style="display:block;height:100px;width:auto">
+        </div>
+        <div class="vcard-info">
+          <div class="vcard-name">Monocromático Claro — Knockout</div>
+          <div class="vcard-use">Bordado en fondos oscuros, estampado, impresión con 1 color claro disponible.</div>
+          <div class="chips">
+            <span class="chip"><span class="cdot" style="background:#F0FBFF;border-color:#ddd"></span>Arctic — único color</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════
+       03 — CONTEXTOS DE APLICACIÓN
+  ══════════════════════════════════════ -->
+  <div class="sec">
+    <div class="sec-label">03 — Contextos de Aplicación</div>
+    <div class="sec-title">El Logo en Uso Real</div>
+    <div class="sec-desc">Ejemplos de cómo se ve el ícono y el logotipo en los puntos de contacto más frecuentes de la marca.</div>
+
+    <div class="ctx-strip">
+
+      <!-- LinkedIn Avatar -->
+      <div class="ctx-card">
+        <div class="ctx-preview" style="background:#0A66C2;border-radius:0;border-bottom:1px solid #0856A6">
+          <div style="width:68px;height:68px;border-radius:50%;background:#0C1A2E;display:flex;align-items:center;justify-content:center;border:3px solid #fff">
+            <svg width="42" height="50" viewBox="0 0 86 100">
+              <rect x="4" y="36" width="78" height="30" rx="5" fill="#0EA5E9"/>
+              <text x="43" y="56" text-anchor="middle" font-family="'Century Gothic','Nunito',-apple-system,sans-serif" font-size="44" font-weight="800" fill="#F0FBFF">n</text>
+              <text x="43" y="83" text-anchor="middle" font-family="'Century Gothic','Nunito',-apple-system,sans-serif" font-size="15" font-weight="700" fill="#F0FBFF" letter-spacing="2">strat</text>
+            </svg>
+          </div>
+        </div>
+        <div class="ctx-label">LinkedIn Avatar</div>
+      </div>
+
+      <!-- Email Footer -->
+      <div class="ctx-card">
+        <div class="ctx-preview" style="background:#F8FAFC;border-bottom:1px solid var(--g200)">
+          <div style="border:1px solid var(--g200);border-radius:8px;padding:14px 20px;background:#fff;text-align:center;min-width:180px">
+            <img src="Nexostrat_Logo_Fondo_Blanco_Transparente.png" width="130" height="30" alt="Logo Nexostrat" style="display:block;object-fit:contain">
+            <div style="font-size:9px;color:#6B7280;margin-top:6px;font-family:'Century Gothic','Nunito',sans-serif">nexostrat.com</div>
+          </div>
+        </div>
+        <div class="ctx-label">Firma de Email</div>
+      </div>
+
+      <!-- Favicon -->
+      <div class="ctx-card">
+        <div class="ctx-preview" style="background:#E5E7EB;border-bottom:1px solid var(--g300)">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <!-- Browser tab mockup -->
+            <div style="background:#fff;border-radius:6px 6px 0 0;padding:6px 12px;display:flex;align-items:center;gap:6px;border:1px solid var(--g200);width:160px">
+              <div style="width:14px;height:14px;border-radius:2px;background:#0C1A2E;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                <svg width="10" height="12" viewBox="0 0 86 100">
+                  <rect x="4" y="36" width="78" height="30" rx="4" fill="#0EA5E9"/>
+                  <text x="43" y="56" text-anchor="middle" font-family="'Century Gothic','Nunito',-apple-system,sans-serif" font-size="44" font-weight="800" fill="#F0FBFF">n</text>
+                </svg>
+              </div>
+              <div style="font-size:9px;color:#374151;font-family:'Century Gothic','Nunito',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">nexostrat.com</div>
+            </div>
+          </div>
+        </div>
+        <div class="ctx-label">Favicon / Tab</div>
+      </div>
+
+      <!-- Tarjeta de Presentación -->
+      <div class="ctx-card">
+        <div class="ctx-preview" style="background:#E5E7EB;border-bottom:1px solid var(--g300)">
+          <div style="background:#0C1A2E;border-radius:8px;padding:16px 20px;width:170px;min-height:90px;display:flex;flex-direction:column;justify-content:space-between">
+            <img src="Nexostrat_Logo_Fondo_Midnight_Transparente.png" width="110" height="24" alt="Logo Nexostrat" style="display:block;object-fit:contain">
+            <div>
+              <div style="font-size:8px;color:#F0FBFF;font-family:'Century Gothic','Nunito',sans-serif;font-weight:700;opacity:.9">Juan Pablo Mejía</div>
+              <div style="font-size:7px;color:#0EA5E9;font-family:'Century Gothic','Nunito',sans-serif;margin-top:1px">IA Estratégica para PYMEs</div>
+            </div>
+          </div>
+        </div>
+        <div class="ctx-label">Tarjeta de Presentación</div>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════
+       04 — USOS INCORRECTOS
+  ══════════════════════════════════════ -->
+  <div class="sec">
+    <div class="sec-label">04 — Usos Incorrectos</div>
+    <div class="sec-title">Qué No Hacer con el Logo</div>
+    <div class="sec-desc">Estos ejemplos ilustran errores que degradan o distorsionan la identidad visual. Siempre usa las variantes aprobadas sin modificaciones.</div>
+
+    <div class="grid3">
+
+      <!-- Don't 1: Distorsionar -->
+      <div class="dont-card">
+        <div class="dont-preview" style="background:#F5F5F5">
+          <img src="Nexostrat_Logo_Fondo_Blanco_Transparente.png" width="200" alt="Logo distorsionado" style="display:block;transform:scaleY(0.52);transform-origin:center">
+        </div>
+        <div class="dont-info">
+          <div class="x-badge">✕ INCORRECTO</div>
+          <div class="dont-text">No distorsionar ni estirar el logo. Siempre mantener la proporción original al redimensionar.</div>
+        </div>
+      </div>
+
+      <!-- Don't 2: Colores fuera de paleta -->
+      <div class="dont-card">
+        <div class="dont-preview" style="background:#F5F5F5">
+          <img src="Nexostrat_Logo_Fondo_Blanco_Transparente.png" width="200" alt="Logo con colores incorrectos" style="display:block;filter:hue-rotate(265deg) saturate(4) contrast(1.1)">
+        </div>
+        <div class="dont-info">
+          <div class="x-badge">✕ INCORRECTO</div>
+          <div class="dont-text">No usar colores fuera de la paleta Aurora. Solo las variantes aprobadas de esta guía.</div>
+        </div>
+      </div>
+
+      <!-- Don't 3: strat blanco sobre fondo blanco -->
+      <div class="dont-card">
+        <div class="dont-preview" style="background:#FFFFFF;border-bottom:1px solid var(--g200)">
+          <svg width="80" height="94" viewBox="0 0 86 100">
+            <rect x="4" y="36" width="78" height="30" rx="5" fill="#0EA5E9"/>
+            <text x="43" y="56" text-anchor="middle" font-family="'Century Gothic','Nunito',-apple-system,sans-serif" font-size="44" font-weight="800" fill="#F0FBFF">n</text>
+            <!-- strat invisible: blanco sobre blanco -->
+            <text x="43" y="83" text-anchor="middle" font-family="'Century Gothic','Nunito',-apple-system,sans-serif" font-size="15" font-weight="700" fill="#FFFFFF" letter-spacing="2">strat</text>
+          </svg>
+        </div>
+        <div class="dont-info">
+          <div class="x-badge">✕ INCORRECTO</div>
+          <div class="dont-text">No usar "strat" blanco sobre fondo claro — queda invisible. En fondos blancos o Arctic, usar "strat" en Sky Blue.</div>
+        </div>
+      </div>
+
+      <!-- Don't 4: Efectos (sombra/glow) -->
+      <div class="dont-card">
+        <div class="dont-preview" style="background:#F5F5F5">
+          <img src="Nexostrat_Logo_Fondo_Blanco_Transparente.png" width="200" alt="Logo con sombra incorrecta" style="display:block;filter:drop-shadow(3px 3px 4px rgba(14,165,233,0.8))">
+        </div>
+        <div class="dont-info">
+          <div class="x-badge">✕ INCORRECTO</div>
+          <div class="dont-text">No aplicar sombras, brillos, degradados ni efectos de capa al logo.</div>
+        </div>
+      </div>
+
+      <!-- Don't 5: Outline / logo hueco -->
+      <div class="dont-card">
+        <div class="dont-preview" style="background:#F5F5F5">
+          <svg width="200" height="46" viewBox="0 0 235 52">
+            <rect x="94" y="6" width="94" height="40" rx="5" fill="none" stroke="#0EA5E9" stroke-width="2.5"/>
+            <text font-family="'Century Gothic','Nunito',-apple-system,sans-serif" font-size="32" font-weight="700" y="38" letter-spacing="-0.5">
+              <tspan x="6" fill="none" stroke="#0C1A2E" stroke-width="1.2">nexo</tspan>
+              <tspan dx="5" fill="none" stroke="#0EA5E9" stroke-width="1.2">strat</tspan>
+            </text>
+          </svg>
+        </div>
+        <div class="dont-info">
+          <div class="x-badge">✕ INCORRECTO</div>
+          <div class="dont-text">No usar versiones outline del logo. El bloque sólido es parte esencial de la identidad.</div>
+        </div>
+      </div>
+
+      <!-- Don't 6: Fondo degradado / fotográfico -->
+      <div class="dont-card">
+        <div class="dont-preview" style="background:linear-gradient(135deg,#0EA5E9 0%,#10B981 50%,#F59E0B 100%)">
+          <img src="Nexostrat_Logo_Fondo_Blanco_Transparente.png" width="200" alt="Logo sobre degradado" style="display:block">
+        </div>
+        <div class="dont-info">
+          <div class="x-badge">✕ INCORRECTO</div>
+          <div class="dont-text">No colocar el logo sobre fondos degradados o fotográficos sin contraste suficiente garantizado.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════
+       05 — PALETA AURORA
+  ══════════════════════════════════════ -->
+  <div class="sec">
+    <div class="sec-label">05 — Paleta Aurora</div>
+    <div class="sec-title">Colores de Marca</div>
+    <div class="sec-desc">Los seis colores de la identidad Nexostrat. Midnight y Sky Blue son los colores primarios del logo. Los demás se usan en tipografía de apoyo, acentos y gráficos.</div>
+
+    <div class="palette">
+      <div class="swatch">
+        <div class="swatch-color" style="background:#0C1A2E;width:100px"></div>
+        <div class="swatch-info">
+          <div class="swatch-role">Primario</div>
+          <div class="swatch-name">Midnight</div>
+          <div class="swatch-hex">#0C1A2E</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#0D4A6B;width:100px"></div>
+        <div class="swatch-info">
+          <div class="swatch-role">Secundario</div>
+          <div class="swatch-name">Ocean Deep</div>
+          <div class="swatch-hex">#0D4A6B</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#0EA5E9;width:100px"></div>
+        <div class="swatch-info">
+          <div class="swatch-role">Primario</div>
+          <div class="swatch-name">Sky Blue</div>
+          <div class="swatch-hex">#0EA5E9</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#10B981;width:100px"></div>
+        <div class="swatch-info">
+          <div class="swatch-role">Acento</div>
+          <div class="swatch-name">Emerald</div>
+          <div class="swatch-hex">#10B981</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#F59E0B;width:100px"></div>
+        <div class="swatch-info">
+          <div class="swatch-role">Acento</div>
+          <div class="swatch-name">Amber</div>
+          <div class="swatch-hex">#F59E0B</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#F0FBFF;width:100px;border:1px solid #DFF4FD"></div>
+        <div class="swatch-info">
+          <div class="swatch-role">Base Claro</div>
+          <div class="swatch-name">Arctic</div>
+          <div class="swatch-hex">#F0FBFF</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="ft">
+  <div class="ft-brand">NEXOSTRAT</div>
+  <div class="ft-meta">nexostrat.com · contacto@nexostrat.com<br>Kit de Logos · v1.0 · Mayo 2026 · Confidencial</div>
+</footer>
+
+</body>
+</html>

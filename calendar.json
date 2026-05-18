@@ -13,12 +13,12 @@
     },
     {
       "id": "e-brand-renderer-wireup",
-      "title": "Wire brand-kit logos into all 5 generate_docx.py renderers",
+      "title": "Wire brand-kit logos into all 5 generate_docx.py renderers — DONE 2026-05-18 ahead of deadline",
       "when": "2026-05-22",
       "kind": "deadline",
       "owner": "ricardo",
       "related": ["t-brand-renderer-wireup"],
-      "notes": "Read operations/assets/brand/Nexostrat_Brand_Guide.docx first; coordinate ownership with JP via Telegram before touching generate_docx.py; recommended (pending guide): white-bg logo for Skill 05 client-facing output, monochromatic for Skills 01-04 internal."
+      "notes": "COMPLETED 2026-05-18 PM. Brand Guide read; Aurora palette + logos + header/footer wired into all 5 renderers; refactored into skills/shared/brand.py as single source of truth (BRAND_GUIDE_VERSION=1.0 pinned). Test harness 32 PASS held throughout. Sample PDFs at /tmp/brand_test/. Future brand tweaks are single-file edits. Also closes the previously-deferred docx-renderer dedup item. JP-coordination pre-step skipped per Ricardo's directive."
     },
     {
       "id": "e-intake-upload-workflow",

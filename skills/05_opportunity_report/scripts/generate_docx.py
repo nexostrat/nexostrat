@@ -12,6 +12,14 @@ import json
 from datetime import datetime
 from pathlib import Path
 
+# Brand surface (palette, logos, header/footer helpers)
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "shared"))
+try:
+    import brand
+except ImportError:
+    print("ERROR: python-docx not installed. Run: pip install python-docx --break-system-packages")
+    sys.exit(1)
+
 from docx import Document
 from docx.shared import Pt, Cm, RGBColor, Inches
 from docx.enum.text import WD_ALIGN_PARAGRAPH
@@ -19,15 +27,16 @@ from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
-# ─── Brand colors ──────────────────────────────────────────────────────────────
-DARK_BLUE   = RGBColor(0x1A, 0x2E, 0x4A)
-ACCENT      = RGBColor(0x00, 0x7A, 0xC3)
-MID_GRAY    = RGBColor(0x55, 0x65, 0x77)
-LIGHT_GRAY  = RGBColor(0xF4, 0xF5, 0xF7)
-WHITE       = RGBColor(0xFF, 0xFF, 0xFF)
-GREEN_DARK  = RGBColor(0x1B, 0x5E, 0x20)
-AMBER_DARK  = RGBColor(0xE6, 0x5C, 0x00)
-SUCCESS_GRN = RGBColor(0x2E, 0x7D, 0x32)
+# ─── Brand surface — single source of truth in skills/shared/brand.py ──────────
+DARK_BLUE   = brand.MIDNIGHT_BLUE
+ACCENT      = brand.SKY_BLUE
+MID_GRAY    = brand.GRAY_500
+LIGHT_GRAY  = RGBColor(0xF4, 0xF5, 0xF7)         # Local: alt table-row tint
+WHITE       = brand.WHITE
+GREEN_DARK  = RGBColor(0x1B, 0x5E, 0x20)         # Local: Quick Win indicator
+AMBER_DARK  = RGBColor(0xE6, 0x5C, 0x00)         # Local: effort indicator
+SUCCESS_GRN = RGBColor(0x2E, 0x7D, 0x32)         # Local: badge green
+BRAND_FONT  = brand.BRAND_FONT
 
 # ─── Quadrant colors for 2x2 matrix ────────────────────────────────────────────
 Q_VICTORIA   = "D5F5E3"  # top-left: high impact, easy  → green
@@ -144,43 +153,22 @@ def setup_page(doc):
 
 # ─── Header / Footer ────────────────────────────────────────────────────────────
 def add_header_footer(doc, company_name):
-    section = doc.sections[0]
-
-    # Header
-    header = section.header
-    header.is_linked_to_previous = False
-    p = header.paragraphs[0] if header.paragraphs else header.add_paragraph()
-    p.clear()
-    p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    run = p.add_run(f"{company_name}  |  Nexostrat")
-    run.font.size = Pt(8)
-    run.font.color.rgb = MID_GRAY
-    run.font.name = 'Calibri'
-
-    # Footer
-    footer = section.footer
-    footer.is_linked_to_previous = False
-    p = footer.paragraphs[0] if footer.paragraphs else footer.add_paragraph()
-    p.clear()
-    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-
-    run_left = p.add_run("Reporte de Oportunidades de IA  |  Nexostrat  |  Confidencial")
-    run_left.font.size = Pt(8)
-    run_left.font.color.rgb = MID_GRAY
-    run_left.font.name = 'Calibri'
+    """Brand header (with company name) + footer (with Confidencial marker)."""
+    brand.apply_brand_header(doc, extra=company_name)
+    brand.apply_brand_footer(doc, extra="Confidencial")
 
 
 # ─── Cover page ─────────────────────────────────────────────────────────────────
 def add_cover_page(doc, company_name, date_str):
-    # Top accent band
+    # Top brand band — Midnight Blue with the full Nexostrat logo overlay
     t = doc.add_table(1, 1)
     t.alignment = WD_TABLE_ALIGNMENT.CENTER
     cell = t.rows[0].cells[0]
-    shade_cell(cell, '1A2E4A')
-    set_row_height(t.rows[0], 0.8)
-    cell_text(cell, 'NEXOSTRAT', font_size=11, bold=True,
-              color=WHITE, align=WD_ALIGN_PARAGRAPH.CENTER)
+    shade_cell(cell, brand.HEX_MIDNIGHT_BLUE)
+    set_row_height(t.rows[0], 2.0)
     remove_all_borders(cell)
+    # Logo overlay (Midnight-bg transparent — blends with the band)
+    brand.insert_logo_in_cell(cell, brand.LOGO_MIDNIGHT, width_inches=3.0)
 
     # Spacer
     for _ in range(5):
@@ -213,7 +201,7 @@ def add_cover_page(doc, company_name, date_str):
     t2.alignment = WD_TABLE_ALIGNMENT.CENTER
     c = t2.rows[0].cells[0]
     set_row_height(t2.rows[0], 0.05)
-    shade_cell(c, '007AC3')
+    shade_cell(c, brand.HEX_SKY_BLUE)
     remove_all_borders(c)
 
     # Spacer
@@ -345,7 +333,7 @@ def add_opportunity_table(doc, opportunities):
     # Header row
     for c, (h, w) in enumerate(zip(headers, col_widths)):
         cell = t.rows[0].cells[c]
-        shade_cell(cell, '1A2E4A')
+        shade_cell(cell, brand.HEX_MIDNIGHT_BLUE)
         set_cell_width(cell, w)
         cell_text(cell, h, font_size=9, bold=True, color=WHITE,
                   align=WD_ALIGN_PARAGRAPH.CENTER, space_before=3, space_after=3)
@@ -466,8 +454,8 @@ def add_5x5_grid(doc, opportunities, y_key, title, x_label='Impacto', y_label=No
                 # L-shaped border logic:
                 # Left border on col 1 (first data col) for rows 0-4
                 # Bottom border on row 4 (last data row) for cols 1-5
-                left_color  = '1A2E4A' if c == 1 else None
-                bottom_color = '1A2E4A' if r == 4 else None
+                left_color  = brand.HEX_MIDNIGHT_BLUE if c == 1 else None
+                bottom_color = brand.HEX_MIDNIGHT_BLUE if r == 4 else None
                 set_cell_borders(cell, left=left_color, bottom=bottom_color, size='18')
 
             elif r == 5 and c == 0:
@@ -638,7 +626,7 @@ def add_generic_table(doc, headers, rows):
     t.style = 'Table Grid'
     for c, h in enumerate(headers):
         cell = t.rows[0].cells[c]
-        shade_cell(cell, '1A2E4A')
+        shade_cell(cell, brand.HEX_MIDNIGHT_BLUE)
         cell_text(cell, h, font_size=9, bold=True, color=WHITE,
                   align=WD_ALIGN_PARAGRAPH.CENTER, space_before=2, space_after=2)
     for r, row_data in enumerate(rows, 1):
@@ -661,7 +649,7 @@ def parse_callout_type(first_line):
         return 'E8F5E9', '1B5E20'
     if 'ℹ️' in first_line or 'NOTA' in fl:
         return 'E3F2FD', '1565C0'
-    return 'F3F4F6', '556577'
+    return 'F3F4F6', brand.HEX_GRAY_500  # Neutral callout (gray border)
 
 
 def render_inline(p, text):

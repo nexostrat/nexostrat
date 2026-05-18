@@ -14,6 +14,14 @@ import re
 from pathlib import Path
 from datetime import datetime
 
+# Brand surface (palette, logos, header/footer helpers)
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "shared"))
+try:
+    import brand
+except ImportError:
+    print("ERROR: python-docx not installed. Run: pip install python-docx --break-system-packages")
+    sys.exit(1)
+
 
 def parse_md_to_blocks(md_text):
     """Parse markdown into structured blocks for docx rendering."""
@@ -182,12 +190,12 @@ def generate_docx(md_path, output_path):
         section.left_margin = Cm(2.8)
         section.right_margin = Cm(2.8)
 
-    # ── Brand colors ──────────────────────────────────────────────────────
-    DARK_BLUE = RGBColor(0x1A, 0x2E, 0x4A)
-    ACCENT    = RGBColor(0x00, 0x7A, 0xC3)
-    MID_GRAY  = RGBColor(0x55, 0x65, 0x77)
-    RED_ALERT = RGBColor(0xC6, 0x28, 0x28)
-    BLACK     = RGBColor(0x1A, 0x1A, 0x1A)
+    # Local aliases — pinned to brand module (single source of truth)
+    DARK_BLUE = brand.MIDNIGHT_BLUE
+    ACCENT    = brand.SKY_BLUE
+    MID_GRAY  = brand.GRAY_500
+    RED_ALERT = RGBColor(0xC6, 0x28, 0x28)  # Local: domain-specific (zona sensible)
+    BLACK     = brand.BLACK
 
     def set_para_spacing(para, before=0, after=4):
         para.paragraph_format.space_before = Pt(before)
@@ -215,7 +223,7 @@ def generate_docx(md_path, output_path):
         bottom.set(qn('w:val'), 'single')
         bottom.set(qn('w:sz'), '4')
         bottom.set(qn('w:space'), '1')
-        bottom.set(qn('w:color'), '007AC3')
+        bottom.set(qn('w:color'), brand.HEX_SKY_BLUE)
         pBdr.append(bottom)
         pPr.append(pBdr)
         return p
@@ -365,7 +373,7 @@ def generate_docx(md_path, output_path):
                 if r_idx == 0:
                     run.font.bold = True
                     run.font.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
-                    shade_cell(cell, '1A2E4A')
+                    shade_cell(cell, brand.HEX_MIDNIGHT_BLUE)
                 else:
                     run.font.color.rgb = BLACK
                     shade_cell(cell, 'EBF3FA' if r_idx % 2 == 0 else 'FFFFFF')
@@ -391,8 +399,8 @@ def generate_docx(md_path, output_path):
     cover_table = doc.add_table(1, 1)
     cover_table.style = 'Table Grid'
     cover_cell = cover_table.rows[0].cells[0]
-    shade_cell(cover_cell, '1A2E4A')
-    set_cell_left_border(cover_cell, '007AC3', size='24')
+    shade_cell(cover_cell, brand.HEX_MIDNIGHT_BLUE)
+    set_cell_left_border(cover_cell, brand.HEX_SKY_BLUE, size='24')
 
     p_conf = cover_cell.paragraphs[0]
     p_conf.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -404,6 +412,9 @@ def generate_docx(md_path, output_path):
     p_conf.paragraph_format.space_after = Pt(8)
 
     doc.add_paragraph().paragraph_format.space_after = Pt(20)
+
+    # Brand logo on cover, just below the confidencial box (via brand module)
+    brand.apply_cover_logo(doc, width_inches=3.4, space_before_pt=12, space_after_pt=24)
 
     p_title = doc.add_paragraph()
     p_title.alignment = WD_ALIGN_PARAGRAPH.LEFT
@@ -498,15 +509,10 @@ def generate_docx(md_path, output_path):
         elif btype == 'empty':
             pass
 
-    # ── Footer ────────────────────────────────────────────────────────────
-    for section in doc.sections:
-        footer = section.footer
-        fp = footer.paragraphs[0]
-        fp.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        run = fp.add_run(
-            f"GUIÓN CONFIDENCIAL — Nexostrat — Solo para uso de Ricardo — {datetime.now().strftime('%B %Y')}")
-        run.font.size = Pt(8)
-        run.font.color.rgb = MID_GRAY
+    # Brand header + footer (via brand module — skips cover automatically).
+    # `extra=` adds a separator and an additional label after the base text.
+    brand.apply_brand_header(doc, extra="🔒 Confidencial")
+    brand.apply_brand_footer(doc, extra="Solo para uso de Ricardo")
 
     doc.save(output_path)
     print(f"✅ DOCX generado: {output_path}")

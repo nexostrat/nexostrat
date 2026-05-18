@@ -6,6 +6,19 @@ The git commit SHA at the time of each version pin is the authoritative artifact
 
 ---
 
+## v0.3 — 2026-05-18 · Brand wire-up + shared-module migration
+
+**Scope:** apply Nexostrat Brand Guide v1.0 to `scripts/generate_docx.py`, then migrate to `skills/shared/brand.py`. Preserve the 🔒 CONFIDENCIAL cover box and blockquote callout semantics.
+
+- Aurora palette: `DARK_BLUE → #0C1A2E` (Midnight Blue), `ACCENT → #0EA5E9` (Sky Blue), `MID_GRAY → #6B7280` (Gray 500). CONFIDENCIAL cover-box background + left border now resolve to brand hex codes (`brand.HEX_MIDNIGHT_BLUE` / `brand.HEX_SKY_BLUE`). H2 paragraph bottom-border + table-header background updated.
+- Cover logo placed *below* the CONFIDENCIAL box (so the security marker stays prominent) at 3.4" via `brand.apply_cover_logo(doc, width_inches=3.4)`.
+- Body-pages header personalized for this skill: `"NEXOSTRAT · 🔒 Confidencial"` via `brand.apply_brand_header(doc, extra="🔒 Confidencial")`. Footer: `"nexostrat.com · Solo para uso de Ricardo · Pág. <PAGE>"` via `brand.apply_brand_footer(doc, extra="Solo para uso de Ricardo")`.
+- Migrated to `skills/shared/brand.py` — 11 brand references resolve through `brand.*`. Domain-specific colors kept local: `RED_ALERT #C62828` (zona sensible), blockquote callout palettes (Material-Design greens/ambers/blues — these are functional UI semantics not brand palette).
+
+**Verified by:** `bash infra/scripts/test_skills.sh` — 32 PASS · 0 SKIP · 0 FAIL. End-to-end render of pilot discovery-meeting .md → branded .docx passes XML inspection (CONFIDENCIAL box preserved, blockquote callouts preserved).
+
+---
+
 ## v0.2 — 2026-05-18 · Rename 06 → 04 + JP content rewrite (new "PrepLlamada" role) + Nexostrat rebrand
 
 **Scope:** integrate JP's 2026-05-18 SKILL.md rewrite (`discovery-meeting-new` from `SKills updated.zip`) + reposition the skill as **Skill 4 in JP's diagram pipeline** (PrepLlamada / Guía de Preparación para Primera Llamada).

@@ -6,6 +6,19 @@ The git commit SHA at the time of each version pin is the authoritative artifact
 
 ---
 
+## v0.3 — 2026-05-18 · Brand wire-up + shared-module migration
+
+**Scope:** apply Nexostrat Brand Guide v1.0 to `scripts/generate_docx.py`, then migrate to `skills/shared/brand.py`.
+
+- Aurora palette: `DARK_BLUE → #0C1A2E` (Midnight Blue), `ACCENT → #0EA5E9` (Sky Blue), `MID_GRAY → #6B7280` (Gray 500). H2 paragraph bottom-border and table-header background also updated.
+- Cover logo: `Nexostrat_Logo_Fondo_Arctic_Transparente.png` at 3.8" via `brand.apply_cover_logo(doc)`.
+- Body-pages header + footer via `brand.apply_brand_header(doc)` + `brand.apply_brand_footer(doc)`; cover skipped via `different_first_page_header_footer`.
+- Migrated to `skills/shared/brand.py` — all 9 brand references resolve through `brand.*`. Domain-specific tint `LIGHT_BG #F4F7FB` (table alt rows) remains local.
+
+**Verified by:** `bash infra/scripts/test_skills.sh` — 32 PASS · 0 SKIP · 0 FAIL. End-to-end render of pilot industry-analyst .md → branded .docx passes XML inspection.
+
+---
+
 ## v0.2 — 2026-05-18 · JP content delivery + Linux path fix + Nexostrat rebrand
 
 **Scope:** integrate JP's 2026-05-18 SKILL.md rewrite (`industry-analyst-new` from `SKills updated.zip`).

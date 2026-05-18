@@ -1,63 +1,69 @@
 # CHECKPOINT — root (Founder)
 
-**Updated:** 2026-05-18T13:30:00-07:00
+**Updated:** 2026-05-18T16:45:00-07:00
 **By:** ricardo (via Claude Code session at /srv/Nexostrat/)
 **Persona:** Founder
-**Session topic:** Spanish-drift translation + JP-facing proposal docs + JP delivered 5 skills + brand kit + Trixx Logistics identified as Monday's pilot target
+**Session topic:** Brand renderer wire-up on all 5 generate_docx.py + extraction of `skills/shared/brand.py` as single source of truth · Critical-path Priority 2 closed 4 days ahead of due
 
 ## What just happened (last session — read once, don't re-litigate)
 
-~6-hour session in three arcs.
+~2-hour second session same day. Opened with the 5-priority critical path from the morning's CHECKPOINT. Ricardo's directive on entry: **"Lets move forward without JP answear we need action."** P1 (JP brand-coord Telegram) skipped. Proceeded directly to P2.
 
-**Arc 1 (morning) — translation + proposal.** Translated Spanish drift in CHECKPOINT / STATUS / tasks / calendar back to English per the bilingual rule. Drafted JP-facing proposal docs for a 4-phase commercial process (Fase 0 free / Fase 1 paid $900K with 2×1hr meetings / Fase 2 implementation / Fase 3 retainer). Two formats: markdown with bold + plain CAPS for direct Telegram paste. Commit `ec37800`.
+**Arc 1 — Inline brand wire-up across all 5 renderers.** Read `operations/assets/brand/Nexostrat_Brand_Guide.docx` via pandoc. Distilled the Aurora palette + typography + cover/header/footer specs. Patched each `generate_docx.py`:
 
-**Arc 2 (afternoon pre-JP-reply) — state docs + impact map + intake form.** Updated STATUS / tasks / calendar to reflect the redesign. Wrote architecture impact map at `00_META/proposals/2026-05-18_impacto-redesign-en-plans.md`. Drafted Fase 0 intake form template (Spanish, 7 sections) at `operations/templates/fase_0_intake_form.md`. Commit `b241939`.
+- Legacy hex codes replaced with Aurora: `DARK_BLUE #1A2E4A → #0C1A2E` (Midnight Blue), `ACCENT #007AC3 → #0EA5E9` (Sky Blue), `MID_GRAY #556577 → #6B7280` (Gray 500). Updated everywhere they appeared: top-level constants, H2 paragraph bottom-borders, table-header backgrounds.
+- Cover logo inserted at top of title page: `Nexostrat_Logo_Fondo_Arctic_Transparente.png` at 3.8" for Skills 01-04; for Skill 05 the existing top Midnight Blue band now hosts the actual `Nexostrat_Logo_Fondo_Midnight_Transparente.png` (3.0", grew band 0.8 cm → 2.0 cm).
+- Body-pages header strip: "NEXOSTRAT" Calibri Bold 11pt Midnight Blue + 0.75pt Sky Blue bottom rule.
+- Body-pages footer: "nexostrat.com · Pág. \<PAGE field\>" Calibri 9pt Gray 500.
+- Cover excluded from header/footer via `section.different_first_page_header_footer = True`.
+- Skill 04 keeps the 🔒 CONFIDENCIAL cover box (Midnight Blue bg + Sky Blue 24pt left border) with hex codes now correct. Header personalized: "NEXOSTRAT · 🔒 Confidencial". Footer: "nexostrat.com · Solo para uso de Ricardo · Pág. X". Blockquote callout colors (Material-Design greens/ambers/blues) preserved as functional UI semantics.
+- Skill 05 personalized header: "NEXOSTRAT · \<company_name\>". Footer: "nexostrat.com · Confidencial · Pág. X". 2×2 priority matrix quadrants + 5×5 grid borders + Quick Win green/amber + neutral callout border all updated to correct hex codes; quadrant tints preserved as functional layout colors.
+- Caught my own miss in the first pass: 4 hardcoded `1A2E4A` table-header backgrounds (Skills 01, 02, 03 + Skill 05 in 4 places) + Skill 05's neutral callout border at the old `556577`. Swept with one final grep + targeted edits.
 
-**Arc 3 (afternoon post-JP-reply) — JP simplification + 5-skill integration + brand kit.** JP responded with substantive simplification, not direct confirmation:
+Test harness ran **32 PASS · 0 SKIP · 0 FAIL** through every iteration. End-to-end smoke test: all 5 rendered from Bodai pilot inputs (Skill 05 against discovery-meeting .md as placeholder since no real opportunity-report .md exists yet) + LibreOffice → PDF + visual confirmation. PDFs at `/tmp/brand_test/{01..05}_*.pdf`. Ricardo viewed Skill 01 cover, Skill 04 cover (CONFIDENCIAL box + logo + title), Skill 05 cover (Midnight Blue band with logo overlay + Sky Blue accents). Production-quality on his judgment.
 
-- **5 skills total** (not 8-10): `company-analyst`, `industry-analyst`, `competitor-analyst`, `discovery-meeting` (reshaped to "PrepLlamada" role), `opportunity-report` (NEW Skill 5 — the entire client-facing free deliverable)
-- **No Skill 07.5** (scoring) — not needed
-- **No $900K Fase 1 paid phase in the immediate flow** — collapsed into a future "Hoja de Ruta de IA" CTA (scope + price TBD, not designed yet)
-- **6-phase pipeline diagram** at `00_META/proposals/2026-05-18_jp-diagrama-pipeline.html`: Contacto → Pre-Llamada → Primera Llamada (30 min) → Generación del Reporte → Revisión Interna (🔒 OBLIGATORIA) → Entrega + Seguimiento (D+4 business-days auto-follow-up)
-- **Directive verbatim:** *"Por ahora propongo dejar este proceso como está y probarlo al menos un par de veces antes de seguir haciendo skills."*
+**Arc 2 — Maintainability question → shared-module extraction.** Ricardo asked: *"This is a great first approch will it be easy to edit and make changes in the future?"* Honest answer: editable yes, maintainable no — palette tweak = 5 file edits + desync risk (already happened with the 4 stragglers). He authorized the extraction.
 
-Ricardo accepted with 2 corrections to JP's diagram: skills run **serially** (not parallel), all prospects get the 30-min discovery call.
+Designed and shipped `skills/shared/brand.py` (172 lines, `BRAND_GUIDE_VERSION = "1.0"` pinned):
 
-**Same-day integration of JP's 5-skill bundle into production:**
-- `git mv skills/06_discovery_meeting/` → `skills/04_discovery_meeting/`
-- Replaced content of all 5 skills (preserving our v0.1 `generate_docx.py` for Skill 01 — JP didn't include one)
-- Sed-replaced **12 legacy `Mejía, IA & CIA` → `Nexostrat`** across 4 `generate_docx.py` files (Ricardo's surname preserved)
-- Fixed **7 stale Mac/tmp paths** in SKILL.md files to Linux/repo-relative
-- Updated `.claude/skills/discovery-meeting` symlink target, created new `.claude/skills/opportunity-report` symlink
-- Updated `infra/scripts/test_skills.sh` SKILLS registry to 5 entries
-- **Test harness: 32 PASS · 0 SKIP · 0 FAIL** (was 27/4; +5 from Skill 05)
-- v0.2 CHANGELOG entries on 4 existing skills + v0.1 on Skill 05
-- `skills/README.md` rewritten for 5-skill reality
-- Commit `2092395`
+- Aurora palette as both RGBColor (for `font.color.rgb`) and hex strings (for OXML `w:color` / `w:fill`).
+- 6 logo asset paths (Arctic / Midnight / Blanco / SkyBlue / Mono Dark / Mono Light — all transparent variants).
+- 4 helpers: `apply_cover_logo(doc, ...)`, `insert_logo_in_cell(cell, logo_path, ...)`, `apply_brand_header(doc, label="NEXOSTRAT", extra=None, ...)`, `apply_brand_footer(doc, extra=None)`.
+- Helpers idempotent (clear prior runs + replace prior `w:pBdr`) so re-application doesn't double up.
+- Header + footer helpers both set `different_first_page_header_footer = True` so the cover is always excluded.
+- `extra=` argument lets per-skill personalization (Skill 04's "🔒 Confidencial", Skill 05's company name) without leaking customization into the shared layer.
 
-**Second JP delivery (brand kit) arrived mid-integration** via a separate Drive download. Unpacked to `operations/assets/brand/` (18 PNG logos in multiple background variants + `Nexostrat_Brand_Guide.docx` + `Nexostrat_Logo_Kit.html`). Created `skills/shared/brand → ../../operations/assets/brand` symlink for renderer convenience. Both source zips deleted. Commit `4e45fd8`.
+All 5 renderers migrated via consistent pattern:
 
-**All 4 commits pushed** to Gitea origin → propagated to GitHub + Codeberg within ~10 seconds.
+1. Add `sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "shared")) ; import brand` near top with try/except (catches python-docx-missing with the existing UX-friendly error message).
+2. Rebind local color constants to brand aliases: `DARK_BLUE = brand.MIDNIGHT_BLUE`, etc.
+3. Replace inline 6-line cover-logo paragraph with `brand.apply_cover_logo(doc, width_inches=3.8, space_after_pt=36)`.
+4. Replace inline ~30-line header/footer OXML block with `brand.apply_brand_header(doc[, extra=...])` + `brand.apply_brand_footer(doc[, extra=...])`.
+5. Update hardcoded hex strings in remaining OXML calls (H2 borders, table headers, cover band shade) to `brand.HEX_*` references.
+6. Skill 05 special: `add_header_footer(doc, company_name)` shrank from 40 lines to a 3-line shim; cover band uses `brand.insert_logo_in_cell(cell, brand.LOGO_MIDNIGHT, width_inches=3.0)` instead of inline `add_picture` + `cell_text` fallback.
 
-**Trixx Logistics identified as Monday's pilot target.** Mexican logistics company in Tijuana, 20+ years old, inbound via Sofi's friend (phone +52 1 664 533 3512, friend's uncle is the owner). Self-described as "muy atrás en programas y tecnología." Meeting: **2026-05-25 1pm Tijuana**. Site scrape (via WebFetch — `firecrawl` CLI not installed) revealed: Grupo Trixx / Trixx Logistics Corp., customs brokerage + air/sea/ground freight + warehousing + cross-border USA-MX, 4 locations (Guadalajara MX, Tijuana MX, Vernon CA, San Diego CA), Spanish + Chinese site languages, no RFC visible, "0 Años" placeholder bug on the site.
+Per-skill brand reference counts after migration: Skill 01 = 9, Skill 02 = 9, Skill 03 = 9, Skill 04 = 11, Skill 05 = 16. **Zero inline brand constants remain anywhere.** Domain-specific colors stayed local with explicit `# Local:` comments to mark the deliberate non-brand-palette nature.
 
-Ricardo called the session before scaffolding the Trixx folder — too much in one session. Wrap-up locked.
+Test harness: **32 PASS · 0 SKIP · 0 FAIL** post-refactor. All 5 .docx outputs identical in size + XML structure to the pre-refactor versions (78/81/75/76/79 KB). PDFs regenerated, byte-level brand spot-check confirms `0C1A2E` + `0EA5E9` + `6B7280` present, legacy `1A2E4A`/`007AC3`/`556577` absent (zero hits).
+
+Per-skill v0.3 CHANGELOG entries written (Skill 05 = v0.2, first version after JP's v0.1). `skills/README.md` updated: moved docx-renderer dedup from deferred → DONE; documented brand module in layout block.
 
 ## Decisions locked this session — DO NOT re-open without explicit cause
 
-1. **5 skills, not 8-10. No Skill 07.5. No $900K paid phase in the immediate flow.** JP's simplification accepted. The "Hoja de Ruta de IA" remains as a CTA at the end of the free report; price + scope designed only when pilot evidence justifies.
+1. **`skills/shared/brand.py` is the single source of truth for .docx brand surface.** Any future brand tweak — palette nudge, logo swap, header/footer text, font swap, tagline addition, Brand Guide v1.1 version bump — is a single-file edit there. All 5 renderers pick it up. Test harness validates the 5 still render after any brand change.
 
-2. **Ownership split:** JP owns skill content + prompts; Ricardo owns technical wrapping + ALL client calls and communications. Resolves the day-14-alert-handler question (Ricardo) and the FOSS-vs-Calendly question (FOSS preferred if client UX matches).
+2. **`BRAND_GUIDE_VERSION = "1.0"` pinned in brand.py.** When a new brand guide arrives, that string bumps in lockstep with the palette/asset changes — making "which brand version is this render?" a one-grep question.
 
-3. **Stop building, start testing.** JP's directive. The deferred items (`t-redesign-technical-brainstorm`, `t-build-automation-surface`, `t-update-phase-state-machine`) wait for pilot evidence.
+3. **Domain-specific colors stay per-skill.** RED_ALERT (Skill 04 zona sensible), blockquote callout palettes (Skill 04 + 05 Material-Design greens/ambers/blues), 2×2 matrix quadrant tints (Skill 05), Quick Win indicators (Skill 05) — these are functional UI signals not brand palette, so they live in their respective renderers with explicit `# Local:` markers. NOT a defect; correct separation of concerns.
 
-4. **Skills run serially with mandatory human review between each** (Ricardo correction to JP's diagram). All prospects get the 30-min discovery call.
+4. **Brand-coord with JP skipped per Ricardo's "we need action" directive.** Output is production-quality on Ricardo's judgment. If JP wants the renderer surface back as his territory post-pilot, he can ask — and the shared module makes any handover trivial (he edits `brand.py`, nothing else).
 
-5. **Folder restructure:** `06_discovery_meeting` → `04_discovery_meeting` (matches JP's diagram); new `05_opportunity_report` (Skill 5). Test harness reflects 5-skill registry.
+5. **Cover treatment per skill, calibrated:**
+   - Skills 01-03 (internal analysis): logo at top + Midnight Blue title + Gray 500 meta line, white background.
+   - Skill 04 (PrepLlamada, Ricardo-only): 🔒 CONFIDENCIAL Midnight Blue box first, logo below at 3.4", then title.
+   - Skill 05 (client deliverable): Midnight Blue band with the full logo overlaid, Sky Blue accent subtitle, Midnight Blue company name, Sky Blue divider line.
 
-6. **Brand assets canonical at `operations/assets/brand/`** with `skills/shared/brand` symlink for renderers. Brand wire-up into `generate_docx.py` files is the next-session priority (after JP coordination + brand guide read).
-
-7. **Foundation milestone holds.** `v0.1-foundation` tag untouched.
+6. **Closes a previously-deferred item.** The "skills/shared/ dedup of generate_docx.py boilerplate" line from `skills/README.md` deferred-table is now DONE — moved out of deferred status, scoped down to what was actually needed (brand surface dedup; full renderer dedup remains deferred since each skill has substantive domain-specific structure).
 
 ## In flight — concrete next action
 
@@ -66,53 +72,43 @@ NEXT SESSION:
   1. Open Claude Code AT /srv/Nexostrat/.
   2. Ricardo types "Start Session."
   3. Claude reads this CHECKPOINT + STATUS + tasks + calendar
-     + latest journal (2026-05-18_jp-delivery-and-skill-integration.md).
-  4. Claude presents the 5-priority path forward.
+     + latest journal (2026-05-18b_brand-wireup-and-shared-module.md).
+  4. Claude presents the 3-priority path forward (P2 already done).
 
-CRITICAL PATH (5 next-session priorities — execute in order):
+CRITICAL PATH (3 remaining priorities — execute in order):
 
-  ┌── ASAP ────────────────────────────────────────────┐
-  │  1. Coordinate brand-wire-up ownership with JP    │
-  │     Short Telegram exchange (~10 min).            │
-  │     "Is the brand-into-renderer wire-up yours or  │
-  │     mine?" If his, wait. If ours, proceed to #2.  │
-  └─────────────────────┬─────────────────────────────┘
-                        │
-  ┌── 2026-05-22 ──────▼──────────────────────────────┐
-  │  2. Read Nexostrat_Brand_Guide.docx + wire        │
-  │     brand-kit logos into all 5 generate_docx.py.  │
-  │     Recommendation (pending guide): white-bg for  │
-  │     client-facing Skill 05; monochromatic for     │
-  │     internal Skills 01-04. Verify 32+ PASS.       │
-  │     t-brand-renderer-wireup                       │
-  └─────────────────────┬─────────────────────────────┘
-                        │
-  ┌── 2026-05-22 ──────▼──────────────────────────────┐
-  │  3. Design + document intake-upload workflow.     │
-  │     Path: pipeline/clients/<slug>/00_intake/.     │
+  ┌── 2026-05-22 ──────────────────────────────────────┐
+  │  1. (was P3) Design + document intake-upload      │
+  │     workflow. Path: pipeline/clients/<slug>/      │
+  │     00_intake/<YYYY-MM-DD>_intake.md.             │
   │     Handoff: Ricardo says "intake ready for       │
   │     <slug>" → Claude invokes Skill 01.            │
-  │     t-intake-upload-workflow                      │
+  │     Document in skills/README.md + intake         │
+  │     template's "After filling" section.           │
+  │     t-intake-upload-workflow (~30-45 min)         │
   └─────────────────────┬─────────────────────────────┘
                         │
   ┌── 2026-05-24 ──────▼──────────────────────────────┐
-  │  4. Scaffold pipeline/clients/trixx-logistics/    │
-  │     from _template/. Capture intake (WhatsApp +   │
-  │     site findings). Populate state.json.          │
-  │     t-trixx-logistics-setup                       │
+  │  2. (was P4) Scaffold pipeline/clients/           │
+  │     trixx-logistics/ from _template/. Capture     │
+  │     intake (WhatsApp intro + site findings).      │
+  │     Populate state.json (country=MX, phase=       │
+  │     prospect, pilot=true). Unblocks priority 3.   │
+  │     t-trixx-logistics-setup (~30 min)             │
   └─────────────────────┬─────────────────────────────┘
                         │
   ┌── 2026-05-25 1pm Tijuana ──▼──────────────────────┐
-  │  5. Run Skills 1→2→3→4 serially on Trixx          │
-  │     Logistics with human review + notes between   │
-  │     each. PrepLlamada (Skill 4 output) is the     │
-  │     meeting guide. Optionally practice meeting    │
-  │     with JP first. Then: meeting → record →       │
-  │     Skill 5 → Ricardo+JP review → manual send.    │
+  │  3. (was P5) Run Skills 1→2→3→4 serially on      │
+  │     Trixx Logistics with human review + notes     │
+  │     between each. PrepLlamada (Skill 4 output)    │
+  │     is the meeting guide. Optionally practice     │
+  │     meeting with JP first. Then: meeting →        │
+  │     record → Skill 5 → Ricardo+JP review →        │
+  │     manual send.                                  │
   │     t-monday-meeting-prep                         │
   └───────────────────────────────────────────────────┘
 
-PARALLEL (non-blocking, can run any time post-priorities-1-5):
+PARALLEL (non-blocking, can run any time):
 
   ┌── 2026-05-30 ─┐
   │  Migrate Bodai, Ascenso, Scarab from Pilotos/ to
@@ -128,21 +124,24 @@ DEFERRED PER JP DIRECTIVE (wait for pilot evidence):
 
 ## Architecture-conflict check (passed)
 
-All 5 next-session priorities use canonical paths or coordinated content edits. None conflicts with future Plans 02-10 execution:
+All 3 remaining critical-path priorities use canonical paths from spec §6.4. None conflicts with future Plans 02-10 execution:
 
 | Priority | Canonical path used | Conflict risk |
 |---|---|---|
-| 1+2 Brand wire-up | `skills/shared/brand/` symlink | **Coordinated via Telegram with JP** — only real risk |
-| 3 Intake workflow | `pipeline/clients/<slug>/00_intake/` per spec §6.4 | None — Plan 07's `/intake` plugin REPLACES the manual handoff later |
-| 4 Trixx scaffold | `pipeline/clients/_template/` → `trixx-logistics/` | None — exactly the shape Plan 07 expects |
-| 5 Skills 1-4 run | Production-registered skills | None — exercises what exists |
-| 6 Pilots migration | `pipeline/clients/<slug>/` per spec | None — cleans up architectural drift |
+| 1 Intake workflow | `pipeline/clients/<slug>/00_intake/` per spec §6.4 | None — Plan 07's `/intake` plugin REPLACES the manual handoff later |
+| 2 Trixx scaffold | `pipeline/clients/_template/` → `trixx-logistics/` | None — exactly the shape Plan 07 expects |
+| 3 Skills 1-4 run | Production-registered skills + brand layer locked | None — exercises what exists, brand output is now production-quality |
+| Parallel: Pilots migration | `pipeline/clients/<slug>/` per spec | None — cleans up architectural drift |
+
+**Brand layer status:** `skills/shared/brand.py` is independent of any pending plan. Future Plan 02 (FOSS docs stack) and Plan 05 (skill versioning + benchmarks) may add to the shared directory but don't conflict with what's there.
 
 ## Blocked on
 
-**For next-session priority 1 (brand-wire-up):** JP coordination via Telegram (~10 min). Ricardo to initiate.
+**For next-session priority 1 (intake workflow):** nothing. Pure documentation + convention work.
 
-**For priority 5 (Skills run on Trixx):** priorities 3+4 must land first (intake workflow + Trixx scaffold).
+**For priority 2 (Trixx scaffold):** priority 1 should land first (so the intake convention is documented before we use it).
+
+**For priority 3 (Skills run on Trixx):** priority 2 must land first (state.json + intake must exist before Skill 01 invocation).
 
 **For warm-standby Tasks 7-12 (parallel):** physical second host (unchanged).
 
@@ -150,27 +149,38 @@ All 5 next-session priorities use canonical paths or coordinated content edits. 
 
 ## Open questions
 
-**None blocking.** Three soft questions for next-session start:
+**None blocking.** Two soft questions for next-session start:
 
-1. **Brand wire-up ownership:** JP or Ricardo? Send short Telegram before touching `generate_docx.py`.
-2. **Intake-upload location confirmation:** `pipeline/clients/<slug>/00_intake/<YYYY-MM-DD>_intake.md` matches the recommendation. Document in `skills/README.md` + intake template's "After filling" section.
-3. **Trixx Logistics intel gaps:** RFC, team size, real financial state (vs site "0 Años" bug), real years founded, certifications (C-TPAT and OEA are likely for cross-border), specific China-MX or LATAM-USA niche. Skill 01 will research; intake provides what we know.
+1. **Intake handoff convention final form:** Ricardo says "intake ready for \<slug\>" → Claude invokes Skill 01. Verify the trigger phrase matches Ricardo's natural muscle memory; alternatives ("run skill 1 on \<slug\>", "begin pipeline for \<slug\>") tested for ergonomic fit during P3 documentation.
+2. **Trixx Logistics intel gaps:** RFC, team size, real financial state (vs site "0 Años" placeholder bug), real years founded, certifications (C-TPAT and OEA are likely for cross-border), specific China-MX or LATAM-USA niche. Skill 01 will research; intake provides what we know.
 
 ## Files modified but not yet committed at session start
 
 Session-end commit will land all of:
 
-- `STATUS.md` (header + Current state + Next sequence + Recent activity)
-- `tasks.json` (5 done + 4 new + 3 deferred + 1 polish-pass item added + 1 monday-prep notes update)
-- `calendar.json` (rebuilt for testing-first sequence + 4 new events + 1 renamed event)
-- `00_META/CHANGELOG.md` (2026-05-18 row added)
-- `00_META/journal/2026-05-18_jp-delivery-and-skill-integration.md` (new)
+- `skills/shared/brand.py` (NEW — 172 lines)
+- `skills/01_company_analyst/scripts/generate_docx.py` (brand wire-up + migration)
+- `skills/02_industry_analyst/scripts/generate_docx.py` (brand wire-up + migration)
+- `skills/03_competitor_analyst/scripts/generate_docx.py` (brand wire-up + migration)
+- `skills/04_discovery_meeting/scripts/generate_docx.py` (brand wire-up + migration + CONFIDENCIAL preserved)
+- `skills/05_opportunity_report/scripts/generate_docx.py` (brand wire-up + migration + cover band logo overlay)
+- `skills/01_company_analyst/CHANGELOG.md` (v0.3 entry)
+- `skills/02_industry_analyst/CHANGELOG.md` (v0.3 entry)
+- `skills/03_competitor_analyst/CHANGELOG.md` (v0.3 entry)
+- `skills/04_discovery_meeting/CHANGELOG.md` (v0.3 entry)
+- `skills/05_opportunity_report/CHANGELOG.md` (v0.2 entry — first v after JP's v0.1)
+- `skills/README.md` (docx-renderer dedup DONE; brand module documented)
+- `STATUS.md` (header + Current phase + Done-this-session + Next sequence + Recent activity)
+- `tasks.json` (`t-brand-renderer-wireup` closed, completed: 2026-05-18; updated timestamp bumped)
+- `calendar.json` (`e-brand-renderer-wireup` marked complete in title + notes)
+- `00_META/CHANGELOG.md` (2026-05-18 PM second-session row added)
+- `00_META/journal/2026-05-18b_brand-wireup-and-shared-module.md` (NEW — full session narrative)
 - `CHECKPOINT.md` (this file, rewritten)
 
 ## Estimated time to finish (roadmap)
 
-- **Critical path (priorities 1-5):** ~7 days, completing 2026-05-25 with the Trixx Logistics pilot meeting.
-- **Architecture migration (priority 6):** ~1-2h, due 2026-05-30.
+- **Critical path (priorities 1-3):** ~3 days, completing 2026-05-25 with the Trixx Logistics pilot meeting.
+- **Architecture migration (parallel):** ~1-2h, due 2026-05-30.
 - **Stage 1 launch realistic:** unchanged at 2026-07-15 to 2026-07-30. Depends on 1-2 successful pilots under the new process + JP's "ready to keep building" signal.
 
 ## After this, what's next
@@ -179,21 +189,20 @@ Trixx Logistics pilot → Ricardo+JP post-meeting review → 1-2 more real pilot
 
 ## For a future auditor reading this baton
 
-This was the 8th major execution arc since 2026-05-15 (Plan 01a Tasks 1-11 + Plan 01a Tasks 12-18 + hard-system-audit + Plan 01b mirror cluster + Plan 01b re-audit + Plan 01c re-audit + Plan 01c execute + skill-hygiene + 3-company-pilot batch + and now this JP-delivery-and-integration). Pattern: each arc was an executed-and-audited release; the foundation milestone (`v0.1-foundation`) closed all 28 original audit findings; skills became production-runnable in skill-hygiene; first real client now imminent in t-monday-meeting-prep.
+This was the 9th major execution arc since 2026-05-15 (Plan 01a Tasks 1-11 + Plan 01a Tasks 12-18 + hard-system-audit + Plan 01b mirror cluster + Plan 01b re-audit + Plan 01c re-audit + Plan 01c execute + skill-hygiene + 3-company-pilot batch + JP-delivery-and-integration + and now this brand-wire-up-and-shared-module). Pattern: each arc was an executed-and-audited release; foundation milestone (`v0.1-foundation`) closed all 28 original audit findings; skills became production-runnable in skill-hygiene; brand layer becomes truly maintainable in this arc.
 
-The 2026-05-18 arc is where **the architecture stops being theoretical**. JP's "stop building, start testing" directive is the correct response to the 2026-05-17 pilots' honest "40% of the way" evaluation: the remaining 60% (sales work, real client data, capability validation, brand polish) is human work that adding more skills won't solve.
+The 2026-05-18 PM second-session arc is where **the deliverable surface becomes production-grade**. The brand layer is no longer the kind of code that drifts. Pilot feedback (Trixx → adjustments) can now drive iteration without invasive refactors. If the meeting surfaces "the logo is too big" or "the header should say something different" or "we need a tagline" — it's one edit to one file, test harness re-runs, ship.
 
-Reading order for re-auditing the 2026-05-18 arc:
+Reading order for re-auditing the 2026-05-18 PM second-session arc:
 1. This CHECKPOINT.
-2. `STATUS.md` Current state + Next sequence + top Recent activity entry.
-3. Journal `00_META/journal/2026-05-18_jp-delivery-and-skill-integration.md` (full narrative).
-4. `00_META/proposals/2026-05-18_jp-diagrama-pipeline.html` (JP's 6-phase diagram — open in browser).
-5. `00_META/proposals/2026-05-18_proceso-comercial-fases.md` (the proposal as accepted with simplifications).
-6. `skills/README.md` (current 5-skill reality).
-7. Individual SKILL.md files only when specific skill-content questions arise.
+2. `STATUS.md` Current state + Done-this-session + top Recent activity entry.
+3. Journal `00_META/journal/2026-05-18b_brand-wireup-and-shared-module.md` (full narrative + decisions + per-skill specifics).
+4. `skills/shared/brand.py` (the module itself — 172 lines, fully documented).
+5. Any single per-skill `CHANGELOG.md` v0.3 entry (they're structurally identical; reading one shows the migration shape).
+6. Sample render at `/tmp/brand_test/*.pdf` if the working tree still has them (throwaway artifacts; regenerable by re-running any `generate_docx.py` against a pilot .md).
 
-The session-end bookkeeping commit (next) locks all of this. Next session opens with brand-wire-up coordination as the top priority, then through the 5-priority path to Monday's pilot meeting.
+The session-end bookkeeping commit (next) locks all of this. Next session opens at the intake-upload workflow design (P3 → P4 → P5 for Monday's meeting).
 
 ---
 
-*This CHECKPOINT.md is the baton between sessions. Next session: type "Start Session" → Claude reads this + STATUS + tasks + calendar + latest journal → present the 5-priority path forward.*
+*This CHECKPOINT.md is the baton between sessions. Next session: type "Start Session" → Claude reads this + STATUS + tasks + calendar + latest journal → present the 3-priority path forward.*

@@ -6,6 +6,28 @@ The git commit SHA at the time of each version pin is the authoritative artifact
 
 ---
 
+## v0.3 — 2026-05-18 · Brand wire-up + shared-module migration
+
+**Scope:** apply the Nexostrat Brand Guide v1.0 (Aurora palette + logo + header/footer)
+to `scripts/generate_docx.py`, then migrate to the new shared brand module.
+
+- **Brand wire-up** (first pass, inline):
+  - Replaced legacy hex codes with Aurora palette: `DARK_BLUE #1A2E4A → #0C1A2E` (Midnight Blue), `ACCENT #007AC3 → #0EA5E9` (Sky Blue), `MID_GRAY #556577 → #6B7280` (Gray 500).
+  - Added the brand logo at top of the cover page (`Nexostrat_Logo_Fondo_Arctic_Transparente.png`, 3.8" wide).
+  - Added a brand header strip on body pages: "NEXOSTRAT" Calibri Bold 11pt Midnight Blue + 0.75pt Sky Blue bottom rule.
+  - Replaced the legacy footer text with "nexostrat.com · Pág. \<PAGE field\>" Calibri 9pt Gray 500.
+  - Cover excluded from header/footer via `section.different_first_page_header_footer = True`.
+- **Shared-module migration** (second pass):
+  - Created `skills/shared/brand.py` (172 lines) as single source of truth for the brand surface — Aurora palette (RGBColor + hex strings), 6 logo asset paths, version-pinned `BRAND_GUIDE_VERSION = "1.0"`, helpers `apply_cover_logo` / `apply_brand_header` / `apply_brand_footer` / `insert_logo_in_cell`.
+  - This renderer now imports `brand` from `../../shared/` and uses `brand.MIDNIGHT_BLUE`, `brand.HEX_SKY_BLUE`, `brand.apply_cover_logo(doc)`, `brand.apply_brand_header(doc)`, `brand.apply_brand_footer(doc)`.
+  - All 9 brand references resolve through `brand.*`. Domain-specific colors (none in Skill 01) remained local.
+
+**Verified by:** `bash infra/scripts/test_skills.sh` — 32 PASS · 0 SKIP · 0 FAIL. End-to-end render of Bodai Foods company-analyst .md → branded .docx passes XML inspection (logo embedded, header/footer parts present, Aurora hex codes present, zero legacy hex codes).
+
+**Future brand tweaks:** edit `skills/shared/brand.py` only. All 5 renderers pick up the change.
+
+---
+
 ## v0.2 — 2026-05-18 · JP content delivery + DOCX-skill paradigm fix
 
 **Scope:** integrate JP's 2026-05-18 SKILL.md rewrite (`company-analyst-new` from `SKills updated.zip`) + adapt for Linux + preserve v0.1 DOCX renderer.

@@ -15,7 +15,7 @@ skills/
 ├── 03_competitor_analyst/     ← mature · CO + MX
 ├── 04_discovery_meeting/      ← mature · "PrepLlamada" / Guía de Preparación · consumes 01+02+03
 ├── 05_opportunity_report/     ← mature · client-facing deliverable · consumes 01+02+03+meeting-notes
-├── shared/                    ← future shared lib (Plan 02/05): scoring.py, judge_prompt.md, anti_hallucination.md
+├── shared/                    ← brand.py (Aurora palette + logos + header/footer helpers, v1.0) · future: scoring.py, judge_prompt.md, anti_hallucination.md
 ├── 00_META/                   ← persona inbox + journal for Skills-Master
 ├── CLAUDE.md                  ← Skills-Master persona (Claude)
 ├── GEMINI.md                  ← Skills-Master persona (Gemini)
@@ -193,7 +193,7 @@ pip install python-docx pandas openpyxl --break-system-packages
 | Pre-commit hook enforcing anti-hallucination block presence | Plan 02 |
 | Auto-discovery via `events.jsonl` + skill orchestrator | Plan 07 |
 | `/intake`, `/go`, `/stop` Telegram plugins around skills | Plan 04 + Plan 07 |
-| `skills/shared/` dedup of generate_docx.py boilerplate | Plan 02 or Plan 05 |
+| ~~`skills/shared/` dedup of generate_docx.py boilerplate~~ | **DONE 2026-05-18** — `skills/shared/brand.py` exports Aurora palette + 6 logo paths + `apply_cover_logo` / `apply_brand_header` / `apply_brand_footer` / `insert_logo_in_cell` helpers. All 5 renderers migrated; brand tweaks are now single-file edits. Brand Guide version pinned at v1.0. |
 
 The current scope (post-2026-05-18 JP delivery) makes all 5 skills cleanly runnable today via manual Claude Code invocation. The rest builds on top — none of the deferred items invalidate what's here.
 

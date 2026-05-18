@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v1",
   "project": "nexostrat",
-  "updated": "2026-05-18T13:30:00-07:00",
+  "updated": "2026-05-18T16:45:00-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -454,11 +454,12 @@
     {
       "id": "t-brand-renderer-wireup",
       "subject": "Wire brand-kit logos into all 5 generate_docx.py renderers (after JP coordination + reading Brand Guide)",
-      "status": "open",
+      "status": "done",
       "priority": "high",
       "due": "2026-05-22",
       "created": "2026-05-18",
-      "notes": "Goal: outputs from all 5 skills carry proper Nexostrat brand per JP's 2026-05-18 brand kit (operations/assets/brand/Logos/). Pre-work order: (1) short Telegram to JP — 'is the brand-into-renderer wire-up your job per your skill-content ownership, or mine?' If JP says it's his, this task waits for his bundle. If mine, proceed. (2) Read operations/assets/brand/Nexostrat_Brand_Guide.docx end-to-end to absorb the brand system (when which logo, spacing, palette, typography rules). (3) Wire-up plan (pending Brand Guide confirmation): white-background logo variant (Nexostrat_Logo_Fondo_Blanco.png or similar) for client-facing Skill 05 (opportunity-report) output; monochromatic dark variant (Nexostrat_Logo_Monocromatico_Oscuro_Transparente.png) for internal Skills 01-04 outputs. Logos resolved via skills/shared/brand/Logos/<filename>.png path (symlink → operations/assets/brand/Logos/). (4) Update each generate_docx.py: add logo insertion at header/footer per the python-docx pattern; replace placeholder Nexostrat string-only branding with logo + Nexostrat text combo; verify test_skills.sh still 32 PASS. (5) Render 1 sample .docx per skill, eyeball for brand fidelity. Risk: if JP delivers an updated bundle later, his version may overwrite our wire-up — document the change in each skill's CHANGELOG.md v0.3 entry + Telegram JP to coordinate."
+      "completed": "2026-05-18",
+      "notes": "DONE 2026-05-18 PM (second session, 4 days ahead of due). Ricardo overrode the JP-coordination pre-work step ('we need action') — proceeded directly. Brand Guide v1.0 read; Aurora palette + logo system absorbed. Two arcs: (Arc 1, inline) All 5 generate_docx.py updated with Aurora palette (Midnight Blue #0C1A2E / Sky Blue #0EA5E9 / Gray 500 #6B7280 replacing legacy #1A2E4A / #007AC3 / #556577), cover logo insertion (Logo_Fondo_Arctic_Transparente for Skills 01-04, Logo_Fondo_Midnight overlay for Skill 05's cover band), brand header strip (NEXOSTRAT + Sky Blue 0.75pt rule) and footer with PAGE field (nexostrat.com · Pág. X) on body pages, cover excluded via different_first_page_header_footer. Skill 04 keeps the 🔒 CONFIDENCIAL cover box with corrected hex; Skill 05 personalized header (NEXOSTRAT · <company>) + Confidencial footer marker. (Arc 2, refactor — Ricardo authorized after seeing the visual output and asking about maintainability) Extracted skills/shared/brand.py (172 lines, BRAND_GUIDE_VERSION=\"1.0\" pinned) as single source of truth: Aurora palette RGBColor + hex strings, 6 logo asset paths, helpers apply_cover_logo/insert_logo_in_cell/apply_brand_header/apply_brand_footer. All 5 renderers migrated to use brand.* — 9-16 references per skill, zero inline brand constants. Domain-specific colors kept local with explicit # Local: comments (Skill 04 RED_ALERT + blockquote callouts, Skill 05 2×2 quadrant tints + Quick Win indicators + Material-Design callout palette). Test harness 32 PASS · 0 SKIP · 0 FAIL through every edit. End-to-end smoke test: all 5 PDFs rendered from Bodai pilot inputs at /tmp/brand_test/ visually verified (logo embedded, header/footer parts present, Aurora hex codes, zero legacy hex codes). Net effect: future brand tweaks (color tweak, font swap, logo selection, header/footer wording, tagline addition, version pin to Brand Guide v1.1) are single-file edits in brand.py. Also closes the previously-deferred 'skills/shared/ dedup of generate_docx.py boilerplate' item from skills/README.md deferred-table. Journal at 00_META/journal/2026-05-18b_brand-wireup-and-shared-module.md. Per-skill v0.3 CHANGELOG entries (Skill 05 = v0.2, its first version after JP's v0.1)."
     },
     {
       "id": "t-intake-upload-workflow",

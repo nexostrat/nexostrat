@@ -22,12 +22,12 @@
     },
     {
       "id": "e-intake-upload-workflow",
-      "title": "Design intake-upload workflow + document handoff convention",
+      "title": "Design intake-upload workflow + document handoff convention — DONE 2026-05-18 ahead of deadline",
       "when": "2026-05-22",
       "kind": "deadline",
       "owner": "ricardo",
       "related": ["t-intake-upload-workflow"],
-      "notes": "Ricardo edits operations/templates/fase_0_intake_form.md copy at pipeline/clients/<slug>/00_intake/<date>_intake.md; tells Claude 'intake ready for <slug>' → Claude invokes Skill 01. Manual stand-in until /intake Telegram plugin lands in Plan 07."
+      "notes": "DONE 2026-05-18 PM (3rd session). Workflow: bash infra/scripts/new-client.sh <slug> <country> '<name>' <sector> [--pilot] scaffolds the client folder + drops the two ADR-027 intake templates from skills/shared/ into 00_intake/. Operator fills research_input.md (facts, slice 1+2) and our_hypotheses.md (judgment, slice 3 — SEALED during Skills 01-03). Trigger phrase: 'Analiza <slug>'. Documented in pipeline/clients/_template/README.md + skills/README.md. Manual stand-in until /intake Telegram plugin lands in Plan 07. Legacy single-file operations/templates/fase_0_intake_form.md deleted (superseded by ADR-027 2-file split)."
     },
     {
       "id": "e-trixx-logistics-setup",

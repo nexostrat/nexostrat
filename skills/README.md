@@ -92,6 +92,37 @@ If you want to run a skill outside an interactive Claude Code session — or you
 
 ---
 
+## Per-client invocation (the canonical pipeline path)
+
+The standard way to run skills against a real prospect — interim convention until Plan 07's `/intake` Telegram plugin lands.
+
+### 1 · Scaffold the client folder
+
+```bash
+bash infra/scripts/new-client.sh <slug> <country-ISO2> '<Legal Name>' <sector> [--pilot]
+```
+
+This creates `pipeline/clients/<slug>/` with the 12-station layout, slug-stamps `state.json` + `checkpoint.md`, and drops the two ADR-027 intake templates into `00_intake/`. Full helper docs at [`../pipeline/clients/_template/README.md`](../pipeline/clients/_template/README.md).
+
+### 2 · Fill the two intake files (ADR-027 two-file split)
+
+| File | Slice | Contents | Who reads it |
+|---|---|---|---|
+| `00_intake/research_input.md` | facts (1+2) | identity, presence, contacts, origin, LinkedIn pre-trabajo | Skills **01, 02, 03** |
+| `00_intake/our_hypotheses.md` | judgment (3) | dolor hypothesis, decisor read, budget estimate, tono, sensibilidades, capability-fit | Skills **04, 05** only |
+
+The hypotheses file is **sealed during research** — the operator does not paste its content into the model when running Skills 01-03. This preserves the "what we expected vs what research found" signal at Skill 05 synthesis. Templates live at [`shared/research_input_template.md`](shared/research_input_template.md) and [`shared/our_hypotheses_template.md`](shared/our_hypotheses_template.md); `new-client.sh` copies them in place.
+
+### 3 · Trigger the pipeline
+
+In a Claude Code session at `/srv/Nexostrat/`, say:
+
+> `Analiza <slug>`
+
+Claude reads `state.json` (confirms fresh `prospect` intake), reads `00_intake/research_input.md` as operator-supplied context, and invokes Skill 01 (company-analyst). Output lands per the canonical destination below. Then human review → Skill 02 → review → Skill 03 → review → Skill 04 (which now also reads `our_hypotheses.md`) → 30-min discovery call → Skill 05 → mandatory Ricardo+JP review → manual send.
+
+---
+
 ## Canonical output destination (per spec §7)
 
 When running a skill **inside the pipeline of a client**, outputs land at:

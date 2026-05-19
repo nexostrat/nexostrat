@@ -1,7 +1,7 @@
 # Nexostrat — STATUS
 
-> **Last updated:** 2026-05-18 PM (fourth session end) — **Trixx Logistics pipeline phase 0 ejecutado**: scaffold + intake fill + Skills 01-02-03 serial con revisión humana entre cada uno. ~16,000 palabras producidas en 3 reportes (Company + Industry + Competitor) + 3 .docx con brand Aurora. Hallazgo crítico: competidor real de Trixx es Nuvocargo (USD 74M AI-native, target 150-350 envíos northbound/mes = segmento exacto Trixx), NO los agentes aduanales locales TJ. Memoria persistente saved sobre el patrón de contadores animados en sitios WordPress de PyMEs LATAM (correción de Ricardo mid-session sobre Skill 01).
-> **Current phase:** **Pre-pilot meeting mode — 1 sesión más antes del lunes.** Skills 01-02-03 done, locked, brand-wired. Pendiente: `our_hypotheses.md` fill (juicio Ricardo, 20-30 min, bloquea Skill 04) + Skill 04 PrepLlamada calibrada relacional NO auditoría técnica + opcional WhatsApp ligero a Andrea preguntando audiencia + opcional practice con JP. Reunión 2026-05-25 1pm Tijuana (T-7 días). Concrete next-session opening: revisar los 3 reportes producidos esta sesión + llenar `pipeline/clients/trixx-logistics/00_intake/our_hypotheses.md` conjunto.
+> **Last updated:** 2026-05-19 AM (fifth session end) — **Trixx Logistics pre-meeting critical path CERRADO.** `our_hypotheses.md` llenado conjunto (7 dimensiones ADR-027 slice 3) + Skill 04 PrepLlamada ejecutado y calibrado a discovery relacional NO auditoría técnica (~6,500 palabras: apertura relacional 4.0 + 8 áreas de preguntas + 5 game-changer + 10 objetivos + 9 hipótesis a confirmar + 7 red flags específicos a Trixx). 4 PDFs (Company + Industry + Competitor + PrepLlamada) entregados al Desktop de Ricardo listos para la reunión 2026-05-25 1pm Tijuana.
+> **Current phase:** **Pre-meeting locked — meeting execution mode.** Skills 01-04 done + brand-wired + revisados. Pipeline phase 0 completo. Pendiente: (1) reunión 2026-05-25 1pm Tijuana T-6 días — llevar PrepLlamada como guía, grabar audio; (2) opcional pre-reunión WhatsApp a Andrea preguntando audiencia (t-whatsapp-andrea-audiencia, high prio); (3) opcional practice con JP (t-practice-meeting-jp, low prio); (4) post-reunión Skill 05 Opportunity Report → revisión obligatoria Ricardo+JP (Fase 5) → entrega manual (Fase 6).
 
 ## Current state
 
@@ -57,6 +57,12 @@ Integration done same-day: structural rename (`06_*` → `04_*` via `git mv`), 7
 
 **Pilot target: Trixx Logistics** (Mexican logistics, Tijuana, 20+ years old, inbound via Sofi's friend whose uncle owns the company, meeting **2026-05-25 1pm Tijuana**). Initial intel from WhatsApp + site scrape: Grupo Trixx, customs brokerage + freight + warehousing + cross-border USA-MX, 4 locations (Guadalajara, Tijuana, Vernon CA, San Diego CA), Spanish + Chinese site languages, no RFC visible, no team named, "0 Años" placeholder bug on the site (consistent with the contact's self-description "muy atrás en programas y tecnología").
 
+**Done this session (2026-05-19 AM fifth session):**
+
+- ✅ **`our_hypotheses.md` llenado conjunto** (7 dimensiones ADR-027 slice 3) en `pipeline/clients/trixx-logistics/00_intake/`. Frontmatter actualizado (`filled: 2026-05-19`, `filled_by: ricardo + claude`). Decisiones clave locked: decisor real = Hector Leyva (Andrea es influenciadora); presupuesto estimado USD 15-40K piloto + USD 2-5K/mes retainer; tono mixto cercano + estratégico (NUNCA técnico profundo); 5 zonas sensibles (patente aduanal con cuidado, NO asumir consanguineidad, NO mencionar defectos del sitio, NO comparar directo con Nuvocargo, NO empujar Hoja de Ruta IA en primera reunión); 9 hipótesis a confirmar/refutar en reunión; competidor estructural = Nuvocargo + agente aduanal incumbente + posible IT-helper familiar.
+- ✅ **Skill 04 (discovery-meeting) ejecutado** calibrado explícitamente a discovery relacional + relationship-building (NO auditoría técnica) per directiva de Ricardo session 4. Output ~6,500 palabras en `04_prep_llamada/runs/2026-05-19_mode-a/Trixx_PrepLlamada_20260519.{md,docx}`. Estructura: empresa-en-5min + sector-en-3min (5 términos clave: TIGIE, Pedimento, Carta Porte 3.1, OEA, Responsabilidad solidaria 2026) + posición competitiva simplificada + apertura relacional 4.0 (nueva, primeros 5 min) + 7 áreas exploratorias relacionales (operación aduanal core / comunicación cliente-tracking / cotizaciones / documentación + reforma 2026 / marketing / stack actual / decisión) + 5 game-changer emocionales + 10 objetivos checklist + 7 red flags específicos a Trixx + cierre sugerido. Brand Aurora aplicado vía `skills/shared/brand.py`.
+- ✅ **4 PDFs entregados al Desktop de Ricardo** vía `libreoffice --headless --convert-to pdf`: `Trixx_AnalisisCompania_20260518.pdf` (368 KB), `LogisticaCrossBorder_MX_20260518.pdf` (502 KB), `Trixx_Competencia_MX_20260518.pdf` (410 KB), `Trixx_PrepLlamada_20260519.pdf` (253 KB). Listos para llevar a la reunión 2026-05-25.
+
 **Done this session (2026-05-18 PM fourth session):**
 
 - ✅ **Scaffold Trixx Logistics** vía `new-client.sh` (13 stage folders + state.json validado pilot=true + intake templates dropped + per-client stub README).
@@ -75,9 +81,12 @@ Integration done same-day: structural rename (`06_*` → `04_*` via `git mv`), 7
 
 **Remaining critical-path priorities (in execution order):**
 
-1. **Fill `00_intake/our_hypotheses.md` con juicio de Ricardo** (`t-our-hypotheses-fill`, NEW critical due 2026-05-24). Sesión conjunta corta 20-30 min. Las 7 dimensiones ADR-027 slice 3: dolor hipótesis / decisor read / presupuesto estimate / tono apropiado / sensibilidades / capability-fit hipótesis / things to confirm-refute. Bloquea Skill 04 — es el primer skill que SÍ lee our_hypotheses.md per ADR-027 (sealed durante Skills 01-03). Insumos a tener a la vista: los 3 reportes producidos en session 4.
-2. **Ejecutar Skill 04 (PrepLlamada / discovery-meeting)** sobre Trixx (`t-monday-meeting-prep` continúa). Calibración explícita: discovery abierto + relationship-building, NO auditoría técnica profunda. Output: guía de preparación para Ricardo en `pipeline/clients/trixx-logistics/04_prep_llamada/runs/<TIMESTAMP>_mode-a/`. Due 2026-05-25 1pm Tijuana (reunión).
-3. **Reunión 2026-05-25 1pm Tijuana** con Andrea Chávez en su oficina. Llevar PrepLlamada como guía. Grabar reunión (insumo para Skill 05). Post-reunión: Skill 05 (Opportunity Report) → revisión obligatoria Ricardo+JP (Fase 5) → entrega manual (Fase 6).
+1. **Reunión Trixx Logistics 2026-05-25 1pm Tijuana** (`t-trixx-meeting-execution`, NEW critical due 2026-05-25). Llevar 4 PDFs como referencia (ya en Desktop). Llevar PrepLlamada como guía. Llevar libreta + pluma + tarjeta. Grabar audio con permiso explícito ("para no perderme detalles importantes, ¿les molesta si grabo solo el audio?"). 30 min objetivo. Cierre sugerido: ofrecer análisis gratuito, NO empujar Hoja de Ruta de IA en esta reunión.
+2. **Post-reunión: Skill 05 (Opportunity Report)** (`t-trixx-skill-05-opportunity-report`, NEW high due 2026-05-27). Consume los 4 reportes + grabación + notas de reunión. Produce el entregable gratuito al cliente. → Revisión obligatoria Ricardo+JP (Fase 5) → entrega manual (Fase 6) → D+4 business days follow-up si no responde.
+
+**Opcionales pre-reunión (no bloquean):**
+- `t-whatsapp-andrea-audiencia` (NEW high prio, due 2026-05-23) — WhatsApp ligero a Andrea preguntando audiencia esperada en la reunión (Andrea sola vs +Hector vs +madre vs equipo). Ricardo lo hará más adelante.
+- `t-practice-meeting-jp` (NEW low prio, due 2026-05-24) — JP ofreció practice meeting en sesión 2026-05-18 PM. Decisión de Ricardo.
 
 **Architecture-correctness work (parallel-track for after the pilot):**
 

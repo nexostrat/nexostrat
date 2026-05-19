@@ -8,8 +8,11 @@
       "when": "2026-05-25",
       "kind": "milestone",
       "owner": "ricardo",
-      "related": ["t-monday-meeting-prep", "t-trixx-logistics-setup"],
-      "notes": "First real client run under JP's confirmed 5-skill 6-phase pipeline. Target: Trixx Logistics / Grupo Trixx / Trix Importaciones Comerciales S. de R.L. de C.V. (Mexican logistics, Tijuana, fundada 2002, 24 años, 5 sedes MX-USA, USDOT 2045279, 12 trucks). Owner: Hector Leyva. Contact: Andrea Chávez +52 1 664 533 3512. Inbound via Sofi → Andrea (referido caliente). Meeting 1pm Tijuana en oficina de Andrea. PROGRESO 2026-05-18 PM session 4: Skills 01 (company-analyst) + 02 (industry-analyst, sector logística cross-border MX) + 03 (competitor-analyst) EJECUTADOS con revisión humana entre cada uno; outputs en pipeline/clients/trixx-logistics/. Hallazgo crítico: competidor real es Nuvocargo (USD 74M AI-native, target 150-350 envíos/mes = segmento Trixx), no los agentes locales TJ. Talking points calibrados a primer encuentro: Reforma Ley Aduanera 2026 + responsabilidad solidaria + multas Carta Porte como ángulo táctico principal. PENDIENTE: (1) our_hypotheses.md fill (t-our-hypotheses-fill, juicio Ricardo, 20-30 min); (2) Skill 04 PrepLlamada calibrada relacional NO auditoría técnica; (3) opcional practice con JP; (4) opcional WhatsApp a Andrea preguntando audiencia. Post-meeting: Skill 05 (opportunity-report) consume reportes + recording → revisión obligatoria Ricardo+JP (Fase 5) → entrega manual (Fase 6)."
+      "related": [
+        "t-monday-meeting-prep",
+        "t-trixx-logistics-setup"
+      ],
+      "notes": "First real client run under JP's confirmed 5-skill 6-phase pipeline. Target: Trixx Logistics / Grupo Trixx / Trix Importaciones Comerciales S. de R.L. de C.V. (Mexican logistics, Tijuana, fundada 2002, 24 años, 5 sedes MX-USA, USDOT 2045279, 12 trucks). Owner: Hector Leyva. Contact: Andrea Chávez +52 1 664 533 3512. Inbound via Sofi → Andrea (referido caliente). Meeting 1pm Tijuana en oficina de Andrea. PROGRESO 2026-05-18 PM session 4: Skills 01 (company-analyst) + 02 (industry-analyst, sector logística cross-border MX) + 03 (competitor-analyst) EJECUTADOS con revisión humana entre cada uno; outputs en pipeline/clients/trixx-logistics/. Hallazgo crítico: competidor real es Nuvocargo (USD 74M AI-native, target 150-350 envíos/mes = segmento Trixx), no los agentes locales TJ. Talking points calibrados a primer encuentro: Reforma Ley Aduanera 2026 + responsabilidad solidaria + multas Carta Porte como ángulo táctico principal. PENDIENTE: (1) our_hypotheses.md fill (t-our-hypotheses-fill, juicio Ricardo, 20-30 min); (2) Skill 04 PrepLlamada calibrada relacional NO auditoría técnica; (3) opcional practice con JP; (4) opcional WhatsApp a Andrea preguntando audiencia. Post-meeting: Skill 05 (opportunity-report) consume reportes + recording → revisión obligatoria Ricardo+JP (Fase 5) → entrega manual (Fase 6). UPDATE 2026-05-19 PM (session 5): pre-meeting critical path CERRADO. our_hypotheses.md llenado conjunto + Skill 04 PrepLlamada ejecutado con calibración relacional NO técnica (~6,500 palabras en 7 secciones + apertura relacional 4.0 nueva). 4 PDFs entregados al Desktop de Ricardo listos para la reunión: Company + Industry + Competitor + PrepLlamada (total 1.5 MB). 9 hipótesis a confirmar/refutar documentadas en our_hypotheses.md §6 + PrepLlamada sección 6. Reunión T-6 días. Materiales listos."
     },
     {
       "id": "e-brand-renderer-wireup",
@@ -17,7 +20,9 @@
       "when": "2026-05-22",
       "kind": "deadline",
       "owner": "ricardo",
-      "related": ["t-brand-renderer-wireup"],
+      "related": [
+        "t-brand-renderer-wireup"
+      ],
       "notes": "COMPLETED 2026-05-18 PM. Brand Guide read; Aurora palette + logos + header/footer wired into all 5 renderers; refactored into skills/shared/brand.py as single source of truth (BRAND_GUIDE_VERSION=1.0 pinned). Test harness 32 PASS held throughout. Sample PDFs at /tmp/brand_test/. Future brand tweaks are single-file edits. Also closes the previously-deferred docx-renderer dedup item. JP-coordination pre-step skipped per Ricardo's directive."
     },
     {
@@ -26,7 +31,9 @@
       "when": "2026-05-22",
       "kind": "deadline",
       "owner": "ricardo",
-      "related": ["t-intake-upload-workflow"],
+      "related": [
+        "t-intake-upload-workflow"
+      ],
       "notes": "DONE 2026-05-18 PM (3rd session). Workflow: bash infra/scripts/new-client.sh <slug> <country> '<name>' <sector> [--pilot] scaffolds the client folder + drops the two ADR-027 intake templates from skills/shared/ into 00_intake/. Operator fills research_input.md (facts, slice 1+2) and our_hypotheses.md (judgment, slice 3 — SEALED during Skills 01-03). Trigger phrase: 'Analiza <slug>'. Documented in pipeline/clients/_template/README.md + skills/README.md. Manual stand-in until /intake Telegram plugin lands in Plan 07. Legacy single-file operations/templates/fase_0_intake_form.md deleted (superseded by ADR-027 2-file split)."
     },
     {
@@ -35,7 +42,9 @@
       "when": "2026-05-24",
       "kind": "deadline",
       "owner": "ricardo",
-      "related": ["t-trixx-logistics-setup"],
+      "related": [
+        "t-trixx-logistics-setup"
+      ],
       "notes": "cp -r pipeline/clients/_template pipeline/clients/trixx-logistics; populate 00_intake/ with WhatsApp + site findings; populate state.json with country=MX + phase=prospect + pilot=true. Unblocks t-monday-meeting-prep."
     },
     {
@@ -44,7 +53,9 @@
       "when": "2026-05-30",
       "kind": "deadline",
       "owner": "ricardo",
-      "related": ["t-migrate-pilotos-to-clients"],
+      "related": [
+        "t-migrate-pilotos-to-clients"
+      ],
       "notes": "Architecture correctness: git mv Pilotos/Bodai → pipeline/clients/bodai-foods/, Ascenso → constructora-ascenso, Scarab → scarab-cycles. Per-skill outputs to station folders. Process-level deck + improvements .txt stay separate. Non-blocking for Trixx Logistics pilot."
     },
     {
@@ -53,7 +64,9 @@
       "when": "2026-05-31",
       "kind": "deadline",
       "owner": "ricardo",
-      "related": ["t-nexostrat-capabilities-catalog"],
+      "related": [
+        "t-nexostrat-capabilities-catalog"
+      ],
       "notes": "Redirected by JP's redesign — now an internal reference rather than skill-prompt input (JP owns prompts). Useful when discussing solutions with the client during Fase 6 follow-up. Deliverable shape unchanged: 1-pager with service + fixed price + timeline + stack + 'cannot deliver today' list."
     },
     {
@@ -62,7 +75,9 @@
       "when": "2026-06-14",
       "kind": "deadline",
       "owner": "ricardo",
-      "related": ["t-confidence-marking-company-analyst"],
+      "related": [
+        "t-confidence-marking-company-analyst"
+      ],
       "notes": "JP's new opportunity-report has built-in ✅/⚠️/❓ marking. Check whether JP's new company-analyst SKILL.md also has it; if yes, this task is redundant. If not, add it. ~10-15 min if needed."
     },
     {
@@ -71,7 +86,9 @@
       "when": "2026-07-15",
       "kind": "milestone",
       "owner": "ricardo",
-      "related": ["t-redesign-technical-brainstorm"],
+      "related": [
+        "t-redesign-technical-brainstorm"
+      ],
       "notes": "Deferred per JP's 2026-05-18 directive (stop building, start testing). Re-evaluate after Monday's pilot. Pilot evidence determines whether state machine + automation are worth building."
     },
     {
@@ -80,7 +97,9 @@
       "when": "2026-07-30",
       "kind": "deadline",
       "owner": "ricardo",
-      "related": ["t-update-phase-state-machine"],
+      "related": [
+        "t-update-phase-state-machine"
+      ],
       "notes": "Deferred. Smaller scope than morning proposal (JP simplified to 6 phases, no paid sub-states). Gated on technical brainstorm and pilot evidence."
     },
     {
@@ -89,7 +108,9 @@
       "when": "2026-07-30",
       "kind": "deadline",
       "owner": "ricardo",
-      "related": ["t-build-automation-surface"],
+      "related": [
+        "t-build-automation-surface"
+      ],
       "notes": "Deferred. Monday's pilot runs with manual scheduling/email/recording. Automation only valuable after the workflow is validated through 1-2 real client runs."
     }
   ]

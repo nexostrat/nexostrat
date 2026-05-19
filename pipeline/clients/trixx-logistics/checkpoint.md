@@ -1,5 +1,49 @@
 # CHECKPOINT — trixx-logistics (Client-Owner)
 
+**Updated:** 2026-05-19 (AM, session 5)
+**By:** ricardo (via Claude Code at /srv/Nexostrat/)
+**Persona:** Client-Owner
+
+## Update 2026-05-19 (session 5) — Pre-meeting critical path CERRADO
+
+**`our_hypotheses.md` llenado conjunto** (7 dimensiones ADR-027 slice 3). Frontmatter: `filled: 2026-05-19`, `filled_by: ricardo + claude`. Decisiones de juicio locked:
+- **Decisor final:** Hector Leyva. Andrea es influenciadora ("voz joven/digital" interna), no decisora.
+- **Presupuesto estimado:** USD 15-40K piloto + USD 2-5K/mes retainer. Inferido de proxies operacionales (24 años + 5 sedes + flota USDOT + 571,370 millas/año).
+- **Tono:** mixto cercano + estratégico. NUNCA técnico profundo en primera reunión.
+- **5 zonas sensibles:** patente aduanal con framing neutro; NO asumir consanguineidad Andrea-Hector; NO mencionar defectos del sitio; NO comparar directo con Nuvocargo; NO empujar Hoja de Ruta de IA en primera reunión.
+- **9 hipótesis a confirmar/refutar en reunión:** decisor único, no-consultor-IA-previo, "más" = back-office aduanero, no-awareness Nuvocargo, patente propia, Reforma 2026 preocupa, Andrea puede empujar adentro, volumen 150-350/mes northbound, mix 50/50 vs 80%+ chino.
+- **Riesgos comerciales:** Hector "esto puede esperar" + Andrea pierde fuerza interna + competidor familiar tech + decisión postpuesta por temporada alta.
+
+**Skill 04 (discovery-meeting) ejecutado.** Output en `04_prep_llamada/runs/2026-05-19_mode-a/`:
+- `Trixx_PrepLlamada_20260519.md` (26 KB, ~6,500 palabras)
+- `Trixx_PrepLlamada_20260519.docx` (75 KB, brand Aurora)
+
+**Estructura del documento:**
+- Sección 1 — empresa en 5 min con tabla de números clave + 3 señales de alerta previas
+- Sección 2 — sector en 3 min con 5 términos clave (TIGIE, Pedimento, Carta Porte 3.1, OEA, Responsabilidad solidaria 2026)
+- Sección 3 — posición competitiva simplificada (Nuvocargo + Integración Aduanal + TCI; gap clave = portal cliente + IA adoptada + certificaciones)
+- Sección 4 — **4.0 NUEVA: apertura relacional (primeros 5 min)** + 4.1 operación aduanal core + 4.2 comunicación cliente/tracking + 4.3 cotizaciones + 4.4 documentación + reforma 2026 + 4.5 marketing + 4.6 stack actual + 4.7 decisión
+- Sección 5 — 5 game-changer emocionales (úsense 2-3 máx)
+- Sección 6 — 10 objetivos checklist + lista de 9 hipótesis de `our_hypotheses.md` §6
+- Sección 7 — red flags generales + 7 específicas a Trixx
+- Notas operativas — tono, materiales, insumos Skill 05, tiempo 30 min, cierre sugerido
+
+**Calibración explícita aplicada:** discovery relacional + relationship-building, NO auditoría técnica (per directiva session 4). Sección 4.0 nueva (apertura relacional con preguntas sobre cómo entró Andrea + narrativa del fundador Hector + evento detonante) ANTES de cualquier sondeo operativo. Patente aduanal preguntada con framing neutro. Comparación con Nuvocargo solo si ellos abren. Cierre sugerido sin empujar Hoja de Ruta.
+
+**4 PDFs entregados al Desktop de Ricardo:**
+- `/home/ricardo/Desktop/Trixx_AnalisisCompania_20260518.pdf` (368 KB)
+- `/home/ricardo/Desktop/LogisticaCrossBorder_MX_20260518.pdf` (502 KB)
+- `/home/ricardo/Desktop/Trixx_Competencia_MX_20260518.pdf` (410 KB)
+- `/home/ricardo/Desktop/Trixx_PrepLlamada_20260519.pdf` (253 KB)
+
+**Estado del cliente al cierre de session 5:** phase 0 del pipeline COMPLETA. Listos para la reunión 2026-05-25 1pm Tijuana. Pendiente: la reunión misma + grabación + post-reunión Skill 05.
+
+---
+
+## Sesión 4 (2026-05-18 PM) — narrativa original abajo
+
+---
+
 **Updated:** 2026-05-18 (PM, session 4)
 **By:** ricardo (via Claude Code at /srv/Nexostrat/)
 **Persona:** Client-Owner

@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v1",
   "project": "nexostrat",
-  "updated": "2026-05-18T22:30:00-07:00",
+  "updated": "2026-05-19T01:59:43Z",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -444,12 +444,12 @@
     {
       "id": "t-monday-meeting-prep",
       "subject": "Trixx Logistics pilot meeting (2026-05-25 1pm Tijuana) — run Skills 1-4 serially + practice meeting",
-      "status": "open",
+      "status": "in_progress",
       "priority": "critical",
       "due": "2026-05-25",
       "created": "2026-05-18",
       "blocked_by": "t-trixx-logistics-setup",
-      "notes": "Critical-path task per JP's 2026-05-18 directive: 'su tarea ahora es correr los skills 1, 2, 3 y 4 con la compañía con la que se va a reunir el lunes, ver los resultados independientes en la medida que va corriendo los skills y tomar nota de lo bueno, lo malo y lo que se podría mejorar.' TARGET CONFIRMED: Trixx Logistics (Grupo Trixx / Trixx Logistics Corp.) — Mexican logistics company, Tijuana-based with offices in Guadalajara MX + Vernon CA + San Diego CA, customs brokerage + air/sea/ground freight + warehousing + cross-border USA-MX, 20+ years old per the contact, Spanish + Chinese site languages. Inbound contact via Sofi's friend (phone +52 1 664 533 3512, uncle is the owner). Meeting: 2026-05-25 1pm Tijuana. Website: https://trixx-logistics.com/. Workflow: (1) gated on t-trixx-logistics-setup which scaffolds pipeline/clients/trixx-logistics/ + captures intake; (2) invoke Skill 01 (company-analyst — MX/RFC path); human review + per-skill notes; (3) invoke Skill 02 (industry-analyst — logistics sector MX); human review + notes; (4) invoke Skill 03 (competitor-analyst — cross-border USA-MX competitors); human review + notes; (5) invoke Skill 04 (discovery-meeting → PrepLlamada); human review + notes. Skills run SERIALLY (Ricardo correction to JP's diagram). Optionally practice the meeting with JP beforehand. Post-meeting: record + transcribe + feed into Skill 05 (opportunity-report). Pre-send: Ricardo + JP mandatory internal review per Fase 5 of JP's diagram."
+      "notes": "Skills 01-02-03 EJECUTADOS 2026-05-18 PM session 4 con revisión humana entre cada uno. Outputs en pipeline/clients/trixx-logistics/{01_company_analysis,02_industry_analysis,03_competitor_analysis}/runs/2026-05-18_mode-a/. Hallazgo crítico: competidor real de Trixx no son los agentes locales TJ (TCI, Aispuro, Arellano, Integración Aduanal) — es Nuvocargo (USD 74M AI-native, target operacional 150-350 envíos northbound/mes = literalmente el segmento de Trixx). Skills 01/02/03 reportes producidos: ~16,000 palabras totales, 3 .docx con brand Aurora. Mid-session correction: contador '0 Años' en sitio Trixx ES animado JS no bug; página /home-logistic/ no en navegación principal; click-to-WhatsApp + iconos sociales sí presentes en /contacto/. Correcciones aplicadas. Memoria saved feedback_animated_counters_not_bugs para futuros Skill 01. Feedback de Ricardo sobre talking points de Skill 01: muy técnicos para primer encuentro; Skill 04 debe calibrarse a discovery abierto + relationship-building, NO auditoría técnica. REMAINING: (1) our_hypotheses.md fill (t-our-hypotheses-fill, 20-30 min) — bloquea Skill 04. (2) Skill 04 PrepLlamada con calibración suave. (3) opcional WhatsApp a Andrea preguntando audiencia. (4) opcional practice con JP. (5) reunión 2026-05-25 1pm Tijuana. (6) opcional grabación de reunión para input a Skill 05."
     },
     {
       "id": "t-brand-renderer-wireup",
@@ -474,11 +474,11 @@
     {
       "id": "t-trixx-logistics-setup",
       "subject": "Scaffold pipeline/clients/trixx-logistics/ + capture intake + populate state.json",
-      "status": "open",
+      "status": "in_progress",
       "priority": "critical",
       "due": "2026-05-24",
       "created": "2026-05-18",
-      "notes": "First production pilot under JP's new 5-skill 6-phase process. P1 (t-intake-upload-workflow) closed 2026-05-18 PM — this task's dependency is now resolved. Concrete invocation (paste verbatim): `bash infra/scripts/new-client.sh trixx-logistics MX 'Trixx Logistics Corp. (Grupo Trixx)' 'logistica-cross-border' --pilot`. That single command (a) scaffolds pipeline/clients/trixx-logistics/ from _template/, (b) slug-stamps state.json with client=trixx-logistics + name='Trixx Logistics Corp. (Grupo Trixx)' + country=MX + sector=logistica-cross-border + started=2026-05-18 + owner=client-owner + phase=prospect + pilot=true, (c) drops the ADR-027 2-file intake templates (research_input.md + our_hypotheses.md) into 00_intake/, (d) writes a per-client stub README. After scaffolding: (1) fill 00_intake/research_input.md with the facts — identity (no RFC visible on site, search Skill 01), presence (https://trixx-logistics.com/, Spanish + Chinese languages), contacts (Sofi's friend, phone +52 1 664 533 3512, uncle is owner), origin (referido via Sofi), site findings (4 offices: Guadalajara MX warehouse, Tijuana MX office, Vernon CA + San Diego CA USA; services: customs brokerage + air/sea/ground freight + warehousing + cross-border USA-MX; contact email management@trixx-logistics.com; MX phone (33) 1831 0560, USA (213) 321 5375; '0 Años' placeholder bug = digital-maturity signal; '20+ años + muy atrás en programas y tecnología' per contact); known unknowns (RFC, team size, financial state, real years founded, certifications C-TPAT/OEA likely for cross-border) — Skill 01 will research; (2) fill 00_intake/our_hypotheses.md with judgment — sealed during Skills 01-03 per ADR-027, only opens at Skill 04; capture our read on the dolor, the decisor, the presupuesto, tono cercano-mixto, sensibilidades, capability-fit hypotheses, things we expect research to confirm/refute; (3) save WhatsApp message + scraped site content to communications/2026-05-18_initial-contact.md; (4) write checkpoint.md as 'Awaiting Skill 01 invocation'. This unblocks t-monday-meeting-prep."
+      "notes": "Scaffold DONE 2026-05-18 PM session 4 via `bash infra/scripts/new-client.sh trixx-logistics MX 'Trixx Logistics Corp. (Grupo Trixx)' 'logistica-cross-border' --pilot`. Verified: 13 stage folders + state.json valid (slug=trixx-logistics, country=MX, sector=logistica-cross-border, pilot=true, phase=prospect) + checkpoint.md slug-stamped + both ADR-027 intake templates dropped into 00_intake/ with slug-substituted headers + per-client stub README. research_input.md FILLED with WhatsApp inbound (Andrea Chávez +52 1 664 533 3512, 2026-05-16 18:48) + site-fetch findings. Initial contact archived in communications/2026-05-18_initial-contact.md. REMAINING: (1) fill 00_intake/our_hypotheses.md — Ricardo's judgment on dolor/decisor/presupuesto/tono/capability-fit, sealed during Skills 01-03 per ADR-027, opens at Skill 04 — covered by NEW task t-our-hypotheses-fill. (2) Final checkpoint.md update post Skills 04 + 05. Closes when t-monday-meeting-prep closes."
     },
     {
       "id": "t-migrate-pilotos-to-clients",
@@ -488,6 +488,15 @@
       "due": "2026-05-30",
       "created": "2026-05-18",
       "notes": "Architecture correctness: the 2026-05-17 ad-hoc pilots saved outputs at Pilotos/<Company>/<NN_skill>/ instead of the canonical pipeline/clients/<slug>/<NN_station>/. Ricardo's directive at 2026-05-18 session end: 'move the three companies we have tested into their own folder as it should look when the architecture is finished.' Mapping: Pilotos/Bodai/ → pipeline/clients/bodai-foods/; Pilotos/Ascenso/ → pipeline/clients/constructora-ascenso/; Pilotos/Scarab/ → pipeline/clients/scarab-cycles/. Per-skill artifacts go to their station folders: 01_company_analyst → 01_company_analysis/runs/20260517_mode-a/final_report.{md,docx}; 02_industry_analyst → 02_industry_analysis/...; 03_competitor_analyst → 03_competitor_analysis/...; 06_discovery_meeting (old slot) → 04_prep_llamada/... (canonical stage name per skills/README.md; the _template/ folder was renamed 2026-05-18 PM from 04_meeting_script/). Each company gets a state.json (phase=diagnostico_delivered, pilot=true, started=2026-05-17). Resumen_<Empresa>.md/.docx go to 00_intake/ or executive_summary.md at client root — pick one (00_intake/ matches the spec's intake destination). PROCESS-LEVEL artifacts stay at Pilotos/ — they're not per-client: Pilotos/Nexostrat_Analisis_Pipeline.html (deck about the pipeline itself), Pilotos/Mejoras_Inmediatas_Proceso.txt (improvements applicable to all pilots). Use git mv for each rename so history is preserved. After migration, the Pilotos/ folder shrinks to ~2 files (deck + improvements .txt) — can rename to something like 00_META/proposals/2026-05-17_pilotos/ to retire the non-canonical Pilotos/ top-level folder, or leave as-is. Non-blocking for Trixx Logistics pilot — Trixx goes directly to canonical."
+    },
+    {
+      "id": "t-our-hypotheses-fill",
+      "subject": "Fill 00_intake/our_hypotheses.md for Trixx (judgment slice — ADR-027) before Skill 04",
+      "status": "open",
+      "priority": "critical",
+      "due": "2026-05-24",
+      "created": "2026-05-18",
+      "notes": "Bloquea t-monday-meeting-prep porque Skill 04 (PrepLlamada / discovery-meeting) es el primer skill que SÍ lee our_hypotheses.md per ADR-027 (sealed durante Skills 01-03, opens at Skill 04). Es trabajo de juicio de Ricardo — no se delega. Sesión conjunta corta (estimado 20-30 min) llenando las 7 dimensiones de ADR-027 slice 3: (1) dolor hipótesis (qué creemos que les duele realmente más allá del 'automatizaciones y más' que dijo Andrea), (2) decisor read (Hector vs Andrea vs madre de Andrea vs comité — dado estructura familiar), (3) presupuesto estimate (refinar el rango USD 5K-50K proyecto + USD 2-8K/mes retainer que Skill 01 estimó), (4) tono apropiado (cercano-mixto coherente con WhatsApp inicial — confirmar), (5) sensibilidades (lo que NO debemos mencionar: posibles consultores previos fallidos, comparación condescendiente con competencia, jerga técnica), (6) capability-fit hipótesis (cuál de los 5 Quick Wins de Skill 01 es el más natural para arrancar dado el perfil), (7) things we expect research to confirm/refute (qué expectativas teníamos al entrar vs qué confirmaron Skills 01-03). Insumos a tener a la vista al llenar: los 3 reportes producidos en session 4 (Trixx_AnalisisCompania, LogisticaCrossBorder_MX, Trixx_Competencia_MX). Output: pipeline/clients/trixx-logistics/00_intake/our_hypotheses.md lleno + ready para Skill 04 lo lea."
     }
   ]
 }

@@ -1,0 +1,30 @@
+{
+  "$schema": "nexostrat-client-state-v1",
+  "client": "trixx-logistics",
+  "name": "Trixx Logistics Corp. (Grupo Trixx)",
+  "country": "MX",
+  "sector": "logistica-cross-border",
+  "started": "2026-05-18",
+  "owner": "client-owner",
+  "phase": "prospect",
+  "phase_history": [
+    {
+      "from": null,
+      "to": "prospect",
+      "at": "2026-05-18T22:32:48Z",
+      "by": "ricardo",
+      "note": "Created via _template/ scaffold"
+    }
+  ],
+  "pilot": true,
+  "pricing": {
+    "model": null,
+    "currency": null,
+    "amount": null
+  },
+  "next_action": null,
+  "kpis": {},
+  "blockers": [],
+  "tags": [],
+  "recording_preference": null
+}

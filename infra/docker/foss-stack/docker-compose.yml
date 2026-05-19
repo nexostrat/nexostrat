@@ -38,7 +38,7 @@ services:
       start_period: 60s
 
   bookstack:
-    image: lscr.io/linuxserver/bookstack:24.10
+    image: lscr.io/linuxserver/bookstack:latest
     container_name: nexostrat-bookstack
     restart: unless-stopped
     environment:
@@ -66,7 +66,7 @@ services:
       start_period: 60s
 
   bookstack-db:
-    image: lscr.io/linuxserver/mariadb:11.4
+    image: lscr.io/linuxserver/mariadb:latest
     container_name: nexostrat-bookstack-db
     restart: unless-stopped
     environment:

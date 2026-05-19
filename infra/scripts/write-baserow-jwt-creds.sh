@@ -63,16 +63,37 @@ if [ "$HTTP_CODE" != "200" ]; then
 fi
 echo "OK: JWT login succeeded (HTTP 200)"
 
-# Upsert lines into the decrypted plaintext
+# Upsert lines into the decrypted plaintext.
+# Values are single-quoted so `source` won't expand $, !, backticks, etc.
+# Python does the file edit so we don't have to wrestle with sed escaping
+# across two layers (shell + sed substitution delimiters).
 upsert() {
     local key="$1" value="$2"
-    if grep -q "^${key}=" "$PLAIN"; then
-        # Escape sed special chars in the value (|, &, /)
-        local esc; esc=$(printf '%s' "$value" | sed 's/[|&/\]/\\&/g')
-        sed -i "s|^${key}=.*|${key}=${esc}|" "$PLAIN"
-    else
-        printf '%s=%s\n' "$key" "$value" >> "$PLAIN"
-    fi
+    local valfile; valfile=$(mktemp -p /dev/shm nx-upsert-XXXX)
+    chmod 600 "$valfile"
+    printf '%s' "$value" > "$valfile"
+    KEY_NAME="$key" VAL_FILE="$valfile" PLAIN_FILE="$PLAIN" python3 - <<'PYEOF'
+import os, pathlib
+key = os.environ["KEY_NAME"]
+val = pathlib.Path(os.environ["VAL_FILE"]).read_text()
+plain = pathlib.Path(os.environ["PLAIN_FILE"])
+# Single-quoted shell string: any embedded ' becomes '\'' (close quote,
+# escaped literal quote, reopen quote).
+escaped = val.replace("'", "'\\''")
+line = f"{key}='{escaped}'"
+lines = plain.read_text().splitlines()
+out, replaced = [], False
+for ln in lines:
+    if ln.startswith(f"{key}=") and not replaced:
+        out.append(line)
+        replaced = True
+    else:
+        out.append(ln)
+if not replaced:
+    out.append(line)
+plain.write_text("\n".join(out) + "\n")
+PYEOF
+    shred -u "$valfile" 2>/dev/null || rm -f "$valfile"
 }
 
 upsert BASEROW_EMAIL "$EMAIL"

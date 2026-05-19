@@ -19,7 +19,9 @@ The reason for just-in-time writing: tool versions, learned lessons, and small a
 | 01b | Mirrors + warm-standby | READY (re-audit pending; hard system audit landed YELLOW small 2026-05-16) | [`2026-05-14_plan-01b-mirrors.md`](2026-05-14_plan-01b-mirrors.md) | ~5 days execute + ~1 day re-audit | 2026-06-05 (slipped ~2 days to absorb hard-system-audit cycle) | — |
 | 01c | Personas + hooks + integration test | READY | [`2026-05-14_plan-01c-personas.md`](2026-05-14_plan-01c-personas.md) | ~5 days execute + ~1 day re-audit | 2026-06-12 | — |
 | 01 (original) | Repository Foundation (single plan) | **SUPERSEDED** | [`2026-05-13_plan-01-repository-foundation.md`](2026-05-13_plan-01-repository-foundation.md) | — | — | replaced by 01a/01b/01c per [`../proposals/2026-05-14_amendments.md`](../proposals/2026-05-14_amendments.md) §R1 |
-| 02 | Documentation System | DRAFT-PENDING | — | ~3 days | — | — |
+| 02 (original) | Documentation System (single plan) | **SUPERSEDED** | — | — | — | replaced by 02a/02b on 2026-05-19 per [`../proposals/2026-05-19_foss-stack-design.md`](../proposals/2026-05-19_foss-stack-design.md) brainstorm + writing-plans split |
+| 02a | FOSS Stack Integration (Baserow + BookStack + recovery) | **PARTIAL DONE** (Tasks 1-3 = Chunk A executed 2026-05-19 session 6; Tasks 4-20 READY) | [`2026-05-19_plan-02a-foss-stack.md`](2026-05-19_plan-02a-foss-stack.md) | ~7 days execute total · ~5 days remaining | 2026-06-12 | partial — full DONE at v0.2a-foss-stack tag |
+| 02b | Documentation System (Diátaxis + drift hook + auto-generators + ADRs + how-tos) | DRAFT-PENDING | — | ~2 days | 2026-06-30 | — |
 | 03 | events.jsonl + Python Agent Framework | DRAFT-PENDING | — | ~1 week | — | — |
 | 04 | Telegram Bot Core + Unified Inbox | DRAFT-PENDING | — | ~1 week | — | — |
 | 05 | Skill 1 End-to-End (template for 2-5) | DRAFT-PENDING | — | ~1 week | — | — |

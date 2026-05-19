@@ -112,6 +112,28 @@
         "t-build-automation-surface"
       ],
       "notes": "Deferred. Monday's pilot runs with manual scheduling/email/recording. Automation only valuable after the workflow is validated through 1-2 real client runs."
+    },
+    {
+      "id": "e-plan-02a-chunk-b",
+      "title": "Plan 02a Chunk B — execute Tasks 4-10 (Baserow schema + skill renderers + reconcile)",
+      "when": "2026-06-05",
+      "kind": "deadline",
+      "owner": "ricardo",
+      "related": [
+        "t-plan-02a-execute-chunk-b"
+      ],
+      "notes": "Plan 02a Tasks 4-10 (~1.5h subagent-driven OR ~3h inline). Schema-auth decision LOCKED 2026-05-19 session 6: option B — extend _api.py with login helper for JWT, add BASEROW_EMAIL+PASSWORD to secrets.env.age. Database token retained for skill renderers + bot. Plan defect to patch during execution: ~/.config/age/key.txt references in tests + Task 14 — only nexostrat.key.age exists (passphrase-protected)."
+    },
+    {
+      "id": "e-plan-02a-chunk-c",
+      "title": "Plan 02a Chunk C — execute Tasks 11-20 (BookStack + backup/recovery + runbooks + v0.2a tag)",
+      "when": "2026-06-12",
+      "kind": "deadline",
+      "owner": "ricardo",
+      "related": [
+        "t-plan-02a-execute-chunk-c"
+      ],
+      "notes": "Plan 02a Tasks 11-20. Blocked by Chunk B (schema must exist before reconcile + e2e test can run). ~1h subagent-driven. Closes Plan 02a with tag v0.2a-foss-stack. Plan 02b (Docs Diátaxis) is parallel-track — can land before or after."
     }
   ]
 }

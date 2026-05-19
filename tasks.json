@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v1",
   "project": "nexostrat",
-  "updated": "2026-05-19T08:40:13-07:00",
+  "updated": "2026-05-19T14:30:00-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -106,11 +106,12 @@
     {
       "id": "t-foss-docs-stack-decision",
       "subject": "Plan 02 brainstorm — pick FOSS self-hosted replacement(s) for Notion's four roles",
-      "status": "open",
+      "status": "done",
       "priority": "high",
       "due": "2026-06-15",
       "created": "2026-05-15",
-      "notes": "Per ADR-038. Four roles to cover: meeting capture canonical (Whisper.cpp/Jitsi/etc.), summary generation (Ollama/etc.), CRM (EspoCRM/SuiteCRM/Krayin/Twenty/Vikunja/custom), collaborative docs workspace (AppFlowy/Outline/BookStack/AFFiNE/Wiki.js/Logseq/Trilium/HedgeDoc/Gitea Wiki). All options open; Plan 02 brainstorm decides. May pick one tool covering multiple roles or specialized tools per role. JP's interface (Telegram + dashboard) means the dashboard choice is the load-bearing JP-facing decision in Plan 02."
+      "completed": "2026-05-19",
+      "notes": "DONE 2026-05-19 (session 6) via superpowers:brainstorming. Spec at 00_META/proposals/2026-05-19_foss-stack-design.md (commit d593bc3). Decisions locked: Baserow Community Edition (MIT, $0 forever) for state-store / CRM metadata + BookStack (MIT, $0 forever) for Ricardo's longform workspace. Whisper.cpp+Jitsi confirmed canonical (per ADR-024) for meeting capture. Ollama confirmed for summary generation (per ADR-026/034). JP's interface = bot Telegram only (no GUI for JP). 4 tables Stage 1: clients, meetings, deliverables, financials. 4 shelves + 9 books + 7 seeded pages in BookStack. Plan 02 implementation split into 02a (FOSS Stack) + 02b (Docs Diátaxis); 02a written 4631 lines / 20 tasks at commit 8803575."
     },
     {
       "id": "t-plan-01a-text-amendments",
@@ -253,11 +254,12 @@
     {
       "id": "t-plan-02-write",
       "subject": "Write Plan 02 (Documentation System) in full task detail via writing-plans skill",
-      "status": "open",
+      "status": "done",
       "priority": "high",
       "due": "2026-06-15",
       "created": "2026-05-13",
-      "notes": "UNBLOCKED 2026-05-17 — t-plan-01c-execute closed (foundation milestone reached, v0.1-foundation tagged). Master-index header in 00_META/plans/README.md. Plan 02's drift hook becomes simpler now that Plan 01c's inliner script (per CRITICAL 3 fix) already exists. ~3 days execute after writing. Due slipped from 2026-06-12 to 2026-06-15 to absorb the hard-system-audit-2026-05-16 cycle. Per ADR-038: Plan 02 is now LOAD-BEARING — must pick FOSS replacements for four Notion roles (meeting capture canonical / summary generation / CRM / collaborative docs workspace) before Stage 1 launch. Recommended next-session shape: superpowers:brainstorming first (FOSS option space is broad — Whisper.cpp + Ollama + EspoCRM/SuiteCRM/Krayin/Twenty/Vikunja + AppFlowy/Outline/BookStack/AFFiNE/Wiki.js/Logseq/Trilium/HedgeDoc/Gitea Wiki are all on the table per ADR-038), then superpowers:writing-plans to draft Plan 02 task-by-task. Re-audit + execute follow in subsequent sessions per the established discipline."
+      "completed": "2026-05-19",
+      "notes": "SUPERSEDED 2026-05-19 (session 6) — Plan 02 split into 02a (FOSS Stack, written 4631 lines at commit 8803575) + 02b (Docs Diátaxis, DRAFT-PENDING, just-in-time write). Split per writing-plans skill recommendation (matches Plan 01a/b/c precedent — subsystems independent enough to plan + execute separately). 02a contains everything the brainstorm closed; 02b is the original 'docs Diátaxis + drift hook + auto-generators + 15 ADRs + 10 how-tos' scope. New tracking tasks: t-plan-02a-execute-chunk-b, t-plan-02a-execute-chunk-c, t-plan-02b-write."
     },
     {
       "id": "t-presentation-refresh-post-adr-038",
@@ -536,6 +538,43 @@
       "due": "2026-05-24",
       "created": "2026-05-19",
       "notes": "Opcional pre-reunión. JP lo ofreció en sesión 2026-05-18 PM (post-delivery de los 5 skills). Decisión de Ricardo. Si se hace: 20-30 min, JP juega rol de Hector/Andrea; Ricardo practica apertura relacional + 2-3 preguntas operativas + cierre sugerido. Útil principalmente para calibrar tono (cercano + estratégico) y para verificar que las preguntas suenan a conversación, no a cuestionario."
+    },
+    {
+      "id": "t-plan-02a-execute-chunk-b",
+      "subject": "Plan 02a Chunk B — execute Tasks 4-10 (Baserow schema + skill renderers + reconcile)",
+      "status": "open",
+      "priority": "high",
+      "due": "2026-06-05",
+      "created": "2026-05-19",
+      "notes": "Plan 02a Tasks 4-10 (~1.5h subagent-driven OR ~3h inline). Covers: Baserow schema migrations (4 tables + 11 views), schema snapshot + canonical.json + weekly drift check, skills/shared/baserow.py helper, extend new-client.sh with Baserow POST, extend 5 skill renderers with post_deliverable(), baserow-reconcile.sh + nightly timer. Schema-auth decision LOCKED 2026-05-19: option B — extend _api.py with _login() helper that POSTs email+password to /api/user/token-auth/, gets JWT, uses for management endpoints. Database token stays for skill renderers + bot (CRUD rows). Need to add BASEROW_EMAIL + BASEROW_PASSWORD to secrets.env.age (Ricardo created admin account ricardo@nexostrat.com during session 6). Plan defect noted in plan: ~/.config/age/key.txt does not exist (only nexostrat.key.age) — patch references in tests + Task 14 during execution."
+    },
+    {
+      "id": "t-plan-02a-execute-chunk-c",
+      "subject": "Plan 02a Chunk C — execute Tasks 11-20 (BookStack + backup/recovery + runbooks + tag)",
+      "status": "open",
+      "priority": "medium",
+      "due": "2026-06-12",
+      "created": "2026-05-19",
+      "blocked_by": "t-plan-02a-execute-chunk-b",
+      "notes": "Plan 02a Tasks 11-20. Covers: BookStack shelves+books+7 seeded pages, sync-state-from-baserow.sh, backup scripts + nightly timer 02:30, 3 recovery scripts (restore-baserow, restore-bookstack, baserow-rotate-token), 5 runbooks in docs/runbooks/, hp_down.md extension for FOSS stack boot sequence, extended smoke-test.sh, e2e integration test, master plan index update splitting Plan 02 row → 02a DONE + 02b DRAFT-PENDING, tag v0.2a-foss-stack. ~1h subagent-driven. Independent of Chunk B once schema-auth is resolved."
+    },
+    {
+      "id": "t-plan-02b-write",
+      "subject": "Write Plan 02b (Docs Diátaxis) in full task detail via writing-plans skill",
+      "status": "open",
+      "priority": "medium",
+      "due": "2026-06-30",
+      "created": "2026-05-19",
+      "notes": "Replaces SUPERSEDED t-plan-02-write. Scope: docs/ Diátaxis structure (tutorials/how-to/reference/explanation/runbooks) + pre-commit-docs-pair.sh drift hook + 5 auto-generators (gen_telegram_ref.py, gen_skill_catalog.py, gen_event_taxonomy.py, gen_adr_index.py, gen_machine_matrix.py) + 15 ADRs 021-035 + top ~10 how-tos + paired -explicado.md partners + print-to-Aurora-PDF script. ~2-3 days execute after writing. Independent of Plan 02a — can land in parallel or after. Plan 02b's drift hook simpler because Plan 01c's inliner already exists (per CRITICAL 3). Recommended sequence: superpowers:writing-plans, then subagent-driven execution. JP-Light runbook stub for trusting the Caddy local CA cert (one-time per device) is a Plan 02b how-to that surfaces FOSS stack from session 6."
+    },
+    {
+      "id": "t-vault-backup-foss-env",
+      "subject": "Add infra/docker/foss-stack/.env to nightly backup encrypted snapshot",
+      "status": "open",
+      "priority": "medium",
+      "due": "2026-06-30",
+      "created": "2026-05-19",
+      "notes": "Plan defect surfaced in Plan 02a self-review (committed 8803575): hp_down.md extension (Task 17) assumes vault/backups/foss-stack-env/LATEST.env.age exists for warm-standby failover, but Task 13 backup-foss-stack.sh does not snapshot .env. Without this, .env lives only on HP — single point of failure: if HP disk dies, the .env (containing Baserow DB password, BookStack DB password, Laravel APP_KEY) is lost and the restored database dumps cannot be loaded into a fresh container without regenerating those passwords. Fix: extend backup-foss-stack.sh with a 5th artefact — age-encrypt infra/docker/foss-stack/.env → vault/backups/foss-stack-env/YYYY-MM-DD.env.age. Required before warm-standby Tasks 7-12 of Plan 01b are useful."
     }
   ]
 }

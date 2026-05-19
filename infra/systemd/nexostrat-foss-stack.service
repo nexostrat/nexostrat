@@ -1,0 +1,20 @@
+[Unit]
+Description=Nexostrat FOSS stack (Baserow + BookStack + Caddy)
+Documentation=file:///srv/Nexostrat/00_META/proposals/2026-05-19_foss-stack-design.md
+Requires=docker.service tailscaled.service
+After=docker.service tailscaled.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/srv/Nexostrat/infra/docker/foss-stack
+EnvironmentFile=/srv/Nexostrat/infra/docker/foss-stack/.env
+ExecStartPre=/usr/bin/docker compose pull --quiet
+ExecStart=/usr/bin/docker compose up -d
+ExecStop=/usr/bin/docker compose down
+TimeoutStartSec=300
+TimeoutStopSec=120
+
+[Install]
+WantedBy=multi-user.target

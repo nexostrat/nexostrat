@@ -1,0 +1,19 @@
+{
+    # Local CA — no public ACME, no Let's Encrypt. Browsers warn until cert is
+    # trusted manually per device (one-time, see docs/runbooks/foss_stack_setup.md
+    # which lands in Plan 02b).
+    local_certs
+    auto_https disable_redirects
+}
+
+baserow.nexostrat.local {
+    tls internal
+    reverse_proxy baserow:80
+    encode gzip
+}
+
+docs.nexostrat.local {
+    tls internal
+    reverse_proxy bookstack:80
+    encode gzip
+}

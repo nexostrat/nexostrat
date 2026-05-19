@@ -1,0 +1,5 @@
+# Runtime data — never commit
+data/
+
+# Local env file — secrets live in vault/, not here
+.env

@@ -1,0 +1,105 @@
+# Nexostrat FOSS stack — Baserow + BookStack + Caddy
+# Bound to 127.0.0.1 + Tailscale interface only. WAN access is firewalled.
+
+networks:
+  nexostrat_net:
+    driver: bridge
+
+volumes:
+  baserow_postgres: { driver: local }
+  baserow_redis: { driver: local }
+  baserow_media: { driver: local }
+  bookstack_app: { driver: local }
+  bookstack_db: { driver: local }
+  caddy_data: { driver: local }
+  caddy_config: { driver: local }
+
+services:
+  baserow:
+    image: baserow/baserow:1.27.2
+    container_name: nexostrat-baserow
+    restart: unless-stopped
+    environment:
+      BASEROW_PUBLIC_URL: ${BASEROW_PUBLIC_URL}
+      DATABASE_PASSWORD: ${BASEROW_DATABASE_PASSWORD}
+      SECRET_KEY: ${BASEROW_SECRET_KEY}
+      BASEROW_JWT_SIGNING_KEY: ${BASEROW_JWT_SIGNING_KEY}
+      BASEROW_EXTRA_ALLOWED_HOSTS: "baserow.nexostrat.local,baserow,localhost"
+    volumes:
+      - baserow_postgres:/baserow/data/postgres
+      - baserow_redis:/baserow/data/redis
+      - baserow_media:/baserow/data/media
+    networks: [ nexostrat_net ]
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost/api/_health/"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+
+  bookstack:
+    image: lscr.io/linuxserver/bookstack:24.10
+    container_name: nexostrat-bookstack
+    restart: unless-stopped
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: America/Tijuana
+      APP_URL: ${BOOKSTACK_APP_URL}
+      APP_KEY: ${BOOKSTACK_APP_KEY}
+      DB_HOST: bookstack-db
+      DB_PORT: 3306
+      DB_DATABASE: bookstack
+      DB_USERNAME: bookstack
+      DB_PASSWORD: ${BOOKSTACK_DB_PASSWORD}
+    volumes:
+      - bookstack_app:/config
+    networks: [ nexostrat_net ]
+    depends_on:
+      bookstack-db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:80/status"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+
+  bookstack-db:
+    image: lscr.io/linuxserver/mariadb:11.4
+    container_name: nexostrat-bookstack-db
+    restart: unless-stopped
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: America/Tijuana
+      MYSQL_ROOT_PASSWORD: ${BOOKSTACK_DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: bookstack
+      MYSQL_USER: bookstack
+      MYSQL_PASSWORD: ${BOOKSTACK_DB_PASSWORD}
+    volumes:
+      - bookstack_db:/config
+    networks: [ nexostrat_net ]
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${BOOKSTACK_DB_ROOT_PASSWORD}"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+
+  caddy:
+    image: caddy:2.8-alpine
+    container_name: nexostrat-caddy
+    restart: unless-stopped
+    ports:
+      # 127.0.0.1 + Tailscale interface only — NOT 0.0.0.0
+      - "127.0.0.1:443:443"
+      - "100.64.121.80:443:443"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks: [ nexostrat_net ]
+    depends_on:
+      - baserow
+      - bookstack

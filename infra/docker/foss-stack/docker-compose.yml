@@ -31,11 +31,11 @@ services:
       - baserow_media:/baserow/data/media
     networks: [ nexostrat_net ]
     healthcheck:
-      test: ["CMD", "curl", "-fsS", "http://localhost/api/_health/"]
+      test: ["CMD", "curl", "-fsS", "-H", "Host: baserow.nexostrat.local", "http://localhost/api/_health/"]
       interval: 30s
       timeout: 5s
       retries: 5
-      start_period: 60s
+      start_period: 120s
 
   bookstack:
     image: lscr.io/linuxserver/bookstack:latest

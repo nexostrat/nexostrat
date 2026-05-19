@@ -4628,4 +4628,4 @@ Plan complete and saved to `/srv/Nexostrat/00_META/plans/2026-05-19_plan-02a-fos
 
 **2. Inline Execution** — Execute tasks in this session using `superpowers:executing-plans`, batch execution with checkpoints. Slower but lets Ricardo see each commit in-context.
 
-**¿Cuál enfoque, y arrancamos hoy o lo dejamos cuadrado para después del piloto Trixx (2026-05-25)?**
+**Pick approach, and decide whether to start today or queue for after the Trixx pilot (2026-05-25).**

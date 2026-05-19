@@ -91,7 +91,12 @@ def get_or_create_database(workspace_id: int, name: str = "nexostrat") -> int:
 
 
 def get_or_create_table(database_id: int, name: str) -> int:
-    """Returns table_id. Idempotent by name. Caller adds fields via add_field()."""
+    """Returns table_id. Idempotent by name. Caller adds fields via add_field().
+
+    Baserow 1.27.2's CreateTableSerializer rejects `data: []` (allow_empty=False)
+    but both `data` and `first_row_header` are required=False — omitting them
+    creates a truly empty table that we then populate via add_field() calls.
+    """
     tables = get(f"/api/database/tables/database/{database_id}/")
     for t in tables:
         if t["name"] == name:
@@ -99,7 +104,7 @@ def get_or_create_table(database_id: int, name: str) -> int:
             return t["id"]
     result = post(
         f"/api/database/tables/database/{database_id}/",
-        {"name": name, "data": [], "first_row_header": False}
+        {"name": name}
     )
     print(f"TABLE CREATED: {name} (id={result['id']})")
     return result["id"]

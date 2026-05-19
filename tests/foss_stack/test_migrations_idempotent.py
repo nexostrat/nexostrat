@@ -5,11 +5,15 @@ import pytest
 NEXOSTRAT = os.environ.get("NEXOSTRAT", "/srv/Nexostrat")
 
 def run_migrations():
-    return subprocess.run(
-        [f"{NEXOSTRAT}/infra/scripts/run-with-secrets.sh",
-         "python3", f"{NEXOSTRAT}/infra/baserow/migrations/run_all.py"],
-        capture_output=True, text=True, check=False
-    )
+    # If the parent already sourced secrets (typical when this file is invoked
+    # via run-with-secrets.sh), call run_all.py directly so we avoid a second
+    # age passphrase prompt per test.
+    if os.environ.get("BASEROW_URL") and os.environ.get("BASEROW_EMAIL"):
+        cmd = ["python3", f"{NEXOSTRAT}/infra/baserow/migrations/run_all.py"]
+    else:
+        cmd = [f"{NEXOSTRAT}/infra/scripts/run-with-secrets.sh",
+               "python3", f"{NEXOSTRAT}/infra/baserow/migrations/run_all.py"]
+    return subprocess.run(cmd, capture_output=True, text=True, check=False)
 
 def test_first_run_creates_tables():
     r = run_migrations()

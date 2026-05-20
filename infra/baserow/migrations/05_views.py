@@ -22,8 +22,29 @@ def _ensure_view(table_id, view_name, view_type, filters=None, sortings=None):
     existing = get(f"/api/database/views/table/{table_id}/")
     for v in existing:
         if v["name"] == view_name:
+            view_id = v["id"]
+            # Orphan recovery: a previous run may have created the view but
+            # crashed before its filters/sortings landed (e.g., a wrong filter
+            # type returns HTTP 400 after view creation). If the desired
+            # spec has filters/sortings but the live view has none, attach
+            # them now. We don't try to diff-and-update existing filters —
+            # that path is for a future migration runner.
+            if filters:
+                live_filters = get(f"/api/database/views/{view_id}/filters/")
+                live_count = len(live_filters.get("results", live_filters)
+                                 if isinstance(live_filters, dict)
+                                 else live_filters)
+                if live_count == 0:
+                    for flt in filters:
+                        post(f"/api/database/views/{view_id}/filters/", flt)
+                    print(f"  VIEW PATCHED: {view_name} "
+                          f"(added {len(filters)} filter(s))")
+                    if sortings:
+                        for srt in sortings:
+                            post(f"/api/database/views/{view_id}/sortings/", srt)
+                    return view_id
             print(f"  VIEW EXISTS: {view_name}")
-            return v["id"]
+            return view_id
     result = post(
         f"/api/database/views/table/{table_id}/",
         {"name": view_name, "type": view_type,
@@ -52,7 +73,7 @@ def run():
     pilot_fid = _field_id(clients_tid, "pilot")
     print("clients views:")
     _ensure_view(clients_tid, "Pipeline activo", "grid",
-                 filters=[{"field": phase_fid, "type": "not_equal",
+                 filters=[{"field": phase_fid, "type": "single_select_not_equal",
                            "value": "dormant"}])
     _ensure_view(clients_tid, "Pilotos", "grid",
                  filters=[{"field": pilot_fid, "type": "boolean",

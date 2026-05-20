@@ -1,0 +1,10 @@
+[Unit]
+Description=Nexostrat — weekly Baserow schema drift check (Mondays 04:00)
+
+[Timer]
+OnCalendar=Mon *-*-* 04:00:00
+Persistent=true
+Unit=nexostrat-baserow-schema-check.service
+
+[Install]
+WantedBy=timers.target

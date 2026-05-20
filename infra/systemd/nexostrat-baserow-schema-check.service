@@ -1,0 +1,11 @@
+[Unit]
+Description=Nexostrat — weekly Baserow schema drift check
+After=nexostrat-foss-stack.service
+
+[Service]
+Type=oneshot
+User=ricardo
+WorkingDirectory=/srv/Nexostrat
+ExecStart=/srv/Nexostrat/infra/scripts/run-with-secrets.sh /srv/Nexostrat/infra/scripts/baserow-schema-check.sh
+StandardOutput=journal
+StandardError=journal

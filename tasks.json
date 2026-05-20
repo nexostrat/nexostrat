@@ -615,6 +615,15 @@
         "t-plan-02a-execute-chunk-b"
       ],
       "notes": "Final review test-gaps list: (1) Parametrize test_skill_01_renderer_creates_deliverable_row over skills 02-05 (~50 LOC; covers skill 05's main()-vs-__main__ subtlety + future renderer-hook drift). (2) Unit test asserting _find_one URL contains filter__slug__equal= NOT filter__field_slug__equal= (~10 LOC; protects against the silent-no-op regression that bit us once). (3) test_post_client_does_not_overwrite_existing_fields — pre-populate cache, mock _request to return existing row with different name, assert second post_client doesn't fire PATCH (~15 LOC; encodes the intentional asymmetry vs post_deliverable). (4) Reconcile-then-render cooperation: create orphan, run reconcile, run renderer, assert exactly 1 row exists in deliverables (~20 LOC; proves the two write paths dedupe correctly)."
+    },
+    {
+      "id": "t-desktop-pc-recording-stack-install",
+      "subject": "Install recording + transcription stack on desktop PC (OBS, Whisper.cpp large-v3, transcribe.sh)",
+      "status": "open",
+      "priority": "medium",
+      "due": "2026-06-15",
+      "created": "2026-05-19",
+      "notes": "Follow /srv/Nexostrat/COMMANDS.md → Desktop PC section → 'One-time install (fresh Linux Mint machine)' (line ~178). 6 sub-steps: (1) apt install obs-studio pavucontrol ffmpeg build-essential cmake git pulseaudio-utils; (2) git clone whisper.cpp at /opt/whisper.cpp + cmake build; (3) download ggml-large-v3.bin (+ ggml-small.bin fallback); (4) install ~/bin/transcribe.sh (script body inlined in the guide); (5) configure OBS audio-meeting profile (Software x264 encoder NOT NVENC, Global Audio Devices = Default, empty Sources panel — critical to avoid the audio-kill bug); (6) end-to-end verification with a 30s test recording. ~15-30 min plus model download time. Closes when transcribe.sh runs end-to-end on a test recording on the desktop PC. Desktop PC will host most online client meetings going forward; server laptop remains the Nexostrat infra host."
     }
   ]
 }

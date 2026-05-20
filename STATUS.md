@@ -1,7 +1,7 @@
 # Nexostrat — STATUS
 
-> **Last updated:** 2026-05-19 PM (seventh session end) — **Plan 02a Chunk B fully executed.** 21 commits via `superpowers:subagent-driven-development`. Baserow schema live (4 tables / 45 fields / 11 views), drift check + reconcile timers installed (then masked pending follow-up), schema/row helpers landed in `infra/baserow/migrations/_api.py` (JWT) and `skills/shared/baserow.py` (Token), `new-client.sh` syncs client rows, all 5 skill renderers post deliverables on `.docx` write, nightly reconcile picks up orphans. Final cross-cutting review: APPROVED FOR CHUNK C with 1 conditional (timers masked pending unencrypted-env-file fix) + 4 deferred follow-ups.
-> **Current phase:** **Plan 02a Chunk B done; Chunk C ready when energy allows.** Critical path Trixx 2026-05-25 intact (0 changes to client pipeline). Two nightly timers currently masked — manual cadence until `t-plan-02a-chunk-b-systemd-creds` lands.
+> **Last updated:** 2026-05-19 PM (eighth session end) — **Recording + transcription stack operational.** OBS Studio + pavucontrol installed + `audio-meeting` profile configured (x264 encoder, 640×360@10fps, Global Audio Devices). Whisper.cpp large-v3 (~2.9 GB) downloaded; `~/bin/transcribe.sh` wrapper auto-prefers it. End-to-end mic + system-audio capture validated. New file-organization pattern locked: one `COMMANDS.md` per project folder (sections per PC) + one `~/Desktop/COMMANDS.md` aggregator per PC. `/srv/Nexostrat/COMMANDS.md` lands at repo root. Plan 02a Chunk B (session 7) and all critical-path items unchanged.
+> **Current phase:** **Recording stack live for tomorrow's online meetings + Trixx Monday pilot.** Plan 02a Chunk B done; Chunk C ready when energy allows. Two nightly timers still masked — manual cadence until `t-plan-02a-chunk-b-systemd-creds` lands.
 
 ## Current state
 
@@ -56,6 +56,20 @@ Integration done same-day: structural rename (`06_*` → `04_*` via `git mv`), 7
 ## Next sequence (pre-Trixx-pilot setup → Monday's run)
 
 **Pilot target: Trixx Logistics** (Mexican logistics, Tijuana, 20+ years old, inbound via Sofi's friend whose uncle owns the company, meeting **2026-05-25 1pm Tijuana**). Initial intel from WhatsApp + site scrape: Grupo Trixx, customs brokerage + freight + warehousing + cross-border USA-MX, 4 locations (Guadalajara, Tijuana, Vernon CA, San Diego CA), Spanish + Chinese site languages, no RFC visible, no team named, "0 Años" placeholder bug on the site (consistent with the contact's self-description "muy atrás en programas y tecnología").
+
+**Done this session (2026-05-19 PM eighth session):**
+
+- ✅ **OBS Studio + pavucontrol installed** via apt (~150 MB + ~2 MB). Configured `audio-meeting` Profile: 640×360@10fps, Software (x264) encoder (NVENC unavailable without NVIDIA driver — fixed by encoder swap), Global Audio Devices = Default for both Desktop Audio + Mic/Aux, Sources panel intentionally empty. Mid-session bug: adding "Application Audio Capture"-style sources from the Sources panel killed system audio entirely until the lingering OBS process was killed (`pkill -f /usr/bin/obs`). Smoke-test recording: mic + system audio (YouTube) both captured at strong levels (-34/-27 dB mean).
+- ✅ **Whisper.cpp large-v3 model downloaded** (~2.9 GB at 60 MB/s). `/opt/whisper.cpp/models/` chowned to ricardo so future model downloads don't require sudo. Existing small model retained as fallback. Quality bump verified on the smoke-test recording: small heard "ese momento", large-v3 correctly heard "este momento". Speed on laptop CPU: ~2.3× real-time (16.5s audio → 38.6s transcribe). Desktop PC will be faster.
+- ✅ **`~/bin/transcribe.sh` wrapper landed.** ~50 LOC bash, auto-prefers `large-v3` > `medium` > `small`, takes input file + optional language (default `es`), produces `.txt` next to input. End-to-end smoke test PASS (mkv → ffmpeg extract → whisper-cli → transcript). Lives in `~/bin/` per the new per-PC organization pattern (not in the repo — personal script).
+- ✅ **New file-organization pattern locked** (introduced by Ricardo mid-session). One `COMMANDS.md` per project folder, divided by computer, lives in the project folder so it travels via git. Plus one `~/Desktop/COMMANDS.md` per PC that aggregates folder pointers + general Linux + PC-specific notes. Pattern supersedes the earlier "create command files scattered on Desktop" approach.
+- ✅ **`/srv/Nexostrat/COMMANDS.md` created at repo root** (~380 lines). Sections: Server PC (this laptop) — all daily/periodic Nexostrat operations; Desktop PC — recording stack one-time install + per-meeting workflow + transcript transfer to server; Other PCs — placeholder; Whisper model selection table; flat appendix command list. Canonical Nexostrat ops runbook.
+- ✅ **`~/Desktop/COMMANDS.md` created** (~325 lines). This-PC aggregator. Sections: PC info (`ricardo-hp-laptop` / server PC role), Projects on this PC (Nexostrat pointer + AttenBot pointer + future), Recording + transcription (PC-level capability), General Linux reference (~50 commands across 11 categories), This PC's specifics (installed services, ports, paths, SSH aliases).
+- ✅ **Old `~/Desktop/Nexostrat-Operations-Guide.md` deleted** — created earlier in same session as a single-file Operations Guide (644 lines), superseded by the COMMANDS.md split. Content fully migrated.
+
+**Critical path unchanged:** Trixx Logistics meeting 2026-05-25 1pm Tijuana still intact (T-6 days). 4 PDFs already on Desktop. Recording for Trixx (in-person) = phone voice recorder → transfer to laptop → `transcribe.sh`. Skill 05 post-meeting consumes transcript + notes + 4 prior reports → obligatorio Ricardo+JP review (Fase 5) → entrega (Fase 6).
+
+**Architecture impact:** Zero. Recording stack is PC-level capability (OBS, Whisper, `transcribe.sh`) — none touches Nexostrat repo internals, no event-router glue, no Baserow integration, no Telegram bot wiring. Plan 08 (Meeting Pipeline) territory remains unwritten and unaffected; this session's work is operational tooling that Plan 08 will eventually automate around but doesn't pre-commit to.
 
 **Done this session (2026-05-19 PM seventh session):**
 

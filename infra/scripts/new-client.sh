@@ -183,3 +183,32 @@ Next steps:
      → Human review → Skill 02 → review → Skill 03 → review → Skill 04 (which now also reads our_hypotheses.md).
 
 EOF
+
+# ─── Plan 02a Task 8 — Baserow row sync ───────────────────────────────────────
+# Non-fatal: filesystem is source of truth; baserow-reconcile.sh (Task 10) picks
+# up orphans. Skipped if secrets.env.age is missing or run-with-secrets.sh isn't
+# available (e.g., during initial setup before vault is provisioned).
+
+if [[ -f "$REPO_ROOT/secrets.env.age" && -x "$REPO_ROOT/infra/scripts/run-with-secrets.sh" ]]; then
+    "$REPO_ROOT/infra/scripts/run-with-secrets.sh" \
+        python3 - <<PY || echo "WARNING: Baserow sync skipped (run-with-secrets failed)" >&2
+import os, sys
+sys.path.insert(0, "$REPO_ROOT/skills/shared")
+import baserow
+cid = baserow.post_client(
+    slug="$SLUG",
+    name="""$NAME""",
+    display_name="""$NAME""",
+    country="$COUNTRY",
+    sector="""$SECTOR""",
+    pilot=("$PILOT" == "true"),
+    source="manual",
+)
+if cid is None:
+    print("WARNING: Baserow client row not created — filesystem is source of truth", file=sys.stderr)
+    sys.exit(0)
+print(f"Baserow client row: id={cid}")
+PY
+else
+    echo "WARNING: secrets.env.age or run-with-secrets.sh missing — Baserow row not created" >&2
+fi

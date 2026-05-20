@@ -1,0 +1,10 @@
+[Unit]
+Description=Nexostrat — nightly Baserow deliverables reconcile (03:30)
+
+[Timer]
+OnCalendar=*-*-* 03:30:00
+Persistent=true
+Unit=nexostrat-baserow-reconcile.service
+
+[Install]
+WantedBy=timers.target

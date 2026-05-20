@@ -19,10 +19,9 @@ if _SHARED not in sys.path:
 import baserow  # noqa: E402
 
 
-# _table_id walks workspaces → apps → tables. When the cache is empty, a single
-# call to a public function fires THREE _request calls for the walk (workspaces,
-# applications/workspace/{wid}, tables/database/{aid}) before any CRUD call. We
-# either consume those three or pre-populate _TABLE_ID_CACHE to skip the walk.
+# _table_id reads BASEROW_TABLE_<NAME>_ID from env (Database Token can't walk
+# /api/workspaces/ — 401). Tests either set the env var via monkeypatch or
+# pre-populate _TABLE_ID_CACHE directly.
 
 
 @pytest.fixture(autouse=True)
@@ -32,23 +31,11 @@ def _clear_cache():
     baserow._TABLE_ID_CACHE.clear()
 
 
-_WORKSPACE_PAYLOAD = [{"id": 1, "name": "Nexostrat"}]
-_APP_PAYLOAD = [{"id": 10, "name": "nexostrat", "type": "database"}]
-_TABLES_PAYLOAD = [
-    {"id": 571, "name": "clients"},
-    {"id": 572, "name": "meetings"},
-    {"id": 573, "name": "deliverables"},
-    {"id": 574, "name": "financials"},
-]
-
-
-def test_post_client_new():
-    """Cold cache: 3 walk calls + find_one (empty) + insert. Returns new id."""
+def test_post_client_new(monkeypatch):
+    """Env var seeds table id; find_one empty; insert; returns new id."""
+    monkeypatch.setenv("BASEROW_TABLE_CLIENTS_ID", "571")
     with patch.object(baserow, "_request") as mock_req:
         mock_req.side_effect = [
-            _WORKSPACE_PAYLOAD,
-            _APP_PAYLOAD,
-            _TABLES_PAYLOAD,
             {"results": []},               # _find_one — no existing slug
             {"id": 42, "slug": "trixx"},   # _insert
         ]
@@ -57,10 +44,21 @@ def test_post_client_new():
             country="CO", sector="tech", pilot=False, source="outbound",
         )
     assert result == 42
-    # Last call is the POST insert
     last_call = mock_req.call_args_list[-1]
     assert last_call.args[0] == "POST"
     assert "/api/database/rows/table/571/" in last_call.args[1]
+
+
+def test_table_id_missing_env_raises_inside_safe(monkeypatch):
+    """Without env var or cache, _table_id raises; @_safe catches → None."""
+    monkeypatch.delenv("BASEROW_TABLE_CLIENTS_ID", raising=False)
+    with patch.object(baserow, "_request") as mock_req:
+        result = baserow.post_client(
+            slug="trixx", name="x", display_name="x",
+            country="CO", sector="x", pilot=False, source="outbound",
+        )
+    assert result is None
+    assert mock_req.call_count == 0
 
 
 def test_post_client_idempotent():

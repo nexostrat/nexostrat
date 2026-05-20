@@ -57,23 +57,24 @@ _TABLE_ID_CACHE: dict[str, int] = {}
 
 
 def _table_id(name: str) -> int:
-    """Resolve table name to id. Walks workspaces → apps → tables. Cached."""
+    """Resolve table name to id.
+
+    Database API Tokens can only call /api/database/rows/... endpoints — they
+    return 401 on /api/workspaces/, /api/applications/, and the tables-list
+    endpoints. So the helper reads table IDs from env vars
+    (BASEROW_TABLE_<NAME>_ID) seeded by infra/scripts/write-baserow-table-ids.sh.
+    """
     if name in _TABLE_ID_CACHE:
         return _TABLE_ID_CACHE[name]
-    workspaces = _request("GET", "/api/workspaces/")
-    for w in workspaces if isinstance(workspaces, list) else workspaces.get("results", []):
-        if w.get("name") != "Nexostrat":
-            continue
-        apps = _request("GET", f"/api/applications/workspace/{w['id']}/")
-        for app in apps if isinstance(apps, list) else apps.get("results", []):
-            if app.get("name") != "nexostrat" or app.get("type") != "database":
-                continue
-            tables = _request("GET", f"/api/database/tables/database/{app['id']}/")
-            for t in tables if isinstance(tables, list) else tables.get("results", []):
-                if t.get("name") == name:
-                    _TABLE_ID_CACHE[name] = t["id"]
-                    return t["id"]
-    raise RuntimeError(f"table not found: {name}")
+    env_key = f"BASEROW_TABLE_{name.upper()}_ID"
+    if env_key in os.environ:
+        tid = int(os.environ[env_key])
+        _TABLE_ID_CACHE[name] = tid
+        return tid
+    raise RuntimeError(
+        f"table id missing: set {env_key} in secrets.env.age via "
+        f"infra/scripts/write-baserow-table-ids.sh, or pre-populate "
+        f"_TABLE_ID_CACHE in a test fixture")
 
 
 def _find_one(table: str, field: str, value) -> dict | None:

@@ -36,13 +36,17 @@ def test_new_client_creates_folder_and_baserow_row(baserow_module):
 
         # Idempotency: re-run refuses to overwrite folder (existing behavior),
         # so we cannot fire new-client.sh twice. Instead verify only one row
-        # exists in Baserow (i.e., the first invocation didn't somehow duplicate).
+        # exists in Baserow for this slug (i.e., the first invocation didn't
+        # somehow duplicate). Use the same filter syntax baserow.py uses —
+        # filter__<name>__equal, NOT filter__field_<name>__equal which silently
+        # returns unfiltered results.
         tid = baserow_module._table_id("clients")
         path = (f"/api/database/rows/table/{tid}/?user_field_names=true"
-                f"&filter__field_slug__equal={slug}")
+                f"&filter__slug__equal={slug}")
         resp = baserow_module._request("GET", path)
         assert len(resp.get("results", [])) == 1, (
-            f"expected 1 row, got {len(resp.get('results', []))}")
+            f"expected 1 row for slug={slug!r}, got "
+            f"{len(resp.get('results', []))}")
     finally:
         if folder.exists():
             shutil.rmtree(folder)

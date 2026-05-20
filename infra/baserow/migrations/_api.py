@@ -64,6 +64,15 @@ def _req(method: str, path: str, body: dict | None = None):
 def get(path: str): return _req("GET", path)
 def post(path: str, body: dict): return _req("POST", path, body)
 def patch(path: str, body: dict): return _req("PATCH", path, body)
+def delete(path: str): return _req("DELETE", path)
+
+
+# Baserow auto-creates Name + Notes + Active when a table is born. We strip
+# Notes + Active so they don't pollute our schema; "Name" stays because it's
+# Baserow's primary field (ERROR_CANNOT_DELETE_PRIMARY_FIELD if attempted)
+# and primary fields can only be swapped out via change_primary_field, which
+# is overkill for Stage 1.
+_DEFAULT_TABLE_FIELDS = {"Notes", "Active"}
 
 
 def get_or_create_workspace(name: str = "Nexostrat") -> int:
@@ -109,8 +118,13 @@ def get_or_create_table(database_id: int, name: str) -> int:
         f"/api/database/tables/database/{database_id}/",
         {"name": name}
     )
-    print(f"TABLE CREATED: {name} (id={result['id']})")
-    return result["id"]
+    table_id = result["id"]
+    print(f"TABLE CREATED: {name} (id={table_id})")
+    for field in get(f"/api/database/fields/table/{table_id}/"):
+        if field["name"] in _DEFAULT_TABLE_FIELDS:
+            delete(f"/api/database/fields/{field['id']}/")
+            print(f"  STRIP DEFAULT: {field['name']}")
+    return table_id
 
 
 def get_fields(table_id: int) -> list[dict]:

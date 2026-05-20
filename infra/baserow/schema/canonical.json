@@ -1,0 +1,417 @@
+{
+  "database": "nexostrat",
+  "tables": {
+    "clients": {
+      "fields": [
+        {
+          "name": "Name",
+          "type": "text"
+        },
+        {
+          "name": "contact_email",
+          "type": "email"
+        },
+        {
+          "name": "contact_name",
+          "type": "text"
+        },
+        {
+          "name": "contact_phone",
+          "type": "text"
+        },
+        {
+          "name": "country",
+          "select_options": [
+            {
+              "value": "CO"
+            },
+            {
+              "value": "MX"
+            }
+          ],
+          "type": "single_select"
+        },
+        {
+          "name": "created_at",
+          "type": "created_on"
+        },
+        {
+          "name": "decisor_name",
+          "type": "text"
+        },
+        {
+          "name": "decisor_role",
+          "type": "text"
+        },
+        {
+          "name": "deliverables",
+          "type": "link_row"
+        },
+        {
+          "name": "display_name",
+          "type": "text"
+        },
+        {
+          "name": "financials",
+          "type": "link_row"
+        },
+        {
+          "formula": "concat('pipeline/clients/', field('slug'), '/')",
+          "name": "folder_path",
+          "type": "formula"
+        },
+        {
+          "name": "meetings",
+          "type": "link_row"
+        },
+        {
+          "name": "name",
+          "type": "text"
+        },
+        {
+          "name": "phase",
+          "select_options": [
+            {
+              "value": "diagnostico_delivered"
+            },
+            {
+              "value": "diagnostico_in_progress"
+            },
+            {
+              "value": "dormant"
+            },
+            {
+              "value": "intake"
+            },
+            {
+              "value": "prospect"
+            },
+            {
+              "value": "retainer_active"
+            },
+            {
+              "value": "roadmap_in_progress"
+            },
+            {
+              "value": "roadmap_offered"
+            }
+          ],
+          "type": "single_select"
+        },
+        {
+          "name": "pilot",
+          "type": "boolean"
+        },
+        {
+          "name": "rfc_nit",
+          "type": "text"
+        },
+        {
+          "name": "sector",
+          "type": "text"
+        },
+        {
+          "name": "slug",
+          "type": "text"
+        },
+        {
+          "name": "source",
+          "select_options": [
+            {
+              "value": "inbound"
+            },
+            {
+              "value": "marketing"
+            },
+            {
+              "value": "outbound"
+            },
+            {
+              "value": "referido"
+            }
+          ],
+          "type": "single_select"
+        },
+        {
+          "name": "updated_at",
+          "type": "last_modified"
+        }
+      ],
+      "views": [
+        "Grid",
+        "Pilotos",
+        "Pipeline activo",
+        "Por pa\u00eds"
+      ]
+    },
+    "deliverables": {
+      "fields": [
+        {
+          "name": "Name",
+          "type": "text"
+        },
+        {
+          "name": "client",
+          "type": "link_row"
+        },
+        {
+          "name": "created_at",
+          "type": "created_on"
+        },
+        {
+          "name": "delivered_at",
+          "type": "date"
+        },
+        {
+          "name": "delivered_via",
+          "select_options": [
+            {
+              "value": "email"
+            },
+            {
+              "value": "in_person"
+            },
+            {
+              "value": "not_yet"
+            },
+            {
+              "value": "whatsapp"
+            }
+          ],
+          "type": "single_select"
+        },
+        {
+          "name": "file_docx",
+          "type": "text"
+        },
+        {
+          "name": "file_md",
+          "type": "text"
+        },
+        {
+          "name": "file_pdf",
+          "type": "text"
+        },
+        {
+          "name": "skill",
+          "select_options": [
+            {
+              "value": "company-analyst"
+            },
+            {
+              "value": "competitor-analyst"
+            },
+            {
+              "value": "discovery-meeting"
+            },
+            {
+              "value": "industry-analyst"
+            },
+            {
+              "value": "opportunity-report"
+            }
+          ],
+          "type": "single_select"
+        },
+        {
+          "name": "status",
+          "select_options": [
+            {
+              "value": "delivered"
+            },
+            {
+              "value": "draft"
+            },
+            {
+              "value": "internal_review"
+            },
+            {
+              "value": "revised"
+            }
+          ],
+          "type": "single_select"
+        }
+      ],
+      "views": [
+        "En revisi\u00f3n interna",
+        "Esta semana",
+        "Grid",
+        "Por skill"
+      ]
+    },
+    "financials": {
+      "fields": [
+        {
+          "name": "Name",
+          "type": "text"
+        },
+        {
+          "name": "amount",
+          "type": "number"
+        },
+        {
+          "name": "client",
+          "type": "link_row"
+        },
+        {
+          "name": "currency",
+          "select_options": [
+            {
+              "value": "COP"
+            },
+            {
+              "value": "MXN"
+            },
+            {
+              "value": "USD"
+            }
+          ],
+          "type": "single_select"
+        },
+        {
+          "name": "date",
+          "type": "date"
+        },
+        {
+          "name": "description",
+          "type": "text"
+        },
+        {
+          "name": "invoice_path",
+          "type": "text"
+        },
+        {
+          "name": "kind",
+          "select_options": [
+            {
+              "value": "expense"
+            },
+            {
+              "value": "income"
+            }
+          ],
+          "type": "single_select"
+        },
+        {
+          "name": "status",
+          "select_options": [
+            {
+              "value": "cancelled"
+            },
+            {
+              "value": "paid"
+            },
+            {
+              "value": "pending"
+            },
+            {
+              "value": "received"
+            }
+          ],
+          "type": "single_select"
+        }
+      ],
+      "views": [
+        "Grid",
+        "Mes en curso",
+        "Por cobrar"
+      ]
+    },
+    "meetings": {
+      "fields": [
+        {
+          "name": "Name",
+          "type": "text"
+        },
+        {
+          "name": "attendees_text",
+          "type": "long_text"
+        },
+        {
+          "name": "client",
+          "type": "link_row"
+        },
+        {
+          "name": "created_at",
+          "type": "created_on"
+        },
+        {
+          "name": "date",
+          "type": "date"
+        },
+        {
+          "name": "duration_min",
+          "type": "number"
+        },
+        {
+          "name": "kind",
+          "select_options": [
+            {
+              "value": "check_in"
+            },
+            {
+              "value": "discovery"
+            },
+            {
+              "value": "feedback"
+            },
+            {
+              "value": "internal_r_jp"
+            },
+            {
+              "value": "roadmap_kickoff"
+            }
+          ],
+          "type": "single_select"
+        },
+        {
+          "name": "location",
+          "type": "text"
+        },
+        {
+          "name": "notes_path",
+          "type": "text"
+        },
+        {
+          "name": "recording_path",
+          "type": "text"
+        },
+        {
+          "name": "status",
+          "select_options": [
+            {
+              "value": "cancelled"
+            },
+            {
+              "value": "confirmed"
+            },
+            {
+              "value": "extracted"
+            },
+            {
+              "value": "planned"
+            },
+            {
+              "value": "recorded"
+            },
+            {
+              "value": "transcribed"
+            }
+          ],
+          "type": "single_select"
+        },
+        {
+          "name": "transcript_path",
+          "type": "text"
+        }
+      ],
+      "views": [
+        "Esta semana",
+        "Grid",
+        "Pendientes de transcripci\u00f3n",
+        "Pr\u00f3ximas"
+      ]
+    }
+  },
+  "workspace": "Nexostrat"
+}

@@ -280,4 +280,33 @@ if __name__ == '__main__':
     if not Path(sys.argv[1]).exists():
         print(f"ERROR: No se encontró: {sys.argv[1]}")
         sys.exit(1)
-    generate_docx(sys.argv[1], sys.argv[2])
+    md_path = sys.argv[1]
+    out_path = sys.argv[2]
+    generate_docx(md_path, out_path)
+
+    # Plan 02a Task 9 — Baserow deliverables sync (fail-safe).
+    # Canonical path layout: pipeline/clients/<slug>/<station>/runs/<date>/<file>.
+    # Any failure (path doesn't match, no client row, network error) is logged
+    # and swallowed — never blocks the .docx write that just succeeded.
+    try:
+        import os as _os
+        import sys as _sys
+        from pathlib import Path as _Path
+        _sys.path.insert(0, "/srv/Nexostrat/skills/shared")
+        import baserow as _baserow
+        if _os.environ.get("BASEROW_URL") and _os.environ.get("BASEROW_API_TOKEN"):
+            _parts = _Path(md_path).parts
+            if len(_parts) >= 5:
+                _slug = _parts[-5]
+                _client = _baserow._find_one("clients", "slug", _slug)
+                if _client:
+                    _baserow.post_deliverable(
+                        client_id=_client["id"],
+                        skill="competitor-analyst",
+                        file_md=str(md_path),
+                        file_docx=str(out_path),
+                        file_pdf="",
+                    )
+    except Exception as _e:
+        import sys as _sys
+        print(f"[baserow-sync] skipped: {_e}", file=_sys.stderr)

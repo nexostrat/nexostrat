@@ -542,11 +542,12 @@
     {
       "id": "t-plan-02a-execute-chunk-b",
       "subject": "Plan 02a Chunk B — execute Tasks 4-10 (Baserow schema + skill renderers + reconcile)",
-      "status": "open",
+      "status": "done",
       "priority": "high",
       "due": "2026-06-05",
       "created": "2026-05-19",
-      "notes": "Plan 02a Tasks 4-10 (~1.5h subagent-driven OR ~3h inline). Covers: Baserow schema migrations (4 tables + 11 views), schema snapshot + canonical.json + weekly drift check, skills/shared/baserow.py helper, extend new-client.sh with Baserow POST, extend 5 skill renderers with post_deliverable(), baserow-reconcile.sh + nightly timer. Schema-auth decision LOCKED 2026-05-19: option B — extend _api.py with _login() helper that POSTs email+password to /api/user/token-auth/, gets JWT, uses for management endpoints. Database token stays for skill renderers + bot (CRUD rows). Need to add BASEROW_EMAIL + BASEROW_PASSWORD to secrets.env.age (Ricardo created admin account ricardo@nexostrat.com during session 6). Plan defect noted in plan: ~/.config/age/key.txt does not exist (only nexostrat.key.age) — patch references in tests + Task 14 during execution."
+      "notes": "Plan 02a Tasks 4-10 (~1.5h subagent-driven OR ~3h inline). Covers: Baserow schema migrations (4 tables + 11 views), schema snapshot + canonical.json + weekly drift check, skills/shared/baserow.py helper, extend new-client.sh with Baserow POST, extend 5 skill renderers with post_deliverable(), baserow-reconcile.sh + nightly timer. Schema-auth decision LOCKED 2026-05-19: option B — extend _api.py with _login() helper that POSTs email+password to /api/user/token-auth/, gets JWT, uses for management endpoints. Database token stays for skill renderers + bot (CRUD rows). Need to add BASEROW_EMAIL + BASEROW_PASSWORD to secrets.env.age (Ricardo created admin account ricardo@nexostrat.com during session 6). Plan defect noted in plan: ~/.config/age/key.txt does not exist (only nexostrat.key.age) — patch references in tests + Task 14 during execution. | DONE 2026-05-19 PM (seventh session): 21 commits 4e8dd31..141d7c7, 4 tables/45 fields/11 views in Baserow, drift+reconcile timers installed-then-masked, helpers+renderers+new-client all wired, final review APPROVED FOR CHUNK C with 1 conditional already addressed + 3 follow-up tasks added.",
+      "closed_at": "2026-05-19T19:38:43"
     },
     {
       "id": "t-plan-02a-execute-chunk-c",
@@ -575,6 +576,45 @@
       "due": "2026-06-30",
       "created": "2026-05-19",
       "notes": "Plan defect surfaced in Plan 02a self-review (committed 8803575): hp_down.md extension (Task 17) assumes vault/backups/foss-stack-env/LATEST.env.age exists for warm-standby failover, but Task 13 backup-foss-stack.sh does not snapshot .env. Without this, .env lives only on HP — single point of failure: if HP disk dies, the .env (containing Baserow DB password, BookStack DB password, Laravel APP_KEY) is lost and the restored database dumps cannot be loaded into a fresh container without regenerating those passwords. Fix: extend backup-foss-stack.sh with a 5th artefact — age-encrypt infra/docker/foss-stack/.env → vault/backups/foss-stack-env/YYYY-MM-DD.env.age. Required before warm-standby Tasks 7-12 of Plan 01b are useful."
+    },
+    {
+      "id": "t-plan-02a-chunk-b-systemd-creds",
+      "title": "Fix nightly timer credential flow before re-enabling (unencrypted /etc/nexostrat/baserow.env, EnvironmentFile= in systemd units)",
+      "priority": "high",
+      "status": "open",
+      "due": "2026-06-01",
+      "created_at": "2026-05-19T19:38:43",
+      "owner": "ricardo",
+      "related": [
+        "t-plan-02a-execute-chunk-b"
+      ],
+      "notes": "Final review Important #1. Both nightly timers (nexostrat-baserow-reconcile.timer @03:30, nexostrat-baserow-schema-check.timer @Mon04:00) are masked. Root cause: run-with-secrets.sh prompts for age passphrase on /dev/tty under systemd (no TTY → hang). Recommended fix: write /etc/nexostrat/baserow.env mode 0640 owned by ricardo, scoped to BASEROW_URL + BASEROW_API_TOKEN + BASEROW_TABLE_*_ID only (no EMAIL/PASSWORD). Systemd units swap ExecStart to use EnvironmentFile=. Until landed, reconcile + drift check are manual cadence. Add a sync script that regenerates the unencrypted file from the age vault when secrets rotate."
+    },
+    {
+      "id": "t-plan-02a-chunk-b-renderer-hook-lift",
+      "title": "Lift 27-LOC renderer hook into skills/shared/baserow.py:post_from_render; relocate skill 05 hook from main() to __main__",
+      "priority": "medium",
+      "status": "open",
+      "due": "2026-06-10",
+      "created_at": "2026-05-19T19:38:43",
+      "owner": "ricardo",
+      "related": [
+        "t-plan-02a-execute-chunk-b"
+      ],
+      "notes": "Final review Important #3 + #4. 5 renderers each contain identical 27-LOC try/except/path-parse/env-check/_find_one/post_deliverable block. When Plan 03 event-router lands and wants to add event emit, all 5 files would need lockstep edits. Lift to skills/shared/baserow.py:post_from_render(md_path, docx_path, skill_name) — each renderer becomes 1 line. Also fix skill 05's hook placement (currently in main() while 01-04 are in __main__ block; placement diverges so import-not-script invocation triggers Baserow round-trip on 05 only)."
+    },
+    {
+      "id": "t-plan-02a-chunk-b-test-coverage",
+      "title": "Add 4 test cases from final review gap list (~95 LOC total)",
+      "priority": "medium",
+      "status": "open",
+      "due": "2026-06-10",
+      "created_at": "2026-05-19T19:38:43",
+      "owner": "ricardo",
+      "related": [
+        "t-plan-02a-execute-chunk-b"
+      ],
+      "notes": "Final review test-gaps list: (1) Parametrize test_skill_01_renderer_creates_deliverable_row over skills 02-05 (~50 LOC; covers skill 05's main()-vs-__main__ subtlety + future renderer-hook drift). (2) Unit test asserting _find_one URL contains filter__slug__equal= NOT filter__field_slug__equal= (~10 LOC; protects against the silent-no-op regression that bit us once). (3) test_post_client_does_not_overwrite_existing_fields — pre-populate cache, mock _request to return existing row with different name, assert second post_client doesn't fire PATCH (~15 LOC; encodes the intentional asymmetry vs post_deliverable). (4) Reconcile-then-render cooperation: create orphan, run reconcile, run renderer, assert exactly 1 row exists in deliverables (~20 LOC; proves the two write paths dedupe correctly)."
     }
   ]
 }

@@ -121,6 +121,9 @@
               "value": "inbound"
             },
             {
+              "value": "manual"
+            },
+            {
               "value": "marketing"
             },
             {

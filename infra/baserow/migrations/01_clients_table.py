@@ -33,7 +33,8 @@ def run():
                         {"value": "inbound", "color": "blue"},
                         {"value": "outbound", "color": "orange"},
                         {"value": "referido", "color": "green"},
-                        {"value": "marketing", "color": "purple"}
+                        {"value": "marketing", "color": "purple"},
+                        {"value": "manual", "color": "gray"}
                     ]})
     add_field(tid, {"name": "decisor_name", "type": "text"})
     add_field(tid, {"name": "decisor_role", "type": "text"})

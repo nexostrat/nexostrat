@@ -186,22 +186,27 @@ EOF
 
 # ─── Plan 02a Task 8 — Baserow row sync ───────────────────────────────────────
 # Non-fatal: filesystem is source of truth; baserow-reconcile.sh (Task 10) picks
-# up orphans. Skipped if secrets.env.age is missing or run-with-secrets.sh isn't
-# available (e.g., during initial setup before vault is provisioned).
+# up orphans. Skipped if secrets aren't available.
+#
+# If BASEROW_URL is already in env (we're invoked from inside another
+# run-with-secrets.sh context — e.g., pytest under the wrapper) call python3
+# directly. Otherwise spawn run-with-secrets.sh to decrypt. Nesting the
+# wrapper triggers a second age passphrase prompt in a subprocess that may
+# have no usable TTY, and produces a UX wart in test output even when /dev/tty
+# IS accessible.
 
-if [[ -f "$REPO_ROOT/secrets.env.age" && -x "$REPO_ROOT/infra/scripts/run-with-secrets.sh" ]]; then
-    "$REPO_ROOT/infra/scripts/run-with-secrets.sh" \
-        python3 - <<PY || echo "WARNING: Baserow sync skipped (run-with-secrets failed)" >&2
+run_baserow_sync() {
+    python3 - <<PY
 import os, sys
-sys.path.insert(0, "$REPO_ROOT/skills/shared")
+sys.path.insert(0, os.environ["REPO_ROOT"] + "/skills/shared")
 import baserow
 cid = baserow.post_client(
-    slug="$SLUG",
-    name="""$NAME""",
-    display_name="""$NAME""",
-    country="$COUNTRY",
-    sector="""$SECTOR""",
-    pilot=("$PILOT" == "true"),
+    slug=os.environ["NX_SLUG"],
+    name=os.environ["NX_NAME"],
+    display_name=os.environ["NX_NAME"],
+    country=os.environ["NX_COUNTRY"],
+    sector=os.environ["NX_SECTOR"],
+    pilot=(os.environ["NX_PILOT"] == "true"),
     source="manual",
 )
 if cid is None:
@@ -209,6 +214,15 @@ if cid is None:
     sys.exit(0)
 print(f"Baserow client row: id={cid}")
 PY
+}
+export REPO_ROOT NX_SLUG="$SLUG" NX_NAME="$NAME" NX_COUNTRY="$COUNTRY" NX_SECTOR="$SECTOR" NX_PILOT="$PILOT"
+
+if [[ -n "${BASEROW_URL:-}" && -n "${BASEROW_API_TOKEN:-}" ]]; then
+    run_baserow_sync || echo "WARNING: Baserow sync failed" >&2
+elif [[ -f "$REPO_ROOT/secrets.env.age" && -x "$REPO_ROOT/infra/scripts/run-with-secrets.sh" ]]; then
+    export -f run_baserow_sync
+    "$REPO_ROOT/infra/scripts/run-with-secrets.sh" bash -c run_baserow_sync \
+        || echo "WARNING: Baserow sync skipped (run-with-secrets failed)" >&2
 else
     echo "WARNING: secrets.env.age or run-with-secrets.sh missing — Baserow row not created" >&2
 fi

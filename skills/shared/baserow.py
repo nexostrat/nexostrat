@@ -17,6 +17,7 @@ import os
 import ssl
 import sys
 import urllib.error
+import urllib.parse
 import urllib.request
 
 
@@ -78,9 +79,17 @@ def _table_id(name: str) -> int:
 
 
 def _find_one(table: str, field: str, value) -> dict | None:
+    """Return first row where `field == value`, or None.
+
+    With user_field_names=true, the filter param uses the field NAME directly
+    (filter__<name>__equal=). The old `field_<name>` form is for field-id
+    addressing and silently no-ops here (Baserow returns unfiltered results
+    instead of erroring), so getting this wrong is dangerously quiet.
+    """
     tid = _table_id(table)
+    encoded = urllib.parse.quote(str(value), safe="")
     path = (f"/api/database/rows/table/{tid}/?user_field_names=true"
-            f"&filter__field_{field}__equal={value}&size=1")
+            f"&filter__{field}__equal={encoded}&size=1")
     result = _request("GET", path)
     rows = result.get("results", [])
     return rows[0] if rows else None

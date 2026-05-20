@@ -15,7 +15,10 @@ def baserow_module():
 
 
 def test_new_client_creates_folder_and_baserow_row(baserow_module):
-    slug = f"_test_nc_{int(time.time())}"
+    # new-client.sh enforces lowercase + dashes only (no underscores, no
+    # leading/trailing dash). Use a dash-form throwaway slug. The "zz-" prefix
+    # sorts these to the bottom of any pipeline/clients/ listing.
+    slug = f"zz-test-nc-{int(time.time())}"
     folder = pathlib.Path(f"{NEXOSTRAT}/pipeline/clients/{slug}")
     try:
         r = subprocess.run(

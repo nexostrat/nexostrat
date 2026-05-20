@@ -950,6 +950,33 @@ def main():
 
     output_docx.parent.mkdir(parents=True, exist_ok=True)
     doc.save(str(output_docx))
+
+    # Plan 02a Task 9 — Baserow deliverables sync (fail-safe).
+    # Canonical path layout: pipeline/clients/<slug>/<station>/runs/<date>/<file>.
+    # Any failure (path doesn't match, no client row, network error) is logged
+    # and swallowed — never blocks the .docx write that just succeeded.
+    try:
+        import os as _os
+        import sys as _sys
+        _sys.path.insert(0, "/srv/Nexostrat/skills/shared")
+        import baserow as _baserow
+        if _os.environ.get("BASEROW_URL") and _os.environ.get("BASEROW_API_TOKEN"):
+            _parts = input_md.parts
+            if len(_parts) >= 5:
+                _slug = _parts[-5]
+                _client = _baserow._find_one("clients", "slug", _slug)
+                if _client:
+                    _baserow.post_deliverable(
+                        client_id=_client["id"],
+                        skill="opportunity-report",
+                        file_md=str(input_md),
+                        file_docx=str(output_docx),
+                        file_pdf="",
+                    )
+    except Exception as _e:
+        import sys as _sys
+        print(f"[baserow-sync] skipped: {_e}", file=_sys.stderr)
+
     print(f"✅ Reporte generado: {output_docx}")
     print(f"   Empresa: {company_name}")
     print(f"   Oportunidades encontradas: {len(opportunities)}")

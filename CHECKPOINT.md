@@ -1,64 +1,66 @@
 # CHECKPOINT — root (Founder)
 
-**Updated:** 2026-05-19T21:05:00-07:00
-**By:** ricardo (via Claude Code session 8 at /srv/Nexostrat/)
+**Updated:** 2026-05-20T09:04:09-07:00
+**By:** ricardo (via Claude Code session 9 at /srv/Nexostrat/)
 **Persona:** Founder
-**Session topic:** Stand up the meeting-recording + transcription stack on the server laptop (OBS + Whisper.cpp large-v3 + `~/bin/transcribe.sh`). Lock a new file-organization pattern (one `COMMANDS.md` per project folder, sections per PC, plus one `~/Desktop/COMMANDS.md` aggregator per PC). Produce both files. Tactical arc, zero architecture impact.
+**Session topic:** Close the deferred age round-trip between Ricardo and JP. Verify operationally (not just at the age-format level) that artifacts encrypted to both recipients are decryptable by either holder on the actual machines + passphrases. Remove the test sentinels from the repo. Effectively close C2 (audit-critical 2 — single-point-of-failure: vault encrypted to Ricardo only) end-to-end.
 
 ## What just happened (last session — read once, don't re-litigate)
 
-Tactical operational session. Started with a strategic question — *"when are we installing meeting-recording software, can we jump ahead?"* — and ended with a working end-to-end recording + transcribe chain plus a refactor of the personal command-file layout.
+Short ceremonial arc. Three Telegram exchanges + two decryptions on two machines + one cleanup commit. Roughly 30 minutes of wall-time.
+
+**Sequence walked:**
+
+1. Drafted JP's Telegram message — self-contained recipe with required tools, exact commands, expected outputs, troubleshooting. ~50 lines, Spanish, beginner-tone. Attached `vault/keys/sentinel-ricardo-to-jp.age` + `infra/age-recipients.txt`.
+2. **Direction A — JP→Ricardo's machine.** JP decrypted `sentinel-ricardo-to-jp.age` on `jp-mac` with `age -d -i ~/.config/age/nexostrat.key.age sentinel-ricardo-to-jp.age`. Output: `Sentinel from Ricardo 2026-05-16T07:35:25-07:00`. JP confirmed via Telegram.
+3. **Direction B — Ricardo's machine → JP→back to Ricardo.** JP encrypted a return sentinel to both recipients via `age -R age-recipients.txt -o /tmp/sentinel-jp-to-ricardo.age /tmp/sentinel-jp.txt` on `jp-mac`. Telegram-attached the `.age` file. Ricardo saved it at `/srv/Nexostrat/sentinel-jp-to-ricardo.age`.
+4. Brief filename-direction confusion ("acá va mi archivo para JP" + a `jp-to-ricardo` filename). Resolved by inspecting the `age` header — two `X25519` recipient stanzas confirmed encryption to both holders; Ricardo then clarified the file was JP's outbound. Cryptography unaffected.
+5. Ricardo decrypted JP's sentinel: `age -d -i ~/.config/age/nexostrat.key.age /srv/Nexostrat/sentinel-jp-to-ricardo.age` → `hola Ricardo, soy JP — descifrado funcionando`.
+6. Sentinel cleanup commit: `rm sentinel-jp-to-ricardo.age` (untracked) + `git rm vault/keys/sentinel-ricardo-to-jp.age` (tracked) + commit `8a2e362`. Working tree clean. Push deferred to session-end (this commit).
 
 **Result:**
 
-- **OBS Studio 30.0.2 + pavucontrol 5.0** installed via apt. `audio-meeting` profile configured: Simple output, MKV format, **Software (x264) encoder** (NOT NVENC — NVIDIA driver not installed; NVENC raised an error), 640×360@10fps, Global Audio Devices = `Default` for both Desktop Audio + Mic/Aux, Sources panel empty.
-- **Whisper.cpp `ggml-large-v3.bin`** (~2.9 GB, ~95-97% Spanish accuracy) downloaded. `/opt/whisper.cpp/models/` chowned to ricardo. Existing `ggml-small.bin` retained as fallback.
-- **`~/bin/transcribe.sh`** wrapper landed (~50 LOC bash). Auto-prefers `large-v3 > medium > small`. Smoke-tested end-to-end.
-- **`/srv/Nexostrat/COMMANDS.md`** (~380 lines) — canonical Nexostrat ops runbook at repo root. Sections per PC (Server, Desktop, Other) plus Whisper model table + flat appendix.
-- **`~/Desktop/COMMANDS.md`** (~325 lines) — this PC's aggregator. Project pointers + general Linux ref + PC-specific specifics.
-- **`~/Desktop/Nexostrat-Operations-Guide.md`** — created earlier in same session as monolithic Operations Guide (644 lines), deleted post-migration once the COMMANDS.md split was decided.
+- Both directions of the age round-trip confirmed.
+- Both holders' private keys + passphrases proven functional end-to-end.
+- C2 audit-critical (single-point-of-failure vault) closed at the validation level (had been closed at the format level in Plan 01a Task 13 — two X25519 stanzas in every artifact).
+- ADR-003 + ADR-004 + F10 fully operational.
+- `vault/keys/` is empty (was a sentinel-only folder; remains in tree for future Plan 02b key-management artifacts if any).
+- `t-plan-01a-jp-and-tty-deferred` items (1)-(4) closed. Items (6), (7), (8), (9) remain — all Ricardo-side TTY-gated only.
 
 ## Decisions locked this session
 
-1. **Install timing for meeting capture.** Binaries (Whisper.cpp + ffmpeg + recording GUI) are PC-level capability with zero Plan 08 architectural surface. Installing them now pre-commits to nothing. Plan 08's eventual scope is the *automation glue* (event router, Telegram digest, Ollama summarization) — separable from the binaries themselves.
+1. **Sentinels do not persist in the repo.** Per the JP coordination message ("Ricardo borra los sentinels del repo"), once both directions are proven the sentinels get removed. Today's cleanup commit (`8a2e362`) executed this. Future sentinel-style tests should follow the same pattern: encrypt → verify → remove from repo. The crypto proof lives in the journal entry + commit log; the artifacts themselves are throwaway.
 
-2. **OBS audio capture mechanism.** Use **Settings → Audio → Global Audio Devices** (Desktop Audio + Mic/Aux set to `Default`). **Never add audio sources from the Sources panel** — they create PipeWire loopback nodes that hijack system routing (mid-session bug: adding such sources killed system audio system-wide until the lingering OBS process was killed). The Sources panel is for *video* sources; audio mixing in OBS is configured via Settings → Audio.
+2. **Naming convention `sentinel-<sender>-to-<receiver>.age` is canonical.** Briefly confused mid-session ("mi archivo para JP" + a filename that looked reversed). Resolution path: always inspect the `age` header (`head -c 500 <file>`) before assuming direction — the two X25519 recipient stanzas are authoritative. Filenames are advisory only; cryptography lives in the header.
 
-3. **OBS encoder.** Software (x264) for all profiles until NVIDIA driver is installed. x264 is actually higher quality than NVENC at same bitrate; the only cost is CPU (negligible for audio-purposed recording). NVIDIA driver install is a separate future task, not gated on anything.
+3. **Telegram is the canonical JP-coordination channel (re-confirmed).** Per `feedback_telegram_not_signal` + the 2026-05-16 directive. Today's session ran entirely over Telegram (no Signal). Original notes in `t-plan-01a-jp-and-tty-deferred` still reference Signal because they were written 2026-05-16 before the migration landed in 00_PARTNERSHIP docs (deferred to `t-plan-01c-polish-pass` item f).
 
-4. **Whisper model strategy.** Default to `large-v3` (3 GB, ~95-97% Spanish accuracy). Keep `small` (466 MB) as auto-fallback. `transcribe.sh` does the model preference logic internally. `~/.config` or `WHISPER_MODEL=...` env-var override available for power-user cases.
-
-5. **OBS Profiles strategy.** Two profiles planned — `audio-meeting` (configured today: 640×360@10fps, throwaway video) and `video` (future setup: 1920×1080@30fps, x264 medium). Switch via OBS top menu Profile → before each recording.
-
-6. **NEW file-organization pattern** (introduced by Ricardo mid-session):
-   - **One `COMMANDS.md` per project folder.** Sections per computer. File lives inside the project folder so it travels via git. *Project-local commands.*
-   - **One `~/Desktop/COMMANDS.md` per PC.** Aggregator: project-folder pointers + general Linux reference + this-PC specifics. *PC-local navigation.*
-   - Pattern supersedes the ad-hoc-files-on-Desktop scatter. `AttenBot-Commands.md` still exists on Desktop and should eventually migrate to its project folder (out of scope for Nexostrat sessions).
-
-7. **No script/glue lands in `/srv/Nexostrat/`.** All capability lives in `~/bin/`, `/opt/`, system `apt` packages — outside the repo. The only Nexostrat-repo artefact this session is the new `COMMANDS.md` documentation file. Plan 08 territory remains unwritten and unaffected.
+4. **No formal smoke-test rerun this session.** Today's verification is ad-hoc proof outside the harness, not inside it. The Plan 01c smoke test's `[1/6] crypto round-trip` sub-test stays marked SKIP in the latest harness record. The sub-test is now functionally guaranteed to PASS on the next interactive run — but the SKIP→PASS flip in the test record is a separate bookkeeping action (item 9 of `t-plan-01a-jp-and-tty-deferred`).
 
 ## Stack state (live & verifiable next session)
 
 ```
-HP (ricardo-hp-laptop, Tailscale 100.64.121.80) — unchanged from session 7:
+HP (ricardo-hp-laptop, Tailscale 100.64.121.80) — unchanged from session 8:
   baserow + bookstack + bookstack-db + caddy all healthy.
   systemd nexostrat-foss-stack.service enabled.
   Two nightly timers still MASKED (reconcile @ 03:30, schema-check @ Mon 04:00) —
     waiting on t-plan-02a-chunk-b-systemd-creds (high, due 2026-06-01).
 
-NEW this session — recording + transcription stack:
-  OBS Studio 30.0.2 (apt)
-  pavucontrol 5.0 (apt)
-  Whisper.cpp /opt/whisper.cpp/ — pre-existing build
-    models/ggml-small.bin   (466 MB) — fallback
-    models/ggml-large-v3.bin (2.9 GB) — preferred
-  ~/bin/transcribe.sh — wrapper auto-prefers large-v3
-  OBS profile audio-meeting:
-    640×360 @ 10 fps · Software (x264) · MKV · ~/Videos · Global Audio Devices = Default
+Recording + transcription stack — unchanged from session 8:
+  OBS Studio 30.0.2 + pavucontrol 5.0
+  Whisper.cpp /opt/whisper.cpp/ + models (small fallback, large-v3 preferred)
+  ~/bin/transcribe.sh wrapper
+  OBS profile audio-meeting
 
-NEW files in repo:
-  /srv/Nexostrat/COMMANDS.md (~380 lines)
-    → Canonical Nexostrat ops runbook, sections per PC.
+NEW this session — crypto foundation closed:
+  vault/keys/ now empty (sentinel-ricardo-to-jp.age removed)
+  /srv/Nexostrat/sentinel-jp-to-ricardo.age (Telegram inbound) — rm'd
+  Commit 8a2e362 on local main; pushes at session-end to Gitea + GitHub + Codeberg.
+
+Vault discipline operationally proven:
+  - infra/age-recipients.txt: 2 keys (Ricardo, JP)
+  - Both private keys validated end-to-end on their respective machines.
+  - Any future artifact encrypted to both recipients is recoverable by either holder.
 ```
 
 ## In flight — concrete next actions
@@ -68,10 +70,10 @@ NEXT SESSION:
   1. Open Claude Code AT /srv/Nexostrat/.
   2. Ricardo types "Start Session."
   3. Claude reads CHECKPOINT + STATUS + tasks + calendar + latest journal
-     (00_META/journal/2026-05-19_recording-stack-setup.md).
+     (00_META/journal/2026-05-20_crypto-foundation-verified.md).
   4. Ricardo decides arc.
 
-CRITICAL PATH UNCHANGED FROM SESSION 7:
+CRITICAL PATH UNCHANGED FROM SESSION 8:
 
   ┌── 2026-05-25 1pm Tijuana ─────────────────────────────┐
   │  REUNIÓN TRIXX LOGISTICS                               │
@@ -110,15 +112,13 @@ PARALLEL TRACK — Chunk B follow-ups (architectural):
   │  4 small test additions (~95 LOC total). ~30 min.       │
   └───────────────┘
 
-NEW THIS SESSION:
+CARRIED FROM SESSION 8:
 
   ┌── 2026-06-15 ─┐
   │  t-desktop-pc-recording-stack-install (medium)          │
-  │  Replicate today's stack on the desktop PC. Follow      │
+  │  Replicate session 8's stack on the desktop PC. Follow  │
   │  /srv/Nexostrat/COMMANDS.md → "Desktop PC" section.     │
-  │  6 sub-steps: apt + cmake whisper.cpp + download        │
-  │  large-v3 + transcribe.sh + OBS audio-meeting profile   │
-  │  + verify e2e. ~15-30 min + model download time.        │
+  │  ~15-30 min + model download time.                       │
   └───────────────┘
 
 CHUNK C — next major arc (architecture):
@@ -140,93 +140,101 @@ CHUNK C — next major arc (architecture):
   │  ADRs 021-035 + 10 how-tos + paired -explicado.md.      │
   └───────────────┘
 
-OTHER OPEN (unchanged from session 7):
+PARTIALLY CLOSED THIS SESSION:
+
+  ┌── 2026-06-30 ─┐ (unchanged due — items (6)(7)(8)(9) remain)
+  │  t-plan-01a-jp-and-tty-deferred (medium)                │
+  │  ✅ Items (1)-(4) DONE this session (commit 8a2e362).   │
+  │  Remaining: (6) leak-test TTY rerun, (7) full Plan 01a  │
+  │  test rerun, (8) Plan 01b wrapper smoke-test, (9) smoke │
+  │  test [1/6] SKIP→PASS flip. All Ricardo-side TTY-gated, │
+  │  no longer JP-coordination-blocked. ~45-60 min when     │
+  │  Ricardo decides to flip the test record straight.       │
+  └───────────────┘
+
+OTHER OPEN (unchanged from session 8):
   - t-vault-backup-foss-env (medium, due 2026-06-30) — plan defect
-  - t-whatsapp-andrea-audiencia (high, due 2026-05-23) — optional
-  - t-practice-meeting-jp (low, due 2026-05-24) — optional
+  - t-whatsapp-andrea-audiencia (high, due 2026-05-23) — optional pre-Trixx
+  - t-practice-meeting-jp (low, due 2026-05-24) — optional pre-Trixx
   - t-migrate-pilotos-to-clients (medium, due 2026-05-30) — parallel
   - t-presentation-refresh-post-adr-038 (high, due 2026-06-01)
+  - t-plan-01b-execute-warm-standby (critical, due 2026-06-30) — gated on physical second host
+  - t-confidence-marking-company-analyst (medium, due 2026-06-14)
+  - t-nexostrat-capabilities-catalog (high, due 2026-05-31)
+  - t-validate-pipeline-improvements (high, due 2026-06-07)
+  - t-plan-01c-polish-pass (low, due 2026-06-30) — collected LOW residue
 ```
 
 ## Architecture-conflict check (passed)
 
 | This session's work | Verification |
 |---|---|
-| OBS + Whisper.cpp install | PC-level capability. No Nexostrat repo internals touched. Plan 08 territory remains unwritten + unaffected. |
-| `~/bin/transcribe.sh` lives outside repo | Personal helper script. Plan 08 will write its own automation glue when it lands. |
-| `/srv/Nexostrat/COMMANDS.md` in repo | Documentation file. Doesn't conflict with any plan; complements CLAUDE.md (which is *context*, not ops reference). |
-| New file-org pattern | Convention for Ricardo's personal organization. No conflict with repo structure or any persona's scope. |
-| OBS profile config in `~/.config/obs-studio/` | User-level OBS state. Not architecturally relevant. |
+| JP+Ricardo age round-trip | Operational validation of pre-existing format-level work (Plan 01a Task 13). No new artifacts in repo; net change is a deletion. |
+| Sentinel cleanup commit | Removes test artifacts that served their purpose. No production code or config affected. |
+| Filename direction confusion | Resolved by inspecting the `age` header — the format itself is the source of truth, not advisory filenames. Conventions documented in journal for future reference. |
+| No new memory entries | Existing memories (do-it-right-do-it-once, complete-or-nothing, honestidad-brutal-evaluacion) applied; nothing surprising or non-obvious surfaced that needed a new memory. |
 
 ## Blocked on
 
-**Next-session priority 1 (Trixx meeting):** nada del lado nuestro — materiales en Desktop, recording stack ready (phone voice recorder Monday → `transcribe.sh` Tuesday → `/opportunity-report` skill).
+**Next-session priority 1 (Trixx meeting 2026-05-25):** nothing on our side — materials intact on Desktop, recording stack ready (phone voice recorder Monday → `transcribe.sh` Tuesday → Skill 05).
 
-**Tomorrow's online meetings:** can use either this laptop (full stack here) or desktop PC (after `t-desktop-pc-recording-stack-install` runs). Laptop suffices if desktop PC install slips.
+**Chunk B follow-ups (3) + Chunk C:** unchanged from session 8. Recommended order still systemd-creds → hook-lift → test-coverage → Chunk C.
 
-**Chunk B follow-ups (3) + Chunk C:** unchanged from session 7. Recommended order still systemd-creds → hook-lift → test-coverage → Chunk C.
+**`t-plan-01a-jp-and-tty-deferred` items (6)(7)(8)(9):** Ricardo-side TTY-gated; need an interactive `age` passphrase prompt in a focused session. Not blocked by anything external.
 
 **Warm-standby Tasks 7-12 Plan 01b:** physical second host (unchanged).
 
 ## Open questions (no blocking)
 
-1. **Ollama on the server laptop?** Ricardo mentioned interest in testing whether a small Ollama model runs usably on this CPU-only machine. Deferred this session ("we can revise that an try to implement even the smaller model to see what happens"). Open for future session. Not architectural — Ollama on this PC would be standalone, not wired into Nexostrat.
+1. **Should `vault/keys/` be deleted entirely or left empty?** It was a sentinel-only folder; now empty. Plan 02b may use it for key-management artifacts (rotation runbooks, recovery scripts). Currently kept as an empty placeholder. Decide if/when Plan 02b lands.
 
-2. **Desktop PC OS version assumption.** `t-desktop-pc-recording-stack-install` documented for **Linux Mint** matching the laptop. If the desktop PC turns out to be on a different distro (Ubuntu/Fedora/etc.), the apt commands need swapping. Currently assumed Mint per Ricardo's session statement.
+2. **Smoke test [1/6] SKIP→PASS flip — do it as a standalone interactive run, or bundle with items (6)(7)(8) in one TTY session?** Bundling is more efficient (~45-60 min total instead of separate sessions). Decide when Ricardo wants to do the run.
 
-3. **AttenBot file migration.** `~/Desktop/AttenBot-Commands.md` still exists on Desktop. Per the new pattern it should move to AttenBot's project folder. Out of scope for Nexostrat sessions; flagged in `~/Desktop/COMMANDS.md` as a known migration deferred.
+3. **Update of 00_PARTNERSHIP/ docs to reflect Telegram-not-Signal directive.** Still tracked in `t-plan-01c-polish-pass` item (f). Today's session is the second piece of evidence that Telegram is the established channel; the signed-legal-artifact addendum work remains low-priority.
 
 ## Files modified this session
 
-Session-end commit will include:
+Session-end commit (this one) will include:
 
-- `STATUS.md` (header + session 8 block prepended)
-- `tasks.json` (added `t-desktop-pc-recording-stack-install`)
+- `STATUS.md` (header + session 9 block prepended)
+- `tasks.json` (top-level `updated` bumped + `t-plan-01a-jp-and-tty-deferred` notes updated)
 - `CHECKPOINT.md` (this file, rewritten)
-- `00_META/journal/2026-05-19_recording-stack-setup.md` (NEW)
-- `COMMANDS.md` (NEW at repo root)
+- `00_META/journal/2026-05-20_crypto-foundation-verified.md` (NEW)
 
-**Outside the repo (manual changes on HP):**
+Earlier this session (already committed):
 
-- `~/Desktop/COMMANDS.md` (NEW, ~325 lines, this-PC aggregator)
-- `~/Desktop/Nexostrat-Operations-Guide.md` (created earlier in session, deleted post-migration)
-- `~/bin/transcribe.sh` (NEW, ~50 LOC wrapper)
-- `/opt/whisper.cpp/models/ggml-large-v3.bin` (downloaded, ~2.9 GB)
-- `/opt/whisper.cpp/models/` (chowned `ricardo:ricardo`)
-- `obs-studio` + `pavucontrol` + `vlc` (deps) installed via apt
-- `~/.config/obs-studio/basic/profiles/audio-meeting/` (OBS profile config)
-- `~/Videos/2026-05-19 20-25-26.mkv` + `.txt` (smoke-test recording + transcript, can be deleted any time)
+- Commit `8a2e362` — removed `vault/keys/sentinel-ricardo-to-jp.age` (git rm).
+
+**Outside the repo (no longer tracked):**
+
+- `/srv/Nexostrat/sentinel-jp-to-ricardo.age` — `rm`'d (was a Telegram inbound attachment from JP; never tracked in git).
 
 ## Memory updates this session
 
 None new. Existing memories applied — particularly:
-- `feedback_complete_or_nothing.md` — drove the end-to-end smoke test rather than declaring done at install time
-- `feedback_do_it_right_do_it_once.md` — drove the audio-amplitude verification of both halves rather than trusting "Whisper transcribed your voice → done"
-- `feedback_outputs_premium_visual.md` — drove the COMMANDS.md structure (tables, scannable headings, clean code blocks)
-- `feedback_honestidad_brutal_evaluacion.md` — drove the explicit "music isn't in the transcript, but amplitude proves capture worked, here's the proof" framing rather than glossing over
+
+- `feedback_complete_or_nothing.md` — drove the cleanup commit before declaring done, rather than leaving sentinels in the repo "for later cleanup".
+- `feedback_do_it_right_do_it_once.md` — drove inspecting the `age` header before assuming file direction, rather than trusting the filename.
+- `feedback_honestidad_brutal_evaluacion.md` — drove surfacing the filename-vs-content ambiguity directly when it arose, rather than glossing over.
 
 ## Estimated time to next milestones
 
-- **Tomorrow (2026-05-20):** any online meeting → record on this laptop (OBS audio-meeting profile) → transcribe via `transcribe.sh`. ~5 min setup time per meeting.
-- **Trixx meeting (2026-05-25):** unchanged — 30 min meeting + 30 min prep.
-- **Skill 05 post-Trixx:** ~30-45 min execution + ~70 min wall-time for large-v3 transcription of ~30-min recording + 30 min Ricardo+JP review.
-- **`t-desktop-pc-recording-stack-install`:** ~15-30 min + ~5-10 min model download time (depending on desktop PC connection).
+- **Trixx meeting (2026-05-25 1pm Tijuana):** T-5 days. 30 min meeting + 30 min prep. Materials intact.
+- **Skill 05 post-Trixx:** ~30-45 min execution + ~70 min wall-time for large-v3 transcription + 30 min Ricardo+JP review.
 - **`t-plan-02a-chunk-b-systemd-creds`:** ~30-45 min.
-- **Chunk B follow-ups (3) + Chunk C:** unchanged from session 7 estimates.
+- **`t-plan-01a-jp-and-tty-deferred` items (6)(7)(8)(9) bundled:** ~45-60 min TTY-gated.
+- **Chunk B follow-ups (3) + Chunk C:** unchanged from session 8 estimates.
 - **Stage 1 launch realistic:** 2026-07-15 to 2026-07-30 (unchanged).
 
 ## After this, what's next
 
-Ricardo picks. Recording stack is operational on the server laptop. Trixx Monday materials remain intact. Architecture work (Chunk B follow-ups → Chunk C → Plan 02b → Plans 03+04+05-10) all unchanged from session 7's baton.
+Ricardo picks. With crypto foundation closed at the operational level, the only architectural debt at the foundation level is the warm-standby cluster (Plan 01b Tasks 7-12, gated on the physical second host arriving). Everything else open is Plan 02a Chunk B follow-ups + Chunk C, or the Trixx pilot critical path.
 
 ## For a future auditor reading this baton
 
-This was the 17th execution arc since 2026-05-15. Pattern reinforced: even tactical, non-architectural sessions deserve the same end-to-end verification discipline as the architectural ones. Specifically:
-- Don't trust "the install completed" → verify by running the chain on test data.
-- When the test produces unexpected output (e.g., "music not in transcript"), don't gloss over — check the lower-level signal (amplitude in this case) to distinguish "feature not used" from "feature broken".
-- The OBS Sources-panel-kills-audio bug was the kind of subtle integration failure that only mid-session manual testing would surface; documenting the fix and the root cause in COMMANDS.md prevents the next user (Ricardo on desktop PC, or future-Ricardo on a re-install) from re-hitting it.
+This was the 18th execution arc since 2026-05-15. The session is the operational counterpart to Plan 01a Task 13: that task closed C2 at the format level (two X25519 stanzas per artifact = both recipients in every age header); today closed C2 at the validation level (both holders' private keys + passphrases actually function on their actual machines). Both halves together = the vault is genuinely recoverable, not just structurally configured to be recoverable. The 4-day gap (2026-05-16 Plan 01a Task 13 → 2026-05-20 session 9) was intentional per the deferred-task design — JP downloaded on his own schedule. Pattern reinforced: small ceremonial sessions that close pre-existing deferred work deserve the same end-to-end verification discipline as architectural sessions — the sentinel was inspected at the `age` header level before assuming direction, and the cleanup commit was treated as a discrete atomic action rather than batched into ad-hoc work.
 
-The session-end bookkeeping commit (next) locks all of this. Next session opens with: Ricardo's choice among (a) Chunk B follow-ups (recommended: systemd-creds first), (b) Chunk C straight, (c) post-Trixx Skill 05 if meeting has occurred, (d) Plan 02b write, (e) Desktop PC stack install (likely done from the desktop PC directly, not from this laptop), (f) something else.
+The session-end bookkeeping commit (next) locks all of this. Next session opens with: Ricardo's choice among (a) Chunk B follow-ups (recommended: systemd-creds first), (b) Chunk C straight, (c) post-Trixx Skill 05 if meeting has occurred, (d) Plan 02b write, (e) Desktop PC stack install, (f) `t-plan-01a-jp-and-tty-deferred` items (6)(7)(8)(9) bundled TTY session, (g) something else.
 
 ---
 

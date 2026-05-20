@@ -5,10 +5,13 @@ BASE_URL = os.environ["BASEROW_URL"]
 _EMAIL = os.environ["BASEROW_EMAIL"]
 _PASSWORD = os.environ["BASEROW_PASSWORD"]
 
-# Caddy local CA — Tailscale-only network is the security boundary.
+# Caddy local CA — Tailscale-only network is the security boundary. Default
+# is insecure TLS; flip BASEROW_INSECURE_TLS=0 once the Caddy root is trusted
+# system-wide and we want hostname/cert verification on schema operations too.
 _CTX = ssl.create_default_context()
-_CTX.check_hostname = False
-_CTX.verify_mode = ssl.CERT_NONE
+if os.environ.get("BASEROW_INSECURE_TLS", "1") == "1":
+    _CTX.check_hostname = False
+    _CTX.verify_mode = ssl.CERT_NONE
 
 _JWT: str | None = None
 

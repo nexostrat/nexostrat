@@ -24,14 +24,25 @@ if ! git remote get-url "$REMOTE" >/dev/null 2>&1; then
   exit 2
 fi
 
-# Use a deterministic timestamped log line so journalctl is greppable
 TS=$(date -Iseconds)
-echo "[$TS] mirror-push: pushing main → $REMOTE"
+
+# Refresh origin/main from the bare repo before pushing. Without this, pushes
+# that landed via Gitea from other machines leave THIS working clone's
+# remote-tracking refs stale, so `git push <mirror> main` sends the old hash
+# and reports "Everything up-to-date" (silent no-op). Pushing origin/main
+# directly avoids touching the working tree — no reset, no risk of clobbering
+# uncommitted edits on HP.
+if ! git fetch origin main 2>&1; then
+  echo "[$TS] mirror-push: fetch from origin failed" >&2
+  exit 1
+fi
+
+echo "[$TS] mirror-push: pushing origin/main → $REMOTE"
 
 # The push uses the SSH key in ~/.ssh/config (via the alias) — no PAT needed
 # for SSH-based remotes. The PATs in secrets.env.age are reserved for HTTPS
 # fallback (TBD; Stage 1 ships SSH-only).
-if git push "$REMOTE" main 2>&1; then
+if git push "$REMOTE" origin/main:refs/heads/main 2>&1; then
   echo "[$TS] mirror-push: $REMOTE OK"
   exit 0
 else

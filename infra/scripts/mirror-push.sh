@@ -26,19 +26,21 @@ fi
 
 TS=$(date -Iseconds)
 
-# Fetch into a per-mirror staging ref instead of refs/remotes/origin/main.
-# Two reasons:
+# Fetch into a per-mirror staging ref. Three things to address:
 #   (1) Off-HP pushes leave this working clone's remote-tracking refs stale,
 #       so naively pushing local 'main' would send the old hash and report
 #       "Everything up-to-date" (silent no-op).
 #   (2) Both mirror services fire on the same .path watcher event and run in
-#       parallel. If they both fetched into refs/remotes/origin/main, they'd
-#       race on the ref lock ("cannot lock ref ... is at X but expected Y")
-#       and one would fail. A per-remote staging ref isolates them.
-# This also avoids touching the working tree — no reset, no risk of
+#       parallel. A per-remote staging ref isolates them from each other.
+#   (3) Using the URL form of `git fetch` instead of the remote name bypasses
+#       the configured `fetch = +refs/heads/*:refs/remotes/origin/*` refspec,
+#       which would otherwise ALSO try to update refs/remotes/origin/main and
+#       race against the other mirror service on that ref lock.
+# This approach also avoids touching the working tree — no reset, no risk of
 # clobbering uncommitted edits on HP.
 STAGING_REF="refs/mirror-stage/$REMOTE"
-if ! git fetch origin "refs/heads/main:$STAGING_REF" 2>&1; then
+ORIGIN_URL=$(git remote get-url origin)
+if ! git fetch --no-tags "$ORIGIN_URL" "refs/heads/main:$STAGING_REF" 2>&1; then
   echo "[$TS] mirror-push: fetch from origin failed" >&2
   exit 1
 fi

@@ -1,11 +1,11 @@
 # infra/machines/ricardo-desktop.yaml
 # Ricardo's desktop workstation — also the GPU host (office hours). Wake-on-LAN target.
-hostname: <TBD-at-bootstrap>
+hostname: ricardo-desktop
 role: ricardo-desktop
 owner: ricardo
 os: linux-mint
-os_version: "22.2"
-tailscale_ip: <TBD-at-bootstrap>
+os_version: "22.3"
+tailscale_ip: 100.104.83.2
 docker:
   compose_file: null  # no firm services here
   services: []
@@ -24,7 +24,8 @@ desktop_apps:
 schedule:
   ollama_office_hours: "09:00-18:00 America/Tijuana"
 gpu:
-  vendor: nvidia  # placeholder — confirm at bootstrap
+  vendor: nvidia
+  model: GeForce RTX 3060 Ti
   models:
     - llama3.1:8b
     - qwen2.5:14b
@@ -34,5 +35,5 @@ hooks:
   pre_receive: null
 crons: []
 wake_on_lan:
-  mac_address: <TBD-at-bootstrap>
+  mac_address: 04:d9:f5:7f:12:a2  # enp4s0
   enabled: true  # Plan 09 wires the trigger

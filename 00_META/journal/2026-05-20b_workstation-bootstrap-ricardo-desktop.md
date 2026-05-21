@@ -13,3 +13,4 @@ Discovered during this bring-up: mirror-push.sh pushed from HP's stale
 local clone, so off-HP pushes silently no-op'd. Patched in 03d15f8 to
 fetch origin first then push origin/main. This commit is the test artifact.
 Concurrency fix (commit 643e4ec): each service uses refs/mirror-stage/<remote>.
+URL-based fetch (commit follow-up): bypasses configured refspec to remove the last race.

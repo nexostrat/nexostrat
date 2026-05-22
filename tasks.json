@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v1",
   "project": "nexostrat",
-  "updated": "2026-05-20T09:04:09-07:00",
+  "updated": "2026-05-21T17:38:51-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -612,6 +612,51 @@
       "due": "2026-06-15",
       "created": "2026-05-19",
       "notes": "Follow /srv/Nexostrat/COMMANDS.md → Desktop PC section → 'One-time install (fresh Linux Mint machine)' (line ~178). 6 sub-steps: (1) apt install obs-studio pavucontrol ffmpeg build-essential cmake git pulseaudio-utils; (2) git clone whisper.cpp at /opt/whisper.cpp + cmake build; (3) download ggml-large-v3.bin (+ ggml-small.bin fallback); (4) install ~/bin/transcribe.sh (script body inlined in the guide); (5) configure OBS audio-meeting profile (Software x264 encoder NOT NVENC, Global Audio Devices = Default, empty Sources panel — critical to avoid the audio-kill bug); (6) end-to-end verification with a 30s test recording. ~15-30 min plus model download time. Closes when transcribe.sh runs end-to-end on a test recording on the desktop PC. Desktop PC will host most online client meetings going forward; server laptop remains the Nexostrat infra host."
+    },
+    {
+      "id": "t-nexostrat-telegram-account",
+      "subject": "B19 — Create firm-owned Telegram account for @NexostratBot (pre-deploy hard requirement)",
+      "status": "open",
+      "priority": "critical",
+      "due": "2026-06-15",
+      "created": "2026-05-21",
+      "notes": "Audit B19. The Brain Bot Platform tenant for Nexostrat needs a Telegram bot @NexostratBot, but the bot should be created from a firm-owned Telegram account (not Ricardo's personal). Reason: if Ricardo's personal Telegram is compromised or transferred, the bot stays with the firm. Steps: (1) provision phone number for the firm account (Nexostrat firm SIM or Google Voice number tied to contacto@nexostrat.com); (2) create new Telegram account on that number; (3) BotFather → /newbot → name 'Nexostrat' → handle @NexostratBot → save NEXOSTRAT_BOT_TOKEN; (4) both founders added as admins of the JP+Ricardo group; (5) JP_DM_ID and NEXOSTRAT_GROUP_ID collected. Token stored per ADR-024-equivalent credentials posture (Brain-side §C9). Cannot ship Plan 04 until this is done. Tracked in ADR-039 mandatory follow-ups."
+    },
+    {
+      "id": "t-weekend-desktop-on-decision",
+      "subject": "B16 — Decide weekend desktop-on schedule (blocks Mon 08:00 Nexostrat meeting brief)",
+      "status": "open",
+      "priority": "high",
+      "due": "2026-06-15",
+      "created": "2026-05-21",
+      "notes": "Audit B16. Nexostrat's canonical cadence is Mon 08:00 + Thu 07:00 America/Tijuana (per Session B notes B4). T-2h brief = Mon 06:00 + Thu 05:00, render-only from the Sun/Wed 19:30 daily extraction. Brain Bot Platform design §18 defers 'weekend schedule for desktop-off hours' — without a decision, Monday's brief degrades to 'no group-chat block'. Three options: (a) desktop stays on Sunday evenings ~18:00-20:00 TJ for the 19:30 job (recommended — cheap); (b) 19:30 job moves to server PC's local LLM (slower, weaker models, but always-on); (c) Monday brief degrades gracefully, block regenerates when desktop comes back Monday morning. Decision needs both founders since it affects Ricardo's weekend ritual + JP's expectations of brief completeness. Memo to Brain side once decided so they can lock §18."
+    },
+    {
+      "id": "t-confidence-calibration-corpus",
+      "subject": "B17 — Build confidence-score calibration corpus (50+ rated examples) for hybrid task-write",
+      "status": "open",
+      "priority": "high",
+      "due": "2026-06-22",
+      "created": "2026-05-21",
+      "notes": "Audit B17. The hybrid-by-confidence task posture (audit B6) relies on calibrated LLM confidence scores. Without ground-truth calibration the threshold (initial 0.85) is arbitrary; auto-write degenerates to 'auto-write anything not explicitly hedged' which is the wrong posture for a JP-shared partnership. Deliverables: (1) explicit rubric in extractor prompt — propose: '0.9+ = direct quote with explicit commitment + owner + when; 0.7-0.9 = paraphrased commitment with clear owner + intent; 0.4-0.7 = inferred from context, no explicit commitment; <0.4 = speculation'; (2) 50+ manually-rated calibration examples committed to /srv/Nexostrat/00_META/calibration/auto_task_extraction.jsonl (real meeting/chat snippets + Ricardo's ground-truth label + Ricardo's reasoning); (3) bi-weekly re-rating cron of 20 auto-written tasks; (4) make threshold configurable in Brain's routing.yaml per tenant. Plan 04 implementation prerequisite — without this, Plan 04 ships with an arbitrary threshold."
+    },
+    {
+      "id": "t-plan-04-description-update",
+      "subject": "Update Plan 04 description in master index to reflect Brain hub tenant model",
+      "status": "open",
+      "priority": "high",
+      "due": "2026-05-28",
+      "created": "2026-05-21",
+      "notes": "Outcome of Session B (ADR-039). 00_META/plans/README.md still describes Plan 04 as 'Telegram Bot Core + Unified Inbox' which implies a standalone bot. Update to 'Nexostrat tenant integration into central Brain Bot Hub' (or equivalent) + adjust scope notes: instead of building a bot from scratch, Plan 04's work is (a) provision NEXOSTRAT_BOT_TOKEN + register @NexostratBot, (b) wire Nexostrat as tenant 3 in Brain routing.yaml, (c) add Nexostrat-specific schedule.yaml (4 jobs per Session B B11), (d) write MANUAL.es.md + MANUAL.en.md (B10), (e) extend events.jsonl schema with client_slug per B4. Effort estimate adjusts down significantly from the original 'Telegram Bot Core' scope. Touch when next opening the plan index for any other reason."
+    },
+    {
+      "id": "t-plan-08-client-meeting-integration",
+      "subject": "B18 — Document client-meeting integration pattern in Plan 08 (Meeting Pipeline) when drafted",
+      "status": "open",
+      "priority": "medium",
+      "due": "2026-07-15",
+      "created": "2026-05-21",
+      "notes": "Audit B18. Plan 08 (Meeting Pipeline) is DRAFT-PENDING in the master index. When drafted, must include the client-meeting routing pattern from Session B B4: client meetings emit meeting.summary_ready events with scope: nexostrat AND an additional client_slug: field; Nexostrat tenant plugins route minutes to /srv/Nexostrat/pipeline/clients/<slug>/transcripts/<date>_minutes.md instead of /srv/Nexostrat/meetings/<slug>/. Internal JP↔Ricardo meetings stay at /srv/Nexostrat/meetings/<slug>/minutes.md. Also: client meeting recording infra (Whisper transcription, scope tagging at recording time). Not blocking Plan 04; flag here so Plan 08 author doesn't miss the pattern."
     }
   ]
 }

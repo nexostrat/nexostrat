@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v1",
   "project": "nexostrat",
-  "updated": "2026-05-21T17:38:51-07:00",
+  "updated": "2026-05-22T15:25:18-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -657,6 +657,33 @@
       "due": "2026-07-15",
       "created": "2026-05-21",
       "notes": "Audit B18. Plan 08 (Meeting Pipeline) is DRAFT-PENDING in the master index. When drafted, must include the client-meeting routing pattern from Session B B4: client meetings emit meeting.summary_ready events with scope: nexostrat AND an additional client_slug: field; Nexostrat tenant plugins route minutes to /srv/Nexostrat/pipeline/clients/<slug>/transcripts/<date>_minutes.md instead of /srv/Nexostrat/meetings/<slug>/. Internal JP↔Ricardo meetings stay at /srv/Nexostrat/meetings/<slug>/minutes.md. Also: client meeting recording infra (Whisper transcription, scope tagging at recording time). Not blocking Plan 04; flag here so Plan 08 author doesn't miss the pattern."
+    },
+    {
+      "id": "t-install-brand-fonts-laptop",
+      "subject": "Install fonts-inter + fonts-jetbrains-mono on ricardo-hp-laptop (brand-font parity)",
+      "status": "open",
+      "priority": "high",
+      "due": "2026-05-30",
+      "created": "2026-05-22",
+      "notes": "Session 11 (2026-05-22) flipped BRAND_FONT in skills/shared/brand.py from Calibri to Inter and installed the fonts on ricardo-desktop. The laptop is still where most DOCX renders happen (Skills 01-05 → libreoffice → PDF for client deliverables; Trixx 4 PDFs already on Desktop were rendered with Calibri which LO substituted to Liberation Sans on Linux). Without Inter on the laptop, next client run rendered there will font-substitute (LibreOffice maps to Liberation Sans). One-line fix: sudo apt install fonts-inter fonts-jetbrains-mono. Closes when fc-match Inter returns the actual Inter font on the laptop."
+    },
+    {
+      "id": "t-pick-website-intro-final-version",
+      "subject": "Pick website intro final version (V1.0 vs V1.1, gated on JP review)",
+      "status": "open",
+      "priority": "medium",
+      "due": "2026-06-15",
+      "created": "2026-05-22",
+      "notes": "Two H.264 MP4 candidates at /srv/Nexostrat/operations/marketing/website-intro/edits/Intro V1.{0,1}.mp4 (21 MB each, 38s, 1080p30, +faststart). DaVinci masters (ProRes MKV) preserved alongside. JP gates the pick. When decision lands, move chosen file to operations/marketing/website-intro/final/ per the README convention. Soft target tied to website launch — no firm date yet; using Stage 1 launch window upper bound. Open creative question carried from session 11: music vs no-music for the intro (deferred for next editing pass)."
+    },
+    {
+      "id": "t-fix-logo-kit-html-fonts",
+      "subject": "Align operations/assets/brand/Nexostrat_Logo_Kit.html font stack with brand spec (Inter)",
+      "status": "open",
+      "priority": "low",
+      "due": "2026-07-15",
+      "created": "2026-05-22",
+      "notes": "operations/assets/brand/Nexostrat_Logo_Kit.html still references 'Century Gothic', 'Nunito', -apple-system in its CSS font-family declarations. Not blocking — the logo PNGs were already rendered with whatever font produced them, and brand spec memory outputs-premium-visual.md mandates Inter for documents not necessarily for the logo wordmark itself. Touch when the logo kit is next regenerated or when reconciling brand assets pre-launch. Decision needed: do we restamp the logo PNGs in Inter, or accept that the logo wordmark stays in Century Gothic while document body fonts are Inter? Brand-spec-level call."
     }
   ]
 }

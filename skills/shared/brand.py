@@ -23,7 +23,8 @@ from docx.oxml import OxmlElement
 
 
 BRAND_GUIDE_VERSION = "1.0"
-BRAND_FONT = "Calibri"
+BRAND_FONT = "Inter"
+BRAND_FONT_MONO = "JetBrains Mono"
 
 # ── Aurora palette (RGBColor — for python-docx run.font.color.rgb) ────────
 MIDNIGHT_BLUE = RGBColor(0x0C, 0x1A, 0x2E)   # H1 / headers / dark accents
@@ -106,7 +107,7 @@ def apply_brand_header(doc, label="NEXOSTRAT", extra=None,
 
     Sets section.different_first_page_header_footer = True so the cover page
     is excluded. Renders the label (+ optional `extra` after a center-dot)
-    in Midnight Blue Calibri Bold 11pt with a Sky Blue 0.75pt bottom rule.
+    in Midnight Blue Inter Bold 11pt with a Sky Blue 0.75pt bottom rule.
     """
     text = label if not extra else f"{label}  ·  {extra}"
     for section in doc.sections:
@@ -140,7 +141,7 @@ def apply_brand_footer(doc, extra=None):
     """Apply the body-pages footer.
 
     Renders `nexostrat.com  ·  [<extra>  ·  ]Pág. <PAGE field>` centered in
-    Gray 500 Calibri 9pt. Idempotent (clears prior runs).
+    Gray 500 Inter 9pt. Idempotent (clears prior runs).
     """
     for section in doc.sections:
         section.different_first_page_header_footer = True

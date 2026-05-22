@@ -183,7 +183,7 @@ def add_cover_page(doc, company_name, date_str):
     run.font.size  = Pt(13)
     run.font.color.rgb = ACCENT
     run.font.bold  = True
-    run.font.name  = 'Calibri'
+    run.font.name  = BRAND_FONT
     p.paragraph_format.space_after = Pt(6)
 
     # Company name
@@ -193,7 +193,7 @@ def add_cover_page(doc, company_name, date_str):
     run.font.size  = Pt(28)
     run.font.color.rgb = DARK_BLUE
     run.font.bold  = True
-    run.font.name  = 'Calibri'
+    run.font.name  = BRAND_FONT
     p.paragraph_format.space_after = Pt(16)
 
     # Divider line (using a 1-row table with only bottom border)
@@ -214,7 +214,7 @@ def add_cover_page(doc, company_name, date_str):
     run = p.add_run('Preparado por Nexostrat')
     run.font.size  = Pt(11)
     run.font.color.rgb = MID_GRAY
-    run.font.name  = 'Calibri'
+    run.font.name  = BRAND_FONT
     p.paragraph_format.space_after = Pt(4)
 
     # Date
@@ -223,7 +223,7 @@ def add_cover_page(doc, company_name, date_str):
     run = p.add_run(date_str)
     run.font.size  = Pt(11)
     run.font.color.rgb = MID_GRAY
-    run.font.name  = 'Calibri'
+    run.font.name  = BRAND_FONT
     p.paragraph_format.space_after = Pt(4)
 
     # Confidential note
@@ -233,7 +233,7 @@ def add_cover_page(doc, company_name, date_str):
     run.font.size  = Pt(9)
     run.font.color.rgb = MID_GRAY
     run.font.italic = True
-    run.font.name  = 'Calibri'
+    run.font.name  = BRAND_FONT
 
     doc.add_page_break()
 
@@ -244,7 +244,7 @@ def add_section_heading(doc, text, level=1):
     p.paragraph_format.space_before = Pt(14 if level == 1 else 8)
     p.paragraph_format.space_after  = Pt(4)
     run = p.add_run(text)
-    run.font.name = 'Calibri'
+    run.font.name = BRAND_FONT
     if level == 1:
         run.font.size  = Pt(14)
         run.font.bold  = True
@@ -265,7 +265,7 @@ def add_body(doc, text, italic=False, size=10.5):
     p.paragraph_format.space_before = Pt(2)
     p.paragraph_format.space_after  = Pt(4)
     run = p.add_run(text)
-    run.font.name   = 'Calibri'
+    run.font.name   = BRAND_FONT
     run.font.size   = Pt(size)
     run.font.italic = italic
     run.font.color.rgb = RGBColor(0x1A, 0x1A, 0x1A)
@@ -310,11 +310,11 @@ def add_callout_box(doc, lines, bg_hex, border_hex):
                 r = p.add_run(part[2:-2])
                 r.bold = True
                 r.font.size = Pt(10)
-                r.font.name = 'Calibri'
+                r.font.name = BRAND_FONT
             else:
                 r = p.add_run(part)
                 r.font.size = Pt(10)
-                r.font.name = 'Calibri'
+                r.font.name = BRAND_FONT
 
     sp = doc.add_paragraph()
     sp.paragraph_format.space_before = Pt(0)
@@ -407,7 +407,7 @@ def add_5x5_grid(doc, opportunities, y_key, title, x_label='Impacto', y_label=No
     run.bold = True
     run.font.size = Pt(11)
     run.font.color.rgb = DARK_BLUE
-    run.font.name = 'Calibri'
+    run.font.name = BRAND_FONT
 
     # Axis labels note above
     p2 = doc.add_paragraph()
@@ -417,7 +417,7 @@ def add_5x5_grid(doc, opportunities, y_key, title, x_label='Impacto', y_label=No
     run2.font.size = Pt(8.5)
     run2.font.color.rgb = MID_GRAY
     run2.font.italic = True
-    run2.font.name = 'Calibri'
+    run2.font.name = BRAND_FONT
 
     # Create 6×6 table
     tbl = doc.add_table(6, 6)
@@ -479,7 +479,7 @@ def add_5x5_grid(doc, opportunities, y_key, title, x_label='Impacto', y_label=No
     run3.font.size = Pt(7.5)
     run3.font.color.rgb = MID_GRAY
     run3.font.italic = True
-    run3.font.name = 'Calibri'
+    run3.font.name = BRAND_FONT
 
     # Legend
     legend_p = doc.add_paragraph()
@@ -491,7 +491,7 @@ def add_5x5_grid(doc, opportunities, y_key, title, x_label='Impacto', y_label=No
         run = legend_p.add_run(f"{sym} {opp['nombre']}  ")
         run.font.size = Pt(8)
         run.font.color.rgb = MID_GRAY
-        run.font.name = 'Calibri'
+        run.font.name = BRAND_FONT
 
 
 # ─── 2×2 Priority Matrix ─────────────────────────────────────────────────────────
@@ -529,7 +529,7 @@ def add_2x2_matrix(doc, opportunities):
     run.bold = True
     run.font.size = Pt(11)
     run.font.color.rgb = DARK_BLUE
-    run.font.name = 'Calibri'
+    run.font.name = BRAND_FONT
 
     CELL_W = 7.0
 
@@ -545,7 +545,7 @@ def add_2x2_matrix(doc, opportunities):
         r.bold = True
         r.font.size = Pt(10)
         r.font.color.rgb = title_color
-        r.font.name = 'Calibri'
+        r.font.name = BRAND_FONT
         for item in items:
             pi = cell.add_paragraph()
             pi.paragraph_format.space_before = Pt(1)
@@ -553,14 +553,14 @@ def add_2x2_matrix(doc, opportunities):
             ri = pi.add_run(f'  {item}')
             ri.font.size = Pt(9)
             ri.font.color.rgb = RGBColor(0x1A, 0x1A, 0x1A)
-            ri.font.name = 'Calibri'
+            ri.font.name = BRAND_FONT
         if not items:
             pi = cell.add_paragraph()
             ri = pi.add_run('  (ninguna en este cuadrante)')
             ri.font.size = Pt(8.5)
             ri.font.color.rgb = MID_GRAY
             ri.font.italic = True
-            ri.font.name = 'Calibri'
+            ri.font.name = BRAND_FONT
 
     # Row labels
     tbl = doc.add_table(3, 3)
@@ -581,7 +581,7 @@ def add_2x2_matrix(doc, opportunities):
     p = th.paragraphs[0]
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     r = p.add_run('ALTA FACILIDAD DE IMPLEMENTACIÓN')
-    r.bold = True; r.font.size = Pt(9); r.font.color.rgb = SUCCESS_GRN; r.font.name = 'Calibri'
+    r.bold = True; r.font.size = Pt(9); r.font.color.rgb = SUCCESS_GRN; r.font.name = BRAND_FONT
 
     # Data rows (row 1 = high facility, row 2 = low facility)
     for row_idx, (row_label, items_left, items_right, bg_l, bg_r, tc_l, tc_r) in enumerate([
@@ -596,7 +596,7 @@ def add_2x2_matrix(doc, opportunities):
         p = yl.paragraphs[0]
         p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
         r = p.add_run(row_label)
-        r.font.size = Pt(8.5); r.font.color.rgb = MID_GRAY; r.bold = True; r.font.name = 'Calibri'
+        r.font.size = Pt(8.5); r.font.color.rgb = MID_GRAY; r.bold = True; r.font.name = BRAND_FONT
 
         # Left quadrant: high or low impact, current facility row
         titles = {
@@ -616,7 +616,7 @@ def add_2x2_matrix(doc, opportunities):
     p.paragraph_format.space_after  = Pt(8)
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     r = p.add_run('← BAJO IMPACTO          ALTO IMPACTO →')
-    r.font.size = Pt(9); r.font.color.rgb = MID_GRAY; r.bold = True; r.font.name = 'Calibri'
+    r.font.size = Pt(9); r.font.color.rgb = MID_GRAY; r.bold = True; r.font.name = BRAND_FONT
 
 
 # ─── Generic table renderer ─────────────────────────────────────────────────────
@@ -664,7 +664,7 @@ def render_inline(p, text):
             r.italic = True
         else:
             r = p.add_run(part)
-        r.font.name  = 'Calibri'
+        r.font.name  = BRAND_FONT
         r.font.size  = Pt(10.5)
         r.font.color.rgb = RGBColor(0x1A, 0x1A, 0x1A)
 

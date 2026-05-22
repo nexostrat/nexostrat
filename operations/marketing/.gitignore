@@ -1,0 +1,12 @@
+# Marketing assets are working files — generated images, logos, video footage,
+# editing project files, exported deliverables. None of this belongs in git:
+# they're heavy binary assets that change frequently and have no merge value.
+#
+# Only README.md is tracked, so future sessions know this tree exists and what
+# convention it follows. Recover lost assets from:
+#   - Drive 2TB (heavy assets, age-encrypted per backup posture)
+#   - The original source (camera roll, design tool, etc.)
+
+*
+!.gitignore
+!README.md

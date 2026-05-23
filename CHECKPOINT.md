@@ -1,33 +1,29 @@
 # CHECKPOINT — root (Founder)
 
-**Updated:** 2026-05-22T15:25:18-07:00
-**By:** ricardo (via Claude Code session 11 at /srv/Nexostrat/ on `ricardo-desktop`)
+**Updated:** 2026-05-23T12:05:00-07:00
+**By:** ricardo (via Claude Code session 12 at /srv/Nexostrat/ on `ricardo-desktop`)
 **Persona:** Founder
-**Session topic:** Operational arc — organize the `Temporal Assets and video/` folder Ricardo dropped at the repo root (raw website-intro footage + brand logos); diagnose + fix the DaVinci Resolve "can't read HEVC" wall; flip the brand font from Calibri to Inter (memory said Inter, code shipped Calibri); export web-ready MP4 versions of two DaVinci ProRes edits. No architecture changes, no ADRs, no critical-path movement.
+**Session topic:** Maintenance — fix DaVinci Resolve's MP4-export blocker (Celluloid won't play APV+FLAC inside MP4); build a reusable `video-to-mp4` CLI wrapper at `infra/scripts/`; document on the desktop machine cheatsheet; mid-session transcode of a new 4K HEVC phone take using the session-11 documented recipe. No architecture changes, no ADRs, no critical-path movement.
 
 ## What just happened (last session — read once, don't re-litigate)
 
-Tangential operational session, ~3 hours, four discrete pieces of work each triggered by a real obstacle Ricardo hit while editing the Nexostrat website intro video in DaVinci Resolve:
+Short maintenance session, ~30 min, two pieces of work — both extensions of session 11's DaVinci-on-Linux codec arc:
 
-**1. Folder reorganization.** Built `operations/marketing/{brand,website-intro}/` with documented per-campaign `raw/ → edits/ → final/` convention. `brand/logos/` holds the 18 PNG logo variants (moved out of the chaotic `Temporal Assets and video/` folder). `website-intro/` holds the current campaign. README in `operations/marketing/README.md` documents the structure + conventions (only it and `.gitignore` are committed; everything else is gitignored — heavy regenerable working files). Convention scales: future campaigns drop as siblings of `website-intro/`.
+**1. DaVinci MP4 playback fix (export side of the codec gap).** Ricardo's `Intro V1.2.mp4` (direct DaVinci export) wouldn't play in Celluloid: "Playback was terminated abnormally." `ffprobe` against the three candidate files isolated it instantly — the broken file has video codec `unknown` + audio `flac` inside an MP4 container. FLAC-in-MP4 is technically allowed since 2019 but most Linux playback stacks (Celluloid via mpv via GStreamer) refuse it; combined with an unrecognized video codec the container is non-standard. Root cause: DaVinci Resolve **Free** on Linux lacks the H.264/H.265 encoder (Studio-only on Linux), leaving only APV+FLAC as MP4-container options out of Deliver. Fix applied twice over: (a) re-encoded `Intro V1.2.mkv` → `Intro V1.2.mp4` via `ffmpeg -c:v libx264 -preset slow -crf 18 -pix_fmt yuv420p -c:a aac -b:a 192k -movflags +faststart`, overwriting the broken 615 MB direct export with a 42 MB playable file; (b) built reusable CLI wrapper `infra/scripts/video-to-mp4.sh` (executable, version-controlled, `set -euo pipefail`, `-f` to force-overwrite, `-h` for help, env-var knobs `CRF` / `PRESET` / `AUDIO_BITRATE`). Symlinked to `/home/ricardo/.local/bin/video-to-mp4` so `video-to-mp4 <input>` works as a bare command on `ricardo-desktop`. Documented at `~/Desktop/DESKTOP_PC_COMMANDS.md` (outside repo, machine-scoped cheatsheet): new section "Video conversion (DaVinci → playable MP4)" + one quick-reference entry + changelog row.
 
-**2. DaVinci Resolve HEVC blocker.** Ricardo's symptom: dragging the 3 raw `PXL_*.mp4` phone clips into DaVinci showed a green bar (audio) but no image. One `ffprobe` confirmed: HEVC Main 10 (H.265 10-bit HDR) — DaVinci Resolve Free on Linux can't decode this (Studio-only codec on Linux). Transcoded all 3 to DNxHR HQ MOV (DaVinci's preferred edit codec, visually lossless, intra-frame, full source resolution 3564×1932 preserved). Output ~9.4 GB in `website-intro/raw/transcoded/`. Documented the ffmpeg recipe + batch loop in marketing README so future Pixel shoots inherit the fix.
+**2. Mid-session 4K HEVC transcode (ingest side, same blocker as session 11).** Ricardo dropped `raw/2026-05-22_take-01.mp4` (HEVC Main 10, 3840×2160, 46s, 242 MB) and reported DaVinci couldn't open it. Same blocker as session 11; ran the documented `ffmpeg → DNxHR HQ MOV` recipe from `operations/marketing/README.md`. Output: `raw/transcoded/2026-05-22_take-01.mov` (DNxHR HQ, yuv422p, PCM 16-bit, 4.85 GB) — ready to import into DaVinci. The fix is now muscle memory; no re-discovery needed because session 11 documented it in the README.
 
-**3. Brand font flip (Calibri → Inter).** Memory `outputs-premium-visual.md` mandated Inter; code (`skills/shared/brand.py:26`) shipped `BRAND_FONT = "Calibri"`. Divergence since v0.1 of the skills. Ricardo ran `sudo apt install fonts-inter fonts-jetbrains-mono` on `ricardo-desktop`. Updated `brand.py`: BRAND_FONT → "Inter" + new `BRAND_FONT_MONO = "JetBrains Mono"` constant (future use) + 2 docstring updates. Cleaned `skills/05_opportunity_report/scripts/generate_docx.py`: 17 hardcoded `'Calibri'` literals replaced with the imported `BRAND_FONT` constant — file already imported the constant but ignored it (longstanding code smell). Test harness: 32 PASS · 0 SKIP · 0 FAIL, same as baseline. Brand-spec divergence in `operations/assets/brand/Nexostrat_Logo_Kit.html` (Century Gothic + Nunito for the logo wordmark) flagged but not touched — that's a separate concern (logo design font vs document body font).
-
-**4. Web exports.** Ricardo dropped two DaVinci ProRes HQ MKV exports (~855 MB each, 1080p30, FLAC, 38s) into `edits/`. Transcoded both to H.264 High + AAC 192k + `+faststart` (instant browser playback). Output: `Intro V1.{0,1}.mp4`, 21 MB each, visually transparent at CRF 20 for talking-head footage. JP gates the V1.0 vs V1.1 pick (Ricardo's note in-session: "Final version done i will confirm once juan pablo choose").
-
-**Result:** No architectural change. Operational hygiene: marketing folder convention documented, video pipeline blocker permanently solved with documented workaround, brand font divergence closed at the renderer-constant level. 3 new tasks tracked for follow-up.
+**Result:** No architectural change. The DaVinci-Free-on-Linux codec gap is now closed on both sides — ingest (session 11's HEVC → DNxHR recipe in README) and export (session 12's `video-to-mp4` wrapper). Marketing video work no longer requires Ricardo to remember or look up codec recipes; both sides hit muscle-memory or one-line invocations. No new tasks added (script + cheatsheet are sufficient institutional memory; symlinking on the laptop is a 1-line `ln -sf` captured in the journal).
 
 ## Decisions locked this session
 
-1. **Marketing folder layout.** `operations/marketing/<campaign-slug>/{raw,edits,final}/` per campaign; `operations/marketing/brand/` for cross-campaign brand assets (logos, etc.). All gitignored except README + .gitignore. Documented in `operations/marketing/README.md`.
+1. **Reusable converter at `infra/scripts/`, per-machine symlink in `~/.local/bin/`.** Pattern matches the rest of the repo's tooling — version-controlled script syncs to all clones; the symlink is the only per-machine bit. Default recipe baked in: h264 High + AAC LC 192k + yuv420p + `+faststart` at CRF 18 preset slow. Env vars override when needed. Reversal: trivial — remove the symlink + delete the script.
 
-2. **DaVinci Resolve on Linux Free = DNxHR HQ MOV.** Workflow: source camera → `raw/` (archive) → ffmpeg transcode → `raw/transcoded/` as DNxHR HQ MOV → import into DaVinci → export edits → optional re-encode to H.264 MP4 for web delivery. Recipe documented in marketing README. Reversal: irrelevant — codec choice is forced by DaVinci Free's Linux capabilities, no alternative.
+2. **CRF 18 preset slow as the default.** Near-lossless for talking-head footage from a ProRes/APV master; output is ~5-10% the size of the master. For a 1080p30 38s ProRes input the output is ~21-42 MB which fits browser/email/Slack uploads. If Ricardo finds the default too heavy or too light for a future shoot, env-var overrides (`CRF=23 ...` or `CRF=15 ...`) handle it without touching the script.
 
-3. **Brand font = Inter (single source: `skills/shared/brand.py`).** `BRAND_FONT = "Inter"`; `BRAND_FONT_MONO = "JetBrains Mono"`. All 5 skill renderers (01-05) pull from the constant. Installed system-wide via apt `fonts-inter` (4.0+ds-1, MIT/SIL, OTF in /usr/share/fonts/opentype/inter/) + `fonts-jetbrains-mono` (2.304+ds-4, TTF). On `ricardo-desktop` so far; laptop still pending (tracked in `t-install-brand-fonts-laptop`).
+3. **Documentation at the desktop-cheatsheet layer, not the marketing README.** `~/Desktop/DESKTOP_PC_COMMANDS.md` is machine-scoped and lists `~/.local/bin` tools; that's where `video-to-mp4` belongs. `operations/marketing/README.md` covers project workflow (ingest recipe + folder convention); the export-side wrapper is a generic tool that any video work on this machine can use, not a marketing-specific recipe. Reversal: if future projects also need it, lift the section out of the cheatsheet into a `docs/` page.
 
-4. **Heavy assets stay out of git.** `operations/marketing/.gitignore` ignores `*` except README + .gitignore. Working files (raw camera, DaVinci intermediates, web exports) backed by source-of-truth (camera roll, DaVinci project files in editing app) + optionally Drive 2TB for irreplaceable masters. Session-11 generated ~10 GB of marketing files locally; none on Drive yet (working files, acceptable).
+4. **No new tasks added.** Decision rationale: the script is now in muscle memory + documented in two places (cheatsheet + this journal). Laptop symlink is a 1-line `ln -sf` captured in the journal's open-items section. Adding a task for it would be ceremony.
 
 ## Stack state (live & verifiable next session)
 
@@ -40,9 +36,10 @@ HP (ricardo-hp-laptop, Tailscale 100.64.121.80) — unchanged from session 10:
 
 Desktop (ricardo-desktop) — bootstrapped session 8 (journal 2026-05-20b):
   /srv/Nexostrat/ cloned + working tree active.
-  Inter + JetBrains Mono now installed system-wide (session 11).
+  Inter + JetBrains Mono installed system-wide (session 11).
   ALL skills runnable here; DaVinci Resolve installed; OBS + Whisper not
     (per t-desktop-pc-recording-stack-install).
+  NEW session 12: ~/.local/bin/video-to-mp4 -> infra/scripts/video-to-mp4.sh
 
 Recording + transcription stack — unchanged from session 9:
   Server laptop has OBS Studio 30.0.2 + pavucontrol 5.0
@@ -56,13 +53,13 @@ Vault discipline — unchanged from session 9:
 Brain Bot Platform tenancy — locked session 10:
   ADR-039 active. ADR-020 superseded.
 
-NEW this session (11) — operational changes:
-  operations/marketing/ tree built + documented.
-  3 raw HEVC takes transcoded to DNxHR HQ MOV in raw/transcoded/.
-  2 ProRes MKV edits transcoded to H.264 MP4 in edits/.
-  Brand font flipped: skills/shared/brand.py BRAND_FONT = "Inter".
-  17 hardcoded 'Calibri' literals in opportunity-report renderer cleaned up.
-  Test harness: 32 PASS · 0 SKIP · 0 FAIL.
+NEW this session (12) — operational additions:
+  infra/scripts/video-to-mp4.sh (new, executable, version-controlled)
+  ~/.local/bin/video-to-mp4 symlink on ricardo-desktop
+  ~/Desktop/DESKTOP_PC_COMMANDS.md updated (outside repo, machine-scoped)
+  edits/Intro V1.2.mp4 replaced (615 MB broken -> 42 MB playable; gitignored)
+  raw/transcoded/2026-05-22_take-01.mov produced (4.85 GB; gitignored)
+  Test harness not re-run (no skill-renderer changes; preserved baseline 32/0/0).
 ```
 
 ## In flight — concrete next actions
@@ -72,15 +69,15 @@ NEXT SESSION:
   1. Open Claude Code AT /srv/Nexostrat/.
   2. Ricardo types "Start Session."
   3. Claude reads CHECKPOINT + STATUS + tasks + calendar + latest journal
-     (00_META/journal/2026-05-22_marketing-folder-and-brand-font.md).
+     (00_META/journal/2026-05-23_davinci-mp4-playback-fix.md).
   4. Ricardo decides arc.
 
-CRITICAL PATH (unchanged from session 10):
+CRITICAL PATH (unchanged from session 11):
 
   ┌── 2026-05-25 1pm Tijuana ─────────────────────────────┐
   │  REUNIÓN TRIXX LOGISTICS                               │
   │  (t-trixx-meeting-execution, critical)                 │
-  │  T-3 days. Materiales en Desktop intactos.             │
+  │  T-2 days. Materiales en Desktop intactos.             │
   └─────────────────────┬──────────────────────────────────┘
                         │
   ┌── 2026-05-27 ─▼─────────────────────────────────────────┐
@@ -88,23 +85,22 @@ CRITICAL PATH (unchanged from session 10):
   │  (t-trixx-skill-05-opportunity-report, high)            │
   └─────────────────────────────────────────────────────────┘
 
-NEW THIS SESSION (3 tasks, low-blast-radius cleanups):
+CARRIED FORWARD from session 11 (no new tasks this session):
 
-  ┌── 2026-05-30 ─┐ NEW (high)
+  ┌── 2026-05-30 ─┐ (high)
   │  t-install-brand-fonts-laptop                           │
   │  sudo apt install fonts-inter fonts-jetbrains-mono     │
-  │  on ricardo-hp-laptop. Without it, LO substitutes      │
-  │  to Liberation Sans on the laptop's renders.            │
+  │  on ricardo-hp-laptop.                                  │
   └───────────────┘
 
-  ┌── 2026-06-15 ─┐ NEW (medium)
+  ┌── 2026-06-15 ─┐ (medium) — NOW 3 candidates instead of 2
   │  t-pick-website-intro-final-version                     │
-  │  Pick V1.0 vs V1.1 of the website intro MP4.            │
-  │  Gated on JP. Move chosen file edits/ → final/.         │
-  │  Open creative question: music vs no-music.             │
+  │  Pick V1.0 vs V1.1 vs V1.2 of the website intro MP4.    │
+  │  All three are h264+AAC playable mp4s now. JP-gated.    │
+  │  Move chosen file edits/ → final/.                      │
   └───────────────┘
 
-  ┌── 2026-07-15 ─┐ NEW (low)
+  ┌── 2026-07-15 ─┐ (low)
   │  t-fix-logo-kit-html-fonts                              │
   │  Logo kit HTML still references Century Gothic +        │
   │  Nunito. Decide: restamp wordmark in Inter or accept   │
@@ -139,85 +135,83 @@ OTHER OPEN (unchanged from session 10 — see tasks.json):
     t-confidence-marking-company-analyst, t-nexostrat-capabilities-catalog,
     t-validate-pipeline-improvements, t-plan-01c-polish-pass,
     t-desktop-pc-recording-stack-install
+
+UNTRACKED follow-up (intentionally not a task):
+  - Symlink video-to-mp4 on ricardo-hp-laptop when/if needed:
+      ln -sf /srv/Nexostrat/infra/scripts/video-to-mp4.sh ~/.local/bin/video-to-mp4
 ```
 
 ## Architecture-conflict check (passed)
 
 | This session's work | Verification |
 |---|---|
-| Cross-scope edit into skills/ (brand.py + generate_docx.py) | Ricardo operator-driving per root CLAUDE.md Strict Rule 1. Skills-Master Strict Rule 6 (versioning + benchmarks) doesn't apply — constant + literal-cleanup, not a prompt edit. Test harness preserved (32 PASS). |
-| New marketing/ folder under operations/ | operations/ is Founder-owned per root CLAUDE.md Strict Rule 2. Only README + .gitignore committed; heavy assets gitignored per § Vault / Sensitive Discipline heavy-assets-pattern. |
-| Brand font change | Consistent with memory `outputs-premium-visual.md`. Closes a memory-vs-code divergence. |
-| No `/srv/brain` references introduced | Confirmed by grep — no new references. Strict Rule 4 preserved. |
-| Three new tasks | Dates aligned to Stage 1 launch window. Priorities match dependency reality (font install = high pre-render; final pick = medium JP-gated; logo HTML = low cosmetic). |
+| New script under `infra/scripts/` | Founder-owned per root CLAUDE.md Strict Rule 2. Pattern matches existing scripts (`baserow-reconcile.sh`, `mirror-push.sh`, etc.). |
+| No `/srv/brain` references introduced | Confirmed by review. Strict Rule 4 preserved. |
+| No edits to skills/, pipeline/, vault/, GEMINI.md | All work stayed in Founder-owned paths. |
+| No backwards-compat shims, no half-finished implementations | Script is complete + documented + symlinked + executed against a real input. |
+| Test harness not affected | No skill-renderer changes; previous baseline 32 PASS · 0 SKIP · 0 FAIL preserved by non-disturbance. |
 
 ## Blocked on
 
-**Trixx critical path:** materials ready, nothing on our side.
+**Trixx critical path:** materials ready, nothing on our side. T-2 days.
 
-**JP review for intro MP4 pick** (t-pick-website-intro-final-version): explicit user note "i will confirm once juan pablo choose."
+**JP review for intro MP4 pick** (t-pick-website-intro-final-version): now 3 candidates (V1.0, V1.1, V1.2) all in playable h264+AAC mp4. Explicit user note from session 11: "i will confirm once juan pablo choose."
 
 **Laptop font install** (t-install-brand-fonts-laptop): Ricardo needs to be at the laptop with sudo. One-line apt install.
 
 ## Open questions (no blocking)
 
-1. **Music vs no-music for the website intro.** Raised in-session, deferred to next editing pass. Carried in the journal's "Open creative question" section.
+1. **Music vs no-music for the website intro.** Carried from session 11. Deferred to next editing pass.
 
-2. **Logo wordmark font reconciliation.** Logo kit HTML uses Century Gothic + Nunito; brand spec mandates Inter. Decision: restamp wordmark in Inter or accept divergence. Tracked in `t-fix-logo-kit-html-fonts`.
+2. **DaVinci Resolve Studio purchase ($295 one-time).** Would eliminate the need for `video-to-mp4` by unlocking H.264/H.265 directly in Deliver. Worth revisiting if Ricardo runs the wrapper more than ~5×/week.
 
-3. **Where to back up heavy marketing assets.** Currently ~10 GB of website-intro raw + transcoded + edits + exports live only on `ricardo-desktop`. Working files (regenerable), so acceptable now; if the final intro version is locked + Ricardo wants belt-and-suspenders, age-encrypt the final MP4 to Drive 2TB per heavy-assets-pattern.
+3. **Where to back up heavy marketing assets.** Carried from session 11. Same posture: working files, regenerable, acceptable on `ricardo-desktop` only. Now ~15 GB after the session-12 4K transcode.
 
 ## Files modified this session
 
 Session-end commit (this one) will include:
 
-- `STATUS.md` (header + session 11 block prepended)
-- `tasks.json` (top-level `updated` bumped to 2026-05-22T15:25:18-07:00; 3 new tasks appended)
+- `STATUS.md` (header + session 12 block prepended)
 - `CHECKPOINT.md` (this file, rewritten)
-- `00_META/journal/2026-05-22_marketing-folder-and-brand-font.md` (NEW)
+- `00_META/journal/2026-05-23_davinci-mp4-playback-fix.md` (NEW)
+- `infra/scripts/video-to-mp4.sh` (NEW, executable)
 
-Already on-disk (will be committed in the same commit):
+Outside repo (already on-disk, not committed):
 
-- NEW `operations/marketing/README.md`
-- NEW `operations/marketing/.gitignore`
-- MODIFIED `skills/shared/brand.py` (BRAND_FONT = "Inter" + BRAND_FONT_MONO + 2 docstring updates)
-- MODIFIED `skills/05_opportunity_report/scripts/generate_docx.py` (17 hardcoded `'Calibri'` → `BRAND_FONT`)
-- DELETED `Temporal Assets and video/` (relocated, then removed)
+- `~/Desktop/DESKTOP_PC_COMMANDS.md` — new section "Video conversion (DaVinci → playable MP4)" + 1 quick-ref entry + changelog row
+- `~/.local/bin/video-to-mp4` — symlink to `/srv/Nexostrat/infra/scripts/video-to-mp4.sh`
 
 NOT committed (gitignored, on-disk only):
 
-- 18 logo PNGs under `operations/marketing/brand/logos/`
-- 3 raw HEVC takes + 3 DNxHR HQ transcodes under `operations/marketing/website-intro/raw/`
-- 2 DaVinci ProRes MKV edits + 2 H.264 MP4 web exports under `operations/marketing/website-intro/edits/`
+- `operations/marketing/website-intro/edits/Intro V1.2.mp4` — replaced 615 MB broken → 42 MB playable
+- `operations/marketing/website-intro/raw/transcoded/2026-05-22_take-01.mov` — new 4.85 GB DNxHR HQ edit master
 
-Untouched this session (pre-existing untracked, not ours):
+Untouched this session (pre-existing untracked, carried from session 10/11):
 
-- `00_META/journal/2026-05-21_strategy-meeting-transcript.md` — pre-existing untracked from session 10's day, not authored by this session.
+- `00_META/journal/2026-05-21_strategy-meeting-transcript.md` — pre-existing untracked from session 10's day, deliberately not committed in session 11 either. Continuing that pattern.
 
 ## Memory updates this session
 
 None new. Existing memories applied:
 
-- `outputs-premium-visual.md` — drove the Inter font choice + JetBrains Mono addition + the rationale for the cleanup.
-- `do-it-right-do-it-once.md` — drove cleaning ALL 17 hardcoded `'Calibri'` literals in generate_docx.py (instead of just patching the constant) and documenting the DNxHR workflow in the README (instead of a one-off ffmpeg run).
-- `complete-or-nothing.md` — drove bundling folder org + transcoding + font fix + web export + tests + task tracking + journal + commit in one session.
+- `do-it-right-do-it-once.md` — drove building the reusable wrapper script + symlink + cheatsheet documentation (instead of just running ffmpeg one-shot for V1.2). Same operational arc as session 11's batch-loop documentation in the marketing README.
+- `complete-or-nothing.md` — drove bundling diagnose + fix + tool + docs + journal + commit in one session, including the mid-session 4K take that arrived as a surprise.
 
 ## Estimated time to next milestones
 
-- **Trixx meeting (2026-05-25 1pm Tijuana):** T-3 days. Materials intact.
+- **Trixx meeting (2026-05-25 1pm Tijuana):** T-2 days. Materials intact.
 - **Skill 05 post-Trixx:** ~30-45 min execution + ~70 min wall-time large-v3 transcription + 30 min Ricardo+JP review.
 - **t-install-brand-fonts-laptop:** ~2 min (one apt install + restart of any open LibreOffice instance).
-- **t-pick-website-intro-final-version:** ~15-30 min (JP review + decision + file move + optional music decision).
-- **t-fix-logo-kit-html-fonts:** ~30 min if accepting divergence (CSS-only change); ~2-4 hrs if restamping wordmark PNGs.
+- **t-pick-website-intro-final-version:** ~15-30 min (JP review across 3 candidates + decision + file move + optional music decision).
 - **Stage 1 launch realistic:** 2026-06-30 to 2026-07-15 (unchanged).
 
 ## After this, what's next
 
-Ricardo picks. Trixx Monday meeting (T-3 days) remains the critical-path gate; materials intact, nothing on our side blocks it. Otherwise: any open task from above. Font install on laptop is the cheapest meaningful follow-up (1 command, removes a font-substitution risk for the next deliverable rendered on the laptop).
+Ricardo picks. Trixx Monday meeting (T-2 days) remains the critical-path gate; materials intact, nothing on our side blocks it. Otherwise: any open task from above. Font install on laptop is still the cheapest meaningful follow-up (1 command, removes a font-substitution risk for the next deliverable rendered on the laptop).
 
 ## For a future auditor reading this baton
 
-This was the 20th execution arc since 2026-05-15 and the 11th end-to-end Claude session. Tangential operational scope: no ADRs, no architecture changes, no impact on the critical Trixx-2026-05-25 path. Lasting value: (1) `operations/marketing/` folder convention + README documents future-campaign structure; (2) brand font finally unified at Inter (`skills/shared/brand.py:26` is now the single source of truth — closes a v0.1 memory-vs-code divergence); (3) DaVinci-on-Linux HEVC workaround documented so future phone shoots inherit the fix without re-discovery. Session quality: clean, in-scope, no drift, no half-measures, 32 PASS test-harness preserved across the renderer changes.
+This was the 21st execution arc since 2026-05-15 and the 12th end-to-end Claude session. Maintenance scope: no ADRs, no architecture changes, no impact on the critical Trixx-2026-05-25 path. Lasting value: (1) DaVinci-on-Linux codec gap closed on both sides — session 11's `operations/marketing/README.md` covers the ingest recipe, session 12's `infra/scripts/video-to-mp4.sh` covers the export recipe + CLI wrapper; (2) `~/Desktop/DESKTOP_PC_COMMANDS.md` accumulated a new section + quick-ref entry, growing the per-machine cheatsheet without bloating the project repo. Session quality: tight scope, fast diagnosis from ffprobe, no scope creep into adjacent concerns, mid-session surprise (the 4K take) handled cleanly using the recipe already documented in the marketing README. No tests run because no skill-renderer code changed.
 
 ---
 

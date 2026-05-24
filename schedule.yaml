@@ -1,0 +1,25 @@
+events:
+  - id: nexo-morning-brief
+    cron: "30 7 * * *"
+    tenant: nexostrat
+    template_path: 00_META/templates/morning_brief.md
+    requires: [calendar_cache_fresh]
+    enabled: true
+
+  - id: nexo-weekly-review
+    cron: "0 19 * * 0"          # Sun 19:00 TJ
+    tenant: nexostrat
+    template_path: 00_META/templates/weekly_review.md
+    enabled: true
+
+  - id: nexo-eow-pipeline
+    cron: "0 17 * * 5"          # Fri 17:00 TJ
+    tenant: nexostrat
+    template_path: 00_META/templates/eow_pipeline.md
+    enabled: true
+
+  - id: nexo-inbox-sweep
+    cron: "0 18 * * *"
+    tenant: nexostrat
+    template_path: 00_META/templates/inbox_sweep.md
+    enabled: true

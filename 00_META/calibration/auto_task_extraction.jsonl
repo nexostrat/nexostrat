@@ -1,0 +1,1 @@
+{"_comment": "Seed empty. Append manually-rated examples per README.md. Target: ≥50 before Phase 6 cutover. Schema: meeting_id, extracted_text, owner, due, model_score, ground_truth_score, ground_truth_should_write, auto_written, rater, rated_at, notes. Retuner at /srv/brain-hub/hub/router/calibration.py skips this row via the _comment guard."}

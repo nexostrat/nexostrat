@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v1",
   "project": "nexostrat",
-  "updated": "2026-05-22T15:25:18-07:00",
+  "updated": "2026-05-25T10:50:00-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -670,11 +670,12 @@
     {
       "id": "t-pick-website-intro-final-version",
       "subject": "Pick website intro final version (V1.0 vs V1.1, gated on JP review)",
-      "status": "open",
+      "status": "superseded",
       "priority": "medium",
       "due": "2026-06-15",
       "created": "2026-05-22",
-      "notes": "Two H.264 MP4 candidates at /srv/Nexostrat/operations/marketing/website-intro/edits/Intro V1.{0,1}.mp4 (21 MB each, 38s, 1080p30, +faststart). DaVinci masters (ProRes MKV) preserved alongside. JP gates the pick. When decision lands, move chosen file to operations/marketing/website-intro/final/ per the README convention. Soft target tied to website launch — no firm date yet; using Stage 1 launch window upper bound. Open creative question carried from session 11: music vs no-music for the intro (deferred for next editing pass)."
+      "notes": "Two H.264 MP4 candidates at /srv/Nexostrat/operations/marketing/website-intro/edits/Intro V1.{0,1}.mp4 (21 MB each, 38s, 1080p30, +faststart). DaVinci masters (ProRes MKV) preserved alongside. JP gates the pick. When decision lands, move chosen file to operations/marketing/website-intro/final/ per the README convention. Soft target tied to website launch — no firm date yet; using Stage 1 launch window upper bound. Open creative question carried from session 11: music vs no-music for the intro (deferred for next editing pass). || 2026-05-25 — superseded by V3 redesign. V1.x/V2.x no longer the canonical hero video. V3 spec at operations/marketing/website-intro/INTRO_V3_DESIGN.md. Choosing between V1.0/V1.1 is moot.",
+      "completed": "2026-05-25"
     },
     {
       "id": "t-fix-logo-kit-html-fonts",
@@ -684,6 +685,36 @@
       "due": "2026-07-15",
       "created": "2026-05-22",
       "notes": "operations/assets/brand/Nexostrat_Logo_Kit.html still references 'Century Gothic', 'Nunito', -apple-system in its CSS font-family declarations. Not blocking — the logo PNGs were already rendered with whatever font produced them, and brand spec memory outputs-premium-visual.md mandates Inter for documents not necessarily for the logo wordmark itself. Touch when the logo kit is next regenerated or when reconciling brand assets pre-launch. Decision needed: do we restamp the logo PNGs in Inter, or accept that the logo wordmark stays in Century Gothic while document body fonts are Inter? Brand-spec-level call."
+    },
+    {
+      "id": "t-intro-v3-dry-run",
+      "subject": "V3 deck — dry-run on real TV",
+      "description": "Project tv-loop/index.html on the actual wall-mounted TV at the shoot location. Verify font sizes legible from camera position, contrast holds, no TV reflection from windows, brand cyan reads as cyan (not neon). Time the Slide 2 pill auto-reveal delays against natural speech pace; adjust the three animation-delay values in CSS if needed.",
+      "priority": "high",
+      "status": "open",
+      "created": "2026-05-25",
+      "due": "2026-05-30",
+      "notes": "No-shoot rehearsal. 30-60 minutes. Outcome: either greenlight V3 for full shoot, or one round of CSS tweaks before shoot."
+    },
+    {
+      "id": "t-buy-presenter-clicker",
+      "subject": "Acquire Bluetooth presenter remote",
+      "description": "Buy a Bluetooth presenter clicker that maps to Space/PgDn — Logitech R400 or any cheap clone. Required for hands-free SPACE advancement during shoot. Test pairing with the laptop and verify it advances the deck before shoot day.",
+      "priority": "low",
+      "status": "open",
+      "created": "2026-05-25",
+      "due": "2026-06-05",
+      "notes": "Fallback if not acquired: laptop keyboard or wireless mouse click (the deck advances on any click). ~$15-25 USD."
+    },
+    {
+      "id": "t-intro-v3-shoot-and-edit",
+      "subject": "V3 intro — shoot + 1-day edit",
+      "description": "Half-day shoot (Approach A: TV brand wall). Setup per INTRO_V3_DESIGN.md §6 — blinds closed, TV at 30-40% brightness, lavalier hidden under shirt, blazer, phone on tripod, Ricardo on right third of frame. 6+ full takes + isolated beat takes. Same-day or next-day DaVinci edit per §7 — pick best takes, color grade, music bed (leberch-corporate), lower-third for speaker ID, fade in/out, export master + web-optimized variants to operations/marketing/website-intro/final/.",
+      "priority": "high",
+      "status": "open",
+      "created": "2026-05-25",
+      "due": "2026-06-15",
+      "notes": "Gated on t-intro-v3-dry-run (any CSS adjustments) and t-buy-presenter-clicker (or fallback mouse). If MP4 export hits the codec-gap blocker, run output through infra/scripts/video-to-mp4.sh."
     }
   ]
 }

@@ -2,11 +2,24 @@
 # editing project files, exported deliverables. None of this belongs in git:
 # they're heavy binary assets that change frequently and have no merge value.
 #
-# Only README.md is tracked, so future sessions know this tree exists and what
-# convention it follows. Recover lost assets from:
+# Only README.md is tracked by default, so future sessions know this tree exists
+# and what convention it follows. Recover lost assets from:
 #   - Drive 2TB (heavy assets, age-encrypted per backup posture)
 #   - The original source (camera roll, design tool, etc.)
+#
+# Exception (added 2026-05-25): the website-intro/tv-loop/ deck and its V3
+# design spec are CANONICAL brand artifacts (the TV background played during
+# shoots, and the source-of-truth design doc) — kept in git so they survive
+# disk loss and stay aligned across mirrors. Both are text + tiny PNGs
+# (~40 KB total), no merge-friction or leak risk.
 
 *
 !.gitignore
 !README.md
+
+# V3 intro deck (canonical TV background) + V3 design spec.
+!website-intro/
+website-intro/*
+!website-intro/*.md
+!website-intro/tv-loop/
+!website-intro/tv-loop/**

@@ -20,7 +20,7 @@ You are the **Founder persona** of Nexostrat. Operate this folder (`/srv/Nexostr
 
 2. **Folder scope = Founder-owned paths.** Write primarily within Founder-owned folders (root level + `00_META/`, `00_GOVERNANCE/`, `00_PARTNERSHIP/`, `infra/`, `docs/`, `operations/`, `vault/{partnership,legal,accounting,keys}/`). Reading anywhere within `/srv/Nexostrat/` is always permitted.
 3. **You author all `GEMINI.md` files in this repo.** Edit them as Founder needs. Gemini may NOT edit any `CLAUDE.md` file (reciprocal rule enforced in `GEMINI.md`).
-4. **No `/srv/brain` references.** Nexostrat is a standalone entity.
+4. **No `/srv/brain` references in Nexostrat artifacts.** Shared bot infrastructure at `/srv/brain-hub/` is permitted (Nexostrat runs as a tenant in the Brain Bot Hub per ADR-039); Nexostrat artifacts (specs, docs, code under `/srv/Nexostrat/`) still don't reference `/srv/brain` paths.
 5. **No n8n.** All workflows are Python + systemd timers (per ADR-029).
 6. **Bilingual workflow.** Internal/architectural artifacts are English. Client-facing and JP-facing artifacts are Spanish.
 

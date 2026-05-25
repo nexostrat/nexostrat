@@ -17,9 +17,12 @@
 !.gitignore
 !README.md
 
-# V3 intro deck (canonical TV background) + V3 design spec.
+# V3 intro deck (canonical TV background, retired during production but kept as
+# reference) + V3 design spec + the PNG overlay set used in DaVinci.
 !website-intro/
 website-intro/*
 !website-intro/*.md
 !website-intro/tv-loop/
 !website-intro/tv-loop/**
+!website-intro/overlays/
+!website-intro/overlays/**

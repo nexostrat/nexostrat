@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v1",
   "project": "nexostrat",
-  "updated": "2026-05-25T10:50:00-07:00",
+  "updated": "2026-05-25T15:30:00-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -691,30 +691,63 @@
       "subject": "V3 deck — dry-run on real TV",
       "description": "Project tv-loop/index.html on the actual wall-mounted TV at the shoot location. Verify font sizes legible from camera position, contrast holds, no TV reflection from windows, brand cyan reads as cyan (not neon). Time the Slide 2 pill auto-reveal delays against natural speech pace; adjust the three animation-delay values in CSS if needed.",
       "priority": "high",
-      "status": "open",
+      "status": "superseded",
       "created": "2026-05-25",
       "due": "2026-05-30",
-      "notes": "No-shoot rehearsal. 30-60 minutes. Outcome: either greenlight V3 for full shoot, or one round of CSS tweaks before shoot."
+      "notes": "No-shoot rehearsal. 30-60 minutes. Outcome: either greenlight V3 for full shoot, or one round of CSS tweaks before shoot. || 2026-05-25 — superseded. The TV-deck approach was not used on shoot day; Ricardo went straight to white-background shoot with post-production PNG overlays. The \"dry-run on a real TV\" no longer applies to the V3 production path.",
+      "completed": "2026-05-25"
     },
     {
       "id": "t-buy-presenter-clicker",
       "subject": "Acquire Bluetooth presenter remote",
       "description": "Buy a Bluetooth presenter clicker that maps to Space/PgDn — Logitech R400 or any cheap clone. Required for hands-free SPACE advancement during shoot. Test pairing with the laptop and verify it advances the deck before shoot day.",
       "priority": "low",
-      "status": "open",
+      "status": "superseded",
       "created": "2026-05-25",
       "due": "2026-06-05",
-      "notes": "Fallback if not acquired: laptop keyboard or wireless mouse click (the deck advances on any click). ~$15-25 USD."
+      "notes": "Fallback if not acquired: laptop keyboard or wireless mouse click (the deck advances on any click). ~$15-25 USD. || 2026-05-25 — superseded. No real-time deck was used during the shoot, so no clicker was needed. The TV-loop HTML deck remains in the repo as a reference but is not on the V3 critical path.",
+      "completed": "2026-05-25"
     },
     {
       "id": "t-intro-v3-shoot-and-edit",
       "subject": "V3 intro — shoot + 1-day edit",
       "description": "Half-day shoot (Approach A: TV brand wall). Setup per INTRO_V3_DESIGN.md §6 — blinds closed, TV at 30-40% brightness, lavalier hidden under shirt, blazer, phone on tripod, Ricardo on right third of frame. 6+ full takes + isolated beat takes. Same-day or next-day DaVinci edit per §7 — pick best takes, color grade, music bed (leberch-corporate), lower-third for speaker ID, fade in/out, export master + web-optimized variants to operations/marketing/website-intro/final/.",
       "priority": "high",
+      "status": "done",
+      "created": "2026-05-25",
+      "due": "2026-06-15",
+      "notes": "Gated on t-intro-v3-dry-run (any CSS adjustments) and t-buy-presenter-clicker (or fallback mouse). If MP4 export hits the codec-gap blocker, run output through infra/scripts/video-to-mp4.sh. || 2026-05-25 — done. T7 selected and transcoded to DNxHR HQX. Full DaVinci edit completed and exported as edits/Intro V3.mkv (55.3s ProRes HQ master).",
+      "completed": "2026-05-25"
+    },
+    {
+      "id": "t-intro-v3-ceo-vs-cofundador",
+      "subject": "Verify \"CEO\" lower-third title vs co-fundador",
+      "description": "The Intro V3 lower-third at t≈5s reads \"Ricardo Mejía / CEO\". Per the founding spec, Ricardo + JP are 50/50 co-founders. Either confirm CEO as an internal role split (Ricardo CEO / JP CTO?) or change the lower-third to \"Co-fundador, Nexostrat\" before homepage launch. 1-minute fix in DaVinci.",
+      "priority": "high",
+      "status": "open",
+      "created": "2026-05-25",
+      "due": "2026-05-26",
+      "notes": "Confirm with JP before homepage deploy. The lower-third text edit is trivial in DaVinci once decided."
+    },
+    {
+      "id": "t-intro-v3-diferencia-slide",
+      "subject": "Decide on Diferencia overlay (t≈37-43s)",
+      "description": "V3 review found no overlay visible on sampled frames at t=38/40/42s. The spoken \"Sin plantillas. Cada solución se construye sobre cómo funciona tu empresa\" line lives in that window. Either confirm the overlay is present but very brief (no edit needed) or drop slide-4_diferencia.png on V2 for that ~5s stretch.",
+      "priority": "high",
+      "status": "open",
+      "created": "2026-05-25",
+      "due": "2026-05-26",
+      "notes": "overlays/slide-4_diferencia.png exists in the repo, ready to drop. Strengthens the differentiation beat which is one of the strongest pitch points."
+    },
+    {
+      "id": "t-intro-v3-web-export",
+      "subject": "Web-optimized V3 export for homepage",
+      "description": "Render the final V3 (after CEO + Diferencia decisions) as H.264 1080p30 ~6 Mbps with -movflags +faststart for browser preload. The current Intro V3.mkv is 3.2GB ProRes — too heavy for nexostrat.com. Run through infra/scripts/video-to-mp4.sh which already has the right recipe (CRF 18 preset slow, AAC 192k, faststart).",
+      "priority": "high",
       "status": "open",
       "created": "2026-05-25",
       "due": "2026-06-15",
-      "notes": "Gated on t-intro-v3-dry-run (any CSS adjustments) and t-buy-presenter-clicker (or fallback mouse). If MP4 export hits the codec-gap blocker, run output through infra/scripts/video-to-mp4.sh."
+      "notes": "Target output ~70 MB. Land in operations/marketing/website-intro/final/ alongside any iOS/Android optimized variants if needed."
     }
   ]
 }

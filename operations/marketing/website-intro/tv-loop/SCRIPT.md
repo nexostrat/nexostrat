@@ -40,10 +40,14 @@ Mira a cámara. Sonrisa neutra. 5 segundos en silencio.
 
 ⟨SPACE 2⟩ ◄─────── PRESIONA AQUÍ
               ↓
-        Slide cambia → SLIDE 2 (Stairs — auto-reveal)
-          • "Estudiamos"      aparece a los 0.3s
-          • "Identificamos"   aparece a los 3.5s
-          • "Implementamos"   aparece a los 8.0s
+        Slide cambia → SLIDE 2 (4-Stair reveal)
+        DaVinci workflow: 4 PNG keyframes in
+        overlays/slide-2_stairs/ crossfaded
+        at each spoken verb:
+          • state-1_estudiamos.png      at "estudiamos…"
+          • state-2_est_ident.png       at "identificamos…"
+          • state-3_plus_disena.png     at "diseño…"
+          • state-4_all.png             at "implementación…"
               ↓
 "En Nexostrat estudiamos tu operación,
  identificamos oportunidades y posibles procesos
@@ -101,7 +105,7 @@ Mira a cámara. Leve asentimiento. 5-10 segundos en silencio.
 | Slide | Spoken word count | Estimated duration | Auto-reveal cues inside slide |
 |---|---|---|---|
 | 1 — Hook | ~18 | 6–7s | Number 1→20 anim runs 6s |
-| 2 — Stairs | ~38 | 13–16s | Pills at 0.3s / 3.5s / 8.0s |
+| 2 — Stairs | ~38 | 13–16s | 4 pills crossfaded at "estudiamos / identificamos / diseño / implementación" |
 | 3 — Proof | ~23 | 8–9s | (static) |
 | 4 — Diferencia | ~12 | 4–5s | (static) |
 | 5 — CTA | ~17 | 6–7s | (static) |

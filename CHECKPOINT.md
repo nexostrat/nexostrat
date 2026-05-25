@@ -1,97 +1,104 @@
 # CHECKPOINT — root (Founder)
 
-**Updated:** 2026-05-25T11:00:00-07:00
-**By:** ricardo (via Claude Code session 13, driven from `/srv/meetings/nexostrat/` cwd; all work landed in `/srv/Nexostrat/`)
+**Updated:** 2026-05-25T15:35:00-07:00
+**By:** ricardo (via Claude Code session 14, continuation of session 13; driven from `/srv/meetings/nexostrat/` cwd; all work landed in `/srv/Nexostrat/`)
 **Persona:** Founder
-**Session topic:** Website intro V3 redesign — full design system from CMO-audit response to production-ready HTML deck + spoken script + design spec. Approach A "Anchor + Brand Wall" (wall-mounted TV displays a keyboard-driven HTML slide deck synced to the spoken script via Bluetooth clicker; sync happens in-camera, not in post). No architecture changes, no ADRs.
+**Session topic:** Intro V3 production — shoot, take selection, HLG color-shift fix, overlay generator, slide 2 iteration, WhatsApp logo, V3 final-edit review. No architecture changes, no ADRs.
 
 ## What just happened (last session — read once, don't re-litigate)
 
-Three-hour brainstorming → design → build session, end-to-end on the homepage hero video. Outcome: V3 design locked, deck shipped, script + spec written, gitignore exception added, tasks updated.
+Continuation of session 13's V3 design/build day. On shoot day, the TV-on-wall implementation didn't work, so Ricardo pivoted to a white-background shoot with post-production PNG overlays composited in DaVinci. Same script, same slide content, same brand system — just delivered differently.
 
-**1. Audit absorption.** Read the `Comentarios Video` CMO critique on `Intro V1.x`/`V2.mkv`. Sampled V2.mkv at 4s intervals to confirm V2 made cosmetic gains (name overlay, wordmark overlay) but left the structural critique unaddressed: white wall, lavalier visible, 3-CTA end card, no value-prop text overlays, two logo lock-ups, assertive gestures.
+**1. T7 picked from 7 new 4K HEVC HLG takes.** Compared via 7×3 frame grid (every 8s). T7 wins on warm opening, friendly mid-take open-palm gesture, clean closing pose, stable framing. Caveat: ~40s pointing gesture flagged for potential cut-around with T2 cutaway if it bothers Ricardo on review.
 
-**2. Strategic frame locked.** Goal=convert to WhatsApp. Single CTA. 45s final. *Tranquilidad y competencia* tone. *Tú* register. Pre-launch-honest framing ("La meta:" instead of fake "Nuestros clientes recuperan…"). Ricardo's homepage-context-already-shows-who-I-am insight let us drop "Soy Ricardo Mejía" entirely, saving 4 seconds.
+**2. HLG color-shift root-caused and fixed.** ffprobe on T7 revealed the source is HLG / BT.2020 (HDR), not BT.709 SDR as the session-11 recipe assumed. Session 11/12's `dnxhr_hq` recipe dumped HLG-encoded samples into an SDR container with no tonemap — DaVinci interpreted them as BT.709 gamma-2.2, producing washed-out output. New recipe uses ffmpeg zscale + tonemap (Hable, desat=0) → BT.709 SDR + 10-bit DNxHR HQX (`dnxhr_hqx` profile, `yuv422p10le`) with explicit color metadata. T7 transcoded in 1m54s to a 5.5 GB MOV at `raw/transcoded/T7_PXL_20260525_201521963.mov`.
 
-**3. Approach A: Anchor + Brand Wall.** Evaluated four backdrops Ricardo had staged (wood paneling, wall-mounted TV, balcony with city/golf-course view, cleaner wood) + a chroma-key-on-white-wall composite alternative. Backdrop 02 (wall-mounted TV) chosen because the TV becomes a brand-content panel synced to the script — production-design half of the message, not just a backdrop. Chroma-key rejected for one-day-edit constraints (Natron edge artifacts would survive into final).
+**3. Built `tv-loop/build_overlays.py`** — single-file Pillow-based PNG generator. Produces 1920×1080 RGBA overlays with transparent backgrounds + dark navy text + cyan accents (inverted from the original Midnight-bg deck design for white-background composite use). All content in left 60% of canvas. Outputs: 4 static slides (cover / proof / diferencia / cta), 180-frame animated counter sequence for Slide 1 (1→20 with eased-out + filling progress bar), 4-state stair keyframes for Slide 2 + final.
 
-**4. HTML deck built** at `operations/marketing/website-intro/tv-loop/index.html` (15.9 KB, self-contained, zero build deps). Six slides on Midnight `#0C1A2E` with Sky-Blue `#0EA5E9` accents. Single-page-app navigation: Space/→ advances, ← reverses, F toggles fullscreen, G shows rule-of-thirds grid, R toggles rehearsal HUD, H shows cursor, 0-5 jump-to-slide, click-anywhere fallback. All content sits in the canvas's left 60% so Ricardo on the right third of camera frame doesn't cover it.
+**4. Slide 2 iterated 3→4 stairs.** Round 1: 3 pills (Estudiamos / Diseñamos / Identificamos) with dashed connector. Connector touched Ricardo's hairline. Round 2 (final): 4 pills (Estudiamos / Identificamos / Diseñamos / Implementamos) rising up-right in left third, connector removed per Ricardo's request, font 58→52 + padding 44→38 to fit 4 pills cleanly.
 
-**5. Slide-specific animations.** Slide 1 animates a 1→20 hour counter (JS, eased-out) over 6s + a filling progress bar in parallel. Slide 2 auto-reveals three stair pills (Estudiamos at 0.3s, Identificamos at 3.5s, Implementamos at 8.0s) on a single SPACE press — pill timings track Ricardo's spoken pace through the slide-2 line. Slide 5 closes on a WhatsApp CTA (icon + `+57 333 286 3969` + "30 minutos · sin costo"). All animations restart cleanly when slides are re-entered (selector-based CSS animations + JS rAF for the counter).
+**5. Official WhatsApp logo integrated.** Ricardo uploaded `assets/Whatsapp Logo.png` (5000×5000 RGBA). Copied to `tv-loop/assets/whatsapp.png`. Build script paste-composites at 160px in Slide 5 — replaces the round-1 hand-drawn glyph.
 
-**6. Spoken script locked by Ricardo** at 5 SPACE-cue beats. Annotated prompter version at `operations/marketing/website-intro/tv-loop/SCRIPT.md`. Final pill labels (Estudiamos · Identificamos · Implementamos) match Ricardo's verb flow and land naturally on the spoken word "implementación."
+**6. V3 final edit reviewed.** Ricardo rendered `edits/Intro V3.mkv` (55.3s ProRes HQ 4K master, FLAC stereo, BT.709 with proper metadata, audio levels mean -22 dB / peak -2.1 dB). Frames sampled every 3.5s across the timeline. Overall ship-ready; two flags raised:
+   - **"CEO" lower-third title** (t≈5s) — conflicts with 50/50 co-founder partnership; verify with JP before homepage launch
+   - **Diferencia overlay seemingly missing** at t=37-43s — restore by dropping `slide-4_diferencia.png` on V2 for that ~5s
 
-**7. Design spec written** at `operations/marketing/website-intro/INTRO_V3_DESIGN.md` — strategic locks, approach rationale, production system diagram, shoot-day setup (room/camera/lighting/audio/wardrobe), edit plan (DaVinci 1-day timeline + color + music + export), V1-V2-critique-to-V3-response table, file map, V4 trigger conditions.
+**7. gitignore extended** to track `website-intro/overlays/**`. Heavy assets (raw mp4s, transcoded MOVs, ProRes master) stay local-only.
 
-**8. gitignore exception** added at `operations/marketing/.gitignore`. The marketing folder previously declared everything ignored except README; V3 introduces a deliberate exception for `website-intro/tv-loop/**` (deck + script + brand-asset PNGs) and `website-intro/*.md` (design spec). Both are canonical brand artifacts, not regenerable working files. ~40 KB total. Verified with `git check-ignore -v` + `git add --dry-run`.
-
-**9. Tasks updated.** Superseded `t-pick-website-intro-final-version` (V3 obsoletes the V1.0-vs-V1.1 choice). Added: `t-intro-v3-dry-run` (high · 2026-05-30), `t-buy-presenter-clicker` (low · 2026-06-05), `t-intro-v3-shoot-and-edit` (high · 2026-06-15).
-
-**Result:** V3 is the new canonical homepage hero video direction. Shoot is gated only on a 30-60 min dry-run (verify font sizes + TV reflection control + pill timing) and a $15-25 Bluetooth clicker. Same-day shoot + same-day edit feasible once those two checkboxes hit.
+**8. SCRIPT.md updated** for the 4-stair design and DaVinci overlay workflow (was written for the retired TV-deck path).
 
 ## Decisions locked this session
 
-1. **Approach A over B/C/composite.** TV-on-wall as a brand-content panel beats outdoor balcony (weather-dependent) and chroma-key composite (one-day edit not enough for clean edges without a real green screen). Reversal: trivial — V3 doesn't delete the V1/V2 takes; pivoting to outdoor or composite means a new shoot day with the same script + deck.
+1. **Production workflow: post-production PNG overlays in DaVinci.** TV-on-wall approach retired from the V3 critical path; the HTML deck stays in the repo as a reference. Reversal: future shoots with a controlled setup can revisit the in-camera TV approach.
 
-2. **5 SPACE cues total.** Pre-rolls stays on Slide 0 silent. SPACE 1-5 each open a new slide. Slide 2's three pills auto-reveal on timed delays (no extra SPACE per pill — Ricardo simplified this from an earlier 7-press version). Reversal: change `data-steps="1"` to `data-steps="3"` on Slide 2 and add per-pill `data-step` attributes — pattern is already in the JS station-counter logic, just unused.
+2. **Transcode recipe upgraded** from session-11's `dnxhr_hq` (8-bit, no color flags) to **`dnxhr_hqx` + 10-bit + zscale-tonemap HLG→BT.709 chain + explicit color metadata.** The new recipe is the standard for any future Pixel/HDR phone shoot. The marketing README documents the OLD recipe; updating that is a follow-up item, not done in this session.
 
-3. **Pre-launch-honest projection language.** "La meta: que recuperes entre 8 y 20 horas a la semana" instead of "Nuestros clientes recuperan…" (which we cannot substantiate yet). Upgrade to the latter the moment Stage 1 ships testimonials.
+3. **4-stair Slide 2 (not 3)** is the locked design. Connector removed. The 4-pill arrangement (Estudiamos / Identificamos / Diseñamos / Implementamos) matches the spoken script's four verbs naturally and gives the visual more accumulating weight than 3.
 
-4. **Lower-third in post for speaker ID.** The video itself drops "Soy Ricardo Mejía" — homepage context identifies Ricardo through the "Equipo" section. For standalone reposts (LinkedIn etc.) a 4-second lower-third "Ricardo Mejía · Co-fundador, Nexostrat" renders in DaVinci, not on the TV.
-
-5. **gitignore exception is deliberate.** The marketing folder remains "ignore-by-default"; the V3 deck + spec are explicit exceptions because they are canonical brand artifacts. Other future campaigns (LinkedIn launch, pitch deck) follow the default unless their artifacts are similarly canonical.
+4. **Overlays are tracked artifacts** alongside the deck and design spec. They're generated by `build_overlays.py` so technically regenerable, but tracking them survives a Python/PIL version change and gives JP/anyone access without setup.
 
 ## Stack state (live & verifiable next session)
 
 ```
 /srv/Nexostrat/
 ├── operations/marketing/
-│   ├── .gitignore                  ← MODIFIED (V3 exception pattern)
+│   ├── .gitignore                              ← MODIFIED (overlays/ exception)
 │   └── website-intro/
-│       ├── INTRO_V3_DESIGN.md      ← NEW (full design spec)
-│       ├── Comentarios Video       ← (existing CMO audit; informed V3)
-│       ├── Backdrop 01..04.jpeg    ← (existing options; #02 chosen)
-│       ├── tv-loop/                ← NEW (the deck)
-│       │   ├── index.html          ← NEW (6-slide TV deck)
-│       │   ├── SCRIPT.md           ← NEW (annotated prompter script)
+│       ├── INTRO_V3_DESIGN.md                  (session-13)
+│       ├── Comentarios Video                   (existing CMO audit)
+│       ├── Backdrop 01..04.jpeg                (session-13)
+│       ├── overlays/                           ← NEW (8 PNG files + 180-frame sequence)
+│       │   ├── slide-0_cover.png
+│       │   ├── slide-1_hook/                   ← 180 frames + final.png
+│       │   ├── slide-2_stairs/                 ← state-1..4 + final
+│       │   ├── slide-3_proof.png
+│       │   ├── slide-4_diferencia.png
+│       │   └── slide-5_cta.png
+│       ├── tv-loop/
+│       │   ├── index.html                      (session-13; retired but kept)
+│       │   ├── SCRIPT.md                       ← MODIFIED (4-stair design)
+│       │   ├── build_overlays.py               ← NEW (overlay generator)
 │       │   └── assets/
-│       │       ├── icon.png        ← NEW (copy of brand mark)
-│       │       └── wordmark.png    ← NEW (copy of full wordmark on Midnight)
-│       ├── edits/                  ← (V1.x / V2.x legacy DaVinci timelines)
-│       ├── raw/                    ← (untouched — raw takes + transcoded MOVs)
-│       └── final/                  ← (empty — V3 lands here after shoot+edit)
-├── STATUS.md                       ← MODIFIED (thirteenth-session entry + done-block)
-├── tasks.json                      ← MODIFIED (3 new tasks, 1 superseded)
+│       │       ├── icon.png
+│       │       ├── wordmark.png
+│       │       └── whatsapp.png                ← NEW
+│       ├── raw/
+│       │   ├── PXL_20260525_*.mp4              ← NEW (7 takes, ~2GB, NOT tracked)
+│       │   └── transcoded/T7_*.mov             ← NEW (5.5GB, NOT tracked)
+│       └── edits/
+│           └── Intro V3.mkv                    ← NEW (3.2GB ProRes master, NOT tracked)
+├── STATUS.md                                   ← MODIFIED (14th-session entry)
+├── tasks.json                                  ← MODIFIED (3 closed, 3 added)
 ├── 00_META/journal/
-│   └── 2026-05-25_website-intro-v3-redesign.md  ← NEW
-└── CHECKPOINT.md                   ← THIS FILE (rewritten)
+│   └── 2026-05-25_intro-v3-shoot-and-overlays.md   ← NEW
+└── CHECKPOINT.md                               ← THIS FILE (rewritten)
 ```
 
-## Open items (across sessions)
+## Open items (this session's, ranked)
 
 | ID | Subject | Priority | Due |
 |---|---|---|---|
-| t-intro-v3-dry-run | V3 deck — dry-run on real TV; tune CSS delays if needed | high | 2026-05-30 |
-| t-buy-presenter-clicker | Bluetooth presenter remote ($15-25) for hands-free SPACE | low | 2026-06-05 |
-| t-intro-v3-shoot-and-edit | Half-day shoot + 1-day DaVinci edit per INTRO_V3_DESIGN.md | high | 2026-06-15 |
-| (Trixx pilot meeting) | Pilot meeting was scheduled 2026-05-25 — separate track | critical | (today) |
-| (per tasks.json, ~70 other open tasks not directly related to V3) | | | |
+| t-intro-v3-ceo-vs-cofundador | Verify "CEO" lower-third vs co-fundador with JP | high | 2026-05-26 |
+| t-intro-v3-diferencia-slide | Restore "Hecho a tu medida" overlay at t=37-43s | high | 2026-05-26 |
+| t-intro-v3-web-export | H.264 1080p30 ~6 Mbps faststart for homepage | high | 2026-06-15 |
+| (plus ~70 other open tasks from prior sessions, see tasks.json) | | | |
 
 ## What did NOT happen this session
 
 - **No commit yet** — that fires immediately after this CHECKPOINT.md write, in the session-end commit block.
-- **No memo or cross-folder coordination.** Work stayed inside `operations/marketing/`.
-- **No `00_META/CHANGELOG.md` update.** No persona context file was edited (CLAUDE.md / GEMINI.md / README.md untouched).
-- **No ADR.** V3 is a marketing artifact, not an architectural decision.
-- **No Gemini handoff.** No adversarial-audit or fresh-info-lookup need for V3.
-- **No shoot.** That's a separate session, gated on `t-intro-v3-dry-run` and `t-buy-presenter-clicker`.
-- **No Trixx meeting prep.** The Trixx pilot is the project's other critical-path item (2026-05-25 today) — handled in its own session track.
+- **No update to `operations/marketing/README.md`.** The batch transcode recipe documented there is now outdated (session-11 ingest recipe doesn't tonemap HLG). Filed as future doc-only commit.
+- **No update to `00_META/CHANGELOG.md`.** No persona context file (CLAUDE.md / GEMINI.md / README.md) was edited.
+- **No ADR.** Marketing artifact iteration, not architectural.
+- **No Gemini handoff.** No second-seat audit needed.
+- **No memo to other personas.** Work stayed inside `operations/marketing/`.
+- **Trixx pilot meeting (2026-05-25)** — separate session track; not addressed here.
 
 ## Next session — what to read first
 
-1. `STATUS.md` top — the thirteenth-session entry summarizes the V3 work in one paragraph.
-2. `operations/marketing/website-intro/INTRO_V3_DESIGN.md` — full design context.
-3. `operations/marketing/website-intro/tv-loop/SCRIPT.md` if working on the script or shoot prep.
-4. `operations/marketing/website-intro/tv-loop/index.html` if tuning the deck (pill timings, animations, slide content).
+1. `STATUS.md` top — the 14th-session entry summarizes V3 production.
+2. `00_META/journal/2026-05-25_intro-v3-shoot-and-overlays.md` — full narrative of today's PM work.
+3. `00_META/journal/2026-05-25_website-intro-v3-redesign.md` — morning's design context.
+4. `operations/marketing/website-intro/INTRO_V3_DESIGN.md` — design spec (mostly current; "Approach A TV-on-wall" section now historical, post-production overlay workflow is the actual one used).
+5. If working on V3 follow-ups: tasks.json `t-intro-v3-*` (3 open).
 
-If the next session is "do the dry-run" or "do the shoot": follow `INTRO_V3_DESIGN.md` §6 and §7 like a runbook.
+If the next session is "land V3 on the homepage": (a) verify CEO title with JP, (b) restore Diferencia overlay, (c) export web-optimized MP4 through `infra/scripts/video-to-mp4.sh`, (d) deploy to nexostrat.com.

@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v1",
   "project": "nexostrat",
-  "updated": "2026-05-25T15:30:00-07:00",
+  "updated": "2026-05-25T18:45:00-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -638,7 +638,7 @@
       "priority": "high",
       "due": "2026-06-22",
       "created": "2026-05-21",
-      "notes": "Audit B17. The hybrid-by-confidence task posture (audit B6) relies on calibrated LLM confidence scores. Without ground-truth calibration the threshold (initial 0.85) is arbitrary; auto-write degenerates to 'auto-write anything not explicitly hedged' which is the wrong posture for a JP-shared partnership. Deliverables: (1) explicit rubric in extractor prompt — propose: '0.9+ = direct quote with explicit commitment + owner + when; 0.7-0.9 = paraphrased commitment with clear owner + intent; 0.4-0.7 = inferred from context, no explicit commitment; <0.4 = speculation'; (2) 50+ manually-rated calibration examples committed to /srv/Nexostrat/00_META/calibration/auto_task_extraction.jsonl (real meeting/chat snippets + Ricardo's ground-truth label + Ricardo's reasoning); (3) bi-weekly re-rating cron of 20 auto-written tasks; (4) make threshold configurable in Brain's routing.yaml per tenant. Plan 04 implementation prerequisite — without this, Plan 04 ships with an arbitrary threshold."
+      "notes": "Audit B17. The hybrid-by-confidence task posture (audit B6) relies on calibrated LLM confidence scores. Without ground-truth calibration the threshold (initial 0.85) is arbitrary; auto-write degenerates to 'auto-write anything not explicitly hedged' which is the wrong posture for a JP-shared partnership. Deliverables: (1) explicit rubric in extractor prompt — propose: '0.9+ = direct quote with explicit commitment + owner + when; 0.7-0.9 = paraphrased commitment with clear owner + intent; 0.4-0.7 = inferred from context, no explicit commitment; <0.4 = speculation'; (2) 50+ manually-rated calibration examples committed to /srv/Nexostrat/00_META/calibration/auto_task_extraction.jsonl (real meeting/chat snippets + Ricardo's ground-truth label + Ricardo's reasoning); (3) bi-weekly re-rating cron of 20 auto-written tasks; (4) make threshold configurable in Brain's routing.yaml per tenant. Plan 04 implementation prerequisite — without this, Plan 04 ships with an arbitrary threshold. UPDATE 2026-05-25 (session 15): scaffold + rubric shipped 2026-05-22 in commit 60669ed (deliverable 1 done). This task now covers ONLY deliverable 2 (the ≥50-row labelling pass). This task aliases P-N3 in the 2026-05-25 Nexostrat contribution doc for the meetings-pipeline overhaul (00_META/governance/plans/2026-05-25_meetings-overhaul-contribution.md §3) — same line item, do not double-track."
     },
     {
       "id": "t-plan-04-description-update",
@@ -748,6 +748,36 @@
       "created": "2026-05-25",
       "due": "2026-06-15",
       "notes": "Target output ~70 MB. Land in operations/marketing/website-intro/final/ alongside any iOS/Android optimized variants if needed."
+    },
+    {
+      "id": "t-meetings-overhaul-tasks-v2-schema",
+      "subject": "P-N1 — tasks.json schema v2 additive extension (owner canonical + assignee alias + provenance fields)",
+      "description": "Per the 2026-05-25 Nexostrat contribution doc for the meetings-pipeline overhaul (00_META/governance/plans/2026-05-25_meetings-overhaul-contribution.md §3). Amend the tasks.json schema to nexostrat-tasks-v2: add optional task-object fields owner (string|null, canonical per brief-templates README convention), assignee (string|null, accepted as alias of owner for Brain Bot Platform §8 interop), source_meeting (slug string|null), auto_added (bool, default false), confidence (float 0.0-1.0|null). Also accept text as a synonym of subject so the hub can write either. Document schema in 00_META/proposals/2026-05-26_tasks-v2-schema.md. Phase 0a prereq for hub auto-write path; effort S (≤2h). Co-commit with t-meetings-overhaul-audit-dir.",
+      "priority": "high",
+      "status": "open",
+      "created": "2026-05-25",
+      "due": "2026-06-05",
+      "notes": "Hub-side ScopedFS writes from /srv/brain-hub/ need these fields to carry provenance metadata (B6 audit pass + bi-weekly threshold retuning). Defer option: ship Phase 4 with hub writing v1 fields (text→subject, drop rest); loses per-row confidence trail but acceptable for Stage 1 if calibration corpus ships at v1 quality."
+    },
+    {
+      "id": "t-meetings-overhaul-audit-dir",
+      "subject": "P-N2 — Create 00_META/audit/ + empty auto_tasks.log + README",
+      "description": "Per the 2026-05-25 Nexostrat contribution doc for the meetings-pipeline overhaul (00_META/governance/plans/2026-05-25_meetings-overhaul-contribution.md §3). Create /srv/Nexostrat/00_META/audit/auto_tasks.log (empty, append-only NDJSON; one row per auto-written task: {ts, source_meeting, extracted_text, score, model, task_id_written}) plus 00_META/audit/README.md documenting the row schema and stating the file is hub-owned (written via ScopedFS) but Nexostrat-readable for audit passes. Phase 0a prereq; effort S (≤30min). Co-commit with t-meetings-overhaul-tasks-v2-schema.",
+      "priority": "high",
+      "status": "open",
+      "created": "2026-05-25",
+      "due": "2026-06-05",
+      "notes": "Hub will fail to write the first auto-write if the directory is missing — Brain Bot Platform §8 names this exact path. Trivial fix."
+    },
+    {
+      "id": "t-archive-bbp-action-items-memo",
+      "subject": "Archive 00_META/inbox/2026-05-22_brain_bot_platform_action_items.md once B19 closes",
+      "description": "The memo tracks 3 action items: B14 (ADR-020 supersession) DONE 2026-05-21, B15 (Strict Rule #4 clarification) DONE 2026-05-21, B19 (firm-owned Telegram) still OPEN as t-nexostrat-telegram-account. Once B19 closes, move the memo to 00_META/inbox/archive/ and stamp it RESOLVED. Janitor pass; not blocking.",
+      "priority": "low",
+      "status": "open",
+      "created": "2026-05-25",
+      "due": "2026-06-15",
+      "notes": "Tracks the close of t-nexostrat-telegram-account. The memo is stale on 2 of its 3 items but kept in-inbox until all three resolve."
     }
   ]
 }

@@ -8,7 +8,7 @@ An event qualifies if **any** of:
 
 1. `summary` contains "nexo" (case-insensitive).
 2. The event sits on a sub-calendar literally named `Nexostrat`.
-3. The attendee list contains JP's email (configured per-deploy; today: `jp@example.com` placeholder until JP's actual email is wired in).
+3. The attendee list contains JP's email (configured per-deploy; today: `jpasistentepersonal@gmail.com` — JP's primary Gmail used for Google Calendar invites; confirmed by Ricardo 2026-05-26 during Phase 0c P-H2 execution).
 
 Events failing all three: **filtered out. Period.**
 

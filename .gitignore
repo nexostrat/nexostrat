@@ -79,6 +79,8 @@ docker-compose.override.yml
 *.log
 excalidraw.log
 logs/
+# Hub-owned audit trail (Brain Bot Hub appends auto-write rows; tracked in git for audit history)
+!00_META/audit/auto_tasks.log
 
 # --- Working dirs --------------------------------------------------------------
 .superpowers/

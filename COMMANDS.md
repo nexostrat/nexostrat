@@ -142,6 +142,41 @@ Exit codes: `0` clean · `1` drift detected · `2` script error.
 
 6 sub-tests; crypto + leak SKIPs are TTY-related and normal in non-interactive runs.
 
+## Calendar cache refresh (`calendar_cache.json`)
+
+The hub's pre-meeting brief loop (Brain Bot Platform §9, master plan Phase 5) reads `/srv/Nexostrat/calendar_cache.json` every 15 min. The cache is **human-in-the-loop**: the hub never holds Google OAuth, so a Claude session running on a PC with the Google Calendar MCP authenticated populates it.
+
+**Source of truth:**
+- Filter rule: [`00_META/calendar_filter.md`](00_META/calendar_filter.md) (Nexostrat-side audit B7 ratification)
+- Filter implementation: `/home/ricardo/brain-hub/hub/google/calendar_filter_nexostrat.py::nexostrat_filter()` (constant `FILTER_VERSION = "nexostrat-v1"`)
+- Cache schema is contracted in master plan §6.2 P-H2 and hub contribution doc §3 P-H2.
+
+**Cache schema** (top-level keys):
+
+| Field | Type | Notes |
+|---|---|---|
+| `generated_at` | ISO-8601 UTC | timestamp the session wrote the cache |
+| `generated_by` | string | identifier of the session that wrote it (e.g. `claude@desktop`) |
+| `filter_applied` | string | must equal the imported `FILTER_VERSION` — drift sentinel |
+| `stale_after_hours` | int | `24` (hub renders the "⚠ cache stale" footer past this) |
+| `events` | array | upstream fields `id, summary, start, end, attendees, location, description` + injected `source_calendar` + `match` rationale |
+
+**Refresh procedure** (run any time Ricardo wants the cache < 24h fresh, ahead of Phase 5 dispatch loops, or after a non-trivial calendar change):
+
+1. Open Claude Code on a PC where the Google Calendar MCP is authenticated to `ricardomejiacaicedo@gmail.com` (currently: desktop).
+2. From `/srv/Nexostrat/`, ask:
+   > Refresh `calendar_cache.json` per master plan §6.2 P-H2 — fetch next 30 days across all calendars, apply `calendar_filter_nexostrat.nexostrat_filter` with JP's email (`jpasistentepersonal@gmail.com`), write the cache.
+3. Claude calls `list_calendars` + `list_events` (per calendar, `startTime=now`, `endTime=now+30d`), annotates each event with `source_calendar = <calendar summary>`, applies the filter, persists with the schema above, and commits + pushes.
+4. Verify:
+   ```bash
+   jq -r '.filter_applied, .generated_at, .stale_after_hours, (.events | length)' /srv/Nexostrat/calendar_cache.json
+   ```
+   First line MUST equal the constant in `calendar_filter_nexostrat.py::FILTER_VERSION` (drift sentinel).
+
+**Fallback (demo only, NOT production):** hand-author the cache with one synthetic event. The hub's stale-cache messaging path won't exercise. Per hub contribution doc §3 P-H2 "Defer option."
+
+**Migration trigger:** when the firm-owned Google account (e.g. `ops@nexostrat.com`) lands, the whole-account-is-Nexostrat assumption removes the filter; `filter_applied` bumps to `nexostrat-noop-firm-account-v1` per `00_META/calendar_filter.md` § Migration trigger.
+
 ## Vault (age-encrypted secrets)
 
 ```bash

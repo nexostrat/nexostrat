@@ -1,0 +1,278 @@
+{
+  "generated_at": "2026-05-26T02:59:01Z",
+  "generated_by": "claude@desktop",
+  "filter_applied": "nexostrat-v1",
+  "stale_after_hours": 24,
+  "events": [
+    {
+      "id": "4p84ujemc082qbrar3h271qft4_20260525T150000Z",
+      "summary": "Nexostrat",
+      "start": {
+        "dateTime": "2026-05-25T08:00:00-07:00",
+        "timeZone": "America/Tijuana"
+      },
+      "end": {
+        "dateTime": "2026-05-25T09:00:00-07:00",
+        "timeZone": "America/Tijuana"
+      },
+      "attendees": [
+        {
+          "email": "ricardomejiacaicedo@gmail.com",
+          "organizer": true,
+          "responseStatus": "accepted",
+          "self": true
+        },
+        {
+          "email": "jpasistentepersonal@gmail.com",
+          "responseStatus": "accepted"
+        },
+        {
+          "email": "juan@juanencripto.com",
+          "responseStatus": "accepted"
+        }
+      ],
+      "source_calendar": "Ricardo Mejía - Personal",
+      "match": "summary_contains_nexo"
+    },
+    {
+      "id": "7f8ertmcl71j4depm1fv3vkssn_20260528T140000Z",
+      "summary": "Nexostrat",
+      "start": {
+        "dateTime": "2026-05-28T07:00:00-07:00",
+        "timeZone": "America/Tijuana"
+      },
+      "end": {
+        "dateTime": "2026-05-28T08:00:00-07:00",
+        "timeZone": "America/Tijuana"
+      },
+      "attendees": [
+        {
+          "email": "ricardomejiacaicedo@gmail.com",
+          "organizer": true,
+          "responseStatus": "accepted",
+          "self": true
+        },
+        {
+          "email": "juan@juanencripto.com",
+          "responseStatus": "accepted"
+        },
+        {
+          "email": "jpasistentepersonal@gmail.com",
+          "responseStatus": "accepted"
+        }
+      ],
+      "source_calendar": "Ricardo Mejía - Personal",
+      "match": "summary_contains_nexo"
+    },
+    {
+      "id": "4p84ujemc082qbrar3h271qft4_20260601T150000Z",
+      "summary": "Nexostrat",
+      "start": {
+        "dateTime": "2026-06-01T08:00:00-07:00",
+        "timeZone": "America/Tijuana"
+      },
+      "end": {
+        "dateTime": "2026-06-01T09:00:00-07:00",
+        "timeZone": "America/Tijuana"
+      },
+      "attendees": [
+        {
+          "email": "ricardomejiacaicedo@gmail.com",
+          "organizer": true,
+          "responseStatus": "accepted",
+          "self": true
+        },
+        {
+          "email": "jpasistentepersonal@gmail.com",
+          "responseStatus": "accepted"
+        },
+        {
+          "email": "juan@juanencripto.com",
+          "responseStatus": "accepted"
+        }
+      ],
+      "source_calendar": "Ricardo Mejía - Personal",
+      "match": "summary_contains_nexo"
+    },
+    {
+      "id": "7f8ertmcl71j4depm1fv3vkssn_20260604T140000Z",
+      "summary": "Nexostrat",
+      "start": {
+        "dateTime": "2026-06-04T07:00:00-07:00",
+        "timeZone": "America/Tijuana"
+      },
+      "end": {
+        "dateTime": "2026-06-04T08:00:00-07:00",
+        "timeZone": "America/Tijuana"
+      },
+      "attendees": [
+        {
+          "email": "ricardomejiacaicedo@gmail.com",
+          "organizer": true,
+          "responseStatus": "accepted",
+          "self": true
+        },
+        {
+          "email": "juan@juanencripto.com",
+          "responseStatus": "accepted"
+        },
+        {
+          "email": "jpasistentepersonal@gmail.com",
+          "responseStatus": "accepted"
+        }
+      ],
+      "source_calendar": "Ricardo Mejía - Personal",
+      "match": "summary_contains_nexo"
+    },
+    {
+      "id": "4p84ujemc082qbrar3h271qft4_20260608T150000Z",
+      "summary": "Nexostrat",
+      "start": {
+        "dateTime": "2026-06-08T08:00:00-07:00",
+        "timeZone": "America/Tijuana"
+      },
+      "end": {
+        "dateTime": "2026-06-08T09:00:00-07:00",
+        "timeZone": "America/Tijuana"
+      },
+      "attendees": [
+        {
+          "email": "ricardomejiacaicedo@gmail.com",
+          "organizer": true,
+          "responseStatus": "accepted",
+          "self": true
+        },
+        {
+          "email": "jpasistentepersonal@gmail.com",
+          "responseStatus": "accepted"
+        },
+        {
+          "email": "juan@juanencripto.com",
+          "responseStatus": "accepted"
+        }
+      ],
+      "source_calendar": "Ricardo Mejía - Personal",
+      "match": "summary_contains_nexo"
+    },
+    {
+      "id": "7f8ertmcl71j4depm1fv3vkssn_20260611T140000Z",
+      "summary": "Nexostrat",
+      "start": {
+        "dateTime": "2026-06-11T07:00:00-07:00",
+        "timeZone": "America/Tijuana"
+      },
+      "end": {
+        "dateTime": "2026-06-11T08:00:00-07:00",
+        "timeZone": "America/Tijuana"
+      },
+      "attendees": [
+        {
+          "email": "ricardomejiacaicedo@gmail.com",
+          "organizer": true,
+          "responseStatus": "accepted",
+          "self": true
+        },
+        {
+          "email": "juan@juanencripto.com",
+          "responseStatus": "accepted"
+        },
+        {
+          "email": "jpasistentepersonal@gmail.com",
+          "responseStatus": "accepted"
+        }
+      ],
+      "source_calendar": "Ricardo Mejía - Personal",
+      "match": "summary_contains_nexo"
+    },
+    {
+      "id": "4p84ujemc082qbrar3h271qft4_20260615T150000Z",
+      "summary": "Nexostrat",
+      "start": {
+        "dateTime": "2026-06-15T08:00:00-07:00",
+        "timeZone": "America/Tijuana"
+      },
+      "end": {
+        "dateTime": "2026-06-15T09:00:00-07:00",
+        "timeZone": "America/Tijuana"
+      },
+      "attendees": [
+        {
+          "email": "ricardomejiacaicedo@gmail.com",
+          "organizer": true,
+          "responseStatus": "accepted",
+          "self": true
+        },
+        {
+          "email": "jpasistentepersonal@gmail.com",
+          "responseStatus": "accepted"
+        },
+        {
+          "email": "juan@juanencripto.com",
+          "responseStatus": "accepted"
+        }
+      ],
+      "source_calendar": "Ricardo Mejía - Personal",
+      "match": "summary_contains_nexo"
+    },
+    {
+      "id": "7f8ertmcl71j4depm1fv3vkssn_20260618T140000Z",
+      "summary": "Nexostrat",
+      "start": {
+        "dateTime": "2026-06-18T07:00:00-07:00",
+        "timeZone": "America/Tijuana"
+      },
+      "end": {
+        "dateTime": "2026-06-18T08:00:00-07:00",
+        "timeZone": "America/Tijuana"
+      },
+      "attendees": [
+        {
+          "email": "ricardomejiacaicedo@gmail.com",
+          "organizer": true,
+          "responseStatus": "accepted",
+          "self": true
+        },
+        {
+          "email": "juan@juanencripto.com",
+          "responseStatus": "accepted"
+        },
+        {
+          "email": "jpasistentepersonal@gmail.com",
+          "responseStatus": "accepted"
+        }
+      ],
+      "source_calendar": "Ricardo Mejía - Personal",
+      "match": "summary_contains_nexo"
+    },
+    {
+      "id": "4p84ujemc082qbrar3h271qft4_20260622T150000Z",
+      "summary": "Nexostrat",
+      "start": {
+        "dateTime": "2026-06-22T08:00:00-07:00",
+        "timeZone": "America/Tijuana"
+      },
+      "end": {
+        "dateTime": "2026-06-22T09:00:00-07:00",
+        "timeZone": "America/Tijuana"
+      },
+      "attendees": [
+        {
+          "email": "ricardomejiacaicedo@gmail.com",
+          "organizer": true,
+          "responseStatus": "accepted",
+          "self": true
+        },
+        {
+          "email": "jpasistentepersonal@gmail.com",
+          "responseStatus": "accepted"
+        },
+        {
+          "email": "juan@juanencripto.com",
+          "responseStatus": "accepted"
+        }
+      ],
+      "source_calendar": "Ricardo Mejía - Personal",
+      "match": "summary_contains_nexo"
+    }
+  ]
+}

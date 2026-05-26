@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nexostrat · Intro V3 — TV Loop</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --midnight: #0C1A2E;
+    --midnight-deep: #081225;
+    --ocean: #0D4A6B;
+    --sky: #0EA5E9;
+    --sky-soft: rgba(14, 165, 233, 0.18);
+    --arctic: #F0FBFF;
+    --muted: #7B8AA8;
+    --whatsapp: #25D366;
+    --ease: cubic-bezier(.2,.7,.3,1);
+    --hook-duration: 6000ms;
+  }
+
+  *,
+  *::before,
+  *::after { box-sizing: border-box; }
+
+  html, body {
+    margin: 0; padding: 0; height: 100%;
+    background: var(--midnight);
+    color: var(--arctic);
+    font-family: 'Inter', -apple-system, "Segoe UI", system-ui, sans-serif;
+    font-weight: 500;
+    overflow: hidden;
+    user-select: none; -webkit-user-select: none;
+    cursor: none;
+  }
+  body.show-cursor { cursor: default; }
+
+  .stage {
+    position: fixed; inset: 0;
+    display: grid; place-items: center;
+    background: radial-gradient(ellipse at 25% 45%, #102544 0%, var(--midnight) 55%, var(--midnight-deep) 100%);
+    overflow: hidden;
+  }
+  .canvas {
+    position: relative;
+    width: 100vw;
+    height: 56.25vw;
+    max-height: 100vh;
+    max-width: 177.7778vh;
+    aspect-ratio: 16 / 9;
+  }
+
+  .icon-anchor {
+    position: absolute;
+    top: 4%; right: 4%;
+    width: 5.5%;
+    opacity: 0;
+    transition: opacity 400ms var(--ease);
+    pointer-events: none;
+    z-index: 5;
+  }
+  .icon-anchor img { width: 100%; height: auto; display: block; }
+  .stage[data-slide="0"] .icon-anchor { opacity: 0; }
+  .stage[data-slide="1"] .icon-anchor,
+  .stage[data-slide="2"] .icon-anchor,
+  .stage[data-slide="3"] .icon-anchor,
+  .stage[data-slide="4"] .icon-anchor,
+  .stage[data-slide="5"] .icon-anchor { opacity: 0.9; }
+
+  /* Slides — all left-anchored in left 60% so the speaker on right doesn't cover content */
+  .slide {
+    position: absolute; inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 60%;
+    padding: 0 0 0 7%;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 360ms var(--ease), transform 360ms var(--ease);
+    pointer-events: none;
+  }
+  .slide.is-active {
+    opacity: 1; transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .eyebrow {
+    color: var(--muted);
+    font-size: clamp(14px, 1.05vw, 22px);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 1.4vh;
+  }
+
+  /* === SLIDE 0 — Logo holder (LEFT side) === */
+  .slide--cover {
+    align-items: flex-start;
+    text-align: left;
+  }
+  .slide--cover img.wordmark {
+    width: 70%;
+    max-width: 520px;
+    height: auto;
+    filter: drop-shadow(0 8px 32px rgba(0,0,0,0.35));
+  }
+  .slide--cover .url {
+    margin-top: 2.4vh;
+    color: var(--muted);
+    font-size: clamp(16px, 1.4vw, 26px);
+    letter-spacing: 0.06em;
+  }
+
+  /* === SLIDE 1 — Hook (animated number + bar) === */
+  .hook-headline {
+    font-size: clamp(34px, 3.4vw, 64px);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    color: var(--arctic);
+    max-width: 90%;
+  }
+  .hook-number {
+    font-size: clamp(130px, 15vw, 300px);
+    font-weight: 800;
+    color: var(--sky);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    margin-top: 1vh;
+    text-shadow: 0 0 50px rgba(14,165,233,0.25);
+    display: flex;
+    align-items: baseline;
+    gap: 0.18em;
+  }
+  .hook-number .num-value {
+    display: inline-block;
+    min-width: 1.6em;
+    text-align: left;
+    font-variant-numeric: tabular-nums;
+  }
+  .hook-number .num-unit {
+    color: var(--arctic);
+    font-size: 0.28em;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+  .hook-sub {
+    color: var(--arctic);
+    font-size: clamp(18px, 1.6vw, 32px);
+    margin-top: 0.6vh;
+    opacity: 0.8;
+  }
+  .progress {
+    margin-top: 3vh;
+    width: 70%;
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.08);
+    overflow: hidden;
+  }
+  .progress > span {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, var(--ocean), var(--sky));
+    border-radius: inherit;
+  }
+  /* When slide 1 is active, run both animations */
+  .stage[data-slide="1"][data-step="1"] .progress > span {
+    animation: fillBar var(--hook-duration) linear forwards;
+  }
+  @keyframes fillBar {
+    from { width: 0; }
+    to   { width: 100%; }
+  }
+
+  /* === SLIDE 2 — Solution stairs (auto-revealed, single SPACE) === */
+  .solution-stairs {
+    position: relative;
+    width: 100%;
+    height: 70vh;
+    max-height: 70%;
+  }
+  .stair {
+    position: absolute;
+    opacity: 0;
+    transform: translateY(18px) scale(0.96);
+    border: 2px solid var(--sky);
+    background: var(--sky-soft);
+    border-radius: 999px;
+    padding: 1.4vh 2.6vw;
+    color: var(--arctic);
+    font-weight: 700;
+    font-size: clamp(28px, 3.2vw, 64px);
+    letter-spacing: -0.005em;
+    white-space: nowrap;
+  }
+  /* Stair positions: Estudiamos bottom-left → Identificamos middle → Implementamos top-right */
+  .stair--estudiamos    { left: 0%;  bottom: 8%;  }
+  .stair--identificamos { left: 20%; bottom: 38%; }
+  .stair--implementamos { left: 40%; bottom: 68%; }
+
+  /* Auto-reveal each stair on slide 2 entry. Delays sync to the spoken verbs. */
+  @keyframes stairIn {
+    from { opacity: 0; transform: translateY(18px) scale(0.96); }
+    to   { opacity: 1; transform: translateY(0)    scale(1);    }
+  }
+  .stage[data-slide="2"] .stair--estudiamos    { animation: stairIn 500ms var(--ease)  300ms both; }
+  .stage[data-slide="2"] .stair--identificamos { animation: stairIn 500ms var(--ease) 3500ms both; }
+  .stage[data-slide="2"] .stair--implementamos { animation: stairIn 500ms var(--ease) 8000ms both; }
+
+  /* Faint dashed line connecting all three — fades in once all stairs are present */
+  .stair-lines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+  }
+  @keyframes lineIn {
+    from { opacity: 0; }
+    to   { opacity: 0.35; }
+  }
+  .stage[data-slide="2"] .stair-lines { animation: lineIn 700ms var(--ease) 8400ms both; }
+  .stair-lines svg { width: 100%; height: 100%; }
+  .stair-lines path {
+    stroke: var(--sky);
+    stroke-width: 2;
+    stroke-dasharray: 4 6;
+    fill: none;
+  }
+
+  /* === SLIDE 3 — Proof === */
+  .proof-number {
+    font-size: clamp(120px, 13.5vw, 260px);
+    font-weight: 800;
+    color: var(--sky);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    text-shadow: 0 0 60px rgba(14,165,233,0.28);
+  }
+  .proof-number .sep {
+    color: var(--arctic);
+    margin: 0 0.05em;
+    opacity: 0.6;
+  }
+  .proof-sub {
+    margin-top: 1.2vh;
+    color: var(--arctic);
+    font-size: clamp(22px, 2.2vw, 44px);
+    font-weight: 500;
+  }
+  .proof-foot {
+    margin-top: 0.8vh;
+    color: var(--muted);
+    font-size: clamp(14px, 1.1vw, 22px);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  /* === SLIDE 4 — Differentiation === */
+  .diff-headline {
+    font-size: clamp(46px, 5vw, 104px);
+    font-weight: 700;
+    line-height: 1.04;
+    letter-spacing: -0.025em;
+    color: var(--arctic);
+  }
+  .diff-headline em {
+    font-style: normal;
+    color: var(--sky);
+  }
+  .diff-sub {
+    margin-top: 1.8vh;
+    color: var(--muted);
+    font-size: clamp(16px, 1.2vw, 26px);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .diff-sub b { color: var(--arctic); font-weight: 600; }
+
+  /* === SLIDE 5 — CTA === */
+  .cta { display: flex; flex-direction: column; gap: 1.4vh; }
+  .cta-row { display: flex; align-items: center; gap: 1.4vw; }
+  .cta-icon {
+    width: clamp(56px, 5.6vw, 110px);
+    height: clamp(56px, 5.6vw, 110px);
+    border-radius: 22%;
+    background: var(--whatsapp);
+    display: grid; place-items: center;
+    color: #fff;
+    flex-shrink: 0;
+    box-shadow: 0 8px 28px rgba(37,211,102,0.35);
+  }
+  .cta-icon svg { width: 60%; height: 60%; }
+  .cta-number {
+    font-size: clamp(46px, 4.4vw, 92px);
+    font-weight: 700;
+    line-height: 1;
+    color: var(--arctic);
+  }
+  .cta-foot {
+    margin-top: 1.4vh;
+    color: var(--muted);
+    font-size: clamp(18px, 1.5vw, 32px);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .cta-foot b { color: var(--arctic); font-weight: 600; }
+
+  /* === HUD (rehearsal) === */
+  .hud {
+    position: fixed;
+    bottom: 18px; right: 22px;
+    z-index: 50;
+    padding: 6px 12px;
+    background: rgba(0,0,0,0.55);
+    color: #fff;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    border-radius: 6px;
+    display: none;
+    pointer-events: none;
+  }
+  body.rehearsal .hud { display: block; }
+  .hud .step { color: var(--sky); margin-right: 8px; }
+  .hud .hint { color: rgba(255,255,255,0.55); }
+
+  /* Rule-of-thirds grid */
+  .grid {
+    position: fixed; inset: 0; pointer-events: none; z-index: 40; display: none;
+    background:
+      linear-gradient(to right, rgba(255,255,255,0.10) 1px, transparent 1px) 0 0/calc(100%/3) 100% no-repeat,
+      linear-gradient(to right, rgba(255,255,255,0.10) 1px, transparent 1px) calc(100%/3) 0/calc(100%/3) 100% no-repeat,
+      linear-gradient(to bottom, rgba(255,255,255,0.10) 1px, transparent 1px) 0 0/100% calc(100%/3) no-repeat,
+      linear-gradient(to bottom, rgba(255,255,255,0.10) 1px, transparent 1px) 0 calc(100%/3)/100% calc(100%/3) no-repeat;
+  }
+  body.show-grid .grid { display: block; }
+
+  .stage::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(0,0,0,0.35) 100%);
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+<main class="stage" data-slide="0" data-step="1" aria-live="polite">
+  <div class="canvas">
+
+    <div class="icon-anchor" aria-hidden="true">
+      <img src="assets/icon.png" alt="">
+    </div>
+
+    <!-- SLIDE 0 — Logo holder (left aligned) -->
+    <section class="slide slide--cover is-active" data-index="0" data-steps="1">
+      <img class="wordmark" src="assets/wordmark.png" alt="Nexostrat">
+      <div class="url">nexostrat.com</div>
+    </section>
+
+    <!-- SLIDE 1 — Hook -->
+    <section class="slide" data-index="1" data-steps="1">
+      <div class="eyebrow">Cada semana</div>
+      <div class="hook-headline">¿Cuántas horas pierde tu equipo?</div>
+      <div class="hook-number" aria-live="off">
+        <span class="num-value">1</span>
+        <span class="num-unit">hrs</span>
+      </div>
+      <div class="hook-sub">en tareas repetitivas</div>
+      <div class="progress" aria-hidden="true"><span></span></div>
+    </section>
+
+    <!-- SLIDE 2 — Solution stairs (auto-reveal — single SPACE) -->
+    <section class="slide" data-index="2" data-steps="1">
+      <div class="eyebrow">En Nexostrat</div>
+      <div class="solution-stairs">
+        <div class="stair-lines" aria-hidden="true">
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M 8 88 L 28 58 L 50 28"/>
+          </svg>
+        </div>
+        <div class="stair stair--estudiamos">Estudiamos</div>
+        <div class="stair stair--identificamos">Identificamos</div>
+        <div class="stair stair--implementamos">Implementamos</div>
+      </div>
+    </section>
+
+    <!-- SLIDE 3 — Proof -->
+    <section class="slide" data-index="3" data-steps="1">
+      <div class="eyebrow">La meta</div>
+      <div class="proof-number">8<span class="sep">–</span>20</div>
+      <div class="proof-sub">horas recuperadas / semana</div>
+      <div class="proof-foot">tiempo para decidir, vender, crecer</div>
+    </section>
+
+    <!-- SLIDE 4 — Differentiation -->
+    <section class="slide" data-index="4" data-steps="1">
+      <div class="eyebrow">Diferencia</div>
+      <div class="diff-headline">Hecho <em>a tu medida.</em></div>
+      <div class="diff-sub"><b>Sin plantillas</b> · sobre cómo funciona tu negocio</div>
+    </section>
+
+    <!-- SLIDE 5 — CTA -->
+    <section class="slide" data-index="5" data-steps="1">
+      <div class="eyebrow">Hablemos</div>
+      <div class="cta">
+        <div class="cta-row">
+          <div class="cta-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+              <path d="M16.003 3C9.376 3 4 8.376 4 15.003c0 2.378.696 4.59 1.893 6.45L4 29l7.747-1.857a11.94 11.94 0 0 0 4.256.78h.005C22.624 27.923 28 22.547 28 15.92 28 12.71 26.756 9.696 24.49 7.43 22.224 5.164 19.213 3 16.003 3Zm0 21.85h-.004a9.94 9.94 0 0 1-5.063-1.387l-.363-.215-4.6 1.103 1.122-4.482-.236-.378A9.94 9.94 0 0 1 5.97 15.003c0-5.526 4.504-10.03 10.033-10.03 2.682 0 5.2 1.046 7.094 2.94a9.97 9.97 0 0 1 2.937 7.093c0 5.527-4.504 10.03-10.03 10.03Zm5.508-7.51c-.301-.151-1.785-.881-2.062-.982-.276-.1-.478-.151-.68.151-.2.302-.778.982-.954 1.184-.176.2-.352.226-.654.075-.302-.151-1.274-.47-2.427-1.497-.897-.8-1.503-1.788-1.68-2.09-.176-.302-.019-.466.132-.616.135-.135.302-.352.453-.528.151-.176.2-.302.302-.503.1-.2.05-.378-.025-.528-.075-.151-.68-1.64-.93-2.247-.246-.59-.495-.51-.68-.519-.176-.008-.378-.01-.58-.01a1.11 1.11 0 0 0-.806.378c-.276.302-1.058 1.033-1.058 2.52 0 1.488 1.083 2.926 1.234 3.127.151.2 2.131 3.255 5.166 4.563.722.312 1.286.498 1.725.638.724.23 1.383.197 1.904.119.581-.086 1.785-.728 2.037-1.432.252-.704.252-1.31.176-1.432-.075-.121-.276-.197-.578-.348Z"/>
+            </svg>
+          </div>
+          <div class="cta-number">+57&nbsp;333&nbsp;286&nbsp;3969</div>
+        </div>
+        <div class="cta-foot"><b>30 minutos</b> · sin costo</div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<div class="grid" aria-hidden="true"></div>
+
+<aside class="hud" aria-hidden="true">
+  <span class="step"><b id="hud-step">1</b>/<span id="hud-total">8</span></span>
+  <span id="hud-name">Logo holder</span>
+  <span class="hint">  ·  Space=next · ←=prev · F=fullscreen · G=grid · R=hide HUD · H=cursor</span>
+</aside>
+
+<script>
+(function () {
+  const stage   = document.querySelector('.stage');
+  const slides  = Array.from(document.querySelectorAll('.slide'));
+  const hudStep = document.getElementById('hud-step');
+  const hudTot  = document.getElementById('hud-total');
+  const hudName = document.getElementById('hud-name');
+
+  /* Build a flat list of "stations" — each is {slideIndex, step, name} */
+  const stations = [];
+  slides.forEach((s, slideIndex) => {
+    const steps = parseInt(s.dataset.steps || '1', 10);
+    const baseName = (
+      ['Logo holder',
+       'Hook — ¿cuántas horas?',
+       'En Nexostrat',
+       'Proof — 8–20 hrs',
+       'Diferencia',
+       'CTA — WhatsApp'][slideIndex] || ('Slide ' + slideIndex)
+    );
+    for (let step = 1; step <= steps; step++) {
+      stations.push({
+        slideIndex,
+        step,
+        name: steps > 1 ? `${baseName} · paso ${step}/${steps}` : baseName
+      });
+    }
+  });
+  hudTot.textContent = stations.length;
+
+  let cursor = 0;
+  let hookTimer = null;
+
+  function show(index) {
+    cursor = ((index % stations.length) + stations.length) % stations.length;
+    const { slideIndex, step, name } = stations[cursor];
+
+    slides.forEach((s, idx) => {
+      const active = idx === slideIndex;
+      s.classList.toggle('is-active', active);
+      if (active) {
+        /* Reveal sub-step children */
+        s.querySelectorAll('[data-step]').forEach(el => {
+          const elStep = parseInt(el.dataset.step, 10);
+          el.classList.toggle('is-revealed', elStep <= step);
+        });
+      } else {
+        /* Hide sub-step children on inactive slides */
+        s.querySelectorAll('[data-step]').forEach(el => el.classList.remove('is-revealed'));
+      }
+    });
+
+    stage.setAttribute('data-slide', slideIndex);
+    stage.setAttribute('data-step', step);
+    hudStep.textContent = cursor + 1;
+    hudName.textContent = name;
+
+    /* Slide-specific behaviors */
+    if (slideIndex === 1) startHookAnimation();
+    else stopHookAnimation();
+  }
+
+  function startHookAnimation() {
+    stopHookAnimation();
+    const num = document.querySelector('.hook-number .num-value');
+    const bar = document.querySelector('.progress > span');
+    if (!num || !bar) return;
+
+    /* Reset */
+    num.textContent = '1';
+    bar.style.animation = 'none';
+    bar.offsetWidth;                   /* reflow */
+    bar.style.animation = '';          /* restart via CSS */
+
+    const duration = 6000;
+    const start = performance.now();
+    function tick(now) {
+      const t = Math.min(1, (now - start) / duration);
+      /* eased-out for the number — slight cushion at the end */
+      const eased = 1 - Math.pow(1 - t, 1.5);
+      const v = Math.round(1 + (20 - 1) * eased);
+      num.textContent = v;
+      if (t < 1 && stage.getAttribute('data-slide') === '1') {
+        hookTimer = requestAnimationFrame(tick);
+      } else {
+        hookTimer = null;
+      }
+    }
+    hookTimer = requestAnimationFrame(tick);
+  }
+
+  function stopHookAnimation() {
+    if (hookTimer) { cancelAnimationFrame(hookTimer); hookTimer = null; }
+  }
+
+  function next()  { show(cursor + 1); }
+  function prev()  { show(cursor - 1); }
+  function reset() { show(0); }
+
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      document.exitFullscreen().catch(() => {});
+    }
+  }
+  function toggleRehearsal() { document.body.classList.toggle('rehearsal'); }
+  function toggleGrid()      { document.body.classList.toggle('show-grid'); }
+  function toggleCursor()    { document.body.classList.toggle('show-cursor'); }
+
+  /* Start in rehearsal mode (HUD visible) — operator hits R before recording */
+  document.body.classList.add('rehearsal');
+
+  window.addEventListener('keydown', (e) => {
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    switch (e.key) {
+      case ' ':
+      case 'ArrowRight':
+      case 'PageDown':
+      case 'Enter':
+        e.preventDefault(); next(); break;
+      case 'ArrowLeft':
+      case 'PageUp':
+      case 'Backspace':
+        e.preventDefault(); prev(); break;
+      case 'Home':
+        e.preventDefault(); reset(); break;
+      case 'End':
+        e.preventDefault(); show(stations.length - 1); break;
+      case 'f': case 'F':
+        e.preventDefault(); toggleFullscreen(); break;
+      case 'r': case 'R':
+        e.preventDefault(); toggleRehearsal(); break;
+      case 'g': case 'G':
+        e.preventDefault(); toggleGrid(); break;
+      case 'h': case 'H':
+        e.preventDefault(); toggleCursor(); break;
+      default:
+        if (/^[0-9]$/.test(e.key)) {
+          const idx = parseInt(e.key, 10);
+          /* Quick-jump to slide N — first station of that slide */
+          const found = stations.findIndex(st => st.slideIndex === idx && st.step === 1);
+          if (found >= 0) { e.preventDefault(); show(found); }
+        }
+    }
+  });
+
+  /* Click anywhere to advance — fallback for finicky clickers */
+  window.addEventListener('click', (e) => {
+    if (e.target.closest('.hud')) return;
+    next();
+  });
+
+  show(0);
+})();
+</script>
+
+</body>
+</html>

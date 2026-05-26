@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v1",
   "project": "nexostrat",
-  "updated": "2026-05-20T09:04:09-07:00",
+  "updated": "2026-05-25T15:30:00-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -612,6 +612,142 @@
       "due": "2026-06-15",
       "created": "2026-05-19",
       "notes": "Follow /srv/Nexostrat/COMMANDS.md → Desktop PC section → 'One-time install (fresh Linux Mint machine)' (line ~178). 6 sub-steps: (1) apt install obs-studio pavucontrol ffmpeg build-essential cmake git pulseaudio-utils; (2) git clone whisper.cpp at /opt/whisper.cpp + cmake build; (3) download ggml-large-v3.bin (+ ggml-small.bin fallback); (4) install ~/bin/transcribe.sh (script body inlined in the guide); (5) configure OBS audio-meeting profile (Software x264 encoder NOT NVENC, Global Audio Devices = Default, empty Sources panel — critical to avoid the audio-kill bug); (6) end-to-end verification with a 30s test recording. ~15-30 min plus model download time. Closes when transcribe.sh runs end-to-end on a test recording on the desktop PC. Desktop PC will host most online client meetings going forward; server laptop remains the Nexostrat infra host."
+    },
+    {
+      "id": "t-nexostrat-telegram-account",
+      "subject": "B19 — Create firm-owned Telegram account for @NexostratBot (pre-deploy hard requirement)",
+      "status": "open",
+      "priority": "critical",
+      "due": "2026-06-15",
+      "created": "2026-05-21",
+      "notes": "Audit B19. The Brain Bot Platform tenant for Nexostrat needs a Telegram bot @NexostratBot, but the bot should be created from a firm-owned Telegram account (not Ricardo's personal). Reason: if Ricardo's personal Telegram is compromised or transferred, the bot stays with the firm. Steps: (1) provision phone number for the firm account (Nexostrat firm SIM or Google Voice number tied to contacto@nexostrat.com); (2) create new Telegram account on that number; (3) BotFather → /newbot → name 'Nexostrat' → handle @NexostratBot → save NEXOSTRAT_BOT_TOKEN; (4) both founders added as admins of the JP+Ricardo group; (5) JP_DM_ID and NEXOSTRAT_GROUP_ID collected. Token stored per ADR-024-equivalent credentials posture (Brain-side §C9). Cannot ship Plan 04 until this is done. Tracked in ADR-039 mandatory follow-ups."
+    },
+    {
+      "id": "t-weekend-desktop-on-decision",
+      "subject": "B16 — Decide weekend desktop-on schedule (blocks Mon 08:00 Nexostrat meeting brief)",
+      "status": "open",
+      "priority": "high",
+      "due": "2026-06-15",
+      "created": "2026-05-21",
+      "notes": "Audit B16. Nexostrat's canonical cadence is Mon 08:00 + Thu 07:00 America/Tijuana (per Session B notes B4). T-2h brief = Mon 06:00 + Thu 05:00, render-only from the Sun/Wed 19:30 daily extraction. Brain Bot Platform design §18 defers 'weekend schedule for desktop-off hours' — without a decision, Monday's brief degrades to 'no group-chat block'. Three options: (a) desktop stays on Sunday evenings ~18:00-20:00 TJ for the 19:30 job (recommended — cheap); (b) 19:30 job moves to server PC's local LLM (slower, weaker models, but always-on); (c) Monday brief degrades gracefully, block regenerates when desktop comes back Monday morning. Decision needs both founders since it affects Ricardo's weekend ritual + JP's expectations of brief completeness. Memo to Brain side once decided so they can lock §18."
+    },
+    {
+      "id": "t-confidence-calibration-corpus",
+      "subject": "B17 — Build confidence-score calibration corpus (50+ rated examples) for hybrid task-write",
+      "status": "open",
+      "priority": "high",
+      "due": "2026-06-22",
+      "created": "2026-05-21",
+      "notes": "Audit B17. The hybrid-by-confidence task posture (audit B6) relies on calibrated LLM confidence scores. Without ground-truth calibration the threshold (initial 0.85) is arbitrary; auto-write degenerates to 'auto-write anything not explicitly hedged' which is the wrong posture for a JP-shared partnership. Deliverables: (1) explicit rubric in extractor prompt — propose: '0.9+ = direct quote with explicit commitment + owner + when; 0.7-0.9 = paraphrased commitment with clear owner + intent; 0.4-0.7 = inferred from context, no explicit commitment; <0.4 = speculation'; (2) 50+ manually-rated calibration examples committed to /srv/Nexostrat/00_META/calibration/auto_task_extraction.jsonl (real meeting/chat snippets + Ricardo's ground-truth label + Ricardo's reasoning); (3) bi-weekly re-rating cron of 20 auto-written tasks; (4) make threshold configurable in Brain's routing.yaml per tenant. Plan 04 implementation prerequisite — without this, Plan 04 ships with an arbitrary threshold."
+    },
+    {
+      "id": "t-plan-04-description-update",
+      "subject": "Update Plan 04 description in master index to reflect Brain hub tenant model",
+      "status": "open",
+      "priority": "high",
+      "due": "2026-05-28",
+      "created": "2026-05-21",
+      "notes": "Outcome of Session B (ADR-039). 00_META/plans/README.md still describes Plan 04 as 'Telegram Bot Core + Unified Inbox' which implies a standalone bot. Update to 'Nexostrat tenant integration into central Brain Bot Hub' (or equivalent) + adjust scope notes: instead of building a bot from scratch, Plan 04's work is (a) provision NEXOSTRAT_BOT_TOKEN + register @NexostratBot, (b) wire Nexostrat as tenant 3 in Brain routing.yaml, (c) add Nexostrat-specific schedule.yaml (4 jobs per Session B B11), (d) write MANUAL.es.md + MANUAL.en.md (B10), (e) extend events.jsonl schema with client_slug per B4. Effort estimate adjusts down significantly from the original 'Telegram Bot Core' scope. Touch when next opening the plan index for any other reason."
+    },
+    {
+      "id": "t-plan-08-client-meeting-integration",
+      "subject": "B18 — Document client-meeting integration pattern in Plan 08 (Meeting Pipeline) when drafted",
+      "status": "open",
+      "priority": "medium",
+      "due": "2026-07-15",
+      "created": "2026-05-21",
+      "notes": "Audit B18. Plan 08 (Meeting Pipeline) is DRAFT-PENDING in the master index. When drafted, must include the client-meeting routing pattern from Session B B4: client meetings emit meeting.summary_ready events with scope: nexostrat AND an additional client_slug: field; Nexostrat tenant plugins route minutes to /srv/Nexostrat/pipeline/clients/<slug>/transcripts/<date>_minutes.md instead of /srv/Nexostrat/meetings/<slug>/. Internal JP↔Ricardo meetings stay at /srv/Nexostrat/meetings/<slug>/minutes.md. Also: client meeting recording infra (Whisper transcription, scope tagging at recording time). Not blocking Plan 04; flag here so Plan 08 author doesn't miss the pattern."
+    },
+    {
+      "id": "t-install-brand-fonts-laptop",
+      "subject": "Install fonts-inter + fonts-jetbrains-mono on ricardo-hp-laptop (brand-font parity)",
+      "status": "open",
+      "priority": "high",
+      "due": "2026-05-30",
+      "created": "2026-05-22",
+      "notes": "Session 11 (2026-05-22) flipped BRAND_FONT in skills/shared/brand.py from Calibri to Inter and installed the fonts on ricardo-desktop. The laptop is still where most DOCX renders happen (Skills 01-05 → libreoffice → PDF for client deliverables; Trixx 4 PDFs already on Desktop were rendered with Calibri which LO substituted to Liberation Sans on Linux). Without Inter on the laptop, next client run rendered there will font-substitute (LibreOffice maps to Liberation Sans). One-line fix: sudo apt install fonts-inter fonts-jetbrains-mono. Closes when fc-match Inter returns the actual Inter font on the laptop."
+    },
+    {
+      "id": "t-pick-website-intro-final-version",
+      "subject": "Pick website intro final version (V1.0 vs V1.1, gated on JP review)",
+      "status": "superseded",
+      "priority": "medium",
+      "due": "2026-06-15",
+      "created": "2026-05-22",
+      "notes": "Two H.264 MP4 candidates at /srv/Nexostrat/operations/marketing/website-intro/edits/Intro V1.{0,1}.mp4 (21 MB each, 38s, 1080p30, +faststart). DaVinci masters (ProRes MKV) preserved alongside. JP gates the pick. When decision lands, move chosen file to operations/marketing/website-intro/final/ per the README convention. Soft target tied to website launch — no firm date yet; using Stage 1 launch window upper bound. Open creative question carried from session 11: music vs no-music for the intro (deferred for next editing pass). || 2026-05-25 — superseded by V3 redesign. V1.x/V2.x no longer the canonical hero video. V3 spec at operations/marketing/website-intro/INTRO_V3_DESIGN.md. Choosing between V1.0/V1.1 is moot.",
+      "completed": "2026-05-25"
+    },
+    {
+      "id": "t-fix-logo-kit-html-fonts",
+      "subject": "Align operations/assets/brand/Nexostrat_Logo_Kit.html font stack with brand spec (Inter)",
+      "status": "open",
+      "priority": "low",
+      "due": "2026-07-15",
+      "created": "2026-05-22",
+      "notes": "operations/assets/brand/Nexostrat_Logo_Kit.html still references 'Century Gothic', 'Nunito', -apple-system in its CSS font-family declarations. Not blocking — the logo PNGs were already rendered with whatever font produced them, and brand spec memory outputs-premium-visual.md mandates Inter for documents not necessarily for the logo wordmark itself. Touch when the logo kit is next regenerated or when reconciling brand assets pre-launch. Decision needed: do we restamp the logo PNGs in Inter, or accept that the logo wordmark stays in Century Gothic while document body fonts are Inter? Brand-spec-level call."
+    },
+    {
+      "id": "t-intro-v3-dry-run",
+      "subject": "V3 deck — dry-run on real TV",
+      "description": "Project tv-loop/index.html on the actual wall-mounted TV at the shoot location. Verify font sizes legible from camera position, contrast holds, no TV reflection from windows, brand cyan reads as cyan (not neon). Time the Slide 2 pill auto-reveal delays against natural speech pace; adjust the three animation-delay values in CSS if needed.",
+      "priority": "high",
+      "status": "superseded",
+      "created": "2026-05-25",
+      "due": "2026-05-30",
+      "notes": "No-shoot rehearsal. 30-60 minutes. Outcome: either greenlight V3 for full shoot, or one round of CSS tweaks before shoot. || 2026-05-25 — superseded. The TV-deck approach was not used on shoot day; Ricardo went straight to white-background shoot with post-production PNG overlays. The \"dry-run on a real TV\" no longer applies to the V3 production path.",
+      "completed": "2026-05-25"
+    },
+    {
+      "id": "t-buy-presenter-clicker",
+      "subject": "Acquire Bluetooth presenter remote",
+      "description": "Buy a Bluetooth presenter clicker that maps to Space/PgDn — Logitech R400 or any cheap clone. Required for hands-free SPACE advancement during shoot. Test pairing with the laptop and verify it advances the deck before shoot day.",
+      "priority": "low",
+      "status": "superseded",
+      "created": "2026-05-25",
+      "due": "2026-06-05",
+      "notes": "Fallback if not acquired: laptop keyboard or wireless mouse click (the deck advances on any click). ~$15-25 USD. || 2026-05-25 — superseded. No real-time deck was used during the shoot, so no clicker was needed. The TV-loop HTML deck remains in the repo as a reference but is not on the V3 critical path.",
+      "completed": "2026-05-25"
+    },
+    {
+      "id": "t-intro-v3-shoot-and-edit",
+      "subject": "V3 intro — shoot + 1-day edit",
+      "description": "Half-day shoot (Approach A: TV brand wall). Setup per INTRO_V3_DESIGN.md §6 — blinds closed, TV at 30-40% brightness, lavalier hidden under shirt, blazer, phone on tripod, Ricardo on right third of frame. 6+ full takes + isolated beat takes. Same-day or next-day DaVinci edit per §7 — pick best takes, color grade, music bed (leberch-corporate), lower-third for speaker ID, fade in/out, export master + web-optimized variants to operations/marketing/website-intro/final/.",
+      "priority": "high",
+      "status": "done",
+      "created": "2026-05-25",
+      "due": "2026-06-15",
+      "notes": "Gated on t-intro-v3-dry-run (any CSS adjustments) and t-buy-presenter-clicker (or fallback mouse). If MP4 export hits the codec-gap blocker, run output through infra/scripts/video-to-mp4.sh. || 2026-05-25 — done. T7 selected and transcoded to DNxHR HQX. Full DaVinci edit completed and exported as edits/Intro V3.mkv (55.3s ProRes HQ master).",
+      "completed": "2026-05-25"
+    },
+    {
+      "id": "t-intro-v3-ceo-vs-cofundador",
+      "subject": "Verify \"CEO\" lower-third title vs co-fundador",
+      "description": "The Intro V3 lower-third at t≈5s reads \"Ricardo Mejía / CEO\". Per the founding spec, Ricardo + JP are 50/50 co-founders. Either confirm CEO as an internal role split (Ricardo CEO / JP CTO?) or change the lower-third to \"Co-fundador, Nexostrat\" before homepage launch. 1-minute fix in DaVinci.",
+      "priority": "high",
+      "status": "open",
+      "created": "2026-05-25",
+      "due": "2026-05-26",
+      "notes": "Confirm with JP before homepage deploy. The lower-third text edit is trivial in DaVinci once decided."
+    },
+    {
+      "id": "t-intro-v3-diferencia-slide",
+      "subject": "Decide on Diferencia overlay (t≈37-43s)",
+      "description": "V3 review found no overlay visible on sampled frames at t=38/40/42s. The spoken \"Sin plantillas. Cada solución se construye sobre cómo funciona tu empresa\" line lives in that window. Either confirm the overlay is present but very brief (no edit needed) or drop slide-4_diferencia.png on V2 for that ~5s stretch.",
+      "priority": "high",
+      "status": "open",
+      "created": "2026-05-25",
+      "due": "2026-05-26",
+      "notes": "overlays/slide-4_diferencia.png exists in the repo, ready to drop. Strengthens the differentiation beat which is one of the strongest pitch points."
+    },
+    {
+      "id": "t-intro-v3-web-export",
+      "subject": "Web-optimized V3 export for homepage",
+      "description": "Render the final V3 (after CEO + Diferencia decisions) as H.264 1080p30 ~6 Mbps with -movflags +faststart for browser preload. The current Intro V3.mkv is 3.2GB ProRes — too heavy for nexostrat.com. Run through infra/scripts/video-to-mp4.sh which already has the right recipe (CRF 18 preset slow, AAC 192k, faststart).",
+      "priority": "high",
+      "status": "open",
+      "created": "2026-05-25",
+      "due": "2026-06-15",
+      "notes": "Target output ~70 MB. Land in operations/marketing/website-intro/final/ alongside any iOS/Android optimized variants if needed."
     }
   ]
 }

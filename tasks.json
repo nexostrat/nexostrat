@@ -1,7 +1,7 @@
 {
-  "$schema": "nexostrat-tasks-v1",
+  "$schema": "nexostrat-tasks-v2",
   "project": "nexostrat",
-  "updated": "2026-05-25T18:45:00-07:00",
+  "updated": "2026-05-25T19:30:00-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -754,10 +754,25 @@
       "subject": "P-N1 — tasks.json schema v2 additive extension (owner canonical + assignee alias + provenance fields)",
       "description": "Per the 2026-05-25 Nexostrat contribution doc for the meetings-pipeline overhaul (00_META/governance/plans/2026-05-25_meetings-overhaul-contribution.md §3). Amend the tasks.json schema to nexostrat-tasks-v2: add optional task-object fields owner (string|null, canonical per brief-templates README convention), assignee (string|null, accepted as alias of owner for Brain Bot Platform §8 interop), source_meeting (slug string|null), auto_added (bool, default false), confidence (float 0.0-1.0|null). Also accept text as a synonym of subject so the hub can write either. Document schema in 00_META/proposals/2026-05-26_tasks-v2-schema.md. Phase 0a prereq for hub auto-write path; effort S (≤2h). Co-commit with t-meetings-overhaul-audit-dir.",
       "priority": "high",
-      "status": "open",
+      "status": "done",
       "created": "2026-05-25",
+      "completed": "2026-05-26",
       "due": "2026-06-05",
-      "notes": "Hub-side ScopedFS writes from /srv/brain-hub/ need these fields to carry provenance metadata (B6 audit pass + bi-weekly threshold retuning). Defer option: ship Phase 4 with hub writing v1 fields (text→subject, drop rest); loses per-row confidence trail but acceptable for Stage 1 if calibration corpus ships at v1 quality."
+      "notes": "Hub-side ScopedFS writes from /srv/brain-hub/ need these fields to carry provenance metadata (B6 audit pass + bi-weekly threshold retuning). Defer option: ship Phase 4 with hub writing v1 fields (text→subject, drop rest); loses per-row confidence trail but acceptable for Stage 1 if calibration corpus ships at v1 quality. || 2026-05-26 — DONE. $schema bumped v1→v2 on this same file; proposal doc filed at 00_META/proposals/2026-05-26_tasks-v2-schema.md documenting all five new fields + the owner/assignee + subject/text alias resolution rules + BB-Platform §8 audit interop need. Smoke-test fixture row t-v2-schema-fixture (status: completed) added below — proves v1- and v2-shaped rows coexist in the same array. Forward-compatible: all pre-existing v1-shaped tasks validate unchanged under v2 (additive extension)."
+    },
+    {
+      "id": "t-v2-schema-fixture",
+      "text": "Schema v2 smoke-test fixture — demonstrates alias acceptance (text + assignee) plus all five new fields",
+      "status": "completed",
+      "priority": "low",
+      "due": "2026-05-26",
+      "created": "2026-05-26",
+      "completed": "2026-05-26",
+      "assignee": "ricardo",
+      "source_meeting": "2026-05-26_schema-v2-smoke",
+      "auto_added": true,
+      "confidence": 0.95,
+      "notes": "Fixture for P-N1 schema v2. Deliberately uses `text` (alias of `subject`) and `assignee` (alias of `owner`) to exercise the write-time alias acceptance documented in 00_META/proposals/2026-05-26_tasks-v2-schema.md §2.3. Carries auto_added=true + a synthetic source_meeting slug + a high confidence score to mimic an actual hub auto-write. status=completed keeps it out of the active queue; it stays in the array as a permanent shape reference."
     },
     {
       "id": "t-meetings-overhaul-audit-dir",

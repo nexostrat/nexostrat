@@ -779,10 +779,10 @@
       "subject": "P-N2 — Create 00_META/audit/ + empty auto_tasks.log + README",
       "description": "Per the 2026-05-25 Nexostrat contribution doc for the meetings-pipeline overhaul (00_META/governance/plans/2026-05-25_meetings-overhaul-contribution.md §3). Create /srv/Nexostrat/00_META/audit/auto_tasks.log (empty, append-only NDJSON; one row per auto-written task: {ts, source_meeting, extracted_text, score, model, task_id_written}) plus 00_META/audit/README.md documenting the row schema and stating the file is hub-owned (written via ScopedFS) but Nexostrat-readable for audit passes. Phase 0a prereq; effort S (≤30min). Co-commit with t-meetings-overhaul-tasks-v2-schema.",
       "priority": "high",
-      "status": "open",
+      "status": "completed",
       "created": "2026-05-25",
       "due": "2026-06-05",
-      "notes": "Hub will fail to write the first auto-write if the directory is missing — Brain Bot Platform §8 names this exact path. Trivial fix."
+      "notes": "Hub will fail to write the first auto-write if the directory is missing — Brain Bot Platform §8 names this exact path. Trivial fix. CLOSED 2026-05-25 (session 18 janitor pass): work actually shipped session 15 at commit 2a5f272 — `00_META/audit/auto_tasks.log` empty NDJSON + `00_META/audit/README.md` documenting the BB Platform §8 audit B6 row schema + .gitignore patched with !00_META/audit/auto_tasks.log exception. Bookkeeping miss carried from session 16; flipped open → completed at session-18 close."
     },
     {
       "id": "t-archive-bbp-action-items-memo",

@@ -1,101 +1,107 @@
 # CHECKPOINT — root (Founder)
 
-**Updated:** 2026-05-26T03:35:00-07:00
-**By:** ricardo (via Claude Code session 17; same-night continuation after session 16)
+**Updated:** 2026-05-25T22:30:00-07:00
+**By:** ricardo (via Claude Code session 18; second wall-clock session on 2026-05-25 after the late-night 17)
 **Persona:** Founder
-**Session topic:** Meetings-pipeline overhaul Phase 0c P-H2 — populate `/srv/Nexostrat/calendar_cache.json` via Google Calendar MCP + `hub.google.calendar_filter_nexostrat`. COMMANDS.md refresh procedure documented. Drift cleanup pass: `nexostrat_v1` → `nexostrat-v1` in master plan + Brain Hub doc; `calendar_filter.md` JP placeholder amended to `jpasistentepersonal@gmail.com`. No architecture changes, no ADRs, no Gemini handoff.
+**Session topic:** Meetings-pipeline overhaul Phase 0a P-N3 — ≥50-row calibration corpus + initial-corpus report. Closes audit B17 (`t-confidence-calibration-corpus`) + closes the meetings-overhaul P-N3 line item. Janitor pass also flipped stale `t-meetings-overhaul-audit-dir` (P-N2) → completed. No architecture changes, no ADRs, no Gemini handoff.
 
 ## What just happened (last session — read once, don't re-litigate)
 
-**Single-prompt deliverable session, ~1 hour wall-time.** Ricardo opened with a precise prompt referencing master plan §6.2 Phase 0c P-H2 + Brain Hub contribution doc §3 P-H2 + `00_META/calendar_filter.md`. Execute → verify → commit → push → tick master plan → push → drift cleanup → end. Same shape as sessions 15 + 16 (P-N2 / P-N1) but cross-scope (P-H2 was raised by Brain Hub but executes from Nexostrat scope because the Google Calendar MCP auth lives on Ricardo's account, not the hub process).
+**Single-prompt deliverable session, ~1.5 hour wall-time.** Ricardo opened with a precise prompt referencing master plan §6.2 P-N3 + Nexostrat contribution doc §3 P-N3 + existing rubric/schema at `00_META/calibration/README.md`. Walk 4 meetings → propose 20 ratings → bulk-approve via AskUserQuestion → author 30 synthetic balanced across 4 tiers → write 50 NDJSON rows → author report → commit → push → tick master plan → push → janitor flip → end. Same shape as sessions 15/16/17 but the meatier deliverable: actual corpus content with rater judgment, not just structural scaffolding.
 
-**1. Read four governance docs** to scope the task: master plan §6.2 + §7.1, Brain Hub contribution doc §3 P-H2, Nexostrat `00_META/calendar_filter.md` (audit B7 source of truth), `/home/ricardo/brain-hub/hub/google/calendar_filter_nexostrat.py` (the imported filter — constant `FILTER_VERSION = "nexostrat-v1"`).
+**1. Read four docs to scope the task:** master plan §6.2 P-N3 + §7.1 done-log format, Nexostrat contribution doc §3 P-N3, `00_META/calibration/README.md` (rubric + schema + retuner protocol), `tasks.json` B17 entry (which aliases P-N3 per its `notes` field).
 
-**2. Discovered `brain-hub` lives at `/home/ricardo/brain-hub/`** (not `/srv/brain-hub/` as the master plan + Brain Hub doc imply). Ricardo confirmed the path mid-session via a free-form sidebar reply. Doc-vs-on-disk drift flagged in journal but not fixed (out of P-H2 scope).
+**2. Walked the 4 existing meeting summaries** under `/srv/meetings/nexostrat/` (audit H3 PASS): reunion-lunes 2026-05-25 (7 actions), strategy-alignment 2026-05-21 (7), neo-intro-pt1 2026-05-20 (3), neo-intro-pt2 2026-05-20 (3) = 20 candidates. Each given a proposed `ground_truth_score` per the 4-tier rubric + a `ground_truth_should_write` boolean + a rationale (multi-assignee shape, vague verbs, external-party owner, chained dependencies, etc.).
 
-**3. Confirmed JP attendee email** via AskUserQuestion before any API call: `jpasistentepersonal@gmail.com` (one of JP's two Gmails — the other, `juan@juanencripto.com`, is secondary). Superseded the `jp@example.com` placeholder in `00_META/calendar_filter.md`.
+**3. Presented all 20 in a single review table** via the message body; bulk-approved by Ricardo via AskUserQuestion ("Approve all 20 as proposed"). Faster than 20 separate questions; line-level visibility preserved.
 
-**4. Google Calendar MCP fetches.** Two calendars accessible to `ricardomejiacaicedo@gmail.com`: primary (10 events) + `Holidays in Spain` (3 events). 13 upstream total. Fetched 2026-05-25 → 2026-06-24.
+**4. Authored 30 synthetic rows** balanced across 4 rubric tiers (T1=8, T2=7, T3=8, T4=7), covering all 5 mandated edge categories: ambiguous "we should X someday", multi-assignee, relative dates, JP-language quirks (`yo me encargo`/`te tengo lista`/`te paso`/`confirmo`), small-talk false positives (`voy al baño`/`déjame buscar el cargador`).
 
-**5. Filter applied.** Imported `nexostrat_filter` from `/home/ricardo/brain-hub/`. Per-event `source_calendar = <calendar summary>` injected before the call (Google's API doesn't return that field; the filter's rule 2 needs it). 9 / 13 matched (all via `summary_contains_nexo`); 1 Trixx + 3 holidays correctly dropped. Match rationale stored per event.
+**5. Wrote 50 NDJSON rows** to `auto_task_extraction.jsonl` (51 lines total including the leading `_comment` retuner-skip guard). `model_score: null` on every row by design — the future P-H6 DeepSeek-vs-OpenAI calibration pass will backfill without a schema migration.
 
-**6. Cache file written** at `/srv/Nexostrat/calendar_cache.json`. Schema per master plan §6.2 + Brain Hub doc §3: `generated_at` (ISO-8601 UTC), `generated_by: "claude@desktop"`, `filter_applied: "nexostrat-v1"`, `stale_after_hours: 24`, `events[]` with upstream fields + `source_calendar` + `match`.
+**6. Python-validated** 50/50 parse OK, 0 missing required fields. Final tier distribution: T1 (≥0.90)=10, T2 (0.70–0.89)=20, T3 (0.40–0.69)=13, T4 (<0.40)=7. `should_write=true` for 19/50 (38%).
 
-**7. COMMANDS.md amended.** New "Calendar cache refresh" section (between Periodic operations and Vault). Documents source-of-truth references, full cache schema, 4-step refresh procedure (run Claude on a PC with the Google Calendar MCP authenticated; ask in `/srv/Nexostrat/` for refresh; verify with `jq` one-liner), fallback path (demo-only hand-author), migration trigger.
+**7. Authored `2026-05-25_initial-corpus-report.md`** with row count + schema validation + tier distribution + edge-case coverage check (5/5 categories) + perfect-calibration threshold sweep (7 candidate thresholds 0.70 → 0.90; F1 peaks at 0.974 for thr=0.82, F1=0.944 for 0.85) + 4-paragraph defense of holding `auto_task_threshold = 0.85` for Stage 1 + 5 known gaps + post-P-H6 retuner usage block. Done-criterion check pass.
 
-**8. Master plan §6.2 P-H2 checkbox ticked** (line 435) + **§7.1 done-row appended** (line 628). Brain commit `9b5d8ba`. Nexostrat commit `b03d3af` (cache + COMMANDS.md).
+**8. Closed `t-confidence-calibration-corpus`** (B17) `open → completed` in tasks.json with closure note pointing at the deliverables and scoping deliverables 3 + 4 (bi-weekly cron + per-tenant threshold config) out of this task's scope (hub recurring-ops surface owns those).
 
-**9. Drift cleanup pass** (after Ricardo's "fix them" mid-session authorization at end-prep). `nexostrat_v1` (underscore) → `nexostrat-v1` (hyphen) in master plan §6.2 P-H2 row + done-criterion (lines 435 + 439) and Brain Hub contribution doc §3 P-H2 (lines 85 + 89). Verified `grep -rn 'nexostrat_v1'` returns empty across master plan, Brain Hub doc, Nexostrat contribution doc, `calendar_filter.md`. Correction logged in §7.1: prior row asserted Nexostrat contribution doc carried the underscore form; verified false. `calendar_filter.md` line 11 amended.
+**9. Master plan §6.2 P-N3 checkbox ticked** (line 403, `[ ]` → `[x]`) + **§7.1 done-row appended** with full deliverable summary + threshold recommendation + dedup note. Brain commit `f42e0e0`. Nexostrat commit `cbf70f9` (corpus + report + B17 closure).
 
-**10. Verification at session close.** `filter_applied = "nexostrat-v1"`, events = 9, `generated_at` < 1h, COMMANDS.md section at line 145, master plan §6.2 ticked + §7.1 row present, zero `nexostrat_v1` residue.
+**10. Janitor pass at session close** — flipped `t-meetings-overhaul-audit-dir` (P-N2) `open → completed`. Work actually shipped session 15 at commit `2a5f272`; bookkeeping miss carried from sessions 16+17. Now resolved.
 
 ## Decisions locked this session
 
-1. **JP email canonical = `jpasistentepersonal@gmail.com`.** Used for filter's rule 3 (attendee match). Ricardo's mid-session confirmation. JP's other Gmail `juan@juanencripto.com` is secondary; rule 1 (`summary contains "nexo"`) would still catch a Nexostrat event if only that address were present.
+1. **`model_score: null` on every row by design.** P-H6 backfills via DeepSeek without schema migration. Trade-off accepted: retuner can't compute real precision/recall until P-H6; must skip null-score rows. Documented in corpus report §6 follow-up.
 
-2. **Doc-vs-code drift fixed in the same session that exposed it.** Initially proposed as a follow-up task; Ricardo authorized "fix them" at end-prep, so the amendment landed inline. Lesson: when drift is small, localized, and discovered during a task that depends on the corrected form, fix immediately rather than tracking.
+2. **Hold `auto_task_threshold = 0.85` for Stage 1.** Perfect-calibration sweep shows F1 peaks at 0.974 for thr=0.82, but 0.85 is the right Stage 1 posture: (a) sweep is upper bound, real scores will have noise; (b) partnership posture favors precision over recall per B17; (c) corpus is action-rich-biased (summary.md pre-filters small-talk); (d) changing pre-P-H6 is premature optimization. Re-eval triggers documented (post-P-H6 backfill + 2 bi-weekly retune cycles).
 
-3. **No recurring cache-refresh task.** Per Ricardo's directive "rely on commands" — `COMMANDS.md` "Calendar cache refresh" is the canonical procedure; no scheduled refresh gates anything until hub Phase 5 (P-H7) consumer lands.
+3. **Bulk-confirm 20 meeting-derived ratings via single review table.** Practical compromise on the task spec's "ask Ricardo to confirm each rating" — single table with proposed score + rationale per row, Ricardo bulk-approved. Faster than 20 separate questions; still gives line-level visibility. Lesson: when reviewing many small judgments, present a table and ask for bulk approval with an Adjust option, not N separate AskUserQuestions.
 
-4. **`brain-hub` on-disk path = `/home/ricardo/brain-hub/`, not `/srv/brain-hub/`** — confirmed by inspection + Ricardo. Multiple governance docs reference `/srv/brain-hub/`; this is a doc-vs-on-disk drift across master plan, Brain Hub contribution doc, deployment doc. Not fixed this session (out of P-H2 scope); flagged for a future audit pass.
+4. **No new follow-up tasks.** Corpus report §6 documents 4 follow-ups (retuner null-handling, JP-rated inter-rater pass, T2 boundary oversample, English rows) — all defer naturally to the bi-weekly Brain Architect retune cron. No Nexostrat-side ledger entry needed.
+
+5. **Janitor pass at session close is now an established pattern.** Sessions 16 + 17 left `t-meetings-overhaul-audit-dir` stale; flipping it this session closed the bookkeeping debt. For future sessions: when closing a major prereq, scan the ledger for stale-but-shipped tasks at session end.
 
 ## Stack state (live & verifiable next session)
 
 ```
 /srv/Nexostrat/
-├── calendar_cache.json                                ← NEW (this session, b03d3af)
 ├── 00_META/
+│   ├── calibration/
+│   │   ├── auto_task_extraction.jsonl                    ← MODIFIED (50 rated rows + _comment guard, this session)
+│   │   ├── 2026-05-25_initial-corpus-report.md           ← NEW (this session)
+│   │   └── README.md                                     (rubric + schema, unchanged)
 │   ├── journal/
-│   │   └── 2026-05-26_p-h2-calendar-cache.md         ← NEW
-│   ├── calendar_filter.md                             ← MODIFIED (line 11 JP placeholder)
+│   │   └── 2026-05-25_meetings-overhaul-pn3.md           ← NEW (this session)
+│   ├── audit/                                            ← shipped session 15 (2a5f272), task closed this session
+│   ├── proposals/
+│   │   └── 2026-05-26_tasks-v2-schema.md                 ← shipped session 16 (784fcf2)
 │   ├── governance/plans/
 │   │   └── 2026-05-25_meetings-overhaul-contribution.md  (no edits this session)
-│   ├── proposals/
-│   │   └── 2026-05-26_tasks-v2-schema.md             ← shipped session 16 (784fcf2)
-│   ├── audit/                                         ← shipped session 15 (2a5f272)
-│   ├── templates/                                     ← shipped 2026-05-22 (b3bae45)
-│   ├── calibration/                                   ← shipped 2026-05-22 (60669ed)
-│   │   ├── auto_task_extraction.jsonl                 (scaffold; ≥50 rows still pending = P-N3)
-│   │   └── README.md                                  (rubric)
+│   ├── templates/                                        ← shipped 2026-05-22 (b3bae45)
 │   └── inbox/
-│       └── 2026-05-22_brain_bot_platform_action_items.md  (B14+B15 done; B19 open)
-├── schedule.yaml                                       ← shipped 2026-05-22 (2fbca49)
-├── tasks.json                                          ← MODIFIED session 16 (schema v2, fixture row, P-N1 closed)
-├── COMMANDS.md                                         ← MODIFIED (Calendar cache refresh section)
-├── STATUS.md                                           ← MODIFIED (seventeenth-session entry)
-└── CHECKPOINT.md                                       ← THIS FILE (rewritten)
+│       └── 2026-05-22_brain_bot_platform_action_items.md (B14+B15 done; B19 still open)
+├── calendar_cache.json                                   ← shipped session 17 (b03d3af)
+├── schedule.yaml                                          ← shipped 2026-05-22 (2fbca49)
+├── tasks.json                                             ← MODIFIED (B17 closed, P-N2 stale-flip, both this session)
+├── COMMANDS.md                                            ← shipped session 17 (Calendar cache refresh section)
+├── STATUS.md                                              ← MODIFIED (eighteenth-session entry)
+└── CHECKPOINT.md                                          ← THIS FILE (rewritten)
 ```
 
-## Open items (this session's, ranked)
+## Open items (carried forward; no new items opened this session)
 
 | ID | Subject | Priority | Due |
 |---|---|---|---|
-| `t-confidence-calibration-corpus` (existing B17 = P-N3 alias) | ≥50-row calibration labelling pass | high | 2026-06-22 |
-| `t-meetings-overhaul-audit-dir` | P-N2 — stale OPEN status; work actually landed at commit `2a5f272` (session 15). Bookkeeping miss carried from session 16. | high | 2026-06-05 |
-| `t-archive-bbp-action-items-memo` | Archive `00_META/inbox/2026-05-22_brain_bot_platform_action_items.md` once B19 closes | low | 2026-06-15 |
+| `t-intro-v3-ceo-vs-cofundador` | CEO vs co-fundador title decision on intro V3 | high | 2026-05-26 |
+| `t-intro-v3-diferencia-slide` | Diferencia overlay decision | high | 2026-05-26 |
+| `t-plan-04-description-update` | Update Plan 04 description in master index | high | 2026-05-28 |
+| `t-install-brand-fonts-laptop` | Install Inter + JetBrains Mono on laptop | high | 2026-05-30 |
+| `t-intro-v3-web-export` | Web-optimized export of intro V3 | medium | 2026-06-15 |
+| `t-nexostrat-telegram-account` (B19) | Procure firm Telegram account (gates P-H1) | critical | 2026-06-15 |
+| `t-weekend-desktop-on-decision` (B16) | Weekend desktop-on schedule decision | high | 2026-06-15 |
+| `t-archive-bbp-action-items-memo` | Archive BB-Platform action-items memo once B19 closes | low | 2026-06-15 |
+| `t-pick-website-intro-final-version` | JP-gated pick V1.0 vs V1.1 | medium | 2026-06-15 |
+| `t-plan-08-client-meeting-integration` (B18) | Client-meeting integration pattern in Plan 08 | medium | 2026-07-15 |
+| `t-fix-logo-kit-html-fonts` | Logo wordmark still references Century Gothic + Nunito | low | 2026-07-15 |
 
-> **Note on `brain-hub` path drift:** master plan + Brain Hub contribution doc + deployment doc all reference `/srv/brain-hub/`; the live path is `/home/ricardo/brain-hub/`. Discovered this session, not fixed (out of P-H2 scope). No task added — recommend root run an audit pass to either move the directory or amend the docs, whichever Ricardo prefers.
-
-## Open items (carried from prior sessions, unchanged)
-
-`t-nexostrat-telegram-account` (B19, 2026-06-15), `t-weekend-desktop-on-decision` (B16, 2026-06-15), `t-plan-04-description-update` (2026-05-28), `t-plan-08-client-meeting-integration` (B18, 2026-07-15). Plus 3 intro-V3 polish tasks from session 14 (`t-intro-v3-ceo-vs-cofundador`, `t-intro-v3-diferencia-slide`, `t-intro-v3-web-export`) — `t-intro-v3-ceo-vs-cofundador` + `t-intro-v3-diferencia-slide` both due 2026-05-26 (today).
+> **Note on `brain-hub` path drift** (carried from session 17): master plan + Brain Hub contribution doc + deployment doc all reference `/srv/brain-hub/`; the live path is `/home/ricardo/brain-hub/`. Not fixed (out of any single Phase 0 step's scope). Recommend root run an audit pass to either move the directory or amend the docs.
 
 ## Cross-scope context for next session
 
-- **Phase 0a Nexostrat surface 2 of 3 done.** P-N1 (session 16) + P-N2 (session 15). P-N3 (calibration labelling) remaining, due 2026-06-22.
-- **Phase 0c P-H2 done this session** (cross-scope contribution). Cache live; hub-side P-H7 (calendar dispatch loop) is the eventual consumer.
-- **Phase 0c P-H1 + P-H6 remain open** (cross-scope, Brain Hub Principal owns). Nexostrat-side procurement gates: `t-nexostrat-telegram-account` (firm Telegram account, 2026-06-15) + firm DeepSeek key. Same items already in the task ledger.
-- **Phase 0b AttenBot** (P-A2 → P-A3 → P-A1): P-A2 + P-A3 done (sessions late 2026-05-25); P-A1 implementation owned by Gemini at `/home/ricardo/atten-bot/`. Not blocking Nexostrat.
-- **No Gemini handoff active.** `claude_to_gemini.md` + `gemini_to_claude.md` both `TEMPLATE` as of last check.
+- **Phase 0a Nexostrat surface = 3 of 3 DONE.** P-N1 (session 16) + P-N2 (session 15) + P-N3 (this session). No remaining Nexostrat-side prereqs for the meetings-pipeline overhaul.
+- **Phase 0b AttenBot:** P-A2 + P-A3 done late 2026-05-25 (sessions in `/home/ricardo/atten-bot/`); P-A1 implementation owned by Gemini. Not blocking Nexostrat.
+- **Phase 0c Brain Hub:** P-H2 done session 17 (this scope's contribution). P-H1 + P-H6 hub-side, procurement-gated (`t-nexostrat-telegram-account` due 2026-06-15 + firm DeepSeek key).
+- **Phase 0d Meetings:** empty by design (folds into Phases 1–3).
+- **No Gemini handoff active.** `claude_to_gemini.md` + `gemini_to_claude.md` both `TEMPLATE`.
 
 ## What next session opens onto
 
 Three plausible first moves:
 
-1. **P-N3 calibration labelling pass** (~1 day labelling). Source: 4 existing meetings under `/srv/meetings/nexostrat/` (~20 candidate actions) + ~30 synthetic edge cases balanced across the four rubric tiers in `00_META/calibration/README.md`. Output: ≥50 NDJSON rows in `auto_task_extraction.jsonl` + `2026-05-XX_initial-corpus-report.md` with precision/recall at the 0.85 threshold. Closes the last Nexostrat-side Phase 0a prereq. Could parallelize via Gemini handoff if the rubric is followed strictly.
+1. **Intro V3 polish** — `t-intro-v3-ceo-vs-cofundador` + `t-intro-v3-diferencia-slide` both due tomorrow (2026-05-26). Tiny DaVinci edits gated on a decision (CEO vs co-fundador title; Diferencia overlay present or drop-in needed). **Strongest due-date pressure of any open item.**
 
-2. **Intro V3 polish** — `t-intro-v3-ceo-vs-cofundador` + `t-intro-v3-diferencia-slide` both due today (2026-05-26). Tiny DaVinci edits gated on a decision (CEO vs co-fundador title; Diferencia overlay present or drop-in needed).
+2. **Janitor pass + plan-index hygiene** — `t-plan-04-description-update` due 2026-05-28 (master plan index still describes Plan 04 as standalone bot, needs flip to "Nexostrat tenant in central Brain Bot Hub" per ADR-039). Also: resolve + archive the BB-Platform action-items memo once `t-nexostrat-telegram-account` (B19) closes (low; depends on B19 first).
 
-3. **Janitor pass** — flip the stale `t-meetings-overhaul-audit-dir` task to `done` (P-N2 actually shipped at `2a5f272`); resolve + archive the BB-Platform action-items memo once `t-nexostrat-telegram-account` (B19) closes.
+3. **Cross-scope drift fix** — `/home/ricardo/brain-hub/` ≠ `/srv/brain-hub/` in governance docs (master plan + Brain Hub contribution doc + deployment doc). Root may want to act on it; from Nexostrat scope the action would be a memo to root inbox rather than direct edit.
 
-If Ricardo opens with "Start Session" next, surface P-N3 first (Phase 0a critical path) + intro-V3 polish (due-date pressure today) + the cross-scope flag that `/home/ricardo/brain-hub/` ≠ `/srv/brain-hub/` in governance docs (root may want to act on it).
+If Ricardo opens with "Start Session" next, surface intro-V3 polish first (due-date pressure tomorrow) + Plan 04 description update (due 2026-05-28) + the cross-scope drift flag. Phase 0 prereq status: Nexostrat done, AttenBot mostly done, Brain Hub procurement-gated — no architectural critical-path open from this scope.

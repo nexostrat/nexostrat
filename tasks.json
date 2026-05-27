@@ -1,11 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v2",
   "project": "nexostrat",
-<<<<<<< HEAD
-  "updated": "2026-05-26T23:30:00-07:00",
-=======
   "updated": "2026-05-27T09:30:00-07:00",
->>>>>>> f7b7d4d (B19: mark t-nexostrat-telegram-account done (partial — firm phone deferred))
   "tasks": [
     {
       "id": "t-audit-design",

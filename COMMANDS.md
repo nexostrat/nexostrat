@@ -29,7 +29,7 @@ bash /srv/Nexostrat/infra/scripts/new-client.sh <slug> <CO|MX> '<Legal Name>' <s
 bash /srv/Nexostrat/infra/scripts/new-client.sh trixx-logistics MX 'Grupo Trixx' logistica --pilot
 ```
 
-After scaffolding, fill the two intake files inside `pipeline/clients/<slug>/00_intake/`:
+After scaffolding, fill the two intake files inside `pipeline/clients/<slug>/etapa_1_preparacion/00_intake/`:
 
 | File | Content | Visible to |
 |---|---|---|

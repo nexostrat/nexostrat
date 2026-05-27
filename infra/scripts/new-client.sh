@@ -8,13 +8,13 @@
 #   bash infra/scripts/new-client.sh trixx-logistics MX 'Grupo Trixx' logistica --pilot
 #
 # Effect:
-#   pipeline/clients/<slug>/                       ← copied from _template/
-#   pipeline/clients/<slug>/00_intake/
-#       research_input.md                          ← slug-substituted copy of skills/shared/research_input_template.md
-#       our_hypotheses.md                          ← slug-substituted copy of skills/shared/our_hypotheses_template.md
-#   pipeline/clients/<slug>/state.json             ← placeholders substituted
-#   pipeline/clients/<slug>/checkpoint.md          ← slug + timestamp substituted
-#   pipeline/clients/<slug>/README.md              ← replaced with per-client stub
+#   pipeline/clients/<slug>/                                       ← copied from _template/
+#   pipeline/clients/<slug>/etapa_1_preparacion/00_intake/
+#       research_input.md                                          ← slug-substituted copy of skills/shared/research_input_template.md
+#       our_hypotheses.md                                          ← slug-substituted copy of skills/shared/our_hypotheses_template.md
+#   pipeline/clients/<slug>/state.json                             ← placeholders substituted
+#   pipeline/clients/<slug>/checkpoint.md                          ← slug + timestamp substituted
+#   pipeline/clients/<slug>/README.md                              ← replaced with per-client stub
 #
 # Idempotent failure: refuses to overwrite an existing pipeline/clients/<slug>/.
 #
@@ -106,8 +106,8 @@ OPERATOR="${USER:-ricardo}"
 cp -r "$TEMPLATE_DIR" "$TARGET"
 
 # Copy 2-file intake templates per ADR-027
-cp "$SHARED_TEMPLATES_DIR/research_input_template.md" "$TARGET/00_intake/research_input.md"
-cp "$SHARED_TEMPLATES_DIR/our_hypotheses_template.md" "$TARGET/00_intake/our_hypotheses.md"
+cp "$SHARED_TEMPLATES_DIR/research_input_template.md" "$TARGET/etapa_1_preparacion/00_intake/research_input.md"
+cp "$SHARED_TEMPLATES_DIR/our_hypotheses_template.md" "$TARGET/etapa_1_preparacion/00_intake/our_hypotheses.md"
 
 # Sed delimiter '|' avoids collisions with paths/spaces; escape only the name.
 NAME_ESCAPED="${NAME//|/\\|}"
@@ -138,8 +138,8 @@ sed -i \
 
 # Slug-stamp the intake template headers
 sed -i "s|\`<slug>\`|\`$SLUG\`|g" \
-    "$TARGET/00_intake/research_input.md" \
-    "$TARGET/00_intake/our_hypotheses.md"
+    "$TARGET/etapa_1_preparacion/00_intake/research_input.md" \
+    "$TARGET/etapa_1_preparacion/00_intake/our_hypotheses.md"
 
 # Replace the carried-over _template README with a per-client stub
 cat > "$TARGET/README.md" <<EOF
@@ -148,20 +148,25 @@ cat > "$TARGET/README.md" <<EOF
 **Country:** $COUNTRY · **Sector:** $SECTOR · **Started:** $DATE_ISO · **Pilot:** $PILOT
 
 Per-client work folder. Structure inherited from \`pipeline/clients/_template/\` —
-see [\`../_template/README.md\`](../_template/README.md) for the 12-station + 3-cross-cutting
-layout and the state-machine reference.
+see [\`../_template/README.md\`](../_template/README.md) for the 2-etapa layout and
+the state-machine reference.
 
 ## Where things live (this client)
 
-- **\`00_intake/research_input.md\`** — facts (ADR-027 slice 1+2). Read by Skills 01-03.
-- **\`00_intake/our_hypotheses.md\`** — judgment (ADR-027 slice 3). SEALED during research; read by Skills 04-05.
+- **\`etapa_1_preparacion/00_intake/research_input.md\`** — facts (ADR-027 slice 1+2). Read by Skills 01-03.
+- **\`etapa_1_preparacion/00_intake/our_hypotheses.md\`** — judgment (ADR-027 slice 3). SEALED during research; read by Skills 04-05.
+- **\`etapa_1_preparacion/01_analisis_compania/\`** — Skill 01 output.
+- **\`etapa_1_preparacion/02_analisis_industria/\`** — Skill 02 output.
+- **\`etapa_1_preparacion/03_analisis_competencia/\`** — Skill 03 output.
+- **\`etapa_1_preparacion/04_guia_reunion/\`** — Skill 04 PrepLlamada.
+- **\`etapa_2_diagnostico/transcripciones/\`** — meeting audio + transcripts.
+- **\`etapa_2_diagnostico/reporte_oportunidades/\`** — Skill 05 deliverable.
 - **\`state.json\`** — phase + history + pricing + KPIs. State-machine reference in \`../_template/README.md\`.
 - **\`checkpoint.md\`** — session continuity baton (per ADR-031).
-- **\`<NN>_<stage>/\`** — one folder per pipeline station (00 → 11).
 
 ## Next step
 
-After editing \`00_intake/research_input.md\`, say in this Claude Code session:
+After editing \`etapa_1_preparacion/00_intake/research_input.md\`, say in this Claude Code session:
 
 > \`Analiza $SLUG\`
 
@@ -176,8 +181,8 @@ cat <<EOF
 ✓ Scaffolded $TARGET
 
 Next steps:
-  1. Edit  $TARGET/00_intake/research_input.md   (the facts you know)
-  2. Edit  $TARGET/00_intake/our_hypotheses.md   (your judgment — keep this sealed during research)
+  1. Edit  $TARGET/etapa_1_preparacion/00_intake/research_input.md   (the facts you know)
+  2. Edit  $TARGET/etapa_1_preparacion/00_intake/our_hypotheses.md   (your judgment — keep this sealed during research)
   3. In Claude Code at /srv/Nexostrat/, say:    Analiza $SLUG
      → Skill 01 (company-analyst) reads research_input.md and runs the analysis.
      → Human review → Skill 02 → review → Skill 03 → review → Skill 04 (which now also reads our_hypotheses.md).

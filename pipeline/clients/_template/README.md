@@ -1,39 +1,54 @@
-# Per-client template — 12 stations + 3 cross-cutting (ADR-010, F19)
+# Per-client template — 2 etapas + 2 cross-cutting
 
 This folder is the canonical empty client. The interim scaffolder
 `infra/scripts/new-client.sh` copies it to `pipeline/clients/<slug>/` and
 substitutes placeholders in `state.json`, `checkpoint.md`, and `README.md`,
 then drops the two ADR-027 intake templates (`research_input.md` +
-`our_hypotheses.md`) from `skills/shared/` into `00_intake/`. Plan 07 will
-replace this with a fuller scaffolder that also emits to `events.jsonl` and
-exposes a Telegram trigger.
+`our_hypotheses.md`) from `skills/shared/` into
+`etapa_1_preparacion/00_intake/`. Plan 07 will replace this with a fuller
+scaffolder that also emits to `events.jsonl` and exposes a Telegram trigger.
 
-## The 12 stations (sequential phases of the engagement)
+## Estructura por cliente
 
-| # | Folder | Plan Maestro mapping | Owning skill |
-|---|---|---|---|
-| 00 | `00_intake/` | Pasos 1-3 | (research_input.md + our_hypotheses.md per ADR-027) |
-| 01 | `01_company_analysis/` | Fase B Skill 1 | Skill 1 (company-analyst) |
-| 02 | `02_industry_analysis/` | Fase B Skill 2 | Skill 2 (industry-analyst) |
-| 03 | `03_competitor_analysis/` | Fase B Skill 3 | Skill 3 (competitor-analyst) |
-| 04 | `04_prep_llamada/` | Fase B Skill 4 (PRIVATE) | Skill 4 (discovery-meeting) |
-| 05 | `05_opportunity_report/` | Fase C — THE DELIVERABLE | Skill 5 (opportunity-report) |
-| 06 | `06_proposal/` | Pasos 7-8 (Fase D) | (template-driven, no skill) |
-| 07 | `07_contract_onboarding/` | Paso 9 (Fase E) | (template-driven, no skill) |
-| 08 | `08_solution_design/` | Paso 10 | (template-driven, no skill) |
-| 09 | `09_implementation/` | Paso 11 | (template-driven, no skill) |
-| 10 | `10_followup/` | Paso 12 (30/60/90) | (template-driven, no skill) |
-| 11 | `11_retainer/` | Paso 13 | (template-driven, no skill) |
+```
+pipeline/clients/<slug>/
+├── etapa_1_preparacion/         ← todo lo pre-reunión
+│   ├── 00_intake/                  ← research_input.md + our_hypotheses.md (ADR-027)
+│   ├── 01_analisis_compania/       ← Skill 01 (company-analyst) output
+│   ├── 02_analisis_industria/      ← Skill 02 (industry-analyst) output
+│   ├── 03_analisis_competencia/    ← Skill 03 (competitor-analyst) output
+│   └── 04_guia_reunion/            ← Skill 04 (discovery-meeting / PrepLlamada) output
+├── etapa_2_diagnostico/         ← todo lo post-reunión
+│   ├── transcripciones/            ← audios + transcripts de la reunión
+│   └── reporte_oportunidades/      ← Skill 05 (opportunity-report) output — el deliverable
+├── communications/             ← email + WhatsApp + Telegram captures (cross-cutting)
+├── archive/                    ← superseded artifacts (forensic record; never deleted)
+├── checkpoint.md
+├── state.json
+└── README.md
+```
 
-**Folders never move.** Phase tracked in `state.json` (see schema below).
+## Por qué 2 etapas
 
-## The 3 cross-cutting folders
+Mapeo al 6-fase pipeline de JP:
+
+| Etapa local | Skills | JP Fase |
+|---|---|---|
+| `etapa_1_preparacion/` | 01-04 | Fase 1 (Contacto/Agendamiento) + Fase 2 (Preparación Pre-Llamada) + Fase 3 (Primera Llamada en `transcripciones/`) |
+| `etapa_2_diagnostico/` | 05 | Fase 4 (Generación Reporte) + Fase 5 (Revisión Interna) + Fase 6 (Entrega + Seguimiento via `communications/`) |
+
+Etapas futuras (propuesta comercial, contrato, implementación, seguimiento, retainer) se añaden como `etapa_3_*`, `etapa_4_*` etc. **cuando un cliente realmente alcanza esa etapa** — no se pre-construyen vacías.
+
+**Folders never move.** Phase tracked in `state.json`.
+
+## Cross-cutting folders
 
 | Folder | Holds |
 |---|---|
-| `transcripts/` | Meeting transcripts. Canonical source TBD per Plan 02 FOSS stack decision (ADR-038 superseded ADR-024's Notion-canonical posture; Whisper.cpp + Jitsi promoted to canonical pending Plan 02). |
-| `communications/` | Email + WhatsApp + Telegram captures |
+| `communications/` | Email + WhatsApp + Telegram captures across all stages |
 | `archive/` | Superseded artifacts (kept for forensic record; never deleted) |
+
+**Note:** `transcripciones/` vive dentro de `etapa_2_diagnostico/` porque las transcripciones son input para el Skill 05 (no son cross-cutting — son producto post-reunión).
 
 ## `state.json`
 
@@ -42,11 +57,12 @@ event-spine validators). Required fields: `client`, `name`, `country`, `sector`,
 `started`, `owner`, `phase`, `phase_history[]`, `pilot`, `pricing`, `next_action`,
 `kpis`, `blockers[]`, `tags[]`, `recording_preference`.
 
-Phase values: `prospect → intake → exploring → diagnostico_pendiente →
-diagnostico_delivered → propuesta_pendiente → propuesta_sent →
-propuesta_{accepted,rejected,revising} → cliente_firmado → diseño →
-implementación → seguimiento_30 → seguimiento_60 → seguimiento_90 →
-retainer_active`. Plus `churned`, `nurture`, `retainer_paused`.
+Phase values activos:
+- **Pre-engagement:** `prospect → intake → exploring → diagnostico_pendiente`
+- **Post-diagnostico:** `diagnostico_delivered → propuesta_pendiente → propuesta_sent → propuesta_{accepted,rejected,revising}`
+- **Active:** `cliente_firmado → diseño → implementación → seguimiento_30 → seguimiento_60 → seguimiento_90 → retainer_active`
+- **Terminal:** `churned`, `nurture`, `retainer_paused`
+- **Pilot-only:** `pilot_archived` (companies used for toolchain validation; never engaged)
 
 Transitions emit events to `infra/events/events.jsonl` (Plan 03) and are
 gated by Telegram commands (`/advance`, `/regress`, `/set-phase`, etc. — Plan 04+).
@@ -74,22 +90,22 @@ Effect:
 - `pipeline/clients/<slug>/` created from this template (refuses to overwrite an existing target).
 - `state.json` populated with `client`, `name`, `country`, `sector`, `started`, `owner=client-owner`, `phase=prospect`, optionally `pilot=true`.
 - `checkpoint.md` slug-stamped and timestamped (status stays `CHECKPOINT_NO_ACTIVE_WORK`).
-- `README.md` replaced with a per-client stub (the meta-README — this file — stays on `_template/`).
-- `00_intake/research_input.md` and `00_intake/our_hypotheses.md` copied from `skills/shared/` and slug-stamped.
+- `README.md` replaced with a per-client stub.
+- `etapa_1_preparacion/00_intake/research_input.md` + `our_hypotheses.md` copied from `skills/shared/` and slug-stamped.
 
 ## Post-scaffold workflow (the canonical handoff)
 
-1. **Fill `00_intake/research_input.md`** — facts only. Identity, presence, contacts, origin of the prospect, 5-min LinkedIn pre-trabajo. **Do NOT write hypotheses here.**
-2. **Fill `00_intake/our_hypotheses.md`** — judgment only. What we think the dolor is, the decisor read, presupuesto estimate, tono, sensibilidades, capability-fit hypotheses, things we expect research to confirm or refute. **This file is SEALED during Skills 01-03** per ADR-027 — the operator must not paste its content into the model while running the research skills.
+1. **Fill `etapa_1_preparacion/00_intake/research_input.md`** — facts only. Identity, presence, contacts, origin of the prospect, 5-min LinkedIn pre-trabajo. **Do NOT write hypotheses here.**
+2. **Fill `etapa_1_preparacion/00_intake/our_hypotheses.md`** — judgment only. What we think the dolor is, the decisor read, presupuesto estimate, tono, sensibilidades, capability-fit hypotheses, things we expect research to confirm or refute. **This file is SEALED during Skills 01-03** per ADR-027 — the operator must not paste its content into the model while running the research skills.
 3. **Trigger the pipeline.** In Claude Code at `/srv/Nexostrat/`, say:
 
    > `Analiza <slug>`
 
-   Claude reads `state.json` (confirms fresh `prospect` intake), reads `00_intake/research_input.md`, and invokes Skill 01 (company-analyst). Output lands at `01_company_analysis/runs/<ts>_mode-a/final_report.{md,docx}` per `skills/README.md`.
-4. **Human review** between every skill. Read Skill 01's output, correct what we know better, then continue to Skill 02 → review → Skill 03 → review → Skill 04. Skill 04 (PrepLlamada) is the **first skill that reads `our_hypotheses.md`**.
-5. **30-min discovery call** with the client, recorded. PrepLlamada is the meeting guide.
-6. **Skill 05 (opportunity-report)** consumes 01+02+03+meeting-notes+our_hypotheses → produces the client-facing Reporte de Oportunidades.
-7. **Mandatory Ricardo+JP internal review** (Fase 5 in JP's pipeline diagram) before manual send.
+   Claude reads `state.json` (confirms fresh `prospect` intake), reads `etapa_1_preparacion/00_intake/research_input.md`, and invokes Skill 01 (company-analyst). Output lands at `etapa_1_preparacion/01_analisis_compania/runs/<ts>_mode-a/final_report.{md,docx}`.
+4. **Human review** entre cada skill. Read Skill 01's output, correct what we know better, then continue to Skill 02 → review → Skill 03 → review → Skill 04. Skill 04 (PrepLlamada) is the **first skill that reads `our_hypotheses.md`**.
+5. **30-min discovery call** con el cliente, grabado. PrepLlamada es la guía. El audio + transcripts caen en `etapa_2_diagnostico/transcripciones/<fecha>_<topic>/`.
+6. **Skill 05 (opportunity-report)** consume 01+02+03+notas-reunión+our_hypotheses → produce el Reporte de Oportunidades en `etapa_2_diagnostico/reporte_oportunidades/runs/<ts>_mode-a/`.
+7. **Revisión interna obligatoria Ricardo+JP** (Fase 5 en JP's pipeline diagram) antes del envío manual.
 
 ## What's NOT here
 

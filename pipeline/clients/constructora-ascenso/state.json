@@ -1,0 +1,29 @@
+{
+  "$schema": "nexostrat-client-state-v1",
+  "client": "constructora-ascenso",
+  "name": "CONSTRUCTORA ASCENSO S.A.S.",
+  "country": "CO",
+  "sector": "construccion-residencial-vis",
+  "started": "2026-05-17",
+  "owner": "client-owner",
+  "phase": "pilot_archived",
+  "phase_history": [
+    {
+      "from": null,
+      "to": "pilot_archived",
+      "at": "2026-05-17T00:00:00Z",
+      "by": "ricardo",
+      "note": "Pilot run 2026-05-17 — Skills 01-04 ejecutadas end-to-end como validación de toolchain (3-pilot batch: Bodai + Ascenso + Scarab). Nunca hubo engagement comercial. Resumen ejecutivo en Resumen_ConstructoraAscenso.docx."
+    }
+  ],
+  "pilot": true,
+  "pricing": {
+    "model": null,
+    "currency": null,
+    "amount": null,
+    "note": "Pilot — no engagement."
+  },
+  "next_action": "Ninguno. Pilot archivado.",
+  "blockers": [],
+  "tags": ["pilot-archived", "toolchain-validation-2026-05-17"]
+}

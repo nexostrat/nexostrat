@@ -1,7 +1,11 @@
 {
   "$schema": "nexostrat-tasks-v2",
   "project": "nexostrat",
+<<<<<<< HEAD
   "updated": "2026-05-26T23:30:00-07:00",
+=======
+  "updated": "2026-05-27T09:30:00-07:00",
+>>>>>>> f7b7d4d (B19: mark t-nexostrat-telegram-account done (partial — firm phone deferred))
   "tasks": [
     {
       "id": "t-audit-design",
@@ -619,11 +623,12 @@
     {
       "id": "t-nexostrat-telegram-account",
       "subject": "B19 — Create firm-owned Telegram account for @NexostratBot (pre-deploy hard requirement)",
-      "status": "open",
+      "status": "done",
       "priority": "critical",
       "due": "2026-06-15",
       "created": "2026-05-21",
-      "notes": "Audit B19. The Brain Bot Platform tenant for Nexostrat needs a Telegram bot @NexostratBot, but the bot should be created from a firm-owned Telegram account (not Ricardo's personal). Reason: if Ricardo's personal Telegram is compromised or transferred, the bot stays with the firm. Steps: (1) provision phone number for the firm account (Nexostrat firm SIM or Google Voice number tied to contacto@nexostrat.com); (2) create new Telegram account on that number; (3) BotFather → /newbot → name 'Nexostrat' → handle @NexostratBot → save NEXOSTRAT_BOT_TOKEN; (4) both founders added as admins of the JP+Ricardo group; (5) JP_DM_ID and NEXOSTRAT_GROUP_ID collected. Token stored per ADR-024-equivalent credentials posture (Brain-side §C9). Cannot ship Plan 04 until this is done. Tracked in ADR-039 mandatory follow-ups."
+      "notes": "Audit B19. The Brain Bot Platform tenant for Nexostrat needs a Telegram bot @NexostratBot, but the bot should be created from a firm-owned Telegram account (not Ricardo's personal). Reason: if Ricardo's personal Telegram is compromised or transferred, the bot stays with the firm. Steps: (1) provision phone number for the firm account (Nexostrat firm SIM or Google Voice number tied to contacto@nexostrat.com); (2) create new Telegram account on that number; (3) BotFather → /newbot → name 'Nexostrat' → handle @NexostratBot → save NEXOSTRAT_BOT_TOKEN; (4) both founders added as admins of the JP+Ricardo group; (5) JP_DM_ID and NEXOSTRAT_GROUP_ID collected. Token stored per ADR-024-equivalent credentials posture (Brain-side §C9). Cannot ship Plan 04 until this is done. Tracked in ADR-039 mandatory follow-ups. || 2026-05-27 — done (partial: substeps 3-5 satisfied; substep 1-2 deferred). @NexostratAssis_bot (id 8809084892) created from Ricardo's personal Telegram (firm phone pending). NEXOSTRAT_BOT_TOKEN saved. JP confirmed admin of JP+Ricardo group. JP_DM_ID=459242980 and JP_RICARDO_GROUP_ID=-1003846633320 extracted via getUpdates 2026-05-27. CAVEAT: JP_DM_ID not bot-addressable until JP sends /start to @NexostratAssis_bot — open follow-up. P-H1 (Brain Hub routing.yaml) shipped this session; smoke test ran via group not DM.",
+      "completed": "2026-05-27"
     },
     {
       "id": "t-weekend-desktop-on-decision",

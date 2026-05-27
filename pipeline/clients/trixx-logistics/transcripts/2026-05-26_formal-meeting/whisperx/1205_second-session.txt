@@ -1,0 +1,333 @@
+[SPEAKER_02]: ¿Cuándo fue que salió el documento?
+[SPEAKER_02]: ¿Te refieres cuando vienen?
+[SPEAKER_02]: Ese es el número del contenedor que trae el contenedor.
+[SPEAKER_02]: Sí.
+[SPEAKER_01]: Y esa es la manera en la que se trasladó
+[SPEAKER_02]: A su destino, ya se entren, unos contenedores cruzan por Mexicali, San Luis de Colorado, Sonora, y se van en tren a la Ciudad de México, y otros se van en terrestre.
+[SPEAKER_01]: Que son los que van de Los Ángeles al caso y cruzan.
+[SPEAKER_02]: Pero está en chino porque es un cliente chino y cierta información la manejan desde allá.
+[SPEAKER_01]: Y aquí ya tienen los días para poder descargar, cuáles van en curso.
+[SPEAKER_02]: El puerto te da ciertos días para retorno de vacío sin cobrar el costo.
+[SPEAKER_02]: Que ya una vez se pasen los días, empiezan los costos.
+[SPEAKER_02]: Yo dije que el cliente al momento de hacer su contratación de la terminal, porque son varias terminales, pone los días.
+[SPEAKER_02]: Entonces aquí se hace eso con el fin de estar pendiente.
+[SPEAKER_00]: Claro.
+[SPEAKER_01]: Bueno, conforme va pasando, aquí les van poniendo cuándo fue el retorno del vacío, en la fecha en la que llegó a la bodega, estos son los que están en curso, ¿cuál es el...?
+[SPEAKER_01]: Los que van en mar, que están en el mar.
+[SPEAKER_01]: Están en el mar, ajá.
+[SPEAKER_00]: La actualización de esto la haces todo a mano, puntualmente, te va llegando la información por correo y la van actualizando.
+[SPEAKER_02]: Pero esto previo estuvo en el correo que te dice Luis, entonces del correo de Luis ya se sabe el número de contenedor y el tiempo en el que va a llegar, entonces como, por eso te digo, lo de Luis es lo primero, lo de los correos, donde se puede vaciar los números de contenedores que van a llegar.
+[SPEAKER_02]: Y empezar a alimentar la información.
+[SPEAKER_00]: Y una de las características que te gusta de este programa es que pueden estar varias personas al mismo tiempo interactuando con la... Y el tema es que nada más esto ahorita se está llevando para el cliente chino y lo ideal sería llevarlo para todos los clientes, para tener una base de datos general.
+[SPEAKER_01]: Sí, porque por ejemplo aquí ya buscas nada más tú el contenedor y ya te sale toda la información.
+[SPEAKER_01]: Toda la información.
+[SPEAKER_01]: Esa es la información del contenedor, los kilos que trae, cuántas cajas son, el total de lo que trae el contenedor, qué producto es el que trae, cuándo es la cita del puerto, a qué bodega se va a destinar, si ha traído hecho a Vernon, de dónde viene...
+[SPEAKER_01]: Trae si es la bodega externa que se tiene contratada y Vernon puede ser la...
+[SPEAKER_01]: La que vimos en...
+[SPEAKER_01]: Este...
+[SPEAKER_01]: ¿Y cuál es el impedimento más grande para ustedes poder empezar a implementar esta misma plataforma o un sistema similar con lo que tienen actualmente?
+[SPEAKER_01]: He entrado como 10 veces a quererlo generar y me distraigo, no lo he hecho.
+[SPEAKER_03]: ¿No te gustaría transferirte para Amundi?
+[SPEAKER_02]: No, lo que había pensado es en transferirnos para Amundi porque lo fácil era copiar siempre esta información sin tener que llenar todo esta base de datos y agregar los de nosotros.
+[SPEAKER_01]: Y que ya cada uno solamente se enfoque a lo que le corresponde, en este caso transporte.
+[SPEAKER_02]: Pero esta compañía pues también, esta es una plataforma externa a la que se le tiene que pagar.
+[SPEAKER_02]: Pero esto es súper global, esto es...
+[SPEAKER_02]: Es global, sí, pero también se podría tener algo como algo...
+[SPEAKER_00]: Pues lo que te digo, hay muchas formas, ustedes podrían, se podría desarrollar, o pues nosotros podríamos desarrollar una plataforma que sea exclusiva de ustedes.
+[SPEAKER_00]: Obviamente eso tiene sus complejidades y sus pros y sus contras, como todo en la vida.
+[SPEAKER_02]: Por eso te digo, al final contratamos el programa Traje Premium porque como que sí nos llegaban con propuestas, pero le decían a Héctor, tres meses, cuatro meses, seis meses, tres meses para la primera etapa, entonces él decía no.
+[SPEAKER_02]: Y los descartaban.
+[SPEAKER_00]: Pero ustedes sí podrían, perdón te interrumpo, filtrar, pues ustedes estarían dispuestos a dejar Tracking Premium y correr toda la información a Monday?
+[SPEAKER_02]: Sí, si hubiera una buena propuesta y pudiéramos hacerlo todo gradual, donde pudiéramos comunificar con la información, sería lo ideal, sería como una plataforma propia.
+[SPEAKER_02]: Porque al final, por ejemplo, si yo no pago mañana el mes de Tracking Premium, te lo cortan.
+[SPEAKER_02]: Y toda la información que se quedó ahí...
+[SPEAKER_00]: Y aparte de la compañía o de los que están aquí trabajando, ¿otras compañías externas tienen acceso a Tracking Premium o no?
+[SPEAKER_00]: Pero que dices que normalmente no entran como a revisarlo.
+[SPEAKER_02]: Ah, bueno, no, nada más todo de uso es el que probablemente lo utiliza.
+[SPEAKER_02]: Ah, y también México Envíos.
+[SPEAKER_00]: ¿Y ellos agregan información o solamente visualizar?
+[SPEAKER_00]: No agregan información.
+[SPEAKER_02]: De hecho, la misma Tracking Premium...
+[SPEAKER_02]: Les podía ofrecer a ellos.
+[SPEAKER_00]: Que te pasen, porque sería una ganancia muy grande.
+[SPEAKER_02]: Con la base de datos que yo ya tengo, ofrecerte a ellos como...
+[SPEAKER_02]: Aprovecha la base de datos que ya tienes para que tú desarrolles el producto que tú quieras.
+[SPEAKER_00]: O viceversa, que ellos te pasen a ti la información directa y que la información la puedan utilizar ustedes, porque entonces ahí ya te viene, me imagino, el tamaño de los paquetes.
+[SPEAKER_02]: No, no sabes la cantidad de paquetes, no tienes información, porque ni el mismo cliente sabe de qué tamaño le va a llegar, como estamos viendo, si esto te lo van a poner en un sobre o te lo van a poner en una caja de tamaño, o una caja llena de burbuja con el control, o sea, no sabe, no sabe, entonces él está...
+[SPEAKER_02]: Él está esperando, por ejemplo, el día que no va Silvia, la que captura.
+[SPEAKER_02]: No fue Silvia ella a trabajar porque se queda como en blanco de que no sabe qué paquete le llegaron ese día a bodega.
+[SPEAKER_02]: No, Silvia se fue al doctor.
+[SPEAKER_02]: Entonces, ahí están esperando a que llegue Silvia el siguiente día para capturar y ver qué paquetes ya tienen, que van llegando.
+[SPEAKER_02]: Bueno, pero eso es básicamente con el programa que ella trabaja.
+[SPEAKER_02]: Para este cliente en específico.
+[SPEAKER_02]: Claro, pero buenísimo.
+[SPEAKER_02]: Y te digo, se enlazan varios, no sé cuántos integrantes tiene.
+[SPEAKER_01]: Sí, puedes ir, por ejemplo, yo estoy en ese, y nada más que saco información de ahí, más no, yo no entiendo.
+[SPEAKER_00]: Pero podrías, en cambio que quisieras, podrías.
+[SPEAKER_01]: Pero corres el riesgo, siempre con el intento de que... O sea, corre o algo, no, mejor no.
+[SPEAKER_00]: Bueno, lo bueno es que ese tipo de plataformas tú puedes...
+[SPEAKER_00]: Permitir el acceso a ciertas casillas para ciertas personas.
+[SPEAKER_02]: En ese programa también tú puedes ver acá quién cuando le signas un rol en el tracking premium qué puede editar y qué no.
+[SPEAKER_02]: Qué puede hacer, o sea, qué rol le das.
+[SPEAKER_00]: Permiso, muchísimas gracias.
+[SPEAKER_00]: Antes que me olvide toda la parte de IT, por así decirlo,
+[SPEAKER_00]: La página web, los correos y todo eso lo manejan ustedes directamente, tenían un tercero que lo hacía.
+[SPEAKER_03]: La página web no es yo, no lo hice yo, pero es un tercero que tenemos muchísimos problemas con él.
+[SPEAKER_03]: Sí.
+[SPEAKER_03]: Porque estamos en su hosting, no podemos hacer muchos cambios.
+[SPEAKER_00]: Y depende de lo que les diga, lo que todo.
+[SPEAKER_02]: Si está de bueno, si está de bueno, si está de bueno.
+[SPEAKER_02]: No, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no.
+[SPEAKER_03]: ¿Pero no le ofreces algo?
+No, mil gracias.
+No, estoy bien.
+[SPEAKER_00]: Pero con la página web tú me dices que estamos bien, ¿no?
+[SPEAKER_03]: No.
+[SPEAKER_02]: Pues a veces se quejan, ¿no?
+[SPEAKER_02]: A lo mejor la información que tiene no es toda la... Lo pregunto es más que todo porque el que tiene la página normalmente tiene el correo.
+[SPEAKER_02]: No, es que, mira... Que fue otro que nos había quedado mal, ¿no?
+[SPEAKER_02]: No, es... sí.
+[SPEAKER_02]: Tengo problema con Godaddy que tiene el dominio, hace cuenta el dominio está con Godaddy, pero cuando se contrató a esa persona, no sé en qué momento se nos ocurrió darle como la, el host a él.
+[SPEAKER_02]: Entonces cada que hablo para Godaddy, tengo un problema con no sé qué, ah, esto, velo con, velo con tu host.
+[SPEAKER_03]: Y no lo quiere soltar, yo le dije, no te decía la cantidad de veces que le he hablado de que, o sea, cuánto me, cuánto, o sea, cóbrame.
+[SPEAKER_03]: Pero regresa uno nuestro... Y no quiere.
+[SPEAKER_03]: No, no, no me contesta.
+[SPEAKER_00]: Dice, sí, claro que sí.
+[SPEAKER_03]: O sea, tuvimos un Zoom y te lo cotizo y ya te pasé a ti el número, no sé qué te dijo.
+[SPEAKER_03]: No es que no le pedí que me lo regresara.
+[SPEAKER_03]: ¿Cómo fue la época del hosting?
+[SPEAKER_00]: Pues, no, eso es muy sencillo.
+[SPEAKER_00]: Realmente esos temas de claves.
+[SPEAKER_00]: Pero entonces, si el correo electrónico está dociado al correo electrónico de él, entonces en el momento que tú quieras cambiar la clave, le va a llegar esa a él.
+[SPEAKER_00]: Sí.
+[SPEAKER_00]: Entonces ya es decirle, venga, necesito que me des las claves porque lo quiero cambiar, en el caso que lo quieran cambiar.
+[SPEAKER_00]: No, sí, sí, me gustaría.
+[SPEAKER_00]: Que yo creo que...
+[SPEAKER_00]: Porque eso pues, creo que es una solución, hablando de lo que tenían los correos, no sé si aquí todo el mundo tiene correo corporativo, solamente unos pocos.
+[SPEAKER_02]: Es que tenemos un correo, nadie lo quiere usar, por ejemplo Luis usó el Google de él, Miguel está en el mercado de usar el de él, este, después...
+[SPEAKER_03]: Tú me pediste un correo para ganar, pero yo dije, pues te va a pasar, o sea, no me da ese correo.
+[SPEAKER_03]: Yo sí uso mi correo.
+[SPEAKER_03]: Tú sí usas mucho tu correo.
+[SPEAKER_00]: Bueno, desde que quité... Y no, me pregunto más que todo es para ver si de pronto también ofrecer como entre las primeras ofertas también una posibilidad de solventar ese problema y asociarlo con algo que sea una plataforma más fácil o que sea más accesible de manera, porque si no reciben, o por lo menos si no pueden enviar correos desde el correo empresarial,
+[SPEAKER_00]: Ah, Gmail, ¿no?
+[SPEAKER_03]: Podemos enviar correos a otros correos que tengan el dominio empresarial.
+[SPEAKER_03]: Pero es que está mal eso, ¿no?
+[SPEAKER_03]: Pero eso ya nos explicaron una vez.
+[SPEAKER_03]: Es un rollo.
+[SPEAKER_03]: Tú vas a mandar el informe, bueno, no sé si eso ya después, no sé.
+[SPEAKER_02]: No, es que no, ese es el origen para ese correo positivo.
+[SPEAKER_03]: Pero la persona ya lo puede usar, porque en medio de los choferes y así no tienen correos institucionales.
+[SPEAKER_03]: ¿Pero qué le pasó?
+[SPEAKER_03]: Nada más no, pues no sé, no sé si está programado.
+[SPEAKER_03]: ¿Pero qué te dijeron?
+[SPEAKER_02]: Es que ya se supone que eso se resolvió.
+[SPEAKER_02]: Carlos.
+[SPEAKER_02]: Pero si no hablas tú con Carlos, con el proveedor que te expide.
+[SPEAKER_02]: O sea, primero hacemos pruebas internas a ver si pueden ir o recibir de los correos que ellos están haciendo.
+[SPEAKER_00]: Claro, sí, yo creo que primero es ver si funcionó o no, porque si no funciona, pues no hay necesidad de cambiarlo.
+[SPEAKER_02]: Ajá, entonces si ya funciona, y si no, quitarle ya a Carlos el hosting.
+[SPEAKER_02]: Y este...
+[SPEAKER_00]: No, no, yo creo que hay muchas oportunidades y hay muchas puertas que se pueden empezar a revisar y profundizar con el tiempo, no todo tiene que ser una solución inmediata y solucionar todos los problemas ya, pues eso no va a pasar nunca.
+[SPEAKER_00]: Lo importante sí es como de pronto empezar a organizar una hoja de ruta que se puedan implementar diferentes soluciones para llegar al punto, ojalá más rápido que en cuatro meses, o pues el tiempo que se requiera para que ustedes tengan toda la información en un lugar, que les funcione.
+[SPEAKER_02]: Sí, porque te gusta empezar a ver resultados así como inmediatos, o sea, como que ya, ya eso se solucionó.
+[SPEAKER_02]: Aunque ahorita no te digo, está así todo en aparente control, pero cada que pedimos algo no aparece, porque yo les digo mucho arriba, o sea,
+[SPEAKER_02]: Yo, la información tiene que estar en tres minutos, o sea, si se pide algo, en tres minutos me la tienes que dar, o sea, si ahorita yo pido la relación de cajas y camiones, y se la pido a Miguel que la tiene, o si no estaba, nadie la tiene, o sea, debe de tener, debemos de tener como...
+[SPEAKER_00]: Toda la información concentrada en un sitio que sea más necesario.
+[SPEAKER_02]: Que yo abra la computadora y ponga relación de cajas y camiones, nada más de verla.
+[SPEAKER_02]: O sea, no que uno tenga tres camiones en una lista, otro tiene dos camiones en una lista.
+[SPEAKER_02]: La información tiene que estar en un minuto.
+[SPEAKER_02]: O yo le pido la... Nosotros aquí llevamos todo lo de Los Ángeles, toda la carpeta corporativa.
+[SPEAKER_02]: Lo de la carpeta corporativa, la carpeta corporativa, el control de los empleados del otro lado, o sea...
+[SPEAKER_02]: Como que no tenemos, digo, en dos minutos tiene que estar la información que estamos pidiendo.
+[SPEAKER_00]: Y cada uno tiene su información en hojas, pues cada uno tiene su hoja de Excel, me imagino, o su documento propio con la relación de cajas y camiones.
+[SPEAKER_02]: De cajas y camiones, o sea, son dos, uno pone acá, otros, ajá, no hay algo.
+[SPEAKER_02]: Entonces, lo interesante aquí es que tenemos que tener el control, o sea, que si yo no estoy, que Miguel no está, pues cualquier persona puede tener el acceso a la información.
+[SPEAKER_01]: Claro.
+[SPEAKER_02]: No dependamos de malamente, ¿no?
+[SPEAKER_00]: Sí, pero el día de mañana alguien se enfermó.
+[SPEAKER_02]: Del archivo de la persona, o sea, todo tiene que estar escaneado, documentado.
+[SPEAKER_02]: Es que tiene, por ejemplo, aquí quiere tener todo lo de la empresa americana aquí, pero impreso.
+[SPEAKER_02]: O sea, por ejemplo, si nos llega una auditoría en Estados Unidos, todo lo tiene en papel, impreso.
+[SPEAKER_02]: Pero no tiene la base de datos registrada, a lo mejor en una computadora, para que el auditor llegue y te pida, dame todas las facturas del mes de junio.
+[SPEAKER_02]: Y se puede imprimir y se le entrega así o lo que sea.
+[SPEAKER_02]: Y que nada más es lo que quiere.
+[SPEAKER_02]: Entonces, voy a sacar mi carpeta, sí, del mes de junio, con todos los documentos impresos, porque no se tiene... Y él quiere traer su laptop personal y no quiso usar nunca la computadora de la empresa.
+[SPEAKER_02]: Entonces...
+[SPEAKER_02]: Tenemos que partir de ahí, o sea, tener una computadora tal vez de escritorio donde aquí vas a trabajar.
+[SPEAKER_02]: Si quieres tener tu computadora personal, pues a lo mejor descarga un archivo en tu USB y ya te lo llevas para trabajar en tu casa.
+[SPEAKER_02]: Pero como obligarlos a tener los accesos y los...
+[SPEAKER_02]: Sé que, no sé si es válido, por ejemplo, ahorita que yo tenga acceso a su...
+[SPEAKER_00]: Es que hay varias formas de que se quiera manejar, obviamente pues hay que empezar a analizar temas de privacidad y pues como de información que una persona pueda tener y otra persona no pueda tener.
+[SPEAKER_00]: Lo que se puede hacer es montar un servidor donde hay un documento donde todo el mundo pueda tener acceso y cada quien maneja su información y que las personas administrativas o los cargos de arriba puedan revisar toda la información sin necesidad de hablar con alguien.
+[SPEAKER_02]: Ah, si de que yo vente y diga, ay quiero ver la relación de los empleados de Estados Unidos, ¿cuántos están ganando sus nóminas?
+[SPEAKER_02]: Sus archivos y sus documentos.
+[SPEAKER_02]: El expediente de los choferes, aquí lo quiero, el expediente de los empleados, acá lo quiero, porque eso tampoco está de manera digitalizada y así debería estar.
+[SPEAKER_02]: O sea, el expediente de cada empleado con su contrato, con sus documentos oficiales, eso quisiera como que estuviera también digitalizado.
+[SPEAKER_00]: En una nube, sí, pero en un servidor propio de ustedes o...
+[SPEAKER_00]: Un tercero puede ser Google, podemos ser nosotros, puede ser la compañía que ustedes quieran, la solución que les beneficie.
+[SPEAKER_00]: Yo creo que todo eso es una información muy valiosa porque son soluciones que también no requieren una implementación, un desarrollo tan profundo y se pueden hacer en el corto plazo para que ustedes ya puedan empezar a ver esa información, la hoja de vida del personal, de los camiones, de muchas cosas.
+[SPEAKER_00]: Entonces, yo creo que quedó como esa información.
+[SPEAKER_02]: A mí como prioridad, bueno, obviamente es lo de Luis, que eso de Luis, se tienen los contenedores, entonces ya voy a tener una relación de contenedores.
+[SPEAKER_02]: Por ejemplo, a mí se le pagan a una persona 100 dólares por cada, a Damián, la persona que saca las fianzas.
+[SPEAKER_02]: Entonces, él me manda una relación así de,
+[SPEAKER_02]: De todos los contenedores que él sacó, él es el broker de Estados Unidos.
+[SPEAKER_02]: Entonces me mandó una relación de todos los contenedores para que yo se los pague.
+[SPEAKER_02]: Entonces él me dice al final fueron ciento... ¿Cuántos son?
+[SPEAKER_02]: Ciento treinta y cinco contenedores.
+[SPEAKER_02]: Entonces yo no tengo manera de saber si realmente todos los contenedores que me están poniendo, él aquí en esta relación, pues de quién son, si son de ella, de él, o sea, me puede inventar cinco contenedores.
+[SPEAKER_02]: Y yo el querer hacer esto, entonces...
+[SPEAKER_02]: Lo imprimo y luego entro con el número, entro hacia todos mis chats en buscar.
+[SPEAKER_00]: Y te los envían es por chat.
+[SPEAKER_02]: Y entonces busco el OMC y así me sale, quiere decir que sí hablo, si es de Carlos.
+[SPEAKER_02]: Entonces yo no puedo estar haciendo eso diario porque al quinto me distraigo, o sea, yo me pongo a hacer otra cosa y entonces nunca termino de revisar la lista.
+[SPEAKER_02]: Entonces cuando igual pasa lo mismo, llegan las facturas de él y
+[SPEAKER_02]: O llegan las facturas del que saca los contenedores.
+[SPEAKER_02]: Él es el broker.
+[SPEAKER_02]: Él es el que da los documentos para que se libere el contenedor.
+[SPEAKER_02]: Pero hay otra persona que se encarga de sacar el contenedor.
+[SPEAKER_02]: Al transportista que saca el contenedor.
+[SPEAKER_02]: Estos correos, lo que te habla Luis de los correos, también copian aquí al broker americano.
+[SPEAKER_02]: El broker americano es el que libera...
+[SPEAKER_02]: Parte del gobierno el que libera el...
+[SPEAKER_00]: El que le envía a ti ese SP largo.
+[SPEAKER_02]: Sí, entonces él se supone que él liberó todos esos contenedores.
+[SPEAKER_02]: Y llegó una nota de arriba, él debió haberse dado cuenta, entonces él sabe, ya va a llegar tal contenedor y genera el documento que tiene el transportista para sacarlo del puerto.
+[SPEAKER_02]: Entonces, yo no sé si todos esos contenedores se arribaron, si lo sacó el transportista...
+[SPEAKER_02]: Graciela sí los tiene en esa relación porque los tiene organizados en el documento, nada más los del chino, porque obviamente él tiene comunicación con él y tiene que darle todo el seguimiento, todo lo que se pagó, cuándo salió, cuándo llegó, cuándo se regresó el contenedor, todo eso.
+[SPEAKER_02]: Pero en sí para el tema de los pagos, pues no hay una manera de vincular la información del broker con la información del que sacó del puerto cuando ya llega el momento en el que
+[SPEAKER_02]: Se tiene que generar el pago.
+[SPEAKER_02]: Entonces por eso se me hace importante lo de Luis, la nota de arriba, se relacionan todos los contenedores y en esos contenedores ya se va viendo qué día salió, así empieza el programa de Graciela, qué día salió y cuánto me está cobrando el proveedor, el transportista que lo saca del puerto, cuánto me está cobrando el broker.
+[SPEAKER_02]: ¿Qué fecha salió de Los Ángeles?
+[SPEAKER_02]: ¿Qué fecha arribó a bodega?
+[SPEAKER_02]: ¿Y qué fecha salió a carretera?
+[SPEAKER_02]: Y luego, ¿y a qué fecha se entregó al cliente?
+[SPEAKER_02]: Para poderle yo cobrar al cliente.
+[SPEAKER_03]: Entonces, es demasiado.
+[SPEAKER_00]: No se puede perder la cabeza, vamos de a poquitos, vamos de parte por parte.
+[SPEAKER_00]: Y por lo que yo no hay soluciones que pueden parecer muy complejas en un principio, pero que realmente simplemente es de organizar la información y establecer unos protocolos básicos como información.
+[SPEAKER_00]: Sin empezar a implementar herramientas, millones de herramientas, porque la gente lo que les ha pasado, que no saben manejar y les da pereza aprender una herramienta.
+[SPEAKER_00]: Entonces hoy en día lo que utilizan en Whatsapp es buscar la manera de que esa sea la herramienta principal para ciertas personas.
+[SPEAKER_00]: Obviamente habrán cargos que necesitan otras herramientas, pero que sigan utilizando esa y que la utilicen bien.
+[SPEAKER_02]: De hecho yo sé que es bien complicado cuando hay cambios.
+[SPEAKER_02]: Yo traje a una compañía que iba a haber muchos cambios y nos tuvieron que mandar a un curso de tres días a cierto personal que íbamos a...
+[SPEAKER_02]: A compartir el cambio a las demás personas.
+[SPEAKER_02]: Entonces nos mandaron tres días a Querétaro, a una hacienda, a explicarnos todo el proceso y todas las etapas que al llegarle a alguien para notificarle que va a haber un cambio, cómo lo va a tomar, o sea, la negación, así como si fuera un duelo.
+[SPEAKER_02]: La negación, la aceptación, hasta que llegue un punto en el que tienes que darle seguimiento en todo ese camino.
+[SPEAKER_02]: Para que puedas tener un éxito al final.
+[SPEAKER_00]: Y que la gente sí lo tome bien y que se dé cuenta que eso es un beneficio a ellos a largo tiempo.
+[SPEAKER_00]: Y no lo están reemplazando, que no lo están cambiando, que no va a perder el empleo porque ya no tengo que hacer eso, entonces me voy a quedar sin trabajo.
+[SPEAKER_02]: Entonces es todo un acompañamiento.
+[SPEAKER_02]: Entonces como que aquí la misma prisa no nos ha...
+[SPEAKER_02]: Para implementar este programa, como te comentó Héctor, en Guadalajara hubo una negación, o sea, recibí todo tipo de... Cuando les empecé a pedir fotos de salida y que tienes que escanear la entrada, o sea...
+[SPEAKER_00]: No, no sabes, o sea, no sabes cómo se usa el personal para... Claro, es que me imagino, es que deben sentir miedo, porque es miedo, y qué tal si yo no aprendo, y qué tal entonces si yo no aprendo me van a echar, y si no me gusta entonces es complicarme, yo no sé manejar computadores, yo no sé prender un computador, yo no sé manejar un celular.
+[SPEAKER_02]: Bueno, sí, espérame, espérame, ¿qué pasa?
+Hay que buscar la manera.
+Sí, de verdad es un honor.
+No, a ustedes, mil gracias.
+[SPEAKER_00]: Y si hay que generar una idea de esa.
+[SPEAKER_00]: Cuando, pues, si quieren esta semana, yo tengo que, lo único es, yo puedo cruzar antes, puedo cruzar en moto y cruzo rápido.
+[SPEAKER_03]: Sí, sí, sí, pues venga, a ver.
+[SPEAKER_03]: La moto la puedo dar en cualquier lado.
+[SPEAKER_00]: Pues tenemos una bodega cruzando en montaña.
+[SPEAKER_00]: Ah, sí, perfecto.
+[SPEAKER_00]: Y si no, pues ya, si nos vamos juntos, o yo quiero un carro y me voy en derecho.
+[SPEAKER_00]: No, no, no.
+[SPEAKER_00]: Así sería irnos juntos, ¿no?
+[SPEAKER_00]: Sí, perfecto.
+[SPEAKER_03]: Hasta pudiera cruzar caminando y te esperaba.
+[SPEAKER_00]: Ah, bueno, esa es la otra, que esa también es muy fácil.
+[SPEAKER_00]: No sé, pues la cruzada en la mañana se nota, ahí debe ser pesada, me imagino, no sé.
+[SPEAKER_03]: Sí, ver eso también.
+Eso.
+Pero la moto se me ha quedado.
+Tiene solución.
+¿Cuándo fue eso?
+[SPEAKER_00]: Pero bueno.
+[SPEAKER_00]: Ya me tienes que ir, es que otros procesos por ahí ves que se puedan solucionar.
+[SPEAKER_00]: Que te usaron de psicólogo todos los problemas.
+[SPEAKER_00]: Sí, claro, yo veo, no está bien.
+[SPEAKER_00]: Y por ejemplo, que tu mamá dice que tienen la información, cada uno tiene su pedazo de la información, ¿en qué la tiene?
+[SPEAKER_00]: ¿En un Excel me imagino?
+[SPEAKER_03]: Sí, pero no nada formal, o sea, que ahora es uno ni le puedes decir.
+[SPEAKER_03]: Y ya, y lo mando.
+[SPEAKER_00]: El tema es formalizar todo eso y que eso quede organizado.
+[SPEAKER_03]: Buscar la manera de que no sea... Es que ya hoy en día con Whatsapp es...
+[SPEAKER_03]: Debe ser de IA, pero hay que trabajar en Estados Unidos.
+[SPEAKER_03]: Y es que...
+[SPEAKER_00]: Todo es con correo.
+[SPEAKER_03]: Todo es con correo.
+[SPEAKER_00]: Cualquier movimiento, cualquier cambio, tiene que estar... Y no te gustaría que tuvieran, por favor, no les gustaría tener un correo corporativo para formalizar un poco más la...
+[SPEAKER_03]: Pues sí tenemos el que te mandé.
+[SPEAKER_00]: Pero es uno, no cada uno tiene...
+[SPEAKER_00]: No, cada uno tiene uno.
+[SPEAKER_03]: Ah, cada uno.
+[SPEAKER_03]: Pero nunca he trabajado en IA.
+[SPEAKER_00]: Ah, ¿sí?
+[SPEAKER_03]: Sí.
+[SPEAKER_03]: También tenemos una girl to work, o como que sí.
+[SPEAKER_03]: Sí, sí, pero está...
+[SPEAKER_03]: No se pueden mandar correos a Gmail.
+[SPEAKER_00]: Sí, es que hay que verlo bien cómo es.
+[SPEAKER_00]: Ok, bye.
+Yo creo que la línea está así.
+[SPEAKER_02]: Muchas gracias Ricardo.
+[SPEAKER_00]: No, Marielena, a ustedes.
+[SPEAKER_00]: Mil gracias por el tiempo, por el espacio.
+[SPEAKER_00]: Bueno, vamos a ver qué podemos hacer para empezar a implementar cambios próximamente y que lo noten.
+[SPEAKER_02]: ¿Cómo son tus honorarios?
+[SPEAKER_00]: ¿Cómo es el proceso?
+[SPEAKER_00]: A ver, si te doy 100% sincero, la compañía está empezando.
+[SPEAKER_00]: Ustedes son nuestro primer cliente, la verdad.
+[SPEAKER_00]: Entonces, sí tenemos unas tarifas establecidas.
+[SPEAKER_00]: También depende mucho de las implementaciones, entonces más que todo es por implementación.
+[SPEAKER_02]: No es por hora, es por implementación.
+[SPEAKER_02]: Exacto.
+[SPEAKER_00]: Entonces es una lista como de necesidades que viste ahorita que teníamos y ya... Y se las compartimos.
+[SPEAKER_00]: Normalmente como que hacemos es que los servicios que nosotros prestamos o que lo que tenemos en mente es que los servicios que nosotros prestamos y las soluciones en el pasado, porque digamos que dar un resumen, todo empezó era porque yo estaba metido en otros negocios y empecé a involucrarme mucho con Intel Artificial y empecé como a resolver...
+[SPEAKER_00]: A resolver problemas de amigos en compañías por medio de implementación de optimizaciones, canales de automatización y todo eso yo corren en mi computador, pues todo eso está funcionando en mi computador, entonces les cobro como un fin mensual porque las cosas funcionen en los computadores, pues soy como el servidor de ellos.
+[SPEAKER_00]: Entonces hay dos caminos, uno es intentar implementar las soluciones para que les queden ustedes in-house y que ya ustedes las tengan in-house.
+[SPEAKER_00]: Obviamente eso requiere un poquito más de temas de logística, por así decirlo.
+[SPEAKER_00]: Y otro es un fee inicial por el análisis, por la implementación de la solución y después un fee mensual por prestarles el servicio de mantenimiento, de atención al cliente, de que el sistema esté corriendo en nuestro computador y esté funcionando sin problema.
+[SPEAKER_00]: Entonces, dependiendo de las herramientas que ustedes requieran, si ustedes dicen, bueno, vamos a diseñar un robot de WhatsApp para que tu WhatsApp no se congestione tanto y que toda la información...
+[SPEAKER_00]: Que llegue al WhatsApp, quede registrada en un computador, se pueda pasar la información importante, pase una base de datos y luego que llegue a WhatsApp alimente una base de datos en Excel, eso funciona en un servidor propio de nosotros.
+[SPEAKER_00]: Entonces dependiendo mucho de la herramienta que se utilice es un FIFIGO más un mensual, perdón, o si ustedes dicen no, es que definitivamente no queremos pagar nada mensual, entonces sería un FIFIGO.
+[SPEAKER_00]: Pero antes de eso tenemos que ver cuáles son las soluciones, qué necesitan ustedes, puede que sea algo muy sencillo, como no, venga, entonces montémosles un Google Sheets, que no sé si sabes que es un Google Workspace, es como un Microsoft, como un Office, pero en Google.
+[SPEAKER_00]: Y todo eso funciona en la nube Google.
+[SPEAKER_00]: Entonces yo les cobro a ustedes, o les cobraríamos por montarles el sistema, enseñarles qué es manejar un computador desde una página web, eso es muy fácil,
+[SPEAKER_00]: Y ya toda la información queda montada en un Excel en Internet.
+[SPEAKER_00]: Entonces ahí tú puedes revisar lo de las relaciones de cajones y camiones, cualquier información que ustedes necesiten, pues como de temas, no sé, que sea, pues hoy en día tienen un Excel, cada uno abre su Excel y lo borra y lo manda, que quede algo ya un poco más formalizado.
+[SPEAKER_00]: Entonces es una implementación inmediata que no tiene ningún costo extra, simplemente, simplemente y se hace.
+[SPEAKER_00]: O si tú dices, no, es que quiero que las fotos que me mandan a mí se analicen y las corramos por inteligencia artificial para que no me toque a mí transcribir parte por parte, eso también requiere un fee mensual porque eso ya es utilizando inteligencia artificial.
+[SPEAKER_00]: Que igual todo eso se los explicamos, yo soy muy abierto con los costos, les decimos, vea, el discriminado es este, nuestra tarifa es esta y esto es lo que le vamos a cobrar.
+[SPEAKER_00]: Entonces depende mucho de qué es la solución, cómo la vamos a implementar,
+[SPEAKER_00]: El camino que ustedes quieran tomar, si quieren tomarla, que seamos nosotros parte de un apoyo y un acompañamiento mensual, o si es una cosa que entregamos una vez, obviamente, pues con, venga, si algo falló venimos y arreglamos, y ya después, implementaciones más adelante, pues se cobrará de otra manera.
+[SPEAKER_02]: Bueno, yo creo que en un inicio sí será un acompañamiento total para...
+[SPEAKER_02]: Pues para todo, para la implementación y para la... Claro, y además, lo que te digo, estamos aquí para ayudarlos.
+[SPEAKER_00]: Yo la verdad es que es nuestro primer cliente, en México especialmente, entonces yo no tengo ningún problema en estar con ustedes el tiempo que sea necesario sin la suscripción.
+[SPEAKER_02]: Sí, sí, hay muchas oportunidades, como viste, como empresa con mucha necesidad de... Sí, señora.
+[SPEAKER_00]: Yo creo que sí hay oportunidades, yo veo, y son muchas oportunidades desde lo pequeño, que es lo que más uno inmediatamente nota, hasta de pronto ya reestructuraciones más grandes de la información y de organización de los contenedores y de los camiones y todo eso, que tampoco es imposible.
+[SPEAKER_02]: Sí, sí, sí, porque aparte aquí yo creo que ahorita está como en el punto de partida de crecer.
+[SPEAKER_02]: De hecho, ahorita un cliente, ahorita me cae Silvia, que es la que tenía, no sé, que estaba mandando, a lo mejor,
+[SPEAKER_02]: 5 contenedores, ahorita van a dar 80, entonces como que necesitamos estar preparados para lo que va a pasar a futuro.
+[SPEAKER_00]: Yo creo que es un buen momento entonces para implementarlo.
+[SPEAKER_02]: Sí, sí, se acaba de comprar mucho equipo, entonces es un excelente momento.
+[SPEAKER_00]: Qué bueno, me alegra muchísimo.
+[SPEAKER_02]: ¿Y a ver cuándo agendamos?
+[SPEAKER_02]: La ida, pues a ver si ahorita hablo con Héctor, a ver si el jueves.
+[SPEAKER_02]: Ajá, yo el jueves.
+[SPEAKER_02]: Porque yo, yo...
+[SPEAKER_02]: Pero bueno, tengo mis fotos de finales.
+[SPEAKER_02]: Es que el viernes es muy complicado.
+[SPEAKER_02]: La próxima semana puede ser o más adelante.
+[SPEAKER_02]: Yo pensaba irme a Guadalajara la próxima semana, de hecho se había, me sorprendió porque se había espacio en el hotel.
+[SPEAKER_02]: ¿Qué día?
+[SPEAKER_02]: Pues se dio, ahorita, ayer chequeé y había espacio de lunes a jueves, como que se había habitaciones.
+[SPEAKER_02]: Es que no, pues, es que es más, perdimos ahorita los boletos, yo tengo unos regresos tuyos y míos de Guadalajara para mañana.
+[SPEAKER_03]: O sea, no conocíamos allá hace mucho que creo que ustedes perdieron.
+[SPEAKER_03]: Sí.
+[SPEAKER_00]: Ah, sí, que... Sí, sí, sí.
+[SPEAKER_00]: Que fue lo del mencho, ¿no?
+[SPEAKER_00]: Que no pudieron llegar.
+[SPEAKER_03]: Ah, desde que eso pasó.
+[SPEAKER_03]: Sí, no he ido.
+[SPEAKER_03]: Entonces, yo estaba yendo cada mes a Guadalajara.

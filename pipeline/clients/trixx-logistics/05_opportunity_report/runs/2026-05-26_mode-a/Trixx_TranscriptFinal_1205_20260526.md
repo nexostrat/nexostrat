@@ -1,0 +1,1 @@
+../../../transcripts/2026-05-26_formal-meeting/1205_second-session_transcript_final.md

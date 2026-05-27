@@ -754,6 +754,13 @@ def process_markdown(doc, md_text, opportunities_ref):
 
         # ── End opportunity table ──
         if in_opp_table:
+            # Tolerate blank lines between `### TABLA_OPORTUNIDADES` heading and
+            # the table start (standard CommonMark convention). Only skip while
+            # we have NOT yet seen any table rows; a blank line after rows are
+            # accumulated still terminates the table as before.
+            if not stripped and not opp_table_lines:
+                i += 1
+                continue
             if stripped.startswith('|'):
                 opp_table_lines.append(stripped)
                 i += 1
@@ -761,6 +768,13 @@ def process_markdown(doc, md_text, opportunities_ref):
             else:
                 # Table ended — parse and render
                 opps = parse_opportunity_table(opp_table_lines)
+                if not opps:
+                    print("⚠️  WARNING: TABLA_OPORTUNIDADES detectada pero parseó 0 filas. "
+                          "Revisar markdown — formato esperado: filas que empiezan con '|' "
+                          "con 7 columnas (ID, Oportunidad, Área, Descripción, Impacto, "
+                          "Complejidad, Riesgo). El reporte se generará SIN inventario, "
+                          "gráficas 5×5 ni matriz 2×2.",
+                          file=sys.stderr)
                 opportunities_ref.extend(opps)
                 add_opportunity_table(doc, opps)
                 # Insert both 5×5 charts

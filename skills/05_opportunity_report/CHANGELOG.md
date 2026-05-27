@@ -6,6 +6,20 @@ The git commit SHA at the time of each version pin is the authoritative artifact
 
 ---
 
+## v0.3 — 2026-05-26 · Parser tolerance + silent-failure warning
+
+**Scope:** fix `scripts/generate_docx.py` markdown parser for `### TABLA_OPORTUNIDADES`. Discovered while generating the Trixx Logistics report 2026-05-26: a blank line between the heading `### TABLA_OPORTUNIDADES` and the table (standard CommonMark convention) terminated the table parse with 0 rows, producing a reporte cliente-visible without inventory, 5×5 charts or 2×2 matrix — silently (exit 0, no warning).
+
+- **Tolerance added (`process_markdown()` line ~756):** while `in_opp_table` is active AND no table rows have been accumulated yet, skip blank lines. Once any `|`-row exists, blank lines still terminate the table (preserves prior semantics).
+- **Silent-failure warning added:** when `parse_opportunity_table()` returns an empty list, the script now prints a `⚠️ WARNING` to stderr explaining the expected format. The report still renders (no breaking change) but the operator sees the alert before delivery to the client.
+- **Regression test added:** `tests/fixtures/blank_line_before_table.md` + `tests/test_parser_regression.sh`. Runs the generator on the fixture and asserts 3 opportunities are detected.
+
+**Verified by:** new regression test passes (3 of 3 opportunities detected from fixture) + backward-compatibility re-run of the Trixx report (10 opportunities, Quick Wins #1 #2 identified correctly) + negative test (empty table emits warning correctly).
+
+**Source:** memo `skills/00_META/inbox/archive/2026-05-26_2310_client-owner_skill05-parser-bug.md` (Client-Owner → Skills-Master).
+
+---
+
 ## v0.2 — 2026-05-18 · Brand wire-up + shared-module migration
 
 **Scope:** apply Nexostrat Brand Guide v1.0 to `scripts/generate_docx.py`, then migrate to `skills/shared/brand.py`. Preserve the Midnight Blue cover band, 2×2 priority matrix, 5×5 grid chart, and callout color semantics.

@@ -1,0 +1,334 @@
+start	end	text
+870	3712	¿Cuándo fue que salió el documento?
+3732	4653	¿Te refieres cuando vienen?
+4713	8455	Ese es el número del contenedor que trae el contenedor.
+8475	8656	Sí.
+8676	11017	Y esa es la manera en la que se trasladó
+29702	41828	A su destino, ya se entren, unos contenedores cruzan por Mexicali, San Luis de Colorado, Sonora, y se van en tren a la Ciudad de México, y otros se van en terrestre.
+42128	47630	Que son los que van de Los Ángeles al caso y cruzan.
+47670	53493	Pero está en chino porque es un cliente chino y cierta información la manejan desde allá.
+55530	60754	Y aquí ya tienen los días para poder descargar, cuáles van en curso.
+60774	68259	El puerto te da ciertos días para retorno de vacío sin cobrar el costo.
+68279	70380	Que ya una vez se pasen los días, empiezan los costos.
+70400	81087	Yo dije que el cliente al momento de hacer su contratación de la terminal, porque son varias terminales, pone los días.
+81148	83709	Entonces aquí se hace eso con el fin de estar pendiente.
+83749	84190	Claro.
+87511	98156	Bueno, conforme va pasando, aquí les van poniendo cuándo fue el retorno del vacío, en la fecha en la que llegó a la bodega, estos son los que están en curso, ¿cuál es el...?
+98496	100297	Los que van en mar, que están en el mar.
+100497	101438	Están en el mar, ajá.
+102886	109309	La actualización de esto la haces todo a mano, puntualmente, te va llegando la información por correo y la van actualizando.
+109389	124734	Pero esto previo estuvo en el correo que te dice Luis, entonces del correo de Luis ya se sabe el número de contenedor y el tiempo en el que va a llegar, entonces como, por eso te digo, lo de Luis es lo primero, lo de los correos, donde se puede vaciar los números de contenedores que van a llegar.
+125090	127691	Y empezar a alimentar la información.
+127751	144938	Y una de las características que te gusta de este programa es que pueden estar varias personas al mismo tiempo interactuando con la... Y el tema es que nada más esto ahorita se está llevando para el cliente chino y lo ideal sería llevarlo para todos los clientes, para tener una base de datos general.
+145994	149937	Sí, porque por ejemplo aquí ya buscas nada más tú el contenedor y ya te sale toda la información.
+149957	150698	Toda la información.
+151258	168733	Esa es la información del contenedor, los kilos que trae, cuántas cajas son, el total de lo que trae el contenedor, qué producto es el que trae, cuándo es la cita del puerto, a qué bodega se va a destinar, si ha traído hecho a Vernon, de dónde viene...
+168753	172156	Trae si es la bodega externa que se tiene contratada y Vernon puede ser la...
+172176	174217	La que vimos en...
+174297	175018	Este...
+176578	186985	¿Y cuál es el impedimento más grande para ustedes poder empezar a implementar esta misma plataforma o un sistema similar con lo que tienen actualmente?
+187085	190287	He entrado como 10 veces a quererlo generar y me distraigo, no lo he hecho.
+205846	207708	¿No te gustaría transferirte para Amundi?
+208428	220158	No, lo que había pensado es en transferirnos para Amundi porque lo fácil era copiar siempre esta información sin tener que llenar todo esta base de datos y agregar los de nosotros.
+220178	227504	Y que ya cada uno solamente se enfoque a lo que le corresponde, en este caso transporte.
+227544	232708	Pero esta compañía pues también, esta es una plataforma externa a la que se le tiene que pagar.
+232728	235250	Pero esto es súper global, esto es...
+236598	240021	Es global, sí, pero también se podría tener algo como algo...
+240341	246906	Pues lo que te digo, hay muchas formas, ustedes podrían, se podría desarrollar, o pues nosotros podríamos desarrollar una plataforma que sea exclusiva de ustedes.
+247546	251969	Obviamente eso tiene sus complejidades y sus pros y sus contras, como todo en la vida.
+252070	263078	Por eso te digo, al final contratamos el programa Traje Premium porque como que sí nos llegaban con propuestas, pero le decían a Héctor, tres meses, cuatro meses, seis meses, tres meses para la primera etapa, entonces él decía no.
+263650	264570	Y los descartaban.
+264590	272394	Pero ustedes sí podrían, perdón te interrumpo, filtrar, pues ustedes estarían dispuestos a dejar Tracking Premium y correr toda la información a Monday?
+273594	282878	Sí, si hubiera una buena propuesta y pudiéramos hacerlo todo gradual, donde pudiéramos comunificar con la información, sería lo ideal, sería como una plataforma propia.
+285499	290421	Porque al final, por ejemplo, si yo no pago mañana el mes de Tracking Premium, te lo cortan.
+291261	292662	Y toda la información que se quedó ahí...
+294999	305346	Y aparte de la compañía o de los que están aquí trabajando, ¿otras compañías externas tienen acceso a Tracking Premium o no?
+305386	308028	Pero que dices que normalmente no entran como a revisarlo.
+308188	312231	Ah, bueno, no, nada más todo de uso es el que probablemente lo utiliza.
+312291	314853	Ah, y también México Envíos.
+314873	317114	¿Y ellos agregan información o solamente visualizar?
+317134	317675	No agregan información.
+318636	322018	De hecho, la misma Tracking Premium...
+323086	324529	Les podía ofrecer a ellos.
+324549	327695	Que te pasen, porque sería una ganancia muy grande.
+327895	333466	Con la base de datos que yo ya tengo, ofrecerte a ellos como...
+333818	337739	Aprovecha la base de datos que ya tienes para que tú desarrolles el producto que tú quieras.
+337859	345601	O viceversa, que ellos te pasen a ti la información directa y que la información la puedan utilizar ustedes, porque entonces ahí ya te viene, me imagino, el tamaño de los paquetes.
+346141	362826	No, no sabes la cantidad de paquetes, no tienes información, porque ni el mismo cliente sabe de qué tamaño le va a llegar, como estamos viendo, si esto te lo van a poner en un sobre o te lo van a poner en una caja de tamaño, o una caja llena de burbuja con el control, o sea, no sabe, no sabe, entonces él está...
+363474	366416	Él está esperando, por ejemplo, el día que no va Silvia, la que captura.
+367497	372600	No fue Silvia ella a trabajar porque se queda como en blanco de que no sabe qué paquete le llegaron ese día a bodega.
+373360	374441	No, Silvia se fue al doctor.
+374721	384667	Entonces, ahí están esperando a que llegue Silvia el siguiente día para capturar y ver qué paquetes ya tienen, que van llegando.
+385568	388850	Bueno, pero eso es básicamente con el programa que ella trabaja.
+389186	390746	Para este cliente en específico.
+390866	392007	Claro, pero buenísimo.
+392067	396008	Y te digo, se enlazan varios, no sé cuántos integrantes tiene.
+396888	406891	Sí, puedes ir, por ejemplo, yo estoy en ese, y nada más que saco información de ahí, más no, yo no entiendo.
+406971	410432	Pero podrías, en cambio que quisieras, podrías.
+410452	414373	Pero corres el riesgo, siempre con el intento de que... O sea, corre o algo, no, mejor no.
+414773	417974	Bueno, lo bueno es que ese tipo de plataformas tú puedes...
+418862	421103	Permitir el acceso a ciertas casillas para ciertas personas.
+421123	431768	En ese programa también tú puedes ver acá quién cuando le signas un rol en el tracking premium qué puede editar y qué no.
+431808	434249	Qué puede hacer, o sea, qué rol le das.
+435570	436710	Permiso, muchísimas gracias.
+440472	444854	Antes que me olvide toda la parte de IT, por así decirlo,
+445690	450654	La página web, los correos y todo eso lo manejan ustedes directamente, tenían un tercero que lo hacía.
+450674	455877	La página web no es yo, no lo hice yo, pero es un tercero que tenemos muchísimos problemas con él.
+455897	455998	Sí.
+456018	462542	Porque estamos en su hosting, no podemos hacer muchos cambios.
+463423	465704	Y depende de lo que les diga, lo que todo.
+465824	467766	Si está de bueno, si está de bueno, si está de bueno.
+467806	473410	No, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no.
+473858	474738	¿Pero no le ofreces algo?
+474758	475419	No, mil gracias.
+475499	476039	No, estoy bien.
+476079	478740	Pero con la página web tú me dices que estamos bien, ¿no?
+480461	483562	No.
+483582	487364	Pues a veces se quejan, ¿no?
+487384	495107	A lo mejor la información que tiene no es toda la... Lo pregunto es más que todo porque el que tiene la página normalmente tiene el correo.
+495688	499589	No, es que, mira... Que fue otro que nos había quedado mal, ¿no?
+499629	500950	No, es... sí.
+501470	513534	Tengo problema con Godaddy que tiene el dominio, hace cuenta el dominio está con Godaddy, pero cuando se contrató a esa persona, no sé en qué momento se nos ocurrió darle como la, el host a él.
+514914	521736	Entonces cada que hablo para Godaddy, tengo un problema con no sé qué, ah, esto, velo con, velo con tu host.
+521756	528918	Y no lo quiere soltar, yo le dije, no te decía la cantidad de veces que le he hablado de que, o sea, cuánto me, cuánto, o sea, cóbrame.
+529570	530471	Pero regresa uno nuestro... Y no quiere.
+530491	531031	No, no, no me contesta.
+531051	531751	Dice, sí, claro que sí.
+531772	539297	O sea, tuvimos un Zoom y te lo cotizo y ya te pasé a ti el número, no sé qué te dijo.
+539317	540437	No es que no le pedí que me lo regresara.
+540457	541238	¿Cómo fue la época del hosting?
+541898	543259	Pues, no, eso es muy sencillo.
+543279	544620	Realmente esos temas de claves.
+545441	551405	Pero entonces, si el correo electrónico está dociado al correo electrónico de él, entonces en el momento que tú quieras cambiar la clave, le va a llegar esa a él.
+551725	551965	Sí.
+552326	556488	Entonces ya es decirle, venga, necesito que me des las claves porque lo quiero cambiar, en el caso que lo quieran cambiar.
+556809	557509	No, sí, sí, me gustaría.
+557529	558109	Que yo creo que...
+559638	571882	Porque eso pues, creo que es una solución, hablando de lo que tenían los correos, no sé si aquí todo el mundo tiene correo corporativo, solamente unos pocos.
+572062	580704	Es que tenemos un correo, nadie lo quiere usar, por ejemplo Luis usó el Google de él, Miguel está en el mercado de usar el de él, este, después...
+581504	585565	Tú me pediste un correo para ganar, pero yo dije, pues te va a pasar, o sea, no me da ese correo.
+585585	586466	Yo sí uso mi correo.
+586646	587366	Tú sí usas mucho tu correo.
+588866	616714	Bueno, desde que quité... Y no, me pregunto más que todo es para ver si de pronto también ofrecer como entre las primeras ofertas también una posibilidad de solventar ese problema y asociarlo con algo que sea una plataforma más fácil o que sea más accesible de manera, porque si no reciben, o por lo menos si no pueden enviar correos desde el correo empresarial,
+617922	619223	Ah, Gmail, ¿no?
+619243	624245	Podemos enviar correos a otros correos que tengan el dominio empresarial.
+624705	626025	Pero es que está mal eso, ¿no?
+626466	628226	Pero eso ya nos explicaron una vez.
+629247	629947	Es un rollo.
+629967	632968	Tú vas a mandar el informe, bueno, no sé si eso ya después, no sé.
+633008	636190	No, es que no, ese es el origen para ese correo positivo.
+636230	641592	Pero la persona ya lo puede usar, porque en medio de los choferes y así no tienen correos institucionales.
+641612	642552	¿Pero qué le pasó?
+642812	645934	Nada más no, pues no sé, no sé si está programado.
+645954	646854	¿Pero qué te dijeron?
+653281	655342	Es que ya se supone que eso se resolvió.
+656203	658144	Carlos.
+658224	660426	Pero si no hablas tú con Carlos, con el proveedor que te expide.
+660446	665550	O sea, primero hacemos pruebas internas a ver si pueden ir o recibir de los correos que ellos están haciendo.
+665570	670033	Claro, sí, yo creo que primero es ver si funcionó o no, porque si no funciona, pues no hay necesidad de cambiarlo.
+670213	674637	Ajá, entonces si ya funciona, y si no, quitarle ya a Carlos el hosting.
+675417	676458	Y este...
+679062	706510	No, no, yo creo que hay muchas oportunidades y hay muchas puertas que se pueden empezar a revisar y profundizar con el tiempo, no todo tiene que ser una solución inmediata y solucionar todos los problemas ya, pues eso no va a pasar nunca.
+707466	720417	Lo importante sí es como de pronto empezar a organizar una hoja de ruta que se puedan implementar diferentes soluciones para llegar al punto, ojalá más rápido que en cuatro meses, o pues el tiempo que se requiera para que ustedes tengan toda la información en un lugar, que les funcione.
+720437	725881	Sí, porque te gusta empezar a ver resultados así como inmediatos, o sea, como que ya, ya eso se solucionó.
+725941	736770	Aunque ahorita no te digo, está así todo en aparente control, pero cada que pedimos algo no aparece, porque yo les digo mucho arriba, o sea,
+737250	751342	Yo, la información tiene que estar en tres minutos, o sea, si se pide algo, en tres minutos me la tienes que dar, o sea, si ahorita yo pido la relación de cajas y camiones, y se la pido a Miguel que la tiene, o si no estaba, nadie la tiene, o sea, debe de tener, debemos de tener como...
+752414	756356	Toda la información concentrada en un sitio que sea más necesario.
+756396	760158	Que yo abra la computadora y ponga relación de cajas y camiones, nada más de verla.
+760178	763959	O sea, no que uno tenga tres camiones en una lista, otro tiene dos camiones en una lista.
+763979	765820	La información tiene que estar en un minuto.
+765840	773344	O yo le pido la... Nosotros aquí llevamos todo lo de Los Ángeles, toda la carpeta corporativa.
+773364	778526	Lo de la carpeta corporativa, la carpeta corporativa, el control de los empleados del otro lado, o sea...
+779034	783177	Como que no tenemos, digo, en dos minutos tiene que estar la información que estamos pidiendo.
+783197	791563	Y cada uno tiene su información en hojas, pues cada uno tiene su hoja de Excel, me imagino, o su documento propio con la relación de cajas y camiones.
+792104	796107	De cajas y camiones, o sea, son dos, uno pone acá, otros, ajá, no hay algo.
+796127	805794	Entonces, lo interesante aquí es que tenemos que tener el control, o sea, que si yo no estoy, que Miguel no está, pues cualquier persona puede tener el acceso a la información.
+805934	806154	Claro.
+807206	810448	No dependamos de malamente, ¿no?
+811388	813469	Sí, pero el día de mañana alguien se enfermó.
+813529	818492	Del archivo de la persona, o sea, todo tiene que estar escaneado, documentado.
+818892	826155	Es que tiene, por ejemplo, aquí quiere tener todo lo de la empresa americana aquí, pero impreso.
+826716	831018	O sea, por ejemplo, si nos llega una auditoría en Estados Unidos, todo lo tiene en papel, impreso.
+831498	839742	Pero no tiene la base de datos registrada, a lo mejor en una computadora, para que el auditor llegue y te pida, dame todas las facturas del mes de junio.
+839762	841362	Y se puede imprimir y se le entrega así o lo que sea.
+841382	842523	Y que nada más es lo que quiere.
+842623	857770	Entonces, voy a sacar mi carpeta, sí, del mes de junio, con todos los documentos impresos, porque no se tiene... Y él quiere traer su laptop personal y no quiso usar nunca la computadora de la empresa.
+857810	858370	Entonces...
+858706	864651	Tenemos que partir de ahí, o sea, tener una computadora tal vez de escritorio donde aquí vas a trabajar.
+864911	872157	Si quieres tener tu computadora personal, pues a lo mejor descarga un archivo en tu USB y ya te lo llevas para trabajar en tu casa.
+873138	877642	Pero como obligarlos a tener los accesos y los...
+877902	882546	Sé que, no sé si es válido, por ejemplo, ahorita que yo tenga acceso a su...
+883286	892028	Es que hay varias formas de que se quiera manejar, obviamente pues hay que empezar a analizar temas de privacidad y pues como de información que una persona pueda tener y otra persona no pueda tener.
+892729	904712	Lo que se puede hacer es montar un servidor donde hay un documento donde todo el mundo pueda tener acceso y cada quien maneja su información y que las personas administrativas o los cargos de arriba puedan revisar toda la información sin necesidad de hablar con alguien.
+905632	911914	Ah, si de que yo vente y diga, ay quiero ver la relación de los empleados de Estados Unidos, ¿cuántos están ganando sus nóminas?
+912242	913763	Sus archivos y sus documentos.
+914464	922009	El expediente de los choferes, aquí lo quiero, el expediente de los empleados, acá lo quiero, porque eso tampoco está de manera digitalizada y así debería estar.
+922429	933977	O sea, el expediente de cada empleado con su contrato, con sus documentos oficiales, eso quisiera como que estuviera también digitalizado.
+935638	939921	En una nube, sí, pero en un servidor propio de ustedes o...
+941434	948119	Un tercero puede ser Google, podemos ser nosotros, puede ser la compañía que ustedes quieran, la solución que les beneficie.
+948159	963910	Yo creo que todo eso es una información muy valiosa porque son soluciones que también no requieren una implementación, un desarrollo tan profundo y se pueden hacer en el corto plazo para que ustedes ya puedan empezar a ver esa información, la hoja de vida del personal, de los camiones, de muchas cosas.
+964650	967311	Entonces, yo creo que quedó como esa información.
+967351	973673	A mí como prioridad, bueno, obviamente es lo de Luis, que eso de Luis, se tienen los contenedores, entonces ya voy a tener una relación de contenedores.
+974013	987617	Por ejemplo, a mí se le pagan a una persona 100 dólares por cada, a Damián, la persona que saca las fianzas.
+987637	990978	Entonces, él me manda una relación así de,
+991874	995497	De todos los contenedores que él sacó, él es el broker de Estados Unidos.
+995517	999921	Entonces me mandó una relación de todos los contenedores para que yo se los pague.
+1000361	1005305	Entonces él me dice al final fueron ciento... ¿Cuántos son?
+1005345	1007267	Ciento treinta y cinco contenedores.
+1007287	1018156	Entonces yo no tengo manera de saber si realmente todos los contenedores que me están poniendo, él aquí en esta relación, pues de quién son, si son de ella, de él, o sea, me puede inventar cinco contenedores.
+1018176	1020898	Y yo el querer hacer esto, entonces...
+1021222	1027748	Lo imprimo y luego entro con el número, entro hacia todos mis chats en buscar.
+1029569	1030850	Y te los envían es por chat.
+1031571	1036375	Y entonces busco el OMC y así me sale, quiere decir que sí hablo, si es de Carlos.
+1036415	1043241	Entonces yo no puedo estar haciendo eso diario porque al quinto me distraigo, o sea, yo me pongo a hacer otra cosa y entonces nunca termino de revisar la lista.
+1043261	1048786	Entonces cuando igual pasa lo mismo, llegan las facturas de él y
+1049278	1053240	O llegan las facturas del que saca los contenedores.
+1053280	1054040	Él es el broker.
+1055281	1058182	Él es el que da los documentos para que se libere el contenedor.
+1058422	1062284	Pero hay otra persona que se encarga de sacar el contenedor.
+1063224	1064865	Al transportista que saca el contenedor.
+1065765	1072668	Estos correos, lo que te habla Luis de los correos, también copian aquí al broker americano.
+1072689	1075350	El broker americano es el que libera...
+1076222	1077883	Parte del gobierno el que libera el...
+1078024	1080185	El que le envía a ti ese SP largo.
+1080365	1085449	Sí, entonces él se supone que él liberó todos esos contenedores.
+1085470	1096999	Y llegó una nota de arriba, él debió haberse dado cuenta, entonces él sabe, ya va a llegar tal contenedor y genera el documento que tiene el transportista para sacarlo del puerto.
+1098360	1105746	Entonces, yo no sé si todos esos contenedores se arribaron, si lo sacó el transportista...
+1106546	1122697	Graciela sí los tiene en esa relación porque los tiene organizados en el documento, nada más los del chino, porque obviamente él tiene comunicación con él y tiene que darle todo el seguimiento, todo lo que se pagó, cuándo salió, cuándo llegó, cuándo se regresó el contenedor, todo eso.
+1123517	1135886	Pero en sí para el tema de los pagos, pues no hay una manera de vincular la información del broker con la información del que sacó del puerto cuando ya llega el momento en el que
+1136322	1137303	Se tiene que generar el pago.
+1137363	1164262	Entonces por eso se me hace importante lo de Luis, la nota de arriba, se relacionan todos los contenedores y en esos contenedores ya se va viendo qué día salió, así empieza el programa de Graciela, qué día salió y cuánto me está cobrando el proveedor, el transportista que lo saca del puerto, cuánto me está cobrando el broker.
+1165246	1167387	¿Qué fecha salió de Los Ángeles?
+1167427	1169188	¿Qué fecha arribó a bodega?
+1169208	1172390	¿Y qué fecha salió a carretera?
+1172410	1175992	Y luego, ¿y a qué fecha se entregó al cliente?
+1176493	1178134	Para poderle yo cobrar al cliente.
+1181916	1185258	Entonces, es demasiado.
+1187102	1190344	No se puede perder la cabeza, vamos de a poquitos, vamos de parte por parte.
+1191745	1202632	Y por lo que yo no hay soluciones que pueden parecer muy complejas en un principio, pero que realmente simplemente es de organizar la información y establecer unos protocolos básicos como información.
+1203212	1212478	Sin empezar a implementar herramientas, millones de herramientas, porque la gente lo que les ha pasado, que no saben manejar y les da pereza aprender una herramienta.
+1212854	1218356	Entonces hoy en día lo que utilizan en Whatsapp es buscar la manera de que esa sea la herramienta principal para ciertas personas.
+1218756	1224058	Obviamente habrán cargos que necesitan otras herramientas, pero que sigan utilizando esa y que la utilicen bien.
+1224738	1227199	De hecho yo sé que es bien complicado cuando hay cambios.
+1227459	1236922	Yo traje a una compañía que iba a haber muchos cambios y nos tuvieron que mandar a un curso de tres días a cierto personal que íbamos a...
+1238538	1240679	A compartir el cambio a las demás personas.
+1240699	1258870	Entonces nos mandaron tres días a Querétaro, a una hacienda, a explicarnos todo el proceso y todas las etapas que al llegarle a alguien para notificarle que va a haber un cambio, cómo lo va a tomar, o sea, la negación, así como si fuera un duelo.
+1259690	1265634	La negación, la aceptación, hasta que llegue un punto en el que tienes que darle seguimiento en todo ese camino.
+1266194	1269215	Para que puedas tener un éxito al final.
+1269255	1274898	Y que la gente sí lo tome bien y que se dé cuenta que eso es un beneficio a ellos a largo tiempo.
+1275759	1282882	Y no lo están reemplazando, que no lo están cambiando, que no va a perder el empleo porque ya no tengo que hacer eso, entonces me voy a quedar sin trabajo.
+1283122	1285003	Entonces es todo un acompañamiento.
+1285223	1291546	Entonces como que aquí la misma prisa no nos ha...
+1293011	1312242	Para implementar este programa, como te comentó Héctor, en Guadalajara hubo una negación, o sea, recibí todo tipo de... Cuando les empecé a pedir fotos de salida y que tienes que escanear la entrada, o sea...
+1312670	1328757	No, no sabes, o sea, no sabes cómo se usa el personal para... Claro, es que me imagino, es que deben sentir miedo, porque es miedo, y qué tal si yo no aprendo, y qué tal entonces si yo no aprendo me van a echar, y si no me gusta entonces es complicarme, yo no sé manejar computadores, yo no sé prender un computador, yo no sé manejar un celular.
+1328777	1336481	Bueno, sí, espérame, espérame, ¿qué pasa?
+1337061	1338662	Hay que buscar la manera.
+1339010	1340291	Sí, de verdad es un honor.
+1341071	1342351	No, a ustedes, mil gracias.
+1342431	1344772	Y si hay que generar una idea de esa.
+1344792	1351115	Cuando, pues, si quieren esta semana, yo tengo que, lo único es, yo puedo cruzar antes, puedo cruzar en moto y cruzo rápido.
+1351415	1352816	Sí, sí, sí, pues venga, a ver.
+1353616	1357257	La moto la puedo dar en cualquier lado.
+1357277	1361179	Pues tenemos una bodega cruzando en montaña.
+1361199	1361819	Ah, sí, perfecto.
+1361839	1364700	Y si no, pues ya, si nos vamos juntos, o yo quiero un carro y me voy en derecho.
+1364720	1365000	No, no, no.
+1365020	1365881	Así sería irnos juntos, ¿no?
+1369238	1370179	Sí, perfecto.
+1370199	1372020	Hasta pudiera cruzar caminando y te esperaba.
+1372321	1374242	Ah, bueno, esa es la otra, que esa también es muy fácil.
+1374723	1377505	No sé, pues la cruzada en la mañana se nota, ahí debe ser pesada, me imagino, no sé.
+1377525	1380047	Sí, ver eso también.
+1380608	1380808	Eso.
+1380848	1382349	Pero la moto se me ha quedado.
+1382369	1383050	Tiene solución.
+1383070	1384771	¿Cuándo fue eso?
+1384791	1388914	Pero bueno.
+1388954	1392838	Ya me tienes que ir, es que otros procesos por ahí ves que se puedan solucionar.
+1392858	1396341	Que te usaron de psicólogo todos los problemas.
+1396361	1397522	Sí, claro, yo veo, no está bien.
+1415841	1421604	Y por ejemplo, que tu mamá dice que tienen la información, cada uno tiene su pedazo de la información, ¿en qué la tiene?
+1421624	1422804	¿En un Excel me imagino?
+1422984	1426966	Sí, pero no nada formal, o sea, que ahora es uno ni le puedes decir.
+1427158	1432600	Y ya, y lo mando.
+1432620	1436501	El tema es formalizar todo eso y que eso quede organizado.
+1437261	1455106	Buscar la manera de que no sea... Es que ya hoy en día con Whatsapp es...
+1455906	1458667	Debe ser de IA, pero hay que trabajar en Estados Unidos.
+1458747	1460168	Y es que...
+1460208	1460828	Todo es con correo.
+1460848	1461768	Todo es con correo.
+1461908	1469812	Cualquier movimiento, cualquier cambio, tiene que estar... Y no te gustaría que tuvieran, por favor, no les gustaría tener un correo corporativo para formalizar un poco más la...
+1469832	1471192	Pues sí tenemos el que te mandé.
+1471692	1472873	Pero es uno, no cada uno tiene...
+1472893	1473873	No, cada uno tiene uno.
+1473953	1474774	Ah, cada uno.
+1475274	1477315	Pero nunca he trabajado en IA.
+1477595	1477875	Ah, ¿sí?
+1478315	1481836	Sí.
+1482357	1484658	También tenemos una girl to work, o como que sí.
+1484678	1485358	Sí, sí, pero está...
+1487406	1489847	No se pueden mandar correos a Gmail.
+1490007	1493728	Sí, es que hay que verlo bien cómo es.
+1493788	1494608	Ok, bye.
+1494628	1496469	Yo creo que la línea está así.
+1516470	1517451	Muchas gracias Ricardo.
+1517471	1518311	No, Marielena, a ustedes.
+1518351	1520932	Mil gracias por el tiempo, por el espacio.
+1520952	1527036	Bueno, vamos a ver qué podemos hacer para empezar a implementar cambios próximamente y que lo noten.
+1527056	1530517	¿Cómo son tus honorarios?
+1530598	1531698	¿Cómo es el proceso?
+1531718	1533959	A ver, si te doy 100% sincero, la compañía está empezando.
+1534019	1535560	Ustedes son nuestro primer cliente, la verdad.
+1536381	1538802	Entonces, sí tenemos unas tarifas establecidas.
+1539282	1543383	También depende mucho de las implementaciones, entonces más que todo es por implementación.
+1543403	1547344	No es por hora, es por implementación.
+1547484	1547624	Exacto.
+1547644	1550825	Entonces es una lista como de necesidades que viste ahorita que teníamos y ya... Y se las compartimos.
+1550945	1568610	Normalmente como que hacemos es que los servicios que nosotros prestamos o que lo que tenemos en mente es que los servicios que nosotros prestamos y las soluciones en el pasado, porque digamos que dar un resumen, todo empezó era porque yo estaba metido en otros negocios y empecé a involucrarme mucho con Intel Artificial y empecé como a resolver...
+1569226	1589157	A resolver problemas de amigos en compañías por medio de implementación de optimizaciones, canales de automatización y todo eso yo corren en mi computador, pues todo eso está funcionando en mi computador, entonces les cobro como un fin mensual porque las cosas funcionen en los computadores, pues soy como el servidor de ellos.
+1590258	1597322	Entonces hay dos caminos, uno es intentar implementar las soluciones para que les queden ustedes in-house y que ya ustedes las tengan in-house.
+1598991	1603915	Obviamente eso requiere un poquito más de temas de logística, por así decirlo.
+1604415	1617566	Y otro es un fee inicial por el análisis, por la implementación de la solución y después un fee mensual por prestarles el servicio de mantenimiento, de atención al cliente, de que el sistema esté corriendo en nuestro computador y esté funcionando sin problema.
+1617667	1626254	Entonces, dependiendo de las herramientas que ustedes requieran, si ustedes dicen, bueno, vamos a diseñar un robot de WhatsApp para que tu WhatsApp no se congestione tanto y que toda la información...
+1626666	1639418	Que llegue al WhatsApp, quede registrada en un computador, se pueda pasar la información importante, pase una base de datos y luego que llegue a WhatsApp alimente una base de datos en Excel, eso funciona en un servidor propio de nosotros.
+1639438	1651250	Entonces dependiendo mucho de la herramienta que se utilice es un FIFIGO más un mensual, perdón, o si ustedes dicen no, es que definitivamente no queremos pagar nada mensual, entonces sería un FIFIGO.
+1652182	1668936	Pero antes de eso tenemos que ver cuáles son las soluciones, qué necesitan ustedes, puede que sea algo muy sencillo, como no, venga, entonces montémosles un Google Sheets, que no sé si sabes que es un Google Workspace, es como un Microsoft, como un Office, pero en Google.
+1669557	1670878	Y todo eso funciona en la nube Google.
+1671058	1680066	Entonces yo les cobro a ustedes, o les cobraríamos por montarles el sistema, enseñarles qué es manejar un computador desde una página web, eso es muy fácil,
+1680702	1683224	Y ya toda la información queda montada en un Excel en Internet.
+1683784	1701855	Entonces ahí tú puedes revisar lo de las relaciones de cajones y camiones, cualquier información que ustedes necesiten, pues como de temas, no sé, que sea, pues hoy en día tienen un Excel, cada uno abre su Excel y lo borra y lo manda, que quede algo ya un poco más formalizado.
+1702395	1706778	Entonces es una implementación inmediata que no tiene ningún costo extra, simplemente, simplemente y se hace.
+1707398	1720722	O si tú dices, no, es que quiero que las fotos que me mandan a mí se analicen y las corramos por inteligencia artificial para que no me toque a mí transcribir parte por parte, eso también requiere un fee mensual porque eso ya es utilizando inteligencia artificial.
+1721742	1729045	Que igual todo eso se los explicamos, yo soy muy abierto con los costos, les decimos, vea, el discriminado es este, nuestra tarifa es esta y esto es lo que le vamos a cobrar.
+1729065	1733026	Entonces depende mucho de qué es la solución, cómo la vamos a implementar,
+1733606	1748592	El camino que ustedes quieran tomar, si quieren tomarla, que seamos nosotros parte de un apoyo y un acompañamiento mensual, o si es una cosa que entregamos una vez, obviamente, pues con, venga, si algo falló venimos y arreglamos, y ya después, implementaciones más adelante, pues se cobrará de otra manera.
+1748632	1754554	Bueno, yo creo que en un inicio sí será un acompañamiento total para...
+1755898	1762363	Pues para todo, para la implementación y para la... Claro, y además, lo que te digo, estamos aquí para ayudarlos.
+1762563	1772049	Yo la verdad es que es nuestro primer cliente, en México especialmente, entonces yo no tengo ningún problema en estar con ustedes el tiempo que sea necesario sin la suscripción.
+1772610	1778634	Sí, sí, hay muchas oportunidades, como viste, como empresa con mucha necesidad de... Sí, señora.
+1780579	1795730	Yo creo que sí hay oportunidades, yo veo, y son muchas oportunidades desde lo pequeño, que es lo que más uno inmediatamente nota, hasta de pronto ya reestructuraciones más grandes de la información y de organización de los contenedores y de los camiones y todo eso, que tampoco es imposible.
+1796150	1800794	Sí, sí, sí, porque aparte aquí yo creo que ahorita está como en el punto de partida de crecer.
+1800814	1806878	De hecho, ahorita un cliente, ahorita me cae Silvia, que es la que tenía, no sé, que estaba mandando, a lo mejor,
+1807622	1815288	5 contenedores, ahorita van a dar 80, entonces como que necesitamos estar preparados para lo que va a pasar a futuro.
+1815308	1818210	Yo creo que es un buen momento entonces para implementarlo.
+1818230	1821833	Sí, sí, se acaba de comprar mucho equipo, entonces es un excelente momento.
+1822053	1823174	Qué bueno, me alegra muchísimo.
+1823234	1824135	¿Y a ver cuándo agendamos?
+1824875	1827597	La ida, pues a ver si ahorita hablo con Héctor, a ver si el jueves.
+1828518	1831720	Ajá, yo el jueves.
+1831740	1832621	Porque yo, yo...
+1832641	1833702	Pero bueno, tengo mis fotos de finales.
+1834294	1835995	Es que el viernes es muy complicado.
+1836035	1837917	La próxima semana puede ser o más adelante.
+1837937	1843801	Yo pensaba irme a Guadalajara la próxima semana, de hecho se había, me sorprendió porque se había espacio en el hotel.
+1843821	1844442	¿Qué día?
+1845042	1850346	Pues se dio, ahorita, ayer chequeé y había espacio de lunes a jueves, como que se había habitaciones.
+1852187	1857852	Es que no, pues, es que es más, perdimos ahorita los boletos, yo tengo unos regresos tuyos y míos de Guadalajara para mañana.
+1857872	1860994	O sea, no conocíamos allá hace mucho que creo que ustedes perdieron.
+1861014	1861094	Sí.
+1861910	1865076	Ah, sí, que... Sí, sí, sí.
+1865256	1866157	Que fue lo del mencho, ¿no?
+1866198	1866859	Que no pudieron llegar.
+1866879	1867680	Ah, desde que eso pasó.
+1867700	1868041	Sí, no he ido.
+1868061	1872668	Entonces, yo estaba yendo cada mes a Guadalajara.

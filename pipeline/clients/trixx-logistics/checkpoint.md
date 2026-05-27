@@ -1,8 +1,79 @@
 # CHECKPOINT — trixx-logistics (Client-Owner)
 
-**Updated:** 2026-05-26 (session 19, evening — test-run de pipeline + re-corrida con nueva inteligencia)
+**Updated:** 2026-05-26 (session 20 — reunión formal DONE + transcripciones triple-engine + Claude curados)
 **By:** ricardo (via Claude Code at /srv/Nexostrat/, ricardo-desktop)
 **Persona:** Client-Owner (cross-persona desde sesión Founder per Strict Rule 1 operator-driven)
+
+## Update 2026-05-26 (session 20, PM) — Reunión formal ocurrió, artifacts archivados, transición de phase
+
+**Disparador.** Ricardo subió `drive-download-20260527T020829Z-3-001.zip` con 2 audios + 2 transcripts Apple de la **reunión formal 3-personas + Luis** que ocurrió en la mañana del 2026-05-26 (sesión 10:10 AM ~113 min principal + sesión 12:05 PM ~31 min de deep-dive). Encargo: organizar los 4 PDFs del Desktop (output de skills re-corridos en session 19) + el contenido del zip en su carpeta profesional, luego generar **3 transcripciones independientes** (WhisperX = "el sistema que tenemos", Gemini, Claude) y comparar resultados.
+
+**Phase transition aplicado.** `state.json` phase: `prospect` → `discovery` con timestamp 2026-05-26T20:00:00-07:00. Justificación: la reunión formal de descubrimiento ocurrió y produjo intel suficiente para Skill 05.
+
+**Layout final del meeting folder** (en `pipeline/clients/trixx-logistics/transcripts/2026-05-26_formal-meeting/`):
+
+```
+README.md                                  ← comparación triple-engine + metodología
+1010_main-meeting_transcript_final.md      ← ⭐ TRANSCRIPCIÓN CANÓNICA 10:10 (91 KB, lectura humana)
+1205_second-session_transcript_final.md    ← ⭐ TRANSCRIPCIÓN CANÓNICA 12:05 (32 KB, lectura humana)
+audio/                                     ← 2 .m4a originales (plaintext, sin vault per override Ricardo)
+apple/                                     ← Apple Voice Memos baseline (32 KB + 7 KB)
+whisperx/                                  ← WhisperX large-v3 + pyannote diarization (100 KB + 33 KB)
+  ├── 1010_main-meeting.{txt,srt,json,tsv,vtt}
+  ├── 1205_second-session.{txt,srt,json,tsv,vtt}
+  └── logs/                                ← incluye log del OOM en primer intento
+gemini/                                    ← INCOMPLETO (ver § Gemini failure abajo)
+  ├── 1010_main-meeting.HALLUCINATION.md   (artefacto fabricado, marcado)
+  └── 1010_main-meeting_SAMPLE_first5min.md (muestra de 5 min — calidad demostrada)
+claude/                                    ← Síntesis estructurada multi-fuente (28 KB + 16 KB)
+  ├── 1010_main-meeting.md                 (narrativa 9 bloques + datos accionables + 11 citas highlights)
+  └── 1205_second-session.md               (narrativa 6 bloques + propuesta de pricing capturada)
+```
+
+**Pipeline de la transcripción final (session 20 continuación, post-correcciones de Ricardo):** Script `/tmp/transcript_final_builder.py` (Python) parsea `whisperx/*.srt`, mapea `SPEAKER_NN → nombres reales`, aplica correcciones (María Helena no Marilena, Tracking Premium, Monday.com, McKinney, Vernon, acentos ES), filtra artefactos WhisperX (hotword-spill — 9 filtrados en 10:10), agrupa turnos consecutivos del mismo hablante (gap ≤2.5s) y emite markdown con marcas de tiempo cada minuto. Output: `*_transcript_final.md` en root del meeting folder. Idempotente — re-ejecutable si surgen más correcciones.
+
+**Transcripción WhisperX — éxito.**
+- 12:05 (~31 min): completó en ~5 min con batch=4 float16. 4 voces detectadas, mapping confirmado (00=Ricardo, 01=Hector, 02=María Helena, 03=Andrea).
+- 10:10 (~113 min): **primer intento OOM al final** con batch=4 float16 (8 GB VRAM insuficiente para diarización a esa duración). Reintento con `batch=2 + int8` exitoso en ~6 min. 6 voces detectadas (mapping: 00=Ricardo, 02=Hector, 03=Andrea, 04=Luis, 05=María Helena primaria, 01=María Helena variante diarización).
+- Hotwords cargadas sesgaron correctamente reconocimiento de nombres propios (María Helena, Sofía, Damián, Carlos Muñoz, Leonisa, etc.).
+
+**Transcripción Gemini — FALLÓ a escala. Patrón crítico descubierto:**
+
+1. **Hallucination con archivos >20 MB.** Gemini CLI 0.42.0 rechaza adjuntos audio sobre 20 MB pero **NO falla cleanly** — fabrica una "transcripción" plausible a partir del prompt + hotwords. Generó una reunión imaginaria con Luis en LA, María Helena en Bogotá, Andrea en San Diego (la real fue presencial Tijuana), con discusión técnica detallada sobre Reforma Aduanera + Nuvocargo + Flexport — TODOS temas plantados por mis hotwords. Preservado como `1010_main-meeting.HALLUCINATION.md` para evidencia.
+
+2. **AUDIO_NOT_LOADED no-determinístico con archivos ≤7 MB.** Chunkeé audio en 30 segmentos de 5 min (1.2 MB c/u). Smoke test con 30 seg + 5 min sample funcionaron perfecto. Lanzamiento batch de los 30 segmentos: **1 de 30 completó en 25 min**. Tasa efectiva <5%. Error subyacente: `NumericalClassifierStrategy failed: API returned invalid content after all retries` — bug del routing interno del CLI, no rate limit documentado.
+
+**Veredicto comparativo (en README detallado):** WhisperX es la fuente primaria confiable. Gemini CLI 0.42.0 **NO es production-ready** para transcripción directa de audios largos vía batch — el riesgo de hallucination silenciosa lo hace peligroso. El sistema canónico Nexostrat `~/bin/summarize-meeting.sh` sigue siendo OK porque usa Gemini en el paso de SUMMARY (no transcripción), recibiendo ya el texto WhisperX como input.
+
+**Claude curado — síntesis estructurada.** No es transcripción cruda (Claude no procesa audio directamente); es **documento de trabajo** que toma WhisperX como fuente primaria + contexto de cliente y produce narrativa por bloques temáticos con datos accionables. Diseñado como feed directo a Skill 05.
+
+**Datos críticos NUEVOS revelados en la reunión (vs. session 19):**
+
+| Categoría | Nueva info |
+|---|---|
+| **Estructura societaria** | Inversor **Jan** (chino-venezolano) entrará con **USD 1,050,000 vía visa EB-5** — Jan será el nuevo dueño formal de Trixx para facilitar su residencia + ciudadanía USA. Hector planea retirarse de la operativa en 2026 post-inversión. María Helena queda con más peso operativo. |
+| **Flota actualizada** | 120+ vehículos. 22+ camiones (+10 nuevos comprados recientemente). 70+ cajas (+30 nuevas, VINs en trámite). 40 cajas rentadas a McKinney. 5 sedes operativas + bodega LA (Vernon) sub-arrendada (muy pequeña). |
+| **Stack tecnológico real** | **Tracking Premium** (SaaS principal, paquetes/tarifas, riesgo pérdida datos si se descontinúa) + **Samsara** (GPS+cámaras+audio camiones, audio recién activado) + **McKinney** (plataforma cajas rentadas) + **Monday.com** (cliente chino, usado por Graciela — María Helena lo quiere replicar para Trixx en general) + **AnyDesk** (impresión remota Vernon) + **GoDaddy** → migrando a **Microsoft 365**. Hector reconoce stack-sprawl: *"tenemos parchecitos"*. |
+| **Personal clave** | **Beto** = encargado bodega LA, perdedor de clientes por trato déspota, sin estudios, manda reportes a mano por WhatsApp — Hector lo mantiene por miedo a robo interno. **Silvia** = capturista, cliente con escalamiento 5→80 contenedores inminente. **Graciela** = operadora del Monday.com cliente chino. **Damián** = broker USA, factura 135 contenedores/mes a María Helena que ella concilia manualmente con chats WhatsApp (busca número OMC). **Carlos Muñoz** = otro broker, pagos en efectivo, accounting reconciliation issues. **Carlos** (otro) = hosting/web provider no-responsivo, hostage situation IT. **Miguel, Eduardo, Rosy** = operativos. |
+| **Pain quantificados** | 600 correos acumulados en bandeja cada finde. 135 contenedores/mes para reconciliar con Damián. $60K MXN perdidos en una negociación policial mal manejada (chofer con cortinas cerradas). $7K USD una guía. |
+| **Métricas de éxito de los decisores** | **Hector:** tiempo de respuesta a incidentes (NO ahorro de costos). *"Yo no me quiero ahorrar 100 dólares, lo que quiero es tener las respuestas en el momento."* **María Helena:** información buscable en ≤3 minutos. *"Yo le digo mucho arriba: la información tiene que estar en tres minutos."* |
+| **Quick-wins explícitos identificados durante la reunión** | (1) **Filtrado IA de correos por carpeta** (María Helena lo pidió textual — *"¿cómo podemos filtrar los 600 correos del lunes?"*). (2) **Replicar Monday.com de Graciela para todo Trixx**. (3) **Hoja de vida digital** de camiones (vencimientos, mantenimientos, inspecciones) + personal (contratos, choferes mex vs ame). (4) **Bot WhatsApp** para reconciliar Damián. (5) **Migración email + hosting** (sacarlo de control de Carlos). |
+| **Visita LA pactada** | Jueves 2026-05-28 (María Helena + Andrea + posiblemente Hector + Ricardo). Cruce frontera por definir (moto + rent-a-car, o todos en un solo carro). Hector explícitamente pidió ir a campo: *"las decisiones que se toman de escritorio para mí nunca han sido las... tenemos que ir a ver el comportamiento, el flujo del trabajo"*. |
+
+**Discrepancia con directiva pre-reunión:**
+- ✅ **NO se mencionó Nuvocargo** en ningún momento.
+- ✅ **NO se hicieron defectos del sitio**.
+- ✅ **SÍ se ancló al legado de Hector** (Colombia, Leonisa, 25 años).
+- ⚠️ **Ricardo SÍ presentó estructura de pricing en la sesión 12:05** — iniciado por María Helena con *"¿Cómo son tus honorarios?"*. Dos caminos: A (in-house, fee único) o B (fee inicial + fee mensual gestionado). Sin números cerrados. Disclosure honesta: *"ustedes son nuestro primer cliente, la verdad."* No transgresión sustantiva — vino de iniciativa del cliente, no propuesta proactiva.
+
+**Memorias guardadas en esta sesión:**
+- `feedback_no_vault_for_client_material.md` — override de Ricardo: material de cliente activo queda plano, no se encripta a vault.
+
+**Estado del cliente al cierre de session 20:** phase `discovery`, todos los artefactos de la reunión formal archivados, Claude curados listos como feed de Skill 05, visita LA pactada para 2026-05-28. **Pendiente operacional:** corregir referencias en `01_company_analysis/runs/2026-05-26_mode-a/final_report.md` con los datos nuevos (María Helena no "María Helena" como nombre principal, inversión EB-5 vía Jan no inversión genérica, métricas de éxito específicas, etc.) — defer para próxima sesión o tras la visita LA.
+
+---
+
+## Update 2026-05-26 (session 19) — Pipeline re-corrida tras conversación informal del día
 
 ## Update 2026-05-26 (session 19) — Pipeline re-corrida tras conversación informal del día
 

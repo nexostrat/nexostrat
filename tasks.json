@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v2",
   "project": "nexostrat",
-  "updated": "2026-05-26T19:30:00-07:00",
+  "updated": "2026-05-26T23:30:00-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -505,22 +505,24 @@
     },
     {
       "id": "t-trixx-meeting-execution",
-      "subject": "Reunión Trixx Logistics 2026-05-25 1pm Tijuana — ejecución + grabación + notas",
-      "status": "open",
+      "subject": "Reunión Trixx Logistics — ejecución + grabación + notas",
+      "status": "done",
       "priority": "critical",
       "due": "2026-06-10",
       "created": "2026-05-19",
-      "notes": "ACTUALIZACION 2026-05-26 session 19: la reunion 2026-05-25 originalmente planeada NO ocurrio en esa fecha. En su lugar, una conversacion informal Andrea-Ricardo ocurrio 2026-05-26 (TODAY) donde Andrea entrego inteligencia clave: decisora real = madre de Andrea (NO Hector); USD 1M+ inversion china reciente para 10 trucks; Excel-PDF CBP pain mostrado en pantalla; husband-SD-company como ancla emocional. La reunion FORMAL con los 3 asistentes confirmados (Andrea + madre + Hector) sigue PENDIENTE — sin fecha confirmada aun. Due actualizado 2026-06-10. Materiales actualizados disponibles: PrepLlamada 2026-05-26 (corrida fresh con 3-audience calibration + 9-eslabon process map + quick-win probes mental + no-solution-today directive) + Company analysis 2026-05-26 + Industry + Competitor refreshes en /home/ricardo/Desktop/. Insumos a generar en la reunion: grabacion audio + notas con citas textuales + mapeo 5+ procesos manuales con frecuencia/tiempo/personas + Excel-PDF CBP cuantificado + decisora confirmada en presencia de los 3 + horizonte de decision + orden de magnitud de presupuesto."
+      "completed": "2026-05-26",
+      "notes": "CLOSED 2026-05-26 session 20. La reunion formal ocurrio 2026-05-26 en oficinas Trixx Tijuana. Dos sesiones: 10:10 AM ~113 min principal + 12:05 PM ~31 min deep-dive operativo (total ~144 min). Asistentes: Hector Leyva + Maria Helena (decisora real confirmada — no Marilena; mi typo en hotwords WhisperX) + Andrea Chavez + Luis breve + Ricardo. Grabacion completa (2 audios m4a 53 MB combinados) + Apple baseline + WhisperX large-v3 con 5 formatos + Claude curados + transcript_final canonico (91 KB + 32 KB con speakers mapeados a nombres reales). Todo en pipeline/clients/trixx-logistics/transcripts/2026-05-26_formal-meeting/. Inteligencia nueva: inversion EB-5 USD 1.05M via Jan (chino-venezolano), Hector planea salir operativa 2026, escalada 5x para 2027, Silvia cliente 5->80 contenedores inminente, 600 correos/finde, 135 contenedores/mes Damian, bloqueo ejecutivo confesado por Maria Helena, hostage IT Carlos, problematica Beto bodega LA. Phase del cliente avanzo prospect -> discovery."
     },
     {
       "id": "t-trixx-skill-05-opportunity-report",
       "subject": "Skill 05 (Opportunity Report) sobre Trixx — consume reportes + grabación + notas reunión",
-      "status": "open",
+      "status": "done",
       "priority": "high",
       "due": "2026-06-15",
       "created": "2026-05-19",
+      "completed": "2026-05-26",
       "blocked_by": "t-trixx-meeting-execution",
-      "notes": "DUE actualizada 2026-05-26 session 19 de 2026-05-27 a 2026-06-15 (la reunion formal 3-personas se reprogramo y aun no tiene fecha). Skill 05 (opportunity-report) consume los 4 reportes refreshed 2026-05-26 + grabacion de reunion formal + notas. Produce el entregable gratuito al cliente — Reporte de Oportunidades de IA con ratio 90% valor entregado / 10% invitacion a Hoja de Ruta. Despues: revision obligatoria Ricardo+JP (Fase 5) → entrega manual via WhatsApp o email (Fase 6) → D+4 business days auto-follow-up. Output: 04_..._OpReporte_TIMESTAMP.docx. Si Trixx avanza a paid: Hoja de Ruta de IA (scope + price TBD)."
+      "notes": "CLOSED 2026-05-26 session 20. Skill 05 corrido sobre working dir staged en pipeline/clients/trixx-logistics/05_opportunity_report/runs/2026-05-26_mode-a/. Output: Trixx_ReporteOportunidades_20260526.md (30 KB) + .docx (78 KB) + .pdf (287 KB) entregado a JP. 10 oportunidades identificadas; Quick Wins #1 (filtrado IA correos, score 7) + #2 (centralizacion Google Workspace, score 7) seleccionados automaticamente. Reporte cumple ratio 90/10. NO menciona Nuvocargo/Flexport directamente. Transicion societaria Jan/EB-5 tratada con discrecion. Inputs requeridos: 4 (AnalisisCompania symlink + Industria symlink + Competencia symlink + NotasCliente nuevo sintetizado con tags anti-hallucination). Adicional: Resumen Ejecutivo Claude-authored entregado en paralelo (Trixx_ResumenReunion_20260526.pdf, 170 KB con quotes verbatim del transcript + seccion analisis Nexostrat ratio 90/10 distinta del reporte cliente)."
     },
     {
       "id": "t-whatsapp-andrea-audiencia",
@@ -798,21 +800,50 @@
     {
       "id": "t-trixx-formal-meeting-schedule",
       "subject": "Agendar reunion formal Trixx (Andrea + madre + Hector) usando PrepLlamada 2026-05-26 como guia",
-      "status": "open",
+      "status": "done",
       "priority": "high",
       "due": "2026-06-05",
       "created": "2026-05-26",
-      "notes": "La conversacion informal 2026-05-26 produjo intel suficiente para preparar la reunion formal. Ricardo agenda con Andrea (probablemente via WhatsApp). Confirmar: fecha + hora + lugar (oficina Trixx Tijuana) + permiso para grabar audio + recordatorio que los 3 asistentes esten presentes (madre y Hector son criticos por roles distintos)."
+      "completed": "2026-05-26",
+      "notes": "CLOSED 2026-05-26 session 20. La reunion formal ocurrio el mismo dia (2026-05-26) en oficinas Trixx Tijuana — los 3 decisores estuvieron presentes (Hector + Maria Helena + Andrea) + Luis breve. Grabacion concedida y procesada. Tracking del meeting consolidado en t-trixx-meeting-execution (done)."
     },
     {
       "id": "t-trixx-upload-meeting-artifacts",
       "subject": "Upload meeting artifacts (recording/notes) post-formal-meeting para Skill 05",
-      "status": "open",
+      "status": "done",
       "priority": "high",
       "due": "2026-06-12",
       "created": "2026-05-26",
+      "completed": "2026-05-26",
       "blocked_by": "t-trixx-meeting-execution",
-      "notes": "Ricardo confirmo en session 19: 'in the next session I will upload everything'. Post-formal-meeting, en la siguiente sesion, Ricardo sube grabacion + notas + cualquier doc que Trixx haya compartido. Insumos para Skill 05 (opportunity-report)."
+      "notes": "CLOSED 2026-05-26 session 20. Ricardo subio 2 audios m4a + 2 Apple transcripts via drive-download zip al inicio de session 20. Procesados end-to-end: WhisperX large-v3 (5 formatos cada audio) + Claude curados + transcript_final canonico con speakers mapeados + Trixx_NotasCliente_20260526.md sintetizado como input formal de Skill 05. Skill 05 corrido. Reporte y resumen ejecutivo entregados a JP."
+    },
+    {
+      "id": "t-trixx-la-visit-schedule",
+      "subject": "Agendar visita bodega LA Vernon — Maria Helena + Andrea + Hector + Ricardo",
+      "status": "open",
+      "priority": "high",
+      "due": "2026-06-15",
+      "created": "2026-05-26",
+      "notes": "Pactado en la reunion formal 2026-05-26: visita conjunta a bodega Trixx en Vernon CA. Hector explicito: 'las decisiones que se toman de escritorio para mi nunca han sido las... tenemos que conocer la otra parte' — pidio trabajo de campo antes de propuesta formal. Originalmente sugerido para jueves pero la fecha quedo sin confirmar. Maria Helena: 'pues el jueves a Los Angeles'. Ricardo: 'lo unico es que yo tengo que cruzar — en moto la puedo dar al otro lado'. Logistica de cruce frontera por definir (moto + rent-a-car, o todos juntos). Maria Helena ofrecio departamento en LA si la visita se extiende. Ricardo confirma fecha con Andrea/Maria Helena (probablemente via WhatsApp). Insumo critico: validar el plan de Quick Wins #1 y #2 (filtrado IA correos + centralizacion Google Workspace) observando la operacion real antes de cerrar propuesta."
+    },
+    {
+      "id": "t-trixx-refresh-final-report",
+      "subject": "Refresh final_report.md de Skill 01 (Trixx) con correcciones del meeting 2026-05-26",
+      "status": "open",
+      "priority": "medium",
+      "due": "2026-06-05",
+      "created": "2026-05-26",
+      "notes": "Correcciones que aplicar al pipeline/clients/trixx-logistics/01_company_analysis/runs/2026-05-26_mode-a/final_report.md: (1) 'Marilena' -> 'Maria Helena' (mi typo en hotwords WhisperX confirmado por Ricardo); (2) 'Trucking Premium' -> 'Tracking Premium' (nombre real del SaaS); (3) 'Amundi' -> 'Monday.com' (Graciela operadora); (4) 'Maquini/Makini' -> 'McKinney' (rentador de cajas con software propio); (5) agregar info concreta de transicion societaria EB-5 via Jan USD 1.05M; (6) agregar metricas de exito explicitas (Hector: tiempo respuesta no ahorro; Maria Helena: info en ≤3 min); (7) agregar trigger temporal Silvia 5->80 contenedores. Estos cambios mejoran futuras corridas del pipeline para clientes similares + crean fixture para regression testing de Skill 01. Limpieza tecnica, no urgente — puede esperar al refresh del cliente post-visita LA o a la proxima iteracion del pipeline."
+    },
+    {
+      "id": "t-skill5-parser-audit-other-skills",
+      "subject": "Auditar parsers de Skills 01-04 generate_docx.py para mismo patron de bug que Skill 05",
+      "status": "open",
+      "priority": "low",
+      "due": "2026-06-15",
+      "created": "2026-05-26",
+      "notes": "Per § 7 recomendacion del bug report archivado en skills/00_META/inbox/archive/2026-05-26_2310_client-owner_skill05-parser-bug.md: el patron 'marcador heading seguido inmediatamente de contenido sin tolerar lineas en blanco' puede existir en los scripts generate_docx.py de Skills 01-04 tambien. Auditar cada uno: buscar bloques 'in_X_table' o 'in_X_block' setters seguidos de logica que termina la seccion en primera linea no-conforme. Aplicar el mismo patron de fix si encuentra (tolerancia + warning a stderr). Si la auditoria resulta clean, dejar nota documentando que los otros parsers ya manejan bien las lineas en blanco. Co-commit con el fix v0.3 de Skill 05 ya aplicado para minimizar churn de revision."
     }
   ]
 }

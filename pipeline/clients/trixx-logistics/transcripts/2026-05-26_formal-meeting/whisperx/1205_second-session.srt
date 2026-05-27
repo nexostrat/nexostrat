@@ -1,0 +1,1332 @@
+1
+00:00:00,870 --> 00:00:03,712
+[SPEAKER_02]: ¿Cuándo fue que salió el documento?
+
+2
+00:00:03,732 --> 00:00:04,653
+[SPEAKER_02]: ¿Te refieres cuando vienen?
+
+3
+00:00:04,713 --> 00:00:08,455
+[SPEAKER_02]: Ese es el número del contenedor que trae el contenedor.
+
+4
+00:00:08,475 --> 00:00:08,656
+[SPEAKER_02]: Sí.
+
+5
+00:00:08,676 --> 00:00:11,017
+[SPEAKER_01]: Y esa es la manera en la que se trasladó
+
+6
+00:00:29,702 --> 00:00:41,828
+[SPEAKER_02]: A su destino, ya se entren, unos contenedores cruzan por Mexicali, San Luis de Colorado, Sonora, y se van en tren a la Ciudad de México, y otros se van en terrestre.
+
+7
+00:00:42,128 --> 00:00:47,630
+[SPEAKER_01]: Que son los que van de Los Ángeles al caso y cruzan.
+
+8
+00:00:47,670 --> 00:00:53,493
+[SPEAKER_02]: Pero está en chino porque es un cliente chino y cierta información la manejan desde allá.
+
+9
+00:00:55,530 --> 00:01:00,754
+[SPEAKER_01]: Y aquí ya tienen los días para poder descargar, cuáles van en curso.
+
+10
+00:01:00,774 --> 00:01:08,259
+[SPEAKER_02]: El puerto te da ciertos días para retorno de vacío sin cobrar el costo.
+
+11
+00:01:08,279 --> 00:01:10,380
+[SPEAKER_02]: Que ya una vez se pasen los días, empiezan los costos.
+
+12
+00:01:10,400 --> 00:01:21,087
+[SPEAKER_02]: Yo dije que el cliente al momento de hacer su contratación de la terminal, porque son varias terminales, pone los días.
+
+13
+00:01:21,148 --> 00:01:23,709
+[SPEAKER_02]: Entonces aquí se hace eso con el fin de estar pendiente.
+
+14
+00:01:23,749 --> 00:01:24,190
+[SPEAKER_00]: Claro.
+
+15
+00:01:27,511 --> 00:01:38,156
+[SPEAKER_01]: Bueno, conforme va pasando, aquí les van poniendo cuándo fue el retorno del vacío, en la fecha en la que llegó a la bodega, estos son los que están en curso, ¿cuál es el...?
+
+16
+00:01:38,496 --> 00:01:40,297
+[SPEAKER_01]: Los que van en mar, que están en el mar.
+
+17
+00:01:40,497 --> 00:01:41,438
+[SPEAKER_01]: Están en el mar, ajá.
+
+18
+00:01:42,886 --> 00:01:49,309
+[SPEAKER_00]: La actualización de esto la haces todo a mano, puntualmente, te va llegando la información por correo y la van actualizando.
+
+19
+00:01:49,389 --> 00:02:04,734
+[SPEAKER_02]: Pero esto previo estuvo en el correo que te dice Luis, entonces del correo de Luis ya se sabe el número de contenedor y el tiempo en el que va a llegar, entonces como, por eso te digo, lo de Luis es lo primero, lo de los correos, donde se puede vaciar los números de contenedores que van a llegar.
+
+20
+00:02:05,090 --> 00:02:07,691
+[SPEAKER_02]: Y empezar a alimentar la información.
+
+21
+00:02:07,751 --> 00:02:24,938
+[SPEAKER_00]: Y una de las características que te gusta de este programa es que pueden estar varias personas al mismo tiempo interactuando con la... Y el tema es que nada más esto ahorita se está llevando para el cliente chino y lo ideal sería llevarlo para todos los clientes, para tener una base de datos general.
+
+22
+00:02:25,994 --> 00:02:29,937
+[SPEAKER_01]: Sí, porque por ejemplo aquí ya buscas nada más tú el contenedor y ya te sale toda la información.
+
+23
+00:02:29,957 --> 00:02:30,698
+[SPEAKER_01]: Toda la información.
+
+24
+00:02:31,258 --> 00:02:48,733
+[SPEAKER_01]: Esa es la información del contenedor, los kilos que trae, cuántas cajas son, el total de lo que trae el contenedor, qué producto es el que trae, cuándo es la cita del puerto, a qué bodega se va a destinar, si ha traído hecho a Vernon, de dónde viene...
+
+25
+00:02:48,753 --> 00:02:52,156
+[SPEAKER_01]: Trae si es la bodega externa que se tiene contratada y Vernon puede ser la...
+
+26
+00:02:52,176 --> 00:02:54,217
+[SPEAKER_01]: La que vimos en...
+
+27
+00:02:54,297 --> 00:02:55,018
+[SPEAKER_01]: Este...
+
+28
+00:02:56,578 --> 00:03:06,985
+[SPEAKER_01]: ¿Y cuál es el impedimento más grande para ustedes poder empezar a implementar esta misma plataforma o un sistema similar con lo que tienen actualmente?
+
+29
+00:03:07,085 --> 00:03:10,287
+[SPEAKER_01]: He entrado como 10 veces a quererlo generar y me distraigo, no lo he hecho.
+
+30
+00:03:25,846 --> 00:03:27,708
+[SPEAKER_03]: ¿No te gustaría transferirte para Amundi?
+
+31
+00:03:28,428 --> 00:03:40,158
+[SPEAKER_02]: No, lo que había pensado es en transferirnos para Amundi porque lo fácil era copiar siempre esta información sin tener que llenar todo esta base de datos y agregar los de nosotros.
+
+32
+00:03:40,178 --> 00:03:47,504
+[SPEAKER_01]: Y que ya cada uno solamente se enfoque a lo que le corresponde, en este caso transporte.
+
+33
+00:03:47,544 --> 00:03:52,708
+[SPEAKER_02]: Pero esta compañía pues también, esta es una plataforma externa a la que se le tiene que pagar.
+
+34
+00:03:52,728 --> 00:03:55,250
+[SPEAKER_02]: Pero esto es súper global, esto es...
+
+35
+00:03:56,598 --> 00:04:00,021
+[SPEAKER_02]: Es global, sí, pero también se podría tener algo como algo...
+
+36
+00:04:00,341 --> 00:04:06,906
+[SPEAKER_00]: Pues lo que te digo, hay muchas formas, ustedes podrían, se podría desarrollar, o pues nosotros podríamos desarrollar una plataforma que sea exclusiva de ustedes.
+
+37
+00:04:07,546 --> 00:04:11,969
+[SPEAKER_00]: Obviamente eso tiene sus complejidades y sus pros y sus contras, como todo en la vida.
+
+38
+00:04:12,070 --> 00:04:23,078
+[SPEAKER_02]: Por eso te digo, al final contratamos el programa Traje Premium porque como que sí nos llegaban con propuestas, pero le decían a Héctor, tres meses, cuatro meses, seis meses, tres meses para la primera etapa, entonces él decía no.
+
+39
+00:04:23,650 --> 00:04:24,570
+[SPEAKER_02]: Y los descartaban.
+
+40
+00:04:24,590 --> 00:04:32,394
+[SPEAKER_00]: Pero ustedes sí podrían, perdón te interrumpo, filtrar, pues ustedes estarían dispuestos a dejar Tracking Premium y correr toda la información a Monday?
+
+41
+00:04:33,594 --> 00:04:42,878
+[SPEAKER_02]: Sí, si hubiera una buena propuesta y pudiéramos hacerlo todo gradual, donde pudiéramos comunificar con la información, sería lo ideal, sería como una plataforma propia.
+
+42
+00:04:45,499 --> 00:04:50,421
+[SPEAKER_02]: Porque al final, por ejemplo, si yo no pago mañana el mes de Tracking Premium, te lo cortan.
+
+43
+00:04:51,261 --> 00:04:52,662
+[SPEAKER_02]: Y toda la información que se quedó ahí...
+
+44
+00:04:54,999 --> 00:05:05,346
+[SPEAKER_00]: Y aparte de la compañía o de los que están aquí trabajando, ¿otras compañías externas tienen acceso a Tracking Premium o no?
+
+45
+00:05:05,386 --> 00:05:08,028
+[SPEAKER_00]: Pero que dices que normalmente no entran como a revisarlo.
+
+46
+00:05:08,188 --> 00:05:12,231
+[SPEAKER_02]: Ah, bueno, no, nada más todo de uso es el que probablemente lo utiliza.
+
+47
+00:05:12,291 --> 00:05:14,853
+[SPEAKER_02]: Ah, y también México Envíos.
+
+48
+00:05:14,873 --> 00:05:17,114
+[SPEAKER_00]: ¿Y ellos agregan información o solamente visualizar?
+
+49
+00:05:17,134 --> 00:05:17,675
+[SPEAKER_00]: No agregan información.
+
+50
+00:05:18,636 --> 00:05:22,018
+[SPEAKER_02]: De hecho, la misma Tracking Premium...
+
+51
+00:05:23,086 --> 00:05:24,529
+[SPEAKER_02]: Les podía ofrecer a ellos.
+
+52
+00:05:24,549 --> 00:05:27,695
+[SPEAKER_00]: Que te pasen, porque sería una ganancia muy grande.
+
+53
+00:05:27,895 --> 00:05:33,466
+[SPEAKER_02]: Con la base de datos que yo ya tengo, ofrecerte a ellos como...
+
+54
+00:05:33,818 --> 00:05:37,739
+[SPEAKER_02]: Aprovecha la base de datos que ya tienes para que tú desarrolles el producto que tú quieras.
+
+55
+00:05:37,859 --> 00:05:45,601
+[SPEAKER_00]: O viceversa, que ellos te pasen a ti la información directa y que la información la puedan utilizar ustedes, porque entonces ahí ya te viene, me imagino, el tamaño de los paquetes.
+
+56
+00:05:46,141 --> 00:06:02,826
+[SPEAKER_02]: No, no sabes la cantidad de paquetes, no tienes información, porque ni el mismo cliente sabe de qué tamaño le va a llegar, como estamos viendo, si esto te lo van a poner en un sobre o te lo van a poner en una caja de tamaño, o una caja llena de burbuja con el control, o sea, no sabe, no sabe, entonces él está...
+
+57
+00:06:03,474 --> 00:06:06,416
+[SPEAKER_02]: Él está esperando, por ejemplo, el día que no va Silvia, la que captura.
+
+58
+00:06:07,497 --> 00:06:12,600
+[SPEAKER_02]: No fue Silvia ella a trabajar porque se queda como en blanco de que no sabe qué paquete le llegaron ese día a bodega.
+
+59
+00:06:13,360 --> 00:06:14,441
+[SPEAKER_02]: No, Silvia se fue al doctor.
+
+60
+00:06:14,721 --> 00:06:24,667
+[SPEAKER_02]: Entonces, ahí están esperando a que llegue Silvia el siguiente día para capturar y ver qué paquetes ya tienen, que van llegando.
+
+61
+00:06:25,568 --> 00:06:28,850
+[SPEAKER_02]: Bueno, pero eso es básicamente con el programa que ella trabaja.
+
+62
+00:06:29,186 --> 00:06:30,746
+[SPEAKER_02]: Para este cliente en específico.
+
+63
+00:06:30,866 --> 00:06:32,007
+[SPEAKER_02]: Claro, pero buenísimo.
+
+64
+00:06:32,067 --> 00:06:36,008
+[SPEAKER_02]: Y te digo, se enlazan varios, no sé cuántos integrantes tiene.
+
+65
+00:06:36,888 --> 00:06:46,891
+[SPEAKER_01]: Sí, puedes ir, por ejemplo, yo estoy en ese, y nada más que saco información de ahí, más no, yo no entiendo.
+
+66
+00:06:46,971 --> 00:06:50,432
+[SPEAKER_00]: Pero podrías, en cambio que quisieras, podrías.
+
+67
+00:06:50,452 --> 00:06:54,373
+[SPEAKER_01]: Pero corres el riesgo, siempre con el intento de que... O sea, corre o algo, no, mejor no.
+
+68
+00:06:54,773 --> 00:06:57,974
+[SPEAKER_00]: Bueno, lo bueno es que ese tipo de plataformas tú puedes...
+
+69
+00:06:58,862 --> 00:07:01,103
+[SPEAKER_00]: Permitir el acceso a ciertas casillas para ciertas personas.
+
+70
+00:07:01,123 --> 00:07:11,768
+[SPEAKER_02]: En ese programa también tú puedes ver acá quién cuando le signas un rol en el tracking premium qué puede editar y qué no.
+
+71
+00:07:11,808 --> 00:07:14,249
+[SPEAKER_02]: Qué puede hacer, o sea, qué rol le das.
+
+72
+00:07:15,570 --> 00:07:16,710
+[SPEAKER_00]: Permiso, muchísimas gracias.
+
+73
+00:07:20,472 --> 00:07:24,854
+[SPEAKER_00]: Antes que me olvide toda la parte de IT, por así decirlo,
+
+74
+00:07:25,690 --> 00:07:30,654
+[SPEAKER_00]: La página web, los correos y todo eso lo manejan ustedes directamente, tenían un tercero que lo hacía.
+
+75
+00:07:30,674 --> 00:07:35,877
+[SPEAKER_03]: La página web no es yo, no lo hice yo, pero es un tercero que tenemos muchísimos problemas con él.
+
+76
+00:07:35,897 --> 00:07:35,998
+[SPEAKER_03]: Sí.
+
+77
+00:07:36,018 --> 00:07:42,542
+[SPEAKER_03]: Porque estamos en su hosting, no podemos hacer muchos cambios.
+
+78
+00:07:43,423 --> 00:07:45,704
+[SPEAKER_00]: Y depende de lo que les diga, lo que todo.
+
+79
+00:07:45,824 --> 00:07:47,766
+[SPEAKER_02]: Si está de bueno, si está de bueno, si está de bueno.
+
+80
+00:07:47,806 --> 00:07:53,410
+[SPEAKER_02]: No, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no.
+
+81
+00:07:53,858 --> 00:07:54,738
+[SPEAKER_03]: ¿Pero no le ofreces algo?
+
+82
+00:07:54,758 --> 00:07:55,419
+No, mil gracias.
+
+83
+00:07:55,499 --> 00:07:56,039
+No, estoy bien.
+
+84
+00:07:56,079 --> 00:07:58,740
+[SPEAKER_00]: Pero con la página web tú me dices que estamos bien, ¿no?
+
+85
+00:08:00,461 --> 00:08:03,562
+[SPEAKER_03]: No.
+
+86
+00:08:03,582 --> 00:08:07,364
+[SPEAKER_02]: Pues a veces se quejan, ¿no?
+
+87
+00:08:07,384 --> 00:08:15,107
+[SPEAKER_02]: A lo mejor la información que tiene no es toda la... Lo pregunto es más que todo porque el que tiene la página normalmente tiene el correo.
+
+88
+00:08:15,688 --> 00:08:19,589
+[SPEAKER_02]: No, es que, mira... Que fue otro que nos había quedado mal, ¿no?
+
+89
+00:08:19,629 --> 00:08:20,950
+[SPEAKER_02]: No, es... sí.
+
+90
+00:08:21,470 --> 00:08:33,534
+[SPEAKER_02]: Tengo problema con Godaddy que tiene el dominio, hace cuenta el dominio está con Godaddy, pero cuando se contrató a esa persona, no sé en qué momento se nos ocurrió darle como la, el host a él.
+
+91
+00:08:34,914 --> 00:08:41,736
+[SPEAKER_02]: Entonces cada que hablo para Godaddy, tengo un problema con no sé qué, ah, esto, velo con, velo con tu host.
+
+92
+00:08:41,756 --> 00:08:48,918
+[SPEAKER_03]: Y no lo quiere soltar, yo le dije, no te decía la cantidad de veces que le he hablado de que, o sea, cuánto me, cuánto, o sea, cóbrame.
+
+93
+00:08:49,570 --> 00:08:50,471
+[SPEAKER_03]: Pero regresa uno nuestro... Y no quiere.
+
+94
+00:08:50,491 --> 00:08:51,031
+[SPEAKER_03]: No, no, no me contesta.
+
+95
+00:08:51,051 --> 00:08:51,751
+[SPEAKER_00]: Dice, sí, claro que sí.
+
+96
+00:08:51,772 --> 00:08:59,297
+[SPEAKER_03]: O sea, tuvimos un Zoom y te lo cotizo y ya te pasé a ti el número, no sé qué te dijo.
+
+97
+00:08:59,317 --> 00:09:00,437
+[SPEAKER_03]: No es que no le pedí que me lo regresara.
+
+98
+00:09:00,457 --> 00:09:01,238
+[SPEAKER_03]: ¿Cómo fue la época del hosting?
+
+99
+00:09:01,898 --> 00:09:03,259
+[SPEAKER_00]: Pues, no, eso es muy sencillo.
+
+100
+00:09:03,279 --> 00:09:04,620
+[SPEAKER_00]: Realmente esos temas de claves.
+
+101
+00:09:05,441 --> 00:09:11,405
+[SPEAKER_00]: Pero entonces, si el correo electrónico está dociado al correo electrónico de él, entonces en el momento que tú quieras cambiar la clave, le va a llegar esa a él.
+
+102
+00:09:11,725 --> 00:09:11,965
+[SPEAKER_00]: Sí.
+
+103
+00:09:12,326 --> 00:09:16,488
+[SPEAKER_00]: Entonces ya es decirle, venga, necesito que me des las claves porque lo quiero cambiar, en el caso que lo quieran cambiar.
+
+104
+00:09:16,809 --> 00:09:17,509
+[SPEAKER_00]: No, sí, sí, me gustaría.
+
+105
+00:09:17,529 --> 00:09:18,109
+[SPEAKER_00]: Que yo creo que...
+
+106
+00:09:19,638 --> 00:09:31,882
+[SPEAKER_00]: Porque eso pues, creo que es una solución, hablando de lo que tenían los correos, no sé si aquí todo el mundo tiene correo corporativo, solamente unos pocos.
+
+107
+00:09:32,062 --> 00:09:40,704
+[SPEAKER_02]: Es que tenemos un correo, nadie lo quiere usar, por ejemplo Luis usó el Google de él, Miguel está en el mercado de usar el de él, este, después...
+
+108
+00:09:41,504 --> 00:09:45,565
+[SPEAKER_03]: Tú me pediste un correo para ganar, pero yo dije, pues te va a pasar, o sea, no me da ese correo.
+
+109
+00:09:45,585 --> 00:09:46,466
+[SPEAKER_03]: Yo sí uso mi correo.
+
+110
+00:09:46,646 --> 00:09:47,366
+[SPEAKER_03]: Tú sí usas mucho tu correo.
+
+111
+00:09:48,866 --> 00:10:16,714
+[SPEAKER_00]: Bueno, desde que quité... Y no, me pregunto más que todo es para ver si de pronto también ofrecer como entre las primeras ofertas también una posibilidad de solventar ese problema y asociarlo con algo que sea una plataforma más fácil o que sea más accesible de manera, porque si no reciben, o por lo menos si no pueden enviar correos desde el correo empresarial,
+
+112
+00:10:17,922 --> 00:10:19,223
+[SPEAKER_00]: Ah, Gmail, ¿no?
+
+113
+00:10:19,243 --> 00:10:24,245
+[SPEAKER_03]: Podemos enviar correos a otros correos que tengan el dominio empresarial.
+
+114
+00:10:24,705 --> 00:10:26,025
+[SPEAKER_03]: Pero es que está mal eso, ¿no?
+
+115
+00:10:26,466 --> 00:10:28,226
+[SPEAKER_03]: Pero eso ya nos explicaron una vez.
+
+116
+00:10:29,247 --> 00:10:29,947
+[SPEAKER_03]: Es un rollo.
+
+117
+00:10:29,967 --> 00:10:32,968
+[SPEAKER_03]: Tú vas a mandar el informe, bueno, no sé si eso ya después, no sé.
+
+118
+00:10:33,008 --> 00:10:36,190
+[SPEAKER_02]: No, es que no, ese es el origen para ese correo positivo.
+
+119
+00:10:36,230 --> 00:10:41,592
+[SPEAKER_03]: Pero la persona ya lo puede usar, porque en medio de los choferes y así no tienen correos institucionales.
+
+120
+00:10:41,612 --> 00:10:42,552
+[SPEAKER_03]: ¿Pero qué le pasó?
+
+121
+00:10:42,812 --> 00:10:45,934
+[SPEAKER_03]: Nada más no, pues no sé, no sé si está programado.
+
+122
+00:10:45,954 --> 00:10:46,854
+[SPEAKER_03]: ¿Pero qué te dijeron?
+
+123
+00:10:53,281 --> 00:10:55,342
+[SPEAKER_02]: Es que ya se supone que eso se resolvió.
+
+124
+00:10:56,203 --> 00:10:58,144
+[SPEAKER_02]: Carlos.
+
+125
+00:10:58,224 --> 00:11:00,426
+[SPEAKER_02]: Pero si no hablas tú con Carlos, con el proveedor que te expide.
+
+126
+00:11:00,446 --> 00:11:05,550
+[SPEAKER_02]: O sea, primero hacemos pruebas internas a ver si pueden ir o recibir de los correos que ellos están haciendo.
+
+127
+00:11:05,570 --> 00:11:10,033
+[SPEAKER_00]: Claro, sí, yo creo que primero es ver si funcionó o no, porque si no funciona, pues no hay necesidad de cambiarlo.
+
+128
+00:11:10,213 --> 00:11:14,637
+[SPEAKER_02]: Ajá, entonces si ya funciona, y si no, quitarle ya a Carlos el hosting.
+
+129
+00:11:15,417 --> 00:11:16,458
+[SPEAKER_02]: Y este...
+
+130
+00:11:19,062 --> 00:11:46,510
+[SPEAKER_00]: No, no, yo creo que hay muchas oportunidades y hay muchas puertas que se pueden empezar a revisar y profundizar con el tiempo, no todo tiene que ser una solución inmediata y solucionar todos los problemas ya, pues eso no va a pasar nunca.
+
+131
+00:11:47,466 --> 00:12:00,417
+[SPEAKER_00]: Lo importante sí es como de pronto empezar a organizar una hoja de ruta que se puedan implementar diferentes soluciones para llegar al punto, ojalá más rápido que en cuatro meses, o pues el tiempo que se requiera para que ustedes tengan toda la información en un lugar, que les funcione.
+
+132
+00:12:00,437 --> 00:12:05,881
+[SPEAKER_02]: Sí, porque te gusta empezar a ver resultados así como inmediatos, o sea, como que ya, ya eso se solucionó.
+
+133
+00:12:05,941 --> 00:12:16,770
+[SPEAKER_02]: Aunque ahorita no te digo, está así todo en aparente control, pero cada que pedimos algo no aparece, porque yo les digo mucho arriba, o sea,
+
+134
+00:12:17,250 --> 00:12:31,342
+[SPEAKER_02]: Yo, la información tiene que estar en tres minutos, o sea, si se pide algo, en tres minutos me la tienes que dar, o sea, si ahorita yo pido la relación de cajas y camiones, y se la pido a Miguel que la tiene, o si no estaba, nadie la tiene, o sea, debe de tener, debemos de tener como...
+
+135
+00:12:32,414 --> 00:12:36,356
+[SPEAKER_00]: Toda la información concentrada en un sitio que sea más necesario.
+
+136
+00:12:36,396 --> 00:12:40,158
+[SPEAKER_02]: Que yo abra la computadora y ponga relación de cajas y camiones, nada más de verla.
+
+137
+00:12:40,178 --> 00:12:43,959
+[SPEAKER_02]: O sea, no que uno tenga tres camiones en una lista, otro tiene dos camiones en una lista.
+
+138
+00:12:43,979 --> 00:12:45,820
+[SPEAKER_02]: La información tiene que estar en un minuto.
+
+139
+00:12:45,840 --> 00:12:53,344
+[SPEAKER_02]: O yo le pido la... Nosotros aquí llevamos todo lo de Los Ángeles, toda la carpeta corporativa.
+
+140
+00:12:53,364 --> 00:12:58,526
+[SPEAKER_02]: Lo de la carpeta corporativa, la carpeta corporativa, el control de los empleados del otro lado, o sea...
+
+141
+00:12:59,034 --> 00:13:03,177
+[SPEAKER_02]: Como que no tenemos, digo, en dos minutos tiene que estar la información que estamos pidiendo.
+
+142
+00:13:03,197 --> 00:13:11,563
+[SPEAKER_00]: Y cada uno tiene su información en hojas, pues cada uno tiene su hoja de Excel, me imagino, o su documento propio con la relación de cajas y camiones.
+
+143
+00:13:12,104 --> 00:13:16,107
+[SPEAKER_02]: De cajas y camiones, o sea, son dos, uno pone acá, otros, ajá, no hay algo.
+
+144
+00:13:16,127 --> 00:13:25,794
+[SPEAKER_02]: Entonces, lo interesante aquí es que tenemos que tener el control, o sea, que si yo no estoy, que Miguel no está, pues cualquier persona puede tener el acceso a la información.
+
+145
+00:13:25,934 --> 00:13:26,154
+[SPEAKER_01]: Claro.
+
+146
+00:13:27,206 --> 00:13:30,448
+[SPEAKER_02]: No dependamos de malamente, ¿no?
+
+147
+00:13:31,388 --> 00:13:33,469
+[SPEAKER_00]: Sí, pero el día de mañana alguien se enfermó.
+
+148
+00:13:33,529 --> 00:13:38,492
+[SPEAKER_02]: Del archivo de la persona, o sea, todo tiene que estar escaneado, documentado.
+
+149
+00:13:38,892 --> 00:13:46,155
+[SPEAKER_02]: Es que tiene, por ejemplo, aquí quiere tener todo lo de la empresa americana aquí, pero impreso.
+
+150
+00:13:46,716 --> 00:13:51,018
+[SPEAKER_02]: O sea, por ejemplo, si nos llega una auditoría en Estados Unidos, todo lo tiene en papel, impreso.
+
+151
+00:13:51,498 --> 00:13:59,742
+[SPEAKER_02]: Pero no tiene la base de datos registrada, a lo mejor en una computadora, para que el auditor llegue y te pida, dame todas las facturas del mes de junio.
+
+152
+00:13:59,762 --> 00:14:01,362
+[SPEAKER_02]: Y se puede imprimir y se le entrega así o lo que sea.
+
+153
+00:14:01,382 --> 00:14:02,523
+[SPEAKER_02]: Y que nada más es lo que quiere.
+
+154
+00:14:02,623 --> 00:14:17,770
+[SPEAKER_02]: Entonces, voy a sacar mi carpeta, sí, del mes de junio, con todos los documentos impresos, porque no se tiene... Y él quiere traer su laptop personal y no quiso usar nunca la computadora de la empresa.
+
+155
+00:14:17,810 --> 00:14:18,370
+[SPEAKER_02]: Entonces...
+
+156
+00:14:18,706 --> 00:14:24,651
+[SPEAKER_02]: Tenemos que partir de ahí, o sea, tener una computadora tal vez de escritorio donde aquí vas a trabajar.
+
+157
+00:14:24,911 --> 00:14:32,157
+[SPEAKER_02]: Si quieres tener tu computadora personal, pues a lo mejor descarga un archivo en tu USB y ya te lo llevas para trabajar en tu casa.
+
+158
+00:14:33,138 --> 00:14:37,642
+[SPEAKER_02]: Pero como obligarlos a tener los accesos y los...
+
+159
+00:14:37,902 --> 00:14:42,546
+[SPEAKER_02]: Sé que, no sé si es válido, por ejemplo, ahorita que yo tenga acceso a su...
+
+160
+00:14:43,286 --> 00:14:52,028
+[SPEAKER_00]: Es que hay varias formas de que se quiera manejar, obviamente pues hay que empezar a analizar temas de privacidad y pues como de información que una persona pueda tener y otra persona no pueda tener.
+
+161
+00:14:52,729 --> 00:15:04,712
+[SPEAKER_00]: Lo que se puede hacer es montar un servidor donde hay un documento donde todo el mundo pueda tener acceso y cada quien maneja su información y que las personas administrativas o los cargos de arriba puedan revisar toda la información sin necesidad de hablar con alguien.
+
+162
+00:15:05,632 --> 00:15:11,914
+[SPEAKER_02]: Ah, si de que yo vente y diga, ay quiero ver la relación de los empleados de Estados Unidos, ¿cuántos están ganando sus nóminas?
+
+163
+00:15:12,242 --> 00:15:13,763
+[SPEAKER_02]: Sus archivos y sus documentos.
+
+164
+00:15:14,464 --> 00:15:22,009
+[SPEAKER_02]: El expediente de los choferes, aquí lo quiero, el expediente de los empleados, acá lo quiero, porque eso tampoco está de manera digitalizada y así debería estar.
+
+165
+00:15:22,429 --> 00:15:33,977
+[SPEAKER_02]: O sea, el expediente de cada empleado con su contrato, con sus documentos oficiales, eso quisiera como que estuviera también digitalizado.
+
+166
+00:15:35,638 --> 00:15:39,921
+[SPEAKER_00]: En una nube, sí, pero en un servidor propio de ustedes o...
+
+167
+00:15:41,434 --> 00:15:48,119
+[SPEAKER_00]: Un tercero puede ser Google, podemos ser nosotros, puede ser la compañía que ustedes quieran, la solución que les beneficie.
+
+168
+00:15:48,159 --> 00:16:03,910
+[SPEAKER_00]: Yo creo que todo eso es una información muy valiosa porque son soluciones que también no requieren una implementación, un desarrollo tan profundo y se pueden hacer en el corto plazo para que ustedes ya puedan empezar a ver esa información, la hoja de vida del personal, de los camiones, de muchas cosas.
+
+169
+00:16:04,650 --> 00:16:07,311
+[SPEAKER_00]: Entonces, yo creo que quedó como esa información.
+
+170
+00:16:07,351 --> 00:16:13,673
+[SPEAKER_02]: A mí como prioridad, bueno, obviamente es lo de Luis, que eso de Luis, se tienen los contenedores, entonces ya voy a tener una relación de contenedores.
+
+171
+00:16:14,013 --> 00:16:27,617
+[SPEAKER_02]: Por ejemplo, a mí se le pagan a una persona 100 dólares por cada, a Damián, la persona que saca las fianzas.
+
+172
+00:16:27,637 --> 00:16:30,978
+[SPEAKER_02]: Entonces, él me manda una relación así de,
+
+173
+00:16:31,874 --> 00:16:35,497
+[SPEAKER_02]: De todos los contenedores que él sacó, él es el broker de Estados Unidos.
+
+174
+00:16:35,517 --> 00:16:39,921
+[SPEAKER_02]: Entonces me mandó una relación de todos los contenedores para que yo se los pague.
+
+175
+00:16:40,361 --> 00:16:45,305
+[SPEAKER_02]: Entonces él me dice al final fueron ciento... ¿Cuántos son?
+
+176
+00:16:45,345 --> 00:16:47,267
+[SPEAKER_02]: Ciento treinta y cinco contenedores.
+
+177
+00:16:47,287 --> 00:16:58,156
+[SPEAKER_02]: Entonces yo no tengo manera de saber si realmente todos los contenedores que me están poniendo, él aquí en esta relación, pues de quién son, si son de ella, de él, o sea, me puede inventar cinco contenedores.
+
+178
+00:16:58,176 --> 00:17:00,898
+[SPEAKER_02]: Y yo el querer hacer esto, entonces...
+
+179
+00:17:01,222 --> 00:17:07,748
+[SPEAKER_02]: Lo imprimo y luego entro con el número, entro hacia todos mis chats en buscar.
+
+180
+00:17:09,569 --> 00:17:10,850
+[SPEAKER_00]: Y te los envían es por chat.
+
+181
+00:17:11,571 --> 00:17:16,375
+[SPEAKER_02]: Y entonces busco el OMC y así me sale, quiere decir que sí hablo, si es de Carlos.
+
+182
+00:17:16,415 --> 00:17:23,241
+[SPEAKER_02]: Entonces yo no puedo estar haciendo eso diario porque al quinto me distraigo, o sea, yo me pongo a hacer otra cosa y entonces nunca termino de revisar la lista.
+
+183
+00:17:23,261 --> 00:17:28,786
+[SPEAKER_02]: Entonces cuando igual pasa lo mismo, llegan las facturas de él y
+
+184
+00:17:29,278 --> 00:17:33,240
+[SPEAKER_02]: O llegan las facturas del que saca los contenedores.
+
+185
+00:17:33,280 --> 00:17:34,040
+[SPEAKER_02]: Él es el broker.
+
+186
+00:17:35,281 --> 00:17:38,182
+[SPEAKER_02]: Él es el que da los documentos para que se libere el contenedor.
+
+187
+00:17:38,422 --> 00:17:42,284
+[SPEAKER_02]: Pero hay otra persona que se encarga de sacar el contenedor.
+
+188
+00:17:43,224 --> 00:17:44,865
+[SPEAKER_02]: Al transportista que saca el contenedor.
+
+189
+00:17:45,765 --> 00:17:52,668
+[SPEAKER_02]: Estos correos, lo que te habla Luis de los correos, también copian aquí al broker americano.
+
+190
+00:17:52,689 --> 00:17:55,350
+[SPEAKER_02]: El broker americano es el que libera...
+
+191
+00:17:56,222 --> 00:17:57,883
+[SPEAKER_02]: Parte del gobierno el que libera el...
+
+192
+00:17:58,024 --> 00:18:00,185
+[SPEAKER_00]: El que le envía a ti ese SP largo.
+
+193
+00:18:00,365 --> 00:18:05,449
+[SPEAKER_02]: Sí, entonces él se supone que él liberó todos esos contenedores.
+
+194
+00:18:05,470 --> 00:18:16,999
+[SPEAKER_02]: Y llegó una nota de arriba, él debió haberse dado cuenta, entonces él sabe, ya va a llegar tal contenedor y genera el documento que tiene el transportista para sacarlo del puerto.
+
+195
+00:18:18,360 --> 00:18:25,746
+[SPEAKER_02]: Entonces, yo no sé si todos esos contenedores se arribaron, si lo sacó el transportista...
+
+196
+00:18:26,546 --> 00:18:42,697
+[SPEAKER_02]: Graciela sí los tiene en esa relación porque los tiene organizados en el documento, nada más los del chino, porque obviamente él tiene comunicación con él y tiene que darle todo el seguimiento, todo lo que se pagó, cuándo salió, cuándo llegó, cuándo se regresó el contenedor, todo eso.
+
+197
+00:18:43,517 --> 00:18:55,886
+[SPEAKER_02]: Pero en sí para el tema de los pagos, pues no hay una manera de vincular la información del broker con la información del que sacó del puerto cuando ya llega el momento en el que
+
+198
+00:18:56,322 --> 00:18:57,303
+[SPEAKER_02]: Se tiene que generar el pago.
+
+199
+00:18:57,363 --> 00:19:24,262
+[SPEAKER_02]: Entonces por eso se me hace importante lo de Luis, la nota de arriba, se relacionan todos los contenedores y en esos contenedores ya se va viendo qué día salió, así empieza el programa de Graciela, qué día salió y cuánto me está cobrando el proveedor, el transportista que lo saca del puerto, cuánto me está cobrando el broker.
+
+200
+00:19:25,246 --> 00:19:27,387
+[SPEAKER_02]: ¿Qué fecha salió de Los Ángeles?
+
+201
+00:19:27,427 --> 00:19:29,188
+[SPEAKER_02]: ¿Qué fecha arribó a bodega?
+
+202
+00:19:29,208 --> 00:19:32,390
+[SPEAKER_02]: ¿Y qué fecha salió a carretera?
+
+203
+00:19:32,410 --> 00:19:35,992
+[SPEAKER_02]: Y luego, ¿y a qué fecha se entregó al cliente?
+
+204
+00:19:36,493 --> 00:19:38,134
+[SPEAKER_02]: Para poderle yo cobrar al cliente.
+
+205
+00:19:41,916 --> 00:19:45,258
+[SPEAKER_03]: Entonces, es demasiado.
+
+206
+00:19:47,102 --> 00:19:50,344
+[SPEAKER_00]: No se puede perder la cabeza, vamos de a poquitos, vamos de parte por parte.
+
+207
+00:19:51,745 --> 00:20:02,632
+[SPEAKER_00]: Y por lo que yo no hay soluciones que pueden parecer muy complejas en un principio, pero que realmente simplemente es de organizar la información y establecer unos protocolos básicos como información.
+
+208
+00:20:03,212 --> 00:20:12,478
+[SPEAKER_00]: Sin empezar a implementar herramientas, millones de herramientas, porque la gente lo que les ha pasado, que no saben manejar y les da pereza aprender una herramienta.
+
+209
+00:20:12,854 --> 00:20:18,356
+[SPEAKER_00]: Entonces hoy en día lo que utilizan en Whatsapp es buscar la manera de que esa sea la herramienta principal para ciertas personas.
+
+210
+00:20:18,756 --> 00:20:24,058
+[SPEAKER_00]: Obviamente habrán cargos que necesitan otras herramientas, pero que sigan utilizando esa y que la utilicen bien.
+
+211
+00:20:24,738 --> 00:20:27,199
+[SPEAKER_02]: De hecho yo sé que es bien complicado cuando hay cambios.
+
+212
+00:20:27,459 --> 00:20:36,922
+[SPEAKER_02]: Yo traje a una compañía que iba a haber muchos cambios y nos tuvieron que mandar a un curso de tres días a cierto personal que íbamos a...
+
+213
+00:20:38,538 --> 00:20:40,679
+[SPEAKER_02]: A compartir el cambio a las demás personas.
+
+214
+00:20:40,699 --> 00:20:58,870
+[SPEAKER_02]: Entonces nos mandaron tres días a Querétaro, a una hacienda, a explicarnos todo el proceso y todas las etapas que al llegarle a alguien para notificarle que va a haber un cambio, cómo lo va a tomar, o sea, la negación, así como si fuera un duelo.
+
+215
+00:20:59,690 --> 00:21:05,634
+[SPEAKER_02]: La negación, la aceptación, hasta que llegue un punto en el que tienes que darle seguimiento en todo ese camino.
+
+216
+00:21:06,194 --> 00:21:09,215
+[SPEAKER_02]: Para que puedas tener un éxito al final.
+
+217
+00:21:09,255 --> 00:21:14,898
+[SPEAKER_00]: Y que la gente sí lo tome bien y que se dé cuenta que eso es un beneficio a ellos a largo tiempo.
+
+218
+00:21:15,759 --> 00:21:22,882
+[SPEAKER_00]: Y no lo están reemplazando, que no lo están cambiando, que no va a perder el empleo porque ya no tengo que hacer eso, entonces me voy a quedar sin trabajo.
+
+219
+00:21:23,122 --> 00:21:25,003
+[SPEAKER_02]: Entonces es todo un acompañamiento.
+
+220
+00:21:25,223 --> 00:21:31,546
+[SPEAKER_02]: Entonces como que aquí la misma prisa no nos ha...
+
+221
+00:21:33,011 --> 00:21:52,242
+[SPEAKER_02]: Para implementar este programa, como te comentó Héctor, en Guadalajara hubo una negación, o sea, recibí todo tipo de... Cuando les empecé a pedir fotos de salida y que tienes que escanear la entrada, o sea...
+
+222
+00:21:52,670 --> 00:22:08,757
+[SPEAKER_00]: No, no sabes, o sea, no sabes cómo se usa el personal para... Claro, es que me imagino, es que deben sentir miedo, porque es miedo, y qué tal si yo no aprendo, y qué tal entonces si yo no aprendo me van a echar, y si no me gusta entonces es complicarme, yo no sé manejar computadores, yo no sé prender un computador, yo no sé manejar un celular.
+
+223
+00:22:08,777 --> 00:22:16,481
+[SPEAKER_02]: Bueno, sí, espérame, espérame, ¿qué pasa?
+
+224
+00:22:17,061 --> 00:22:18,662
+Hay que buscar la manera.
+
+225
+00:22:19,010 --> 00:22:20,291
+Sí, de verdad es un honor.
+
+226
+00:22:21,071 --> 00:22:22,351
+No, a ustedes, mil gracias.
+
+227
+00:22:22,431 --> 00:22:24,772
+[SPEAKER_00]: Y si hay que generar una idea de esa.
+
+228
+00:22:24,792 --> 00:22:31,115
+[SPEAKER_00]: Cuando, pues, si quieren esta semana, yo tengo que, lo único es, yo puedo cruzar antes, puedo cruzar en moto y cruzo rápido.
+
+229
+00:22:31,415 --> 00:22:32,816
+[SPEAKER_03]: Sí, sí, sí, pues venga, a ver.
+
+230
+00:22:33,616 --> 00:22:37,257
+[SPEAKER_03]: La moto la puedo dar en cualquier lado.
+
+231
+00:22:37,277 --> 00:22:41,179
+[SPEAKER_00]: Pues tenemos una bodega cruzando en montaña.
+
+232
+00:22:41,199 --> 00:22:41,819
+[SPEAKER_00]: Ah, sí, perfecto.
+
+233
+00:22:41,839 --> 00:22:44,700
+[SPEAKER_00]: Y si no, pues ya, si nos vamos juntos, o yo quiero un carro y me voy en derecho.
+
+234
+00:22:44,720 --> 00:22:45,000
+[SPEAKER_00]: No, no, no.
+
+235
+00:22:45,020 --> 00:22:45,881
+[SPEAKER_00]: Así sería irnos juntos, ¿no?
+
+236
+00:22:49,238 --> 00:22:50,179
+[SPEAKER_00]: Sí, perfecto.
+
+237
+00:22:50,199 --> 00:22:52,020
+[SPEAKER_03]: Hasta pudiera cruzar caminando y te esperaba.
+
+238
+00:22:52,321 --> 00:22:54,242
+[SPEAKER_00]: Ah, bueno, esa es la otra, que esa también es muy fácil.
+
+239
+00:22:54,723 --> 00:22:57,505
+[SPEAKER_00]: No sé, pues la cruzada en la mañana se nota, ahí debe ser pesada, me imagino, no sé.
+
+240
+00:22:57,525 --> 00:23:00,047
+[SPEAKER_03]: Sí, ver eso también.
+
+241
+00:23:00,608 --> 00:23:00,808
+Eso.
+
+242
+00:23:00,848 --> 00:23:02,349
+Pero la moto se me ha quedado.
+
+243
+00:23:02,369 --> 00:23:03,050
+Tiene solución.
+
+244
+00:23:03,070 --> 00:23:04,771
+¿Cuándo fue eso?
+
+245
+00:23:04,791 --> 00:23:08,914
+[SPEAKER_00]: Pero bueno.
+
+246
+00:23:08,954 --> 00:23:12,838
+[SPEAKER_00]: Ya me tienes que ir, es que otros procesos por ahí ves que se puedan solucionar.
+
+247
+00:23:12,858 --> 00:23:16,341
+[SPEAKER_00]: Que te usaron de psicólogo todos los problemas.
+
+248
+00:23:16,361 --> 00:23:17,522
+[SPEAKER_00]: Sí, claro, yo veo, no está bien.
+
+249
+00:23:35,841 --> 00:23:41,604
+[SPEAKER_00]: Y por ejemplo, que tu mamá dice que tienen la información, cada uno tiene su pedazo de la información, ¿en qué la tiene?
+
+250
+00:23:41,624 --> 00:23:42,804
+[SPEAKER_00]: ¿En un Excel me imagino?
+
+251
+00:23:42,984 --> 00:23:46,966
+[SPEAKER_03]: Sí, pero no nada formal, o sea, que ahora es uno ni le puedes decir.
+
+252
+00:23:47,158 --> 00:23:52,600
+[SPEAKER_03]: Y ya, y lo mando.
+
+253
+00:23:52,620 --> 00:23:56,501
+[SPEAKER_00]: El tema es formalizar todo eso y que eso quede organizado.
+
+254
+00:23:57,261 --> 00:24:15,106
+[SPEAKER_03]: Buscar la manera de que no sea... Es que ya hoy en día con Whatsapp es...
+
+255
+00:24:15,906 --> 00:24:18,667
+[SPEAKER_03]: Debe ser de IA, pero hay que trabajar en Estados Unidos.
+
+256
+00:24:18,747 --> 00:24:20,168
+[SPEAKER_03]: Y es que...
+
+257
+00:24:20,208 --> 00:24:20,828
+[SPEAKER_00]: Todo es con correo.
+
+258
+00:24:20,848 --> 00:24:21,768
+[SPEAKER_03]: Todo es con correo.
+
+259
+00:24:21,908 --> 00:24:29,812
+[SPEAKER_00]: Cualquier movimiento, cualquier cambio, tiene que estar... Y no te gustaría que tuvieran, por favor, no les gustaría tener un correo corporativo para formalizar un poco más la...
+
+260
+00:24:29,832 --> 00:24:31,192
+[SPEAKER_03]: Pues sí tenemos el que te mandé.
+
+261
+00:24:31,692 --> 00:24:32,873
+[SPEAKER_00]: Pero es uno, no cada uno tiene...
+
+262
+00:24:32,893 --> 00:24:33,873
+[SPEAKER_00]: No, cada uno tiene uno.
+
+263
+00:24:33,953 --> 00:24:34,774
+[SPEAKER_03]: Ah, cada uno.
+
+264
+00:24:35,274 --> 00:24:37,315
+[SPEAKER_03]: Pero nunca he trabajado en IA.
+
+265
+00:24:37,595 --> 00:24:37,875
+[SPEAKER_00]: Ah, ¿sí?
+
+266
+00:24:38,315 --> 00:24:41,836
+[SPEAKER_03]: Sí.
+
+267
+00:24:42,357 --> 00:24:44,658
+[SPEAKER_03]: También tenemos una girl to work, o como que sí.
+
+268
+00:24:44,678 --> 00:24:45,358
+[SPEAKER_03]: Sí, sí, pero está...
+
+269
+00:24:47,406 --> 00:24:49,847
+[SPEAKER_03]: No se pueden mandar correos a Gmail.
+
+270
+00:24:50,007 --> 00:24:53,728
+[SPEAKER_00]: Sí, es que hay que verlo bien cómo es.
+
+271
+00:24:53,788 --> 00:24:54,608
+[SPEAKER_00]: Ok, bye.
+
+272
+00:24:54,628 --> 00:24:56,469
+Yo creo que la línea está así.
+
+273
+00:25:16,470 --> 00:25:17,451
+[SPEAKER_02]: Muchas gracias Ricardo.
+
+274
+00:25:17,471 --> 00:25:18,311
+[SPEAKER_00]: No, Marielena, a ustedes.
+
+275
+00:25:18,351 --> 00:25:20,932
+[SPEAKER_00]: Mil gracias por el tiempo, por el espacio.
+
+276
+00:25:20,952 --> 00:25:27,036
+[SPEAKER_00]: Bueno, vamos a ver qué podemos hacer para empezar a implementar cambios próximamente y que lo noten.
+
+277
+00:25:27,056 --> 00:25:30,517
+[SPEAKER_02]: ¿Cómo son tus honorarios?
+
+278
+00:25:30,598 --> 00:25:31,698
+[SPEAKER_00]: ¿Cómo es el proceso?
+
+279
+00:25:31,718 --> 00:25:33,959
+[SPEAKER_00]: A ver, si te doy 100% sincero, la compañía está empezando.
+
+280
+00:25:34,019 --> 00:25:35,560
+[SPEAKER_00]: Ustedes son nuestro primer cliente, la verdad.
+
+281
+00:25:36,381 --> 00:25:38,802
+[SPEAKER_00]: Entonces, sí tenemos unas tarifas establecidas.
+
+282
+00:25:39,282 --> 00:25:43,383
+[SPEAKER_00]: También depende mucho de las implementaciones, entonces más que todo es por implementación.
+
+283
+00:25:43,403 --> 00:25:47,344
+[SPEAKER_02]: No es por hora, es por implementación.
+
+284
+00:25:47,484 --> 00:25:47,624
+[SPEAKER_02]: Exacto.
+
+285
+00:25:47,644 --> 00:25:50,825
+[SPEAKER_00]: Entonces es una lista como de necesidades que viste ahorita que teníamos y ya... Y se las compartimos.
+
+286
+00:25:50,945 --> 00:26:08,610
+[SPEAKER_00]: Normalmente como que hacemos es que los servicios que nosotros prestamos o que lo que tenemos en mente es que los servicios que nosotros prestamos y las soluciones en el pasado, porque digamos que dar un resumen, todo empezó era porque yo estaba metido en otros negocios y empecé a involucrarme mucho con Intel Artificial y empecé como a resolver...
+
+287
+00:26:09,226 --> 00:26:29,157
+[SPEAKER_00]: A resolver problemas de amigos en compañías por medio de implementación de optimizaciones, canales de automatización y todo eso yo corren en mi computador, pues todo eso está funcionando en mi computador, entonces les cobro como un fin mensual porque las cosas funcionen en los computadores, pues soy como el servidor de ellos.
+
+288
+00:26:30,258 --> 00:26:37,322
+[SPEAKER_00]: Entonces hay dos caminos, uno es intentar implementar las soluciones para que les queden ustedes in-house y que ya ustedes las tengan in-house.
+
+289
+00:26:38,991 --> 00:26:43,915
+[SPEAKER_00]: Obviamente eso requiere un poquito más de temas de logística, por así decirlo.
+
+290
+00:26:44,415 --> 00:26:57,566
+[SPEAKER_00]: Y otro es un fee inicial por el análisis, por la implementación de la solución y después un fee mensual por prestarles el servicio de mantenimiento, de atención al cliente, de que el sistema esté corriendo en nuestro computador y esté funcionando sin problema.
+
+291
+00:26:57,667 --> 00:27:06,254
+[SPEAKER_00]: Entonces, dependiendo de las herramientas que ustedes requieran, si ustedes dicen, bueno, vamos a diseñar un robot de WhatsApp para que tu WhatsApp no se congestione tanto y que toda la información...
+
+292
+00:27:06,666 --> 00:27:19,418
+[SPEAKER_00]: Que llegue al WhatsApp, quede registrada en un computador, se pueda pasar la información importante, pase una base de datos y luego que llegue a WhatsApp alimente una base de datos en Excel, eso funciona en un servidor propio de nosotros.
+
+293
+00:27:19,438 --> 00:27:31,250
+[SPEAKER_00]: Entonces dependiendo mucho de la herramienta que se utilice es un FIFIGO más un mensual, perdón, o si ustedes dicen no, es que definitivamente no queremos pagar nada mensual, entonces sería un FIFIGO.
+
+294
+00:27:32,182 --> 00:27:48,936
+[SPEAKER_00]: Pero antes de eso tenemos que ver cuáles son las soluciones, qué necesitan ustedes, puede que sea algo muy sencillo, como no, venga, entonces montémosles un Google Sheets, que no sé si sabes que es un Google Workspace, es como un Microsoft, como un Office, pero en Google.
+
+295
+00:27:49,557 --> 00:27:50,878
+[SPEAKER_00]: Y todo eso funciona en la nube Google.
+
+296
+00:27:51,058 --> 00:28:00,066
+[SPEAKER_00]: Entonces yo les cobro a ustedes, o les cobraríamos por montarles el sistema, enseñarles qué es manejar un computador desde una página web, eso es muy fácil,
+
+297
+00:28:00,702 --> 00:28:03,224
+[SPEAKER_00]: Y ya toda la información queda montada en un Excel en Internet.
+
+298
+00:28:03,784 --> 00:28:21,855
+[SPEAKER_00]: Entonces ahí tú puedes revisar lo de las relaciones de cajones y camiones, cualquier información que ustedes necesiten, pues como de temas, no sé, que sea, pues hoy en día tienen un Excel, cada uno abre su Excel y lo borra y lo manda, que quede algo ya un poco más formalizado.
+
+299
+00:28:22,395 --> 00:28:26,778
+[SPEAKER_00]: Entonces es una implementación inmediata que no tiene ningún costo extra, simplemente, simplemente y se hace.
+
+300
+00:28:27,398 --> 00:28:40,722
+[SPEAKER_00]: O si tú dices, no, es que quiero que las fotos que me mandan a mí se analicen y las corramos por inteligencia artificial para que no me toque a mí transcribir parte por parte, eso también requiere un fee mensual porque eso ya es utilizando inteligencia artificial.
+
+301
+00:28:41,742 --> 00:28:49,045
+[SPEAKER_00]: Que igual todo eso se los explicamos, yo soy muy abierto con los costos, les decimos, vea, el discriminado es este, nuestra tarifa es esta y esto es lo que le vamos a cobrar.
+
+302
+00:28:49,065 --> 00:28:53,026
+[SPEAKER_00]: Entonces depende mucho de qué es la solución, cómo la vamos a implementar,
+
+303
+00:28:53,606 --> 00:29:08,592
+[SPEAKER_00]: El camino que ustedes quieran tomar, si quieren tomarla, que seamos nosotros parte de un apoyo y un acompañamiento mensual, o si es una cosa que entregamos una vez, obviamente, pues con, venga, si algo falló venimos y arreglamos, y ya después, implementaciones más adelante, pues se cobrará de otra manera.
+
+304
+00:29:08,632 --> 00:29:14,554
+[SPEAKER_02]: Bueno, yo creo que en un inicio sí será un acompañamiento total para...
+
+305
+00:29:15,898 --> 00:29:22,363
+[SPEAKER_02]: Pues para todo, para la implementación y para la... Claro, y además, lo que te digo, estamos aquí para ayudarlos.
+
+306
+00:29:22,563 --> 00:29:32,049
+[SPEAKER_00]: Yo la verdad es que es nuestro primer cliente, en México especialmente, entonces yo no tengo ningún problema en estar con ustedes el tiempo que sea necesario sin la suscripción.
+
+307
+00:29:32,610 --> 00:29:38,634
+[SPEAKER_02]: Sí, sí, hay muchas oportunidades, como viste, como empresa con mucha necesidad de... Sí, señora.
+
+308
+00:29:40,579 --> 00:29:55,730
+[SPEAKER_00]: Yo creo que sí hay oportunidades, yo veo, y son muchas oportunidades desde lo pequeño, que es lo que más uno inmediatamente nota, hasta de pronto ya reestructuraciones más grandes de la información y de organización de los contenedores y de los camiones y todo eso, que tampoco es imposible.
+
+309
+00:29:56,150 --> 00:30:00,794
+[SPEAKER_02]: Sí, sí, sí, porque aparte aquí yo creo que ahorita está como en el punto de partida de crecer.
+
+310
+00:30:00,814 --> 00:30:06,878
+[SPEAKER_02]: De hecho, ahorita un cliente, ahorita me cae Silvia, que es la que tenía, no sé, que estaba mandando, a lo mejor,
+
+311
+00:30:07,622 --> 00:30:15,288
+[SPEAKER_02]: 5 contenedores, ahorita van a dar 80, entonces como que necesitamos estar preparados para lo que va a pasar a futuro.
+
+312
+00:30:15,308 --> 00:30:18,210
+[SPEAKER_00]: Yo creo que es un buen momento entonces para implementarlo.
+
+313
+00:30:18,230 --> 00:30:21,833
+[SPEAKER_02]: Sí, sí, se acaba de comprar mucho equipo, entonces es un excelente momento.
+
+314
+00:30:22,053 --> 00:30:23,174
+[SPEAKER_00]: Qué bueno, me alegra muchísimo.
+
+315
+00:30:23,234 --> 00:30:24,135
+[SPEAKER_02]: ¿Y a ver cuándo agendamos?
+
+316
+00:30:24,875 --> 00:30:27,597
+[SPEAKER_02]: La ida, pues a ver si ahorita hablo con Héctor, a ver si el jueves.
+
+317
+00:30:28,518 --> 00:30:31,720
+[SPEAKER_02]: Ajá, yo el jueves.
+
+318
+00:30:31,740 --> 00:30:32,621
+[SPEAKER_02]: Porque yo, yo...
+
+319
+00:30:32,641 --> 00:30:33,702
+[SPEAKER_02]: Pero bueno, tengo mis fotos de finales.
+
+320
+00:30:34,294 --> 00:30:35,995
+[SPEAKER_02]: Es que el viernes es muy complicado.
+
+321
+00:30:36,035 --> 00:30:37,917
+[SPEAKER_02]: La próxima semana puede ser o más adelante.
+
+322
+00:30:37,937 --> 00:30:43,801
+[SPEAKER_02]: Yo pensaba irme a Guadalajara la próxima semana, de hecho se había, me sorprendió porque se había espacio en el hotel.
+
+323
+00:30:43,821 --> 00:30:44,442
+[SPEAKER_02]: ¿Qué día?
+
+324
+00:30:45,042 --> 00:30:50,346
+[SPEAKER_02]: Pues se dio, ahorita, ayer chequeé y había espacio de lunes a jueves, como que se había habitaciones.
+
+325
+00:30:52,187 --> 00:30:57,852
+[SPEAKER_02]: Es que no, pues, es que es más, perdimos ahorita los boletos, yo tengo unos regresos tuyos y míos de Guadalajara para mañana.
+
+326
+00:30:57,872 --> 00:31:00,994
+[SPEAKER_03]: O sea, no conocíamos allá hace mucho que creo que ustedes perdieron.
+
+327
+00:31:01,014 --> 00:31:01,094
+[SPEAKER_03]: Sí.
+
+328
+00:31:01,910 --> 00:31:05,076
+[SPEAKER_00]: Ah, sí, que... Sí, sí, sí.
+
+329
+00:31:05,256 --> 00:31:06,157
+[SPEAKER_00]: Que fue lo del mencho, ¿no?
+
+330
+00:31:06,198 --> 00:31:06,859
+[SPEAKER_00]: Que no pudieron llegar.
+
+331
+00:31:06,879 --> 00:31:07,680
+[SPEAKER_03]: Ah, desde que eso pasó.
+
+332
+00:31:07,700 --> 00:31:08,041
+[SPEAKER_03]: Sí, no he ido.
+
+333
+00:31:08,061 --> 00:31:12,668
+[SPEAKER_03]: Entonces, yo estaba yendo cada mes a Guadalajara.
+

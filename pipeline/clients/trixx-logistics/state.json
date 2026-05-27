@@ -6,7 +6,7 @@
   "sector": "logistica-cross-border",
   "started": "2026-05-18",
   "owner": "client-owner",
-  "phase": "prospect",
+  "phase": "discovery",
   "phase_history": [
     {
       "from": null,
@@ -14,17 +14,38 @@
       "at": "2026-05-18T22:32:48Z",
       "by": "ricardo",
       "note": "Created via _template/ scaffold"
+    },
+    {
+      "from": "prospect",
+      "to": "discovery",
+      "at": "2026-05-26T20:00:00-07:00",
+      "by": "ricardo",
+      "note": "Reunión formal 3-personas (María Helena + Hector + Andrea + Luis breve) ocurrió 2026-05-26 AM (10:10 AM, ~113 min) + sesión 2 (12:05 PM, ~31 min). Pre-formal-meeting deliverables completos. Audios + transcripciones + Claude curados archivados en transcripts/2026-05-26_formal-meeting/. Visita LA acordada para jueves 2026-05-28. Próximo: Skill 05 (opportunity-report) post-visita."
     }
   ],
   "pilot": true,
   "pricing": {
-    "model": null,
+    "model": "por_implementacion",
     "currency": null,
-    "amount": null
+    "amount": null,
+    "note": "Ricardo presentó en sesión 12:05 dos caminos: (A) in-house, (B) fee inicial + fee mensual. Sin números cerrados. Posicionamiento: 'ustedes son nuestro primer cliente'."
   },
-  "next_action": "Pre-formal-meeting work DONE. Conversación informal Andrea ↔ Ricardo 2026-05-26 entregó: decisora real (madre de Andrea), USD 1M+ inversión china, Excel→PDF CBP pain, husband-SD-company anchor. Skills 01-04 re-corridas 2026-05-26 con nueva inteligencia. 4 PDFs en /home/ricardo/Desktop/. Next: agendar reunión formal 3-personas (Andrea + madre + Hector) usando PrepLlamada 2026-05-26 como guía; confirmar permiso grabación; post-reunión Skill 05.",
-  "kpis": {},
+  "next_action": "Visita LA jueves 2026-05-28 (María Helena + Andrea + posiblemente Hector + Ricardo) — cruce frontera por definir. Ricardo prepara lista inicial de propuestas post-visita. Quick-wins identificados durante la reunión: (1) filtrado IA de correos, (2) replicar sistema Monday.com para todo Trixx, (3) hoja de vida digital camiones + personal, (4) bot WhatsApp reconciliación Damián, (5) migración email GoDaddy→Microsoft (ya en curso del lado cliente). Insumos para Skill 05 listos en transcripts/2026-05-26_formal-meeting/claude/.",
+  "kpis": {
+    "decisora_metric": "información buscable en ≤3 minutos (María Helena)",
+    "fundador_metric": "tiempo de respuesta a incidentes, no ahorro de costos (Hector)"
+  },
   "blockers": [],
-  "tags": [],
-  "recording_preference": null
+  "tags": ["formal-meeting-done", "la-visit-pending", "skill05-pending"],
+  "recording_preference": "granted_and_used",
+  "key_people": {
+    "decisora_real": "Maria Helena ('María Helena')",
+    "fundador": "Hector Leyva",
+    "voz_digital_interna": "Andrea Chavez",
+    "operativo_usa": "Luis (LA)",
+    "futuro_inversor_societario": "Jan (chino-venezolano, USD 1.05M via visa EB-5, futuro duenho formal Trixx 2026)",
+    "operativo_problematico": "Beto (encargado bodega LA, hostage de Hector)",
+    "broker_usa": "Damian (135 contenedores/mes, conciliacion manual con WhatsApp)",
+    "hosting_provider_problematico": "Carlos (no responsivo, hostage situation IT)"
+  }
 }

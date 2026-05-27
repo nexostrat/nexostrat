@@ -1,8 +1,65 @@
 # CHECKPOINT — trixx-logistics (Client-Owner)
 
-**Updated:** 2026-05-19 (AM, session 5)
-**By:** ricardo (via Claude Code at /srv/Nexostrat/)
-**Persona:** Client-Owner
+**Updated:** 2026-05-26 (session 19, evening — test-run de pipeline + re-corrida con nueva inteligencia)
+**By:** ricardo (via Claude Code at /srv/Nexostrat/, ricardo-desktop)
+**Persona:** Client-Owner (cross-persona desde sesión Founder per Strict Rule 1 operator-driven)
+
+## Update 2026-05-26 (session 19) — Pipeline re-corrida tras conversación informal del día
+
+**Disparador.** Ricardo abrió session 19 pidiendo un "test run" del pipeline completo Skills 01-04 sobre Trixx, validando que la toolchain estuviera operacional en `ricardo-desktop`. Después aportó intel adicional de una conversación informal Andrea ↔ Ricardo del mismo día (2026-05-26). El re-run no fue ceremonia — la nueva intel cambió el panorama en 6 dimensiones materiales.
+
+**Lo nuevo desde la conversación 2026-05-26 (vs. estado de session 5):**
+
+| Dimensión | Estado session 5 (2026-05-19) | Estado session 19 (2026-05-26) |
+|---|---|---|
+| **Decisor real** | Hector Leyva (asumido) | **REFUTADA** — la **madre de Andrea** (co-propietaria part-time, cada vez más involucrada). Hector = fundador presente, NO decisor. |
+| **Estructura de control** | Andrea = influenciadora; Hector firma | Andrea filtra → madre decide → Hector valida. 3 voces, 3 criterios. |
+| **Señal de presupuesto** | MEDIO (USD 15-40K pilot inferido) | **MEDIO-ALTO** (USD 30-80K pilot + USD 5-15K/mo retainer). Fundamento: USD 1M+ inversión china reciente para 10 trucks. |
+| **Madurez digital** | 2/5 (basado en presencia exterior) | **1.5/5** (Andrea mostró pantalla — operativo interno casi 100% manual). |
+| **Awakening event** | Hipótesis: Reforma 2026 + presión competitiva | **Confirmado**: el **esposo de Andrea trabaja en empresa de logística automatizada en San Diego**. Andrea ve el contraste a diario. Ancla aspiracional pre-existente. |
+| **Pain point #1** | Hipotético (back-office aduanal) | **CONFIRMADO en pantalla**: Excel → PDF imprimible para CBP, exacto al segundo. Anchor visible + cuantificable + alto stakes. |
+
+**Reunión formal 3-personas pendiente.** La reunión 2026-05-25 originalmente planeada NO ocurrió en esa fecha. En su lugar, hubo una conversación informal corta (Andrea ↔ Ricardo) que entregó la intel. La **reunión formal** con los 3 asistentes (Andrea + madre + Hector) sigue **PENDIENTE** — sin fecha confirmada aún. Ricardo agenda con Andrea (probablemente WhatsApp).
+
+**Re-corrida pipeline ejecutada (paths a outputs):**
+
+- `00_intake/research_input.md` — actualizado con sección "Update 2026-05-26 (post-conversación con Andrea)" supersediendo estimaciones previas.
+- `00_intake/our_hypotheses.md` — actualizado con sección "Update 2026-05-26 (revisiones post-conversación)" supersediendo decisor / presupuesto / tono / hipótesis.
+- `01_company_analysis/runs/2026-05-26_mode-a/` — Skill 01 **full re-run**. `final_report.md` (12 secciones, ~5000 palabras, integra los 6 cambios materiales) + `Trixx_AnalisisCompania_20260526.docx` (83 KB).
+- `02_industry_analysis/runs/2026-05-26_mode-a/` — Skill 02 **refresh** con update note (sector sin cambios materiales en 8 días). `LogisticaCrossBorder_MX_20260526.md` + `.docx` (85 KB).
+- `03_competitor_analysis/runs/2026-05-26_mode-a/` — Skill 03 **refresh** con update note (competidores sin cambios; husband-SD-company añadido como benchmark aspiracional NO competidor). `Trixx_Competencia_MX_20260526.md` + `.docx` (80 KB).
+- `04_prep_llamada/runs/2026-05-26_mode-a/` — Skill 04 **completamente nuevo PrepLlamada** calibrado a 3-audience dynamic + 9-eslabón process map + no-solution-today directive. `Trixx_PrepLlamada_20260526.md` (~6500 palabras) + `.docx` (84 KB).
+
+**4 PDFs renderizados en `/home/ricardo/Desktop/`:**
+- `Trixx_AnalisisCompania_20260526.pdf` (355 KB)
+- `LogisticaCrossBorder_MX_20260526.pdf` (434 KB)
+- `Trixx_Competencia_MX_20260526.pdf` (357 KB)
+- **`Trixx_PrepLlamada_20260526.pdf` (389 KB) ← deliverable primario para la reunión formal**
+
+**PrepLlamada 2026-05-26 — estructura nueva:**
+- §0 Contexto operativo (3-audience matrix + tactical do's/don'ts + estado factual ultra-rápido)
+- §1-3 Empresa / sector / posición competitiva (refresh 5-min)
+- §4 Guía de preguntas (4.0 apertura relacional → 4.1 mapeo cadena 9 eslabones [cotización → booking → docs CBP → dispatching → cruce → recepción → última milla → facturación → comms] → 4.2 deep dive Excel→PDF CBP → 4.3 catálogo otros procesos manuales → 4.4 stack tecnológico → 4.5 estructura decisión + horizonte → 4.6 inversión china + expansión flota → 4.7 Reforma 2026 awareness)
+- §5 Game-changers (5 preguntas, usar 2-3)
+- §6 Checklist final (operativo + estratégico + emocional)
+- §7 Red flags + respuestas calibradas
+- §8 Quick-win probes (mental para Ricardo, NO surfacing al cliente hoy)
+- §9 Cierre + next steps + materiales
+
+**Toolchain validado operacional en `ricardo-desktop`:** 5/5 SKILL.md present + 5/5 en `.claude/skills/` + 5/5 en available-skills + DOCX renderers funcionando (skills/0[1-5]_*/scripts/generate_docx.py) + libreoffice DOCX→PDF pipeline funcionando.
+
+**Calibración explícita para la reunión formal:**
+- Information-gathering ONLY (no proponer solución hoy — directiva explícita Ricardo: *"I will not propose to them any solution today, I need to gather as much information as possible"*).
+- 3 audiencias simultáneas con criterios distintos.
+- NO mencionar Nuvocargo a menos que ellos lo nombren.
+- NO mencionar defectos del sitio.
+- NO comparar nosotros primero con husband-SD-company; si Andrea la trae, escuchar + profundizar + capturar nombre.
+- SÍ anclar inicio en el legado de Hector (24 años, integración vertical hecha en casa).
+- SÍ profundizar Excel→PDF CBP (Andrea ya lo abrió voluntariamente).
+
+**Estado del cliente al cierre de session 19:** intake actualizado + pipeline re-corrida + 4 PDFs nuevos en Desktop + toolchain validado. Reunión formal 3-personas pendiente agendar. Próxima sesión: Ricardo subirá artifacts (recording + notas) post-reunión formal para alimentar Skill 05 (opportunity-report).
+
+---
 
 ## Update 2026-05-19 (session 5) — Pre-meeting critical path CERRADO
 

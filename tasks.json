@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v2",
   "project": "nexostrat",
-  "updated": "2026-05-25T19:30:00-07:00",
+  "updated": "2026-05-26T19:30:00-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -446,12 +446,13 @@
     {
       "id": "t-monday-meeting-prep",
       "subject": "Trixx Logistics pilot meeting (2026-05-25 1pm Tijuana) — run Skills 1-4 serially + practice meeting",
-      "status": "in_progress",
+      "status": "done",
       "priority": "critical",
       "due": "2026-05-25",
       "created": "2026-05-18",
       "blocked_by": "t-trixx-logistics-setup",
-      "notes": "Pre-meeting preparation COMPLETA 2026-05-19 AM session 5. Skills 01-02-03-04 done + our_hypotheses.md llenado + 4 PDFs en Desktop Ricardo. Sigue in_progress hasta que la reunión 2026-05-25 1pm Tijuana ocurra (la \"entrega\" real de este task es Ricardo llegando preparado a la reunión). Materiales listos: PrepLlamada como guía + libreta + tarjeta + permiso explícito para grabar audio. Calibración: discovery relacional + relationship-building, NO auditoría técnica. Cierre sugerido: ofrecer análisis gratuito, NO empujar Hoja de Ruta IA en esta reunión."
+      "notes": "CLOSED 2026-05-26 session 19. Pre-formal-meeting prep COMPLETA tras 2 corridas: (a) corrida inicial 2026-05-19 con 4 PDFs en Desktop; (b) re-corrida 2026-05-26 con nueva inteligencia tras conversacion informal Andrea-Ricardo TODAY (decisora real = madre de Andrea NO Hector; USD 1M+ inversion china reciente para 10 trucks; Excel-PDF CBP pain confirmado en pantalla; husband-SD-company como ancla aspiracional). Skills 01-04 re-corridas: 01 full re-run; 02+03 refresh con update note 2026-05-26; 04 fully new PrepLlamada calibrada a 3-audience dynamic + process-mapping + no-solution-today directive. 4 PDFs nuevos en /home/ricardo/Desktop/. PrepLlamada estructurada en 9 secciones (contexto operativo 3-audience + 5-min company + 3-min sector + 2-min competitive + question guide con 9-eslabon process map + game-changers + checklist objetivos + red flags + quick-win probes mental + cierre+next steps). Toolchain validado operacional en ricardo-desktop. La reunion formal 3-personas (Andrea + madre + Hector) sigue pendiente — se tracea ahora en t-trixx-meeting-execution.",
+      "completed": "2026-05-26"
     },
     {
       "id": "t-brand-renderer-wireup",
@@ -507,19 +508,19 @@
       "subject": "Reunión Trixx Logistics 2026-05-25 1pm Tijuana — ejecución + grabación + notas",
       "status": "open",
       "priority": "critical",
-      "due": "2026-05-25",
+      "due": "2026-06-10",
       "created": "2026-05-19",
-      "notes": "Reunión presencial en oficina de Andrea Chávez (Tijuana). 30 min objetivo. Llevar: 4 PDFs impresos (Company + Industry + Competitor + PrepLlamada) + libreta + pluma + tarjeta. Pedir permiso explícito para grabar audio: 'para no perderme detalles importantes, ¿les molesta si grabo solo el audio?'. Calibración: discovery relacional + relationship-building, NO auditoría técnica. Apertura relacional 5 min ANTES de cualquier sondeo operativo. NUNCA mencionar defectos del sitio. Patente aduanal con framing neutro. Comparación con Nuvocargo SOLO si ellos abren. Cierre sugerido: ofrecer análisis gratuito por WhatsApp/email en unos días, NO empujar Hoja de Ruta de IA en esta reunión. Insumos a generar para Skill 05: grabación de audio + notas escritas con citas textuales + respuestas a las 10 preguntas de objetivos sección 6 del PrepLlamada."
+      "notes": "ACTUALIZACION 2026-05-26 session 19: la reunion 2026-05-25 originalmente planeada NO ocurrio en esa fecha. En su lugar, una conversacion informal Andrea-Ricardo ocurrio 2026-05-26 (TODAY) donde Andrea entrego inteligencia clave: decisora real = madre de Andrea (NO Hector); USD 1M+ inversion china reciente para 10 trucks; Excel-PDF CBP pain mostrado en pantalla; husband-SD-company como ancla emocional. La reunion FORMAL con los 3 asistentes confirmados (Andrea + madre + Hector) sigue PENDIENTE — sin fecha confirmada aun. Due actualizado 2026-06-10. Materiales actualizados disponibles: PrepLlamada 2026-05-26 (corrida fresh con 3-audience calibration + 9-eslabon process map + quick-win probes mental + no-solution-today directive) + Company analysis 2026-05-26 + Industry + Competitor refreshes en /home/ricardo/Desktop/. Insumos a generar en la reunion: grabacion audio + notas con citas textuales + mapeo 5+ procesos manuales con frecuencia/tiempo/personas + Excel-PDF CBP cuantificado + decisora confirmada en presencia de los 3 + horizonte de decision + orden de magnitud de presupuesto."
     },
     {
       "id": "t-trixx-skill-05-opportunity-report",
       "subject": "Skill 05 (Opportunity Report) sobre Trixx — consume reportes + grabación + notas reunión",
       "status": "open",
       "priority": "high",
-      "due": "2026-05-27",
+      "due": "2026-06-15",
       "created": "2026-05-19",
       "blocked_by": "t-trixx-meeting-execution",
-      "notes": "Skill 05 (opportunity-report) consume los 4 reportes + grabación de la reunión + notas. Produce el entregable gratuito al cliente — Reporte de Oportunidades de IA con ratio 90% valor entregado / 10% invitación a Hoja de Ruta. Después: revisión obligatoria Ricardo+JP (Fase 5 del pipeline) → entrega manual vía WhatsApp o email (Fase 6) → D+4 business days auto-follow-up si Trixx no responde. Output: 04_..._OpReporte_<TIMESTAMP>.docx. Si Trixx avanza a paid: 'Hoja de Ruta de IA' (scope + price TBD)."
+      "notes": "DUE actualizada 2026-05-26 session 19 de 2026-05-27 a 2026-06-15 (la reunion formal 3-personas se reprogramo y aun no tiene fecha). Skill 05 (opportunity-report) consume los 4 reportes refreshed 2026-05-26 + grabacion de reunion formal + notas. Produce el entregable gratuito al cliente — Reporte de Oportunidades de IA con ratio 90% valor entregado / 10% invitacion a Hoja de Ruta. Despues: revision obligatoria Ricardo+JP (Fase 5) → entrega manual via WhatsApp o email (Fase 6) → D+4 business days auto-follow-up. Output: 04_..._OpReporte_TIMESTAMP.docx. Si Trixx avanza a paid: Hoja de Ruta de IA (scope + price TBD)."
     },
     {
       "id": "t-whatsapp-andrea-audiencia",
@@ -793,6 +794,25 @@
       "created": "2026-05-25",
       "due": "2026-06-15",
       "notes": "Tracks the close of t-nexostrat-telegram-account. The memo is stale on 2 of its 3 items but kept in-inbox until all three resolve."
+    },
+    {
+      "id": "t-trixx-formal-meeting-schedule",
+      "subject": "Agendar reunion formal Trixx (Andrea + madre + Hector) usando PrepLlamada 2026-05-26 como guia",
+      "status": "open",
+      "priority": "high",
+      "due": "2026-06-05",
+      "created": "2026-05-26",
+      "notes": "La conversacion informal 2026-05-26 produjo intel suficiente para preparar la reunion formal. Ricardo agenda con Andrea (probablemente via WhatsApp). Confirmar: fecha + hora + lugar (oficina Trixx Tijuana) + permiso para grabar audio + recordatorio que los 3 asistentes esten presentes (madre y Hector son criticos por roles distintos)."
+    },
+    {
+      "id": "t-trixx-upload-meeting-artifacts",
+      "subject": "Upload meeting artifacts (recording/notes) post-formal-meeting para Skill 05",
+      "status": "open",
+      "priority": "high",
+      "due": "2026-06-12",
+      "created": "2026-05-26",
+      "blocked_by": "t-trixx-meeting-execution",
+      "notes": "Ricardo confirmo en session 19: 'in the next session I will upload everything'. Post-formal-meeting, en la siguiente sesion, Ricardo sube grabacion + notas + cualquier doc que Trixx haya compartido. Insumos para Skill 05 (opportunity-report)."
     }
   ]
 }

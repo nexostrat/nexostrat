@@ -7,6 +7,74 @@ sealed_during: [skill-01-company-analyst, skill-02-industry-analyst, skill-03-co
 companion: research_input.md
 filled: 2026-05-19
 filled_by: ricardo + claude (founder)
+revised: 2026-05-26 (post-conversation revisions; supersede prior judgments where in conflict)
+---
+
+## ⚡ Update 2026-05-26 — Revisiones post-conversación
+
+> **Fuente:** conversación corta cara-a-cara Andrea ↔ Ricardo, **2026-05-26**. Algunas hipótesis previas se confirman, otras se refutan, y aparecen hipótesis nuevas que la próxima reunión debe resolver.
+
+### Hipótesis previas resueltas
+
+| # | Hipótesis (§6) | Estado | Fuente |
+|---|---|---|---|
+| H1 | Hector es decisor único | **REFUTADA** | Andrea dijo explícitamente: la **madre de Andrea** es la decisora. Hector = fundador presente pero no decisor. |
+| H3 | "Más" apunta a back-office / documentación aduanera | **PARCIAL + EXPANDIDA** | Sí incluye documentación aduanera (Excel→PDF CBP confirmado) pero el scope deseado es **toda la cadena**, no solo back-office. |
+| H7 | Andrea tiene capacidad real de empujar adentro | **CONFIRMADA** | Andrea investiga activamente, muestra pain points, ya tiene analogía-modelo (empresa del esposo). |
+| H6 | Reforma 2026 ya les preocupa | **NO RESUELTA** | Andrea no la mencionó en la corta conversación. Mantener para la próxima reunión. |
+
+### Decisor revisado (sección 2 supersedida en esta parte)
+
+- **Decisora real:** **la madre de Andrea**. Co-propietaria part-time, mucho más involucrada en la operación recientemente. **Implicación táctica:** el pitch va calibrado al criterio de evaluación de la **madre** como audiencia primaria, no de Hector.
+- **Hector Leyva:** **NO es decisor**. Sigue siendo el fundador, sigue presente, pero no firma. **Rol táctico:** **validador / aprobador moral**. Reconocer su legado al inicio.
+- **Andrea:** **influenciadora activa con capacidad de empuje** (CONFIRMADA). Patrón inferido: **Andrea filtra → mamá decide → Hector valida.** 3 voces, criterios distintos.
+- **Sofisticación tecnológica de la madre:** **DESCONOCIDA**. Probe necesario en reunión.
+
+### Presupuesto revisado (sección 3 supersedida)
+
+**Señales nuevas:**
+- USD 1M+ de capital chino fresco recién entró para comprar 10 camiones. Modo **expansión activa**, no supervivencia.
+- 10 camiones nuevos = ~80% expansión de flota (vs 12 previos → 22). Necesitarán infraestructura operativa proporcional: dispatching, tracking, doc-mgmt, billing → todo va a escalar.
+
+**Rango revisado:**
+- **Piloto:** USD **30-80K** (vs 15-40K previo).
+- **Retainer post-piloto:** USD **5-15K/mes** (vs 2-5K previo).
+- **Cap superior:** absorben USD 100K **solo si** ven ROI tangible primero.
+
+**Justificación:** capital fresco disponible + scope deseado = cadena completa + 3 decisores que pueden cuestionar low-ball. **Riesgo de mis-pricing:** poner el piloto en USD 15K ahora **lee mal** — comunica "esto es chiquito" en una empresa que acaba de mover USD 1M+ en activos fijos.
+
+**Estructura sugerida:** ofrecer el piloto en **fases** (Fase 1 = quick wins documentables / Excel→PDF CBP + 1-2 más → Fase 2 = chain visibility → Fase 3 = automatización profunda). Permite a la madre decir "sí a Fase 1" sin comprometer todo el monto.
+
+### Tono revisado (sección 4 — ajustes)
+
+- **Mantener:** cercano + estratégico, NO técnico profundo en primera reunión, NO proponer solución hoy (directiva explícita Ricardo: gather information).
+- **Nuevo elemento:** **3 audiencias simultáneas con criterios distintos.**
+  - **Andrea:** quiere validación de su intuición + alivio operativo concreto.
+  - **Madre:** quiere control + claridad financiera + impacto operativo medible.
+  - **Hector:** quiere respeto al legado + sentir que NO se le pasa por encima.
+- **Husband-in-SD-company:** ancla emocional ya activa en Andrea. Si lo trae, **escuchar y profundizar** (qué automatizaron, qué hands-off, qué la impactó). NO comparar nosotros primero.
+- **Excel→PDF CBP:** Andrea ya lo enseñó voluntariamente. **Pregunta táctica viable:** *"¿cuántas veces a la semana hacen ese proceso? ¿quién más en el equipo lo hace? ¿qué pasa si algo sale mal?"* — el pain ya está expuesto, profundizar es seguro.
+
+### Nuevas hipótesis a confirmar/refutar en la próxima reunión
+
+1. **La madre es el filtro técnico-financiero**, no el filtro emocional-relacional.
+2. **El criterio "ROI tangible en X meses" pesa más para la madre que cualquier wow factor de IA.**
+3. **Hector aceptará la modernización SI Andrea + madre la respaldan unidas** (no si solo Andrea empuja).
+4. **El Excel→PDF CBP es el pain #1 visible pero NO necesariamente el más caro.** Mapear el resto.
+5. **Tienen al menos 3-5 procesos manuales más** que "take forever" — quiénes los hacen, cuánto tardan, qué % de tiempo del equipo consumen.
+6. **Stack actual:** probablemente Excel + WhatsApp + un ERP/contable mexicano (CONTPAQi / ContSys) + algo aduanal. Confirmar inventario.
+7. **Ritmo de decisión:** ¿2 semanas / 1 mes / 3 meses? Flota nueva entrando → presión por decidir más rápido.
+8. **¿La Reforma 2026 está en su radar?** Si "ya cumplimos" → válido. Si "¿qué reforma?" → ventana de credibilidad enorme.
+9. **¿La inversión china implica obligaciones de reporting** (a los inversionistas) que requieran dashboards / métricas frescas? Trojan-horse de quick-win.
+10. **¿Temporada alta de cruces?** Sep-dic típico cross-border MX-USA. Si sí → calendario de implementación se mueve a Q1 2027.
+
+### Riesgos comerciales actualizados
+
+- **Madre conservadora financieramente** puede bloquear el piloto si lo lee como "experimento" sin ROI directo. **Mitigación:** anclar conversación en el Excel→PDF CBP (pain visible, fácil de cuantificar) como "Fase 1 / quick win".
+- **Hector desplazado** si la conversación va 100% para la madre. **Mitigación:** abrir con el legado (24 años, integración vertical hecha en casa), reconocer explícitamente lo construido.
+- **Husband-in-SD-company puede activar comparación injusta** ("¿por qué no podemos ser como ellos ya?"). **Mitigación:** si Andrea lo trae, validar pero NO prometer paridad — Trixx tiene operación más compleja (cross-border bilingüe, 3 decisores, escala distinta).
+- **Inversión china reciente crea distracción operativa** — están integrando 10 camiones, contratando drivers, ajustando rutas. Bandwidth interno puede ser limitado los próximos 60-90 días. **Mitigación:** el piloto debe **liberar bandwidth**, no consumirlo.
+
 ---
 
 # Our Hypotheses — `trixx-logistics`

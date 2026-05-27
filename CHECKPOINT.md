@@ -1,53 +1,52 @@
 # CHECKPOINT — root (Founder)
 
-**Updated:** 2026-05-26T19:30:00-07:00
-**By:** ricardo (via Claude Code session 19; evening session on `ricardo-desktop`)
-**Persona:** Founder (with operator-driven cross-persona work in `pipeline/clients/trixx-logistics/` per Strict Rule 1)
-**Session topic:** Trixx Logistics pipeline test-run + re-corrida con nueva inteligencia. Validación de toolchain Skills 01-04 operacional en `ricardo-desktop` + integración de 6 cambios materiales desde una conversación informal Andrea ↔ Ricardo del mismo día (2026-05-26). No architecture changes, no ADRs, no Gemini handoff.
+**Updated:** 2026-05-27T12:30:00-07:00
+**By:** ricardo (via Claude Code session 21; mid-day on `ricardo-hp-laptop`)
+**Persona:** Founder
+**Session topic:** Pipeline redesign brainstorm — Skill 5 reperfilada a internal-Nexostrat-facing + Skill 6 NEW orquesta entregables al cliente (.docx 5pp + .pptx 10 slides) + Skill 7 placeholder + 3 skills nuevos instalados (editorial-designer de JP + technical pptx/docx de Anthropic) + transcripción JP call + verificación brain-side (0 cambios necesarios). Spec + HTML deck enviados a JP para review; implementation plan pendiente de su aprobación. No architecture changes a la spec rule del repo, no ADRs, no Gemini handoff.
 
 ## What just happened (last session — read once, don't re-litigate)
 
-**Two-phase session, ~2-3 h wall-time.** Ricardo abrió pidiendo un "test run" del pipeline Trixx para validar toolchain en `ricardo-desktop`. Mid-session aportó un paragraph de intel nueva de una conversación informal Andrea ↔ Ricardo del mismo día. El re-run dejó de ser ceremonial y se volvió sustantivo — la nueva intel cambió el panorama en 6 dimensiones materiales. Late-session, Ricardo corrigió mi asunción de que la conversación había sido 2026-05-25 (era hoy, 2026-05-26) → sed global + re-render 4 DOCX + 4 PDF aplicado.
+**Sesión 21 (2026-05-27, ~5-6 h wall-time, mid-day).** Ricardo abrió pidiendo un redesign comprehensivo del pipeline después de la llamada Ricardo↔JP de la mañana (06:58, 117 min) donde JP se sumó formalmente a Nexostrat y propuso restructurar cómo el flujo produce valor para el cliente. La sesión fue una mezcla de brainstorm Q&A estructurado + design presentation + instalaciones técnicas + transcripción de soporte.
 
-**1. Session-start protocol estándar.** Read CHECKPOINT (session 18) + STATUS + tasks.json + calendar.json + journal previo + memos (founder inbox vacío) + checkpoint-mtime-check pass. Brief 5 bullets entregado. Verificación toolchain: 5/5 SKILL.md present + 5/5 en `.claude/skills/` + 5/5 listados en available-skills al session start. Toolchain ready en desktop.
+**1. Brainstorm 6-question Q&A locked.** Recorrimos 6 preguntas estructuradas en orden, cada una con 2-3 opciones + recomendación. Decisiones:
+- Q1 lente = **(b) mini-diagnóstico standalone con valor accionable independiente del cierre**
+- Q2 estructura = **(b2) 4 secciones espejo (cliente-primero / posibilidad-después)**
+- Q3 Word↔PPTX = **(ii) dos entregables paralelos, brief compartido**
+- Q4 bridge artifact = **(ii) template estructurado `brief_cliente.md` + Claude conduce la conversación**
+- Q5 formatos = **(α) solo .docx + .pptx (HTML descartado del flujo automático)**
+- Q6 rigidez = **(II) estructura rígida + densidad flexible**
+- Set títulos refinado a "Diagnóstico Operacional / Movimientos del Sector / Frentes de Oportunidad / Próximos Pasos" (Sec 2 título temporal — re-evaluar tras 2-3 pilotos)
 
-**2. AskUserQuestion sobre alcance del "test run".** Ricardo respondió con un paragraph de nuevo contexto en lugar de elegir entre las 4 opciones — decisión implícita: full re-run integrando nueva intel.
+**2. Reglas de lenguaje locked** del transcript JP + brainstorm: decir QUÉ se puede hacer NO QUÉ comprar; bajar "AI"; evitar "bot"/"agente" (Trixx); JP vocab "menores disrupciones" + "mayor productividad" + "equipo más productivo NO reemplazo".
 
-**3. Intake updates.** `00_intake/research_input.md` actualizado con sección "Update 2026-05-26 (post-conversación con Andrea)" con 7 sub-secciones (historia fundacional vertical-integration, estructura de control 3-personas, inversión USD 1M+ china, husband-SD-company anchor, pain catalog, intención declarada cadena completa, asistentes esperados reunión formal). `00_intake/our_hypotheses.md` actualizado con sección "Update 2026-05-26 — revisiones post-conversación" supersediendo decisor / presupuesto / tono / hipótesis + 10 nuevas hipótesis a confirmar en reunión formal + riesgos comerciales actualizados.
+**3. Spec escrito + aprobado por Ricardo** en `00_META/proposals/2026-05-27_skill6-pipeline-redesign.md` (~580 líneas, 17 secciones). Self-review pasó con 2 fixes inline (sec 13 brain-side language softening + sec 12 HTML deck path commit).
 
-**4. Skill 01 (company-analyst) FULL RE-RUN.** Skill invocada vía Skill tool → manifest cargado → escribí `01_company_analysis/runs/2026-05-26_mode-a/final_report.md` (12 secciones, ~5000 palabras) integrando los 6 cambios materiales. No re-fetcheé web sources (las URLs del exterior no cambiaron en 8 días; lo que cambió fue intel interna). DOCX renderizado vía `skills/01_company_analyst/scripts/generate_docx.py` (83 KB).
+**4. HTML deck interno construido** en `operations/internal/2026-05-27_nexostrat-pipeline-deck.html` (851 líneas, 50 KB). Single-page con SVG diagrama vectorizado del whiteboard JP + 9 secciones expandibles + click-to-expand pattern + tooltips on hover + Aurora palette + Inter + Caveat para anotaciones.
 
-**5. Skills 02 + 03 REFRESH-WITH-NOTE.** Decisión arquitectónica: el sector logística cross-border MX-USA y los competidores (Nuvocargo, Flexport, agentes TJ) no cambiaron materialmente en 8 días → carry-forward + update note prepended. Skill 02: "⚡ Update 2026-05-26 — Validación sectorial vía evidencia Trixx" documentando 4 patrones sectoriales que la evidencia Trixx valida. Skill 03: "⚡ Update 2026-05-26 — Mapa competitivo intacto + benchmark aspiracional nuevo" documentando husband-SD-company como NO competidor pero benchmark aspiracional emocional + sub-update que Trixx ahora está en posición de contraataque tech vs Nuvocargo. DOCX 85 KB + 80 KB.
+**5. 3 skills nuevos instalados** + symlinks en `.claude/skills/`:
+- `nexostrat-editorial-designer` extraído del `.skill` zip que JP entregó hoy a las 11:00 (13 KB SKILL.md + 18 logos PNG + 3 reference docs)
+- `pptx` técnico del repo `github.com/anthropics/skills/skills/pptx`
+- `docx` técnico del mismo repo
+- License source-available capturada en spec sec 11; archivado el zip en `skills/00_META/skill_packages/`
 
-**6. Skill 04 (discovery-meeting) FULLY NEW.** Primary deliverable. ~6500 palabras, 9 secciones (vs. 7 del template estándar — añadidas §8 quick-win probes mental + §9 cierre/next steps por directiva no-solution-today). Calibrada explícitamente a:
-- **3-audience dynamic** con tabla de qué quiere/no quiere escuchar cada uno (Andrea / madre / Hector)
-- **9-eslabón process map** como columna vertebral (cotización → booking → docs CBP → dispatching → cruce → recepción → última milla → facturación → comms)
-- **No-solution-today directive** explícita (gather information ONLY)
-- Apertura relacional 5-7 min anclada en legado Hector
-- Deep dive Excel→PDF CBP con framework ROI mental (PDFs/sem × min/PDF × $/hr + errores × $/error)
-- Quick-win probes for Ricardo's mental recognition (NO surfacing al cliente)
+**6. Transcripción JP call** corrida en background. 3 intentos hasta éxito: (a) sub-agent paralelo blocked por sandbox solo-lectura; (b) main thread sin scope arg → prompt interactivo; (c) main thread con `--scope nexostrat --topic skill6-redesign` + `</dev/null` para CLIENT_SLUG empty → corrió end-to-end. Outputs en `/srv/meetings/nexostrat/2026-05-27/2026-05-27_06-58_skill6-redesign/` (transcript multi-format + Gemini summary). Insights del summary alimentaron el brainstorm mid-flight.
 
-**7. PDFs delivered.** libreoffice DOCX→PDF + `cp` a `/home/ricardo/Desktop/`. 4 archivos:
-- `Trixx_AnalisisCompania_20260526.pdf` (355 KB)
-- `LogisticaCrossBorder_MX_20260526.pdf` (434 KB)
-- `Trixx_Competencia_MX_20260526.pdf` (357 KB)
-- `Trixx_PrepLlamada_20260526.pdf` (389 KB) ← deliverable primario
+**7. Verificación brain-side completa** (terminal step). Grep para todos los terms del redesign en los 3 plans brain-side (`2026-05-25_meetings-pipeline-overhaul-master-plan.md` + `2026-05-25_meetings-pipeline-overhaul-deployment.md` + `2026-05-22_brain_bot_platform_implementation.md`) → **0 hits totales**. Los plans operan a nivel arquitectónico más alto (transcripción → task auto-extracción → tenant routing); no bajan a skill names o paths client-side. **0 cambios necesarios** a brain-side. Solapamiento nombre `/brief` flagged pero no es colisión técnica.
 
-**8. Date correction late-session.** Ricardo respondió a Step 1 con: *"The conversation was today, in the next session i will upload everthing"*. Mi asunción inicial de que la conversación había sido 2026-05-25 (la fecha original del calendario) era incorrecta. Sed global `2026-05-25` → `2026-05-26` en 6 archivos (intake x2 + 4 reportes), 25+ referencias corregidas. Regeneré los 4 DOCX + 4 PDF + copia a Desktop.
-
-**9. Session-end artifacts.** STATUS + CHECKPOINT + journal + state.json next_action + tasks.json (1 closed + 1 updated + 1 due-pushed + 2 new) + calendar.json (e-trixx-pilot-meeting updated) + cliente checkpoint. git commit + push.
+**8. Session-end artifacts.** STATUS + journal + tasks.json (2 closed + 10 new) + CHECKPOINT (este archivo) + commit + push.
 
 ## Decisiones locked esta sesión
 
-1. **No re-fetchear web sources que no cambiaron en 8 días.** Pattern para futuras re-corridas: si el cliente entrega intel nueva pero las fuentes externas (sitio + LinkedIn + D&B + SAFER + etc.) no cambiaron, refresh el contenido layered, no re-fetch. Reduce overhead 70-80% vs full re-run. Update note explícita preserva trazabilidad.
-
-2. **Skills 02 + 03 refresh-with-note vs. full re-run.** Decisión: refresh. Justificación: feedback-prefer-architecture-over-ceremony — re-correr full sería ceremonia sin aporte de información. La evidencia Trixx VALIDA los reportes previos del sector y competidores; no los refuta.
-
-3. **PrepLlamada con §8 quick-win probes mental.** Añadido al template estándar porque la directiva no-solution-today crea riesgo real de que Ricardo, al ver un pain map directo, quiera proponer. §8 da a Ricardo el reconocimiento mental para spotting sin caer en surfacing al cliente hoy.
-
-4. **Date correction es legítima.** Fixing 25+ referencias en 6 docs + re-render de 4 DOCX + 4 PDF en ~5 min es worth it para precisión documental cuando los docs van a ser usados operacionalmente.
-
-5. **La reunión 2026-05-25 NO ocurrió en esa fecha.** Lo que pasó hoy (2026-05-26) fue una conversación informal corta (Andrea ↔ Ricardo solo). La reunión formal 3-personas (Andrea + madre + Hector) sigue pendiente sin fecha. Calendar event actualizado: when=2026-06-10 como nuevo milestone target.
+1. **Skill 5 reperfilada**: client-facing → internal-Nexostrat-facing. Slug `opportunity-report` → `internal-report`. Audiencia Ricardo + JP, no cliente.
+2. **Skill 6 NEW**: `client-deliverables`. Orquesta 2 renderers (.docx 5pp + .pptx 10 slides) en formato estandarizado 4-sección espejo.
+3. **Skill 7 placeholder**: `implementation-roadmap`. Spec-only hoy; código tras 1-2 corridas reales de Skill 6. Nombre comercial cliente-facing: "Plan Detallado de Implementación".
+4. **`brief_cliente.md`** como artefacto-puente versionado entre Skill 5 y Skill 6. Claude conduce la conversación que lo llena (no es free-form).
+5. **Iteración v1→v2** (e.g., Andrea preview → reunión formal): runs independientes, no soporte nativo de versioning.
+6. **Multi-engine transcription canon**: WhisperX large-v3 + pyannote primary; Gemini summary only (alucina en transcription >20MB); Apple Voice Memos secondary; screen-recorder builtin y Claude multimodal experimentales.
+7. **Brain-side verification = workstream separado**, no parte del redesign. 0 cambios necesarios verificados.
+8. **License source-available Anthropic skills**: uso intra-Claude-Code OK; revisar largo plazo si Nexostrat opera fuera de CC.
+9. **Trixx como test-skeleton**, no re-run forzoso. Los outputs de session 20 se preservan en su path original; próximos runs usan paths nuevos.
 
 ## Stack state (live & verifiable next session)
 
@@ -55,76 +54,92 @@
 /srv/Nexostrat/
 ├── 00_META/
 │   ├── journal/
-│   │   └── 2026-05-26_trixx-pipeline-rerun.md            ← NEW (esta sesión)
-│   └── (sin cambios en otros subfolders)
-├── pipeline/clients/trixx-logistics/
-│   ├── 00_intake/
-│   │   ├── research_input.md                              ← MODIFIED (Update 2026-05-26 prepended)
-│   │   └── our_hypotheses.md                              ← MODIFIED (Update 2026-05-26 prepended)
-│   ├── 01_company_analysis/runs/
-│   │   └── 2026-05-26_mode-a/                             ← NEW dir
-│   │       ├── final_report.md                            ← NEW (12 secciones, ~5000 palabras)
-│   │       └── Trixx_AnalisisCompania_20260526.docx       ← NEW (83 KB)
-│   ├── 02_industry_analysis/runs/
-│   │   └── 2026-05-26_mode-a/                             ← NEW dir
-│   │       ├── LogisticaCrossBorder_MX_20260526.md        ← NEW (refresh + update note)
-│   │       └── LogisticaCrossBorder_MX_20260526.docx      ← NEW (85 KB)
-│   ├── 03_competitor_analysis/runs/
-│   │   └── 2026-05-26_mode-a/                             ← NEW dir
-│   │       ├── Trixx_Competencia_MX_20260526.md           ← NEW (refresh + update note)
-│   │       └── Trixx_Competencia_MX_20260526.docx         ← NEW (80 KB)
-│   ├── 04_prep_llamada/runs/
-│   │   └── 2026-05-26_mode-a/                             ← NEW dir
-│   │       ├── Trixx_PrepLlamada_20260526.md              ← NEW (fully new content ~6500 palabras)
-│   │       └── Trixx_PrepLlamada_20260526.docx            ← NEW (84 KB)
-│   ├── checkpoint.md                                       ← MODIFIED (Update 2026-05-26 prepended)
-│   └── state.json                                          ← MODIFIED (next_action updated)
-├── /home/ricardo/Desktop/                                  ← (machine-scoped, fuera del repo)
-│   ├── Trixx_AnalisisCompania_20260526.pdf                ← NEW (355 KB)
-│   ├── LogisticaCrossBorder_MX_20260526.pdf               ← NEW (434 KB)
-│   ├── Trixx_Competencia_MX_20260526.pdf                  ← NEW (357 KB)
-│   └── Trixx_PrepLlamada_20260526.pdf                     ← NEW (389 KB) ← deliverable primario
-├── tasks.json                                              ← MODIFIED (1 closed + 1 updated + 1 due-pushed + 2 new)
-├── calendar.json                                           ← MODIFIED (e-trixx-pilot-meeting updated)
-├── STATUS.md                                               ← MODIFIED (session-19 entry prepended)
-└── CHECKPOINT.md                                           ← THIS FILE (rewritten)
+│   │   └── 2026-05-27_skill6-pipeline-redesign-brainstorm.md   ← NEW (esta sesión)
+│   └── proposals/
+│       └── 2026-05-27_skill6-pipeline-redesign.md              ← NEW (~580 líneas, 17 secciones)
+├── operations/internal/
+│   └── 2026-05-27_nexostrat-pipeline-deck.html                 ← NEW (851 líneas, 50 KB)
+├── skills/
+│   ├── nexostrat_editorial_designer/                           ← NEW (extraído del .skill)
+│   │   ├── SKILL.md
+│   │   ├── assets/logos/ (18 PNG)
+│   │   └── references/{brand-identity.md, cover-designs.md, design-specs.md}
+│   ├── pptx_technical/                                          ← NEW (Anthropic skills repo)
+│   ├── docx_technical/                                          ← NEW (Anthropic skills repo)
+│   └── 00_META/skill_packages/
+│       └── nexostrat-editorial-designer.skill                  ← NEW (zip archivado)
+├── .claude/skills/
+│   ├── nexostrat-editorial-designer → ../../skills/nexostrat_editorial_designer/    ← NEW symlink
+│   ├── pptx → ../../skills/pptx_technical/                                          ← NEW symlink
+│   └── docx → ../../skills/docx_technical/                                          ← NEW symlink
+├── pipeline/clients/_internal/
+│   └── 2026-05-27_ricardo-jp-call/
+│       ├── .gitkeep
+│       └── _execution.log                                       ← log de la transcripción
+├── tasks.json                                                   ← MODIFIED (2 closed + 10 new; updated timestamp)
+├── STATUS.md                                                    ← MODIFIED (session-21 entry prepended)
+└── CHECKPOINT.md                                                ← THIS FILE (rewritten)
+
+/srv/meetings/nexostrat/2026-05-27/2026-05-27_06-58_skill6-redesign/   ← outside Nexostrat repo
+├── transcript.{txt,srt,vtt,tsv,json}
+├── summary.md                                                   ← Gemini multimodal summary
+└── metadata.yaml
 ```
 
 ## Open items (carried forward + esta sesión)
 
+**Tasks NEW esta sesión (10):**
+
 | ID | Subject | Priority | Due |
 |---|---|---|---|
-| `t-intro-v3-ceo-vs-cofundador` | CEO vs co-fundador title decision on intro V3 | high | 2026-05-26 (overdue) |
-| `t-intro-v3-diferencia-slide` | Diferencia overlay decision | high | 2026-05-26 (overdue) |
-| `t-plan-04-description-update` | Update Plan 04 description in master index | high | 2026-05-28 |
+| `t-skill6-jp-feedback-await` | Esperar feedback JP sobre spec + deck | high | 2026-06-03 |
+| `t-skill6-implementation-plan` | Invocar writing-plans para Fases A-H | high | tras feedback JP |
+| `t-skill5-rename-and-reprofile` | Rename 05_opportunity_report → 05_internal_report | high | tras feedback JP |
+| `t-skill6-build-skeleton` | Construir skills/06_client_deliverables/ | high | tras feedback JP |
+| `t-skill7-placeholder-spec` | Crear skills/07_implementation_roadmap/SKILL.md placeholder | medium | tras feedback JP |
+| `t-clients-folder-rename` | Migrar reporte_oportunidades → reporte_interno | high | tras feedback JP |
+| `t-meeting-transcription-protocol-doc` | Crear 00_META/protocols/meeting_transcription.md | medium | 2026-06-10 |
+| `t-editorial-designer-fix-description` | Fix frontmatter editorial-designer (Inter + LATAM) | low | 2026-06-15 |
+| `t-anthropic-license-decision-doc` | Documentar nota source-available en 00_GOVERNANCE/decisions/ | low | 2026-06-15 |
+| `t-internal-deck-iteration-feedback` | Iterar HTML deck según feedback JP | medium | tras feedback JP |
+
+**Tasks cerradas esta sesión (2):**
+- `t-whatsapp-andrea-audiencia` — closed 2026-05-27 (superseded by meeting 2026-05-26)
+- `t-practice-meeting-jp` — closed 2026-05-27 (superseded by meeting 2026-05-26)
+
+**Tasks carried forward (de sesiones previas):**
+
+| ID | Subject | Priority | Due |
+|---|---|---|---|
+| `t-intro-v3-ceo-vs-cofundador` | CEO vs co-fundador title decision on intro V3 | high | 2026-05-26 (overdue 1 día) |
+| `t-intro-v3-diferencia-slide` | Diferencia overlay decision | high | 2026-05-26 (overdue 1 día) |
+| `t-plan-04-description-update` | Update Plan 04 description in master index | high | 2026-05-28 (due mañana) |
 | `t-install-brand-fonts-laptop` | Install Inter + JetBrains Mono on laptop | high | 2026-05-30 |
-| `t-migrate-pilotos-to-clients` | Migrate 3 test companies from Pilotos/ to pipeline/clients/<slug>/ | medium | 2026-05-30 |
-| `t-trixx-formal-meeting-schedule` (NEW) | Agendar reunión formal Trixx (3-personas) | high | 2026-06-05 |
-| `t-trixx-meeting-execution` (UPDATED due) | Reunión formal 3-personas Andrea+madre+Hector | critical | 2026-06-10 |
-| `t-trixx-upload-meeting-artifacts` (NEW) | Upload recording + notas post-reunión para Skill 05 | high | 2026-06-12 |
-| `t-intro-v3-web-export` | Web-optimized export of intro V3 | medium | 2026-06-15 |
+| `t-migrate-pilotos-to-clients` | Migrate 3 test companies from Pilotos/ to pipeline/clients/ | medium | 2026-05-30 |
+| `t-trixx-la-visit-schedule` | Agendar visita LA Vernon | high | 2026-06-15 |
+| `t-trixx-refresh-final-report` | Refresh Skill 01 con correcciones del meeting 2026-05-26 | medium | 2026-06-05 |
 | `t-nexostrat-telegram-account` (B19) | Procure firm Telegram account (gates P-H1) | critical | 2026-06-15 |
 | `t-weekend-desktop-on-decision` (B16) | Weekend desktop-on schedule decision | high | 2026-06-15 |
-| `t-archive-bbp-action-items-memo` | Archive BB-Platform action-items memo once B19 closes | low | 2026-06-15 |
-| `t-pick-website-intro-final-version` | JP-gated pick V1.0 vs V1.1 | medium | 2026-06-15 |
-| `t-trixx-skill-05-opportunity-report` (UPDATED due) | Skill 05 sobre Trixx — consume reportes + recording | high | 2026-06-15 |
-| `t-plan-08-client-meeting-integration` (B18) | Client-meeting integration pattern in Plan 08 | medium | 2026-07-15 |
-| `t-fix-logo-kit-html-fonts` | Logo wordmark still references Century Gothic + Nunito | low | 2026-07-15 |
-
-**Tasks cerradas esta sesión:**
-- `t-monday-meeting-prep` — closed 2026-05-26 (superseded by re-corrida).
 
 **Cross-scope context:**
 - Phase 0a Nexostrat surface 3/3 DONE (session 18). Phase 0c P-H2 done (session 17). Hub-side P-H1 + P-H6 procurement-gated.
 - No Gemini handoff abierto.
-- No memos pendientes.
+- No memos pendientes en `00_META/inbox/`.
+- Brain-side plans verificados: 0 cambios necesarios al redesign.
 
 ## What next session opens onto
 
-Tres movidas plausibles:
+**Trigger esperado**: Ricardo abre con feedback de JP sobre el spec + HTML deck. Tres caminos según response:
 
-1. **Ricardo confirma fecha de reunión formal Trixx** + agenda con Andrea via WhatsApp. Post-reunión sube recording + notas para Skill 05.
-2. **Trixx-side work secundario** mientras se agenda: revisar PrepLlamada PDF en cliente real (impresión + cuaderno), confirmar que la audiencia esperada (3 personas) está alineada con lo que Andrea puede coordinar.
-3. **Otro asunto no-Trixx** (Phase 0c hub-side procurement, OVERDUE de intro V3 CEO/Diferencia, migración Pilotos/, etc.). Phase 0a Nexostrat surface ya está 3/3 done — los siguientes prereqs están hub-side y procurement-gated.
+1. **(A) JP aprueba sin cambios** → invocar `superpowers:writing-plans` con el spec como input para detallar Fases A-H del implementation plan. Próximo arrancar: Fase A (dependencias + inventario — pero estas ya están hechas en session 21).
 
-> **Recomendación al próximo Claude:** abrir leyendo este CHECKPOINT + STATUS + journal `2026-05-26_trixx-pipeline-rerun.md`. Si Ricardo abre con news de Trixx (fecha de reunión confirmada, recording uploadeado), pivot directo a t-trixx-formal-meeting-schedule / t-trixx-meeting-execution / t-trixx-upload-meeting-artifacts. Si abre con otro tema, los items OVERDUE de intro V3 (CEO title + Diferencia) son los más críticos no-Trixx ahora.
+2. **(B) JP pide cambios menores al deck** → iterar HTML deck (vibe whiteboard más fuerte, contenido específico que falte). Posiblemente Caveat dentro de box labels + wobbly borders.
+
+3. **(C) JP propone cambios estructurales al spec** → re-abrir brainstorm en los puntos específicos, actualizar spec, re-confirmar, después writing-plans.
+
+**Si JP demora**, hay tareas no-bloqueadas que se pueden adelantar en paralelo:
+- Crear `00_META/protocols/meeting_transcription.md` (codificar stack multi-engine)
+- Fix descripción `nexostrat-editorial-designer` (Inter + LATAM)
+- Documentar Anthropic source-available license en `00_GOVERNANCE/decisions/`
+
+> **Recomendación al próximo Claude:** abrir leyendo este CHECKPOINT + STATUS + journal `2026-05-27_skill6-pipeline-redesign-brainstorm.md` + spec `00_META/proposals/2026-05-27_skill6-pipeline-redesign.md`. Si Ricardo abre con feedback de JP, pivot directo a `t-skill6-implementation-plan` (writing-plans). Si abre con otro tema (intro V3 overdue items, Plan 04 desc update, visita LA), atender eso y dejar el redesign en stand-by. Si abre vacío sin contexto JP, ofrecer las 3 tareas no-bloqueadas en paralelo mientras llega feedback.

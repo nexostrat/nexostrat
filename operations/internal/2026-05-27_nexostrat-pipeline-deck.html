@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexostrat · Pipeline Interno · v1.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Caveat:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0E0E10;
+    --bg-soft:#14141A;
+    --card:#1A1A1F;
+    --card-hover:#22222A;
+    --border:rgba(255,255,255,0.06);
+    --border-strong:rgba(255,255,255,0.14);
+    --text:#F5F1E8;
+    --text-muted:#8E8A82;
+    --text-dim:#5C5A55;
+    --accent:#E07B39;
+    --accent-soft:rgba(224,123,57,0.12);
+    --accent-line:rgba(224,123,57,0.35);
+    --sky:#5B8FB9;
+    --sky-soft:rgba(91,143,185,0.12);
+    --sky-line:rgba(91,143,185,0.35);
+    --green:#5FAA88;
+    --green-soft:rgba(95,170,136,0.10);
+    --amber:#C89B3C;
+    --amber-soft:rgba(200,155,60,0.10);
+    --warn:#C8444B;
+    --warn-soft:rgba(200,68,75,0.10);
+    --mono:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --sans:'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    --hand:'Caveat', 'Patrick Hand', cursive;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--text);font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+    font-feature-settings:"cv02","cv03","cv04","cv11";
+    line-height:1.6;
+  }
+  body{background:radial-gradient(ellipse at 50% -20%, #1A1A22 0%, var(--bg) 50%) fixed}
+
+  /* ---- Top sticky bar ---- */
+  .topbar{
+    position:sticky;top:0;z-index:100;
+    background:rgba(14,14,16,0.85);backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--border);
+    padding:14px 32px;display:flex;align-items:center;gap:32px;
+  }
+  .topbar-brand{
+    font-weight:700;letter-spacing:0.12em;text-transform:uppercase;font-size:12px;color:var(--accent);
+  }
+  .topbar-brand::after{content:'';display:inline-block;width:24px;height:1px;background:var(--accent);vertical-align:middle;margin-left:8px}
+  .topbar-current{font-family:var(--mono);font-size:12px;color:var(--text-muted);letter-spacing:0.05em}
+  .topbar-current strong{color:var(--text)}
+  .topbar-search{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--text-dim);letter-spacing:0.05em}
+  .topbar-search kbd{
+    border:1px solid var(--border-strong);border-radius:3px;
+    padding:2px 6px;font-family:var(--mono);font-size:10px;background:var(--card);color:var(--text-muted);
+  }
+
+  /* ---- Container ---- */
+  main{max-width:1280px;margin:0 auto;padding:0 32px 80px}
+
+  /* ---- Hero ---- */
+  .hero{padding:80px 0 40px;text-align:center}
+  .hero-eyebrow{
+    font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--accent);font-weight:600;
+    margin-bottom:24px;
+  }
+  .hero h1{
+    font-size:clamp(32px,4.5vw,64px);font-weight:800;letter-spacing:-0.03em;
+    line-height:1.05;margin-bottom:20px;max-width:18ch;margin-left:auto;margin-right:auto;
+  }
+  .hero-sub{
+    font-size:clamp(15px,1.4vw,19px);color:var(--text-muted);max-width:60ch;margin:0 auto 16px;
+    line-height:1.55;font-weight:400;
+  }
+  .hero-meta{
+    font-family:var(--mono);font-size:11px;color:var(--text-dim);letter-spacing:0.08em;text-transform:uppercase;
+    margin-top:32px;
+  }
+  .hero-meta strong{color:var(--text)}
+
+  /* ---- Diagram ---- */
+  .diagram-wrap{
+    margin:48px auto 64px;padding:32px;background:var(--card);
+    border:1px solid var(--border);border-radius:16px;position:relative;
+  }
+  .diagram-caption{
+    position:absolute;top:-12px;left:32px;background:var(--bg);padding:0 12px;
+    font-family:var(--hand);font-size:18px;color:var(--text-muted);
+  }
+  svg.pipeline{width:100%;height:auto;display:block}
+
+  /* SVG node styles */
+  .node{cursor:pointer;transition:opacity .2s,transform .2s}
+  .node:hover{opacity:0.85;transform:translateY(-1px)}
+  .node text{font-family:var(--sans);font-size:13px;font-weight:500;fill:var(--text);pointer-events:none}
+  .node text.label-sm{font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;fill:var(--text-muted)}
+  .node text.hand{font-family:var(--hand);font-size:18px;fill:var(--text-muted)}
+  .node rect{stroke-width:1.5;rx:8;ry:8;transition:stroke .2s,fill .2s}
+  .node.skill rect{fill:var(--sky-soft);stroke:var(--sky)}
+  .node.skill:hover rect{fill:var(--sky-soft);stroke:#7BABD8;filter:drop-shadow(0 0 8px var(--sky-line))}
+  .node.entry rect{fill:rgba(255,255,255,0.04);stroke:var(--border-strong)}
+  .node.entry:hover rect{stroke:var(--text-muted)}
+  .node.client rect{fill:var(--accent-soft);stroke:var(--accent);stroke-dasharray:none}
+  .node.client:hover rect{filter:drop-shadow(0 0 8px var(--accent-line))}
+  .node.review rect{fill:var(--amber-soft);stroke:var(--amber)}
+  .node.review:hover rect{filter:drop-shadow(0 0 8px rgba(200,155,60,0.4))}
+  .node.close rect{fill:var(--green-soft);stroke:var(--green)}
+  .node.close:hover rect{filter:drop-shadow(0 0 8px rgba(95,170,136,0.4))}
+  .node.warn rect{fill:var(--warn-soft);stroke:var(--warn)}
+  .arrow{stroke:var(--text-dim);stroke-width:1.5;fill:none;marker-end:url(#arrowhead)}
+  .arrow.dashed{stroke-dasharray:4 4;stroke:var(--warn)}
+  .arrow.thick{stroke:var(--text-muted);stroke-width:2}
+  .stage-label{font-family:var(--hand);font-size:22px;fill:var(--accent);letter-spacing:0.02em}
+  .stage-divider{stroke:var(--border-strong);stroke-width:1;stroke-dasharray:2 6}
+  .anno{font-family:var(--hand);font-size:14px;fill:var(--text-dim);pointer-events:none}
+
+  /* Tooltip */
+  .tooltip{
+    position:fixed;pointer-events:none;z-index:200;
+    background:var(--card);border:1px solid var(--border-strong);border-radius:8px;
+    padding:12px 16px;max-width:320px;font-size:13px;line-height:1.5;
+    color:var(--text);box-shadow:0 8px 24px rgba(0,0,0,0.4);
+    opacity:0;transition:opacity .15s;
+  }
+  .tooltip.show{opacity:1}
+  .tooltip-title{font-weight:700;color:var(--accent);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px}
+  .tooltip-body{color:var(--text-muted);font-size:12px}
+
+  /* ---- Sections ---- */
+  section.deck{
+    margin-bottom:8px;background:var(--card);border:1px solid var(--border);border-radius:12px;
+    overflow:hidden;transition:border-color .2s;
+  }
+  section.deck:hover{border-color:var(--border-strong)}
+  section.deck summary{
+    cursor:pointer;padding:20px 24px;display:flex;align-items:center;gap:16px;
+    list-style:none;user-select:none;
+  }
+  section.deck summary::-webkit-details-marker{display:none}
+  section.deck summary::after{
+    content:'+';font-family:var(--mono);font-size:20px;color:var(--text-muted);
+    margin-left:auto;font-weight:300;transition:transform .2s;
+  }
+  section.deck[open] summary::after{content:'−'}
+  .sec-num{
+    font-family:var(--mono);font-size:11px;color:var(--text-dim);letter-spacing:0.1em;
+    background:var(--bg);padding:4px 8px;border-radius:4px;border:1px solid var(--border);
+    min-width:28px;text-align:center;
+  }
+  .sec-title{font-weight:600;font-size:17px;color:var(--text);letter-spacing:-0.01em}
+  .sec-hint{font-family:var(--hand);font-size:16px;color:var(--text-dim);margin-left:8px}
+  section.deck .body{
+    padding:0 24px 28px;border-top:1px solid var(--border);
+  }
+  section.deck .body > *:first-child{margin-top:24px}
+
+  /* Body content */
+  h3{font-size:15px;font-weight:600;color:var(--text);margin:20px 0 8px;letter-spacing:-0.01em}
+  h4{font-size:11px;font-weight:600;color:var(--accent);letter-spacing:0.12em;text-transform:uppercase;margin:16px 0 8px}
+  p{font-size:14px;color:var(--text-muted);margin-bottom:12px;line-height:1.65}
+  p strong{color:var(--text);font-weight:600}
+  p .hand{font-family:var(--hand);font-size:18px;color:var(--text);font-weight:500}
+  ul,ol{padding-left:22px;margin-bottom:12px}
+  li{font-size:14px;color:var(--text-muted);margin-bottom:6px;line-height:1.6}
+  li strong{color:var(--text);font-weight:600}
+  code{font-family:var(--mono);font-size:12px;background:var(--bg);padding:2px 6px;border-radius:3px;color:var(--accent);border:1px solid var(--border)}
+  table{width:100%;border-collapse:collapse;margin:12px 0 20px;font-size:13px}
+  th{
+    text-align:left;padding:10px 12px;font-weight:600;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;
+    color:var(--text-muted);border-bottom:1px solid var(--border-strong);background:var(--bg);
+  }
+  td{padding:10px 12px;border-bottom:1px solid var(--border);color:var(--text-muted)}
+  tr:last-child td{border-bottom:none}
+  td strong{color:var(--text);font-weight:600}
+  td code{font-size:11px}
+  .badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;letter-spacing:0.05em;font-family:var(--mono);text-transform:uppercase}
+  .badge-installed{background:var(--green-soft);color:var(--green);border:1px solid rgba(95,170,136,0.3)}
+  .badge-missing{background:var(--warn-soft);color:var(--warn);border:1px solid rgba(200,68,75,0.3)}
+  .badge-pending{background:var(--amber-soft);color:var(--amber);border:1px solid rgba(200,155,60,0.3)}
+  .badge-new{background:var(--sky-soft);color:var(--sky);border:1px solid rgba(91,143,185,0.3)}
+  .callout{
+    margin:16px 0;padding:14px 18px;background:var(--bg);border-left:3px solid var(--accent);border-radius:6px;
+  }
+  .callout-title{font-size:11px;font-weight:700;color:var(--accent);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px}
+  .callout p{font-size:13px;margin-bottom:0;color:var(--text)}
+  .callout.warn{border-left-color:var(--warn)}
+  .callout.warn .callout-title{color:var(--warn)}
+  .callout.green{border-left-color:var(--green)}
+  .callout.green .callout-title{color:var(--green)}
+  pre{
+    background:var(--bg);border:1px solid var(--border);border-radius:6px;
+    padding:14px 16px;overflow-x:auto;margin:12px 0;
+    font-family:var(--mono);font-size:12px;line-height:1.55;color:var(--text-muted);
+  }
+  pre strong{color:var(--text);font-weight:600}
+
+  /* ---- Footer ---- */
+  footer{
+    margin-top:80px;padding:32px;text-align:center;border-top:1px solid var(--border);
+    font-family:var(--mono);font-size:11px;color:var(--text-dim);letter-spacing:0.1em;text-transform:uppercase;
+  }
+  footer a{color:var(--text-muted);text-decoration:none;border-bottom:1px dotted var(--text-dim)}
+
+  /* mobile */
+  @media (max-width:768px){
+    main{padding:0 16px 60px}
+    .hero{padding:48px 0 24px}
+    .diagram-wrap{padding:16px}
+    section.deck summary{padding:16px;gap:12px}
+    .sec-title{font-size:15px}
+    .sec-hint{display:none}
+    .topbar{padding:12px 16px;gap:12px;flex-wrap:wrap}
+    .topbar-search{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-brand">Nexostrat · Pipeline Interno</div>
+  <div class="topbar-current" id="currentSection">v1.0 · 2026-05-27</div>
+  <div class="topbar-search"><kbd>Ctrl</kbd> + <kbd>F</kbd> para buscar</div>
+</header>
+
+<main>
+
+<div class="hero">
+  <div class="hero-eyebrow">Documento Interno · Solo Nexostrat</div>
+  <h1>Cómo funciona Nexostrat por dentro</h1>
+  <p class="hero-sub">El pipeline completo de consultoría, desde el primer contacto hasta el cierre. Pensado para que cualquier persona que se sume al equipo entienda el flujo en 10 minutos.</p>
+  <div class="hero-meta">Ricardo + JP · Brainstorm 2026-05-27 · Spec <strong>aprobada</strong></div>
+</div>
+
+<div class="diagram-wrap">
+<div class="diagram-caption">El pipeline en una imagen — diagrama original de JP, vectorizado</div>
+<svg class="pipeline" viewBox="0 0 1200 720" xmlns="http://www.w3.org/2000/svg" id="pipelineSvg">
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 0, 8 4, 0 8" fill="#8E8A82"/>
+    </marker>
+    <marker id="arrowhead-red" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 0, 8 4, 0 8" fill="#C8444B"/>
+    </marker>
+  </defs>
+
+  <!-- ETAPA 0 LABEL -->
+  <text class="stage-label" x="20" y="40">Pre-contacto</text>
+  <line class="stage-divider" x1="20" y1="55" x2="1180" y2="55"/>
+
+  <!-- Pre-contact row -->
+  <g class="node entry" data-section="vision" data-tooltip-title="Landing Page" data-tooltip-body="Punto de entrada público. Capta info inicial del prospecto.">
+    <rect x="40" y="80" width="140" height="50"/>
+    <text x="110" y="110" text-anchor="middle">Landing Page</text>
+  </g>
+  <path class="arrow" d="M 180 105 L 220 105"/>
+
+  <g class="node entry" data-section="vision" data-tooltip-title="WhatsApp" data-tooltip-body="Canal preferido del cliente LATAM. Conversación inicial + agendamiento.">
+    <rect x="220" y="80" width="110" height="50"/>
+    <text x="275" y="110" text-anchor="middle">WhatsApp</text>
+  </g>
+  <path class="arrow" d="M 330 105 L 370 105"/>
+
+  <g class="node entry" data-section="vision" data-tooltip-title="Calendly" data-tooltip-body="Agendamiento del primer encuentro. 30 min, gratis.">
+    <rect x="370" y="80" width="120" height="50"/>
+    <text x="430" y="110" text-anchor="middle">Calendly</text>
+  </g>
+  <path class="arrow" d="M 490 105 L 530 105"/>
+
+  <g class="node entry" data-section="vision" data-tooltip-title="CRM" data-tooltip-body="Captura de info + estado del prospecto. Pendiente codificar la herramienta CRM (sesión futura).">
+    <rect x="530" y="80" width="150" height="50"/>
+    <text x="605" y="110" text-anchor="middle">Captar info CRM</text>
+  </g>
+
+  <!-- ETAPA 1 LABEL -->
+  <text class="stage-label" x="20" y="180">Etapa 1 — Pre-meeting</text>
+  <line class="stage-divider" x1="20" y1="195" x2="1180" y2="195"/>
+
+  <!-- Skills 1-4 vertical-ish chain -->
+  <g class="node skill" data-section="etapa1" data-tooltip-title="Skill 01 — company-analyst" data-tooltip-body="13 secciones: perfil, productos, FODA, 5 fuerzas, madurez digital, Quick Win candidates. Output: .md + .docx.">
+    <rect x="40" y="220" width="130" height="50"/>
+    <text x="105" y="244" text-anchor="middle">Skill 01</text>
+    <text x="105" y="260" text-anchor="middle" class="label-sm">Empresa</text>
+  </g>
+  <path class="arrow" d="M 170 245 L 200 245"/>
+
+  <g class="node skill" data-section="etapa1" data-tooltip-title="Skill 02 — industry-analyst" data-tooltip-body="10 secciones de análisis sectorial: actores, tendencias, regulación, madurez digital, oportunidades. Reutilizable por sector.">
+    <rect x="200" y="220" width="130" height="50"/>
+    <text x="265" y="244" text-anchor="middle">Skill 02</text>
+    <text x="265" y="260" text-anchor="middle" class="label-sm">Industria</text>
+  </g>
+  <path class="arrow" d="M 330 245 L 360 245"/>
+
+  <g class="node skill" data-section="etapa1" data-tooltip-title="Skill 03 — competitor-analyst" data-tooltip-body="8 secciones: mapa competitivo, fichas, tabla comparativa, brechas, oportunidades de diferenciación con IA.">
+    <rect x="360" y="220" width="130" height="50"/>
+    <text x="425" y="244" text-anchor="middle">Skill 03</text>
+    <text x="425" y="260" text-anchor="middle" class="label-sm">Competencia</text>
+  </g>
+  <path class="arrow" d="M 490 245 L 520 245"/>
+
+  <g class="node skill" data-section="etapa1" data-tooltip-title="Skill 04 — discovery-meeting" data-tooltip-body="Guía pre-llamada calibrada al cliente: terminología, preguntas por área, red flags. Output: PrepLlamada.docx.">
+    <rect x="520" y="220" width="130" height="50"/>
+    <text x="585" y="244" text-anchor="middle">Skill 04</text>
+    <text x="585" y="260" text-anchor="middle" class="label-sm">PrepLlamada</text>
+  </g>
+  <path class="arrow" d="M 650 245 L 680 245"/>
+
+  <g class="node review" data-section="etapa1" data-tooltip-title="Conversación post-Skill-4" data-tooltip-body="Claude + Ricardo ajustan el output de Skill 4 → producen el script final que Ricardo lleva a la reunión.">
+    <rect x="680" y="220" width="170" height="50"/>
+    <text x="765" y="244" text-anchor="middle">Convers. post-S4</text>
+    <text x="765" y="260" text-anchor="middle" class="label-sm">Script final</text>
+  </g>
+  <path class="arrow" d="M 850 245 L 880 245"/>
+
+  <g class="node client" data-section="reunion" data-tooltip-title="Reunión con cliente" data-tooltip-body="30-60 min según contexto. Ricardo facilita; Skill 4 PrepLlamada como guía. Grabar siempre.">
+    <rect x="880" y="220" width="160" height="50"/>
+    <text x="960" y="244" text-anchor="middle">Reunión cliente</text>
+    <text x="960" y="260" text-anchor="middle" class="label-sm">Grabada</text>
+  </g>
+
+  <!-- REUNION row label -->
+  <text class="stage-label" x="20" y="320">Reunión + Transcripción</text>
+  <line class="stage-divider" x1="20" y1="335" x2="1180" y2="335"/>
+
+  <!-- Transcripción -->
+  <path class="arrow thick" d="M 960 270 L 960 360"/>
+  <g class="node entry" data-section="reunion" data-tooltip-title="Transcripción multi-engine" data-tooltip-body="WhisperX large-v3 + diarización pyannote (primary) · Apple Voice Memos · Gemini multimodal (summary only) · Screen-recorder builtin · Claude. Outputs canónicos: transcript_final.md + NotasCliente.md con ✅⚠️❓.">
+    <rect x="860" y="360" width="200" height="55"/>
+    <text x="960" y="384" text-anchor="middle">Transcripción</text>
+    <text x="960" y="402" text-anchor="middle" class="label-sm">Multi-engine</text>
+  </g>
+
+  <!-- ETAPA 2 LABEL -->
+  <text class="stage-label" x="20" y="450">Etapa 2 — Post-meeting</text>
+  <line class="stage-divider" x1="20" y1="465" x2="1180" y2="465"/>
+
+  <!-- Skill 5 -->
+  <path class="arrow" d="M 960 415 L 960 490"/>
+  <g class="node skill" data-section="etapa2" data-tooltip-title="Skill 05 — internal-report (REPROFILED)" data-tooltip-body="NUEVO: audiencia Nexostrat (no cliente). Análisis completo + posibilidades + gaps + qué NO decir al cliente. Reemplaza al antiguo opportunity-report.">
+    <rect x="860" y="490" width="200" height="55"/>
+    <text x="960" y="514" text-anchor="middle">Skill 05</text>
+    <text x="960" y="532" text-anchor="middle" class="label-sm">Reporte interno</text>
+  </g>
+
+  <!-- Brief_cliente conversation -->
+  <path class="arrow" d="M 860 517 L 720 517"/>
+  <g class="node review" data-section="etapa2" data-tooltip-title="Conversación → brief_cliente.md" data-tooltip-body="Claude conduce. Lee Skill 5 + transcript. Te pregunta una-a-una los campos del template (4 secciones + curaduría cross-cutting). Produce brief_cliente.md versionado.">
+    <rect x="540" y="490" width="180" height="55"/>
+    <text x="630" y="514" text-anchor="middle">Convers. brief</text>
+    <text x="630" y="532" text-anchor="middle" class="label-sm">Claude conduce</text>
+  </g>
+
+  <!-- Skill 6 -->
+  <path class="arrow" d="M 540 517 L 400 517"/>
+  <g class="node skill" data-section="etapa2" data-tooltip-title="Skill 06 — client-deliverables (NEW)" data-tooltip-body="Renderiza dos entregables al cliente: .docx 5pp + .pptx 10 slides. Estructura espejo en 4 secciones: Diagnóstico Operacional / Movimientos del Sector / Frentes de Oportunidad / Próximos Pasos.">
+    <rect x="220" y="490" width="180" height="55"/>
+    <text x="310" y="514" text-anchor="middle">Skill 06</text>
+    <text x="310" y="532" text-anchor="middle" class="label-sm">.docx + .pptx</text>
+  </g>
+
+  <!-- Revisión interna -->
+  <path class="arrow" d="M 310 545 L 310 580"/>
+  <g class="node review" data-section="etapa2" data-tooltip-title="Revisión interna obligatoria" data-tooltip-body="Ricardo + JP revisan TODO entregable antes de enviar al cliente. Sin excepciones. Vocabulario JP guardrails aplicados.">
+    <rect x="220" y="580" width="180" height="45"/>
+    <text x="310" y="608" text-anchor="middle">Revisión interna</text>
+  </g>
+
+  <!-- Presentación al cliente -->
+  <path class="arrow" d="M 400 602 L 540 602"/>
+  <g class="node client" data-section="etapa2" data-tooltip-title="Presentación al cliente" data-tooltip-body="Ricardo presenta el .pptx; el .docx se entrega para que el cliente lo relea. Personal, nunca automatizado en primer envío.">
+    <rect x="540" y="580" width="180" height="45"/>
+    <text x="630" y="608" text-anchor="middle">Presentación cliente</text>
+  </g>
+
+  <!-- Decisión cliente -->
+  <path class="arrow" d="M 720 602 L 800 602"/>
+  <g class="node entry" data-section="si-aprueba" data-tooltip-title="¿Cliente aprueba?" data-tooltip-body="Post-presentación, el cliente decide si seguir con la fase paga (Skill 7) o no. Sin respuesta positiva → seguimiento personalizado.">
+    <rect x="800" y="580" width="150" height="45"/>
+    <text x="875" y="608" text-anchor="middle">¿Aprueba?</text>
+  </g>
+
+  <!-- Cierre LABEL -->
+  <text class="stage-label" x="20" y="680">Si aprueba</text>
+  <line class="stage-divider" x1="20" y1="695" x2="1180" y2="695"/>
+
+  <!-- Skill 7 -->
+  <path class="arrow" d="M 875 625 L 875 660"/>
+  <g class="node skill" data-section="si-aprueba" data-tooltip-title="Skill 07 — implementation-roadmap (PLACEHOLDER)" data-tooltip-body="Hoja de Ruta completa + propuesta paga con scope detallado, timeline mes-a-mes, costos cuantitativos. Spec hoy; código tras 1-2 corridas reales de Skill 6.">
+    <rect x="800" y="660" width="150" height="40"/>
+    <text x="875" y="685" text-anchor="middle">Skill 07</text>
+  </g>
+  <path class="arrow" d="M 950 680 L 990 680"/>
+  <g class="node close" data-section="si-aprueba" data-tooltip-title="Cierre" data-tooltip-body="Contrato firmado, implementación inicia.">
+    <rect x="990" y="660" width="100" height="40"/>
+    <text x="1040" y="685" text-anchor="middle">Cierre</text>
+  </g>
+
+  <!-- Loop back: sin respuesta positiva -->
+  <path class="arrow dashed" d="M 875 625 L 875 645 L 100 645 L 100 110" marker-end="url(#arrowhead-red)"/>
+  <text class="anno" x="160" y="640">sin respuesta positiva → seguimiento personalizado</text>
+
+  <!-- Annotations -->
+  <text class="anno" x="540" y="475">los outputs de Skill 6 se entregan al cliente</text>
+
+</svg>
+</div>
+
+<!-- ===================== SECCIONES EXPANDIBLES ===================== -->
+
+<details class="deck" open>
+  <summary>
+    <span class="sec-num">01</span>
+    <span class="sec-title">Visión general</span>
+    <span class="sec-hint">qué es Nexostrat</span>
+  </summary>
+  <div class="body">
+    <p>Nexostrat es la consultora de Ricardo Mejía y Juan Pablo (JP). Vendemos lo mismo que vende cualquier consultora seria: <strong>la combinación de mirar de afuera, entender el negocio del cliente, y proponer cambios concretos que muevan la productividad</strong>. Lo nuevo es el stack: usamos modelos de lenguaje como capa transversal para acelerar el análisis y producir entregables consistentes.</p>
+    <p><span class="hand">Lo importante:</span> NO somos "una consultora de IA". Somos consultoría de procesos que se apoya en software y automatizaciones, alejados explícitamente de la idea de "robots físicos" o "reemplazo de personas". <strong>El equipo del cliente se vuelve más productivo, no más pequeño.</strong></p>
+    <h3>Vocabulario locked</h3>
+    <ul>
+      <li>Decir <strong>QUÉ se puede hacer</strong>, no QUÉ comprar — describir capacidades en lenguaje de operación, no de tecnología</li>
+      <li>Bajar la frecuencia de "AI" — usarla solo cuando aporta valor concreto al insight</li>
+      <li>Evitar "bot" / "agente" — la gente los asocia con robots físicos; usar "automatización", "compilador", "sistema que organiza"</li>
+      <li>Idioma JP: NO "menor impacto" → SÍ <strong>"menores disrupciones"</strong> + <strong>"mayor productividad"</strong></li>
+    </ul>
+    <h3>Co-fundadores</h3>
+    <ul>
+      <li><strong>Ricardo Mejía Caicedo</strong> — Consultor de implementación y facilitador comercial. Maneja la relación con el cliente; opera el pipeline.</li>
+      <li><strong>Juan Pablo (JP)</strong> — Estratega técnico, arquitectura de datos, autor de skills. Light-mode operacional (~10 h/semana); Telegram + email como interfaz primaria.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="deck">
+  <summary>
+    <span class="sec-num">02</span>
+    <span class="sec-title">Etapa 1 — Pre-meeting</span>
+    <span class="sec-hint">Skills 01 → 04</span>
+  </summary>
+  <div class="body">
+    <p>Después del contacto inicial vía landing/WhatsApp y el agendamiento por Calendly, Ricardo corre <strong>Skills 01-04 serialmente</strong> con revisión humana entre cada uno. Cada skill genera dos outputs: el `.md` (para lectura/edición) y el `.docx` (para archivo).</p>
+
+    <table>
+      <thead><tr><th style="width:90px">Skill</th><th>Propósito</th><th style="width:160px">Output</th></tr></thead>
+      <tbody>
+        <tr><td><strong>01</strong> · empresa</td><td>Inteligencia empresarial: perfil, productos, presencia digital, financieros, FODA, 5 Fuerzas, cadena de valor, madurez digital 1-5, señales de presupuesto, Quick Win candidates. Detecta país automático (NIT=CO, RFC=MX).</td><td><code>AnalisisCompania.docx</code></td></tr>
+        <tr><td><strong>02</strong> · industria</td><td>Análisis sectorial completo: actores, tendencias 3-5 años, proveedores, clientes, regulación, impacto IA, PESTEL, madurez sectorial. Reutilizable por sector.</td><td><code>Sector_PAIS.docx</code></td></tr>
+        <tr><td><strong>03</strong> · competencia</td><td>Mapa competitivo (3-5 directos + 2-3 indirectos), fichas con señales de IA, tabla comparativa, brechas, oportunidades de diferenciación, puntos ciegos.</td><td><code>Competencia_PAIS.docx</code></td></tr>
+        <tr><td><strong>04</strong> · pre-llamada</td><td>Guía calibrada al cliente: terminología sector, preguntas por área (almacenamiento, contabilidad, marketing, ventas, logística, licencias), preguntas game-changer, red flags. NO es agenda de venta.</td><td><code>PrepLlamada.docx</code></td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <div class="callout-title">Conversación post-Skill 4</div>
+      <p>El output de Skill 4 NO es el script final. Es la base. Ricardo + Claude entran a una conversación corta donde se ajusta tono, énfasis, orden de preguntas, y se eliminan secciones que ese cliente puntual no necesita. El producto de esa conversación es el <strong>script que Ricardo lleva impreso a la reunión</strong>.</p>
+    </div>
+  </div>
+</details>
+
+<details class="deck">
+  <summary>
+    <span class="sec-num">03</span>
+    <span class="sec-title">Reunión + Transcripción</span>
+    <span class="sec-hint">multi-engine</span>
+  </summary>
+  <div class="body">
+    <p>La reunión con el cliente dura 30-60 min en la mayoría de casos; en pilotos premium (Trixx) duró 144 min. <strong>Siempre se graba</strong>, idealmente con consentimiento explícito al inicio.</p>
+    <p>Post-reunión, el audio pasa por un stack de transcripción multi-motor. WhisperX large-v3 con diarización pyannote es el primario; otros motores corren en paralelo para comparación y picking de la mejor versión.</p>
+
+    <h3>Stack canónico</h3>
+    <table>
+      <thead><tr><th>Motor</th><th>Rol</th><th style="width:140px">Estado</th></tr></thead>
+      <tbody>
+        <tr><td><strong>WhisperX large-v3 + pyannote</strong></td><td>Primary — transcripción + diarización con etiquetado de hablantes</td><td><span class="badge badge-installed">Canon</span></td></tr>
+        <tr><td>Apple Voice Memos</td><td>Secondary — transcripción comparativa, útil para audios cortos</td><td><span class="badge badge-installed">Disponible</span></td></tr>
+        <tr><td>Gemini multimodal</td><td>Summary only — NO usar para transcripción (hallucina >20MB)</td><td><span class="badge badge-installed">Solo summary</span></td></tr>
+        <tr><td>Screen-recorder builtin</td><td>Experimental — transcripción inline al grabar</td><td><span class="badge badge-pending">Probar</span></td></tr>
+        <tr><td>Claude multimodal</td><td>Experimental — comparativo</td><td><span class="badge badge-pending">Probar</span></td></tr>
+      </tbody>
+    </table>
+
+    <h3>Workflow</h3>
+    <ol>
+      <li>Grabación (m4a / mkv / mp4)</li>
+      <li><code>~/bin/summarize-meeting.sh "&lt;file&gt;" es --scope nexostrat --client-slug &lt;slug&gt; --topic &lt;topic&gt;</code></li>
+      <li>WhisperX produce <code>transcript.{txt,srt,vtt,tsv,json}</code></li>
+      <li>Gemini multimodal produce <code>summary.md</code></li>
+      <li>(Opcional) Apple Voice Memos transcript comparativo</li>
+      <li>Reconciliar diferencias y producir <code>transcript_final.md</code> con speakers mapeados a nombres reales + 10-20 hotword corrections</li>
+      <li>Curar <code>NotasCliente_&lt;date&gt;.md</code> con tags <strong>✅</strong> (verbatim) / <strong>⚠️</strong> (estimado) / <strong>❓</strong> (hipótesis)</li>
+    </ol>
+
+    <div class="callout">
+      <div class="callout-title">Hardware</div>
+      <p>Si reuniones presenciales requieren mejor audio (eco de oficina, multi-hablante simultáneo), comprar micrófono direccional. Ricardo dispuesto.</p>
+    </div>
+  </div>
+</details>
+
+<details class="deck">
+  <summary>
+    <span class="sec-num">04</span>
+    <span class="sec-title">Etapa 2 — Post-meeting</span>
+    <span class="sec-hint">Skill 05 → conversación → Skill 06</span>
+  </summary>
+  <div class="body">
+    <p>Una vez la transcripción está limpia, la Etapa 2 produce el entregable que va al cliente. Tres pasos secuenciales con dos checkpoints humanos.</p>
+
+    <h3>Paso 1 · Skill 05 — Reporte Interno Nexostrat</h3>
+    <p><strong>Cambio crítico vs. flujo viejo</strong>: Skill 05 dejó de ser client-facing y pasó a ser <strong>internal-Nexostrat-facing</strong>. Lo lee Ricardo + JP, no el cliente.</p>
+    <ul>
+      <li><strong>Inputs</strong>: outputs de Skills 01-03 + transcript final + notas cliente</li>
+      <li><strong>Output</strong>: <code>ReporteInternoNexostrat_&lt;fecha&gt;.docx</code> en <code>etapa_2_diagnostico/reporte_interno/runs/&lt;date&gt;/</code></li>
+      <li><strong>Contenido</strong>: análisis completo SIN filtros — todas las oportunidades identificadas, gaps internos, qué NO decir al cliente, capabilities que Nexostrat puede y no puede entregar hoy, Quick Wins con scoring, curaduría sugerida para el brief</li>
+    </ul>
+
+    <h3>Paso 2 · Conversación Claude + Ricardo → <code>brief_cliente.md</code></h3>
+    <p>Esta es la primera novedad arquitectónica del redesign. Claude conduce una conversación estructurada con Ricardo que produce un artefacto-puente versionado.</p>
+    <p><strong>Cómo funciona</strong>: Claude lee el reporte interno + transcript + reportes upstream. Te pregunta una-a-una, en orden, los campos del template <code>brief_cliente.md</code>:</p>
+    <ol>
+      <li><strong>Sección 1</strong> — Diagnóstico Operacional: ¿qué 3-4 hallazgos van? Quotes verbatim. Qué del reporte interno NO se muestra y por qué.</li>
+      <li><strong>Sección 2</strong> — Movimientos del Sector: ¿qué 2-3 movimientos relevantes? ¿competidor por nombre o solo el patrón?</li>
+      <li><strong>Sección 3</strong> — Frentes de Oportunidad: ¿qué 3-5 frentes en lenguaje de operación, sin tecnología?</li>
+      <li><strong>Sección 4</strong> — Próximos Pasos: mini-roadmap 3-4 pasos, rango cualitativo de inversión, CTA al Skill 7</li>
+      <li><strong>Cross-cutting</strong>: language guardrails específicos a este cliente, énfasis tonal, distribución de densidad</li>
+    </ol>
+    <p>El resultado se versiona en <code>brief_cliente/runs/&lt;date&gt;_mode-a/brief_cliente.md</code>. Cada run de Skill 6 puede tener su propio brief.</p>
+
+    <h3>Paso 3 · Skill 06 — Client Deliverables</h3>
+    <p>Skill 6 toma el brief_cliente.md + reportes upstream + transcript y renderiza <strong>dos entregables al cliente</strong>:</p>
+    <ul>
+      <li><code>&lt;Cliente&gt;_Diagnostico_&lt;fecha&gt;.docx</code> — 5 páginas (sin contar carátula). Para que el cliente lo lea y relea en su tiempo.</li>
+      <li><code>&lt;Cliente&gt;_Diagnostico_&lt;fecha&gt;.pptx</code> — 10 slides. Visual, mínimo texto. Para que Ricardo presente en la reunión de devolución.</li>
+    </ul>
+    <p>Ambos siguen una <strong>estructura rígida en 4 secciones</strong> (densidad flexible según material):</p>
+    <table>
+      <thead><tr><th>Sección</th><th>Word</th><th>PPTX</th><th>Foco</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1</strong> · Diagnóstico Operacional</td><td>1.5pp</td><td>2 slides</td><td>3-4 hallazgos con quotes verbatim</td></tr>
+        <tr><td><strong>2</strong> · Movimientos del Sector</td><td>1pp</td><td>2 slides</td><td>2-3 movimientos competitivos que importan a este cliente</td></tr>
+        <tr><td><strong>3</strong> · Frentes de Oportunidad</td><td>1.5pp</td><td>4 slides</td><td>3-5 frentes en lenguaje de operación, sin tecnología</td></tr>
+        <tr><td><strong>4</strong> · Próximos Pasos</td><td>1pp</td><td>1 slide</td><td>3-4 pasos del mini-roadmap + CTA al Plan Detallado</td></tr>
+        <tr><td>Carátula</td><td>(no cuenta)</td><td>1 slide</td><td>Logo + cliente + título + fecha</td></tr>
+        <tr><td><strong>Total</strong></td><td><strong>5pp</strong></td><td><strong>10 slides</strong></td><td>Espejo: 5 slides cliente / 5 slides posibilidad</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Paso 4 · Revisión interna obligatoria</h3>
+    <p>Ricardo + JP revisan TODO entregable antes de enviar al cliente. Sin excepciones (Fase 5 del flujo JP). Verificación de vocabulario, hallazgos, framing, posibilidades.</p>
+
+    <h3>Paso 5 · Presentación al cliente</h3>
+    <p>Ricardo presenta el .pptx en la reunión de devolución; el .docx se entrega al cliente para que lo lea en su tiempo. <strong>Personal, nunca automatizado en primer envío.</strong></p>
+  </div>
+</details>
+
+<details class="deck">
+  <summary>
+    <span class="sec-num">05</span>
+    <span class="sec-title">Si el cliente aprueba</span>
+    <span class="sec-hint">Skill 07 — paga</span>
+  </summary>
+  <div class="body">
+    <p>Post-presentación del Skill 6, el cliente decide. Si dice <strong>sí</strong> → corre el Skill 7 (paga). Si dice <strong>no o no responde</strong> → seguimiento personalizado, y eventualmente loop back al funnel.</p>
+
+    <h3>Skill 07 — Implementation Roadmap (placeholder hoy)</h3>
+    <p><strong>Estado</strong>: spec-only en este redesign. El código real se construye después de 1-2 corridas reales de Skill 6 (necesitamos aprendizajes de pilotos antes de cementar el formato del entregable paga).</p>
+    <p><strong>Nombre comercial cliente-facing</strong>: "Plan Detallado de Implementación" (más concreto que "Hoja de Ruta de IA" — menos riesgo de asustar con "IA" en el header).</p>
+
+    <h3>Contrato del Skill 7 (a refinar)</h3>
+    <ul>
+      <li><strong>Trigger</strong>: cliente firma contrato/pago de la fase paga después de la presentación del Skill 6</li>
+      <li><strong>Inputs</strong>: outputs del Skill 6 + feedback del cliente en la presentación + intake post-aprobación</li>
+      <li><strong>Outputs</strong>: Hoja de Ruta detallada con scope, timeline mes-a-mes, milestones, costos cuantitativos exactos, criterios de éxito, riesgos, plan de comunicación</li>
+    </ul>
+
+    <h3>Pricing de referencia (de la llamada JP del 2026-05-27)</h3>
+    <div class="callout">
+      <div class="callout-title">Punto de calibración</div>
+      <p>Ejemplo: bot de WhatsApp ~$1,500 USD setup + suscripción mensual de mantenimiento. NO es número público para clientes; sirve para calibrar el "rango cualitativo de inversión" del brief_cliente.md.</p>
+    </div>
+
+    <h3>Si NO aprueba</h3>
+    <p>Seguimiento personalizado (mensaje de Ricardo) → seguimiento automatizado personalizado (futuro). Loop back al landing como prospecto cualificado.</p>
+  </div>
+</details>
+
+<details class="deck">
+  <summary>
+    <span class="sec-num">06</span>
+    <span class="sec-title">Inventario de skills</span>
+    <span class="sec-hint">qué tenemos · qué falta</span>
+  </summary>
+  <div class="body">
+    <p>Status 2026-05-27 post-instalación. Total: <strong>9 skills instalados</strong> + 2 a construir + 3 pending de JP.</p>
+
+    <h3>Instalados y activos</h3>
+    <table>
+      <thead><tr><th style="width:40px">#</th><th>Skill</th><th>Slug</th><th>Tipo</th><th style="width:120px">Estado</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Company Analyst</td><td><code>company-analyst</code></td><td>Productor</td><td><span class="badge badge-installed">Activo</span></td></tr>
+        <tr><td>2</td><td>Industry Analyst</td><td><code>industry-analyst</code></td><td>Productor</td><td><span class="badge badge-installed">Activo</span></td></tr>
+        <tr><td>3</td><td>Competitor Analyst</td><td><code>competitor-analyst</code></td><td>Productor</td><td><span class="badge badge-installed">Activo</span></td></tr>
+        <tr><td>4</td><td>Discovery Meeting</td><td><code>discovery-meeting</code></td><td>Productor</td><td><span class="badge badge-installed">Activo</span></td></tr>
+        <tr><td>5</td><td>Opportunity Report</td><td><code>opportunity-report</code></td><td>Productor (a reprofile)</td><td><span class="badge badge-pending">A renombrar → <code>internal-report</code></span></td></tr>
+        <tr><td>6</td><td>Nexostrat PPTX Expert</td><td><code>nexostrat-pptx-expert</code></td><td>Design strategy</td><td><span class="badge badge-installed">Activo</span></td></tr>
+        <tr><td>7</td><td>Nexostrat Editorial Designer</td><td><code>nexostrat-editorial-designer</code></td><td>Design strategy</td><td><span class="badge badge-new">Instalado hoy</span></td></tr>
+        <tr><td>8</td><td>Technical PPTX</td><td><code>pptx</code></td><td>Technical execution</td><td><span class="badge badge-new">Instalado hoy</span></td></tr>
+        <tr><td>9</td><td>Technical DOCX</td><td><code>docx</code></td><td>Technical execution</td><td><span class="badge badge-new">Instalado hoy</span></td></tr>
+      </tbody>
+    </table>
+
+    <h3>A construir desde 0</h3>
+    <table>
+      <thead><tr><th>Skill</th><th>Slug</th><th>Cuándo</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Skill 06</strong> · Client Deliverables</td><td><code>client-deliverables</code></td><td>Sprint próximo (post-implementation-plan)</td></tr>
+        <tr><td><strong>Skill 07</strong> · Implementation Roadmap</td><td><code>implementation-roadmap</code></td><td>Placeholder hoy; código tras 1-2 corridas reales de Skill 6</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Pending de JP (sin fecha confirmada)</h3>
+    <table>
+      <thead><tr><th>Skill</th><th>Estado</th><th>Decisión al recibir</th></tr></thead>
+      <tbody>
+        <tr><td>Nexus Thread PPT Expert</td><td><span class="badge badge-pending">JP construye</span></td><td>Comparar contra <code>nexostrat-pptx-expert</code>; decidir si reemplaza o coexiste</td></tr>
+        <tr><td>Editorial Designer (versión JP)</td><td><span class="badge badge-installed">Entregado 2026-05-27</span></td><td>Instalado</td></tr>
+        <tr><td>HTML Interactive Presentations</td><td><span class="badge badge-pending">JP construye</span></td><td>Posible motor del próximo deck interno Nexostrat</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout warn">
+      <div class="callout-title">Nota de licencia</div>
+      <p>Los skills <code>pptx</code> y <code>docx</code> técnicos vienen del repo público <code>github.com/anthropics/skills</code>. Su LICENSE es <strong>source-available, NOT open source</strong>. Uso dentro de Claude Code (Anthropic Service) calza dentro del envelope. Si Nexostrat opera fuera de Claude Code en el futuro, migrar a wrappers propios sobre <code>python-pptx</code> + <code>python-docx</code>.</p>
+    </div>
+  </div>
+</details>
+
+<details class="deck">
+  <summary>
+    <span class="sec-num">07</span>
+    <span class="sec-title">Decisiones de diseño</span>
+    <span class="sec-hint">brainstorm 2026-05-27</span>
+  </summary>
+  <div class="body">
+    <p>Las decisiones locked durante el brainstorm que produjeron este redesign. Cada una resuelve una ambigüedad que el flujo viejo tenía implícita.</p>
+
+    <table>
+      <thead><tr><th style="width:200px">Decisión</th><th>Locked</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Lente del entregable</strong></td><td>Mini-diagnóstico standalone con valor accionable independiente del cierre (no sales asset puro)</td></tr>
+        <tr><td><strong>Estructura</strong></td><td>4 secciones espejo: Diagnóstico → Movimientos → Frentes → Próximos Pasos</td></tr>
+        <tr><td><strong>Densidad</strong></td><td>Estructura rígida (4 secciones siempre) + densidad flexible (rangos por sección)</td></tr>
+        <tr><td><strong>Páginas / slides</strong></td><td>Word 5pp + PPTX 10 slides + carátula separada</td></tr>
+        <tr><td><strong>Word ↔ PPTX</strong></td><td>Dos entregables paralelos, brief compartido (no single-source-multi-render)</td></tr>
+        <tr><td><strong>Bridge artifact</strong></td><td><code>brief_cliente.md</code> estructurado; Claude conduce la conversación que lo llena</td></tr>
+        <tr><td><strong>Output formats</strong></td><td>Solo .docx + .pptx (HTML descartado del flujo automático)</td></tr>
+        <tr><td><strong>Sección 2 título</strong></td><td>"Movimientos del Sector" (temporal — re-evaluar tras 2-3 pilotos)</td></tr>
+        <tr><td><strong>Skill 5 audiencia</strong></td><td>Nexostrat-internal, NO cliente</td></tr>
+        <tr><td><strong>Skill 6</strong></td><td>NEW — orchestrator + 2 renderers (docx + pptx)</td></tr>
+        <tr><td><strong>Skill 7</strong></td><td>Placeholder spec-only hoy</td></tr>
+        <tr><td><strong>Vocabulario</strong></td><td>Sin "AI"/"bot" excesivo; "menores disrupciones" + "mayor productividad"; "el equipo más productivo, no reemplazo"</td></tr>
+        <tr><td><strong>Transcripción canon</strong></td><td>WhisperX large-v3 + pyannote primary; Gemini summary only</td></tr>
+        <tr><td><strong>Iteración v1→v2</strong></td><td>Runs independientes (no soporte nativo de versioning v1→v2)</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout green">
+      <div class="callout-title">Spec aprobado</div>
+      <p>Spec completo en <code>00_META/proposals/2026-05-27_skill6-pipeline-redesign.md</code>. 17 secciones, ~580 líneas. Aprobado por Ricardo 2026-05-27.</p>
+    </div>
+  </div>
+</details>
+
+<details class="deck">
+  <summary>
+    <span class="sec-num">08</span>
+    <span class="sec-title">Outputs por cliente</span>
+    <span class="sec-hint">folder structure</span>
+  </summary>
+  <div class="body">
+    <p>Estructura de carpeta por cliente, post-rename. Cada run de cada skill se versiona en <code>runs/&lt;fecha&gt;_mode-a/</code>.</p>
+
+<pre><strong>pipeline/clients/&lt;slug&gt;/</strong>
+├── <strong>etapa_1_preparacion/</strong>
+│   ├── 00_intake/
+│   │   ├── research_input.md
+│   │   └── our_hypotheses.md
+│   ├── 01_analisis_compania/runs/&lt;date&gt;_mode-a/
+│   ├── 02_analisis_industria/runs/&lt;date&gt;_mode-a/
+│   ├── 03_analisis_competencia/runs/&lt;date&gt;_mode-a/
+│   └── 04_guia_reunion/runs/&lt;date&gt;_mode-a/
+│
+├── <strong>etapa_2_diagnostico/</strong>
+│   ├── transcripciones/&lt;date&gt;_&lt;label&gt;/
+│   │   ├── transcript_final.md      <span class="hand">canónico</span>
+│   │   ├── NotasCliente_&lt;date&gt;.md   <span class="hand">✅⚠️❓ tags</span>
+│   │   └── transcript.{json,srt,vtt,tsv}
+│   │
+│   ├── <strong>reporte_interno/</strong>runs/&lt;date&gt;_mode-a/    <span class="hand">Skill 05 (renamed)</span>
+│   │   └── &lt;Cliente&gt;_ReporteInternoNexostrat_&lt;date&gt;.docx
+│   │
+│   ├── <strong>brief_cliente/</strong>runs/&lt;date&gt;_mode-a/      <span class="hand">NUEVO — output de la conversación</span>
+│   │   └── brief_cliente.md
+│   │
+│   └── <strong>entregables/</strong>runs/&lt;date&gt;_mode-a/        <span class="hand">NUEVO — output de Skill 06</span>
+│       ├── &lt;Cliente&gt;_Diagnostico_&lt;date&gt;.docx
+│       ├── &lt;Cliente&gt;_Diagnostico_&lt;date&gt;.pptx
+│       └── _generation_log.md
+│
+├── communications/
+├── archive/
+└── checkpoint.md, state.json</pre>
+
+    <h3>Renames vs. estructura vieja</h3>
+    <ul>
+      <li><code>reporte_oportunidades/</code> → <code>reporte_interno/</code> (cambio de audiencia)</li>
+      <li>(nuevo) <code>brief_cliente/</code> — output de la conversación Claude↔Ricardo</li>
+      <li>(nuevo) <code>entregables/</code> — output del nuevo Skill 06</li>
+    </ul>
+    <p>Trixx pasó por paths viejos en session 20. La migración preserva runs históricos en su path original (no romper trazabilidad); los próximos runs usan los nuevos paths. Documentado en <code>pipeline/clients/trixx-logistics/MIGRATION_NOTE.md</code> cuando se ejecute.</p>
+  </div>
+</details>
+
+<details class="deck">
+  <summary>
+    <span class="sec-num">09</span>
+    <span class="sec-title">Cómo arranco un cliente nuevo</span>
+    <span class="sec-hint">operativo</span>
+  </summary>
+  <div class="body">
+    <p>Procedimiento paso-a-paso que cualquier persona del equipo Nexostrat debe poder seguir.</p>
+
+    <h3>1. Scaffold del cliente</h3>
+<pre>bash infra/scripts/new-client.sh &lt;slug&gt; &lt;CO|MX&gt; "&lt;Razón social&gt;" &lt;sector&gt; [--pilot]</pre>
+    <p>Crea el folder <code>pipeline/clients/&lt;slug&gt;/</code> con la estructura completa + dropea los 2 templates de intake en <code>00_intake/</code>.</p>
+
+    <h3>2. Intake</h3>
+    <ul>
+      <li>Llenar <code>research_input.md</code> — hechos confirmados: nombre, NIT/RFC, contacto, decisor estimado, fuentes públicas</li>
+      <li>Llenar <code>our_hypotheses.md</code> — juicio inicial: hipótesis de pains, presupuesto estimado, posibles QWs</li>
+    </ul>
+
+    <h3>3. Etapa 1 — Skills 01-04 serial</h3>
+    <p>En Claude Code: <code>Analiza &lt;slug&gt;</code> arranca el chain. Revisión humana entre cada skill.</p>
+
+    <h3>4. Conversación post-Skill-4 (script de reunión)</h3>
+    <p>Ricardo + Claude refinan el output de Skill 4 → script final impreso/digital.</p>
+
+    <h3>5. Reunión con cliente</h3>
+    <p>Grabar. Pedir consentimiento al inicio. Skill 4 PrepLlamada como guía.</p>
+
+    <h3>6. Transcripción multi-engine</h3>
+<pre>~/bin/summarize-meeting.sh "&lt;recording-file&gt;" es \
+    --scope nexostrat --client-slug &lt;slug&gt; --topic &lt;topic&gt;</pre>
+    <p>Outputs en <code>/srv/meetings/nexostrat/&lt;date&gt;/&lt;slug&gt;/</code>. Mover a <code>pipeline/clients/&lt;slug&gt;/etapa_2_diagnostico/transcripciones/&lt;date&gt;_&lt;label&gt;/</code>. Curar transcript_final.md + NotasCliente.md.</p>
+
+    <h3>7. Skill 05 — Reporte Interno</h3>
+    <p>En Claude Code: invoca skill <code>internal-report</code>. Lee inputs y produce el reporte interno.</p>
+
+    <h3>8. Conversación Claude + Ricardo → brief_cliente.md</h3>
+    <p>Claude conduce. Recorre las 4 secciones + cross-cutting. Output: <code>brief_cliente.md</code> versionado.</p>
+
+    <h3>9. Skill 06 — Client Deliverables</h3>
+    <p>En Claude Code: invoca skill <code>client-deliverables</code>. Renderiza .docx + .pptx.</p>
+
+    <h3>10. Revisión interna obligatoria</h3>
+    <p>Ricardo + JP revisan. Sin excepciones.</p>
+
+    <h3>11. Presentación al cliente</h3>
+    <p>Manual, personal. Nunca automatizado en primer envío.</p>
+
+    <h3>12. Decisión cliente → loop</h3>
+    <p>Si aprueba → Skill 07. Si no responde → seguimiento personalizado. Cualquier path actualiza <code>state.json</code> con la nueva fase.</p>
+  </div>
+</details>
+
+</main>
+
+<!-- Tooltip dom -->
+<div class="tooltip" id="tooltip">
+  <div class="tooltip-title" id="ttTitle"></div>
+  <div class="tooltip-body" id="ttBody"></div>
+</div>
+
+<footer>
+  Nexostrat · Pipeline Interno v1.0 · 2026-05-27 ·
+  <a href="../00_META/proposals/2026-05-27_skill6-pipeline-redesign.md">Spec completo</a>
+</footer>
+
+<script>
+  // Tooltip on diagram nodes
+  const tooltip = document.getElementById('tooltip');
+  const ttTitle = document.getElementById('ttTitle');
+  const ttBody = document.getElementById('ttBody');
+  document.querySelectorAll('.node').forEach(n => {
+    n.addEventListener('mousemove', e => {
+      const title = n.dataset.tooltipTitle;
+      const body = n.dataset.tooltipBody;
+      if (!title) return;
+      ttTitle.textContent = title;
+      ttBody.textContent = body || '';
+      tooltip.classList.add('show');
+      const pad = 16;
+      let x = e.clientX + pad, y = e.clientY + pad;
+      if (x + 360 > window.innerWidth) x = e.clientX - 360 - pad;
+      if (y + 200 > window.innerHeight) y = e.clientY - 200 - pad;
+      tooltip.style.left = x + 'px';
+      tooltip.style.top = y + 'px';
+    });
+    n.addEventListener('mouseleave', () => tooltip.classList.remove('show'));
+    n.addEventListener('click', () => {
+      const sec = n.dataset.section;
+      if (!sec) return;
+      const target = document.querySelector(`details.deck:has(.sec-title)`);
+      const all = document.querySelectorAll('details.deck');
+      const map = {
+        'vision': 0, 'etapa1': 1, 'reunion': 2, 'etapa2': 3, 'si-aprueba': 4,
+        'inventario': 5, 'decisiones': 6, 'outputs': 7, 'arrancar': 8
+      };
+      const idx = map[sec];
+      if (idx === undefined) return;
+      const el = all[idx];
+      el.open = true;
+      el.scrollIntoView({behavior: 'smooth', block: 'start'});
+    });
+  });
+
+  // Sticky current-section indicator
+  const current = document.getElementById('currentSection');
+  const sections = document.querySelectorAll('details.deck');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const title = entry.target.querySelector('.sec-title').textContent;
+        const num = entry.target.querySelector('.sec-num').textContent;
+        current.innerHTML = `<strong>${num}</strong> · ${title}`;
+      }
+    });
+  }, { rootMargin: '-100px 0px -60% 0px', threshold: 0 });
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>

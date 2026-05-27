@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v2",
   "project": "nexostrat",
-  "updated": "2026-05-27T09:30:00-07:00",
+  "updated": "2026-05-27T12:30:00-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -527,20 +527,22 @@
     {
       "id": "t-whatsapp-andrea-audiencia",
       "subject": "WhatsApp ligero a Andrea preguntando audiencia esperada en reunión 2026-05-25",
-      "status": "open",
+      "status": "done",
       "priority": "high",
       "due": "2026-05-23",
       "created": "2026-05-19",
-      "notes": "Opcional pre-reunión. Mensaje ligero, tono cercano (Andrea usa 'Ricky', 'platicar', signos de exclamación). Preguntar audiencia esperada: ¿Andrea sola? ¿+Hector? ¿+su madre? ¿+equipo operativo? Calibra la dinámica de la conversación. Ricardo lo hará 'más adelante' — antes del 2026-05-23 para dar margen de respuesta. Si responde con audiencia ampliada, ajustar PrepLlamada (sección 4.0 tiene framing diferenciado). Si NO responde, asumir Andrea sola y estar preparado para Hector + madre como upside."
+      "completed": "2026-05-27",
+      "notes": "CLOSED 2026-05-27 session 21 — SUPERSEDED. La reunión formal con Hector + María Helena + Andrea + Luis ocurrió 2026-05-26 (session 20). Calibración de audiencia ya fue resuelta on-the-fly durante la reunión. Task de prep ya no aplica."
     },
     {
       "id": "t-practice-meeting-jp",
       "subject": "Practice meeting con JP antes de la reunión Trixx 2026-05-25",
-      "status": "open",
+      "status": "done",
       "priority": "low",
       "due": "2026-05-24",
       "created": "2026-05-19",
-      "notes": "Opcional pre-reunión. JP lo ofreció en sesión 2026-05-18 PM (post-delivery de los 5 skills). Decisión de Ricardo. Si se hace: 20-30 min, JP juega rol de Hector/Andrea; Ricardo practica apertura relacional + 2-3 preguntas operativas + cierre sugerido. Útil principalmente para calibrar tono (cercano + estratégico) y para verificar que las preguntas suenan a conversación, no a cuestionario."
+      "completed": "2026-05-27",
+      "notes": "CLOSED 2026-05-27 session 21 — SUPERSEDED. Reunión formal ocurrió 2026-05-26 sin practice. Task ya no aplica."
     },
     {
       "id": "t-plan-02a-execute-chunk-b",
@@ -845,6 +847,102 @@
       "due": "2026-06-15",
       "created": "2026-05-26",
       "notes": "Per § 7 recomendacion del bug report archivado en skills/00_META/inbox/archive/2026-05-26_2310_client-owner_skill05-parser-bug.md: el patron 'marcador heading seguido inmediatamente de contenido sin tolerar lineas en blanco' puede existir en los scripts generate_docx.py de Skills 01-04 tambien. Auditar cada uno: buscar bloques 'in_X_table' o 'in_X_block' setters seguidos de logica que termina la seccion en primera linea no-conforme. Aplicar el mismo patron de fix si encuentra (tolerancia + warning a stderr). Si la auditoria resulta clean, dejar nota documentando que los otros parsers ya manejan bien las lineas en blanco. Co-commit con el fix v0.3 de Skill 05 ya aplicado para minimizar churn de revision."
+    },
+    {
+      "id": "t-skill6-jp-feedback-await",
+      "subject": "Esperar feedback de JP sobre spec + HTML deck del pipeline redesign",
+      "status": "open",
+      "priority": "high",
+      "due": "2026-06-03",
+      "created": "2026-05-27",
+      "notes": "Bloqueante. Spec en 00_META/proposals/2026-05-27_skill6-pipeline-redesign.md (~580 lineas, 17 secciones). HTML deck en operations/internal/2026-05-27_nexostrat-pipeline-deck.html (851 lineas). Ambos enviados a JP por Ricardo el 2026-05-27 mid-day. Tres respuestas posibles esperadas: (A) aprueba sin cambios -> invocar superpowers:writing-plans con el spec; (B) pide cambios menores al deck -> iterar visual; (C) cambios estructurales al spec -> re-abrir brainstorm en puntos especificos."
+    },
+    {
+      "id": "t-skill6-implementation-plan",
+      "subject": "Invocar superpowers:writing-plans para detallar Fases A-H del Skill 6 redesign",
+      "status": "open",
+      "priority": "high",
+      "due": "tras feedback JP",
+      "created": "2026-05-27",
+      "blocked_by": "t-skill6-jp-feedback-await",
+      "notes": "Una vez JP apruebe el spec + deck, invocar superpowers:writing-plans con el spec como input. Fases A-H definidas en spec sec 14: A (dependencias + inventario), B (renames + reprofile), C (construir Skill 6), D (Skill 7 placeholder), E (smoke test end-to-end Trixx), F (HTML deck refinements), H (cleanup + commits). Fase G removida (brain-side coordination, workstream separado)."
+    },
+    {
+      "id": "t-skill5-rename-and-reprofile",
+      "subject": "Renombrar 05_opportunity_report -> 05_internal_report + reescribir SKILL.md (audiencia Nexostrat)",
+      "status": "open",
+      "priority": "high",
+      "due": "tras feedback JP",
+      "created": "2026-05-27",
+      "blocked_by": "t-skill6-jp-feedback-await",
+      "notes": "Fase B del spec. Cambio destructivo contenido. Acciones: (1) git mv skills/05_opportunity_report -> skills/05_internal_report; (2) frontmatter slug opportunity-report -> internal-report; (3) reescribir SKILL.md (audiencia Ricardo+JP, no cliente; contenido completo sin filtros + gaps internos + que NO decir al cliente + capacidades reales Nexostrat + Quick Wins con scoring + curaduria sugerida para brief_cliente); (4) actualizar .claude/skills/internal-report symlink; (5) actualizar ~9-15 referencias en repo (test_skills.sh registry + README skills + journal entries + STATUS + CHECKPOINT); (6) preservar bug fix v0.3 del parser."
+    },
+    {
+      "id": "t-skill6-build-skeleton",
+      "subject": "Construir skills/06_client_deliverables/ skeleton + brief_cliente template + renderers",
+      "status": "open",
+      "priority": "high",
+      "due": "tras feedback JP",
+      "created": "2026-05-27",
+      "blocked_by": "t-skill6-jp-feedback-await",
+      "notes": "Fase C del spec. Estructura: skills/06_client_deliverables/{SKILL.md, CHANGELOG.md, scripts/{generate_docx.py, generate_pptx.py}, templates/{brief_cliente.template.md, word_master.docx, pptx_master.pptx}, tests/test_skill6.sh}. SKILL.md describe el flujo conversacional (Claude conduce las preguntas estructuradas que llenan brief_cliente.md) + invocacion de renderers. Renderers delegan a nexostrat-editorial-designer + docx tecnico (para Word) y nexostrat-pptx-expert + pptx tecnico (para PPTX). word_master.docx y pptx_master.pptx son los Aurora-branded masters de los que parten los renderers."
+    },
+    {
+      "id": "t-skill7-placeholder-spec",
+      "subject": "Crear skills/07_implementation_roadmap/SKILL.md placeholder (solo contrato, sin scripts)",
+      "status": "open",
+      "priority": "medium",
+      "due": "tras feedback JP",
+      "created": "2026-05-27",
+      "blocked_by": "t-skill6-jp-feedback-await",
+      "notes": "Fase D del spec. Spec-only por ahora. Solo SKILL.md describiendo: trigger (cliente firma contrato/pago post-Skill 6), inputs (Skill 6 outputs + feedback meeting + nuevo intake post-aprobacion), outputs (Hoja de Ruta detallada con scope + timeline mes-a-mes + milestones + costos cuantitativos exactos + criterios exito + riesgos + plan comunicacion). Nombre comercial cliente-facing: 'Plan Detallado de Implementacion'. Sin scripts/ hasta tener 1-2 corridas reales de Skill 6 que informen el formato."
+    },
+    {
+      "id": "t-clients-folder-rename",
+      "subject": "Migrar pipeline/clients/<slug>/etapa_2_diagnostico/reporte_oportunidades -> reporte_interno",
+      "status": "open",
+      "priority": "high",
+      "due": "tras feedback JP",
+      "created": "2026-05-27",
+      "blocked_by": "t-skill5-rename-and-reprofile",
+      "notes": "Fase B step 6 del spec. Para todos los clientes (Trixx + Pilotos Bodai/Ascenso/Scarab si ya migraron a pipeline/clients/). Crear adicionalmente las nuevas carpetas brief_cliente/ y entregables/. Para Trixx: documentar en MIGRATION_NOTE.md que los runs viejos de session 20 (reporte_oportunidades/runs/2026-05-26_mode-a/) se preservan en su path original para trazabilidad; proximos runs usan los paths nuevos. Actualizar state.json del cliente con paths nuevos."
+    },
+    {
+      "id": "t-meeting-transcription-protocol-doc",
+      "subject": "Crear 00_META/protocols/meeting_transcription.md codificando stack multi-engine",
+      "status": "open",
+      "priority": "medium",
+      "due": "2026-06-10",
+      "created": "2026-05-27",
+      "notes": "NO bloqueado por JP. Documento que codifica el stack canonico de transcripcion (sec 9 del spec): WhisperX large-v3 + pyannote primary; Apple Voice Memos secondary; Gemini multimodal SUMMARY ONLY (no transcription, alucina >20MB); screen-recorder builtin experimental; Claude multimodal experimental. Procedure paso-a-paso para una reunion cualquiera: grabar -> summarize-meeting.sh con --scope --client-slug --topic -> WhisperX outputs + Gemini summary -> (opcional Apple comparativo) -> reconciliar -> transcript_final.md con speakers reales + hotword corrections -> NotasCliente con tags ✅⚠️❓. Incluir lessons learned del session 21 (stdin vacio para CLIENT_SLUG empty)."
+    },
+    {
+      "id": "t-editorial-designer-fix-description",
+      "subject": "Fix frontmatter de nexostrat-editorial-designer (Century Gothic -> Inter; PYMEs colombianas -> LATAM)",
+      "status": "open",
+      "priority": "low",
+      "due": "2026-06-15",
+      "created": "2026-05-27",
+      "notes": "Cosmetico, no bloqueado por JP. El skill que JP entrego hoy tiene description: 'paleta Aurora, tipografia Century Gothic/Inter, voz directa y basada en datos para PYMEs colombianas'. Aurora brand spec (memoria outputs-premium-visual.md) locks Inter como font canonical (Century Gothic salio con session 22 brand alignment). Y Nexostrat targets MX + CO + LATAM, no solo CO. Edit a /srv/Nexostrat/skills/nexostrat_editorial_designer/SKILL.md frontmatter line 'description: ...' para reflejar la realidad."
+    },
+    {
+      "id": "t-anthropic-license-decision-doc",
+      "subject": "Documentar nota source-available de Anthropic skills pptx+docx en 00_GOVERNANCE/decisions/",
+      "status": "open",
+      "priority": "low",
+      "due": "2026-06-15",
+      "created": "2026-05-27",
+      "notes": "Compliance trail. Los skills pptx + docx tecnicos bajados de github.com/anthropics/skills/skills/{pptx,docx} son source-available NOT open source. LICENSE.txt restringe extraccion fuera de Services, derivative works, redistribucion. Uso intra-Claude-Code (Anthropic Service) calza dentro del envelope. Si Nexostrat opera fuera de CC en el futuro, migrar a wrappers propios sobre python-pptx + python-docx. Decision doc en 00_GOVERNANCE/decisions/2026-05-27_anthropic-skills-license.md documentando: terms originales + interpretacion operativa + trigger de re-evaluacion (post-piloto-3 o evento de operar fuera de CC)."
+    },
+    {
+      "id": "t-internal-deck-iteration-feedback",
+      "subject": "Iterar HTML deck interno segun feedback de JP (vibe whiteboard, contenido)",
+      "status": "open",
+      "priority": "medium",
+      "due": "tras feedback JP",
+      "created": "2026-05-27",
+      "blocked_by": "t-skill6-jp-feedback-await",
+      "notes": "Refinamientos visuales pendientes basados en lo que JP diga. Conocidos hoy a refinar potencialmente: (1) vibe whiteboard mas fuerte si JP lo pide — Caveat dentro de box labels + wobbly borders en SVG; (2) contenido especifico que JP marque que falta o que sobra; (3) potencial uso del skill HTML interactive que JP esta construyendo como motor del proximo HTML deck. Si JP no pide cambios visuales, esta task se cierra rapido."
     }
   ]
 }

@@ -160,7 +160,7 @@ the state-machine reference.
 - **\`etapa_1_preparacion/03_analisis_competencia/\`** — Skill 03 output.
 - **\`etapa_1_preparacion/04_guia_reunion/\`** — Skill 04 PrepLlamada.
 - **\`etapa_2_diagnostico/transcripciones/\`** — meeting audio + transcripts.
-- **\`etapa_2_diagnostico/reporte_oportunidades/\`** — Skill 05 deliverable.
+- **\`etapa_2_diagnostico/reporte_interno/\`** — Skill 05 deliverable.
 - **\`state.json\`** — phase + history + pricing + KPIs. State-machine reference in \`../_template/README.md\`.
 - **\`checkpoint.md\`** — session continuity baton (per ADR-031).
 

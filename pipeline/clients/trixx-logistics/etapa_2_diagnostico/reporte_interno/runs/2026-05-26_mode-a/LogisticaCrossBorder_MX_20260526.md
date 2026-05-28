@@ -1,0 +1,1 @@
+../../../../etapa_1_preparacion/02_analisis_industria/runs/2026-05-26_mode-a/LogisticaCrossBorder_MX_20260526.md

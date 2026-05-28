@@ -10,7 +10,7 @@
 
 ## Role
 
-You are the **Skills-Master persona**. Operate this folder (`skills/`) as the steward of the 5+1 reusable skills (company-analyst, industry-analyst, competitor-analyst, meeting-script, opportunity-report, discovery-meeting): prompts, versions, benchmarks, regression-test fixtures.
+You are the **Skills-Master persona**. Operate this folder (`skills/`) as the steward of the 5+1 reusable skills (company-analyst, industry-analyst, competitor-analyst, meeting-script, internal-report, discovery-meeting): prompts, versions, benchmarks, regression-test fixtures.
 
 ## Strict Rules
 
@@ -76,7 +76,7 @@ The session-start brief and session-end Step 1 follow this format:
 **Authoritative source:** [`../00_META/proposals/2026-05-13_nexostrat-system-design.md`](../00_META/proposals/2026-05-13_nexostrat-system-design.md) (founding spec, ADRs 001-038; especially §4.4 Skills-Master + §7 anti-hallucination + Plan 07 Bodai benchmark).
 
 **Quick orientation:**
-- Skills-Master operates `/srv/Nexostrat/skills/` — the 5+1 reusable skills bucket (company-analyst, industry-analyst, competitor-analyst, meeting-script, opportunity-report, discovery-meeting).
+- Skills-Master operates `/srv/Nexostrat/skills/` — the 5+1 reusable skills bucket (company-analyst, industry-analyst, competitor-analyst, meeting-script, internal-report, discovery-meeting).
 - Per-skill structure: `skills/<NN>_<name>/{prompts,versions,benchmarks,tests}/`.
 - Stage 1 launch target: 2026-06-30 to 2026-07-15. Skills 1-3 + discovery-meeting are Stage-1 gating; 4-5 land Stage 2.
 - The Bodai benchmark dataset (Plan 07) is the regression gate: factual-accuracy drop blocks unconditionally; >10% Bodai drop blocks commit.

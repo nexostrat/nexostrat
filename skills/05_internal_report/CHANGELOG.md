@@ -1,8 +1,28 @@
-# Changelog — `05_opportunity_report`
+# Changelog — `05_internal_report` (formerly `05_opportunity_report`)
 
 All notable changes to this skill's prompt + scripts are listed here, newest first.
 
 The git commit SHA at the time of each version pin is the authoritative artifact (per ADR-022). This file is the human-readable index.
+
+---
+
+## v0.4 — 2026-05-28 · Rename mecánico opportunity-report → internal-report (Pipeline v2)
+
+**Scope:** rename mecánico del skill (folder + slug + symlink + test registry + frontmatter + docs). Body del prompt NO se reescribe — sigue hablando de "directo al cliente" (audiencia v1). El reprofile completo del body a audiencia interna Nexostrat (`t-skill5-reprofile-body`) queda como task pendiente.
+
+**Driver:** Pipeline v2 sesión 26 — bajo el nuevo flujo, este skill produce un documento INTERNO (hoja de análisis crudo + lista de oportunidades) que después alimenta al Skill 6 (entregables cliente refinados, 10-15 págs DOCX + 10 slides PPTX). El nombre `opportunity-report` confundía sobre la audiencia.
+
+**Cambios:**
+- **Folder rename:** `skills/05_opportunity_report/` → `skills/05_internal_report/` (`git mv`, historia preservada).
+- **Symlink:** `.claude/skills/opportunity-report` → `.claude/skills/internal-report` (apunta a la nueva carpeta).
+- **Frontmatter:** `name: opportunity-report` → `name: internal-report`. Description reescrita para reflejar audiencia interna + trigger phrases nuevas.
+- **Nota REPROFILE PENDIENTE** agregada al body para que el lector entienda que el cuerpo del prompt está desactualizado y leer "cliente" como "uso interno Nexostrat".
+- **Test registry:** `infra/scripts/test_skills.sh` `05_opportunity_report:opportunity-report` → `05_internal_report:internal-report`. Test harness verde post-rename: 63 PASS · 0 SKIP · 0 FAIL.
+- **Docs:** `skills/README.md` + `skills/CLAUDE.md` actualizados con nuevo slug + nota de rename + diagrama del pipeline ahora incluye Skill 6 (entregables cliente) después de la revisión interna.
+
+**Verified by:** `bash infra/scripts/test_skills.sh` post-rename → 63 PASS · 0 SKIP · 0 FAIL. End-to-end render del sample MD → DOCX para internal-report pasó (62 KB DOCX).
+
+**Pendiente:** `t-skill5-reprofile-body` — reescribir el cuerpo del prompt para audiencia interna Nexostrat (cambiar tono de "impresionar al cliente" a "alimentar análisis crítico Nexostrat", adaptar anti-alucinación, redefinir Quick Wins criteria, etc.). No bloqueante para Skill 6 ni para correr el skill sobre clientes nuevos.
 
 ---
 

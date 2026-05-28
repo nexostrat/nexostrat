@@ -1,0 +1,1 @@
+../../../../etapa_1_preparacion/01_analisis_compania/runs/2026-05-26_mode-a/final_report.md

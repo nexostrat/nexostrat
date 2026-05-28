@@ -4,11 +4,11 @@
   "events": [
     {
       "id": "e-jp-pipeline-v2-meeting",
-      "title": "Reunion con JP — resolver 14 preguntas abiertas Pipeline v2",
+      "title": "Reunion con JP — 14 preguntas Pipeline v2 — OCURRIDA 2026-05-28 07:05 (49 min)",
       "when": "2026-05-28",
       "kind": "milestone",
       "owner": "ricardo",
-      "status": "scheduled",
+      "status": "occurred",
       "related": [
         "t-skill6-jp-feedback-await",
         "t-skill6-implementation-plan",

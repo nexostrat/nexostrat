@@ -1,1 +1,0 @@
-../../../03_competitor_analysis/runs/2026-05-26_mode-a/Trixx_Competencia_MX_20260526.md

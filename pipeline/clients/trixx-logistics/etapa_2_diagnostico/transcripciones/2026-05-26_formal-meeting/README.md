@@ -41,7 +41,7 @@
 
 **Recomendación de uso:**
 - Para **lectura humana** de la reunión → `*_transcript_final.md` (root del folder).
-- Para **feed a Skill 05** (opportunity-report) → `claude/*.md` (síntesis estructurada).
+- Para **feed a Skill 05** (internal-report) → `claude/*.md` (síntesis estructurada).
 - Para **citas textuales o auditoría** → `whisperx/*.txt` (con timestamps en `.srt`/`.json`).
 
 ## Política de material del cliente (override 2026-05-26)
@@ -116,7 +116,7 @@ Esto es un bug del routing interno de Gemini CLI 0.42.0 — no es un límite doc
 - Citas textuales literales para los highlights más accionables.
 - Anotaciones marginales sobre pivotes de conversación, datos cuantitativos, red flags, action items.
 - Sección "Datos accionables nuevos vs. session 19" que captura todo lo que altera `final_report.md`, `our_hypotheses.md` y `state.json`.
-- Action items extraídos pre-formateados para alimentar Skill 05 (opportunity-report).
+- Action items extraídos pre-formateados para alimentar Skill 05 (internal-report).
 
 **No es transcripción cruda.** Es **documento de trabajo** que reemplaza la necesidad de leer 100 KB de WhisperX para entender la reunión.
 
@@ -149,7 +149,7 @@ Esto es un bug del routing interno de Gemini CLI 0.42.0 — no es un límite doc
 
 ## Siguiente paso en la cadena
 
-Estos artefactos alimentan **Skill 05 (opportunity-report)** — entregable final de diagnóstico al cliente. Inputs esperados:
+Estos artefactos alimentan **Skill 05 (internal-report)** — entregable final de diagnóstico al cliente. Inputs esperados:
 
 - Empresa: `../../01_company_analysis/runs/2026-05-26_mode-a/final_report.md`
 - Industria: `../../02_industry_analysis/runs/2026-05-26_mode-a/LogisticaCrossBorder_MX_20260526.md`

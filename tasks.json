@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v2",
   "project": "nexostrat",
-  "updated": "2026-05-28T09:15:00-07:00",
+  "updated": "2026-05-28T12:30:00-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -854,11 +854,12 @@
     {
       "id": "t-skill6-jp-feedback-await",
       "subject": "Esperar feedback de JP sobre spec + HTML deck del pipeline redesign",
-      "status": "open",
+      "status": "done",
       "priority": "high",
       "due": "2026-05-28",
       "created": "2026-05-27",
-      "notes": "UPDATE 2026-05-27 (session 24): JP devolvio su revision como pipeline-nexostrat-v2.html (movido a 00_META/proposals/2026-05-27_pipeline-v2-jp.html). Sesion 24 produjo diff conceptual contra spec v1 + cerro 5 decisiones (output Skill 6 = .docx + .pptx con hoja de ruta + propuesta dentro; reglas entrega JP no rigidas; Skill 7 muere; brief_cliente.md eliminado) + dejo 14 preguntas abiertas para reunion 2026-05-28. Doc para JP en 00_META/proposals/2026-05-27_preguntas-jp-pipeline-v2.{md,docx}. Due actualizada de 2026-06-03 a 2026-05-28 (reunion manana). Una vez JP responda las 14, esta task se cierra y se abren tasks tecnicos concretos. ORIGINAL: Bloqueante. Spec en 00_META/proposals/2026-05-27_skill6-pipeline-redesign.md (~580 lineas, 17 secciones). HTML deck en operations/internal/2026-05-27_nexostrat-pipeline-deck.html (851 lineas). Ambos enviados a JP por Ricardo el 2026-05-27 mid-day. Tres respuestas posibles esperadas: (A) aprueba sin cambios -> invocar superpowers:writing-plans con el spec; (B) pide cambios menores al deck -> iterar visual; (C) cambios estructurales al spec -> re-abrir brainstorm en puntos especificos."
+      "notes": "DONE 2026-05-28 — JP dio el feedback completo en reunión 07:05. 4 preguntas cerradas (estructura .docx 10-15 págs + 10 slides; cifras concretas $3K USD baseline; garantía cubre bugs/ajustes menores; garantía incluida en precio), 1 parcial (CRM Notion vs Odoo — Ricardo investiga), 9 abiertas. Decisiones nuevas: tercerización Neo, facturación Panamá Consultores Butacos, posicionamiento como consultoría no programación, redes nexostrat_. Resultados documentados en 00_META/proposals/2026-05-27_preguntas-jp-pipeline-v2.md (bloque arriba). Status changes follow-on: spec v2 oficial en 2026-05-28_skill6-pipeline-redesign-v2.md (sesión 26 esboza con lo cerrado).",
+      "completed": "2026-05-28"
     },
     {
       "id": "t-skill6-implementation-plan",
@@ -873,12 +874,13 @@
     {
       "id": "t-skill5-rename-and-reprofile",
       "subject": "Renombrar 05_opportunity_report -> 05_internal_report + reescribir SKILL.md (audiencia Nexostrat)",
-      "status": "open",
+      "status": "done",
       "priority": "high",
       "due": "tras feedback JP",
       "created": "2026-05-27",
       "blocked_by": "t-skill6-jp-feedback-await",
-      "notes": "Fase B del spec. Cambio destructivo contenido. Acciones: (1) git mv skills/05_opportunity_report -> skills/05_internal_report; (2) frontmatter slug opportunity-report -> internal-report; (3) reescribir SKILL.md (audiencia Ricardo+JP, no cliente; contenido completo sin filtros + gaps internos + que NO decir al cliente + capacidades reales Nexostrat + Quick Wins con scoring + curaduria sugerida para brief_cliente); (4) actualizar .claude/skills/internal-report symlink; (5) actualizar ~9-15 referencias en repo (test_skills.sh registry + README skills + journal entries + STATUS + CHECKPOINT); (6) preservar bug fix v0.3 del parser."
+      "notes": "DONE 2026-05-28 sesion 26 (F2 del spec v2). Rename mecanico ejecutado: (1) git mv skills/05_opportunity_report -> skills/05_internal_report (historia preservada); (2) symlink .claude/skills/opportunity-report -> internal-report; (3) frontmatter slug + description reescritas en SKILL.md (audiencia interna + trigger phrases nuevas); (4) test_skills.sh registry actualizado, 63 PASS · 0 SKIP · 0 FAIL post-rename; (5) skills/README.md + skills/CLAUDE.md + CHANGELOG.md v0.4 entry. Reprofile completo del BODY del prompt (cambio de tono de 'impresionar cliente' a 'alimentar analisis critico Nexostrat') NO se hizo aqui — sigue como task abierta t-skill5-reprofile-body (medium, due 2026-06-15, ~1-2h sesion dedicada). Body actual con NOTA REPROFILE PENDIENTE al inicio del file para alertar al lector.",
+      "completed": "2026-05-28"
     },
     {
       "id": "t-skill6-build-skeleton",
@@ -904,12 +906,13 @@
     {
       "id": "t-clients-folder-rename",
       "subject": "Migrar pipeline/clients/<slug>/etapa_2_diagnostico/reporte_oportunidades -> reporte_interno",
-      "status": "open",
+      "status": "done",
       "priority": "high",
       "due": "tras feedback JP",
       "created": "2026-05-27",
       "blocked_by": "t-skill5-rename-and-reprofile",
-      "notes": "Fase B step 6 del spec. Para todos los clientes (Trixx + Pilotos Bodai/Ascenso/Scarab si ya migraron a pipeline/clients/). Crear adicionalmente las nuevas carpetas brief_cliente/ y entregables/. Para Trixx: documentar en MIGRATION_NOTE.md que los runs viejos de session 20 (reporte_oportunidades/runs/2026-05-26_mode-a/) se preservan en su path original para trazabilidad; proximos runs usan los paths nuevos. Actualizar state.json del cliente con paths nuevos."
+      "notes": "DONE 2026-05-28 sesion 26 (F3 del spec v2). git mv ejecutado en: (1) pipeline/clients/_template/etapa_2_diagnostico/reporte_oportunidades -> reporte_interno; (2) pipeline/clients/trixx-logistics/etapa_2_diagnostico/reporte_oportunidades -> reporte_interno. 6 symlinks dentro de trixx-logistics/.../runs/2026-05-26_mode-a/ verificados resueltos post-rename (paths relativos ../../../../ no cambian profundidad). Sed sweep actualizo 8 archivos con referencias path-level + slug: _template/README.md + new-client.sh + trixx state.json + trixx checkpoint.md + our_hypotheses.md + Trixx_NotasCliente_20260526.md + 2 READMEs de transcripciones. Carpetas brief_cliente/ y entregables/ del spec v1 originalmente planeadas — NO se crearon esta sesion porque el spec v2 elimino brief_cliente (decision sesion 24 #5: revision libre Ricardo+IA sin template estructurado). entregables/ queda como task aparte para cuando se construya Skill 6 skeleton (F1 del roadmap).",
+      "completed": "2026-05-28"
     },
     {
       "id": "t-meeting-transcription-protocol-doc",
@@ -1030,11 +1033,12 @@
       "title": "Consolidar las respuestas del Buyer Persona enviadas por Ricardo utilizando IA para generar la versión definitiva del perfil de cliente.",
       "owner": "socio",
       "due": null,
-      "status": "open",
+      "status": "done",
       "priority": "medium",
       "blocked_by": [],
-      "notes": "auto from meeting 2026-05-25_08-00_reunion-lunes",
-      "created": "2026-05-28T01:36:04+00:00"
+      "notes": "DONE 2026-05-28 — JP confirmó en reunión 07:05 que ya consolidó las respuestas del Buyer Persona Don Carlos usando IA + generó video explicativo (Cerrar_a_Don_Carlos.mp4 organizado a operations/marketing/buyer_personas/ sesión 26). Documento consolidado disponible en Drive (no en repo local; light asset queda al cuidado de JP). Auto-extraído de meeting 2026-05-25_08-00_reunion-lunes.",
+      "created": "2026-05-28T01:36:04+00:00",
+      "completed": "2026-05-28"
     },
     {
       "id": "t-pre-push-hook-block-mirrors",
@@ -1157,6 +1161,28 @@
       "blocked_by": [],
       "notes": "auto from meeting 2026-05-28_07-05_buyer-persona-trixx-logistic-pipeline",
       "created": "2026-05-28T16:44:10+00:00"
+    },
+    {
+      "id": "t-trixx-reporte-iteracion-notas-ricardo",
+      "subject": "Sesion exclusiva — iterar Reporte de Oportunidades Trixx con notas de voz de Ricardo",
+      "status": "open",
+      "priority": "high",
+      "due": "2026-05-30",
+      "created": "2026-05-28",
+      "owner": "ricardo",
+      "auto_added": false,
+      "notes": "DEJADO LISTO sesion 26 para sesion 27. Insumos canonicos: (1) Reporte actual pipeline/clients/trixx-logistics/etapa_2_diagnostico/reporte_interno/runs/2026-05-26_mode-a/Trixx_ReporteOportunidades_20260526.md + .docx + .pdf (245 lineas md, 10 oportunidades, QW1+QW2 seleccionados); (2) Notas curadas Ricardo pipeline/clients/trixx-logistics/etapa_2_diagnostico/transcripciones/2026-05-27_ricardo-notes/notas_curadas.md (sintesis grabacion 2026-05-27 06:27); (3) Spec v2 oficial 00_META/proposals/2026-05-28_skill6-pipeline-redesign-v2.md (decisiones JP + lenguaje + estructura entregable). Cambios concretos a aplicar: (a) DECIDIR Google Workspace vs Microsoft Office — reporte mezcla las dos, hay que elegir UNA y unificar; (b) REORDENAR Quick Wins: QW1 = asistente de WhatsApp directo en celular Maria Helena (partner que organiza info recibida); QW2 = Workspace/OneDrive con archivo Excel consolidado; resto va como desarrollo futuro; (c) LENGUAJE: reescribir bot/agente a asistente/sistema de consolidacion (memoria Trixx asocia bot con robot fisico); enmarcar como menores disrupciones + mayor productividad; (d) DECISORA Maria Helena (no Hector) — ya corregido en reporte 26 pero verificar coherencia transversal; (e) AGREGAR seccion Restricciones del equipo: no estan dispuestos a aprender procesos nuevos (les costo en Guadalajara) — soluciones deben acomodarse al equipo, no al reves; (f) AGREGAR principio rector: la informacion tiene que llegar por UN solo punto (empezar WhatsApp, filtrar). Output esperado: Reporte refinado en runs/2026-05-28_mode-a/ (md + docx + pdf) listo para alimentar Skill 6 cuando JP entregue version ajustada (10-15 paginas, 10 slides max). Bloquea t-014 (correr Skill 6 final para Trixx) hasta que el insumo este refinado."
+    },
+    {
+      "id": "t-skill5-reprofile-body",
+      "subject": "Reprofile completo del body de SKILL.md (audiencia interna Nexostrat, no cliente)",
+      "status": "open",
+      "priority": "medium",
+      "due": "2026-06-15",
+      "created": "2026-05-28",
+      "owner": "ricardo",
+      "auto_added": false,
+      "notes": "El rename mecanico de opportunity-report -> internal-report (sesion 26 commit) movio el slug, frontmatter, symlink y test registry. El cuerpo del prompt (skills/05_internal_report/SKILL.md desde la linea ~11) sigue escrito para audiencia cliente final (v1): habla de 'impresionar al dueno o gerente de la PYME', 'credibilidad de Nexostrat ante el cliente', 'el cliente lee esto'. Bajo Pipeline v2 (00_META/proposals/2026-05-28_skill6-pipeline-redesign-v2.md) este documento NO va al cliente — alimenta al Skill 6 que sí va al cliente. Cambios a aplicar en el reprofile: (1) tono: de 'impresionar' a 'alimentar analisis critico Nexostrat con maxima honestidad'; (2) Quick Wins criteria: de 'lo que mejor vende' a 'lo realmente entregable hoy con $3K USD baseline + alcance ágil con IA'; (3) anti-alucinacion adaptada — ahora sirve para que Ricardo+JP verifiquen, no para 'que el cliente respete las fuentes'; (4) seccion final 'Hoja de Ruta + invitacion' eliminada del body (eso vive en el Skill 6 cliente); (5) agregar seccion 'Senales para refinamiento Skill 6' — flags + dudas explicitas que el Skill 6 debe resolver al construir entregables cliente. No bloqueante: el skill funciona como esta para correr sobre nuevos clientes; el output queda con tono cliente pero el revisor humano (Ricardo+JP) lo adapta antes de Skill 6. Reprofile estimado 1-2h sesion dedicada."
     }
   ]
 }

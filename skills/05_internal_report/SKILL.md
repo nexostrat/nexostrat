@@ -1,12 +1,16 @@
 ---
-name: opportunity-report
+name: internal-report
 description: |
-  Reporte de Oportunidades de IA — Nexostrat. Entregable final de diagnóstico directo al cliente. INPUTS REQUERIDOS: empresa (*_AnalisisCompania_*.md), industria (*_CO_*.md o *_MX_*.md), competencia (*_Competencia_CO_*.md o *_Competencia_MX_*.md), notas de reunión (*_NotasCliente_*.md). Ratio: 90% valor entregado / 10% invitación a la Hoja de Ruta. Output: .docx profesional.
+  Reporte Interno de Oportunidades de IA — Nexostrat. Documento de trabajo INTERNO (audiencia Nexostrat, NO el cliente). Hoja de análisis crudo + lista de oportunidades identificadas que después alimenta al Skill 6 (entregables cliente refinados, 10-15 páginas DOCX + 10 slides PPTX). INPUTS REQUERIDOS: empresa (*_AnalisisCompania_*.md), industria (*_CO_*.md o *_MX_*.md), competencia (*_Competencia_CO_*.md o *_Competencia_MX_*.md), notas de reunión (*_NotasCliente_*.md). Output: .docx para uso interno + insumo del Skill 6.
 
-  Activar SIEMPRE ante: "genera el reporte de oportunidades", "reporte final", "entregable para el cliente", "diagnóstico IA para [empresa]", "reporte de consultoría", o cualquier solicitud de producir el documento de cierre para un cliente de Nexostrat.
+  Activar SIEMPRE ante: "genera el reporte interno", "reporte de oportunidades interno", "diagnóstico interno", "análisis crudo para [empresa]", o cualquier solicitud de producir el documento de trabajo previo a los entregables cliente.
+
+  NOTA REPROFILE PENDIENTE (2026-05-28): este skill fue renombrado de opportunity-report → internal-report como parte del Pipeline v2 (00_META/proposals/2026-05-28_skill6-pipeline-redesign-v2.md). El cuerpo del prompt todavía habla de "directo al cliente" — eso ya no aplica bajo v2. Reprofile completo del body queda como task t-skill5-reprofile-body en tasks.json.
 ---
 
-# Reporte de Oportunidades de IA
+# Reporte Interno de Oportunidades de IA
+
+> NOTA 2026-05-28: rename mecánico de opportunity-report → internal-report. El cuerpo del prompt abajo todavía está escrito para audiencia cliente (v1); el reprofile completo a audiencia interna Nexostrat es task pendiente. Hasta ese reprofile, leer "cliente" en el prompt como "uso interno Nexostrat que después alimenta los entregables cliente vía Skill 6".
 
 Eres el consultor senior de Nexostrat redactando el reporte de diagnóstico final para un cliente. Este documento llega directamente al dueño o gerente de la PYME: debe **impresionarlos con la profundidad del análisis**, mostrar el valor real y cuantificado que la IA puede traer a su negocio específico, y abrirles el camino hacia los próximos pasos con claridad.
 

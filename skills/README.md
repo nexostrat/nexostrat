@@ -14,7 +14,7 @@ skills/
 ├── 02_industry_analyst/       ← mature · reusable per sector · CO + MX
 ├── 03_competitor_analyst/     ← mature · CO + MX
 ├── 04_discovery_meeting/      ← mature · "PrepLlamada" / Guía de Preparación · consumes 01+02+03
-├── 05_opportunity_report/     ← mature · client-facing deliverable · consumes 01+02+03+meeting-notes
+├── 05_internal_report/        ← mature · INTERNAL hoja de análisis (insumo de Skill 6) · consumes 01+02+03+meeting-notes · renamed 2026-05-28 from 05_opportunity_report per Pipeline v2
 ├── shared/                    ← brand.py (Aurora palette + logos + header/footer helpers, v1.0) · future: scoring.py, judge_prompt.md, anti_hallucination.md
 ├── 00_META/                   ← persona inbox + journal for Skills-Master
 ├── CLAUDE.md                  ← Skills-Master persona (Claude)
@@ -34,10 +34,13 @@ Skill 01 → review → Skill 02 → review → Skill 03 → review → Skill 04
                                                           meeting notes
                                                                   │
                                                                   ▼
-                                                       Skill 05 (Reporte de Oportunidades)
+                                                       Skill 05 (Reporte Interno · NOT cliente)
                                                                   │
                                                                   ▼
                                                   Internal review (Ricardo + JP, mandatory)
+                                                                  │
+                                                                  ▼
+                                                       Skill 06 (entregables cliente: 10-15 págs DOCX + 10 slides PPTX)
                                                                   │
                                                                   ▼
                                                        Manual send to client
@@ -73,7 +76,7 @@ The five mature skills can be invoked **two ways**. The model is the same; the d
 ├── industry-analyst   → ../../skills/02_industry_analyst
 ├── competitor-analyst → ../../skills/03_competitor_analyst
 ├── discovery-meeting  → ../../skills/04_discovery_meeting
-└── opportunity-report → ../../skills/05_opportunity_report
+└── internal-report   → ../../skills/05_internal_report
 ```
 
 A Claude Code session opened at `/srv/Nexostrat/` auto-discovers these and surfaces them by their frontmatter description. Ricardo invokes naturally:
@@ -142,7 +145,7 @@ Stage mapping:
 | `02_industry_analyst` | `02_industry_analysis` |
 | `03_competitor_analyst` | `03_competitor_analysis` |
 | `04_discovery_meeting` | `04_prep_llamada` |
-| `05_opportunity_report` | `05_opportunity_report` |
+| `05_internal_report` | `05_internal_report` |
 
 When running **standalone** (no client context), save to the working directory with the skill's documented naming convention (e.g., `Bodai_AnalisisCompania_20260517.md`). Each skill's `SKILL.md` documents its standalone naming in the `SETUP` section.
 
@@ -157,7 +160,7 @@ When running **standalone** (no client context), save to the working directory w
 01 company_analyst                        ├─► 06 discovery_meeting
                 └─► 03 competitor_analyst ┘
                                           │
-                                          └─► (Plan 06 → Skill 05 opportunity_report)
+                                          └─► (Plan 06 → Skill 05 internal_report)
 ```
 
 - **01 company_analyst** reads nothing; pulls financials from `assets/supersociedades_*.xlsx` + does web research; produces 13-section report.
@@ -220,7 +223,7 @@ pip install python-docx pandas openpyxl --break-system-packages
 | `tests/benchmark_input.md` + `benchmark_expected.md` per skill | Plan 05 |
 | `skills/shared/scoring.py` regression formula | Plan 05 |
 | Bodai benchmark fixture data | Plan 05 |
-| Skills 04 (meeting_script) + 05 (opportunity_report) prompts | Plan 06 |
+| Skills 04 (meeting_script) + 05 (internal_report) prompts | Plan 06 |
 | Pre-commit hook enforcing anti-hallucination block presence | Plan 02 |
 | Auto-discovery via `events.jsonl` + skill orchestrator | Plan 07 |
 | `/intake`, `/go`, `/stop` Telegram plugins around skills | Plan 04 + Plan 07 |

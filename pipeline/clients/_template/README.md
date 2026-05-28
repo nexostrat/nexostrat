@@ -20,7 +20,7 @@ pipeline/clients/<slug>/
 │   └── 04_guia_reunion/            ← Skill 04 (discovery-meeting / PrepLlamada) output
 ├── etapa_2_diagnostico/         ← todo lo post-reunión
 │   ├── transcripciones/            ← audios + transcripts de la reunión
-│   └── reporte_oportunidades/      ← Skill 05 (opportunity-report) output — el deliverable
+│   └── reporte_interno/      ← Skill 05 (internal-report) output — el deliverable
 ├── communications/             ← email + WhatsApp + Telegram captures (cross-cutting)
 ├── archive/                    ← superseded artifacts (forensic record; never deleted)
 ├── checkpoint.md
@@ -104,7 +104,7 @@ Effect:
    Claude reads `state.json` (confirms fresh `prospect` intake), reads `etapa_1_preparacion/00_intake/research_input.md`, and invokes Skill 01 (company-analyst). Output lands at `etapa_1_preparacion/01_analisis_compania/runs/<ts>_mode-a/final_report.{md,docx}`.
 4. **Human review** entre cada skill. Read Skill 01's output, correct what we know better, then continue to Skill 02 → review → Skill 03 → review → Skill 04. Skill 04 (PrepLlamada) is the **first skill that reads `our_hypotheses.md`**.
 5. **30-min discovery call** con el cliente, grabado. PrepLlamada es la guía. El audio + transcripts caen en `etapa_2_diagnostico/transcripciones/<fecha>_<topic>/`.
-6. **Skill 05 (opportunity-report)** consume 01+02+03+notas-reunión+our_hypotheses → produce el Reporte de Oportunidades en `etapa_2_diagnostico/reporte_oportunidades/runs/<ts>_mode-a/`.
+6. **Skill 05 (internal-report)** consume 01+02+03+notas-reunión+our_hypotheses → produce el Reporte de Oportunidades en `etapa_2_diagnostico/reporte_interno/runs/<ts>_mode-a/`.
 7. **Revisión interna obligatoria Ricardo+JP** (Fase 5 en JP's pipeline diagram) antes del envío manual.
 
 ## What's NOT here

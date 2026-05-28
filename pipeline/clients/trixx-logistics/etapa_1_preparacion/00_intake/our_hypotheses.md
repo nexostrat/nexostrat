@@ -2,7 +2,7 @@
 file_type: our_hypotheses
 adr: ADR-027
 slice: judgment (3) — hypotheses + people-judgments + Nexostrat-side constraints
-read_by: [skill-04-discovery-meeting, skill-05-opportunity-report]
+read_by: [skill-04-discovery-meeting, skill-05-internal-report]
 sealed_during: [skill-01-company-analyst, skill-02-industry-analyst, skill-03-competitor-analyst]
 companion: research_input.md
 filled: 2026-05-19

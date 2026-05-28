@@ -12,7 +12,7 @@ source_transcripts:
   - transcripts/2026-05-26_formal-meeting/1010_main-meeting_transcript_final.md
   - transcripts/2026-05-26_formal-meeting/1205_second-session_transcript_final.md
 prepared_by: ricardo (Nexostrat) — sintetizado via Claude desde WhisperX + curados
-prepared_for: Skill 05 (opportunity-report)
+prepared_for: Skill 05 (internal-report)
 ---
 
 # Notas de Reunión de Descubrimiento — Trixx Logistics (2026-05-26)

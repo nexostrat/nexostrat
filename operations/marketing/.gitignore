@@ -29,6 +29,12 @@ website-intro/*
 
 # Buyer personas (added 2026-05-27): canonical brand artifacts that inform
 # all marketing, sales, content, and product decisions. Text + light .docx
-# exports only — no heavy assets expected in this tree.
+# exports only — heavy media (video/audio drafts) stays out of git, goes
+# to Drive 2TB per backup posture.
 !buyer_personas/
 !buyer_personas/**
+buyer_personas/**/*.mp4
+buyer_personas/**/*.m4a
+buyer_personas/**/*.mov
+buyer_personas/**/*.mkv
+buyer_personas/**/*.wav

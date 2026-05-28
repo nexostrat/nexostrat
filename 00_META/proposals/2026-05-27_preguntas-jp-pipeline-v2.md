@@ -1,6 +1,44 @@
-# Preguntas para JP — Reunión 2026-05-28
+# Preguntas para JP — Reunión 2026-05-28 [PARCIALMENTE CERRADA]
 
 > Pipeline v2 — Lo que falta por definir antes de implementar
+>
+> **Reunión ocurrida:** 2026-05-28 07:05 PT (49 min). Transcripción + summary en `/srv/meetings/nexostrat/2026-05-28/2026-05-28_07-05_buyer-persona-trixx-logistic-pipeline/`.
+
+---
+
+## Resultado de la reunión 2026-05-28
+
+**4 preguntas cerradas + 1 parcial + 9 quedan abiertas.**
+
+| # | Pregunta | Estado | Respuesta JP |
+|---|---|---|---|
+| 1 | CRM herramienta | PARCIAL | Notion vs Odoo — Ricardo investiga Odoo (self-hosting + extensiones comunidad) antes de decidir. |
+| 2 | Estructura del Word | CERRADA | DOCX/HTML de **10-15 páginas** + PPTX/HTML de **máximo 10 slides**. Balance exhaustividad vs lectura digerible. |
+| 3 | Cifras concretas o rangos | CERRADA | Baseline mínimo **$3,000 USD** por proyecto. Sin cobro por horas. Margen de maniobra sano frente a solicitudes adicionales. |
+| 4 | Catálogo de capacidades antes 1er cliente | ABIERTA | No se discutió. Sigue pendiente. |
+| 5 | 6 fases Ciclo 2 — skills/humano/mezcla | ABIERTA | No se discutió. Sigue pendiente. |
+| 6 | Qué cubre la garantía 1 mes | CERRADA | Opción A — solo bugs + ajustes menores. Features nuevos = proyecto independiente. |
+| 7 | Garantía incluida o aparte | CERRADA | Opción A — incluida en el precio estándar. |
+| 8 | Canales de captación | ABIERTA | Mención lateral a estrategia de contenido (podcast → IA → newsletter/LinkedIn/Twitter) pero canales de prospect-to-discovery no se decidieron. |
+| 9 | Funnel CRM etapas | ABIERTA | Espera decisión Odoo vs Notion. |
+| 10 | Plantillas seguimiento D+7/15/30/60/90 | ABIERTA | No se discutió. |
+| 11 | Canal mensajes D+7..D+90 | ABIERTA | No se discutió. |
+| 12 | Qué detiene la cadena de seguimiento | ABIERTA | No se discutió. |
+| 13 | JP en el flujo (opcional/obligatorio) | ABIERTA-AJUSTE | Surge modelo nuevo: **tercerización con Neo** para proyectos que excedan el modelo ágil con IA — Nexostrat retiene rol comercial/estratégico, Neo ejecuta técnico, comisión. |
+| 14 | "Cowork" nombre comercial | ABIERTA | No se discutió. Pero locked decisión transversal: evitar "bot"/"robot"; usar **"sistemas de consolidación de información"** o **"secretarios digitales"**. |
+
+### Decisiones nuevas que no estaban en las 14 preguntas
+
+- **Posicionamiento**: Nexostrat no vende "bots" ni "programación" — vende **consultoría completa** con fases de entendimiento, diseño, validación, construcción y pruebas. El baseline $3,000 USD refleja esa profundidad.
+- **Tercerización con Neo** para proyectos fuera del scope ágil-con-IA (plataformas custom desde cero).
+- **Facturación internacional**: USD legalmente vía la empresa de JP registrada en Panamá — **Consultores Butacos**.
+- **Marketing de contenido**: grabar reuniones/podcast → IA extrae → newsletter + LinkedIn + Twitter (estrategia de única fuente, múltiples salidas).
+- **Redes sociales**: reservar handles `nexostrat_` (guion bajo) en Instagram, Twitter, TikTok.
+- **Buyer Persona Don Carlos**: JP ya consolidó las versiones de Ricardo + JP usando IA + generó video explicativo (`Cerrar_a_Don_Carlos.mp4`) — entregables consolidados disponibles.
+
+### Tasks abiertas en tasks.json desde la reunión
+
+`t-010` a `t-015` (auto-extraídas vía meetings pipeline): ajustar Skill 6 (JP), compartir versión nueva (JP), investigar Odoo (Ricardo), contactar Andrea (Ricardo), correr Skill 6 final Trixx (Ricardo), crear cuentas de redes con `nexostrat_` (Ricardo).
 
 ---
 

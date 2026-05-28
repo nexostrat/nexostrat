@@ -128,7 +128,7 @@ claude/                                    ← Síntesis estructurada multi-fuen
 - SÍ anclar inicio en el legado de Hector (24 años, integración vertical hecha en casa).
 - SÍ profundizar Excel→PDF CBP (Andrea ya lo abrió voluntariamente).
 
-**Estado del cliente al cierre de session 19:** intake actualizado + pipeline re-corrida + 4 PDFs nuevos en Desktop + toolchain validado. Reunión formal 3-personas pendiente agendar. Próxima sesión: Ricardo subirá artifacts (recording + notas) post-reunión formal para alimentar Skill 05 (opportunity-report).
+**Estado del cliente al cierre de session 19:** intake actualizado + pipeline re-corrida + 4 PDFs nuevos en Desktop + toolchain validado. Reunión formal 3-personas pendiente agendar. Próxima sesión: Ricardo subirá artifacts (recording + notas) post-reunión formal para alimentar Skill 05 (internal-report).
 
 ---
 

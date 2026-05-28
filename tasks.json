@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v2",
   "project": "nexostrat",
-  "updated": "2026-05-27T22:30:00-07:00",
+  "updated": "2026-05-28T09:15:00-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -1035,6 +1035,51 @@
       "blocked_by": [],
       "notes": "auto from meeting 2026-05-25_08-00_reunion-lunes",
       "created": "2026-05-28T01:36:04+00:00"
+    },
+    {
+      "id": "t-pre-push-hook-block-mirrors",
+      "subject": "Install pre-push git hook blocking direct pushes to github/codeberg mirrors",
+      "status": "open",
+      "priority": "high",
+      "due": "2026-05-30",
+      "created": "2026-05-28",
+      "notes": "Mechanical prevention of the divergence pattern that caused session-25's GitHub merge cleanup. Hook should reject `git push github main` / `git push codeberg main` (only `git push origin` allowed); mirrors fan out via systemd path-watcher per CLAUDE.md Backup posture. Location: infra/hooks/pre-push-block-mirrors.sh + symlink into .git/hooks/pre-push (or extend the existing pre-commit orchestrator pattern). ~10-15 min implementation. Test: run `git push github main` after install → expect rejection with explanatory message pointing to origin. Driver: divergence of 2026-05-27 (commits a97f302 + c593e8f pushed direct to GitHub, never reached origin)."
+    },
+    {
+      "id": "t-prompt-templates-audit-multi-push",
+      "subject": "Strip multi-remote-push line from prompt templates + audit other templates for same pattern",
+      "status": "open",
+      "priority": "high",
+      "due": "2026-05-30",
+      "created": "2026-05-28",
+      "notes": "00_META/templates/meeting-summary-prompt.md (and possibly other prompt templates under 00_META/templates/ + skills/) contains the literal line `git push origin main && git push github main && git push codeberg main` — the recipe for the divergence pattern that bit us 2026-05-27. Action: (1) edit meeting-summary-prompt.md to keep only `git push origin main` with a note about path-watcher fanout; (2) grep -rn 'git push github\\|git push codeberg' 00_META/ skills/ to find sibling instances; (3) patch each one or document why it stays (rare exception). Related to t-pre-push-hook-block-mirrors (the hook makes the wrong command literally impossible; the template fix removes the misleading instruction)."
+    },
+    {
+      "id": "t-path-watcher-bidi-investigation",
+      "subject": "Investigate why path-watcher didn't propagate the 2 GitHub-direct commits back to origin",
+      "status": "open",
+      "priority": "medium",
+      "due": "2026-06-07",
+      "created": "2026-05-28",
+      "notes": "Per CLAUDE.md Backup posture: systemd .path-watcher mirrors origin → github + origin → codeberg unidirectionally. Commits a97f302 + c593e8f pushed direct to GitHub 2026-05-27 19:34-19:46 never propagated back to origin (gitea on HP). Two interpretations: (a) by design (mirrors are write-only, no inbound flow); (b) gap (mirror was supposed to be bidirectional for resilience). If (a), the discipline fix (pre-push hook + audit prompt templates) is sufficient and this task closes as 'expected behavior documented'. If (b), needs a github → origin path-watcher counterpart (or an N-way sync via something other than systemd path units — perhaps a periodic fetch+push cron). Plan 10 territory per CLAUDE.md. Investigate: read Plan 01b text on path-watcher; confirm whether bidi was a design intent; document outcome in docs/runbooks/ or as ADR if posture changes."
+    },
+    {
+      "id": "t-meeting-pipeline-pdf-generation",
+      "subject": "Extend meeting-pipeline.sh to auto-generate summary.pdf after `meeting finish` run",
+      "status": "open",
+      "priority": "medium",
+      "due": "2026-07-15",
+      "created": "2026-05-28",
+      "notes": "meeting-summary-prompt.md (session 25 deliverable) explicitly notes: 'Until meeting-pipeline.sh is extended (a Phase 7 follow-up), the PDF is generated manually after each meeting finish run.' Action: locate meeting-pipeline.sh (likely ~/bin/summarize-meeting.sh or similar in brain-hub or Nexostrat infra/), add a post-step that runs the pandoc command documented in 00_META/templates/README.md against the just-written summary.md, write summary.pdf to the same /srv/meetings/nexostrat/<date>/<slug>/ folder. Update hub's `/resumen completo` Telegram handler to attach summary.pdf instead of summary.md once this lands. Gated on Phase 7 of the meetings-pipeline-overhaul master plan (not blocking earlier phases). Test: trigger a meeting finish → verify summary.pdf appears in the run folder + opens in a PDF viewer."
+    },
+    {
+      "id": "t-session-start-pull-reorder",
+      "subject": "Reorder Session Start Protocol so git pull happens before journal/inbox reads",
+      "status": "open",
+      "priority": "low",
+      "due": null,
+      "created": "2026-05-28",
+      "notes": "Current Session Start Protocol (CLAUDE.md per persona) lists `git pull` as step 8 — after STATUS.md, CHECKPOINT.md, tasks.json, calendar.json, journal, and inbox have already been read. If origin has commits ahead of local (e.g., from a push from another machine), the brief is built from stale state. Moving `git pull` to step 1 (or step 0) would surface divergence before any of the reads, eliminating the 'oh, this CHECKPOINT was written from a forked timeline' confusion mode. Trade-off: a step-1 pull requires network reachability before any state-reading happens; on offline sessions the protocol degrades gracefully (silent skip). Scope: edits to 00_META/shared/session_start.md (canonical stanza) + regen via inline_includes.py — touches Founder + Skills-Master + Client-Owner CLAUDE.md/GEMINI.md surfaces. No deadline; address whenever a Plan 01 polish-pass touches the shared stanzas."
     }
   ]
 }

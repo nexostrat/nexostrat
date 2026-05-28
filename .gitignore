@@ -86,6 +86,14 @@ logs/
 .superpowers/
 .claude/cache/
 
+# --- Brain Bot Hub runtime artifacts (regenerated on every run; never commit) --
+# Hub appends fcntl lockfile next to tasks.json; auto-extractor + dispatcher
+# write per-tenant logs under router_reports/ and group_listener writes per-
+# group JSONL transcripts under groups/<chat_id>/. None of these are durable.
+tasks.json.lock
+router_reports/
+groups/
+
 # --- pandoc / build artifacts --------------------------------------------------
 *.docx.bak
 *~bak

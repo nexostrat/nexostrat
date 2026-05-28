@@ -1,69 +1,9 @@
 {
-  "generated_at": "2026-05-26T02:59:01Z",
-  "generated_by": "claude@desktop",
+  "generated_at": "2026-05-28T18:29:09Z",
+  "generated_by": "claude@desktop-smoketest",
   "filter_applied": "nexostrat-v1",
   "stale_after_hours": 24,
   "events": [
-    {
-      "id": "4p84ujemc082qbrar3h271qft4_20260525T150000Z",
-      "summary": "Nexostrat",
-      "start": {
-        "dateTime": "2026-05-25T08:00:00-07:00",
-        "timeZone": "America/Tijuana"
-      },
-      "end": {
-        "dateTime": "2026-05-25T09:00:00-07:00",
-        "timeZone": "America/Tijuana"
-      },
-      "attendees": [
-        {
-          "email": "ricardomejiacaicedo@gmail.com",
-          "organizer": true,
-          "responseStatus": "accepted",
-          "self": true
-        },
-        {
-          "email": "jpasistentepersonal@gmail.com",
-          "responseStatus": "accepted"
-        },
-        {
-          "email": "juan@juanencripto.com",
-          "responseStatus": "accepted"
-        }
-      ],
-      "source_calendar": "Ricardo Mejía - Personal",
-      "match": "summary_contains_nexo"
-    },
-    {
-      "id": "7f8ertmcl71j4depm1fv3vkssn_20260528T140000Z",
-      "summary": "Nexostrat",
-      "start": {
-        "dateTime": "2026-05-28T07:00:00-07:00",
-        "timeZone": "America/Tijuana"
-      },
-      "end": {
-        "dateTime": "2026-05-28T08:00:00-07:00",
-        "timeZone": "America/Tijuana"
-      },
-      "attendees": [
-        {
-          "email": "ricardomejiacaicedo@gmail.com",
-          "organizer": true,
-          "responseStatus": "accepted",
-          "self": true
-        },
-        {
-          "email": "juan@juanencripto.com",
-          "responseStatus": "accepted"
-        },
-        {
-          "email": "jpasistentepersonal@gmail.com",
-          "responseStatus": "accepted"
-        }
-      ],
-      "source_calendar": "Ricardo Mejía - Personal",
-      "match": "summary_contains_nexo"
-    },
     {
       "id": "4p84ujemc082qbrar3h271qft4_20260601T150000Z",
       "summary": "Nexostrat",
@@ -78,8 +18,8 @@
       "attendees": [
         {
           "email": "ricardomejiacaicedo@gmail.com",
-          "organizer": true,
           "responseStatus": "accepted",
+          "organizer": true,
           "self": true
         },
         {
@@ -91,6 +31,8 @@
           "responseStatus": "accepted"
         }
       ],
+      "conferenceUrl": "https://meet.google.com/gzu-xxcr-pqx",
+      "status": "confirmed",
       "source_calendar": "Ricardo Mejía - Personal",
       "match": "summary_contains_nexo"
     },
@@ -108,8 +50,8 @@
       "attendees": [
         {
           "email": "ricardomejiacaicedo@gmail.com",
-          "organizer": true,
           "responseStatus": "accepted",
+          "organizer": true,
           "self": true
         },
         {
@@ -121,6 +63,8 @@
           "responseStatus": "accepted"
         }
       ],
+      "conferenceUrl": "https://meet.google.com/ice-hhzh-onm",
+      "status": "confirmed",
       "source_calendar": "Ricardo Mejía - Personal",
       "match": "summary_contains_nexo"
     },
@@ -138,8 +82,8 @@
       "attendees": [
         {
           "email": "ricardomejiacaicedo@gmail.com",
-          "organizer": true,
           "responseStatus": "accepted",
+          "organizer": true,
           "self": true
         },
         {
@@ -151,6 +95,8 @@
           "responseStatus": "accepted"
         }
       ],
+      "conferenceUrl": "https://meet.google.com/gzu-xxcr-pqx",
+      "status": "confirmed",
       "source_calendar": "Ricardo Mejía - Personal",
       "match": "summary_contains_nexo"
     },
@@ -168,8 +114,8 @@
       "attendees": [
         {
           "email": "ricardomejiacaicedo@gmail.com",
-          "organizer": true,
           "responseStatus": "accepted",
+          "organizer": true,
           "self": true
         },
         {
@@ -181,6 +127,8 @@
           "responseStatus": "accepted"
         }
       ],
+      "conferenceUrl": "https://meet.google.com/ice-hhzh-onm",
+      "status": "confirmed",
       "source_calendar": "Ricardo Mejía - Personal",
       "match": "summary_contains_nexo"
     },
@@ -198,8 +146,8 @@
       "attendees": [
         {
           "email": "ricardomejiacaicedo@gmail.com",
-          "organizer": true,
           "responseStatus": "accepted",
+          "organizer": true,
           "self": true
         },
         {
@@ -211,6 +159,8 @@
           "responseStatus": "accepted"
         }
       ],
+      "conferenceUrl": "https://meet.google.com/gzu-xxcr-pqx",
+      "status": "confirmed",
       "source_calendar": "Ricardo Mejía - Personal",
       "match": "summary_contains_nexo"
     },
@@ -228,8 +178,8 @@
       "attendees": [
         {
           "email": "ricardomejiacaicedo@gmail.com",
-          "organizer": true,
           "responseStatus": "accepted",
+          "organizer": true,
           "self": true
         },
         {
@@ -241,6 +191,8 @@
           "responseStatus": "accepted"
         }
       ],
+      "conferenceUrl": "https://meet.google.com/ice-hhzh-onm",
+      "status": "confirmed",
       "source_calendar": "Ricardo Mejía - Personal",
       "match": "summary_contains_nexo"
     },
@@ -258,8 +210,8 @@
       "attendees": [
         {
           "email": "ricardomejiacaicedo@gmail.com",
-          "organizer": true,
           "responseStatus": "accepted",
+          "organizer": true,
           "self": true
         },
         {
@@ -271,6 +223,40 @@
           "responseStatus": "accepted"
         }
       ],
+      "conferenceUrl": "https://meet.google.com/gzu-xxcr-pqx",
+      "status": "confirmed",
+      "source_calendar": "Ricardo Mejía - Personal",
+      "match": "summary_contains_nexo"
+    },
+    {
+      "id": "7f8ertmcl71j4depm1fv3vkssn_20260625T140000Z",
+      "summary": "Nexostrat",
+      "start": {
+        "dateTime": "2026-06-25T07:00:00-07:00",
+        "timeZone": "America/Tijuana"
+      },
+      "end": {
+        "dateTime": "2026-06-25T08:00:00-07:00",
+        "timeZone": "America/Tijuana"
+      },
+      "attendees": [
+        {
+          "email": "ricardomejiacaicedo@gmail.com",
+          "responseStatus": "accepted",
+          "organizer": true,
+          "self": true
+        },
+        {
+          "email": "juan@juanencripto.com",
+          "responseStatus": "accepted"
+        },
+        {
+          "email": "jpasistentepersonal@gmail.com",
+          "responseStatus": "accepted"
+        }
+      ],
+      "conferenceUrl": "https://meet.google.com/ice-hhzh-onm",
+      "status": "confirmed",
       "source_calendar": "Ricardo Mejía - Personal",
       "match": "summary_contains_nexo"
     }

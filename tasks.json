@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v2",
   "project": "nexostrat",
-  "updated": "2026-05-27T12:30:00-07:00",
+  "updated": "2026-05-27T18:20:00-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -730,30 +730,33 @@
       "subject": "Verify \"CEO\" lower-third title vs co-fundador",
       "description": "The Intro V3 lower-third at t≈5s reads \"Ricardo Mejía / CEO\". Per the founding spec, Ricardo + JP are 50/50 co-founders. Either confirm CEO as an internal role split (Ricardo CEO / JP CTO?) or change the lower-third to \"Co-fundador, Nexostrat\" before homepage launch. 1-minute fix in DaVinci.",
       "priority": "high",
-      "status": "open",
+      "status": "done",
       "created": "2026-05-25",
       "due": "2026-05-26",
-      "notes": "Confirm with JP before homepage deploy. The lower-third text edit is trivial in DaVinci once decided."
+      "completed": "2026-05-27",
+      "notes": "Confirm with JP before homepage deploy. The lower-third text edit is trivial in DaVinci once decided. || 2026-05-27 — DONE. CEO title confirmed by Ricardo at V5 sign-off: Ricardo is CEO + public face of Nexostrat. JP's reciprocal designation (CTO? Co-fundador?) is a future Ricardo↔JP conversation. Follow-up flagged in CHECKPOINT: 00_PARTNERSHIP/ROLES.md should eventually reflect this designation via deliberate addendum (signed legal artifact, signed 2026-05-12)."
     },
     {
       "id": "t-intro-v3-diferencia-slide",
       "subject": "Decide on Diferencia overlay (t≈37-43s)",
       "description": "V3 review found no overlay visible on sampled frames at t=38/40/42s. The spoken \"Sin plantillas. Cada solución se construye sobre cómo funciona tu empresa\" line lives in that window. Either confirm the overlay is present but very brief (no edit needed) or drop slide-4_diferencia.png on V2 for that ~5s stretch.",
       "priority": "high",
-      "status": "open",
+      "status": "done",
       "created": "2026-05-25",
       "due": "2026-05-26",
-      "notes": "overlays/slide-4_diferencia.png exists in the repo, ready to drop. Strengthens the differentiation beat which is one of the strongest pitch points."
+      "completed": "2026-05-27",
+      "notes": "overlays/slide-4_diferencia.png exists in the repo, ready to drop. Strengthens the differentiation beat which is one of the strongest pitch points. || 2026-05-27 — DONE (superseded). V5 declared the final webpage version. Whatever Diferencia overlay treatment V5 has = accepted. The V3-specific overlay-gap question is moot."
     },
     {
       "id": "t-intro-v3-web-export",
       "subject": "Web-optimized V3 export for homepage",
       "description": "Render the final V3 (after CEO + Diferencia decisions) as H.264 1080p30 ~6 Mbps with -movflags +faststart for browser preload. The current Intro V3.mkv is 3.2GB ProRes — too heavy for nexostrat.com. Run through infra/scripts/video-to-mp4.sh which already has the right recipe (CRF 18 preset slow, AAC 192k, faststart).",
       "priority": "high",
-      "status": "open",
+      "status": "done",
       "created": "2026-05-25",
       "due": "2026-06-15",
-      "notes": "Target output ~70 MB. Land in operations/marketing/website-intro/final/ alongside any iOS/Android optimized variants if needed."
+      "completed": "2026-05-27",
+      "notes": "Target output ~70 MB. Land in operations/marketing/website-intro/final/ alongside any iOS/Android optimized variants if needed. || 2026-05-27 — DONE (superseded by V5). Web export delivered as operations/marketing/website-intro/edits/Intro V5.mp4 (26 MB, H.264 CRF 18 + AAC 192k + faststart, BT.709, 1080p30, 57s) via infra/scripts/video-to-mp4.sh. Ricardo declared V5 the final webpage version. Open follow-up (not a separate task): physically move the .mp4 from edits/ into final/ per the README convention — mv-only, gitignored either way."
     },
     {
       "id": "t-meetings-overhaul-tasks-v2-schema",

@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v2",
   "project": "nexostrat",
-  "updated": "2026-05-27T18:20:00-07:00",
+  "updated": "2026-05-27T22:30:00-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -856,9 +856,9 @@
       "subject": "Esperar feedback de JP sobre spec + HTML deck del pipeline redesign",
       "status": "open",
       "priority": "high",
-      "due": "2026-06-03",
+      "due": "2026-05-28",
       "created": "2026-05-27",
-      "notes": "Bloqueante. Spec en 00_META/proposals/2026-05-27_skill6-pipeline-redesign.md (~580 lineas, 17 secciones). HTML deck en operations/internal/2026-05-27_nexostrat-pipeline-deck.html (851 lineas). Ambos enviados a JP por Ricardo el 2026-05-27 mid-day. Tres respuestas posibles esperadas: (A) aprueba sin cambios -> invocar superpowers:writing-plans con el spec; (B) pide cambios menores al deck -> iterar visual; (C) cambios estructurales al spec -> re-abrir brainstorm en puntos especificos."
+      "notes": "UPDATE 2026-05-27 (session 24): JP devolvio su revision como pipeline-nexostrat-v2.html (movido a 00_META/proposals/2026-05-27_pipeline-v2-jp.html). Sesion 24 produjo diff conceptual contra spec v1 + cerro 5 decisiones (output Skill 6 = .docx + .pptx con hoja de ruta + propuesta dentro; reglas entrega JP no rigidas; Skill 7 muere; brief_cliente.md eliminado) + dejo 14 preguntas abiertas para reunion 2026-05-28. Doc para JP en 00_META/proposals/2026-05-27_preguntas-jp-pipeline-v2.{md,docx}. Due actualizada de 2026-06-03 a 2026-05-28 (reunion manana). Una vez JP responda las 14, esta task se cierra y se abren tasks tecnicos concretos. ORIGINAL: Bloqueante. Spec en 00_META/proposals/2026-05-27_skill6-pipeline-redesign.md (~580 lineas, 17 secciones). HTML deck en operations/internal/2026-05-27_nexostrat-pipeline-deck.html (851 lineas). Ambos enviados a JP por Ricardo el 2026-05-27 mid-day. Tres respuestas posibles esperadas: (A) aprueba sin cambios -> invocar superpowers:writing-plans con el spec; (B) pide cambios menores al deck -> iterar visual; (C) cambios estructurales al spec -> re-abrir brainstorm en puntos especificos."
     },
     {
       "id": "t-skill6-implementation-plan",
@@ -893,12 +893,13 @@
     {
       "id": "t-skill7-placeholder-spec",
       "subject": "Crear skills/07_implementation_roadmap/SKILL.md placeholder (solo contrato, sin scripts)",
-      "status": "open",
+      "status": "cancelled",
       "priority": "medium",
       "due": "tras feedback JP",
       "created": "2026-05-27",
+      "completed": "2026-05-27",
       "blocked_by": "t-skill6-jp-feedback-await",
-      "notes": "Fase D del spec. Spec-only por ahora. Solo SKILL.md describiendo: trigger (cliente firma contrato/pago post-Skill 6), inputs (Skill 6 outputs + feedback meeting + nuevo intake post-aprobacion), outputs (Hoja de Ruta detallada con scope + timeline mes-a-mes + milestones + costos cuantitativos exactos + criterios exito + riesgos + plan comunicacion). Nombre comercial cliente-facing: 'Plan Detallado de Implementacion'. Sin scripts/ hasta tener 1-2 corridas reales de Skill 6 que informen el formato."
+      "notes": "CANCELLED 2026-05-27 (session 24). Skill 7 muere como entidad separada por decision locked en sesion 24 caminando el diff entre spec v1 y v2 de JP. El v2 de JP colapsa diagnostico + hoja de ruta + propuesta dentro del .docx del Skill 6 (gratis, pre-cierre). El rol que ocupaba Skill 7 (deliverable expandido post-aprobacion paga) ya no existe — la implementacion misma es Ciclo 2 (6 fases del diagrama JP: Diseno -> Construccion -> Pruebas -> Ajustes -> Implementacion final -> Mantenimiento garantia 1 mes). Si Ciclo 2 eventualmente se modela como skills automatizados, sera Skills 08-13, no Skill 7. ORIGINAL NOTES PRESERVED: Fase D del spec. Spec-only por ahora. Solo SKILL.md describiendo: trigger (cliente firma contrato/pago post-Skill 6), inputs (Skill 6 outputs + feedback meeting + nuevo intake post-aprobacion), outputs (Hoja de Ruta detallada con scope + timeline mes-a-mes + milestones + costos cuantitativos exactos + criterios exito + riesgos + plan comunicacion). Nombre comercial cliente-facing: 'Plan Detallado de Implementacion'. Sin scripts/ hasta tener 1-2 corridas reales de Skill 6 que informen el formato."
     },
     {
       "id": "t-clients-folder-rename",

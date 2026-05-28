@@ -3,6 +3,24 @@
   "project": "nexostrat",
   "events": [
     {
+      "id": "e-jp-pipeline-v2-meeting",
+      "title": "Reunion con JP — resolver 14 preguntas abiertas Pipeline v2",
+      "when": "2026-05-28",
+      "kind": "milestone",
+      "owner": "ricardo",
+      "status": "scheduled",
+      "related": [
+        "t-skill6-jp-feedback-await",
+        "t-skill6-implementation-plan",
+        "t-skill5-rename-and-reprofile",
+        "t-skill6-build-skeleton",
+        "t-clients-folder-rename",
+        "t-nexostrat-capabilities-catalog",
+        "t-internal-deck-iteration-feedback"
+      ],
+      "notes": "Sesion 24 (2026-05-27) cerro 5 decisiones del Pipeline v2 caminando el diff entre spec v1 (sesion 21) y pipeline-nexostrat-v2.html (revision JP). Quedaron 14 preguntas abiertas documentadas en 00_META/proposals/2026-05-27_preguntas-jp-pipeline-v2.{md,docx}. Las 7 primeras son bloqueantes para arrancar implementacion: (1) que CRM (Baserow/otra/manual); (2) estructura interna del .docx (4 secciones espejo + 5a propuesta vs nueva vs 2 docs); (3) cifras concretas o rango cualitativo en propuesta; (4) catalogo de capacidades antes del primer cliente; (5) 6 fases Ciclo 2 skills/humano/mezcla; (6) que cubre garantia 1 mes; (7) garantia incluida o aparte. Las 7 siguientes son importantes pero no bloquean Skill 6 tecnico: canales captacion, funnel etapas, plantillas seguimiento, canal seguimiento, que detiene seguimiento, JP en el flujo, Cowork como nombre comercial. Post-reunion: spec v2 oficial en 00_META/proposals/2026-05-28_skill6-pipeline-redesign-v2.md + tasks tecnicos concretos para arrancar Fase A-H + cierre de t-skill6-jp-feedback-await."
+    },
+    {
       "id": "e-trixx-pilot-meeting",
       "title": "Trixx Logistics reunion formal — OCURRIDA 2026-05-26",
       "when": "2026-05-26",

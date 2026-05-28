@@ -1,0 +1,269 @@
+/* Nexostrat meeting-summary print CSS — Aurora palette + Inter.
+ * Mirrors skills/shared/brand.py so PDF outputs match .docx outputs.
+ * Target engine: weasyprint (pandoc --pdf-engine=weasyprint).
+ */
+
+:root {
+  --midnight: #0C1A2E;
+  --ocean:    #0D4A6B;
+  --sky:      #0EA5E9;
+  --emerald:  #10B981;
+  --amber:    #F59E0B;
+  --arctic:   #F0FBFF;
+  --gray-100: #F5F5F5;
+  --gray-500: #6B7280;
+  --body:     #1A1A1A;
+  --white:    #FFFFFF;
+}
+
+/* ── @page rules ─────────────────────────────────────────────────────── */
+
+@page {
+  size: A4;
+  margin: 2.4cm 2cm 2.2cm 2cm;
+
+  @top-center {
+    content: element(pageHeader);
+    vertical-align: bottom;
+  }
+
+  @bottom-center {
+    content: "nexostrat.com  \00B7  Confidencial  \00B7  Pág. " counter(page);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 9pt;
+    color: #6B7280;
+    padding-top: 8pt;
+    border-top: 0.4pt solid #E5E7EB;
+    vertical-align: top;
+  }
+}
+
+/* Suppress the running header on the cover page so the logo block can breathe. */
+@page :first {
+  @top-center { content: none; }
+}
+
+/* ── Running header element ──────────────────────────────────────────── */
+
+.page-header {
+  position: running(pageHeader);
+  border-bottom: 0.75pt solid var(--sky);
+  padding-bottom: 4pt;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.page-header .brand-mark {
+  font-weight: 700;
+  font-size: 10pt;
+  color: var(--midnight);
+  letter-spacing: 0.08em;
+}
+
+/* ── Body typography ─────────────────────────────────────────────────── */
+
+html, body {
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color: var(--body);
+  font-size: 10.5pt;
+  line-height: 1.55;
+  margin: 0;
+  padding: 0;
+}
+
+.document {
+  max-width: 100%;
+}
+
+/* ── Cover block (first page only) ───────────────────────────────────── */
+
+.doc-cover {
+  text-align: center;
+  margin: 0 0 28pt 0;
+  padding-bottom: 14pt;
+  border-bottom: 0.4pt solid var(--gray-100);
+}
+
+.cover-logo {
+  display: block;
+  margin: 0 auto 14pt auto;
+  width: 8cm;
+  max-width: 60%;
+  height: auto;
+}
+
+.doc-title {
+  color: var(--midnight);
+  font-weight: 700;
+  font-size: 22pt;
+  letter-spacing: -0.015em;
+  margin: 6pt 0 4pt 0;
+  line-height: 1.2;
+}
+
+.doc-subtitle {
+  color: var(--ocean);
+  font-weight: 500;
+  font-size: 12pt;
+  margin: 0 0 6pt 0;
+}
+
+.doc-date {
+  color: var(--gray-500);
+  font-size: 10.5pt;
+  margin: 0;
+}
+
+/* ── Headings within the body ────────────────────────────────────────── */
+
+.document h1 {
+  color: var(--midnight);
+  font-weight: 700;
+  font-size: 17pt;
+  margin: 22pt 0 8pt 0;
+  letter-spacing: -0.01em;
+}
+
+.document h2 {
+  color: var(--sky);
+  font-weight: 600;
+  font-size: 13pt;
+  margin: 20pt 0 6pt 0;
+  padding-bottom: 3pt;
+  border-bottom: 0.5pt solid var(--sky);
+}
+
+.document h3 {
+  color: var(--ocean);
+  font-weight: 600;
+  font-size: 11.5pt;
+  margin: 16pt 0 4pt 0;
+}
+
+.document h4, .document h5, .document h6 {
+  color: var(--midnight);
+  font-weight: 600;
+  font-size: 10.5pt;
+  margin: 14pt 0 4pt 0;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ── Paragraphs, lists, inline ───────────────────────────────────────── */
+
+.document p {
+  margin: 0 0 8pt 0;
+}
+
+.document ul, .document ol {
+  margin: 4pt 0 12pt 18pt;
+  padding: 0;
+}
+
+.document li {
+  margin-bottom: 4pt;
+}
+
+.document li > p {
+  margin: 0 0 4pt 0;
+}
+
+.document strong { color: var(--midnight); font-weight: 600; }
+.document em { font-style: italic; }
+
+.document a {
+  color: var(--sky);
+  text-decoration: none;
+  border-bottom: 0.4pt dotted var(--sky);
+}
+
+/* Task-list checkboxes from "- [ ]" markdown */
+.document input[type="checkbox"] {
+  margin-right: 5pt;
+  transform: translateY(1pt);
+}
+.document li.task-list-item { list-style: none; margin-left: -16pt; }
+
+/* ── Code, pre, blockquote ───────────────────────────────────────────── */
+
+.document code {
+  font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+  font-size: 9.5pt;
+  background: var(--gray-100);
+  padding: 1pt 4pt;
+  border-radius: 2pt;
+  color: var(--midnight);
+}
+
+.document pre {
+  background: var(--gray-100);
+  border-left: 2pt solid var(--sky);
+  padding: 8pt 10pt;
+  font-size: 9pt;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  margin: 10pt 0;
+}
+
+.document pre code {
+  background: transparent;
+  padding: 0;
+}
+
+.document blockquote {
+  border-left: 3pt solid var(--emerald);
+  background: rgba(16, 185, 129, 0.05);
+  margin: 12pt 0;
+  padding: 6pt 14pt;
+  color: var(--midnight);
+}
+
+.document blockquote p:last-child { margin-bottom: 0; }
+
+/* ── Tables ──────────────────────────────────────────────────────────── */
+
+.document table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 12pt 0;
+  font-size: 9.5pt;
+}
+
+.document th {
+  background: var(--midnight);
+  color: var(--white);
+  text-align: left;
+  padding: 6pt 8pt;
+  font-weight: 600;
+}
+
+.document td {
+  border-bottom: 0.4pt solid var(--gray-100);
+  padding: 5pt 8pt;
+  vertical-align: top;
+}
+
+.document tr:nth-child(even) td { background: rgba(14, 165, 233, 0.04); }
+
+/* ── Misc ────────────────────────────────────────────────────────────── */
+
+.document hr {
+  border: none;
+  border-top: 0.5pt solid var(--gray-500);
+  margin: 20pt 0;
+}
+
+.document img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Avoid awkward page breaks */
+.document h1, .document h2, .document h3 {
+  break-after: avoid;
+  page-break-after: avoid;
+}
+.document pre, .document blockquote, .document table {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}

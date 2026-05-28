@@ -50,3 +50,27 @@ The renderer (`hub.plugins.meetings.brief.plugin.render_brief`) substitutes `{{v
 ## Audit B5 traceability
 
 The template + data-source mapping above is the audit B5 deliverable: every block in the pre-meeting brief traces to a deterministic data source. No LLM at fire-time (the group-chat extraction block is **pre-computed** at the previous evening's 19:30 run by `hub.plugins.groups.extractor`).
+
+---
+
+## Meeting summary PDF template
+
+`meeting-summary.html.j2` + `meeting-summary.css` + `assets/logo.png` produce a Nexostrat-branded PDF from any `summary.md` under `/srv/meetings/nexostrat/<date>/<slug>/`. Brand surface mirrors `skills/shared/brand.py` (Aurora palette, Inter font, Arctic logo) so the PDFs match the `.docx` deliverables.
+
+Render command (manual until `meeting-pipeline.sh` is extended in a Phase 7 follow-up):
+
+```bash
+LATEST=$(ls -dt /srv/meetings/nexostrat/*/* | grep -Ev '/README\.md$' | head -1)
+pandoc "$LATEST/summary.md" \
+  --template=/srv/Nexostrat/00_META/templates/meeting-summary.html.j2 \
+  --css=/srv/Nexostrat/00_META/templates/meeting-summary.css \
+  --pdf-engine=weasyprint \
+  --metadata title="$(basename "$LATEST")" \
+  --metadata date="$(date -I)" \
+  -o "$LATEST/summary.pdf"
+```
+
+The hub's `/resumen completo` still sends `summary.md` for now; once the pipeline is extended it will attach `summary.pdf` instead.
+
+**Dependencies:** `pandoc` (system) + `weasyprint` (system, apt `weasyprint` 61+).
+**Fonts:** Inter + JetBrains Mono pulled from Google Fonts via `<link>` in the HTML template. Offline renders fall back to system sans/mono.

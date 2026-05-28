@@ -1,4 +1,26 @@
-# Protocolo S2 — Investigación Odoo vs Notion (decisión CRM)
+# Protocolo S2 — Instalación Odoo CE (CRM/funnel) · [decisión CRM YA tomada]
+
+## DECISIÓN LOCKED — 2026-05-28 (sesión 27)
+
+La pregunta "Odoo vs Notion" quedó **resuelta por Ricardo: Odoo Community Edition.** La investigación comparativa de abajo es ahora histórica/de respaldo; este protocolo gobierna la **sesión de instalación** (en el HP server, donde se instala Odoo). Decisiones cerradas en sesión 27 vía brainstorming (diseño aprobado en principio):
+
+- **Edición:** Odoo **Community Edition** (LGPLv3, free forever, sin subscripción). Enterprise NO.
+- **Reemplaza Baserow por completo** (Odoo = CRM/funnel humano **y** state-store). Baserow estaba dormido (nunca usado a mano; deploy chunk-c abierto) → low-regret.
+- **Alcance (broad suite):** CRM + Contacts + Sales + Project + Invoicing + Calendar.
+- **Host:** HP server `100.64.121.80` (always-on, Tailscale, WAN-firewalled), donde ya viven Gitea + FOSS stack.
+- **Despliegue:** extender `infra/docker/foss-stack/docker-compose.yml` (servicios `odoo` image `odoo:18` + `odoo-db` `postgres:16`), nuevo vhost Caddy `odoo.nexostrat.local` → `:8069` (+ websocket `:8072`), mismo binding 127.0.0.1 + Tailscale, secrets en `secrets.env.age`. Fuente offline/local; sin red externa requerida por Odoo.
+- **Pipeline stages = funnel Nexostrat** (`contacto → agendada → skill-chain → call → diagnóstico → entregado/seguimiento`); usuarios Ricardo + JP.
+- **Migración en 4 fases (Baserow NO se remueve hasta que Odoo pruebe su trabajo):** (1) parar Odoo + apps + funnel stages [= "start con Odoo y aprender"]; (2) modelar clients/meetings/deliverables/financials en Odoo; (3) repuntar los 5 skill renderers + reconcile de Baserow API → Odoo API (XML-RPC/JSON-RPC); (4) retirar Baserow del compose + plegar Odoo pg_dump + filestore al backup posture (chunk-c) + runbooks.
+
+**Por qué Docker y no apt:** menos chore (Odoo + Postgres con un comando; upgrade = bump de imagen); la energía de aprendizaje va al uso de Odoo, no al install hell (wkhtmltopdf/deps). Decisión Ricardo: free o pago único → CE es $0, mejor que un pago único.
+
+**Tracker:** `t-012` (reframed a "stand up Odoo CE", high, due 2026-06-15). Spec/plan completos vía `writing-plans` se escriben **en** la sesión de instalación, no antes.
+
+**Pendiente al abrir la sesión de instalación:** confirmar versión Odoo (18 propuesto), Postgres 16, MagicDNS/hosts para `odoo.nexostrat.local`, y verificar HP encendido (atado a `t-weekend-desktop-on-decision`).
+
+---
+
+# Protocolo S2 (histórico) — Investigación Odoo vs Notion (decisión CRM)
 
 **Fase del roadmap:** F6 del spec v2 (`00_META/proposals/2026-05-28_skill6-pipeline-redesign-v2.md`)
 **Task tracker:** `t-012` (tasks.json, auto-extraída del meeting 2026-05-28 07:05) + bloquea decisión pregunta (1) del doc `2026-05-27_preguntas-jp-pipeline-v2.md`

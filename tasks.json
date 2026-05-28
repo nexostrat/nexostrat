@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v2",
   "project": "nexostrat",
-  "updated": "2026-05-28T12:30:00-07:00",
+  "updated": "2026-05-28T16:10:00-07:00",
   "tasks": [
     {
       "id": "t-audit-design",
@@ -304,12 +304,13 @@
     {
       "id": "t-nexostrat-capabilities-catalog",
       "subject": "Build 1-pager catalog of Nexostrat's real capabilities (what we can deliver TODAY with price + timeline + stack)",
-      "status": "open",
+      "status": "cancelled",
       "priority": "high",
       "due": "2026-05-31",
       "created": "2026-05-17",
       "blocked_by": "t-redesign-jp-confirmation",
-      "notes": "[REDIRECTED 2026-05-18 by redesign.] Catalog still needed but its downstream consumer changed. Old framing: input to the discovery-meeting skill so it proposes only deliverable QWs. New framing: input to JP's prompt content for Skills 06 (Análisis Profundo) and 07 (Soluciones Implementables) — JP needs to know what Nexostrat can actually build before authoring those skills' prompts. The deliverable shape (1-pager: service + fixed price + realistic timeline + stack + 'cannot deliver today' explicit list) stays the same. Ownership shifts: Ricardo + JP draft jointly (Ricardo knows engineering capacity, JP knows commercial framing). Blocked on t-redesign-jp-confirmation because the catalog's level of detail depends on whether Fase 1 sticks at $900K (which constrains how complex Skill 07's solutions can be). Original notes preserved below for context: Short document (1 page) listing the services Nexostrat can deliver TODAY with fixed price + realistic timeline + technology stack. Format suggested in Pilotos/Mejoras_Inmediatas_Proceso.txt section 4. Reason: the discovery guides from the 2026-05-17 pilots proposed QWs with prices/timelines invented without validation against real delivery capacity (e.g., 'AI configurator + design assistant' for Scarab — Nexostrat can't deliver that in 3 months). Without this catalog we keep selling vapor."
+      "notes": "CANCELADO sesion 27 (2026-05-28): F4 catalogo de capacidades DESCOPED por decision de Ricardo — se adopta el modelo de escalamiento a empresa-socia (Neo, decision #11 spec v2): si un proyecto excede el modelo agil de Nexostrat, se terceriza a Neo. Los humanos deciden cuando escalar; no se necesita un catalogo formal de capacidades. --- [REDIRECTED 2026-05-18 by redesign.] Catalog still needed but its downstream consumer changed. Old framing: input to the discovery-meeting skill so it proposes only deliverable QWs. New framing: input to JP's prompt content for Skills 06 (Análisis Profundo) and 07 (Soluciones Implementables) — JP needs to know what Nexostrat can actually build before authoring those skills' prompts. The deliverable shape (1-pager: service + fixed price + realistic timeline + stack + 'cannot deliver today' explicit list) stays the same. Ownership shifts: Ricardo + JP draft jointly (Ricardo knows engineering capacity, JP knows commercial framing). Blocked on t-redesign-jp-confirmation because the catalog's level of detail depends on whether Fase 1 sticks at $900K (which constrains how complex Skill 07's solutions can be). Original notes preserved below for context: Short document (1 page) listing the services Nexostrat can deliver TODAY with fixed price + realistic timeline + technology stack. Format suggested in Pilotos/Mejoras_Inmediatas_Proceso.txt section 4. Reason: the discovery guides from the 2026-05-17 pilots proposed QWs with prices/timelines invented without validation against real delivery capacity (e.g., 'AI configurator + design assistant' for Scarab — Nexostrat can't deliver that in 3 months). Without this catalog we keep selling vapor.",
+      "completed": "2026-05-28"
     },
     {
       "id": "t-onepager-prereunion-template",
@@ -653,7 +654,7 @@
       "priority": "high",
       "due": "2026-05-28",
       "created": "2026-05-21",
-      "notes": "Outcome of Session B (ADR-039). 00_META/plans/README.md still describes Plan 04 as 'Telegram Bot Core + Unified Inbox' which implies a standalone bot. Update to 'Nexostrat tenant integration into central Brain Bot Hub' (or equivalent) + adjust scope notes: instead of building a bot from scratch, Plan 04's work is (a) provision NEXOSTRAT_BOT_TOKEN + register @NexostratBot, (b) wire Nexostrat as tenant 3 in Brain routing.yaml, (c) add Nexostrat-specific schedule.yaml (4 jobs per Session B B11), (d) write MANUAL.es.md + MANUAL.en.md (B10), (e) extend events.jsonl schema with client_slug per B4. Effort estimate adjusts down significantly from the original 'Telegram Bot Core' scope. Touch when next opening the plan index for any other reason."
+      "notes": "VERIFICADO sesion 27: la reunion de prueba 2026-05-28 13:44 afirmo que estaba hecho, PERO el master index 00_META/plans/README.md seccion Plan 04 todavia describe un bot standalone (infra/telegram/bot/ servicio Docker completo) — NO el modelo tenant del Brain Bot Hub (ADR-039). Sigue ABIERTO + OVERDUE. Es una revision sustancial (no one-liner): bajo ADR-039 el bot corre como tenant en /srv/brain-hub/, lo que cambia los deliverables. Merece su propia pasada enfocada. --- Outcome of Session B (ADR-039). 00_META/plans/README.md still describes Plan 04 as 'Telegram Bot Core + Unified Inbox' which implies a standalone bot. Update to 'Nexostrat tenant integration into central Brain Bot Hub' (or equivalent) + adjust scope notes: instead of building a bot from scratch, Plan 04's work is (a) provision NEXOSTRAT_BOT_TOKEN + register @NexostratBot, (b) wire Nexostrat as tenant 3 in Brain routing.yaml, (c) add Nexostrat-specific schedule.yaml (4 jobs per Session B B11), (d) write MANUAL.es.md + MANUAL.en.md (B10), (e) extend events.jsonl schema with client_slug per B4. Effort estimate adjusts down significantly from the original 'Telegram Bot Core' scope. Touch when next opening the plan index for any other reason."
     },
     {
       "id": "t-plan-08-client-meeting-integration",
@@ -1120,13 +1121,13 @@
     },
     {
       "id": "t-012",
-      "title": "Investigar el CRM Odoo (funcionalidades y opción de self-hosting) y decidir si implementarlo como herramienta principal frente a Notion",
+      "title": "Stand up Odoo CE self-hosted on HP server (F6 — CRM/funnel; replaces Baserow). Decision locked sesion 27.",
       "owner": "Ricardo",
-      "due": null,
+      "due": "2026-06-15",
       "status": "open",
-      "priority": "medium",
+      "priority": "high",
       "blocked_by": [],
-      "notes": "auto from meeting 2026-05-28_07-05_buyer-persona-trixx-logistic-pipeline",
+      "notes": "DECISION LOCKED sesion 27 (2026-05-28): F6 resuelto = Odoo Community Edition (free, LGPLv3), self-hosted en HP server (100.64.121.80), reemplaza Baserow por completo, broad suite (CRM+Contacts+Sales+Project+Invoicing+Calendar), desplegado extendiendo infra/docker/foss-stack/docker-compose.yml detras de Caddy. Diseno aprobado en principio; spec/plan completos DIFERIDOS a sesion dedicada de instalacion en el HP. Decisiones + fases capturadas en 00_META/protocols/sesion-S2-investigacion-odoo.md. Migracion 4 fases: (1) parar Odoo + apps + funnel stages, (2) modelar clients/meetings/deliverables/financials, (3) repuntar los 5 renderers Baserow->Odoo API, (4) retirar Baserow + backups. Baserow NO se remueve hasta que Odoo pruebe su trabajo. --- ORIGINAL: auto from meeting 2026-05-28_07-05.",
       "created": "2026-05-28T16:44:10+00:00"
     },
     {
@@ -1164,14 +1165,14 @@
     },
     {
       "id": "t-trixx-reporte-iteracion-notas-ricardo",
-      "subject": "Sesion exclusiva — iterar Reporte de Oportunidades Trixx con notas de voz de Ricardo",
+      "subject": "Sesion exclusiva — discutir reporte interno vs diagnostico refinado, producir Trixx_Diagnostico_Refinado, correr Skill 6 (F5)",
       "status": "open",
       "priority": "high",
-      "due": "2026-05-30",
+      "due": "2026-05-31",
       "created": "2026-05-28",
       "owner": "ricardo",
       "auto_added": false,
-      "notes": "DEJADO LISTO sesion 26 para sesion 27. Insumos canonicos: (1) Reporte actual pipeline/clients/trixx-logistics/etapa_2_diagnostico/reporte_interno/runs/2026-05-26_mode-a/Trixx_ReporteOportunidades_20260526.md + .docx + .pdf (245 lineas md, 10 oportunidades, QW1+QW2 seleccionados); (2) Notas curadas Ricardo pipeline/clients/trixx-logistics/etapa_2_diagnostico/transcripciones/2026-05-27_ricardo-notes/notas_curadas.md (sintesis grabacion 2026-05-27 06:27); (3) Spec v2 oficial 00_META/proposals/2026-05-28_skill6-pipeline-redesign-v2.md (decisiones JP + lenguaje + estructura entregable). Cambios concretos a aplicar: (a) DECIDIR Google Workspace vs Microsoft Office — reporte mezcla las dos, hay que elegir UNA y unificar; (b) REORDENAR Quick Wins: QW1 = asistente de WhatsApp directo en celular Maria Helena (partner que organiza info recibida); QW2 = Workspace/OneDrive con archivo Excel consolidado; resto va como desarrollo futuro; (c) LENGUAJE: reescribir bot/agente a asistente/sistema de consolidacion (memoria Trixx asocia bot con robot fisico); enmarcar como menores disrupciones + mayor productividad; (d) DECISORA Maria Helena (no Hector) — ya corregido en reporte 26 pero verificar coherencia transversal; (e) AGREGAR seccion Restricciones del equipo: no estan dispuestos a aprender procesos nuevos (les costo en Guadalajara) — soluciones deben acomodarse al equipo, no al reves; (f) AGREGAR principio rector: la informacion tiene que llegar por UN solo punto (empezar WhatsApp, filtrar). Output esperado: Reporte refinado en runs/2026-05-28_mode-a/ (md + docx + pdf) listo para alimentar Skill 6 cuando JP entregue version ajustada (10-15 paginas, 10 slides max). Bloquea t-014 (correr Skill 6 final para Trixx) hasta que el insumo este refinado."
+      "notes": "ACTUALIZADO sesion 27: Skill 6 (nexostrat-client-deliverables) YA instalado + verificado + brand-aligned a Aurora esta sesion. El input que falta es el diagnostico refinado. Esta sesion (descrita por Ricardo como sesion-by-itself): discutir que es el reporte interno vs el diagnostico refinado + que implementar -> producir pipeline/clients/trixx-logistics/etapa_2_diagnostico/.../Trixx_Diagnostico_Refinado_YYYYMMDD.md -> invocar Skill 6 -> 6 entregables on-brand (F5 = primer corrida real de Skill 6). Skill 6 es self-contained (sin secrets/CRM/red; node deps auto-install). --- DEJADO LISTO sesion 26 para sesion 27. Insumos canonicos: (1) Reporte actual pipeline/clients/trixx-logistics/etapa_2_diagnostico/reporte_interno/runs/2026-05-26_mode-a/Trixx_ReporteOportunidades_20260526.md + .docx + .pdf (245 lineas md, 10 oportunidades, QW1+QW2 seleccionados); (2) Notas curadas Ricardo pipeline/clients/trixx-logistics/etapa_2_diagnostico/transcripciones/2026-05-27_ricardo-notes/notas_curadas.md (sintesis grabacion 2026-05-27 06:27); (3) Spec v2 oficial 00_META/proposals/2026-05-28_skill6-pipeline-redesign-v2.md (decisiones JP + lenguaje + estructura entregable). Cambios concretos a aplicar: (a) DECIDIR Google Workspace vs Microsoft Office — reporte mezcla las dos, hay que elegir UNA y unificar; (b) REORDENAR Quick Wins: QW1 = asistente de WhatsApp directo en celular Maria Helena (partner que organiza info recibida); QW2 = Workspace/OneDrive con archivo Excel consolidado; resto va como desarrollo futuro; (c) LENGUAJE: reescribir bot/agente a asistente/sistema de consolidacion (memoria Trixx asocia bot con robot fisico); enmarcar como menores disrupciones + mayor productividad; (d) DECISORA Maria Helena (no Hector) — ya corregido en reporte 26 pero verificar coherencia transversal; (e) AGREGAR seccion Restricciones del equipo: no estan dispuestos a aprender procesos nuevos (les costo en Guadalajara) — soluciones deben acomodarse al equipo, no al reves; (f) AGREGAR principio rector: la informacion tiene que llegar por UN solo punto (empezar WhatsApp, filtrar). Output esperado: Reporte refinado en runs/2026-05-28_mode-a/ (md + docx + pdf) listo para alimentar Skill 6 cuando JP entregue version ajustada (10-15 paginas, 10 slides max). Bloquea t-014 (correr Skill 6 final para Trixx) hasta que el insumo este refinado."
     },
     {
       "id": "t-skill5-reprofile-body",
@@ -1183,6 +1184,18 @@
       "owner": "ricardo",
       "auto_added": false,
       "notes": "El rename mecanico de opportunity-report -> internal-report (sesion 26 commit) movio el slug, frontmatter, symlink y test registry. El cuerpo del prompt (skills/05_internal_report/SKILL.md desde la linea ~11) sigue escrito para audiencia cliente final (v1): habla de 'impresionar al dueno o gerente de la PYME', 'credibilidad de Nexostrat ante el cliente', 'el cliente lee esto'. Bajo Pipeline v2 (00_META/proposals/2026-05-28_skill6-pipeline-redesign-v2.md) este documento NO va al cliente — alimenta al Skill 6 que sí va al cliente. Cambios a aplicar en el reprofile: (1) tono: de 'impresionar' a 'alimentar analisis critico Nexostrat con maxima honestidad'; (2) Quick Wins criteria: de 'lo que mejor vende' a 'lo realmente entregable hoy con $3K USD baseline + alcance ágil con IA'; (3) anti-alucinacion adaptada — ahora sirve para que Ricardo+JP verifiquen, no para 'que el cliente respete las fuentes'; (4) seccion final 'Hoja de Ruta + invitacion' eliminada del body (eso vive en el Skill 6 cliente); (5) agregar seccion 'Senales para refinamiento Skill 6' — flags + dudas explicitas que el Skill 6 debe resolver al construir entregables cliente. No bloqueante: el skill funciona como esta para correr sobre nuevos clientes; el output queda con tono cliente pero el revisor humano (Ricardo+JP) lo adapta antes de Skill 6. Reprofile estimado 1-2h sesion dedicada."
+    },
+    {
+      "id": "t-skill6-install-and-brand",
+      "subject": "Instalar Skill 6 (nexostrat-client-deliverables) + alinear a brand Aurora",
+      "status": "done",
+      "priority": "high",
+      "due": "2026-05-28",
+      "created": "2026-05-28",
+      "completed": "2026-05-28",
+      "owner": "ricardo",
+      "auto_added": false,
+      "notes": "DONE sesion 27. Bundle JP instalado en skills/06_client_deliverables/ (Pipeline v2 F1): extraido + archivado, symlink .claude/skills/, SKILL.md PASO 0.1 macOS->Linux path fix, node_modules gitignored. Harness adaptado: 06 al registry + CHECK 7 skip-tolerant + nuevo CHECK 9 (Node toolchain: validate_json.py + generate_pptx.js) + renumber /8->/9. Docs: skills/README.md + skills/CLAUDE.md + CHANGELOG v0.1. Brand alignment v0.2: 6 generadores remapeados a paleta Aurora (Midnight/Ocean/SkyBlue/Emerald, JP navy/teal eliminados) + fuentes -> Inter + JetBrains Mono (HTML via Google Fonts @import). Verificado: 6 entregables generados del fixture, PPTX 9 slides, harness 72 PASS / 1 SKIP / 0 FAIL. Skill 6 es independiente de Odoo/Baserow/secrets/red. Decision Ricardo: comportamiento del skill (emojis + citas verbatim) se conserva (overrule de reglas no-emojis/no-verbatim, carve-out en memorias)."
     }
   ]
 }

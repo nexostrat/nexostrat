@@ -107,3 +107,6 @@ vault/**/*.md
 !vault/**/sensitive_index.md
 !vault/**/README.md
 !vault/**/.gitkeep
+
+# Skill 06 (client-deliverables) Node deps — installed at runtime via npm ci
+skills/06_client_deliverables/scripts/node_modules/

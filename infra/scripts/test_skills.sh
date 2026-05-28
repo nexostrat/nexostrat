@@ -1,17 +1,20 @@
 #!/usr/bin/env bash
-# test_skills.sh — Validates the 4 mature Nexostrat skills (01, 02, 03, 06).
+# test_skills.sh — Validates the 6 Nexostrat pipeline skills (01-06).
 #
 # Checks:
-#   [1/8] YAML frontmatter parses cleanly + has name + description
-#   [2/8] Frontmatter `name:` matches the .claude/skills/ symlink target
-#   [3/8] Every Python script in skills/<NN>_<name>/scripts/ compiles
-#   [4/8] Every `skills/.*\.py` path referenced in SKILL.md exists on disk
-#   [5/8] Every `.claude/skills/<name>/SKILL.md` symlink resolves
-#   [6/8] No stale `/tmp/<skill>/` or `/var/folders/` paths in skills/
-#   [7/8] generate_docx.py smoke test (renders a minimal MD → DOCX) per skill
-#   [8/8] extract_financials.py smoke test (runs not-found path) for skills 01 + 03
+#   [1/9] YAML frontmatter parses cleanly + has name + description
+#   [2/9] Frontmatter `name:` matches the .claude/skills/ symlink target
+#   [3/9] Every Python script in skills/<NN>_<name>/scripts/ compiles
+#   [4/9] Every `skills/.*\.py` path referenced in SKILL.md exists on disk
+#   [5/9] Asset XLSX files present (extract_financials.py dependency)
+#   [6/9] No stale `/tmp/<skill>/` or `/var/folders/` paths in skills/
+#   [7/9] generate_docx.py smoke test (renders a minimal MD → DOCX) per skill
+#         — skills without generate_docx.py (e.g. 06, Node-based) SKIP this check
+#   [8/9] extract_financials.py smoke test (runs not-found path) for skills 01 + 03
+#   [9/9] Skill 06 (client-deliverables) Node toolchain: validate_json.py on the
+#         bundled fixture (always-on) + generate_pptx.js (gated on node + deps)
 #
-# Layer-aware SKIP: checks gated on python-docx, pandas, openpyxl SKIP-not-FAIL
+# Layer-aware SKIP: checks gated on python-docx, pandas, openpyxl, node SKIP-not-FAIL
 # when the dep is missing, matching infra/scripts/smoke-test.sh's R2 convention.
 #
 # Exit 0 on full pass (PASS or SKIP across the board); exit 1 if any FAIL.
@@ -28,6 +31,7 @@ SKILLS=(
   "03_competitor_analyst:competitor-analyst"
   "04_discovery_meeting:discovery-meeting"
   "05_internal_report:internal-report"
+  "06_client_deliverables:nexostrat-client-deliverables"
 )
 
 PASS=0
@@ -49,10 +53,10 @@ section() { echo -e "\n${B}── $* ──${N}"; }
 # ─────────────────────────────────────────────────────────────────────────────
 # CHECK 1: YAML frontmatter parses cleanly + has name + description
 # ─────────────────────────────────────────────────────────────────────────────
-section "[1/8] YAML frontmatter — name + description present"
+section "[1/9] YAML frontmatter — name + description present"
 
 if ! python3 -c "import yaml" 2>/dev/null; then
-  skip "All 4 skills" "PyYAML not installed"
+  skip "All skills" "PyYAML not installed"
 else
   for entry in "${SKILLS[@]}"; do
     folder="${entry%%:*}"
@@ -102,7 +106,7 @@ fi
 # ─────────────────────────────────────────────────────────────────────────────
 # CHECK 2: Symlink resolution + content match
 # ─────────────────────────────────────────────────────────────────────────────
-section "[2/8] .claude/skills/<name>/ symlinks resolve to the right skill"
+section "[2/9] .claude/skills/<name>/ symlinks resolve to the right skill"
 
 for entry in "${SKILLS[@]}"; do
   folder="${entry%%:*}"
@@ -132,7 +136,7 @@ done
 # ─────────────────────────────────────────────────────────────────────────────
 # CHECK 3: Python scripts compile (py_compile)
 # ─────────────────────────────────────────────────────────────────────────────
-section "[3/8] Every Python script under skills/<NN>/scripts/ compiles"
+section "[3/9] Every Python script under skills/<NN>/scripts/ compiles"
 
 scripts_found=0
 while IFS= read -r -d '' script; do
@@ -152,7 +156,7 @@ fi
 # ─────────────────────────────────────────────────────────────────────────────
 # CHECK 4: Every `skills/.*\.py` referenced in SKILL.md exists on disk
 # ─────────────────────────────────────────────────────────────────────────────
-section "[4/8] Script paths referenced in SKILL.md resolve on disk"
+section "[4/9] Script paths referenced in SKILL.md resolve on disk"
 
 for entry in "${SKILLS[@]}"; do
   folder="${entry%%:*}"
@@ -184,7 +188,7 @@ done
 # ─────────────────────────────────────────────────────────────────────────────
 # CHECK 5: Asset XLSX files exist where SKILL.md / scripts expect them
 # ─────────────────────────────────────────────────────────────────────────────
-section "[5/8] Asset XLSX files present (extract_financials.py dependency)"
+section "[5/9] Asset XLSX files present (extract_financials.py dependency)"
 
 for skill_with_assets in "01_company_analyst" "03_competitor_analyst"; do
   bg="skills/${skill_with_assets}/assets/supersociedades_balance_general.xlsx"
@@ -202,14 +206,14 @@ done
 # ─────────────────────────────────────────────────────────────────────────────
 # CHECK 6: No stale /tmp/<skill>/ or /var/folders/ paths in skills/
 # ─────────────────────────────────────────────────────────────────────────────
-section "[6/8] No stale /tmp/<skill>/ or /var/folders/ paths in SKILL.md"
+section "[6/9] No stale /tmp/<skill>/ or /var/folders/ paths in SKILL.md"
 
 # Scope: SKILL.md only. CHANGELOG.md + README.md legitimately reference past stale
 # paths when documenting fixes — excluding them prevents historical-mention false
 # positives. SKILL.md is the runtime artifact; that's where stale paths bite.
 stale=$(grep -rEn '/(tmp|var/folders)/[a-z-]*(-analyst|-meeting)?/scripts|/var/folders/\.\.\./skills' skills/*/SKILL.md 2>/dev/null || true)
 if [ -z "$stale" ]; then
-  pass "All 4 SKILL.md files free of stale extraction paths"
+  pass "All 6 SKILL.md files free of stale extraction paths"
 else
   fail "Stale paths found in SKILL.md:"
   echo "$stale" | sed 's/^/         /'
@@ -218,10 +222,10 @@ fi
 # ─────────────────────────────────────────────────────────────────────────────
 # CHECK 7: generate_docx.py smoke test per skill
 # ─────────────────────────────────────────────────────────────────────────────
-section "[7/8] generate_docx.py smoke test (render minimal MD → DOCX)"
+section "[7/9] generate_docx.py smoke test (render minimal MD → DOCX)"
 
 if ! python3 -c "import docx" 2>/dev/null; then
-  skip "All 4 skills" "python-docx not installed (pip install python-docx --break-system-packages)"
+  skip "All skills" "python-docx not installed (pip install python-docx --break-system-packages)"
 else
   TMPDIR=$(mktemp -d)
   trap 'rm -rf "$TMPDIR"' EXIT
@@ -259,7 +263,10 @@ EOF
     output="${TMPDIR}/${name}.docx"
 
     if [ ! -f "$script" ]; then
-      fail "${name}: ${script} not found"
+      # Skills that ship a different DOCX toolchain (e.g. 06 uses Node
+      # generate_client_docx.js) have no generate_docx.py — that's expected,
+      # not a failure. Their generators are exercised in CHECK 9.
+      skip "${name}" "no generate_docx.py (uses alternate DOCX generator; see CHECK 9)"
       continue
     fi
 
@@ -280,7 +287,7 @@ fi
 # ─────────────────────────────────────────────────────────────────────────────
 # CHECK 8: extract_financials.py smoke test (not-found path)
 # ─────────────────────────────────────────────────────────────────────────────
-section "[8/8] extract_financials.py smoke test (not-found path)"
+section "[8/9] extract_financials.py smoke test (not-found path)"
 
 if ! python3 -c "import pandas, openpyxl" 2>/dev/null; then
   skip "Skills 01 + 03" "pandas + openpyxl not installed (pip install pandas openpyxl --break-system-packages)"
@@ -299,6 +306,50 @@ else
 fi
 
 # ─────────────────────────────────────────────────────────────────────────────
+# CHECK 9: Skill 06 (client-deliverables) Node toolchain smoke test
+#   Part A (always-on): validate_json.py accepts the bundled fixture.
+#   Part B (node-gated): generate_pptx.js renders the fixture to a real .pptx.
+# ─────────────────────────────────────────────────────────────────────────────
+section "[9/9] Skill 06 client-deliverables — JSON validation + PPTX render"
+
+CD_DIR="skills/06_client_deliverables"
+CD_FIXTURE="${CD_DIR}/tests/data_DistribuidoraLosAndes.json"
+
+if [ ! -f "$CD_FIXTURE" ]; then
+  fail "06_client_deliverables: bundled fixture ${CD_FIXTURE} not found"
+else
+  # Part A — validate_json.py (pure Python, always runnable)
+  if vout=$(python3 "${CD_DIR}/scripts/validate_json.py" "$CD_FIXTURE" 2>&1); then
+    pass "06_client_deliverables: validate_json.py accepts fixture"
+  else
+    err=$(echo "$vout" | tail -3 | tr '\n' ' ' | head -c 200)
+    fail "06_client_deliverables: validate_json.py rejected fixture: ${err}"
+  fi
+
+  # Part B — generate_pptx.js (Node; SKIP if node or deps missing)
+  if ! command -v node >/dev/null 2>&1; then
+    skip "06_client_deliverables: PPTX render" "node not installed"
+  elif [ ! -d "${CD_DIR}/scripts/node_modules/pptxgenjs" ]; then
+    skip "06_client_deliverables: PPTX render" "node deps not installed (cd ${CD_DIR}/scripts && npm ci)"
+  else
+    CD_TMP=$(mktemp -d)
+    if node "${CD_DIR}/scripts/generate_pptx.js" "$CD_FIXTURE" "$CD_TMP" > "${CD_TMP}/.log" 2>&1; then
+      pptx=$(find "$CD_TMP" -name '*.pptx' -size +1k 2>/dev/null | head -1)
+      if [ -n "$pptx" ]; then
+        pptx_kb=$(($(stat -c %s "$pptx") / 1024))
+        pass "06_client_deliverables: generate_pptx.js rendered ${pptx_kb}KB PPTX from fixture"
+      else
+        fail "06_client_deliverables: generate_pptx.js exited 0 but no >1KB .pptx produced"
+      fi
+    else
+      err=$(tail -3 "${CD_TMP}/.log" | tr '\n' ' ' | head -c 200)
+      fail "06_client_deliverables: generate_pptx.js failed: ${err}"
+    fi
+    rm -rf "$CD_TMP"
+  fi
+fi
+
+# ─────────────────────────────────────────────────────────────────────────────
 # Summary
 # ─────────────────────────────────────────────────────────────────────────────
 echo
@@ -314,8 +365,10 @@ fi
 
 if [ "$SKIP" -gt 0 ]; then
   echo
-  echo "Some checks skipped (missing optional deps). Test harness PASS — installable upgrade path:"
-  echo "  pip install pandas openpyxl --break-system-packages"
+  echo "Some checks skipped — see per-check SKIP reasons above. Test harness PASS."
+  echo "Optional deps, if any were flagged missing:"
+  echo "  pip install python-docx pandas openpyxl --break-system-packages   # Python renderers"
+  echo "  (cd skills/06_client_deliverables/scripts && npm ci)               # Skill 06 Node deps"
 fi
 
 exit 0

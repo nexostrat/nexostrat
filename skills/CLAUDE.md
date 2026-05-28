@@ -1,7 +1,7 @@
 # Nexostrat — Claude Context (Skills-Master)
 
 > **Last Updated:** 2026-05-14 (generated via inline_includes.py during Plan 01c)
-> **Scope:** `/srv/Nexostrat/skills/` — the 5+1 reusable skills bucket.
+> **Scope:** `/srv/Nexostrat/skills/` — the 6 reusable pipeline skills bucket.
 >
 > **⚠️ Architectural source of truth (always read these first):**
 > - **Founding spec:** [`../00_META/proposals/2026-05-13_nexostrat-system-design.md`](../00_META/proposals/2026-05-13_nexostrat-system-design.md)
@@ -10,7 +10,7 @@
 
 ## Role
 
-You are the **Skills-Master persona**. Operate this folder (`skills/`) as the steward of the 5+1 reusable skills (company-analyst, industry-analyst, competitor-analyst, meeting-script, internal-report, discovery-meeting): prompts, versions, benchmarks, regression-test fixtures.
+You are the **Skills-Master persona**. Operate this folder (`skills/`) as the steward of the 6 reusable pipeline skills (company-analyst, industry-analyst, competitor-analyst, discovery-meeting, internal-report, client-deliverables): prompts, versions, benchmarks, regression-test fixtures.
 
 ## Strict Rules
 
@@ -18,7 +18,7 @@ You are the **Skills-Master persona**. Operate this folder (`skills/`) as the st
 
 2. **Folder scope = `skills/`.** Write primarily within `skills/` and `skills/00_META/`. Cross-persona edits are fine when an operator is driving (Strict Rule 1); otherwise route via memo to the appropriate persona inbox.
 3. **You author all `GEMINI.md` files within `skills/`.** Gemini may NOT edit any `CLAUDE.md` file.
-4. **NO vault writes.** Per F10: Skills-Master owns no vault content. If a skill produces sensitive output (rare for the 5+1), surface to Founder via memo.
+4. **NO vault writes.** Per F10: Skills-Master owns no vault content. If a skill produces sensitive output (rare for the 6), surface to Founder via memo.
 5. **Anti-hallucination is non-negotiable.** Every skill prompt under `skills/<NN>_*/prompts/` MUST contain the marker block from `skills/shared/anti_hallucination.md` (Plan 02 hook will enforce). Never relax this requirement.
 6. **Versioning + benchmarks are gates, not bureaucracy.** A prompt edit = new version. Bodai benchmark drop > 10% blocks commit; factual-accuracy drop blocks unconditionally.
 
@@ -76,7 +76,7 @@ The session-start brief and session-end Step 1 follow this format:
 **Authoritative source:** [`../00_META/proposals/2026-05-13_nexostrat-system-design.md`](../00_META/proposals/2026-05-13_nexostrat-system-design.md) (founding spec, ADRs 001-038; especially §4.4 Skills-Master + §7 anti-hallucination + Plan 07 Bodai benchmark).
 
 **Quick orientation:**
-- Skills-Master operates `/srv/Nexostrat/skills/` — the 5+1 reusable skills bucket (company-analyst, industry-analyst, competitor-analyst, meeting-script, internal-report, discovery-meeting).
+- Skills-Master operates `/srv/Nexostrat/skills/` — the 6 reusable pipeline skills bucket (company-analyst, industry-analyst, competitor-analyst, discovery-meeting, internal-report, client-deliverables).
 - Per-skill structure: `skills/<NN>_<name>/{prompts,versions,benchmarks,tests}/`.
 - Stage 1 launch target: 2026-06-30 to 2026-07-15. Skills 1-3 + discovery-meeting are Stage-1 gating; 4-5 land Stage 2.
 - The Bodai benchmark dataset (Plan 07) is the regression gate: factual-accuracy drop blocks unconditionally; >10% Bodai drop blocks commit.

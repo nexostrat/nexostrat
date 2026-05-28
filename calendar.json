@@ -83,14 +83,15 @@
     },
     {
       "id": "e-capabilities-catalog",
-      "title": "Nexostrat real-capabilities catalog (internal — what we can deliver TODAY)",
+      "title": "Nexostrat real-capabilities catalog — CANCELLED 2026-05-28 (F4 descoped)",
       "when": "2026-05-31",
       "kind": "deadline",
       "owner": "ricardo",
+      "status": "cancelled",
       "related": [
         "t-nexostrat-capabilities-catalog"
       ],
-      "notes": "Redirected by JP's redesign — now an internal reference rather than skill-prompt input (JP owns prompts). Useful when discussing solutions with the client during Fase 6 follow-up. Deliverable shape unchanged: 1-pager with service + fixed price + timeline + stack + 'cannot deliver today' list."
+      "notes": "CANCELADO sesion 27 (2026-05-28): F4 catalogo de capacidades descoped — modelo de escalamiento a empresa-socia Neo (los humanos deciden cuando escalar; no se necesita catalogo formal). t-nexostrat-capabilities-catalog cancelada. --- Original: Redirected by JP's redesign — internal reference; 1-pager with service + fixed price + timeline + stack + 'cannot deliver today' list."
     },
     {
       "id": "e-confidence-marking",

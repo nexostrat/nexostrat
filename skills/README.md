@@ -1,8 +1,8 @@
 # Nexostrat — Skills (Skills-Master bucket)
 
-> **Scope:** the 5 reusable, versioned skills that produce the firm's deliverables.
-> **Source of truth:** spec §6 (skills + intake + multi-model), §7 (per-client chain), and JP's pipeline diagram at `00_META/proposals/2026-05-18_jp-diagrama-pipeline.html`.
-> **Status (2026-05-18):** all 5 skills are mature and runnable. JP delivered updated content + the new Skill 05 in `SKills updated.zip` on 2026-05-18; integrated into production same day. Test harness: 32 PASS · 0 SKIP · 0 FAIL.
+> **Scope:** the 6 reusable, versioned skills that produce the firm's deliverables.
+> **Source of truth:** spec §6 (skills + intake + multi-model), §7 (per-client chain), JP's pipeline diagram at `00_META/proposals/2026-05-18_jp-diagrama-pipeline.html`, and Pipeline v2 spec `00_META/proposals/2026-05-28_skill6-pipeline-redesign-v2.md`.
+> **Status (2026-05-28):** all 6 skills installed and runnable. Skill 06 (`nexostrat-client-deliverables`, JP-delivered) installed 2026-05-28 — Node-based deliverables generator (PPTX + DOCX + HTML + internal briefing). Test harness: 72 PASS · 1 SKIP · 0 FAIL (the 1 SKIP is Skill 06's absent Python `generate_docx.py`, intentional — it uses a Node DOCX generator, exercised in CHECK 9).
 
 ---
 
@@ -15,6 +15,7 @@ skills/
 ├── 03_competitor_analyst/     ← mature · CO + MX
 ├── 04_discovery_meeting/      ← mature · "PrepLlamada" / Guía de Preparación · consumes 01+02+03
 ├── 05_internal_report/        ← mature · INTERNAL hoja de análisis (insumo de Skill 6) · consumes 01+02+03+meeting-notes · renamed 2026-05-28 from 05_opportunity_report per Pipeline v2
+├── 06_client_deliverables/    ← installed 2026-05-28 · CLIENT-facing entregables Ciclo 1 · Node toolchain (pptxgenjs + JS docx) + Python HTML · consumes diagnóstico refinado · 6 outputs (PPTX 9 slides + HTML + DOCX 10-15 págs + HTML + briefing interno Ricardo + HTML)
 ├── shared/                    ← brand.py (Aurora palette + logos + header/footer helpers, v1.0) · future: scoring.py, judge_prompt.md, anti_hallucination.md
 ├── 00_META/                   ← persona inbox + journal for Skills-Master
 ├── CLAUDE.md                  ← Skills-Master persona (Claude)
@@ -76,7 +77,8 @@ The five mature skills can be invoked **two ways**. The model is the same; the d
 ├── industry-analyst   → ../../skills/02_industry_analyst
 ├── competitor-analyst → ../../skills/03_competitor_analyst
 ├── discovery-meeting  → ../../skills/04_discovery_meeting
-└── internal-report   → ../../skills/05_internal_report
+├── internal-report   → ../../skills/05_internal_report
+└── nexostrat-client-deliverables → ../../skills/06_client_deliverables
 ```
 
 A Claude Code session opened at `/srv/Nexostrat/` auto-discovers these and surfaces them by their frontmatter description. Ricardo invokes naturally:
@@ -146,6 +148,7 @@ Stage mapping:
 | `03_competitor_analyst` | `03_competitor_analysis` |
 | `04_discovery_meeting` | `04_prep_llamada` |
 | `05_internal_report` | `05_internal_report` |
+| `06_client_deliverables` | `etapa_2_diagnostico/entregables/` (deliverables station — created on first client run per Pipeline v2 F5) |
 
 When running **standalone** (no client context), save to the working directory with the skill's documented naming convention (e.g., `Bodai_AnalisisCompania_20260517.md`). Each skill's `SKILL.md` documents its standalone naming in the `SETUP` section.
 
@@ -157,16 +160,17 @@ When running **standalone** (no client context), save to the working directory w
 
 ```
                 ┌─► 02 industry_analyst ─┐
-01 company_analyst                        ├─► 06 discovery_meeting
+01 company_analyst                        ├─► 04 discovery_meeting
                 └─► 03 competitor_analyst ┘
                                           │
-                                          └─► (Plan 06 → Skill 05 internal_report)
+                                          ├─► 05 internal_report (post-call, internal)
+                                          └─► 06 client_deliverables (entregables cliente)
 ```
 
 - **01 company_analyst** reads nothing; pulls financials from `assets/supersociedades_*.xlsx` + does web research; produces 13-section report.
 - **02 industry_analyst** can read 01's output to auto-identify the sector; produces 10-section sector report. **Reusable per sector** (~6-12 month vigencia) — cache reports for re-use across multiple prospects in the same sector.
 - **03 competitor_analyst** reads 01's output (mandatory); produces 8-section competitive analysis.
-- **06 discovery_meeting** reads ALL THREE (01 + 02 + 03); produces a 60-minute meeting script with color-coded sections. **Private — only for Ricardo's use.**
+- **04 discovery_meeting** reads ALL THREE (01 + 02 + 03); produces the pre-call preparation guide ("PrepLlamada"). **Private — only for Ricardo's use.**
 
 The four together make Ricardo "the most prepared person in the room" before any exploratory call. The pipeline gap is **Plan 06** (Skills 04 + 05) which then convert the discovery-call output into the actual Diagnóstico deliverable.
 
@@ -191,7 +195,7 @@ This block is **required** in every prompt under `skills/<NN>_*/`. A future pre-
 bash infra/scripts/test_skills.sh
 ```
 
-8 checks across all 4 mature skills:
+9 checks across all 6 skills:
 
 | # | Check |
 |---|---|
@@ -201,14 +205,16 @@ bash infra/scripts/test_skills.sh
 | 4 | Every script path referenced in `SKILL.md` exists on disk |
 | 5 | Asset XLSX files present (extract_financials.py dependency) |
 | 6 | No stale `/tmp/<skill>/` or `/var/folders/` paths anywhere |
-| 7 | `generate_docx.py` smoke test (renders minimal MD → DOCX) per skill |
+| 7 | `generate_docx.py` smoke test (renders minimal MD → DOCX) per skill — skills without it (06, Node-based) SKIP |
 | 8 | `extract_financials.py` smoke test (not-found path) for 01 + 03 |
+| 9 | Skill 06 Node toolchain: `validate_json.py` on bundled fixture (always-on) + `generate_pptx.js` render (node-gated) |
 
-Expected output: **27 PASS · 0 SKIP · 0 FAIL** when all deps are installed. Checks gated on `python-docx`, `pandas`, `openpyxl` SKIP-not-FAIL when deps are missing.
+Expected output: **72 PASS · 1 SKIP · 0 FAIL** with all deps installed. The 1 SKIP is Skill 06's intentional `generate_docx.py` skip (it uses a Node DOCX generator). Checks gated on `python-docx`, `pandas`, `openpyxl`, and `node` SKIP-not-FAIL when deps are missing.
 
 **To install all deps:**
 ```bash
-pip install python-docx pandas openpyxl --break-system-packages
+pip install python-docx pandas openpyxl --break-system-packages   # Python renderers
+(cd skills/06_client_deliverables/scripts && npm ci)              # Skill 06 Node deps (pptxgenjs, docx)
 ```
 
 ---

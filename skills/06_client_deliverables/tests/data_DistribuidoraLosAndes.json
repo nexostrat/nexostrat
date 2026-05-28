@@ -1,0 +1,216 @@
+{
+  "metadata": {
+    "empresa": "Distribuidora Los Andes S.A.S.",
+    "empresa_slug": "DistribuidoraLosAndes",
+    "sector": "Distribución y logística de consumo masivo",
+    "ciudad": "Bogotá",
+    "pais": "CO",
+    "fecha_display": "28 de mayo de 2026",
+    "fecha_iso": "2026-05-28",
+    "consultor": "Ricardo Gómez",
+    "consultor_email": "ricardo@nexostrat.co",
+    "consultor_whatsapp": "+57 310 456 7890"
+  },
+
+  "empresa_hoy": {
+    "descripcion": "Distribuidora Los Andes es una empresa familiar con 22 años en el mercado de distribución de consumo masivo en Bogotá y la Sabana. Atiende alrededor de 800 puntos de venta entre tiendas de barrio, minimercados y distribuidores secundarios. Su modelo es 100% B2B y su ciclo de venta va desde el pedido telefónico o por WhatsApp hasta la entrega en 24-48 horas.\n\nCuenta con un equipo de 12 vendedores en campo, 8 operadores de bodega y 6 conductores. La gestión comercial se hace mayormente en Excel y WhatsApp; el sistema contable es Siigo Cloud, pero no está integrado con ningún proceso de ventas o logística. Los cuellos de botella más críticos están en la cotización manual, la falta de visibilidad de inventario en tiempo real y la alta rotación de clientes pequeños.",
+    "metricas_clave": [
+      "~26 empleados directos",
+      "22 años en el mercado",
+      "~800 puntos de venta activos",
+      "Cobertura: Bogotá y Sabana de Bogotá",
+      "Sistema contable: Siigo Cloud (sin integración)"
+    ],
+    "madurez_digital": "Básica",
+    "madurez_digital_descripcion": "WhatsApp + Excel para ventas, Siigo para contabilidad. Sin CRM, sin automatizaciones, sin dashboards.",
+    "posicion_competitiva": "Líder local en su zona de influencia por relaciones de largo plazo, pero presionada por distribuidores más grandes con mejores herramientas."
+  },
+
+  "situacion_por_area": [
+    {
+      "area": "Ventas",
+      "situacion_actual": "Pedidos por WhatsApp y llamadas. Vendedores usan Excel propio. No hay CRM. Sin visibilidad del historial de cada cliente.",
+      "oportunidades": "Asistente de cotización automático, seguimiento de clientes en riesgo de churn, sugerencias de upsell basadas en historial."
+    },
+    {
+      "area": "Logística",
+      "situacion_actual": "Rutas de entrega planificadas manualmente cada mañana. Alta dependencia del criterio del despachador. Sin trazabilidad de entregas.",
+      "oportunidades": "Optimización automática de rutas, alertas de demoras, dashboard de estado de entregas en tiempo real."
+    },
+    {
+      "area": "Inventario",
+      "situacion_actual": "Conteo físico semanal. Frecuentes quiebres de stock o exceso de producto próximo a vencer. Sin proyección de demanda.",
+      "oportunidades": "Predicción de demanda por SKU, alertas de quiebre inminente, reposición semi-automática."
+    },
+    {
+      "area": "Cartera",
+      "situacion_actual": "Seguimiento de cobros por Excel. El gerente revisa manualmente quién debe y cuánto. Alta cartera vencida.",
+      "oportunidades": "Sistema de alertas y recordatorios automáticos de cobro, scoring de riesgo de pago por cliente."
+    }
+  ],
+
+  "problemas": [
+    {
+      "id": 1,
+      "titulo": "Cotizaciones manuales que demoran hasta 2 días",
+      "descripcion": "Cada cotización requiere que el vendedor consulte lista de precios en Excel, verifique disponibilidad con bodega por WhatsApp y calcule descuentos manualmente. Para pedidos grandes o con combinaciones especiales el proceso tarda entre 4 y 12 horas. Los clientes más impacientes llaman a la competencia mientras esperan.",
+      "cita_cliente": "A veces el cliente llama a las 8 de la mañana y yo le puedo responder a las 3 de la tarde. Para ese momento ya compró en otro lado.",
+      "costo_inaccion": {
+        "descripcion": "Pérdida estimada de 15-20 pedidos/mes por demora en respuesta. A ticket promedio de USD 800, son USD 12,000–16,000/mes que se van a la competencia.",
+        "metodo": "B",
+        "calculo": "20 pedidos perdidos/mes × USD 800 ticket promedio = USD 16,000/mes",
+        "es_estimado": true
+      }
+    },
+    {
+      "id": 2,
+      "titulo": "Sin visibilidad de inventario en tiempo real",
+      "descripcion": "El sistema de inventario se actualiza una vez por semana con el conteo físico. Entre semana, los vendedores no saben con certeza qué hay en bodega. Esto genera promesas de entrega que no se cumplen y clientes frustrados, además de quiebres de stock no detectados a tiempo y exceso de producto próximo a vencer.",
+      "cita_cliente": "Los vendedores venden lo que no tenemos y no venden lo que sí tenemos. Es un desorden.",
+      "costo_inaccion": {
+        "descripcion": "Productos vencidos o sin rotación equivalen a ~3-5% del valor de inventario mensual. Con un inventario de USD 120,000, el costo es USD 3,600–6,000/mes.",
+        "metodo": "A",
+        "calculo": "USD 120,000 inventario × 4% pérdida promedio = USD 4,800/mes",
+        "es_estimado": true
+      }
+    },
+    {
+      "id": 3,
+      "titulo": "Cartera vencida sin seguimiento sistemático",
+      "descripcion": "El 28% de la cartera activa tiene más de 30 días de vencida. El seguimiento se hace manualmente cuando el gerente tiene tiempo. No hay un proceso automatizado de recordatorios ni un scoring que identifique qué clientes representan mayor riesgo de no pago.",
+      "cita_cliente": "Sé que me deben plata pero no tengo tiempo de perseguir a todos. El que llora es al que le paro bolas.",
+      "costo_inaccion": {
+        "descripcion": "Cartera vencida inmoviliza capital de trabajo. Con USD 85,000 en cartera total y 28% vencida, USD 23,800 están sin cobrar, generando costo financiero y riesgo de castigo.",
+        "metodo": "A",
+        "calculo": "USD 85,000 cartera total × 28% vencida = USD 23,800 inmovilizados",
+        "es_estimado": false
+      }
+    }
+  ],
+
+  "oportunidades": [
+    {
+      "id": 1,
+      "titulo": "Asistente de cotización automático",
+      "problema_id": 1,
+      "area": "Ventas",
+      "descripcion": "Sistema que genera cotizaciones automáticamente a partir del pedido del cliente (por WhatsApp o formulario), lista de precios actualizada y condiciones comerciales. El vendedor revisa y aprueba en un clic. Se integra con Siigo para verificar precios y con el inventario para confirmar disponibilidad.",
+      "beneficio_esperado": "Reducir el tiempo de cotización de 4-12 horas a menos de 5 minutos. Recuperar 10-15 pedidos/mes que hoy se pierden por demora.",
+      "categoria": "mediano",
+      "horas_estimadas_implementacion": 48,
+      "precio_usd_min": 10000,
+      "precio_usd_max": 12000,
+      "precio_nota": "48 horas × USD 250 = USD 12,000. Rango bajo por complejidad media.",
+      "requiere_infraestructura": true,
+      "fee_mensual_usd": 100,
+      "impacto_score": 5,
+      "esfuerzo_score": 3,
+      "quick_win": true
+    },
+    {
+      "id": 2,
+      "titulo": "Dashboard de inventario en tiempo real",
+      "problema_id": 2,
+      "area": "Inventario",
+      "descripcion": "Integración entre el sistema de bodegas y Siigo para mantener el inventario actualizado en tiempo real. Dashboard web accesible desde celular que muestra stock disponible, alertas de quiebre inminente (menos de X unidades) y productos con baja rotación. Los vendedores lo consultan antes de cotizar.",
+      "beneficio_esperado": "Eliminar las promesas de entrega fallidas. Reducir el desperdicio por vencimiento en al menos 60%. Liberar capital inmovilizado en inventario sin rotación.",
+      "categoria": "pequeno",
+      "horas_estimadas_implementacion": 12,
+      "precio_usd_min": 3000,
+      "precio_usd_max": null,
+      "precio_nota": "12 horas × USD 250 = USD 3,000. Proyecto pequeño, precio fijo.",
+      "requiere_infraestructura": false,
+      "fee_mensual_usd": null,
+      "impacto_score": 4,
+      "esfuerzo_score": 2,
+      "quick_win": true
+    },
+    {
+      "id": 3,
+      "titulo": "Sistema de cobro automatizado con alertas",
+      "problema_id": 3,
+      "area": "Cartera",
+      "descripcion": "Sistema que identifica automáticamente facturas próximas a vencer y vencidas, envía recordatorios personalizados por WhatsApp al cliente en nombre del vendedor, y genera un reporte diario de prioridades de cobro para el gerente. Incluye scoring de riesgo basado en historial de pagos.",
+      "beneficio_esperado": "Reducir la cartera vencida de 28% a menos de 15% en 3 meses. Liberar al gerente de la gestión manual de cobros (estimado 8 horas/semana).",
+      "categoria": "pequeno",
+      "horas_estimadas_implementacion": 10,
+      "precio_usd_min": 3000,
+      "precio_usd_max": null,
+      "precio_nota": "10 horas × USD 250 = USD 2,500, llevado al mínimo de proyecto pequeño: USD 3,000.",
+      "requiere_infraestructura": false,
+      "fee_mensual_usd": null,
+      "impacto_score": 4,
+      "esfuerzo_score": 2,
+      "quick_win": false
+    },
+    {
+      "id": 4,
+      "titulo": "Optimización automática de rutas de entrega",
+      "problema_id": 2,
+      "area": "Logística",
+      "descripcion": "Sistema que recibe los pedidos confirmados del día y genera automáticamente la ruta óptima para cada conductor, considerando ventanas horarias de clientes, capacidad del vehículo y tráfico en tiempo real. Incluye app para conductores con navegación y confirmación de entrega.",
+      "beneficio_esperado": "Reducir el tiempo promedio de despacho en 25-35%. Hacer más entregas por conductor/día. Eliminar el cuello de botella del despachador.",
+      "categoria": "mediano",
+      "horas_estimadas_implementacion": 56,
+      "precio_usd_min": 12000,
+      "precio_usd_max": 15000,
+      "precio_nota": "56 horas × USD 250 = USD 14,000. Rango mediano.",
+      "requiere_infraestructura": true,
+      "fee_mensual_usd": 150,
+      "impacto_score": 3,
+      "esfuerzo_score": 4,
+      "quick_win": false
+    }
+  ],
+
+  "quick_wins": [1, 2],
+
+  "roadmap_fases": [
+    {
+      "fase": "Fase 1 — Quick Wins (0-3 meses)",
+      "oportunidades_ids": [1, 2],
+      "descripcion": "Iniciativas de alto impacto con implementación rápida para generar victorias visibles y construir confianza."
+    },
+    {
+      "fase": "Fase 2 — Consolidación (3-6 meses)",
+      "oportunidades_ids": [3],
+      "descripcion": "Con las ventas y el inventario optimizados, atacamos la cartera vencida con datos limpios."
+    },
+    {
+      "fase": "Fase 3 — Transformación (6-12 meses)",
+      "oportunidades_ids": [4],
+      "descripcion": "Con la operación interna ordenada, optimizamos la logística para escalar sin aumentar costos."
+    }
+  ],
+
+  "propuesta": {
+    "total_roadmap_usd": 28000,
+    "descripcion_total": "El valor total del roadmap completo (4 iniciativas) es de USD 28,000 más infraestructura mensual de USD 250/mes para las soluciones que lo requieren.",
+    "iniciativa_entrada_id": 1,
+    "estructura_pago_descripcion": "El pago se divide en dos partes: 50% al confirmar (esto nos permite arrancar de inmediato) y 50% a la entrega final funcionando. Solo pagas el total cuando ves el resultado.",
+    "upfront_porcentaje": 50,
+    "garantia_descripcion": "1 mes de garantía post-implementación: soporte técnico incluido para ajustes y correcciones sin costo adicional. Si algo no funciona como prometimos, lo arreglamos."
+  },
+
+  "persuasion": {
+    "quick_win_gancho_id": 1,
+    "quick_win_gancho_razon": "El asistente de cotización resuelve el dolor más urgente del cliente — perdiendo pedidos activos en este momento — y tiene ROI visible en las primeras 2 semanas de uso. Es el argumento más fácil de justificar internamente.",
+    "cita_principal": "A veces el cliente llama a las 8 de la mañana y yo le puedo responder a las 3 de la tarde. Para ese momento ya compró en otro lado.",
+    "objecion_probable": "No tenemos presupuesto para esto ahora mismo — estamos en temporada baja.",
+    "respuesta_objecion": "Entiendo perfectamente. Por eso propongo empezar solo con el asistente de cotización: USD 10,000, de los cuales 5,000 son hoy. Si en las primeras 4 semanas no recuperas al menos 5 pedidos que antes perdías, hacemos una revisión conjunta. El ROI se paga solo.",
+    "cta_sugerido": "¿Arrancamos con el asistente de cotización esta semana? Te envío el acuerdo hoy y podemos tener el primer prototipo listo en 3 semanas.",
+    "senales_positivas": [
+      "El gerente trajo a su hija de 28 años a la reunión — señal de que quiere modernizarse y tiene apoyo interno",
+      "Ya probaron una herramienta de rutas antes — están abiertos a tecnología, solo necesitan que funcione",
+      "Mencionaron dos competidores que 'ya tienen esto' — hay urgencia competitiva real",
+      "Confirmaron disponibilidad de Siigo Cloud con API — la integración es técnicamente viable desde día 1"
+    ],
+    "banderas_atencion": [
+      "El socio minoritario no estaba en la reunión — Ricardo necesita confirmar que el gerente tiene autoridad para firmar",
+      "Mencionaron una mala experiencia con un proveedor anterior — validar qué falló y diferenciarse explícitamente",
+      "Temporada baja hasta agosto — el timing del presupuesto es real, no es excusa"
+    ]
+  },
+
+  "sobre_nexostrat": "Nexostrat no vende software ni consultoría tradicional. Somos un equipo de ingenieros y estrategas que entienden el negocio antes de escribir una línea de código. Nuestro proceso — entendimiento, diagnóstico, diseño, validación, construcción y entrega — garantiza que lo que construimos resuelve el problema real, no el problema que asumimos. No dejamos un manual y nos vamos: capacitamos al equipo, acompañamos la adopción y garantizamos el resultado. Para una empresa como la tuya, la diferencia no es el software — es tener a alguien que entiende tu operación y la hace más inteligente."
+}

@@ -946,6 +946,94 @@
       "created": "2026-05-27",
       "blocked_by": "t-skill6-jp-feedback-await",
       "notes": "Refinamientos visuales pendientes basados en lo que JP diga. Conocidos hoy a refinar potencialmente: (1) vibe whiteboard mas fuerte si JP lo pide — Caveat dentro de box labels + wobbly borders en SVG; (2) contenido especifico que JP marque que falta o que sobra; (3) potencial uso del skill HTML interactive que JP esta construyendo como motor del proximo HTML deck. Si JP no pide cambios visuales, esta task se cierra rapido."
+    },
+    {
+      "id": "t-001",
+      "title": "Asistir a la reunión de descubrimiento con la empresa de logística para escuchar y entender sus procesos.",
+      "owner": "ricardo",
+      "due": null,
+      "status": "open",
+      "priority": "medium",
+      "blocked_by": [],
+      "notes": "auto from meeting 2026-05-25_08-00_reunion-lunes",
+      "created": "2026-05-28T01:36:04+00:00"
+    },
+    {
+      "id": "t-002",
+      "title": "Grabar y transcribir la reunión con la empresa de logística para analizarla con Claude/IA y generar el primer entregable.",
+      "owner": "ricardo",
+      "due": null,
+      "status": "open",
+      "priority": "medium",
+      "blocked_by": [],
+      "notes": "auto from meeting 2026-05-25_08-00_reunion-lunes",
+      "created": "2026-05-28T01:36:04+00:00"
+    },
+    {
+      "id": "t-003",
+      "title": "Volver a grabar el video promocional de NexoStrat aplicando el nuevo guion y los ajustes visuales.",
+      "owner": "ricardo",
+      "due": null,
+      "status": "open",
+      "priority": "medium",
+      "blocked_by": [],
+      "notes": "auto from meeting 2026-05-25_08-00_reunion-lunes",
+      "created": "2026-05-28T01:36:04+00:00"
+    },
+    {
+      "id": "t-004",
+      "title": "Resolver la logística para trasladar la SIM card/celular desde Colombia a México para mantener activo el WhatsApp corporativo.",
+      "owner": "ricardo",
+      "due": null,
+      "status": "open",
+      "priority": "medium",
+      "blocked_by": [],
+      "notes": "auto from meeting 2026-05-25_08-00_reunion-lunes",
+      "created": "2026-05-28T01:36:04+00:00"
+    },
+    {
+      "id": "t-005",
+      "title": "Completar de forma individual el cuestionario de Buyer Persona (ICP) y el documento del Business Model Canvas.",
+      "owner": "ricardo",
+      "due": null,
+      "status": "open",
+      "priority": "medium",
+      "blocked_by": [],
+      "notes": "auto from meeting 2026-05-25_08-00_reunion-lunes",
+      "created": "2026-05-28T01:36:04+00:00"
+    },
+    {
+      "id": "t-006",
+      "title": "Completar de forma individual el cuestionario de Buyer Persona (ICP) y el documento del Business Model Canvas.",
+      "owner": "socio",
+      "due": null,
+      "status": "open",
+      "priority": "medium",
+      "blocked_by": [],
+      "notes": "auto from meeting 2026-05-25_08-00_reunion-lunes",
+      "created": "2026-05-28T01:36:04+00:00"
+    },
+    {
+      "id": "t-007",
+      "title": "Enviar a Ricardo el enlace de la plataforma para armar el Business Model Canvas y el nuevo guion estructurado para el video.",
+      "owner": "socio",
+      "due": null,
+      "status": "open",
+      "priority": "medium",
+      "blocked_by": [],
+      "notes": "auto from meeting 2026-05-25_08-00_reunion-lunes",
+      "created": "2026-05-28T01:36:04+00:00"
+    },
+    {
+      "id": "t-008",
+      "title": "Consolidar las respuestas del Buyer Persona enviadas por Ricardo utilizando IA para generar la versión definitiva del perfil de cliente.",
+      "owner": "socio",
+      "due": null,
+      "status": "open",
+      "priority": "medium",
+      "blocked_by": [],
+      "notes": "auto from meeting 2026-05-25_08-00_reunion-lunes",
+      "created": "2026-05-28T01:36:04+00:00"
     }
   ]
 }

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pipeline Nexostrat — Ciclo 1: Diagnóstico</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F8FAFC;color:#111827;min-height:100vh;}
+.wrapper{max-width:680px;margin:0 auto;padding:40px 24px 80px;}
+
+.pipe-title{font-size:22px;font-weight:600;color:#111;margin-bottom:4px;}
+.pipe-sub{font-size:13px;color:#94A3B8;margin-bottom:28px;}
+
+.legend{display:flex;gap:16px;margin-bottom:32px;flex-wrap:wrap;padding:12px 16px;background:white;border:1px solid #E2E8F0;border-radius:10px;}
+.leg{display:flex;align-items:center;gap:6px;font-size:11px;color:#64748B;}
+.leg-dot{width:10px;height:10px;border-radius:50%;}
+
+.phase-hdr{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#94A3B8;padding:6px 0 10px;margin-top:8px;}
+.phase-hdr:first-child{margin-top:0;}
+
+.step-wrap{display:flex;align-items:flex-start;gap:0;margin-bottom:0;}
+.step-left{display:flex;flex-direction:column;align-items:center;width:40px;flex-shrink:0;}
+.step-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0;margin-top:13px;}
+.step-line{width:2px;background:#E2E8F0;flex:1;min-height:16px;}
+
+.step-card{flex:1;background:white;border:1px solid #E2E8F0;border-radius:12px;margin-bottom:8px;cursor:pointer;transition:border-color .15s;overflow:hidden;}
+.step-card:hover{border-color:#CBD5E1;}
+.step-card.open{border-color:#94A3B8;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+.step-summary{padding:13px 15px;display:flex;align-items:center;gap:10px;}
+.step-title{font-size:13px;font-weight:500;color:#111827;}
+.step-tags{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap;}
+.chev{font-size:11px;color:#CBD5E1;transition:transform .2s;flex-shrink:0;}
+.step-card.open .chev{transform:rotate(180deg);}
+
+.step-body{display:none;padding:0 15px 15px;border-top:1px solid #F1F5F9;}
+.step-body.vis{display:block;}
+.dbody{padding-top:13px;position:relative;}
+.close-x{position:absolute;top:-2px;right:0;background:none;border:none;cursor:pointer;color:#CBD5E1;font-size:18px;line-height:1;padding:0;}
+.close-x:hover{color:#94A3B8;}
+.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding-right:20px;font-size:12px;}
+.dfull{grid-column:1/-1;}
+.dlabel{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:#94A3B8;margin-bottom:3px;}
+.dval{color:#374151;line-height:1.65;}
+.dnote{grid-column:1/-1;background:#F8FAFC;border-left:3px solid #E2E8F0;padding:8px 11px;border-radius:0 6px 6px 0;font-size:11px;color:#64748B;line-height:1.6;margin-top:2px;}
+
+.tag{display:inline-block;font-size:10px;font-weight:500;padding:2px 8px;border-radius:4px;white-space:nowrap;}
+.tag-ai{background:#EDE9FE;color:#5B21B6;}
+.tag-r{background:#D1FAE5;color:#065F46;}
+.tag-c{background:#FEE2E2;color:#7F1D1D;}
+.tag-jp{background:#FFEDD5;color:#7C2D12;}
+
+.arrow-down{text-align:center;color:#CBD5E1;font-size:16px;padding:2px 0;margin-left:40px;line-height:1;}
+
+.decision-wrap{margin:24px 0 0;}
+.decision-diamond{background:#FFFBEB;border:1.5px solid #FCD34D;border-radius:10px;padding:13px 18px;text-align:center;margin-bottom:20px;}
+.dq{font-size:14px;font-weight:600;color:#92400E;}
+.dq-sub{font-size:11px;color:#B45309;margin-top:3px;}
+
+.fork{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.fork-branch{background:white;border:1px solid #E2E8F0;border-radius:12px;padding:16px;}
+.fork-yes{border-top:3px solid #6EE7B7;}
+.fork-no{border-top:3px solid #FCA5A5;}
+.fork-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:12px;}
+.flabel-yes{color:#065F46;}
+.flabel-no{color:#7F1D1D;}
+
+.c2-card{background:#F0FDF4;border:1px solid #86EFAC;border-radius:10px;overflow:hidden;cursor:pointer;}
+.c2-hdr{padding:11px 13px;display:flex;align-items:center;gap:8px;}
+.c2-title{font-size:12px;font-weight:600;color:#14532D;flex:1;}
+.c2-chev{font-size:11px;color:#4ADE80;transition:transform .2s;}
+.c2-card.open .c2-chev{transform:rotate(180deg);}
+.c2-phases{display:none;padding:0 13px 13px;}
+.c2-card.open .c2-phases{display:block;}
+.c2-intro{font-size:11px;color:#166534;margin-bottom:9px;padding-bottom:9px;border-bottom:1px solid #BBF7D0;line-height:1.6;}
+.c2-step{display:flex;align-items:flex-start;gap:9px;padding:7px 0;border-bottom:1px solid #D1FAE5;}
+.c2-step:last-child{border:none;}
+.c2-n{width:18px;height:18px;border-radius:50%;background:#BBF7D0;color:#14532D;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.c2-name{font-size:11px;font-weight:600;color:#14532D;}
+.c2-desc{font-size:10px;color:#166534;margin-top:2px;line-height:1.5;}
+
+.seg-item{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid #FEE2E2;}
+.seg-item:last-child{border:none;}
+.seg-day{font-size:10px;font-weight:700;color:#DC2626;min-width:38px;padding-top:2px;}
+.seg-title{font-size:11px;font-weight:500;color:#7F1D1D;line-height:1.4;}
+.seg-type{font-size:10px;color:#F87171;margin-top:2px;}
+.seg-note{margin-top:10px;padding:7px 10px;background:#FEF2F2;border-radius:6px;font-size:10px;color:#9A3412;line-height:1.6;}
+
+@media(max-width:520px){
+  .dgrid{grid-template-columns:1fr;}
+  .fork{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+<div class="pipe-title">Pipeline Nexostrat</div>
+<div class="pipe-sub">Ciclo 1 — Diagnóstico · Desde el primer contacto hasta el cierre</div>
+
+<div class="legend">
+  <div class="leg"><div class="leg-dot" style="background:#7C3AED;"></div>IA / Cowork</div>
+  <div class="leg"><div class="leg-dot" style="background:#059669;"></div>Ricardo</div>
+  <div class="leg"><div class="leg-dot" style="background:#DC2626;"></div>Cliente</div>
+  <div class="leg"><div class="leg-dot" style="background:#F97316;"></div>Juan Pablo (opcional)</div>
+</div>
+
+<div id="steps-container"></div>
+
+<div class="decision-wrap">
+  <div class="arrow-down" style="margin-bottom:14px;">↓</div>
+  <div class="decision-diamond">
+    <div class="dq">¿El cliente contrata el Ciclo 2?</div>
+    <div class="dq-sub">Diseño + Implementación</div>
+  </div>
+  <div class="fork">
+    <div class="fork-branch fork-yes">
+      <div class="fork-label flabel-yes">✓ Con cierre</div>
+      <div class="c2-card" id="c2card" onclick="toggleC2()">
+        <div class="c2-hdr">
+          <div class="c2-title">Ciclo 2 — Diseño e Implementación</div>
+          <span class="c2-chev">▼</span>
+        </div>
+        <div class="c2-phases">
+          <div class="c2-intro">Se inicia con alcance, tiempos y propuesta ya definidos en el Ciclo 1. El cliente conoce exactamente qué se va a construir y cuánto cuesta.</div>
+          <div class="c2-step"><div class="c2-n">1</div><div><div class="c2-name">Diseño de la solución</div><div class="c2-desc">Arquitectura técnica, flujos de proceso y especificaciones de las soluciones priorizadas en la hoja de ruta.</div></div></div>
+          <div class="c2-step"><div class="c2-n">2</div><div><div class="c2-name">Construcción</div><div class="c2-desc">Desarrollo e integración de las soluciones definidas en el diseño.</div></div></div>
+          <div class="c2-step"><div class="c2-n">3</div><div><div class="c2-name">Pruebas</div><div class="c2-desc">Validación funcional, pruebas de integración y revisión con el equipo del cliente.</div></div></div>
+          <div class="c2-step"><div class="c2-n">4</div><div><div class="c2-name">Ajustes</div><div class="c2-desc">Correcciones y refinamientos con base en los resultados de las pruebas.</div></div></div>
+          <div class="c2-step"><div class="c2-n">5</div><div><div class="c2-name">Implementación final</div><div class="c2-desc">Puesta en producción y entrega formal al cliente.</div></div></div>
+          <div class="c2-step"><div class="c2-n">6</div><div><div class="c2-name">Mantenimiento — garantía 1 mes</div><div class="c2-desc">Soporte post-implementación y corrección de errores durante el mes siguiente a la entrega.</div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="fork-branch fork-no">
+      <div class="fork-label flabel-no">✗ Sin cierre</div>
+      <div style="font-size:11px;color:#7F1D1D;margin-bottom:10px;line-height:1.6;">Seguimiento estructurado hasta que el cliente tome una decisión.</div>
+      <div class="seg-item"><div class="seg-day">D+7</div><div><div class="seg-title">Seguimiento personalizado</div><div class="seg-type">Ricardo — manual</div></div></div>
+      <div class="seg-item"><div class="seg-day">D+15</div><div><div class="seg-title">Seguimiento automatizado</div><div class="seg-type">IA — personalizado con el resultado de la asesoría</div></div></div>
+      <div class="seg-item"><div class="seg-day">D+30</div><div><div class="seg-title">Seguimiento automatizado</div><div class="seg-type">IA — personalizado con la propuesta presentada</div></div></div>
+      <div class="seg-item"><div class="seg-day">D+60</div><div><div class="seg-title">Seguimiento automatizado</div><div class="seg-type">IA — actualización de contexto relevante</div></div></div>
+      <div class="seg-item"><div class="seg-day">D+90</div><div><div class="seg-title">Seguimiento automatizado</div><div class="seg-type">IA — último seguimiento estructurado</div></div></div>
+      <div class="seg-note">Seguimiento no estructurado disponible en cualquier momento cuando Ricardo identifica información relevante para el cliente.</div>
+    </div>
+  </div>
+</div>
+
+</div>
+<script>
+const STEPS=[
+{id:1,phase:'Fase 1 — Captación y agendamiento',title:'Contacto inicial',actors:['c'],
+ actor:'Cliente',inp:'Consulta del prospecto (puede llegar por WhatsApp, email, página web, redes sociales u otro canal)',
+ out:'Prospecto identificado',
+ note:'El canal de entrada no importa — el proceso de captura debe ser el mismo en todos los casos.'},
+{id:2,title:'Captar info + actualizar CRM',actors:['r','ai'],
+ actor:'Ricardo (responsable) · IA / automatización',
+ inp:'Mensaje o formulario del prospecto desde cualquier canal',
+ out:'Lead registrado con etapa "Contactado" y próxima acción programada',
+ note:'El proceso debe ser lo más automático posible: si el contacto llega por email o WhatsApp, la IA captura los datos y actualiza el CRM sin intervención manual. Ricardo supervisa y corrige si es necesario.'},
+{id:3,phase:'Fase 2 — Preparación pre-llamada',title:'Skills 1 → 2 → 3 — análisis',actors:['ai','r'],
+ actor:'IA (Cowork) · Ricardo corre los skills',
+ inp:'Nombre empresa + NIT o RFC · página web · redes sociales · cualquier información adicional disponible',
+ out:'① Análisis de empresa .md + .docx &nbsp;② Análisis de industria .md + .docx &nbsp;③ Análisis competitivo .md + .docx',
+ note:'Se ejecutan en cadena, no en paralelo: Skill 1 entrega → Skill 2 lo usa → Skill 3 lo usa.'},
+{id:4,title:'Skill 4 — Guía de descubrimiento',actors:['ai','r'],
+ actor:'IA (Cowork) · Ricardo corre el skill',
+ inp:'Outputs de Skills 1, 2 y 3',
+ out:'Guía de preguntas por área · objetivos de la llamada · red flags identificados',
+ note:'Documento de uso interno. No va al cliente.'},
+{id:5,title:'Preparación de la llamada',actors:['r','jp'],
+ actor:'Ricardo',inp:'Output del Skill 4',
+ out:'Plan personal: preguntas priorizadas, objetivos concretos, objeciones anticipadas',
+ note:'Paso de juicio humano. Ricardo personaliza la guía y decide el ángulo de la conversación. Puede consultar con Juan Pablo si lo considera necesario.'},
+{id:6,phase:'Fase 3 — Llamada de descubrimiento',title:'Llamada de descubrimiento — 30 min',actors:['r','c','jp'],
+ actor:'Ricardo + Cliente',inp:'Plan personal de Ricardo',
+ out:'Transcripción de la sesión · notas de Ricardo',
+ note:'Ricardo llega completamente preparado gracias a los Skills 1-4. El objetivo es entender, no vender. Juan Pablo puede unirse si Ricardo lo considera apropiado.'},
+{id:7,phase:'Fase 4 — Producción del diagnóstico',title:'Skill 5 — Reporte de diagnóstico',actors:['ai','r'],
+ actor:'IA (Cowork) · Ricardo corre el skill',
+ inp:'Notas + transcripción + outputs Skills 1, 2, 3',
+ out:'Reporte diagnóstico .md + .docx (versión raw)',
+ note:'No va directo al cliente. Es la materia prima para la revisión y para el Skill 6.'},
+{id:8,title:'Revisión del diagnóstico',actors:['r','ai'],
+ actor:'Ricardo + IA',inp:'Output del Skill 5',
+ out:'Diagnóstico refinado, limpio y con la información correcta',
+ note:'Proceso iterativo con idas y vueltas entre Ricardo y la IA hasta llegar al documento final.'},
+{id:9,title:'Skill 6 — Entregables para el cliente',actors:['ai','r'],
+ actor:'IA (Cowork) · Ricardo corre el skill',
+ inp:'Diagnóstico revisado y refinado',
+ out:'① PPTX: pitch ejecutivo máx. 10 slides &nbsp;② PDF: documento completo con hoja de ruta y propuesta',
+ note:'Estos son los únicos dos documentos que el cliente va a ver. Se presentan en reunión — nunca se envían sin haber presentado antes.'},
+{id:10,title:'Revisión final de entregables',actors:['r','jp'],
+ actor:'Ricardo',
+ inp:'PPTX + PDF del Skill 6',out:'Versiones finales listas para la presentación',
+ note:'Ricardo revisa los entregables finales. Juan Pablo puede participar en la revisión.'},
+{id:11,phase:'Fase 5 — Presentación y cierre',title:'Presentación al cliente',actors:['r','c','jp'],
+ actor:'Ricardo + Cliente',inp:'PPTX del Skill 6',
+ out:'Dudas resueltas · comprensión del diagnóstico y la propuesta · PDF enviado al cierre de la reunión',
+ note:'Ricardo presenta diagnóstico, oportunidades y propuesta comercial. Juan Pablo puede acompañar si ha estado involucrado en el proyecto. Al finalizar, se envía el PDF con todo el detalle.'},
+{id:12,title:'Cierre',actors:['r','c'],
+ actor:'Ricardo + Cliente',inp:'PDF completo del Skill 6',
+ out:'Decisión del cliente sobre el Ciclo 2 (Diseño + Implementación)',
+ note:'Una respuesta positiva inicia el Ciclo 2. Sin respuesta positiva: seguimiento estructurado D+7, D+15, D+30, D+60, D+90.'},
+];
+
+const NB={ai:'#DDD6FE',r:'#A7F3D0',c:'#FECACA',jp:'#FED7AA'};
+const NT={ai:'#4C1D95',r:'#065F46',c:'#7F1D1D',jp:'#7C2D12'};
+const AL={ai:'IA · Cowork',r:'Ricardo',c:'Cliente',jp:'Juan Pablo (opc.)'};
+
+function build(){
+  const c=document.getElementById('steps-container');
+  let h='',lastP='';
+  STEPS.forEach((s,i)=>{
+    if(s.phase&&s.phase!==lastP){
+      h+=`<div class="phase-hdr">${s.phase}</div>`;
+      lastP=s.phase;
+    }
+    const p=s.actors[0];
+    const tags=s.actors.map(a=>`<span class="tag tag-${a}">${AL[a]}</span>`).join('');
+    const isLast=i===STEPS.length-1;
+    h+=`
+<div class="step-wrap">
+  <div class="step-left">
+    <div class="step-num" style="background:${NB[p]};color:${NT[p]};">${s.id}</div>
+    ${!isLast?'<div class="step-line"></div>':''}
+  </div>
+  <div style="flex:1;">
+    <div class="step-card" id="card-${s.id}" onclick="tog(${s.id})">
+      <div class="step-summary">
+        <div style="flex:1;">
+          <div class="step-title">${s.title}</div>
+          <div class="step-tags">${tags}</div>
+        </div>
+        <span class="chev" id="chev-${s.id}">▼</span>
+      </div>
+      <div class="step-body" id="body-${s.id}">
+        <div class="dbody">
+          <button class="close-x" onclick="event.stopPropagation();cls(${s.id})">×</button>
+          <div class="dgrid">
+            <div><div class="dlabel">Quién</div><div class="dval">${s.actor}</div></div>
+            <div><div class="dlabel">Input</div><div class="dval">${s.inp}</div></div>
+            <div class="dfull"><div class="dlabel">Output</div><div class="dval">${s.out}</div></div>
+            ${s.note?`<div class="dnote">${s.note}</div>`:''}
+          </div>
+        </div>
+      </div>
+    </div>
+    ${!isLast?'<div class="arrow-down">↓</div>':''}
+  </div>
+</div>`;
+  });
+  c.innerHTML=h;
+}
+
+function tog(id){
+  const card=document.getElementById('card-'+id);
+  const body=document.getElementById('body-'+id);
+  const chev=document.getElementById('chev-'+id);
+  const open=card.classList.contains('open');
+  card.classList.toggle('open',!open);
+  body.classList.toggle('vis',!open);
+  chev.style.transform=open?'':'rotate(180deg)';
+}
+function cls(id){
+  const card=document.getElementById('card-'+id);
+  const body=document.getElementById('body-'+id);
+  const chev=document.getElementById('chev-'+id);
+  card.classList.remove('open');
+  body.classList.remove('vis');
+  chev.style.transform='';
+}
+function toggleC2(){
+  document.getElementById('c2card').classList.toggle('open');
+}
+build();
+</script>
+</body>
+</html>

@@ -12,7 +12,7 @@ Grupo Trixx es una operación de logística cross-border México-Estados Unidos 
 
 La estructura societaria opera dos entidades legales distintas: *Trix Importaciones Comerciales S. de R.L. de C.V.* en México y *Trixx Logistics Corp* en Estados Unidos (incorporada 2010) ✅, patrón típico cross-border. La compañía tiene **24 años de operación continua** y emplea entre 35 y 70 personas ⚠️ (estimado a partir de flota + presencia administrativa).
 
-La decisión real reside en **María Helena**, co-propietaria y esposa de Héctor, con 133 turnos de habla en la sesión de descubrimiento del 2026-05-26 ✅. Héctor mantiene el rol del fundador-validador y planea retirarse de la operación durante 2026, según declaró en la reunión: *"Yo quedé con María Helena en que me voy a salir en lo operativo"* ✅. **Andrea Chávez** (hija) es la voz digital interna y contacto inicial de Nexostrat.
+La decisión real reside en **María Helena**, mano derecha de Héctor y decisora operativa, con 133 turnos de habla en la sesión de descubrimiento del 2026-05-26 ✅. Héctor mantiene el rol del fundador-validador y planea retirarse de la operación durante 2026, según declaró en la reunión: *"Yo quedé con María Helena en que me voy a salir en lo operativo"* ✅. **Andrea Chávez** (hija de María Helena) es la voz digital interna y contacto inicial de Nexostrat.
 
 ### 1.2 Posición en el Mercado
 

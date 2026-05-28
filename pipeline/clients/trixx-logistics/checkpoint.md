@@ -83,7 +83,7 @@ claude/                                    ← Síntesis estructurada multi-fuen
 
 | Dimensión | Estado session 5 (2026-05-19) | Estado session 19 (2026-05-26) |
 |---|---|---|
-| **Decisor real** | Hector Leyva (asumido) | **REFUTADA** — la **madre de Andrea** (co-propietaria part-time, cada vez más involucrada). Hector = fundador presente, NO decisor. |
+| **Decisor real** | Hector Leyva (asumido) | **REFUTADA** — **María Helena** (mano derecha de Héctor y madre de Andrea, cada vez más involucrada operativamente). Hector = fundador presente, NO decisor. NOTA: María Helena NO es esposa de Héctor ni co-propietaria; es empleada de máxima confianza. |
 | **Estructura de control** | Andrea = influenciadora; Hector firma | Andrea filtra → madre decide → Hector valida. 3 voces, 3 criterios. |
 | **Señal de presupuesto** | MEDIO (USD 15-40K pilot inferido) | **MEDIO-ALTO** (USD 30-80K pilot + USD 5-15K/mo retainer). Fundamento: USD 1M+ inversión china reciente para 10 trucks. |
 | **Madurez digital** | 2/5 (basado en presencia exterior) | **1.5/5** (Andrea mostró pantalla — operativo interno casi 100% manual). |

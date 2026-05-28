@@ -200,7 +200,7 @@
 2. ⚠️ **Sitio web con activos sólidos pero brechas funcionales:** click-to-WhatsApp + iconos sociales + contador animado funcionan bien. Lo que falta para 3/5: ausencia de portal de tracking propio para clientes y ausencia de cotizador funcional. Esto deja al equipo respondiendo manualmente cada pregunta de status + cada RFQ — y limita la diferenciación digital frente a tech-enabled forwarders.
 3. ⚠️ **Sin LinkedIn corporativo** para una empresa de 24 años con 5 sedes. Brecha de marketing inbound severa. El handle `trix-logistics` lo ocupa otra empresa en UK.
 4. ⚠️ **Patente aduanal no expuesta públicamente** — la regulación mexicana no obliga, pero competidores serios (Aispuro, Arellano, Integración Aduanal) sí la muestran. Puede leerse como falta de transparencia o de capacidad propia (operan vía patente prestada / asociado).
-5. ⚠️ **Concentración informal de poder de decisión:** estructura familiar (dueño + su "tía" la madre de Andrea + Andrea) en mismo equipo. Velocidad alta en decisiones pequeñas; potencialmente sesgo en decisiones grandes.
+5. ⚠️ **Concentración informal de poder de decisión:** dueño-fundador (Hector) + mano derecha de máxima confianza (la madre de Andrea, NO familia consanguínea de Hector pese al uso coloquial tijuanense de "tío") + Andrea (voz digital interna). Velocidad alta en decisiones pequeñas; potencialmente sesgo en decisiones grandes. NOTA 2026-05-27: corregido — NO es estructura familiar entre Héctor y la madre de Andrea.
 
 ### Amenazas (externas, negativas)
 
@@ -334,7 +334,7 @@ Trixx opera en un segmento competitivo (aduanal general) pero ha construido **di
 > 5 preguntas específicas, cada una anclada en algo observable.
 
 1. **Decisión y autoridad:** *"Andrea, antes de profundizar en automatizaciones — me ayuda saber cómo se toman decisiones en Trixx. Cuando hablamos de invertir en tecnología nueva, ¿con quién más necesito conversar? ¿Hector? ¿Tu mamá?"*
-   *Por qué preguntar esto: la estructura familiar (dueño Hector + madre de Andrea + Andrea misma) hace que el decisor real pueda no estar en la reunión. Identificarlo desde el inicio evita ciclos de aprobación largos.*
+   *Por qué preguntar esto: la concentración de decisión informal (dueño Hector + madre de Andrea como mano derecha + Andrea misma) hace que el decisor real pueda no estar en la reunión. Identificarlo desde el inicio evita ciclos de aprobación largos. NOTA 2026-05-27: NO es estructura familiar entre Héctor y las otras dos.*
 
 2. **Volumen y composición de operación:** *"¿Me cuentas un día típico? ¿Cuántos pedimentos procesan por semana? ¿Qué porcentaje es Chinese-import vs MX-domestic vs USA-MX cross-border?"*
    *Por qué preguntar esto: los Quick Wins de IA dependen de volumen. Sin volumen, ROI no se materializa. La composición indica dónde está el cuello de botella real (clasificación arancelaria escala con volumen aduanal; tracking escala con paquetería).*

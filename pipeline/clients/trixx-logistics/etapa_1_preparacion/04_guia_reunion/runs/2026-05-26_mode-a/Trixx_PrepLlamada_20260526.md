@@ -19,7 +19,7 @@ Tu trabajo: salir con un **mapa completo de su cadena operativa**, **3 procesos 
 | Persona | Rol funcional | Lo que quiere escuchar | Lo que NO quiere escuchar |
 |---|---|---|---|
 | **Andrea Chávez** | Hija del fundador, enlace operativo, **influenciadora con capacidad de empuje** (confirmada) | Validación de su intuición + alivio operativo concreto + sentir que somos competentes | Que la corrijan en frente de la madre/Hector; que minimicen el pain que ella ya identificó |
-| **La madre de Andrea** | Co-propietaria part-time, **decisora real** (cada vez más involucrada) | Control + claridad financiera + impacto operativo medible + ROI tangible en X meses | Wow factors de IA abstractos; promesas sin tiempos; "experimento" sin retorno claro |
+| **María Helena (madre de Andrea)** | Mano derecha de Héctor, **decisora operativa real** (cada vez más involucrada). NO es esposa ni familia de Héctor. | Control + claridad financiera + impacto operativo medible + ROI tangible en X meses | Wow factors de IA abstractos; promesas sin tiempos; "experimento" sin retorno claro |
 | **Hector Leyva** | Fundador, *"main man in the building"*, ya **no es decisor** | Respeto al legado de 24 años + reconocimiento de la integración vertical que él construyó eslabón por eslabón + sentir que no se le pasa por encima | Que lo traten como pieza accesoria; que digan "vamos a cambiar lo que él construyó"; que la propuesta vaya 100% a la madre sin incluirlo |
 
 **Patrón de decisión inferido:** Andrea filtra → mamá decide → Hector valida. **3 voces, 3 criterios distintos** simultáneos.
@@ -53,7 +53,7 @@ Tu trabajo: salir con un **mapa completo de su cadena operativa**, **3 procesos 
 
 ### Quiénes son
 
-Trixx Logistics es una empresa familiar mexicana con 24 años en cross-border MX-USA. **Hector Leyva la fundó como agente aduanal en Tijuana** y, durante dos décadas, fue integrando verticalmente: compró camiones, abrió almacenes, agregó paquetería, hasta operar hoy la cadena completa. Tienen 5 sedes (3 MX + 2 US), flota propia de 22 camiones tras la expansión reciente, y operación bilingüe ES+ZH-CN para el flujo Chinese-import. **La madre de Andrea (co-propietaria) es quien toma las decisiones hoy**, no Hector.
+Trixx Logistics es una empresa familiar mexicana con 24 años en cross-border MX-USA. **Hector Leyva la fundó como agente aduanal en Tijuana** y, durante dos décadas, fue integrando verticalmente: compró camiones, abrió almacenes, agregó paquetería, hasta operar hoy la cadena completa. Tienen 5 sedes (3 MX + 2 US), flota propia de 22 camiones tras la expansión reciente, y operación bilingüe ES+ZH-CN para el flujo Chinese-import. **María Helena (madre de Andrea, mano derecha de Héctor) es quien toma las decisiones hoy**, no Hector.
 
 ### Números clave
 

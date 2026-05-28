@@ -20,8 +20,8 @@ Primera reunión formal de descubrimiento entre Nexostrat y Trixx Logistics, rea
 | Persona | Rol |
 |---|---|
 | Héctor Leyva | Fundador de Trixx (24 años de operación) |
-| María Helena | Co-propietaria, esposa de Héctor, decisora operativa |
-| Andrea Chávez | Hija de Héctor y María Helena, voz digital interna, contacto inicial |
+| María Helena | Mano derecha de Héctor, decisora operativa real, madre de Andrea (NO es esposa de Héctor ni co-propietaria) |
+| Andrea Chávez | Hija de María Helena, voz digital interna, contacto inicial |
 | Luis | Operativo USA (Los Angeles), participación breve |
 | Ricardo Mejía | Co-fundador Nexostrat |
 

@@ -35,7 +35,7 @@ Este es un perfil de **integración vertical hecha en casa** (organic growth a l
 
 ### B. Estructura de control (factual — Andrea lo confirmó verbalmente)
 
-- **Decisora real:** **la madre de Andrea** — co-propietaria *part-time*, pero **mucho más involucrada en la operación recientemente**. Andrea **dijo explícitamente** que ella es quien toma las decisiones.
+- **Decisora real:** **María Helena (madre de Andrea)** — mano derecha de confianza de Héctor (NO co-propietaria, NO esposa, NO familia), **mucho más involucrada en la operación recientemente**. Andrea **dijo explícitamente** que ella es quien toma las decisiones. NOTA 2026-05-27: el framing original como "co-propietaria part-time" era una inferencia errónea; corregido por Ricardo tras validación directa.
 - **Dueño-fundador:** **Hector Leyva** ("tío" de Andrea) — sigue siendo *"the main man in the building"*, pero ya **no es el decisor**.
 - **Andrea:** enlace operativo / interno, con **capacidad real de empuje** (ya inferida en `our_hypotheses.md` §H7 — CONFIRMADA).
 
@@ -71,7 +71,7 @@ Andrea **mostró en pantalla** y **describió verbalmente** procesos manuales qu
 
 Confirmado por Andrea:
 - **Andrea Chávez** (enlace / hija de la decisora)
-- **La madre de Andrea** (decisora — co-propietaria part-time, ahora muy involucrada)
+- **María Helena (madre de Andrea)** (decisora — mano derecha de Héctor, NO co-propietaria, ahora muy involucrada)
 - **Hector Leyva** (fundador / "main man in the building")
 
 Reunión a 3 del lado cliente. Calibrar dinámica para Skill 04.

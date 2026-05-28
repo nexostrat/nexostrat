@@ -25,7 +25,7 @@ revised: 2026-05-26 (post-conversation revisions; supersede prior judgments wher
 
 ### Decisor revisado (sección 2 supersedida en esta parte)
 
-- **Decisora real:** **la madre de Andrea**. Co-propietaria part-time, mucho más involucrada en la operación recientemente. **Implicación táctica:** el pitch va calibrado al criterio de evaluación de la **madre** como audiencia primaria, no de Hector.
+- **Decisora real:** **María Helena (madre de Andrea)**. Mano derecha de Héctor, decisora operativa real (NO co-propietaria, NO esposa, NO familia consanguínea). Cada vez más involucrada en la operación. **Implicación táctica:** el pitch va calibrado al criterio de evaluación de **María Helena** como audiencia primaria, no de Hector. NOTA 2026-05-27: corregido el framing erróneo de "co-propietaria part-time"; es empleada de máxima confianza.
 - **Hector Leyva:** **NO es decisor**. Sigue siendo el fundador, sigue presente, pero no firma. **Rol táctico:** **validador / aprobador moral**. Reconocer su legado al inicio.
 - **Andrea:** **influenciadora activa con capacidad de empuje** (CONFIRMADA). Patrón inferido: **Andrea filtra → mamá decide → Hector valida.** 3 voces, criterios distintos.
 - **Sofisticación tecnológica de la madre:** **DESCONOCIDA**. Probe necesario en reunión.

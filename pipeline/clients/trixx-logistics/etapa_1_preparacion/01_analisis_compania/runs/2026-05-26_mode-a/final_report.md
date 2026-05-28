@@ -24,7 +24,7 @@
 
 **Fundadores:**
 - 🆕 ✅ **Hector Leyva** confirmado como **dueño y constructor original** de toda la cadena. Aparece como *"Owner"* en LinkedIn de TRIXX LOGISTICS CORP (US). Fuente: LinkedIn + RocketReach + Andrea Chávez 2026-05-26.
-- 🆕 ✅ **La madre de Andrea** — **co-propietaria part-time**, **mucho más involucrada en la operación recientemente**. **Es ella quien toma las decisiones hoy**, no Hector. Fuente: Andrea Chávez, conversación 2026-05-26.
+- 🆕 ✅ **María Helena (madre de Andrea)** — **mano derecha de Héctor, decisora operativa real** (NO co-propietaria, NO esposa, NO familia consanguínea), **mucho más involucrada en la operación recientemente**. **Es ella quien toma las decisiones hoy**, no Hector. Fuente: Andrea Chávez, conversación 2026-05-26. NOTA 2026-05-27: corregido el framing erróneo de "co-propietaria part-time".
 
 > 🔍 **Análisis:** Cambio importante respecto a la corrida 2026-05-18 (que asumía a Hector como decisor único). El **decisor real** ahora es **la madre de Andrea**. Hector sigue siendo *"the main man in the building"* (presencia + autoridad moral + voto de validación), pero no firma. Esto reordena toda la calibración de tono y contenido del Skill 04.
 
@@ -45,7 +45,7 @@
 > 🔍 **Análisis:** Operación cross-border real (no nicho) con presencia física en 5 sedes a ambos lados de la frontera. Es un activo estratégico defensible — replicar esa huella física toma años. **Esta es la operación que Hector construyó eslabón por eslabón** (per la historia fundacional). El operativo ya está; lo que falta es la **capa digital** sobre ese operativo.
 
 **Tamaño estimado:**
-- 🆕 ⚠️ **Personal estimado: 35-70 personas (revisión al alza vs corrida 05-18).** Inferencia basada en: 12 unidades motoras previas + **10 camiones recién comprados = 22 trucks** + escalado proporcional de drivers (9 → ~16-18); +5 oficinas con presencia administrativa, customs, ventas, operaciones; +equipo familiar (Hector + madre de Andrea + Andrea). Fuente: SAFER FMCSA + composición de oficinas + conversación 2026-05-26.
+- 🆕 ⚠️ **Personal estimado: 35-70 personas (revisión al alza vs corrida 05-18).** Inferencia basada en: 12 unidades motoras previas + **10 camiones recién comprados = 22 trucks** + escalado proporcional de drivers (9 → ~16-18); +5 oficinas con presencia administrativa, customs, ventas, operaciones; +equipo directivo (Hector como fundador + María Helena como mano derecha + Andrea como voz digital interna). Fuente: SAFER FMCSA + composición de oficinas + conversación 2026-05-26.
 - ❓ Empleados IMSS: no encontrado en fuentes públicas (no es información pública por defecto en México).
 
 **Tipo societario:**
@@ -224,7 +224,7 @@
 3. ⚠️ **Sin LinkedIn corporativo** para una empresa de 24 años con 5 sedes + USD 1M+ de inversión reciente. Brecha de marketing inbound severa.
 4. ⚠️ **Patente aduanal no expuesta públicamente** — la regulación mexicana no obliga, pero competidores serios sí la muestran.
 5. 🆕 ⚠️ **Bandwidth interno comprometido por integración de 10 trucks nuevos.** Próximos 60-90 días: contratación de drivers, ajustes de rutas, mantenimiento, dispatching. La capacidad de absorber un proyecto de tech interno está limitada — **el piloto debe liberar bandwidth, no consumirlo**.
-6. ⚠️ **Concentración familiar de poder de decisión** (Hector fundador + madre de Andrea decisora + Andrea influenciadora). Velocidad alta en decisiones pequeñas; tres criterios distintos en decisiones grandes.
+6. ⚠️ **Concentración informal de poder de decisión** (Hector fundador + María Helena mano derecha decisora + Andrea influenciadora). Velocidad alta en decisiones pequeñas; tres criterios distintos en decisiones grandes. NO es estructura familiar: María Helena es empleada de confianza, no familia de Héctor.
 
 ### Amenazas (externas, negativas)
 

@@ -36,8 +36,8 @@ Citas textuales **literales** del audio (procesadas vía WhisperX large-v3 + cur
 | Quién | Rol declarado | Voz observada en reunión |
 |---|---|---|
 | **Héctor Leyva** | Fundador, 24 años en operación | ✅ Voz narrativa-reflexiva, marco estratégico, autocrítica honesta. Reconoce que su intervención operativa es contraproducente. |
-| **María Helena** | Co-propietaria, esposa de Héctor, madre de Andrea | ✅ **Decisora operativa real**. 133 turnos en 10:10 (más que nadie) + 41 en 12:05 (segunda más activa). Voz cuantitativa, dueña de la información, hace la pregunta de pricing. |
-| **Andrea Chávez** | Hija, voz digital interna | ✅ 33 turnos 10:10 + 21 en 12:05. Trae temas IT (web, hosting, correos corporativos). Contacto inicial vía referida Sofía Estavilo. |
+| **María Helena** | Mano derecha de Héctor, decisora operativa real, madre de Andrea (NO es esposa de Héctor ni co-propietaria) | ✅ **Decisora operativa real**. 133 turnos en 10:10 (más que nadie) + 41 en 12:05 (segunda más activa). Voz cuantitativa, dueña de la información, hace la pregunta de pricing. |
+| **Andrea Chávez** | Hija de María Helena, voz digital interna | ✅ 33 turnos 10:10 + 21 en 12:05. Trae temas IT (web, hosting, correos corporativos). Contacto inicial vía referida Sofía Estavilo. |
 | **Luis** | Operativo USA (LA) | ✅ Solo 6 turnos en 10:10, ninguno en 12:05. Se sumó breve para hablar del pain de correos navieras. |
 | Ricardo Mejía (Nexostrat) | Consultor conductor | — |
 

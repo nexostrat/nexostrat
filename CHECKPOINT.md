@@ -1,28 +1,54 @@
 # CHECKPOINT — root (Founder)
 
-**Updated:** 2026-05-27T18:20:00-07:00
-**By:** ricardo (via Claude Code session 22; evening on `ricardo-hp-laptop`)
+**Updated:** 2026-05-27T21:30:00-07:00
+**By:** ricardo (via Claude Code session 23; late evening on `ricardo-hp-laptop`)
 **Persona:** Founder
-**Session topic:** Marketing maintenance — Intro V5 declared FINAL webpage version + new shoot ingest. Two ffmpeg transcodes (today's raw take HLG→DNxHR for DaVinci + V5 ProRes master → web MP4). CEO title locked on Ricardo's V5 lower-third. No architecture changes, no ADRs, no Gemini handoff. Short session (~10 min wall-time).
+**Session topic:** Buyer persona Don Carlos construido en seis bloques (no pregunta-por-pregunta) + 9 artefactos de Trixx corregidos por tesis errada de familia + Reporte de Oportunidades regenerado en 3 formatos + 4 memorias nuevas/actualizadas + pipeline-v2 de JP ingerido como input para sesión 24. Sesión larga (~3h wall-time).
 
 ## What just happened (last session — read once, don't re-litigate)
 
-**Sesión 22 (2026-05-27, ~10 min wall-time, evening, immediately after session 21's pipeline-redesign brainstorm).** Ricardo dropped two video conversion requests in sequence, each closing a long-running thread:
+**Sesión 23 (2026-05-27, ~3h wall-time, late evening).** Ricardo abrió la sesión pidiendo ayuda para llenar el formulario buyer persona "Don Carlos" que JP envió (90 preguntas en 13 secciones, diseñado para que cada uno lo llene por separado y luego comparen). La pregunta filosófica de fondo era "¿elijo a quién quiero venderle o a quién creo que compraría?" — resistencia legítima a la segmentación. La sesión terminó produciendo el formulario completo + correcciones materiales a artefactos previos de Trixx + hand-off limpio para sesión 24.
 
-**1. New shoot ingest.** Today's phone take `raw/PXL_20260528_003128365.mp4` (Pixel 10 Pro XL, 4K30 HEVC Main 10, BT.2020/HLG HDR, 51.87s, 4.3 GB) → `raw/transcoded/PXL_20260528_003128365.mov` using the locked HLG→BT.709 tonemap recipe from session 14 (the recipe that fixed Ricardo's "color shift" complaint in V3 production). Output: DNxHR HQX 10-bit yuv422p10le, BT.709, 5.3 GB. Color metadata verified `bt709/bt709/bt709/tv`. DaVinci-importable with correct color interpretation (no washed-out / hue-shifted artifacts that plagued the pre-session-14 8-bit pipeline). Used `ffmpeg -vf "zscale=transfer=linear:npl=100,format=gbrpf32le,zscale=primaries=bt709,tonemap=hable:desat=0,zscale=transfer=bt709:matrix=bt709:range=tv,format=yuv422p10le" -c:v dnxhd -profile:v dnxhr_hqx ...` end-to-end.
+**1. Buyer persona Don Carlos completo.** Construido en seis bloques temáticos en lugar de las 90 preguntas individuales, anclado en evidencia real n=2 (Héctor Leyva de Trixx + el padre de la novia de Ricardo como referente secundario). Perfil resultante: hombre de 50 años, casado con hijos, Tijuana, universitario, inglés fluido cross-border, no religioso, gym + tenis/pádel con amigos, ve deportes americanos. Dueño-fundador de PYME con $1M+ facturación, 30+ empleados, 20+ años de empresa, industrias manufactura/logística/servicios. Pragmático y arriesgado pero exigente con la evidencia. FOMO con curiosidad respecto a IA — entiende casos de uso empresariales, quiere resultados rápidos en problemas concretos. Comprador relacional no comparativo, decide en 1-3 meses con su mano derecha. Lo que NO quiere oír: transformación digital integral, ROI a 18 meses, assessment de 6 semanas. Tres palabras: leal, trabajador, terco. Filosofía: "Aquí se trabaja, no se inventa." Don Carlos = perfil A (PYME sólida no-tech). Perfil B (profesional autor individual) queda como segundo producto futuro, no como Don Carlos.
 
-**2. V5 master → web MP4.** Ricardo's DaVinci-rendered V5 master `edits/Intro V5.mkv` (ProRes 1080p30 BT.709 + PCM 24-bit, 57s, 1.4 GB) → `edits/Intro V5.mp4` (H.264 High + AAC 192k + faststart, 26 MB) via `infra/scripts/video-to-mp4.sh` (the May-23 wrapper, CRF 18 / preset slow defaults). 53× compression with visually-lossless quality on talking-head footage. Ricardo declared **V5 is the final webpage version** — closes the V1/V2/V3 candidate sweepstakes open since session 11. **CEO title confirmed**: Ricardo = CEO + public face of Nexostrat (V5 lower-third "Ricardo Mejía / CEO" stands as approved). JP's reciprocal role (CTO? Co-fundador?) is a future Ricardo↔JP conversation.
+**2. Entregables del persona.** `operations/marketing/buyer_personas/Nexostrat_BuyerPersona_DonCarlos_Ricardo_2026-05-27.md` (28 KB, 90 preguntas respondidas en lenguaje propio sin citas literales del cliente + 5 notas estratégicas fuera del scope: mano derecha como persona secundario, problema del track record como riesgo directo para Nexostrat, tensión amigos del colegio vs persona ideal, segmento profesional autor como segundo producto, foco geográfico México primario). Convertido a `.docx` (24 KB) vía pandoc con TOC automático. Listos para revisión visual de Ricardo antes de mandar a JP.
 
-**3. Session-end artifacts.** Journal + STATUS prepend + tasks.json (3 closed) + CHECKPOINT (this file) + commit + push. Only 4 small text files in the commit; all 4 heavy video files (raw, transcoded, mkv master, mp4 export) verified gitignored.
+**3. Corrección material a Oro #4 (retracto honesto mid-session).** Había caracterizado a Don Carlos como "lento y conservador" basado en patrón de necesitar confianza incremental. Ricardo corrigió: Don Carlos es pragmático y arriesgado (llegó a Tijuana a probar suerte), no acepta esperar pero sí exige evidencia tangible. Quick Win Híbrido sigue válido pero por razón opuesta — demostrar valor rápido, no superar miedo.
+
+**4. Corrección crítica de tesis Trixx revelada por Ricardo.** La tesis propagada en artefactos previos era falsa: María Helena NO es esposa de Héctor ni co-propietaria (es la mano derecha empleada de Héctor; sí es madre de Andrea, eso sí es cierto). Andrea es hija de María Helena, NO de Héctor. Había dos tesis equivocadas en circulación: pre-reunión ("la madre de Andrea es co-propietaria part-time") y post-reunión ("María Helena = esposa de Héctor"). Tras presentar 3 opciones de alcance a Ricardo, eligió la opción 2 — corregir todo.
+
+**5. 9 artefactos Trixx corregidos** con nota "NOTA 2026-05-27" inline para preservar trazabilidad histórica:
+- `pipeline/clients/trixx-logistics/checkpoint.md`
+- `pipeline/clients/trixx-logistics/etapa_1_preparacion/00_intake/research_input.md`
+- `pipeline/clients/trixx-logistics/etapa_1_preparacion/00_intake/our_hypotheses.md`
+- `pipeline/clients/trixx-logistics/etapa_1_preparacion/01_analisis_compania/runs/2026-05-18_mode-a/final_report.md`
+- `pipeline/clients/trixx-logistics/etapa_1_preparacion/01_analisis_compania/runs/2026-05-26_mode-a/final_report.md`
+- `pipeline/clients/trixx-logistics/etapa_1_preparacion/04_guia_reunion/runs/2026-05-26_mode-a/Trixx_PrepLlamada_20260526.md`
+- `pipeline/clients/trixx-logistics/etapa_2_diagnostico/transcripciones/2026-05-26_formal-meeting/_summary_workdir/Trixx_ResumenReunion_20260526.md`
+- `pipeline/clients/trixx-logistics/etapa_2_diagnostico/reporte_oportunidades/runs/2026-05-26_mode-a/Trixx_NotasCliente_20260526.md`
+- `pipeline/clients/trixx-logistics/etapa_2_diagnostico/reporte_oportunidades/runs/2026-05-26_mode-a/Trixx_ReporteOportunidades_20260526.md` + `.docx` regenerado (24 KB pandoc) + `.pdf` regenerado (188 KB libreoffice)
+
+Verificación final con grep: las únicas menciones residuales de "esposa de Héctor", "co-propietaria" o "hija de Héctor" en el árbol de Trixx son negaciones explícitas dentro de las correcciones. Cero afirmaciones erradas restantes.
+
+**6. 4 memorias tocadas** en `~/.claude/projects/-srv-Nexostrat/memory/`:
+- `project_trixx_team_structure.md` (nueva) — verdad sobre el equipo Trixx + lista explícita de artefactos contaminados
+- `feedback_no_verbatim_quotes_in_copy.md` (nueva) — regla metodológica: transcripciones son base, copy se reescribe en voz Nexostrat
+- `feedback_no_emojis_no_symbols.md` (nueva) — regla absoluta: cero emojis y signos decorativos en outputs
+- `project_pilotos_pipeline_mayo2026.md` (actualizada) — descripción explícita de que Bodai/Ascenso/Scarab NO son clientes (solo datos públicos de validación interna)
+
+**7. Pipeline-v2 de JP ingerido como input para sesión 24.** Ricardo agregó `pipeline-nexostrat-v2.html` al root del repo (untracked en git status). Es la versión revisada por JP del pipeline brainstormeado en sesión 21. Se escribió un prompt autocontenido para arrancar la sesión 24 con los 3 archivos a leer en orden (spec original + journal del brainstorm + v2 de JP) y la tarea concreta: diff conceptual + propuesta de incorporación + implementación de cambios técnicos en skills 5/6/7. El prompt vive al final del chat de sesión 23.
+
+**8. Session-end artifacts.** Journal `00_META/journal/2026-05-27_buyer-persona-doncarlos-and-trixx-corrections.md` + STATUS prepend + CHECKPOINT rewrite + commit + push. Ningún task cerrado formalmente esta sesión (correcciones y persona no estaban tracked); 6 tasks `t-skill6-*` + 2 carry-forward siguen activos. Calendar sin cambios.
 
 ## Decisiones locked esta sesión
 
-1. **Intro V5 is the website hero video** (final, not a candidate). Supersedes V1.0/V1.1/V1.2/V3 as the canonical homepage video.
-2. **Ricardo is CEO + public face of Nexostrat.** The "Ricardo Mejía / CEO" lower-third in V5 is approved and ships to the homepage.
-3. **JP's reciprocal title deferred** to a future Ricardo↔JP conversation. Won't block the V5 deploy because the V5 video only features Ricardo's title.
-4. **Wrapper-default recipe (`video-to-mp4`) is the standard** for web export. CRF 18 / preset slow / AAC 192k / faststart. CRF 0 mathematical losslessness is overkill for web (~1 GB output for ~50s of 1080p) and not pursued.
-5. **HLG→BT.709 tonemap recipe (session 14) is the canonical Pixel-phone ingest** path. Used verbatim today; producing correct color metadata reliably.
-6. **No tasks created for the two soft follow-ups** (move V5.mp4 into `final/` per README; ROLES.md CEO/CTO amendment). Both noted in this CHECKPOINT for the next session to surface naturally if relevant.
+1. **Buyer persona Don Carlos = perfil A** (PYME sólida no-tech, 50 años, Tijuana, $1M+ facturación, 30+ empleados, 20+ años empresa). Perfil B (profesional autor individual) queda como segundo producto futuro, no como Don Carlos.
+2. **El persona es hipótesis informada n=2, no destilación de datos.** Base de evidencia: transcripción Trixx 2026-05-26 + observación del padre de la novia de Ricardo + lectura cultural del entorno.
+3. **Tres reglas metodológicas locked como memoria persistente:** sin emojis ni signos decorativos en outputs; sin citas literales de transcripciones en copy o personas derivadas; las transcripciones son base que se reescribe en voz Nexostrat.
+4. **Estructura del equipo Trixx corregida en todos los artefactos:** Héctor founder; María Helena mano derecha empleada (sí madre de Andrea); Andrea hija de María Helena (no de Héctor).
+5. **Bodai, Ascenso y Scarab NO son clientes** — solo datos públicos para validación interna de los skills.
+6. **Foco geográfico de Don Carlos = México primario (Tijuana), Colombia secundario futuro.**
+7. **Snapshots históricos NO se reescriben.** Las correcciones a artefactos pre-reunión preservan el texto original + agregan nota "NOTA 2026-05-27" explicando qué se corrigió y por qué. La trazabilidad de cómo evolucionó la hipótesis se mantiene.
 
 ## Stack state (live & verifiable next session)
 
@@ -30,33 +56,40 @@
 /srv/Nexostrat/
 ├── 00_META/
 │   └── journal/
-│       └── 2026-05-27_intro-v5-final-transcode.md          ← NEW (this session, ~80 lines)
-├── operations/marketing/website-intro/
-│   ├── raw/
-│   │   ├── PXL_20260528_003128365.mp4                      ← gitignored (today's shoot, 4.3 GB)
-│   │   └── transcoded/
-│   │       └── PXL_20260528_003128365.mov                  ← NEW gitignored (5.3 GB DNxHR HQX)
-│   └── edits/
-│       ├── Intro V5.mkv                                    ← gitignored (1.4 GB ProRes master, pre-existing)
-│       └── Intro V5.mp4                                    ← NEW gitignored (26 MB web export — the final webpage video)
-├── tasks.json                                              ← MODIFIED (3 closed; updated timestamp 18:20 PT)
-├── STATUS.md                                               ← MODIFIED (session-22 entry prepended)
-└── CHECKPOINT.md                                           ← THIS FILE (rewritten)
+│       └── 2026-05-27_buyer-persona-doncarlos-and-trixx-corrections.md  ← NEW (this session)
+├── operations/marketing/buyer_personas/                                  ← NEW DIR
+│   ├── Nexostrat_BuyerPersona_DonCarlos_Ricardo_2026-05-27.md            ← NEW (28 KB)
+│   └── Nexostrat_BuyerPersona_DonCarlos_Ricardo_2026-05-27.docx          ← NEW (24 KB, pandoc)
+├── pipeline/clients/trixx-logistics/                                     ← 9 archivos MODIFIED
+│   ├── checkpoint.md                                                     (NOTA 2026-05-27 inline)
+│   ├── etapa_1_preparacion/00_intake/{research_input,our_hypotheses}.md  (NOTA 2026-05-27 inline)
+│   ├── etapa_1_preparacion/01_analisis_compania/runs/                    (NOTA 2026-05-27 inline)
+│   │   ├── 2026-05-18_mode-a/final_report.md
+│   │   └── 2026-05-26_mode-a/final_report.md
+│   ├── etapa_1_preparacion/04_guia_reunion/runs/2026-05-26_mode-a/
+│   │   └── Trixx_PrepLlamada_20260526.md                                 (NOTA 2026-05-27 inline)
+│   ├── etapa_2_diagnostico/transcripciones/2026-05-26_formal-meeting/
+│   │   └── _summary_workdir/Trixx_ResumenReunion_20260526.md             (NOTA 2026-05-27 inline)
+│   └── etapa_2_diagnostico/reporte_oportunidades/runs/2026-05-26_mode-a/
+│       ├── Trixx_NotasCliente_20260526.md                                (NOTA 2026-05-27 inline)
+│       ├── Trixx_ReporteOportunidades_20260526.md                        (NOTA 2026-05-27 inline)
+│       ├── Trixx_ReporteOportunidades_20260526.docx                      (regenerado vía pandoc)
+│       └── Trixx_ReporteOportunidades_20260526.pdf                       (regenerado vía libreoffice)
+├── pipeline-nexostrat-v2.html                                            ← NEW (input para sesión 24, root)
+├── STATUS.md                                                             ← MODIFIED (session-23 entry prepended)
+└── CHECKPOINT.md                                                         ← THIS FILE (rewritten)
 ```
 
-## Open items (carried forward — esta sesión cerró 3, no abrió ninguna)
+Memorias en `~/.claude/projects/-srv-Nexostrat/memory/` (fuera del repo):
+- `project_trixx_team_structure.md` ← NEW
+- `feedback_no_verbatim_quotes_in_copy.md` ← NEW
+- `feedback_no_emojis_no_symbols.md` ← NEW
+- `project_pilotos_pipeline_mayo2026.md` ← MODIFIED (descripción)
+- `MEMORY.md` ← MODIFIED (3 entradas nuevas indexadas)
 
-**Tasks cerradas esta sesión (3):**
-- `t-intro-v3-ceo-vs-cofundador` — closed 2026-05-27 (CEO confirmed; was overdue 1 day)
-- `t-intro-v3-diferencia-slide` — closed 2026-05-27 (V5 final = accepted; was overdue 1 day)
-- `t-intro-v3-web-export` — closed 2026-05-27 (Intro V5.mp4 IS the export; was due 2026-06-15, closed 19 days early)
+## Open items (carried forward — esta sesión cerró 0, no abrió ninguna task)
 
-**Soft follow-ups (NOT tracked as tasks):**
-- **Move `edits/Intro V5.mp4` → `final/Intro V5.mp4`** per `operations/marketing/README.md` convention. Local mv only; both paths are gitignored. Next session can offer this; or the website-deploy session can grab from wherever.
-- **`00_PARTNERSHIP/ROLES.md` CEO/CTO amendment.** Currently doesn't designate titles between Ricardo + JP. Now that Ricardo's CEO is publicly committed via the homepage video, ROLES.md should eventually catch up. Process: deliberate addendum to the 2026-05-12 signed legal artifact (per "prefer architecture over ceremony" + the partnership-doc precedent). Needs JP's reciprocal title decision first. Non-blocking.
-- **Drive 2TB backup of new heavy assets** (5.3 GB DNxHR mov + 26 MB V5 mp4 + 1.4 GB V5 mkv + 4.3 GB raw mp4 = ~11 GB net new). No firm schedule.
-
-**Tasks carried forward (de sesiones previas, unchanged this session):**
+**Tasks carried forward (sin cambios esta sesión):**
 
 | ID | Subject | Priority | Due |
 |---|---|---|---|
@@ -78,21 +111,68 @@
 | `t-nexostrat-telegram-account` (B19) | Procure firm Telegram account (gates P-H1) | critical | 2026-06-15 |
 | `t-weekend-desktop-on-decision` (B16) | Weekend desktop-on schedule decision | high | 2026-06-15 |
 
+**Soft follow-ups (NOT tracked as tasks):**
+
+- **Revisión humana de Ricardo del buyer persona .docx** antes de mandar a JP. Específicamente verificar que el TOC y las tablas se ven bien en LibreOffice o Word, y decidir si las "Notas estratégicas" del final se dejan, se quitan, o se mueven a un memo aparte para JP.
+- **Transcribir el audio sin commit** `pipeline/clients/trixx-logistics/etapa_2_diagnostico/May 27 at 06-27.m4a` con WhisperX cuando haya bandwidth. Es una grabación reciente (probablemente del día) sin transcribir todavía.
+- **Move `edits/Intro V5.mp4` → `final/Intro V5.mp4`** per `operations/marketing/README.md` convention (carry-forward de sesión 22; sin urgencia).
+- **`00_PARTNERSHIP/ROLES.md` CEO/CTO amendment** (carry-forward de sesión 22; necesita decisión recíproca de JP primero).
+- **Drive 2TB backup de heavy assets pendiente** (carry-forward de sesión 22).
+
 **Cross-scope context:**
 - No Gemini handoff open.
 - No memos pending en `00_META/inbox/`.
-- One untracked file from before this session (pre-existing, not authored here): `pipeline/clients/trixx-logistics/etapa_2_diagnostico/May 27 at 06-27.m4a` — Trixx audio, belongs to Client-Owner scope, leave for that persona.
+- `pipeline-nexostrat-v2.html` en root del repo — input principal para sesión 24, se commitea en esta sesión 23 para no perderlo.
 
 ## What next session opens onto
 
-**Most likely trigger**: feedback from JP on the session-21 spec + HTML deck (the dominant open thread). Three paths per session-21's CHECKPOINT still apply:
-1. JP aprueba sin cambios → invocar `superpowers:writing-plans` para Fases A-H.
-2. JP pide cambios menores al deck → iterar HTML.
-3. JP propone cambios estructurales al spec → re-abrir brainstorm.
+**Most likely trigger (90%+):** Ricardo abre con la tarea de incorporar el feedback de JP al pipeline. Está bien preparado — el spec original vive en `00_META/proposals/2026-05-27_skill6-pipeline-redesign.md`, el journal del brainstorm en `00_META/journal/2026-05-27_skill6-pipeline-redesign-brainstorm.md`, y la versión revisada de JP en `pipeline-nexostrat-v2.html` (root).
 
-**Less likely but possible triggers:**
-- Website deploy / homepage launch pickup → would surface the V5.mp4 → final/ folder move + ROLES.md amendment as natural follow-ups.
-- Plan 04 description update (due 2026-05-28) — would be the smallest open thread.
-- Brand font install on laptop (due 2026-05-30) — short maintenance task.
+**Prompt autocontenido para arrancar sesión 24** (escrito al final del chat de sesión 23):
 
-> **Recomendación al próximo Claude:** abrir leyendo este CHECKPOINT + STATUS + journal `2026-05-27_intro-v5-final-transcode.md` (this session) + journal `2026-05-27_skill6-pipeline-redesign-brainstorm.md` (session 21 — the dominant open thread). If Ricardo abre con feedback JP on the pipeline redesign, pivot directly to `t-skill6-implementation-plan` (writing-plans). If abre con un tema de marketing/website, the V5 finalization is fresh context. If abre vacío, ofrecer (a) las 3 tareas no-bloqueadas paralelas a feedback JP (transcription protocol, editorial-designer fix, license note), (b) the soft follow-ups noted above (V5.mp4 → final/ move + ROLES.md amendment), or (c) the small overdue/imminent items (Plan 04 desc 2026-05-28; brand fonts 2026-05-30).
+```
+Start Session
+
+TAREA PRINCIPAL DE ESTA SESIÓN
+Terminar la implementación del rediseño del pipeline Nexostrat (Skills 5 / 6 / 7)
+incorporando las correcciones que hizo JP en su revisión.
+
+CONTEXTO BREVE
+- Sesión 21 (2026-05-27 AM) cerró el brainstorm con un spec aprobado pendiente de la
+  revisión final de JP.
+- Sesión 22 fue sobre otro tema (intro video V5 + CEO designation) — no avanzó el
+  pipeline.
+- La sesión inmediatamente anterior (sesión 23) trabajó en el buyer persona Don Carlos
+  y corrigió artefactos contaminados de Trixx — tampoco avanzó el pipeline.
+- JP ya devolvió su revisión como un HTML visual nuevo: pipeline-nexostrat-v2.html
+  (en el root del repo). Ese es el input principal de esta sesión.
+
+ARCHIVOS A LEER, EN ESTE ORDEN
+1. /srv/Nexostrat/00_META/proposals/2026-05-27_skill6-pipeline-redesign.md
+2. /srv/Nexostrat/00_META/journal/2026-05-27_skill6-pipeline-redesign-brainstorm.md
+3. /srv/Nexostrat/pipeline-nexostrat-v2.html
+
+QUÉ HACER, EN ESTE ORDEN
+1. Leer los 3 archivos completos.
+2. Hacer un diff conceptual entre el spec original y el v2 de JP.
+3. Presentar a Ricardo un resumen claro de las diferencias y proponer cómo incorporar
+   los cambios (actualizar el spec con changelog; identificar cambios técnicos
+   requeridos en skills/05_*, 06_*, 07_*, y pipeline/clients/_template/).
+4. PEDIR CONFIRMACIÓN de Ricardo antes de tocar código de skills o template.
+
+REGLAS APLICABLES
+- Sin emojis ni signos decorativos en outputs (memoria feedback_no_emojis_no_symbols).
+- No citas literales en deliverables derivados; reescribir en voz Nexostrat (memoria
+  feedback_no_verbatim_quotes_in_copy).
+- Persona activa: Founder (raíz del repo /srv/Nexostrat/).
+
+EMPIEZA LEYENDO LOS 3 ARCHIVOS Y ENTREGA EL DIFF CONCEPTUAL ANTES DE PROPONER NINGÚN
+CAMBIO.
+```
+
+**Less likely triggers:**
+- Ricardo abre con feedback sobre el buyer persona Don Carlos — pivotar a iterar el .docx.
+- Plan 04 description update (due 2026-05-28, mañana).
+- Brand fonts install en laptop (due 2026-05-30).
+
+> **Recomendación al próximo Claude:** abrir leyendo este CHECKPOINT + STATUS + el journal de esta sesión (`2026-05-27_buyer-persona-doncarlos-and-trixx-corrections.md`) + el journal de sesión 21 (`2026-05-27_skill6-pipeline-redesign-brainstorm.md`). Si Ricardo abre con la tarea del pipeline v2, ejecutar el prompt arriba directamente. Si abre con otro tema, los archivos del buyer persona en `operations/marketing/buyer_personas/` son contexto fresco. Si abre vacío, ofrecer (a) la tarea principal del pipeline v2 (la más madura), (b) los tasks no-bloqueados (transcription protocol doc, editorial-designer fix, license note), o (c) los soft follow-ups del buyer persona (revisión + envío a JP).

@@ -404,6 +404,21 @@ bash skills/_test_harness/test_skills.sh
 
 If a test fails specifically on PDF render, it's the LibreOffice headless path — ensure `libreoffice --headless --convert-to pdf` works from CLI.
 
+**If this host will refresh `calendar_cache.json` (Phase 5 path):** the canonical filter import path is `/srv/brain-hub/hub/google/calendar_filter_nexostrat.py` (per spec + `00_META/calendar_filter.md` + COMMANDS.md § Calendar cache refresh).
+
+- **On `ricardo-hp-laptop` (server role):** `/srv/brain-hub` is the real install directory. Nothing to do here; the canonical path resolves directly.
+- **On `ricardo-desktop` and any new desktop-role host:** the hub install lives at `/home/ricardo/brain-hub/`. Expose the canonical path with a symlink so future Claude sessions can `import` from `/srv/brain-hub` as the docs prescribe:
+
+```bash
+# /srv/ is ricardo:ricardo-owned on these hosts; no sudo
+ln -s /home/ricardo/brain-hub /srv/brain-hub
+# verify
+python3 -c "import sys; sys.path.insert(0, '/srv/brain-hub'); from hub.google.calendar_filter_nexostrat import FILTER_VERSION; print(FILTER_VERSION)"
+# expected: nexostrat-v1
+```
+
+Without this symlink on a desktop-role host the import resolves to the literal `/home/ricardo/` path — works but drifts from the spec, and breaks the moment Ricardo's home dir changes or another user runs the refresh.
+
 ---
 
 ## Step 12 — (Optional) Recording stack — Desktop PC only

@@ -148,7 +148,7 @@ The hub's pre-meeting brief loop (Brain Bot Platform §9, master plan Phase 5) r
 
 **Source of truth:**
 - Filter rule: [`00_META/calendar_filter.md`](00_META/calendar_filter.md) (Nexostrat-side audit B7 ratification)
-- Filter implementation: `/home/ricardo/brain-hub/hub/google/calendar_filter_nexostrat.py::nexostrat_filter()` (constant `FILTER_VERSION = "nexostrat-v1"`)
+- Filter implementation: `/srv/brain-hub/hub/google/calendar_filter_nexostrat.py::nexostrat_filter()` (constant `FILTER_VERSION = "nexostrat-v1"`). On `ricardo-hp-laptop` (server), `/srv/brain-hub` is the real install directory. On `ricardo-desktop`, `/srv/brain-hub` is a symlink to `/home/ricardo/brain-hub/` (created at host setup per `docs/runbooks/new-workstation.md` Step 11). Future Claude sessions on either host MUST import from the canonical `/srv/brain-hub` path (matches spec + audit B7 + `00_META/calendar_filter.md`).
 - Cache schema is contracted in master plan §6.2 P-H2 and hub contribution doc §3 P-H2.
 
 **Cache schema** (top-level keys):

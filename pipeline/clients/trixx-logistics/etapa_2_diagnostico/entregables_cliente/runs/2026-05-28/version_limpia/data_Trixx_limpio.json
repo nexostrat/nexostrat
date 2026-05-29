@@ -1,0 +1,232 @@
+{
+  "metadata": {
+    "empresa": "Grupo Trixx",
+    "empresa_slug": "Trixx",
+    "sector": "Logística cross-border México–Estados Unidos",
+    "ciudad": "Tijuana",
+    "pais": "MX",
+    "fecha_display": "28 de mayo de 2026",
+    "fecha_iso": "2026-05-28",
+    "consultor": "Ricardo Mejía",
+    "consultor_email": "contacto@nexostrat.com",
+    "consultor_whatsapp": "+57 333 286 3963"
+  },
+
+  "empresa_hoy": {
+    "descripcion": "Grupo Trixx es una operación de logística cross-border México–Estados Unidos construida durante 24 años: agencia aduanal, transporte con flota propia, almacenaje, distribución y paquetería, en cinco sedes (Tijuana, Guadalajara, Ciudad de México, Vernon y San Diego). Acaba de invertir más de USD 1M en duplicar su capacidad con 10 camiones nuevos y 30 cajas. La operación física ya está; lo que falta es la capa de información que la sostenga mientras crece — hoy repartida entre grupos de WhatsApp, Excel personales y ocho plataformas que no se hablan entre sí.",
+    "metricas_clave": [
+      "24 años de operación continua",
+      "120+ vehículos (22+ camiones, 70+ cajas)",
+      "Inversión reciente de USD 1M+ que duplicó la flota",
+      "8 plataformas digitales activas, sin integrar"
+    ],
+    "madurez_digital": "Media",
+    "madurez_digital_descripcion": "Tienen las herramientas (Tracking Premium, Samsara, Monday, McKinney, correo en migración), pero operan aisladas y sin un punto central donde viva la información. El stack está; falta la arquitectura que lo conecte.",
+    "posicion_competitiva": "Dueño-operador de escala media en el nicho Tijuana–Los Ángeles. Supera a los competidores locales en escala física, pero está por detrás de los jugadores tech-enabled en la capa digital — la ventana que aún puede capturar."
+  },
+
+  "situacion_por_area": [
+    {
+      "area": "Información y coordinación interna",
+      "situacion_actual": "Cada persona mantiene su propio Excel; cuando la dirección necesita un dato lo pide por WhatsApp, y si esa persona no está, nadie lo tiene. La información llega por 15-20+ grupos de WhatsApp en formatos distintos y se pierde.",
+      "oportunidades": "Un punto central donde la información viva en tiempo real, alimentado automáticamente desde WhatsApp y accesible en segundos."
+    },
+    {
+      "area": "Flota y activos físicos",
+      "situacion_actual": "Con 120+ vehículos y la flota recién duplicada, no existe expediente por unidad: mantenimientos, diésel, kilómetros e inspecciones viven en papel disperso.",
+      "oportunidades": "Hoja de vida digital por unidad, alimentada desde WhatsApp y Samsara, con alertas de mantenimiento y vencimientos."
+    },
+    {
+      "area": "Operación de contenedores y correo",
+      "situacion_actual": "La comunicación con navieras, terminales y brokers es 100% por correo; los lunes la bandeja amanece con cientos de mensajes sin filtrar y los que se pierden generan demoras y almacenajes.",
+      "oportunidades": "Filtrado inteligente que extrae lo accionable de cada correo y avisa de vencimientos y demoras antes de que cuesten."
+    }
+  ],
+
+  "problemas": [
+    {
+      "id": 1,
+      "titulo": "La información existe, pero no se puede recuperar a tiempo",
+      "descripcion": "La información operativa está fragmentada en Excel personales y grupos de WhatsApp. La dirección termina consolidando a mano lo que debería consultar en segundos.",
+      "cita_cliente": "La información tiene que estar en tres minutos. Si ahorita yo pido la relación de cajas y camiones y se la pido a Miguel, o si no estaba, nadie la tiene.",
+      "costo_inaccion": {
+        "descripcion": "Tiempo de dirección consumido en consolidar información manualmente en lugar de decidir y crecer.",
+        "metodo": "C",
+        "calculo": "Consolidación manual ≥1 día/semana ≈ 5 días/mes de tiempo directivo",
+        "es_estimado": true
+      }
+    },
+    {
+      "id": 2,
+      "titulo": "Cientos de correos sin filtrar, con dinero en juego",
+      "descripcion": "Navieras, terminales y brokers se comunican solo por correo. La bandeja se acumula a cientos por fin de semana y los correos perdidos se traducen en demoras de puerto y almacenajes.",
+      "cita_cliente": "Llegas el lunes y tu bandeja ya tiene 600 correos. Y todo lo que se maneja de contenedores con terminales y navieras es 100% correos.",
+      "costo_inaccion": {
+        "descripcion": "Cada correo crítico que se pierde puede convertirse en una demora de puerto o un almacenaje pagado de más.",
+        "metodo": "A",
+        "calculo": "600 correos sin filtrar por fin de semana; ya han ocurrido demoras de miles de horas",
+        "es_estimado": true
+      }
+    },
+    {
+      "id": 4,
+      "titulo": "Sin expediente de los activos, justo cuando la flota se duplica",
+      "descripcion": "Con 120+ vehículos y 10 camiones nuevos entrando, no hay hoja de vida por unidad: no se detecta a tiempo cuándo una unidad ya costó más de lo que vale, ni se controlan inspecciones y vencimientos.",
+      "cita_cliente": "Como ya veo una estadística alarmante, esta unidad ya se le metió más de lo que cuesta. Entonces todas las unidades tener como un expediente.",
+      "costo_inaccion": {
+        "descripcion": "Sobre-inversión en unidades que deberían darse de baja y riesgo de multas por vencimientos no controlados.",
+        "metodo": "A",
+        "calculo": "Caso real: una unidad acumuló inversión superior a su valor de reposición sin detección oportuna",
+        "es_estimado": true
+      }
+    }
+  ],
+
+  "oportunidades": [
+    {
+      "id": 1,
+      "titulo": "Asistente de WhatsApp que organiza la información",
+      "problema_id": 1,
+      "area": "Información y coordinación interna",
+      "descripcion": "Un asistente inteligente conectado a los grupos de WhatsApp que lee los mensajes, distingue lo importante y extrae los datos de fotos, PDF, Excel y hojas escritas a mano, organizándolos solo en el documento central y generando alertas. El equipo sigue usando WhatsApp igual que hoy.",
+      "beneficio_esperado": "La información deja de perderse y deja de teclearse a mano, sin capacitación para el equipo de campo.",
+      "categoria": "pequeno",
+      "horas_estimadas_implementacion": 24,
+      "precio_usd_min": 3000,
+      "precio_usd_max": null,
+      "precio_nota": "Proyecto base (mínimo USD 3,000). Punto de entrada recomendado.",
+      "requiere_infraestructura": true,
+      "fee_mensual_usd": 80,
+      "impacto_score": 5,
+      "esfuerzo_score": 3,
+      "quick_win": true
+    },
+    {
+      "id": 2,
+      "titulo": "Filtros inteligentes de correo",
+      "problema_id": 2,
+      "area": "Operación de contenedores y correo",
+      "descripcion": "Una capa de inteligencia sobre el correo que lee cada mensaje de navieras, terminales y brokers, lo clasifica, lo archiva, extrae la información accionable y genera alertas. Incluye sanear la entrega del correo, que hoy no llega bien a Gmail/Hotmail.",
+      "beneficio_esperado": "Pasar de cientos de correos sin procesar a una bandeja accionable, con avisos antes de que las demoras cuesten dinero.",
+      "categoria": "pequeno",
+      "horas_estimadas_implementacion": 16,
+      "precio_usd_min": 3000,
+      "precio_usd_max": null,
+      "precio_nota": "Mínimo USD 3,000 como proyecto; en paquete con el asistente se integra por ~USD 1,000 adicionales.",
+      "requiere_infraestructura": true,
+      "fee_mensual_usd": 50,
+      "impacto_score": 4,
+      "esfuerzo_score": 2,
+      "quick_win": false
+    },
+    {
+      "id": 3,
+      "titulo": "Documentos vivos con un tablero maestro",
+      "problema_id": 1,
+      "area": "Información y coordinación interna",
+      "descripcion": "Cada persona mantiene su propia hoja y todas alimentan en tiempo real un documento maestro donde la dirección ve la información consolidada, con permisos por rol. El orden de una plataforma como Monday se logra sobre la herramienta que ustedes ya tengan, y la información de Monday y Tracking Premium se puede llevar a un solo lugar.",
+      "beneficio_esperado": "Cumple la meta de los tres minutos y es la base sobre la que se apoyan los dos pilares de la operación.",
+      "categoria": "pequeno",
+      "horas_estimadas_implementacion": 24,
+      "precio_usd_min": 3000,
+      "precio_usd_max": null,
+      "precio_nota": "Mínimo USD 3,000. Corre sobre la cuenta del cliente, sin fee mensual.",
+      "requiere_infraestructura": false,
+      "fee_mensual_usd": 0,
+      "impacto_score": 5,
+      "esfuerzo_score": 2,
+      "quick_win": true
+    },
+    {
+      "id": 4,
+      "titulo": "Expediente digital de camiones (Pilar 1)",
+      "problema_id": 4,
+      "area": "Flota y activos físicos",
+      "descripcion": "Una hoja de vida digital por cada camión, caja y vehículo (mantenimientos, diésel, kilómetros, inspecciones, vencimientos e incidentes), alimentada sola desde el asistente de WhatsApp y desde Samsara.",
+      "beneficio_esperado": "Saber con un clic el estado y el costo real de cada unidad, y nunca más perder una inspección o un vencimiento.",
+      "categoria": "mediano",
+      "horas_estimadas_implementacion": 32,
+      "precio_usd_min": 6000,
+      "precio_usd_max": 8000,
+      "precio_nota": "Integración con Samsara + expediente de 120+ unidades + alertas.",
+      "requiere_infraestructura": true,
+      "fee_mensual_usd": 100,
+      "impacto_score": 4,
+      "esfuerzo_score": 3,
+      "quick_win": false
+    },
+    {
+      "id": 5,
+      "titulo": "Libera a tu equipo: automatización por persona",
+      "problema_id": 1,
+      "area": "Información y coordinación interna",
+      "descripcion": "Un acompañamiento de inmersión: nos sentamos con cada persona del equipo para entender su trabajo y automatizar las tareas repetitivas que les roban tiempo, como capturar a mano de un Excel a la carta porte. No reemplazamos a nadie: liberamos al equipo.",
+      "beneficio_esperado": "Cada hora repetitiva que se automatiza es una hora que el equipo dedica a lo que genera valor.",
+      "categoria": "pequeno",
+      "horas_estimadas_implementacion": 16,
+      "precio_usd_min": 3000,
+      "precio_usd_max": 6000,
+      "precio_nota": "Desde USD 3,000 según el número de procesos a automatizar.",
+      "requiere_infraestructura": false,
+      "fee_mensual_usd": 0,
+      "impacto_score": 3,
+      "esfuerzo_score": 3,
+      "quick_win": false
+    }
+  ],
+
+  "quick_wins": [1, 3],
+
+  "roadmap_fases": [
+    {
+      "fase": "Fase 1 — Bases / Victorias rápidas (0-3 meses)",
+      "oportunidades_ids": [1, 2, 3],
+      "descripcion": "Las tres bases que capturan y consolidan la información sin pedirle al equipo aprender nada nuevo. Sobre ellas se apoya todo lo demás."
+    },
+    {
+      "fase": "Fase 2 — Construir los pilares (3-6 meses)",
+      "oportunidades_ids": [4, 5],
+      "descripcion": "Con las bases listas, se levanta el expediente digital de camiones (primer pilar) y se libera al equipo automatizando tareas repetitivas."
+    },
+    {
+      "fase": "Fase 3 — Transformación y crecimiento (6-12 meses)",
+      "oportunidades_ids": [],
+      "descripcion": "Sobre la base construida: conciliación automática de pagos del broker (135 contenedores/mes), el segundo pilar completo con tracking unificado de contenedores, portal de cliente en tiempo real, CRM para crecer, consolidación de la presencia online y eventualmente una plataforma propia. Cada paso es más fácil porque ya controlamos cómo llega la información."
+    }
+  ],
+
+  "propuesta": {
+    "total_roadmap_usd": 23000,
+    "descripcion_total": "El roadmap de estas iniciativas se ubica entre USD 18,000 y USD 23,000, más las iniciativas de Fase 3 que se cotizan al llegar a ellas. No hay que hacerlo todo de una vez: la recomendación es empezar por una iniciativa desde USD 3,000, ver el resultado y avanzar. Los tres quick wins juntos (asistente, correo y documentos vivos) se ofrecen como paquete por USD 6,500 en lugar de USD 9,000.",
+    "iniciativa_entrada_id": 1,
+    "estructura_pago_descripcion": "El cobro es por implementación, no por hora. Cada iniciativa se divide en un pago inicial al arrancar (50%) y el saldo al finalizar y ver el resultado funcionando. Las soluciones que corren con inteligencia artificial en nuestra infraestructura llevan un fee mensual modesto (entre USD 50 y USD 100) por mantenerlas operando.",
+    "upfront_porcentaje": 50,
+    "garantia_descripcion": "1 mes de garantía post-implementación incluida: cubre correcciones y ajustes menores contemplados en el diseño validado. Funcionalidades nuevas o cambios de alcance se cotizan aparte."
+  },
+
+  "persuasion": {
+    "quick_win_gancho_id": 1,
+    "quick_win_gancho_razon": "WhatsApp es el canal real de la compañía. El asistente no obliga a nadie a aprender nada nuevo, da resultado en semanas y alimenta a todas las demás soluciones. Es el sí más fácil de dar.",
+    "cita_principal": "La información tiene que estar en tres minutos.",
+    "objecion_probable": "Miedo a suscripciones que los desangren, una mala experiencia previa con una implementación a 6 meses, y un equipo al que le cuesta adoptar herramientas nuevas.",
+    "respuesta_objecion": "Empezamos sobre WhatsApp, que ya usan, así que el equipo no aprende nada nuevo. Implementamos en paralelo, sin tocar su operación, y solo se migra cuando esté probado. El fee mensual es modesto y el total se paga al ver el resultado funcionando.",
+    "cta_sugerido": "¿Arrancamos con el asistente de WhatsApp? En 3-4 semanas su equipo sigue trabajando igual, pero la información deja de perderse.",
+    "senales_positivas": [
+      "Acaban de invertir más de USD 1M en duplicar la flota; el presupuesto existe",
+      "La dirección (María Helena) mostró fuerte interés y dolores muy concretos",
+      "Es el momento de crecimiento, antes de que la operación se salga de control",
+      "Hay una aliada interna que facilitó el acceso",
+      "Permitieron grabar la reunión y compartieron información con apertura"
+    ],
+    "banderas_atencion": [
+      "Nunca usar las palabras bot ni robot; el dueño las asocia con máquinas que reemplazan personas",
+      "No proponer reemplazar personal; el marco es liberar y hacer más productivo al equipo",
+      "Pierde interés con plazos largos: liderar con resultados inmediatos",
+      "El equipo se resiste a herramientas nuevas; construir sobre lo que ya usan",
+      "Respetar la gestión del cambio (la dirección ya tiene experiencia previa)",
+      "Nunca mencionar terceros ni subcontratación: Nexostrat es el responsable único"
+    ]
+  },
+
+  "sobre_nexostrat": "Nexostrat no vende software ni consultoría tradicional. Somos un equipo de ingenieros y estrategas que entienden el negocio antes de escribir una línea de código. Nuestro proceso — entendimiento, diseño, validación, construcción, pruebas y acompañamiento — garantiza que lo que construimos resuelve el problema real. Nos adaptamos a las herramientas que ustedes ya usan en lugar de imponer nuevas, implementamos en paralelo sin frenar su operación, y no dejamos un manual y nos vamos: capacitamos al equipo, acompañamos la adopción y respondemos por el resultado."
+}

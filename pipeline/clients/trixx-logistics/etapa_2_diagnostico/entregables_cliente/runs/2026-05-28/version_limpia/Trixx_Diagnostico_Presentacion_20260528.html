@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Diagnóstico de Oportunidades de IA — Grupo Trixx</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap');
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #F0FBFF; color: #1F2937; }
+nav { position: sticky; top: 0; background: #0C1A2E; z-index: 100; padding: 10px 24px; display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+nav a { color: #D1D5DB; text-decoration: none; font-size: 12px; font-weight: bold; }
+nav a:hover { color: #F59E0B; }
+nav .brand { color: #FFFFFF; font-weight: bold; font-size: 14px; margin-right: 8px; }
+.slide { max-width: 960px; margin: 32px auto; background: #FFFFFF; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 24px rgba(30,58,95,0.12); }
+.slide-header { background: #0C1A2E; color: #FFFFFF; padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
+.slide-header .brand { font-weight: bold; font-size: 13px; }
+.slide-body { padding: 36px 44px 44px; }
+.slide-title { font-size: 28px; font-weight: bold; color: #0C1A2E; margin-bottom: 6px; }
+.slide-subtitle { font-size: 14px; color: #6B7280; margin-bottom: 28px; }
+.slide-footer { background: #F5F5F5; border-top: 1px solid #D1D5DB; padding: 8px 28px; display: flex; justify-content: space-between; font-size: 11px; color: #6B7280; }
+.green-accent { display: inline-block; width: 4px; background: #10B981; border-radius: 2px; margin-right: 12px; }
+.badge { display: inline-block; background: #F0FBFF; color: #0C1A2E; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; border: 1px solid #E0F2FE; }
+.badge-green { background: #ECFDF5; color: #065F46; border-color: #A7F3D0; }
+.badge-amber { background: #FFFBEB; color: #92400E; border-color: #FDE68A; }
+.step-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 16px 0; }
+.step-card { background: #F5F5F5; border: 1px solid #D1D5DB; border-radius: 8px; padding: 20px 16px; text-align: center; }
+.step-num { width: 40px; height: 40px; border-radius: 50%; background: #0C1A2E; color: #FFF; font-size: 18px; font-weight: bold; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; }
+.step-title { font-weight: bold; color: #0C1A2E; font-size: 13px; margin-bottom: 8px; }
+.step-desc { font-size: 11px; color: #6B7280; }
+.metrics { display: flex; flex-direction: column; gap: 8px; }
+.metric-item { display: flex; align-items: center; background: #F5F5F5; border: 1px solid #D1D5DB; border-radius: 6px; padding: 10px 14px; }
+.metric-item::before { content:''; display:block; width:3px; height:100%; background:#10B981; border-radius:2px; margin-right:12px; flex-shrink:0; }
+.problem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+.problem-card { border: 1px solid #D1D5DB; border-radius: 8px; overflow: hidden; }
+.problem-card-top { background: #DC2626; height: 4px; }
+.problem-card-body { padding: 16px; }
+.problem-num { font-size: 13px; font-weight: bold; color: #DC2626; margin-bottom: 6px; }
+.problem-title { font-weight: bold; color: #1F2937; font-size: 13px; margin-bottom: 8px; }
+.problem-desc { font-size: 11px; color: #0D4A6B; margin-bottom: 10px; }
+.quote-box { background: rgba(30,58,95,0.06); border: 1px solid rgba(30,58,95,0.2); border-radius: 6px; padding: 10px 12px; font-size: 11px; font-style: italic; color: #0C1A2E; margin-bottom: 8px; }
+.inaction-box { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.4); border-radius: 6px; padding: 8px 12px; }
+.inaction-label { font-size: 9px; font-weight: bold; color: #92400E; margin-bottom: 3px; }
+.inaction-text { font-size: 11px; color: #1F2937; }
+.op-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.op-card { background: #F5F5F5; border: 1px solid #D1D5DB; border-radius: 8px; padding: 14px; position: relative; }
+.op-card.qw { background: rgba(14,124,101,0.07); border-color: #10B981; border-width: 2px; }
+.op-accent { position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: #0C1A2E; border-radius: 8px 0 0 8px; }
+.op-card.qw .op-accent { background: #10B981; }
+.op-title { font-weight: bold; font-size: 12px; color: #0C1A2E; margin-bottom: 4px; padding-left: 8px; }
+.op-area { font-size: 10px; color: #6B7280; margin-bottom: 6px; padding-left: 8px; }
+.op-desc { font-size: 10.5px; color: #0D4A6B; padding-left: 8px; }
+.op-price { font-weight: bold; font-size: 11px; color: #10B981; margin-top: 8px; padding-left: 8px; }
+.qw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.qw-card { border: 2px solid #10B981; border-radius: 10px; overflow: hidden; }
+.qw-header { background: #10B981; padding: 14px 18px; color: #FFF; font-weight: bold; font-size: 14px; }
+.qw-body { padding: 18px; background: rgba(14,124,101,0.05); }
+.qw-title { font-weight: bold; font-size: 15px; color: #0C1A2E; margin-bottom: 4px; }
+.qw-area { font-size: 11px; color: #6B7280; margin-bottom: 10px; }
+.qw-desc { font-size: 11.5px; color: #0D4A6B; margin-bottom: 12px; }
+.benefit-box { background: #FFF; border: 1px solid #D1D5DB; border-radius: 6px; padding: 10px 14px; margin-bottom: 10px; }
+.benefit-label { font-size: 9px; font-weight: bold; color: #10B981; margin-bottom: 4px; }
+.benefit-text { font-size: 11px; color: #0D4A6B; }
+.price-box { background: #0C1A2E; border-radius: 6px; padding: 10px 14px; color: #FFF; }
+.price-label { font-size: 10px; color: #6B7280; margin-bottom: 2px; }
+.price-value { font-size: 18px; font-weight: bold; color: #F59E0B; }
+.roadmap-grid { display: flex; gap: 12px; }
+.fase-col { flex: 1; border-radius: 8px; overflow: hidden; }
+.fase-header { padding: 12px 14px; font-weight: bold; font-size: 12px; color: #FFF; }
+.fase-body { background: #F5F5F5; border: 1px solid #D1D5DB; padding: 14px; flex: 1; }
+.fase-desc { font-size: 10px; color: #6B7280; font-style: italic; margin-bottom: 10px; }
+.fase-op { background: #FFF; border: 1px solid #D1D5DB; border-radius: 6px; padding: 8px 10px; margin-bottom: 6px; font-size: 11px; }
+.fase-op-title { font-weight: bold; color: #1F2937; }
+.fase-op-price { color: #10B981; font-weight: bold; font-size: 10px; }
+.propuesta-anchor { background: rgba(30,58,95,0.06); border: 1px solid rgba(30,58,95,0.2); border-radius: 8px; padding: 18px 24px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
+.propuesta-anchor-label { font-size: 11px; color: #6B7280; margin-bottom: 4px; }
+.propuesta-anchor-value { font-size: 24px; font-weight: bold; color: #0C1A2E; }
+.arrow-down { text-align: center; font-size: 20px; color: #10B981; font-weight: bold; margin: 10px 0; }
+.entry-grid { display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: stretch; }
+.entry-card { background: rgba(14,124,101,0.08); border: 2px solid #10B981; border-radius: 8px; padding: 18px; }
+.entry-title { font-weight: bold; font-size: 16px; color: #0C1A2E; margin-bottom: 6px; }
+.entry-desc { font-size: 11.5px; color: #0D4A6B; }
+.price-panel { background: #0C1A2E; border-radius: 8px; padding: 20px 24px; min-width: 180px; display: flex; flex-direction: column; justify-content: center; }
+.payment-row { background: #F5F5F5; border: 1px solid #D1D5DB; border-radius: 6px; padding: 14px 18px; margin-top: 14px; font-size: 11.5px; color: #0D4A6B; }
+.next-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.ns-card { background: #F5F5F5; border: 1px solid #D1D5DB; border-radius: 8px; padding: 18px 14px; text-align: center; position: relative; }
+.ns-card-top { position: absolute; top: 0; left: 0; right: 0; height: 3px; background: #10B981; border-radius: 8px 8px 0 0; }
+.ns-badge { background: rgba(30,58,95,0.12); color: #0C1A2E; font-size: 10px; font-weight: bold; padding: 3px 10px; border-radius: 10px; display: inline-block; margin-bottom: 10px; }
+.ns-icon { font-size: 24px; margin-bottom: 8px; }
+.ns-title { font-weight: bold; font-size: 12px; color: #0C1A2E; margin-bottom: 6px; }
+.ns-desc { font-size: 10.5px; color: #6B7280; }
+.cta-bar { background: #0C1A2E; border-radius: 8px; padding: 18px 24px; margin-top: 20px; display: flex; justify-content: space-between; align-items: center; }
+.cta-text { font-weight: bold; font-size: 13px; color: #FFF; }
+.cta-contact { font-size: 11px; color: #6B7280; text-align: right; }
+</style>
+</head>
+<body>
+<nav>
+  <span class="brand">NEXOSTRAT</span>
+  <a href="#slide-1">1. Portada</a><a href="#slide-2">2. Metodología</a><a href="#slide-3">3. Empresa hoy</a><a href="#slide-4">4. Problemas</a><a href="#slide-5">5. Oportunidades</a><a href="#slide-6">6. Quick Wins</a><a href="#slide-7">7. Hoja de ruta</a><a href="#slide-8">8. Propuesta</a><a href="#slide-9">9. Próximos pasos</a>
+</nav>
+
+<div class="slide" id="slide-1">
+  <div class="slide-header">
+    <span class="brand">NEXOSTRAT</span>
+    <span>Slide 1 / 9</span>
+  </div>
+  <div class="slide-body">
+    <div class="slide-title"></div>
+    
+    
+<div style="background:#0C1A2E;border-radius:8px;padding:60px 48px;position:relative;overflow:hidden;">
+  <div style="position:absolute;left:0;top:0;bottom:0;width:6px;background:#10B981;"></div>
+  <div style="font-size:28px;font-weight:bold;color:#F59E0B;margin-bottom:12px;">GRUPO TRIXX</div>
+  <div style="font-size:40px;font-weight:bold;color:#FFFFFF;margin-bottom:20px;line-height:1.2;">Diagnóstico de<br>Oportunidades de IA</div>
+  <div style="width:60px;height:3px;background:#10B981;margin-bottom:16px;"></div>
+  <div style="font-size:14px;color:#D1D5DB;margin-bottom:8px;">Ciclo 1 — Resultados del Diagnóstico</div>
+  <div style="font-size:13px;color:#6B7280;">Preparado por Ricardo Mejía · 28 de mayo de 2026</div>
+  <div style="font-size:12px;color:#6B7280;margin-top:6px;">contacto@nexostrat.com · +57 333 286 3963</div>
+</div>
+  </div>
+  <div class="slide-footer">
+    <span>Grupo Trixx · 28 de mayo de 2026</span>
+    <span>nexostrat.co</span>
+  </div>
+</div>
+<div class="slide" id="slide-2">
+  <div class="slide-header">
+    <span class="brand">NEXOSTRAT</span>
+    <span>Slide 2 / 9</span>
+  </div>
+  <div class="slide-body">
+    <div class="slide-title">Cómo llegamos a estas conclusiones</div>
+    <div class="slide-subtitle">Metodología del diagnóstico</div>
+    <div class="step-cards"><div class="step-card">
+  <div class="step-num">1</div>
+  <div class="step-title">Análisis de empresa</div>
+  <div class="step-desc">Perfil, financieros, tecnología actual, posición en el mercado</div>
+</div><div class="step-card">
+  <div class="step-num">2</div>
+  <div class="step-title">Análisis de industria</div>
+  <div class="step-desc">Tendencias del sector, adopción de IA, benchmarks y oportunidades</div>
+</div><div class="step-card">
+  <div class="step-num">3</div>
+  <div class="step-title">Análisis competitivo</div>
+  <div class="step-desc">Qué están haciendo los competidores, brechas y diferenciadores</div>
+</div><div class="step-card">
+  <div class="step-num">4</div>
+  <div class="step-title">Llamada de descubrimiento</div>
+  <div class="step-desc">Conversación directa para entender dolores, operación y visión</div>
+</div></div><p style="font-size:11px;color:#6B7280;font-style:italic;margin-top:16px;">Estos cuatro pasos nos permiten llegar con contexto suficiente para hacer recomendaciones específicas para tu empresa — no genéricas.</p>
+  </div>
+  <div class="slide-footer">
+    <span>Grupo Trixx · 28 de mayo de 2026</span>
+    <span>nexostrat.co</span>
+  </div>
+</div>
+<div class="slide" id="slide-3">
+  <div class="slide-header">
+    <span class="brand">NEXOSTRAT</span>
+    <span>Slide 3 / 9</span>
+  </div>
+  <div class="slide-body">
+    <div class="slide-title">Tu empresa hoy</div>
+    <div class="slide-subtitle">Grupo Trixx</div>
+    <div style="display:grid;grid-template-columns:1.6fr 1fr;gap:24px;">
+<div>
+  <p style="font-size:12px;color:#0D4A6B;line-height:1.6;">Grupo Trixx es una operación de logística cross-border México–Estados Unidos construida durante 24 años: agencia aduanal, transporte con flota propia, almacenaje, distribución y paquetería, en cinco sedes (Tijuana, Guadalajara, Ciudad de México, Vernon y San Diego). Acaba de invertir más de USD 1M en duplicar su capacidad con 10 camiones nuevos y 30 cajas. La operación física ya está; lo que falta es la capa de información que la sostenga mientras crece — hoy repartida entre grupos de WhatsApp, Excel personales y ocho plataformas que no se hablan entre sí.</p>
+  <div style="margin-top:16px;background:rgba(30,58,95,0.06);border:1px solid rgba(30,58,95,0.15);border-radius:6px;padding:12px 16px;">
+    <span style="font-size:11px;font-weight:bold;color:#0C1A2E;">Madurez digital: </span>
+    <span style="font-size:11px;font-weight:bold;color:#10B981;">Media</span>
+    <span style="font-size:11px;color:#6B7280;"> — Tienen las herramientas (Tracking Premium, Samsara, Monday, McKinney, correo en migración), pero operan aisladas y sin un punto central donde viva la información. El stack está; falta la arquitectura que lo conecte.</span>
+  </div>
+  <p style="font-size:11px;color:#0D4A6B;margin-top:10px;"><strong style="color:#0C1A2E;">Posición competitiva:</strong> Dueño-operador de escala media en el nicho Tijuana–Los Ángeles. Supera a los competidores locales en escala física, pero está por detrás de los jugadores tech-enabled en la capa digital — la ventana que aún puede capturar.</p>
+</div>
+<div class="metrics"><div class="metric-item">24 años de operación continua</div><div class="metric-item">120+ vehículos (22+ camiones, 70+ cajas)</div><div class="metric-item">Inversión reciente de USD 1M+ que duplicó la flota</div><div class="metric-item">8 plataformas digitales activas, sin integrar</div></div>
+</div>
+  </div>
+  <div class="slide-footer">
+    <span>Grupo Trixx · 28 de mayo de 2026</span>
+    <span>nexostrat.co</span>
+  </div>
+</div>
+<div class="slide" id="slide-4">
+  <div class="slide-header">
+    <span class="brand">NEXOSTRAT</span>
+    <span>Slide 4 / 9</span>
+  </div>
+  <div class="slide-body">
+    <div class="slide-title">Los problemas que encontramos</div>
+    <div class="slide-subtitle">Lo que identificamos en el análisis y confirmamos en nuestra conversación</div>
+    <div class="problem-grid"><div class="problem-card">
+  <div class="problem-card-top"></div>
+  <div class="problem-card-body">
+    <div class="problem-num">#1</div>
+    <div class="problem-title">La información existe, pero no se puede recuperar a tiempo</div>
+    <div class="problem-desc">La información operativa está fragmentada en Excel personales y grupos de WhatsApp. La dirección termina consolidando a mano lo que debería consultar en segundo</div>
+    <div class="quote-box">"La información tiene que estar en tres minutos. Si ahorita yo pido la relación de cajas y camiones y se la pido a Miguel, o si no estaba, nadie la tiene."</div>
+    <div class="inaction-box"><div class="inaction-label">⏱ Costo de no actuar</div><div class="inaction-text">Tiempo de dirección consumido en consolidar información manualmente en lugar de decidir y crecer.</div></div>
+  </div>
+</div><div class="problem-card">
+  <div class="problem-card-top"></div>
+  <div class="problem-card-body">
+    <div class="problem-num">#2</div>
+    <div class="problem-title">Cientos de correos sin filtrar, con dinero en juego</div>
+    <div class="problem-desc">Navieras, terminales y brokers se comunican solo por correo. La bandeja se acumula a cientos por fin de semana y los correos perdidos se traducen en demoras de </div>
+    <div class="quote-box">"Llegas el lunes y tu bandeja ya tiene 600 correos. Y todo lo que se maneja de contenedores con terminales y navieras es 100% correos."</div>
+    <div class="inaction-box"><div class="inaction-label">⏱ Costo de no actuar</div><div class="inaction-text">Cada correo crítico que se pierde puede convertirse en una demora de puerto o un almacenaje pagado de más.</div></div>
+  </div>
+</div><div class="problem-card">
+  <div class="problem-card-top"></div>
+  <div class="problem-card-body">
+    <div class="problem-num">#3</div>
+    <div class="problem-title">Sin expediente de los activos, justo cuando la flota se duplica</div>
+    <div class="problem-desc">Con 120+ vehículos y 10 camiones nuevos entrando, no hay hoja de vida por unidad: no se detecta a tiempo cuándo una unidad ya costó más de lo que vale, ni se co</div>
+    <div class="quote-box">"Como ya veo una estadística alarmante, esta unidad ya se le metió más de lo que cuesta. Entonces todas las unidades tener como un expediente."</div>
+    <div class="inaction-box"><div class="inaction-label">⏱ Costo de no actuar</div><div class="inaction-text">Sobre-inversión en unidades que deberían darse de baja y riesgo de multas por vencimientos no controlados.</div></div>
+  </div>
+</div></div>
+  </div>
+  <div class="slide-footer">
+    <span>Grupo Trixx · 28 de mayo de 2026</span>
+    <span>nexostrat.co</span>
+  </div>
+</div>
+<div class="slide" id="slide-5">
+  <div class="slide-header">
+    <span class="brand">NEXOSTRAT</span>
+    <span>Slide 5 / 9</span>
+  </div>
+  <div class="slide-body">
+    <div class="slide-title">Las oportunidades de IA</div>
+    <div class="slide-subtitle">Identificamos 5 oportunidades específicas para Grupo Trixx</div>
+    <div class="op-grid"><div class="op-card qw">
+  <div class="op-accent"></div>
+  <span style="position:absolute;top:8px;right:10px;font-size:9px;font-weight:bold;color:#10B981;">Quick Win</span>
+  <div class="op-title">Asistente de WhatsApp que organiza la información</div>
+  <div class="op-area">Información y coordinación interna</div>
+  <div class="op-desc">Un asistente inteligente conectado a los grupos de WhatsApp que lee los mensajes, distingue lo importante y extrae los d</div>
+  <div class="op-price">USD 3,000</div>
+</div><div class="op-card ">
+  <div class="op-accent"></div>
+  
+  <div class="op-title">Filtros inteligentes de correo</div>
+  <div class="op-area">Operación de contenedores y correo</div>
+  <div class="op-desc">Una capa de inteligencia sobre el correo que lee cada mensaje de navieras, terminales y brokers, lo clasifica, lo archiv</div>
+  <div class="op-price">USD 3,000</div>
+</div><div class="op-card qw">
+  <div class="op-accent"></div>
+  <span style="position:absolute;top:8px;right:10px;font-size:9px;font-weight:bold;color:#10B981;">Quick Win</span>
+  <div class="op-title">Documentos vivos con un tablero maestro</div>
+  <div class="op-area">Información y coordinación interna</div>
+  <div class="op-desc">Cada persona mantiene su propia hoja y todas alimentan en tiempo real un documento maestro donde la dirección ve la info</div>
+  <div class="op-price">USD 3,000</div>
+</div><div class="op-card ">
+  <div class="op-accent"></div>
+  
+  <div class="op-title">Expediente digital de camiones (Pilar 1)</div>
+  <div class="op-area">Flota y activos físicos</div>
+  <div class="op-desc">Una hoja de vida digital por cada camión, caja y vehículo (mantenimientos, diésel, kilómetros, inspecciones, vencimiento</div>
+  <div class="op-price">USD 6,000 – 8,000</div>
+</div><div class="op-card ">
+  <div class="op-accent"></div>
+  
+  <div class="op-title">Libera a tu equipo: automatización por persona</div>
+  <div class="op-area">Información y coordinación interna</div>
+  <div class="op-desc">Un acompañamiento de inmersión: nos sentamos con cada persona del equipo para entender su trabajo y automatizar las tare</div>
+  <div class="op-price">USD 3,000 – 6,000</div>
+</div></div>
+  </div>
+  <div class="slide-footer">
+    <span>Grupo Trixx · 28 de mayo de 2026</span>
+    <span>nexostrat.co</span>
+  </div>
+</div>
+<div class="slide" id="slide-6">
+  <div class="slide-header">
+    <span class="brand">NEXOSTRAT</span>
+    <span>Slide 6 / 9</span>
+  </div>
+  <div class="slide-body">
+    <div class="slide-title">Quick Wins</div>
+    <div class="slide-subtitle">Por dónde empezar: alto impacto, baja fricción</div>
+    <div class="qw-grid"><div class="qw-card">
+  <div class="qw-header">Quick Win 1</div>
+  <div class="qw-body">
+    <div class="qw-title">Asistente de WhatsApp que organiza la información</div>
+    <div class="qw-area">Información y coordinación interna</div>
+    <div class="qw-desc">Un asistente inteligente conectado a los grupos de WhatsApp que lee los mensajes, distingue lo importante y extrae los datos de fotos, PDF, Excel y hojas escritas a mano, organizándolos solo en el documento central y generando alertas. El equipo sigue usando WhatsApp igual que hoy.</div>
+    <div class="benefit-box"><div class="benefit-label">Beneficio esperado</div><div class="benefit-text">La información deja de perderse y deja de teclearse a mano, sin capacitación para el equipo de campo.</div></div>
+    <div class="price-box"><div class="price-label">Inversión</div><div class="price-value">USD 3,000</div>
+    <div style="font-size:10px;color:#6B7280;margin-top:2px;">+ USD 80/mes infraestructura</div></div>
+  </div>
+</div><div class="qw-card">
+  <div class="qw-header">Quick Win 2</div>
+  <div class="qw-body">
+    <div class="qw-title">Documentos vivos con un tablero maestro</div>
+    <div class="qw-area">Información y coordinación interna</div>
+    <div class="qw-desc">Cada persona mantiene su propia hoja y todas alimentan en tiempo real un documento maestro donde la dirección ve la información consolidada, con permisos por rol. El orden de una plataforma como Monday se logra sobre la herramienta que ustedes ya tengan, y la información de Monday y Tracking Premium se puede llevar a un solo lugar.</div>
+    <div class="benefit-box"><div class="benefit-label">Beneficio esperado</div><div class="benefit-text">Cumple la meta de los tres minutos y es la base sobre la que se apoyan los dos pilares de la operación.</div></div>
+    <div class="price-box"><div class="price-label">Inversión</div><div class="price-value">USD 3,000</div>
+    </div>
+  </div>
+</div></div>
+  </div>
+  <div class="slide-footer">
+    <span>Grupo Trixx · 28 de mayo de 2026</span>
+    <span>nexostrat.co</span>
+  </div>
+</div>
+<div class="slide" id="slide-7">
+  <div class="slide-header">
+    <span class="brand">NEXOSTRAT</span>
+    <span>Slide 7 / 9</span>
+  </div>
+  <div class="slide-body">
+    <div class="slide-title">Hoja de ruta — Ciclo 2</div>
+    <div class="slide-subtitle">Diseño e implementación: de la oportunidad a la solución en producción</div>
+    <div class="roadmap-grid"><div class="fase-col"><div class="fase-header" style="background:#10B981;">Fase 1 — Bases / Victorias rápidas (0-3 meses)</div><div class="fase-body"><div class="fase-desc">Las tres bases que capturan y consolidan la información sin pedirle al equipo aprender nada nuevo. Sobre ellas se apoya todo lo demás.</div><div class="fase-op"><div class="fase-op-title">Asistente de WhatsApp que organiza la información</div><div class="fase-op-price">USD 3,000</div></div><div class="fase-op"><div class="fase-op-title">Filtros inteligentes de correo</div><div class="fase-op-price">USD 3,000</div></div><div class="fase-op"><div class="fase-op-title">Documentos vivos con un tablero maestro</div><div class="fase-op-price">USD 3,000</div></div></div></div><div class="fase-col"><div class="fase-header" style="background:#0C1A2E;">Fase 2 — Construir los pilares (3-6 meses)</div><div class="fase-body"><div class="fase-desc">Con las bases listas, se levanta el expediente digital de camiones (primer pilar) y se libera al equipo automatizando tareas repetitivas.</div><div class="fase-op"><div class="fase-op-title">Expediente digital de camiones (Pilar 1)</div><div class="fase-op-price">USD 6,000 – 8,000</div></div><div class="fase-op"><div class="fase-op-title">Libera a tu equipo: automatización por persona</div><div class="fase-op-price">USD 3,000 – 6,000</div></div></div></div><div class="fase-col"><div class="fase-header" style="background:#F59E0B;">Fase 3 — Transformación y crecimiento (6-12 meses)</div><div class="fase-body"><div class="fase-desc">Sobre la base construida: conciliación automática de pagos del broker (135 contenedores/mes), el segundo pilar completo con tracking unificado de contenedores, portal de cliente en tiempo real, CRM para crecer, consolidación de la presencia online y eventualmente una plataforma propia. Cada paso es más fácil porque ya controlamos cómo llega la información.</div></div></div></div><div style="background:#0C1A2E;border-radius:6px;padding:12px 20px;margin-top:14px;display:flex;justify-content:space-between;"><span style="font-weight:bold;font-size:14px;color:#FFF;">Valor total del roadmap: USD 23,000</span><span style="font-size:12px;color:#6B7280;">5 iniciativas · 3 fases</span></div>
+  </div>
+  <div class="slide-footer">
+    <span>Grupo Trixx · 28 de mayo de 2026</span>
+    <span>nexostrat.co</span>
+  </div>
+</div>
+<div class="slide" id="slide-8">
+  <div class="slide-header">
+    <span class="brand">NEXOSTRAT</span>
+    <span>Slide 8 / 9</span>
+  </div>
+  <div class="slide-body">
+    <div class="slide-title">Propuesta comercial</div>
+    <div class="slide-subtitle">Cómo avanzar juntos al Ciclo 2</div>
+    
+<div class="propuesta-anchor">
+  <div><div class="propuesta-anchor-label">Valor total del roadmap completo (referencia)</div>
+  <div class="propuesta-anchor-value">USD 23,000</div></div>
+  <span class="badge">5 iniciativas · 3 fases</span>
+</div>
+<div class="arrow-down">↓ Iniciativa de entrada sugerida</div>
+<div class="entry-grid">
+  <div class="entry-card">
+    <div class="entry-title">Asistente de WhatsApp que organiza la información</div>
+    <div class="entry-desc">Un asistente inteligente conectado a los grupos de WhatsApp que lee los mensajes, distingue lo importante y extrae los datos de fotos, PDF, Excel y hojas escritas a mano, organizándolos solo en el documento central y generando alertas. El equipo sigue usando WhatsApp igual que hoy.</div>
+  </div>
+  <div class="price-panel">
+    <div style="font-size:10px;color:#6B7280;margin-bottom:4px;">Inversión</div>
+    <div style="font-size:22px;font-weight:bold;color:#F59E0B;">USD 3,000</div>
+    <div style="font-size:10px;color:#6B7280;margin-top:4px;">+ USD 80/mes infra.</div>
+    <div style="font-size:10px;color:#10B981;margin-top:8px;">1 mes de garantía</div>
+  </div>
+</div>
+<div class="payment-row"><strong>Estructura de pago:</strong> Upfront al confirmar + saldo a la entrega final. Solo pagas el total cuando ves el resultado funcionando.</div>
+  </div>
+  <div class="slide-footer">
+    <span>Grupo Trixx · 28 de mayo de 2026</span>
+    <span>nexostrat.co</span>
+  </div>
+</div>
+<div class="slide" id="slide-9">
+  <div class="slide-header">
+    <span class="brand">NEXOSTRAT</span>
+    <span>Slide 9 / 9</span>
+  </div>
+  <div class="slide-body">
+    <div class="slide-title">Próximos pasos</div>
+    <div class="slide-subtitle">¿Cómo avanzamos?</div>
+    <div class="next-steps"><div class="ns-card">
+  <div class="ns-card-top"></div>
+  <div class="ns-badge">Hoy</div>
+  <div class="ns-icon"></div>
+  <div class="ns-title">Recibes el documento completo</div>
+  <div class="ns-desc">Te enviamos el PDF con todo el análisis para que puedas revisarlo y compartirlo con tu equipo.</div>
+</div><div class="ns-card">
+  <div class="ns-card-top"></div>
+  <div class="ns-badge">Tú decides</div>
+  <div class="ns-icon"></div>
+  <div class="ns-title">Nos dices cómo seguir</div>
+  <div class="ns-desc">Qué cambiarías, qué esperabas ver, qué iniciativas quieres perseguir.</div>
+</div><div class="ns-card">
+  <div class="ns-card-top"></div>
+  <div class="ns-badge">Primer pago</div>
+  <div class="ns-icon"></div>
+  <div class="ns-title">Arrancamos el Ciclo 2</div>
+  <div class="ns-desc">Entendimiento → Diseño → Validación → Construcción → Pruebas → Ajustes → Implementación → Garantía 1 mes.</div>
+</div><div class="ns-card">
+  <div class="ns-card-top"></div>
+  <div class="ns-badge">Resultado</div>
+  <div class="ns-icon"></div>
+  <div class="ns-title">Solución en producción</div>
+  <div class="ns-desc">La solución queda funcionando en tu empresa. El saldo se paga a la entrega.</div>
+</div></div>
+<div class="cta-bar">
+  <div class="cta-text">¿Arrancamos con el asistente de WhatsApp? En 3-4 semanas su equipo sigue trabajando igual, pero la información deja de perderse.</div>
+  <div class="cta-contact">Ricardo Mejía · contacto@nexostrat.com · +57 333 286 3963</div>
+</div>
+  </div>
+  <div class="slide-footer">
+    <span>Grupo Trixx · 28 de mayo de 2026</span>
+    <span>nexostrat.co</span>
+  </div>
+</div>
+<div style="text-align:center;padding:40px;color:#6B7280;font-size:12px;">Nexostrat · 28 de mayo de 2026 · nexostrat.co</div>
+</body>
+</html>

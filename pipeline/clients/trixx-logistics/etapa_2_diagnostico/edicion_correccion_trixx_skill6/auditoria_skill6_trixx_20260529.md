@@ -60,6 +60,9 @@ En todos los documentos (incluida la presentación) debe usarse la **identidad v
 - **Paleta de colores real** de marca.
 - Aplica a docx, html y pptx por igual. (Referencia: brand guide Aurora / skill `nexostrat-editorial-designer`.)
 
+### T10 — [SKILL/CLIENTE] Nombre legal del cliente
+El nombre correcto del cliente es **"Trixx Logistics Corp"**, NO "Grupo Trixx". El insumo (`Trixx_Diagnostico_Refinado` y `data_Trixx.json`) trae "Grupo Trixx (Trixx Logistics)" — debe corregirse en la capa de datos para que todos los entregables usen el nombre legal. (Confirmado por Ricardo 2026-05-29.) Aplica a este y a todos los documentos futuros de este cliente.
+
 ---
 
 ## B. Briefing Interno Ricardo — `Ricardo_BriefingInterno_Trixx_20260528.docx`

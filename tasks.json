@@ -1,8 +1,35 @@
 {
   "$schema": "nexostrat-tasks-v2",
   "project": "nexostrat",
-  "updated": "2026-05-28T16:10:00-07:00",
+  "updated": "2026-05-29T12:45:00-07:00",
   "tasks": [
+    {
+      "id": "t-skills-trio-rebuild",
+      "subject": "Ejecutar Plan Maestro: reconstruir 00_nexostrat_{docx,pptx,html} sobre bases Anthropic + marca, luego Skill 6 + 6.A",
+      "status": "open",
+      "priority": "high",
+      "due": "2026-06-15",
+      "created": "2026-05-29",
+      "notes": "Plan maestro committeado en pipeline/clients/trixx-logistics/etapa_2_diagnostico/edicion_correccion_trixx_skill6/plan_maestro_skills_20260529.md (commit 6301edc). Prompt de arranque en la misma carpeta: PROMPT_proxima_sesion.md. 7 decisiones lockeadas (D1-D7): web expert dedicado, fuente de marca única primero, Inter en todo, base HTML = frontend-design, autoria con skill-creator + writing-skills sintetizando, borrar editorial_designer/pptx_expert/docx_technical/pptx_technical tras absorberlos, Skill 6 base JP + variante 6.A gold. Fases 0-4: (0) fundacion de marca unica (consolidar 4 copias de logos en operations/marketing/brand/logos + un brand-identity.md canonico + referencias a brand guide + persona Don Carlos); (1) descargar frontend-design; (2) construir el trio con los skill-authoring skills; (3) nombrar 00_ + wiring a assets canonicos + dedup + Linux; (4) Skill 6 + 6.A. Validacion contra el gold standard de Andrea tras cada fase. GATE: requiere t-jp-inter-blessing antes de Fase 0. Es trabajo Skills-Master (skills/)."
+    },
+    {
+      "id": "t-jp-inter-blessing",
+      "subject": "JP confirma 'Inter en todo' (decision de marca; gate de la Fase 0 del Plan Maestro)",
+      "status": "open",
+      "priority": "high",
+      "due": "2026-06-02",
+      "created": "2026-05-29",
+      "notes": "Decision D3 del plan maestro: unificar la tipografia de marca en Inter para docs, pptx y web, reemplazando Century Gothic (que no esta instalada en Linux y LibreOffice sustituye, rompiendo la marca; ademas es raro tener dos fuentes de marca por canal). El gold standard de Andrea uso Inter y se vio premium. Por ser decision de marca conviene el visto bueno de JP. Bloquea arrancar la Fase 0 (consolidar el brand-identity.md canonico)."
+    },
+    {
+      "id": "t-skill6-apply-audit-findings",
+      "subject": "Aplicar hallazgos de auditoria (T1,T2,T4,T5,emojis,logos,cheat sheet,T10,HTML) sobre el Skill 6 de JP (Fase 4)",
+      "status": "open",
+      "priority": "medium",
+      "due": "2026-06-15",
+      "created": "2026-05-29",
+      "notes": "Auditoria completa en edicion_correccion_trixx_skill6/auditoria_skill6_trixx_20260529.md. Base = version nueva de JP (en el zip skills/drive-download-...zip), que YA resolvio pricing (T3) y total de roadmap (B1) — NO re-auditar eso. Pendientes a aplicar: T1 calibracion (no afirmar lo que no sabemos), T2 sacar IA de titulos, T4 framing liberar-no-reemplazar, T5 lenguaje robot, emojis (mantener con proposito), T8/T9 marca (logo real + footer + assets), cheat sheet como entregable, T10 nombre Trixx Logistics Corp, calidad HTML al nivel gold standard. Cablear Skill 6 al trio 00_nexostrat_{docx,pptx,html} y crear la variante 6.A gold. Sub-tarea de t-skills-trio-rebuild (Fase 4)."
+    },
     {
       "id": "t-audit-design",
       "subject": "Hard audit of founding spec + master plan index + Plan 01",

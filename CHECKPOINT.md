@@ -1,74 +1,54 @@
 # CHECKPOINT — root (Founder)
 
-**Updated:** 2026-05-28T16:15:00-07:00
-**By:** ricardo (via Claude Code session 27; `ricardo-desktop`)
-**Persona:** Founder
-**Session topic:** Skill 6 (`nexostrat-client-deliverables`) installed (Pipeline v2 F1) + harness adapted for its Node toolchain + aligned to canonical Aurora brand + run end-to-end on the sample + Odoo CE direction locked (build deferred to a dedicated HP install session) + F4 capabilities catalog descoped.
+**Updated:** 2026-05-29T12:50:00-07:00
+**By:** ricardo (via Claude Code session 28)
+**Persona:** Founder (operator-driven; trabajo sustantivo en pipeline/ y skills/)
+**Session topic:** Auditoría del Skill 6 (run Trixx) → gold standard Andrea (deck + cheat sheet HTML, hechos a mano) → Plan Maestro para reconstruir tres expertos de marca (docx/pptx/html) sobre bases oficiales de Anthropic + Skill 6/6.A. Decisiones lockeadas; ejecución diferida a una sesión dedicada (Skills-Master).
 
 ## What just happened (last session — read once, don't re-litigate)
 
-**Sesión 27 (2026-05-28).** Ricardo abrió pidiendo "continue implementing the updates", luego redirigió a instalar el Skill 6 que subió (`nexostrat-client-deliverables`). La sesión cubrió: install + harness adaptation + brand alignment + end-to-end run + decisión Odoo + descope F4. Todo staged y pusheado directo a los 3 remotes (pedido explícito de Ricardo para acceso multi-PC vía Tailscale).
+**Sesión 28 (2026-05-29).** Auditoría que escaló a estrategia de reconstrucción de skills.
 
-**1. Skill 6 instalado (Pipeline v2 F1).** Bundle JP `skills/nexostrat-client-deliverables.skill` → `skills/06_client_deliverables/` (extract + archive a `skills/00_META/skill_packages/`). Symlink relativo `.claude/skills/nexostrat-client-deliverables → ../../skills/06_client_deliverables`. Fix de path macOS `/var/folders` → Linux/repo-relativo en `SKILL.md` PASO 0.1. `scripts/node_modules/` gitignored; `npm ci` corrido OK. **Primera skill con toolchain Node** (pptxgenjs + docx) + Python HTML (stdlib-only). Produce 6 entregables: PPTX 9 slides + HTML + DOCX cliente 10 secciones + HTML + briefing interno Ricardo 1 pág + HTML. **Self-contained: sin secrets, sin CRM, sin Odoo/Baserow, sin red.**
+1. **Auditoría Skill 6 (run Trixx skill_raw).** Reporte en `pipeline/clients/trixx-logistics/etapa_2_diagnostico/edicion_correccion_trixx_skill6/auditoria_skill6_trixx_20260529.md`: 10 transversales (T1 afirmaciones no sostenibles = dominante; T2 IA en títulos; T3 pricing [ya resuelto por JP]; T4 liberar-no-reemplazar; T5 robot; T7 emojis [REVERTIDO: se mantienen]; T8 template; T9 marca; T10 nombre "Trixx Logistics Corp") + secciones B-H + "lo que sí funciona".
 
-**2. Harness adaptado** (`infra/scripts/test_skills.sh`): `06_client_deliverables:nexostrat-client-deliverables` al registry; CHECK 7 (`generate_docx.py`) ahora SKIP-tolerant para skills con otro generador docx; nuevo **CHECK 9** (Node toolchain: `validate_json.py` always-on + `generate_pptx.js` node-gated); renumber /8→/9; fixes de conteo. Resultado: **72 PASS · 1 SKIP · 0 FAIL** (el SKIP es intencional = Skill 6 no tiene `generate_docx.py`). CHECK 9 renderizó un PPTX real de 230 KB del fixture.
+2. **Gold standard Andrea (a mano, NO vía Skill 6).** `reunion_andrea/Trixx_Andrea_Presentacion.html` (deck 7 slides navegable) + `Trixx_Andrea_CheatSheet.html` + `build_andrea.py`. On-brand (Aurora, Inter, logos base64), calibrado (sin robot, sin precios, liberar-no-reemplazar). Ricardo lo declaró el estándar de calidad; el cheat sheet es el patrón a llevar a todos los skills. La reunión con Andrea YA ocurrió; transcript en `transcripts/` (untracked, lo maneja Ricardo) — NO procesar.
 
-**3. Skill 6 corrido end-to-end** sobre el fixture bundled `tests/data_DistribuidoraLosAndes.json` → 6 archivos en `/home/ricardo/Desktop/Skill6_Muestra_DistribuidoraLosAndes/`. Verificado: PPTX 9 slides; DOCX cliente 32 headings / 19 tablas / 10 secciones; briefing 1 pág con gancho + Quick Win + cita + objeción + CTA + pricing.
+3. **Plan Maestro** `edicion_correccion_trixx_skill6/plan_maestro_skills_20260529.md` (supersede + borró el plan de auditoría v1): reconstruir `00_nexostrat_{docx,pptx,html}` sobre bases oficiales Anthropic + marca única, luego Skill 6 + variante 6.A gold. Fases 0-4 con validación contra el gold standard.
 
-**4. Decisión Ricardo: comportamiento del skill overrule mis reglas.** El skill usa emojis (⚡) y citas verbatim del cliente — choca con las memorias locked `no-emojis` + `no-verbatim`. Ricardo decidió CONSERVAR el comportamiento de JP. **Carve-out grabado en ambas memorias** (`no-emojis-no-symbols`, `no-verbatim-quotes-in-copy`): no aplican a entregables del Skill 6.
+4. **Staging del zip de JP** (`skills/drive-download-...zip`, extraído en `/tmp/skills_incoming_20260529/`): client-deliverables nueva = base de Skill 6 (ya arregló pricing 3K/8K/15K + total de roadmap); pptx-expert del zip = regresión Century Gothic (descartar; repo usa Inter); editorial-designer idéntico.
 
-**5. Brand alignment v0.2 (CHANGELOG Skill 6).** Ricardo pidió alinear el brand VISUAL a Aurora (colores + fuentes), conservando el contenido. Confirmada la decisión de fuente: override 2026-05-27 unificó todo a **Inter** (+ JetBrains Mono), dropeando Century Gothic. Los 6 generadores remapeados POR ROL: JP navy `#1E3A5F` → Midnight `#0C1A2E`, teal `#0E7C65` → Emerald `#10B981`, H3 gray → Ocean Deep, grays/tints → Aurora grays/Arctic/Sky-100. Amber `#F59E0B` + Dark Text `#1F2937` ya eran Aurora. Fuentes Calibri/Arial/Segoe → Inter; HTML carga Inter vía Google Fonts `@import`. Se conservaron las asignaciones elemento→color de JP (su diseño); solo cambiaron VALORES + fuentes. Verificado: PPTX sigue 9 slides, slide 1 Midnight+Emerald, cero navy/teal residual.
+## Decisiones lockeadas (NO re-litigar)
 
-**6. Odoo CE — dirección locked, build DIFERIDO.** Brainstorming: Odoo Community Edition es free self-hosted. Ricardo decidió: **reemplaza Baserow por completo**, **broad suite** (CRM+Contacts+Sales+Project+Invoicing+Calendar), en el **HP server**, desplegado **extendiendo `infra/docker/foss-stack/docker-compose.yml`** (Docker, no apt). Migración 4 fases (Baserow no se remueve hasta que Odoo pruebe su trabajo). **Spec/plan completos DIFERIDOS a una sesión dedicada de instalación en el HP** — decisiones capturadas en `00_META/protocols/sesion-S2-investigacion-odoo.md` (reframed de "investigación" a "instalación"). F6 resuelto; `t-012` reframed a "stand up Odoo CE" (high, 2026-06-15). Hallazgo: Baserow era un state-store dormido que Ricardo nunca usó a mano → reemplazo low-regret.
-
-**7. F4 catálogo de capacidades DESCOPED.** Modelo de escalamiento a empresa-socia Neo (decisión #11 spec v2): los humanos deciden cuándo escalar; no se necesita catálogo formal. `t-nexostrat-capabilities-catalog` cancelada; evento `e-capabilities-catalog` marcado cancelled.
-
-**8. Plan 04 — verificado NO hecho.** El meeting de prueba 2026-05-28 13:44 afirmó que estaba listo, pero el master index sección Plan 04 sigue describiendo un bot standalone, NO el modelo tenant del Brain Bot Hub (ADR-039). Es una revisión sustancial. `t-plan-04-description-update` sigue abierta + OVERDUE.
+- **D1** Web expert dedicado (HTML). **D2** Fuente de marca única, primero. **D3** Inter en todo (reemplaza Century Gothic — gate: OK de JP). **D4** Base HTML = frontend-design. **D5** Autoría con skill-creator + writing-skills (sintetizar). **D6** Borrar editorial_designer/pptx_expert/docx_technical/pptx_technical tras absorberlos. **D7** Skill 6 base JP + 6.A gold.
 
 ## Stack state (live & verifiable next session)
 
-- `skills/06_client_deliverables/` instalado; test harness `bash infra/scripts/test_skills.sh` → **72 PASS · 1 SKIP · 0 FAIL**.
-- Samples Skill 6 en `/home/ricardo/Desktop/Skill6_Muestra_DistribuidoraLosAndes/` (untracked, fuera del repo).
-- `node_modules` de Skill 6 instalado en desktop (gitignored). En otra máquina, PASO 0.2 corre `npm ci` auto.
-- 3 remotes: este commit pusheado DIRECTO a origin + github + codeberg (override puntual de la regla origin-only; `t-pre-push-hook-block-mirrors` sigue pendiente como guard mecánico).
-- Brand source of truth: `skills/shared/brand.py` (Aurora + Inter). Skill 6 ahora alineado (hardcoded, no importa brand.py — es Node/Python sin acceso a brand.py).
+- Oficiales docx/pptx ya vendorizados: `skills/docx_technical/`, `skills/pptx_technical/`. No hay html oficial → frontend-design (plugin Anthropic).
+- 4 copias de logos: `operations/marketing/brand/logos` (canónica elegida), `operations/assets/brand/Logos`, + copia en pptx_expert y editorial_designer. Consolidar en Fase 0.
+- Persona Don Carlos: `operations/marketing/buyer_personas/`. Brand guide: `operations/assets/brand/Nexostrat_Brand_Guide.docx`.
+- Brand source actual: `skills/shared/brand.py` (Aurora + Inter) → repuntar a la ubicación canónica en Fase 0.
+- Commits sesión 28: `0823061` · `543f278` · `66d3b04` · `6301edc` · `d320bce` + cierre. Pusheados a origin (fanout a github/codeberg vía path-watcher).
 
 ## Open items (carried forward)
 
-**OVERDUE:**
+**Tareas nuevas de esta sesión:**
 
 | ID | Subject | Priority | Due |
 |---|---|---|---|
-| `t-plan-04-description-update` | Update Plan 04 master-index description → ADR-039 tenant model (revisión sustancial, NO el one-liner que el meeting de prueba creyó) | high | 2026-05-28 (OVERDUE) |
+| `t-skills-trio-rebuild` | Ejecutar Plan Maestro (trío docx/pptx/html + Skill 6/6.A) | high | 2026-06-15 |
+| `t-jp-inter-blessing` | JP confirma "Inter en todo" (gate Fase 0) | high | 2026-06-02 |
+| `t-skill6-apply-audit-findings` | Aplicar T1-T10 sobre Skill 6 de JP (Fase 4) | medium | 2026-06-15 |
 
-**High priority próximos días:**
+**Heredadas relevantes (del CHECKPOINT 27):** `t-plan-04-description-update` (OVERDUE, high), `t-012` Odoo CE stand-up (high, 2026-06-15), `t-pre-push-hook-block-mirrors` (high), `t-install-brand-fonts-laptop` (high — nota: con Inter-en-todo, esta tarea pasa a ser instalar Inter; Century Gothic ya no aplica), `t-plan-01b-execute-warm-standby`, `t-skill5-reprofile-body`.
 
-| ID | Subject | Priority | Due |
-|---|---|---|---|
-| `t-trixx-reporte-iteracion-notas-ricardo` | **Sesión dedicada:** reporte interno vs diagnóstico refinado → producir `Trixx_Diagnostico_Refinado` → correr Skill 6 (**F5**) | high | 2026-05-31 |
-| `t-012` | **Stand up Odoo CE self-hosted en HP** (protocolo S2, decisiones locked) — sesión dedicada en el HP | high | 2026-06-15 |
-| `t-pre-push-hook-block-mirrors` | Pre-push hook que bloquee push directo a github/codeberg | high | 2026-05-30 |
-| `t-prompt-templates-audit-multi-push` | Strip multi-remote-push de prompt templates | high | 2026-05-30 |
-| `t-install-brand-fonts-laptop` | Instalar Inter + JetBrains Mono (afecta display de Inter en .docx/.pptx de Skill 6; HTML siempre OK vía Google Fonts) | high | 2026-05-30 |
+**Untracked a propósito al cierre (NO commitear sin pedir):**
+- `skills/drive-download-20260529T184628Z-3-001.zip` — zip de JP (input transitorio; contiene la versión nueva de Skill 6 que es la base de la Fase 4). Si la próxima sesión es en otra máquina, hay que llevarlo.
+- `pipeline/clients/trixx-logistics/transcripts/` — transcript de la reunión con Andrea (lo maneja Ricardo).
 
-**Medium / open:** `t-skill5-reprofile-body` (2026-06-15), `t-migrate-pilotos-to-clients` (2026-05-30), `t-path-watcher-bidi-investigation` (2026-06-07), `t-meeting-pipeline-pdf-generation`, `t-trixx-refresh-final-report` (2026-06-05), `t-redesign-technical-brainstorm`.
-
-**Cancelled this session:** `t-nexostrat-capabilities-catalog` (F4 descoped → Neo).
-
-**Soft follow-ups:**
-- **Brand-fonts dependency:** Skill 6 .docx/.pptx mostrarán Inter solo donde Inter esté instalado (`t-install-brand-fonts-laptop`); los .html siempre muestran Inter vía Google Fonts. Los colores Aurora salen correctos siempre.
-- **Const names cosméticos:** en los generadores JS, `NAVY`/`GREEN` ahora contienen valores Midnight/Emerald (misnomers); se dejaron así para diff limpio.
-- **Doc cleanup:** línea Century-Gothic-for-print en `skills/nexostrat_editorial_designer/references/design-specs.md` quedó stale vs la unificación a Inter.
-- `skills/CHECKPOINT.md` se dejó en `CHECKPOINT_NO_ACTIVE_WORK` (el trabajo en skills/ fue operator-driven; CHANGELOG v0.1/v0.2 + README lo documentan).
-
-**Cross-scope:** Sin Gemini handoff. Sin memos en inbox. 2 memorias actualizadas (carve-out Skill 6). Sin cambios bajo `vault/`.
+**Cross-scope:** Sin Gemini handoff. Sin memos en inbox. 2 memorias actualizadas (emojis revertido, nombre Trixx). Sin cambios bajo `vault/`. CLAUDE.md/GEMINI.md/README.md NO editados (sin entry de CHANGELOG necesaria); sí editado `.gitignore` (+`.playwright-mcp/`).
 
 ## What next session opens onto
 
-**Most likely (55%):** Ricardo abre la **sesión del diagnóstico refinado Trixx → Skill 6** (`t-trixx-reporte-iteracion-notas-ricardo`, F5, due 2026-05-31). Insumos: `pipeline/clients/trixx-logistics/etapa_2_diagnostico/reporte_interno/runs/2026-05-26_mode-a/Trixx_ReporteOportunidades_20260526.md` + `transcripciones/2026-05-27_ricardo-notes/notas_curadas.md` + análisis company/industry/competitor. Discutir qué es cada doc + qué implementar → producir `Trixx_Diagnostico_Refinado_*.md` → invocar Skill 6 → 6 entregables on-brand. Skill 6 ya está listo end-to-end.
+**Most likely:** Ricardo abre la **sesión de ejecución del Plan Maestro** (Skills-Master). Usar el prompt en `edicion_correccion_trixx_skill6/PROMPT_proxima_sesion.md`. Empezar por Fase 0 (fundación de marca única) SOLO si JP ya dio OK a "Inter en todo" (`t-jp-inter-blessing`). No ejecutar borrados de skills (D6) sin confirmación explícita.
 
-**Secundario (25%):** **Sesión de instalación Odoo en el HP** (`t-012`, protocolo S2). Requiere HP encendido. Escribir el plan vía `writing-plans` ahí y ejecutar fase 1 (stand up).
-
-**Terciario (20%):** tareas de disciplina (pre-push hook, prompt templates audit, brand fonts) o Plan 04 description.
-
-> **Recomendación al próximo Claude:** leer este CHECKPOINT + STATUS + journal `2026-05-28_session27-skill6-install-brand-odoo.md`. Si Ricardo abre la sesión Trixx/Skill-6, el `t-trixx-reporte-iteracion-notas-ricardo` tiene el flujo; Skill 6 está instalado + brand-aligned + verificado (no re-instalar). Si abre la sesión Odoo, leer protocolo S2 (decisiones ya locked — NO re-litigar Odoo vs Notion; ir directo a escribir el plan de instalación). Skill 6 corre con `node`/`python3` y auto-instala node deps; en máquina sin Inter, los .docx/.pptx caen a fuente de sistema (colores Aurora intactos).
+> **Recomendación al próximo Claude:** leer este CHECKPOINT + STATUS + journal `2026-05-29_auditoria-skill6-gold-standard-andrea-plan-skills.md` + el plan maestro. El gold standard de Andrea (`reunion_andrea/`) es la referencia de calidad — estúdialo antes de construir el experto HTML. Las 7 decisiones D1-D7 están cerradas: NO re-litigar. La reunión con Andrea ya pasó (no procesar el transcript). Skill 6: la base es la versión de JP en el zip, no la del repo.

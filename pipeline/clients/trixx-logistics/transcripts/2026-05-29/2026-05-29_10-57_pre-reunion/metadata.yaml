@@ -1,0 +1,18 @@
+schema_version: 2
+meeting_id: 2026-05-29_10-57_pre-reunion
+scope: nexostrat
+client_slug: trixx-logistics
+meeting_type: client
+recorded_at: 2026-05-29T10:57:00-07:00
+summarized_at: 2026-05-29T12:35:19-07:00
+duration_seconds: 1832
+participants: null
+secondary_topics: []
+source_recording: "2026-05-29 10-57-18.mkv"
+language: es
+scheduled_followup: null
+extracted_actions: [{"text": "Confirmar fechas para visita a la bodega en Los Ángeles y Guadalajara", "scope": "nexostrat", "assignee": "Andrea", "due": null, "confidence": 0.95}, {"text": "Formalizar la presentación para Héctor y la madre de Andrea", "scope": "nexostrat", "assignee": "Ricardo", "due": null, "confidence": 0.9}, {"text": "Enviar la propuesta formal de precios por implementación", "scope": "nexostrat", "assignee": "Ricardo", "due": null, "confidence": 0.95}]
+status_change_suggestions: [{"task_id": "t-013", "current_status": "open", "suggested_status": "done", "suggested_due": null, "rationale": "La reunión cumplió el objetivo de presentar el reporte y propuestas a Andrea, solicitar sus impresiones (le pareció excelente) y acordar la agendación de los próximos pasos.", "confidence": 0.95}, {"task_id": "t-trixx-la-visit-schedule", "current_status": "open", "suggested_status": "in_progress", "suggested_due": null, "rationale": "Andrea indicó que revisará disponibilidad con su madre y confirmará las fechas exactas para la visita entre hoy y mañana, apuntando al miércoles o jueves de la próxima semana.", "confidence": 0.9}]
+source_recording_sha256: "e71fd47e98f9a57dd5c0d54ceca1cc28b9da5c20a4bbfdf1993f582926941277"
+summary_sha256: "d1fd7d080e488c6b4be1dde14a0194402d56656d89a6c54580d27820ca9ddbcd"
+summary_short_sha256: "a18d8b5a9b95bdf5803bce05cc5f43de73522d6664d2cd4bbbf47b791437fc47"

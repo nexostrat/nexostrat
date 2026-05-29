@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v2",
   "project": "nexostrat",
-  "updated": "2026-05-29T12:45:00-07:00",
+  "updated": "2026-05-29T14:00:00-07:00",
   "tasks": [
     {
       "id": "t-skills-trio-rebuild",
@@ -10,16 +10,17 @@
       "priority": "high",
       "due": "2026-06-15",
       "created": "2026-05-29",
-      "notes": "Plan maestro committeado en pipeline/clients/trixx-logistics/etapa_2_diagnostico/edicion_correccion_trixx_skill6/plan_maestro_skills_20260529.md (commit 6301edc). Prompt de arranque en la misma carpeta: PROMPT_proxima_sesion.md. 7 decisiones lockeadas (D1-D7): web expert dedicado, fuente de marca única primero, Inter en todo, base HTML = frontend-design, autoria con skill-creator + writing-skills sintetizando, borrar editorial_designer/pptx_expert/docx_technical/pptx_technical tras absorberlos, Skill 6 base JP + variante 6.A gold. Fases 0-4: (0) fundacion de marca unica (consolidar 4 copias de logos en operations/marketing/brand/logos + un brand-identity.md canonico + referencias a brand guide + persona Don Carlos); (1) descargar frontend-design; (2) construir el trio con los skill-authoring skills; (3) nombrar 00_ + wiring a assets canonicos + dedup + Linux; (4) Skill 6 + 6.A. Validacion contra el gold standard de Andrea tras cada fase. GATE: requiere t-jp-inter-blessing antes de Fase 0. Es trabajo Skills-Master (skills/)."
+      "notes": "Plan maestro committeado en pipeline/clients/trixx-logistics/etapa_2_diagnostico/edicion_correccion_trixx_skill6/plan_maestro_skills_20260529.md (commit 6301edc). Prompt de arranque en la misma carpeta: PROMPT_proxima_sesion.md. 7 decisiones lockeadas (D1-D7): web expert dedicado, fuente de marca única primero, Inter en todo, base HTML = frontend-design, autoria con skill-creator + writing-skills sintetizando, borrar editorial_designer/pptx_expert/docx_technical/pptx_technical tras absorberlos, Skill 6 base JP + variante 6.A gold. Fases 0-4: (0) fundacion de marca unica (consolidar 4 copias de logos en operations/marketing/brand/logos + un brand-identity.md canonico + referencias a brand guide + persona Don Carlos); (1) descargar frontend-design; (2) construir el trio con los skill-authoring skills; (3) nombrar 00_ + wiring a assets canonicos + dedup + Linux; (4) Skill 6 + 6.A. Validacion contra el gold standard de Andrea tras cada fase. GATE: requiere t-jp-inter-blessing antes de Fase 0. Es trabajo Skills-Master (skills/). [PROGRESO 2026-05-29 sesion 29: Fase 0 (fundacion de marca unica) y Fase 1 (vendorizar frontend-design) EJECUTADAS. Fase 0: home unico operations/marketing/brand/ (logos dedup, brand-identity.md canonico v2.0 Inter+LATAM+Don Carlos+sin pricing, brand.py + build_andrea.py repuntados, .gitignore con excepcion para que el home llegue a mirrors). Fase 1: skills/frontend_design/ (verbatim Apache 2.0 + PROVENANCE.md). SIGUIENTE: Fase 2 (construir el trio: 2a pptx, 2b docx, 2c html) con skill-creator + writing-skills, validando contra el gold standard de Andrea. NO ejecutar borrados de skills (D6, Fase 3) sin confirmacion explicita.]"
     },
     {
       "id": "t-jp-inter-blessing",
       "subject": "JP confirma 'Inter en todo' (decision de marca; gate de la Fase 0 del Plan Maestro)",
-      "status": "open",
+      "status": "done",
       "priority": "high",
       "due": "2026-06-02",
       "created": "2026-05-29",
-      "notes": "Decision D3 del plan maestro: unificar la tipografia de marca en Inter para docs, pptx y web, reemplazando Century Gothic (que no esta instalada en Linux y LibreOffice sustituye, rompiendo la marca; ademas es raro tener dos fuentes de marca por canal). El gold standard de Andrea uso Inter y se vio premium. Por ser decision de marca conviene el visto bueno de JP. Bloquea arrancar la Fase 0 (consolidar el brand-identity.md canonico)."
+      "notes": "Decision D3 del plan maestro: unificar la tipografia de marca en Inter para docs, pptx y web, reemplazando Century Gothic (que no esta instalada en Linux y LibreOffice sustituye, rompiendo la marca; ademas es raro tener dos fuentes de marca por canal). El gold standard de Andrea uso Inter y se vio premium. Por ser decision de marca conviene el visto bueno de JP. Bloquea arrancar la Fase 0 (consolidar el brand-identity.md canonico). [CERRADO 2026-05-29 sesion 29: JP dio OK a Inter en todo; gate despejado. La Fase 0 se ejecuto: brand-identity.md canonico con Inter en operations/marketing/brand/.]",
+      "completed": "2026-05-29"
     },
     {
       "id": "t-skill6-apply-audit-findings",
@@ -954,11 +955,12 @@
     {
       "id": "t-editorial-designer-fix-description",
       "subject": "Fix frontmatter de nexostrat-editorial-designer (Century Gothic -> Inter; PYMEs colombianas -> LATAM)",
-      "status": "open",
+      "status": "cancelled",
       "priority": "low",
       "due": "2026-06-15",
       "created": "2026-05-27",
-      "notes": "Cosmetico, no bloqueado por JP. El skill que JP entrego hoy tiene description: 'paleta Aurora, tipografia Century Gothic/Inter, voz directa y basada en datos para PYMEs colombianas'. Aurora brand spec (memoria outputs-premium-visual.md) locks Inter como font canonical (Century Gothic salio con session 22 brand alignment). Y Nexostrat targets MX + CO + LATAM, no solo CO. Edit a /srv/Nexostrat/skills/nexostrat_editorial_designer/SKILL.md frontmatter line 'description: ...' para reflejar la realidad."
+      "notes": "Cosmetico, no bloqueado por JP. El skill que JP entrego hoy tiene description: 'paleta Aurora, tipografia Century Gothic/Inter, voz directa y basada en datos para PYMEs colombianas'. Aurora brand spec (memoria outputs-premium-visual.md) locks Inter como font canonical (Century Gothic salio con session 22 brand alignment). Y Nexostrat targets MX + CO + LATAM, no solo CO. Edit a /srv/Nexostrat/skills/nexostrat_editorial_designer/SKILL.md frontmatter line 'description: ...' para reflejar la realidad. [CANCELADO 2026-05-29 sesion 29 — SUPERSEDED: la correccion (Inter + LATAM) ya vive en el brand-identity.md canonico (operations/marketing/brand/brand-identity.md). El skill nexostrat_editorial_designer se borra en la Fase 3 (D6), por lo que editar su frontmatter no aporta. Cierre confirmado por Ricardo.]",
+      "completed": "2026-05-29"
     },
     {
       "id": "t-anthropic-license-decision-doc",
@@ -1223,6 +1225,15 @@
       "owner": "ricardo",
       "auto_added": false,
       "notes": "DONE sesion 27. Bundle JP instalado en skills/06_client_deliverables/ (Pipeline v2 F1): extraido + archivado, symlink .claude/skills/, SKILL.md PASO 0.1 macOS->Linux path fix, node_modules gitignored. Harness adaptado: 06 al registry + CHECK 7 skip-tolerant + nuevo CHECK 9 (Node toolchain: validate_json.py + generate_pptx.js) + renumber /8->/9. Docs: skills/README.md + skills/CLAUDE.md + CHANGELOG v0.1. Brand alignment v0.2: 6 generadores remapeados a paleta Aurora (Midnight/Ocean/SkyBlue/Emerald, JP navy/teal eliminados) + fuentes -> Inter + JetBrains Mono (HTML via Google Fonts @import). Verificado: 6 entregables generados del fixture, PPTX 9 slides, harness 72 PASS / 1 SKIP / 0 FAIL. Skill 6 es independiente de Odoo/Baserow/secrets/red. Decision Ricardo: comportamiento del skill (emojis + citas verbatim) se conserva (overrule de reglas no-emojis/no-verbatim, carve-out en memorias)."
+    },
+    {
+      "id": "t-brandpy-slatelight",
+      "subject": "Agregar Slate Light #A5B4C1 + regla de contraste dark-bg a skills/shared/brand.py",
+      "status": "open",
+      "priority": "low",
+      "due": "2026-06-15",
+      "created": "2026-05-29",
+      "notes": "El brand-identity.md canonico (sesion 29) documenta Slate Light #A5B4C1 para texto sobre fondos oscuros (nunca Gray Text #6B7280 sobre oscuros), pero brand.py todavia no expone esa constante. Agregar SLATE_LIGHT (RGBColor + HEX) para paridad .md <-> .py. No bloquea Fase 2."
     }
   ]
 }

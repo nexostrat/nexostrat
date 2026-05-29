@@ -51,7 +51,7 @@ HEX_WHITE         = 'FFFFFF'
 
 # ── Logo assets (resolved relative to repo root) ──────────────────────────
 _REPO_ROOT = Path(__file__).resolve().parents[2]
-_LOGOS_DIR = _REPO_ROOT / "operations/assets/brand/Logos"
+_LOGOS_DIR = _REPO_ROOT / "operations/marketing/brand/logos"
 
 LOGO_ARCTIC     = _LOGOS_DIR / "Nexostrat_Logo_Fondo_Arctic_Transparente.png"
 LOGO_MIDNIGHT   = _LOGOS_DIR / "Nexostrat_Logo_Fondo_Midnight_Transparente.png"

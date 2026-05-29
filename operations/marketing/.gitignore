@@ -38,3 +38,14 @@ buyer_personas/**/*.m4a
 buyer_personas/**/*.mov
 buyer_personas/**/*.mkv
 buyer_personas/**/*.wav
+
+# Brand home (added 2026-05-29, Plan Maestro Fase 0): the single canonical
+# source of brand truth read by the format experts (00_nexostrat_{docx,pptx,html})
+# and Skill 6. The 18 logo PNGs (~432 KB total) + brand-identity.md are CANONICAL
+# brand artifacts — kept in git so they survive disk loss and stay aligned across
+# mirrors (same rationale as buyer_personas/ and website-intro/tv-loop/).
+!brand/
+brand/*
+!brand/brand-identity.md
+!brand/logos/
+!brand/logos/**

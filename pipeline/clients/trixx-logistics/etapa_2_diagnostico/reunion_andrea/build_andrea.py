@@ -13,7 +13,7 @@ import base64
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[5]
-LOGOS = REPO / "operations/assets/brand/Logos"
+LOGOS = REPO / "operations/marketing/brand/logos"
 OUT = Path(__file__).resolve().parent
 
 

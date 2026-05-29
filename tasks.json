@@ -1,7 +1,7 @@
 {
   "$schema": "nexostrat-tasks-v2",
   "project": "nexostrat",
-  "updated": "2026-05-29T14:00:00-07:00",
+  "updated": "2026-05-29T15:45:00-07:00",
   "tasks": [
     {
       "id": "t-skills-trio-rebuild",
@@ -10,7 +10,7 @@
       "priority": "high",
       "due": "2026-06-15",
       "created": "2026-05-29",
-      "notes": "Plan maestro committeado en pipeline/clients/trixx-logistics/etapa_2_diagnostico/edicion_correccion_trixx_skill6/plan_maestro_skills_20260529.md (commit 6301edc). Prompt de arranque en la misma carpeta: PROMPT_proxima_sesion.md. 7 decisiones lockeadas (D1-D7): web expert dedicado, fuente de marca única primero, Inter en todo, base HTML = frontend-design, autoria con skill-creator + writing-skills sintetizando, borrar editorial_designer/pptx_expert/docx_technical/pptx_technical tras absorberlos, Skill 6 base JP + variante 6.A gold. Fases 0-4: (0) fundacion de marca unica (consolidar 4 copias de logos en operations/marketing/brand/logos + un brand-identity.md canonico + referencias a brand guide + persona Don Carlos); (1) descargar frontend-design; (2) construir el trio con los skill-authoring skills; (3) nombrar 00_ + wiring a assets canonicos + dedup + Linux; (4) Skill 6 + 6.A. Validacion contra el gold standard de Andrea tras cada fase. GATE: requiere t-jp-inter-blessing antes de Fase 0. Es trabajo Skills-Master (skills/). [PROGRESO 2026-05-29 sesion 29: Fase 0 (fundacion de marca unica) y Fase 1 (vendorizar frontend-design) EJECUTADAS. Fase 0: home unico operations/marketing/brand/ (logos dedup, brand-identity.md canonico v2.0 Inter+LATAM+Don Carlos+sin pricing, brand.py + build_andrea.py repuntados, .gitignore con excepcion para que el home llegue a mirrors). Fase 1: skills/frontend_design/ (verbatim Apache 2.0 + PROVENANCE.md). SIGUIENTE: Fase 2 (construir el trio: 2a pptx, 2b docx, 2c html) con skill-creator + writing-skills, validando contra el gold standard de Andrea. NO ejecutar borrados de skills (D6, Fase 3) sin confirmacion explicita.]"
+      "notes": "Plan maestro committeado en pipeline/clients/trixx-logistics/etapa_2_diagnostico/edicion_correccion_trixx_skill6/plan_maestro_skills_20260529.md (commit 6301edc). Prompt de arranque en la misma carpeta: PROMPT_proxima_sesion.md. 7 decisiones lockeadas (D1-D7): web expert dedicado, fuente de marca única primero, Inter en todo, base HTML = frontend-design, autoria con skill-creator + writing-skills sintetizando, borrar editorial_designer/pptx_expert/docx_technical/pptx_technical tras absorberlos, Skill 6 base JP + variante 6.A gold. Fases 0-4: (0) fundacion de marca unica (consolidar 4 copias de logos en operations/marketing/brand/logos + un brand-identity.md canonico + referencias a brand guide + persona Don Carlos); (1) descargar frontend-design; (2) construir el trio con los skill-authoring skills; (3) nombrar 00_ + wiring a assets canonicos + dedup + Linux; (4) Skill 6 + 6.A. Validacion contra el gold standard de Andrea tras cada fase. GATE: requiere t-jp-inter-blessing antes de Fase 0. Es trabajo Skills-Master (skills/). [PROGRESO 2026-05-29 sesion 29: Fase 0 (fundacion de marca unica) y Fase 1 (vendorizar frontend-design) EJECUTADAS. Fase 0: home unico operations/marketing/brand/ (logos dedup, brand-identity.md canonico v2.0 Inter+LATAM+Don Carlos+sin pricing, brand.py + build_andrea.py repuntados, .gitignore con excepcion para que el home llegue a mirrors). Fase 1: skills/frontend_design/ (verbatim Apache 2.0 + PROVENANCE.md). SIGUIENTE: Fase 2 (construir el trio: 2a pptx, 2b docx, 2c html). [PROGRESO 2026-05-29 sesion 30: Fase 2 COMPLETA y validada con render real end-to-end en Linux. Creados skills/00_nexostrat_pptx (nexostrat-pptx: base pptx_technical + capa estrategica pptx_expert + plantilla + nexostrat-template-reference.md; logos resueltos desde la fuente canonica, NO bundleados; SKILL.md fusionado con voz calibrada + Don Carlos), skills/00_nexostrat_docx (nexostrat-docx: base docx_technical + editorial design-specs/cover-designs; Century Gothic->Inter; docx-js primario, reportlab referencia con salvedad CFF), skills/00_nexostrat_html (nexostrat-html: derivada de frontend_design + motor build_nexostrat_html.py generalizado del gold standard de Andrea + exemplars deck/cheatsheet + QR F2 + override consciente de la prohibicion de Inter, PROVENANCE Apache 4(b)). Decisiones de arquitectura confirmadas por Ricardo: motor HTML=generador+guia, toolchain self-contained por skill (docx+pptx copian office/+39 schemas c/u), validacion=muestra+QA visual. Validado: deck pptx (portada/bullets/KPIs/cierre), docx (portada/justificado/callout/tabla/bullets-completos/dato Amber), html (deck navegable + cheatsheet con QR 150px) en Chrome real. SIGUIENTE: Fase 3 (instalar/activar el trio en Claude Code + dedup de los 4 skills viejos: editorial_designer/pptx_expert/docx_technical/pptx_technical) — ver t-skills-trio-fase3. NO ejecutar borrados de skills (D6, Fase 3) sin confirmacion explicita.]"
     },
     {
       "id": "t-jp-inter-blessing",
@@ -21,6 +21,15 @@
       "created": "2026-05-29",
       "notes": "Decision D3 del plan maestro: unificar la tipografia de marca en Inter para docs, pptx y web, reemplazando Century Gothic (que no esta instalada en Linux y LibreOffice sustituye, rompiendo la marca; ademas es raro tener dos fuentes de marca por canal). El gold standard de Andrea uso Inter y se vio premium. Por ser decision de marca conviene el visto bueno de JP. Bloquea arrancar la Fase 0 (consolidar el brand-identity.md canonico). [CERRADO 2026-05-29 sesion 29: JP dio OK a Inter en todo; gate despejado. La Fase 0 se ejecuto: brand-identity.md canonico con Inter en operations/marketing/brand/.]",
       "completed": "2026-05-29"
+    },
+    {
+      "id": "t-skills-trio-fase3",
+      "subject": "Plan Maestro Fase 3 — instalar/activar el trio en Claude Code + dedup de los 4 skills viejos (requiere OK de Ricardo)",
+      "status": "open",
+      "priority": "high",
+      "due": "2026-06-15",
+      "created": "2026-05-29",
+      "notes": "Sub-tarea de t-skills-trio-rebuild. Fase 2 quedo COMPLETA y validada (sesion 30). Fase 3: (1) instalar/activar skills/00_nexostrat_{pptx,docx,html} en Claude Code (symlinks en .claude/skills/ como las skills 01-06) y verificar que cargan/activan; (2) BORRAR los 4 skills viejos una vez confirmado que el trio funciona: skills/nexostrat_editorial_designer, skills/pptx_expert, skills/docx_technical, skills/pptx_technical (D6 — git conserva historial). NO BORRAR sin confirmacion explicita de Ricardo. (3) Verificar Linux end-to-end + limpiar __pycache__/node_modules + dedup. RIESGO actual: coexisten trio nuevo + 4 viejos; si se instalan ambos puede haber solape de activacion (p.ej. nexostrat-pptx vs nexostrat-pptx-expert). Tras Fase 3, actualizar test_skills.sh (registry + smoke) e indices skills/README.md. Luego Fase 4 (t-skill6-apply-audit-findings). NOTA: deps de render usadas en validacion (pptxgenjs, docx, markitdown, qrcode) se instalaron en /tmp/nexo_render_2a (venv) — NO tocan el repo; en produccion cada skill declara sus deps en su SKILL.md."
     },
     {
       "id": "t-skill6-apply-audit-findings",
@@ -696,11 +705,12 @@
     {
       "id": "t-install-brand-fonts-laptop",
       "subject": "Install fonts-inter + fonts-jetbrains-mono on ricardo-hp-laptop (brand-font parity)",
-      "status": "open",
+      "status": "done",
       "priority": "high",
       "due": "2026-05-30",
       "created": "2026-05-22",
-      "notes": "Session 11 (2026-05-22) flipped BRAND_FONT in skills/shared/brand.py from Calibri to Inter and installed the fonts on ricardo-desktop. The laptop is still where most DOCX renders happen (Skills 01-05 → libreoffice → PDF for client deliverables; Trixx 4 PDFs already on Desktop were rendered with Calibri which LO substituted to Liberation Sans on Linux). Without Inter on the laptop, next client run rendered there will font-substitute (LibreOffice maps to Liberation Sans). One-line fix: sudo apt install fonts-inter fonts-jetbrains-mono. Closes when fc-match Inter returns the actual Inter font on the laptop."
+      "completed": "2026-05-29",
+      "notes": "CERRADO 2026-05-29 sesion 30: verificado en la laptop (ricardo-hp-laptop) durante la validacion de la Fase 2 del trio de skills. `fc-match Inter:weight=regular` -> /usr/share/fonts/opentype/inter/Inter-Regular.otf ; `fc-match Inter:weight=bold` -> Inter-Bold.otf ; JetBrains Mono tambien presente (/usr/share/fonts/truetype/jetbrains-mono/). Los renders reales de pptx (PptxGenJS->soffice->PDF) y docx (docx-js->soffice->PDF) de esta sesion usaron Inter correctamente (verificado visualmente). NOTA: Inter en esta maquina viene solo como OTF/CFF; reportlab embebe solo TrueType, por eso el experto docx usa docx-js (Inter por nombre via LibreOffice) como entregable primario y deja reportlab como referencia con fallback a Helvetica. --- [original] Session 11 flipped BRAND_FONT to Inter + installed on ricardo-desktop; laptop install was pending."
     },
     {
       "id": "t-pick-website-intro-final-version",

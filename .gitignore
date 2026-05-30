@@ -114,3 +114,15 @@ vault/**/*.md
 
 # Skill 06 (client-deliverables) Node deps — installed at runtime via npm ci
 skills/06_client_deliverables/scripts/node_modules/
+
+# --- Client meeting recordings (heavy media; transcripts ARE committed, source AV is not) --
+# Per feedback_no_vault_for_client_material: recordings stay PLAINTEXT on disk during
+# the engagement (not encrypted to vault), but the raw AV is too heavy for git — only the
+# derived transcript text is version-controlled. Mirrors operations/marketing/.gitignore's
+# treatment of website-intro/* video assets. (ADR-027 desktop-consolidation DECLARE step.)
+pipeline/clients/**/transcripts/**/*.mkv
+pipeline/clients/**/transcripts/**/*.mp4
+pipeline/clients/**/transcripts/**/*.mov
+pipeline/clients/**/transcripts/**/*.mp3
+pipeline/clients/**/transcripts/**/*.m4a
+pipeline/clients/**/transcripts/**/*.wav
